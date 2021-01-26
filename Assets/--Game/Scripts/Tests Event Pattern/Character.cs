@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+namespace TestEventKeycode
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Character : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void ApplyAction(KeyCode keyCode)
-    {
-        if(keyCode == KeyCode.Mouse0)
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log("It's Working bitch !");
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void ApplyAction(KeyCode keyCode)
+        {
+            if (keyCode == KeyCode.Mouse0)
+            {
+                Debug.Log("It's Working bitch !");
+            }
         }
     }
 }
