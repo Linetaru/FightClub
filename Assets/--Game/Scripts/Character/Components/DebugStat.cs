@@ -8,7 +8,7 @@ public class DebugStat : MonoBehaviour
 	[SerializeField]
 	Stats speed;
 
-	public float speedValue;
+	//public float speedValue;
 
 
 	[Title("Debug")]
@@ -21,9 +21,18 @@ public class DebugStat : MonoBehaviour
 	public void AddStat()
 	{
 		if(addition == true)
-			speedValue = speed.UpdateStat(speed.baseStat, value, 0);
+			speed.IncrementBonusStat();
 		else
-			speedValue = speed.UpdateStat(speed.baseStat, 0, value);
+			speed.IncrementBonusStat();
+	}
+
+	[Button("Remove")]
+	public void RemoveStat()
+	{
+		if (addition == true)
+			speed.RemoveBonusStat();
+		else
+			speed.RemoveBonusStat();
 	}
 
 

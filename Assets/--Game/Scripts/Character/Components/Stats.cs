@@ -2,15 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+[System.Serializable]
+public class Stats
 {
     public float baseStat = 100.0f;
-    float multiplierValue = 1.0f;
-    float incrementValue = 0.0f;
+    public float multiplierValue = 1.0f;
+    public float incrementValue = 0.0f;
     public float newStat;
 
-    public float UpdateStat(float baseStat, float collectibleIncrementValue = 0.0f, float collectibleMultiplierValue = 1.0f)
+
+    public Stats()
     {
-        return (baseStat * (multiplierValue * collectibleIncrementValue)) + (incrementValue + collectibleIncrementValue);
+        baseStat = 100.0f;
+        multiplierValue = 1.0f;
+        incrementValue = 0.0f;
+
+        newStat = baseStat;
+    }
+
+    public void IncrementBonusStat(float bonusValue, bool isAddition = true)
+    {
+        if (isAddition)
+        {
+            newStat += bonusValue;
+        }
+        else
+        {
+            newStat += (baseStat * bonusValue) - baseStat;
+        }
+    }
+    public void RemoveBonusStat(float bonusValue, bool isSubstraction = true)
+    {
+        if (isSubstraction)
+        {
+            newStat -= bonusValue;
+        }
+        else
+        {
+            newStat += (newStat * bonusValue) - baseStat;
+        }
     }
 }
