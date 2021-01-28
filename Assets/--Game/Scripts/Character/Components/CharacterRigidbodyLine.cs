@@ -74,6 +74,9 @@ public class CharacterRigidbodyLine : CharacterRigidbody
 
     Transform collisionInfo;
 
+    float climbingAngle = 0;
+    bool climbingSlope = false;
+
 
     private Transform collisionWallInfo;
     public override Transform CollisionWallInfo
@@ -116,6 +119,8 @@ public class CharacterRigidbodyLine : CharacterRigidbody
 
     public override void UpdateCollision(float speedX, float speedY)
     {
+        climbingAngle = 0;
+        climbingSlope = false;
         collisionWallInfo = null;
 
         actualSpeedX = speedX;
@@ -171,20 +176,18 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                     float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
                     if (i == 0 && slopeAngle <= maxAngle)
                     {
-                        float distance2 = raycastX.point.x - originRaycast.x;
-                        distance2 += offsetRaycastX;
+                        float distance2 = -raycastX.distance + offsetRaycastX;
                         ClimbSlope(slopeAngle);
                         actualSpeedX += distance2;
                     }
                     else
                     {
                         collisionInfo = raycastX.collider.transform;
-                        float distance = raycastX.point.x - originRaycast.x;
-                        distance += offsetRaycastX;
+                        float distance = -raycastX.distance + offsetRaycastX;
                         actualSpeedX = distance;
                         collisionWallInfo = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
-                        return;
+                        //return;
                     }
                 }
                 originRaycast += new Vector2(0, Mathf.Abs(upperLeft.y - bottomLeft.y) / (numberRaycastHorizontal - 1));
@@ -206,20 +209,20 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                     float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
                     if (i == 0 && slopeAngle <= maxAngle)
                     {
-                        float distance2 = raycastX.point.x - originRaycast.x;
-                        distance2 -= offsetRaycastX;
+                        float distance2 = raycastX.distance - offsetRaycastX;
                         ClimbSlope(slopeAngle);
                         actualSpeedX += distance2;
+                        if(raycastX.collider.name == "Cube (3)")
+                            Debug.Log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
                     }
                     else
                     {
                         collisionInfo = raycastX.collider.transform;
-                        float distance = raycastX.point.x - originRaycast.x;
-                        distance -= offsetRaycastX;
+                        float distance = raycastX.distance - offsetRaycastX;
                         actualSpeedX = distance;
                         collisionWallInfo = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
-                        return;
+                        //return;
                     }
                 }
                 originRaycast += new Vector2(0, Mathf.Abs(upperRight.y - bottomRight.y) / (numberRaycastHorizontal - 1));
@@ -281,9 +284,35 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                     distance -= offsetRaycastY;
                     actualSpeedY = distance;
                     OnWallCollision?.Invoke(collisionInfo);
+
+                    if (climbingSlope) // Pour gérer les plafond dans les pentes
+                    {
+                        actualSpeedX = actualSpeedY / Mathf.Tan(climbingAngle * Mathf.Deg2Rad) * Mathf.Sign(actualSpeedX);
+                    }
+
                     return;
                 }
                 originRaycast += new Vector2(Mathf.Abs(upperRight.x - upperLeft.x) / (numberRaycastVertical - 1), 0);
+            }
+            // ======================================================================================================
+            // Cas où on check si on prend une pente avec un nouvelle angle
+            if (climbingSlope)
+            {
+                float directionX = Mathf.Sign(actualSpeedX);
+                //rayLength = Mathf.Abs(velocity.x) + skinWidth;
+                originRaycast = ((directionX == -1) ? bottomLeft : bottomRight) + Vector2.up * actualSpeedY;
+                //RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+
+                Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastY, Mathf.Abs(actualSpeedX), layerMask);
+                if (raycastY.collider != null)
+                {
+                    float slopeAngle = Vector2.Angle(raycastY.normal, Vector2.up);
+                    if (slopeAngle != climbingAngle)
+                    {
+                        actualSpeedX = (raycastY.distance - offsetRaycastX) * directionX;
+                        climbingAngle = slopeAngle;
+                    }
+                }
             }
             // ======================================================================================================
         }
@@ -291,10 +320,14 @@ public class CharacterRigidbodyLine : CharacterRigidbody
 
     private void ClimbSlope(float angle)
     {
-        //climbingSlopes = true;
-        actualSpeedY = Mathf.Sin(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) + (offsetRaycastY);
-        actualSpeedX = Mathf.Cos(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) * Mathf.Sign(actualSpeedX);
-        Debug.Log("Slope");
+        float climbSpeedY = Mathf.Sin(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX);
+        if (actualSpeedY <= climbSpeedY)
+        {
+            actualSpeedY = climbSpeedY;
+            actualSpeedX = Mathf.Cos(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) * Mathf.Sign(actualSpeedX);
+            climbingAngle = angle;
+            climbingSlope = true;
+        }
     }
 
 

@@ -32,7 +32,6 @@ public class CharacterStateWallRun : CharacterState
 
 	public override void StartState(CharacterBase character)
 	{
-		Debug.Log("Allo");
 	}
 
 	public override void UpdateState(CharacterBase character)

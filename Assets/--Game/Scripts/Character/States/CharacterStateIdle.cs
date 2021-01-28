@@ -36,6 +36,8 @@ public class CharacterStateIdle : CharacterState
 
 	bool acceleration = false;
 	float timeAcceleration = 0f;
+
+
 	//int direction;
 
 	// Start is called before the first frame update
