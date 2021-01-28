@@ -36,6 +36,10 @@ public class CharacterRigidbody : MonoBehaviour
     [SerializeField] private LayerMask[] collisionMasks;
 
 
+    [HorizontalGroup("RaycastNumber")]
+    [SerializeField]
+    protected float maxAngle = 45;
+
     /*protected float characterMotionSpeed = 1;
     public float CharacterMotionSpeed
     {
@@ -70,6 +74,26 @@ public class CharacterRigidbody : MonoBehaviour
 
     Transform collisionInfo;
 
+
+    private Transform collisionWallInfo;
+    public Transform CollisionWallInfo
+    {
+        get { return collisionWallInfo; }
+    }
+
+    private Transform collisionGroundInfo;
+    public Transform CollisionGroundInfo
+    {
+        get { return collisionGroundInfo; }
+    }
+
+    private Transform collisionRoofInfo;
+    public Transform CollisionRoofInfo
+    {
+        get { return collisionRoofInfo; }
+    }
+
+
     private bool isGrounded = false;
     public bool IsGrounded
     {
@@ -92,8 +116,12 @@ public class CharacterRigidbody : MonoBehaviour
 
     public void UpdateCollision(float speedX, float speedY)
     {
+        collisionWallInfo = null;
+
         actualSpeedX = speedX;
         actualSpeedY = speedY;
+        actualSpeedX *= Time.deltaTime;
+        actualSpeedY *= Time.deltaTime;
         //actualSpeedX *= characterMotionSpeed;
         //actualSpeedY *= characterMotionSpeed;
 
@@ -107,16 +135,17 @@ public class CharacterRigidbody : MonoBehaviour
             upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y);
 
             UpdatePositionX();
-            transform.position = new Vector3(transform.position.x + (actualSpeedX * Time.deltaTime), transform.position.y, 0);
-            Physics.SyncTransforms();
+            //transform.position = new Vector3(transform.position.x + (actualSpeedX * Time.deltaTime), transform.position.y, 0);
+            //Physics.SyncTransforms();
 
-            bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y);
-            upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y);
-            bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y);
-            upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y);
+            Vector2 offsetX = new Vector2(actualSpeedX, 0);
+            bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offsetX;
+            upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offsetX;
+            bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offsetX;
+            upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y) + offsetX;
 
-            UpdatePositionY();
-            transform.position = new Vector3(transform.position.x, transform.position.y + (actualSpeedY * Time.deltaTime), 0);
+            UpdatePositionYBox();
+            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, 0);
             Physics.SyncTransforms();
         }
 
@@ -135,16 +164,28 @@ public class CharacterRigidbody : MonoBehaviour
             originRaycast = bottomLeft;// - new Vector2(offsetRaycastX, 0);
             for (int i = 0; i < numberRaycastHorizontal; i++)
             {
-                Physics.Raycast(originRaycast, new Vector2(actualSpeedX * Time.deltaTime, 0), out raycastX, Mathf.Abs(actualSpeedX * Time.deltaTime) + offsetRaycastX, layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX * Time.deltaTime, 0), Color.red);
+                Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX), layerMask);
+                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0), Color.yellow, 1f);
                 if (raycastX.collider != null)
                 {
-                    collisionInfo = raycastX.collider.transform;
-                    float distance = raycastX.point.x - bottomLeft.x;
-                    distance += offsetRaycastX;
-                    actualSpeedX = distance / Time.deltaTime;
-                    OnWallCollision?.Invoke(collisionInfo);
-                    return;
+                    float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
+                    if (i == 0 && slopeAngle <= maxAngle)
+                    {
+                        float distance2 = raycastX.point.x - originRaycast.x;
+                        distance2 += offsetRaycastX;
+                        ClimbSlope(slopeAngle);
+                        actualSpeedX += distance2;
+                    }
+                    else
+                    {
+                        collisionInfo = raycastX.collider.transform;
+                        float distance = raycastX.point.x - originRaycast.x;
+                        distance += offsetRaycastX;
+                        actualSpeedX = distance;
+                        collisionWallInfo = collisionInfo;
+                        OnWallCollision?.Invoke(collisionInfo);
+                        return;
+                    }
                 }
                 originRaycast += new Vector2(0, Mathf.Abs(upperLeft.y - bottomLeft.y) / (numberRaycastHorizontal - 1));
             }
@@ -157,16 +198,29 @@ public class CharacterRigidbody : MonoBehaviour
             originRaycast = bottomRight;// + new Vector2(offsetRaycastX, 0);
             for (int i = 0; i < numberRaycastHorizontal; i++)
             {
-                Physics.Raycast(originRaycast, new Vector2(actualSpeedX * Time.deltaTime, 0), out raycastX, Mathf.Abs(actualSpeedX * Time.deltaTime) + offsetRaycastX, layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX * Time.deltaTime, 0), Color.red);
+                Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX), layerMask);
+                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0), Color.yellow, 1f);
                 if (raycastX.collider != null)
                 {
-                    collisionInfo = raycastX.collider.transform;
-                    float distance = raycastX.point.x - bottomRight.x;
-                    distance -= offsetRaycastX;
-                    actualSpeedX = distance / Time.deltaTime;
-                    OnWallCollision?.Invoke(collisionInfo);
-                    return;
+
+                    float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
+                    if (i == 0 && slopeAngle <= maxAngle)
+                    {
+                        float distance2 = raycastX.point.x - originRaycast.x;
+                        distance2 -= offsetRaycastX;
+                        ClimbSlope(slopeAngle);
+                        actualSpeedX += distance2;
+                    }
+                    else
+                    {
+                        collisionInfo = raycastX.collider.transform;
+                        float distance = raycastX.point.x - originRaycast.x;
+                        distance -= offsetRaycastX;
+                        actualSpeedX = distance;
+                        collisionWallInfo = collisionInfo;
+                        OnWallCollision?.Invoke(collisionInfo);
+                        return;
+                    }
                 }
                 originRaycast += new Vector2(0, Mathf.Abs(upperRight.y - bottomRight.y) / (numberRaycastHorizontal - 1));
             }
@@ -180,6 +234,7 @@ public class CharacterRigidbody : MonoBehaviour
     {
         RaycastHit raycastY;
         Vector2 originRaycast;
+        float minDistance = 999999;
 
         if (actualSpeedY < 0)
         {
@@ -187,18 +242,22 @@ public class CharacterRigidbody : MonoBehaviour
             originRaycast = bottomLeft;// - new Vector2(0, offsetRaycastY);
             for (int i = 0; i < numberRaycastVertical; i++)
             {
-                Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY * Time.deltaTime), out raycastY, Mathf.Abs(actualSpeedY * Time.deltaTime) + offsetRaycastY, layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY * Time.deltaTime + offsetRaycastY), Color.red);
+                //Physics.BoxCast(out raycastY)
+                Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
+                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.red, 1f);
                 if (raycastY.collider != null)
                 {
                     collisionInfo = raycastY.collider.transform;
-                    float distance = raycastY.point.y + offsetRaycastY - bottomLeft.y;
-                    //distance += offsetRaycastY;
-                    actualSpeedY = distance / Time.deltaTime;
-
-                    isGrounded = true;
-                    OnWallCollision?.Invoke(collisionInfo);
-                    return;
+                    float distance = raycastY.point.y - originRaycast.y;
+                    distance += offsetRaycastY;
+                    if (Mathf.Abs(distance) < minDistance)
+                    {
+                        minDistance = Mathf.Abs(distance);
+                        actualSpeedY = distance;
+                        isGrounded = true;
+                        //OnWallCollision?.Invoke(collisionInfo);
+                    }
+                    //return;
                 }
                 originRaycast += new Vector2(Mathf.Abs(bottomRight.x - bottomLeft.x) / (numberRaycastVertical - 1), 0);
             }
@@ -213,14 +272,14 @@ public class CharacterRigidbody : MonoBehaviour
             originRaycast = upperLeft;// + new Vector2(0, offsetRaycastY);
             for (int i = 0; i < numberRaycastVertical; i++)
             {
-                Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY * Time.deltaTime), out raycastY, Mathf.Abs(actualSpeedY * Time.deltaTime) + offsetRaycastY, layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY * Time.deltaTime), Color.yellow);
+                Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
+                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.yellow, 1f);
                 if (raycastY.collider != null)
                 {
                     collisionInfo = raycastY.collider.transform;
-                    float distance = raycastY.point.y - upperLeft.y;
+                    float distance = raycastY.point.y - originRaycast.y;
                     distance -= offsetRaycastY;
-                    actualSpeedY = distance / Time.deltaTime;
+                    actualSpeedY = distance;
                     OnWallCollision?.Invoke(collisionInfo);
                     return;
                 }
@@ -230,6 +289,111 @@ public class CharacterRigidbody : MonoBehaviour
         }
     }
 
+    //CapsuleCollider capsuleCollider;
+
+
+    private void UpdatePositionYBox()
+    {
+        RaycastHit raycastY;
+        Vector2 originRaycast;
+
+        if (actualSpeedY < 0)
+        {
+            // ======================================================================================================
+            originRaycast = bottomLeft + ((bottomRight - bottomLeft) * 0.5f);// - new Vector2(0, offsetRaycastY);
+            Physics.BoxCast(originRaycast, new Vector3((bottomRight.x - bottomLeft.x) * 0.5f, 0, 0.5f), new Vector2(0, actualSpeedY), out raycastY, Quaternion.identity, Mathf.Abs(actualSpeedY), layerMask);
+            if (raycastY.collider != null)
+            {
+                Debug.DrawRay(originRaycast, raycastY.point, Color.yellow);
+                Debug.DrawRay(raycastY.point, raycastY.normal, Color.blue);
+                collisionInfo = raycastY.collider.transform;
+                float distance = raycastY.point.y - originRaycast.y;
+                distance += offsetRaycastY;
+                actualSpeedY = distance;
+                /*if (Mathf.Abs(distance) < minDistance)
+                {
+                    minDistance = Mathf.Abs(distance);
+                    actualSpeedY = distance;
+                    isGrounded = true;
+                    //OnWallCollision?.Invoke(collisionInfo);
+                }*/
+                return;
+            }
+            // ======================================================================================================
+
+        }
+        else if (actualSpeedY > 0)
+        {
+            isGrounded = false;
+            // ======================================================================================================
+            originRaycast = upperLeft;// + new Vector2(0, offsetRaycastY);
+            for (int i = 0; i < numberRaycastVertical; i++)
+            {
+                Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
+                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.yellow, 1f);
+                if (raycastY.collider != null)
+                {
+                    collisionInfo = raycastY.collider.transform;
+                    float distance = raycastY.point.y - originRaycast.y;
+                    distance -= offsetRaycastY;
+                    actualSpeedY = distance;
+                    OnWallCollision?.Invoke(collisionInfo);
+                    return;
+                }
+                originRaycast += new Vector2(Mathf.Abs(upperRight.x - upperLeft.x) / (numberRaycastVertical - 1), 0);
+            }
+            // ======================================================================================================
+        }
+    }
+
+    /*public static void DrawBoxCastBox(Vector3 origin, Vector3 halfExtents, Quaternion orientation, Vector3 direction, float distance, Color color)
+    {
+        direction.Normalize();
+        Box bottomBox = new Box(origin, halfExtents, orientation);
+        Box topBox = new Box(origin + (direction * distance), halfExtents, orientation);
+
+        Debug.DrawLine(bottomBox.backBottomLeft, topBox.backBottomLeft, color);
+        Debug.DrawLine(bottomBox.backBottomRight, topBox.backBottomRight, color);
+        Debug.DrawLine(bottomBox.backTopLeft, topBox.backTopLeft, color);
+        Debug.DrawLine(bottomBox.backTopRight, topBox.backTopRight, color);
+        Debug.DrawLine(bottomBox.frontTopLeft, topBox.frontTopLeft, color);
+        Debug.DrawLine(bottomBox.frontTopRight, topBox.frontTopRight, color);
+        Debug.DrawLine(bottomBox.frontBottomLeft, topBox.frontBottomLeft, color);
+        Debug.DrawLine(bottomBox.frontBottomRight, topBox.frontBottomRight, color);
+
+        DrawBox(bottomBox, color);
+        DrawBox(topBox, color);
+    }
+    public static void DrawBox(Box box, Color color)
+    {
+        Debug.DrawLine(box.frontTopLeft, box.frontTopRight, color);
+        Debug.DrawLine(box.frontTopRight, box.frontBottomRight, color);
+        Debug.DrawLine(box.frontBottomRight, box.frontBottomLeft, color);
+        Debug.DrawLine(box.frontBottomLeft, box.frontTopLeft, color);
+
+        Debug.DrawLine(box.backTopLeft, box.backTopRight, color);
+        Debug.DrawLine(box.backTopRight, box.backBottomRight, color);
+        Debug.DrawLine(box.backBottomRight, box.backBottomLeft, color);
+        Debug.DrawLine(box.backBottomLeft, box.backTopLeft, color);
+
+        Debug.DrawLine(box.frontTopLeft, box.backTopLeft, color);
+        Debug.DrawLine(box.frontTopRight, box.backTopRight, color);
+        Debug.DrawLine(box.frontBottomRight, box.backBottomRight, color);
+        Debug.DrawLine(box.frontBottomLeft, box.backBottomLeft, color);
+    }*/
+
+
+    private void ClimbSlope(float angle)
+    {
+        //climbingSlopes = true;
+        //if (characterState != State.Jumping)
+        //{
+        actualSpeedY = Mathf.Sin(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) + offsetRaycastY;
+        actualSpeedX = Mathf.Cos(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) * Mathf.Sign(actualSpeedX);
+        //SetOnGround(true);
+        //}
+        Debug.Log("Slope");
+    }
 
     /*public void MoveX(float newSpeedX)
     {
