@@ -76,6 +76,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
 
     float climbingAngle = 0;
     bool climbingSlope = false;
+    bool descendingSlope = false;
 
 
     private Transform collisionWallInfo;
@@ -121,6 +122,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
     {
         climbingAngle = 0;
         climbingSlope = false;
+        descendingSlope = false;
         collisionWallInfo = null;
 
         actualSpeedX = speedX;
@@ -139,11 +141,16 @@ public class CharacterRigidbodyLine : CharacterRigidbody
             bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y);
             upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y);
 
+            if (actualSpeedY < 0)
+            {
+                DescendSlope();
+            }
+
             UpdatePositionX();
             //transform.position = new Vector3(transform.position.x + (actualSpeedX * Time.deltaTime), transform.position.y, 0);
             //Physics.SyncTransforms();
 
-            Vector2 offsetX = new Vector2(actualSpeedX, 0);
+            Vector2 offsetX = new Vector2(0, 0);
             bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offsetX;
             upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offsetX;
             bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offsetX;
@@ -159,7 +166,6 @@ public class CharacterRigidbodyLine : CharacterRigidbody
 
     private void UpdatePositionX()
     {
-
         RaycastHit raycastX;
         Vector2 originRaycast;
 
@@ -176,6 +182,10 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                     float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
                     if (i == 0 && slopeAngle <= maxAngle)
                     {
+                        if (descendingSlope)
+                        {
+                            descendingSlope = false;
+                        }
                         float distance2 = -raycastX.distance + offsetRaycastX;
                         ClimbSlope(slopeAngle);
                         actualSpeedX += distance2;
@@ -202,7 +212,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
             for (int i = 0; i < numberRaycastHorizontal; i++)
             {
                 Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX), layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0), Color.yellow, 1f);
+                Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0), Color.yellow, 0.5f);
                 if (raycastX.collider != null)
                 {
 
@@ -212,8 +222,6 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                         float distance2 = raycastX.distance - offsetRaycastX;
                         ClimbSlope(slopeAngle);
                         actualSpeedX += distance2;
-                        if(raycastX.collider.name == "Cube (3)")
-                            Debug.Log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
                     }
                     else
                     {
@@ -237,7 +245,8 @@ public class CharacterRigidbodyLine : CharacterRigidbody
     {
         RaycastHit raycastY;
         Vector2 originRaycast;
-        float minDistance = 999999;
+        bool test = false; // a supprimer
+        //float minDistance = 999999;
 
         if (actualSpeedY < 0)
         {
@@ -245,25 +254,32 @@ public class CharacterRigidbodyLine : CharacterRigidbody
             originRaycast = bottomLeft;// - new Vector2(0, offsetRaycastY);
             for (int i = 0; i < numberRaycastVertical; i++)
             {
-                //Physics.BoxCast(out raycastY)
                 Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.red, 1f);
+                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.red, 0.5f);
                 if (raycastY.collider != null)
                 {
                     collisionInfo = raycastY.collider.transform;
                     float distance = raycastY.point.y - originRaycast.y;
-                    distance += offsetRaycastY;
-                    if (Mathf.Abs(distance) < minDistance)
+                    distance += offsetRaycastY; 
+                    actualSpeedY = distance;
+                    if (climbingSlope) // Pour gérer les plafond dans les pentes
+                    {
+                        actualSpeedX = actualSpeedY / Mathf.Tan(climbingAngle * Mathf.Deg2Rad) * Mathf.Sign(actualSpeedX);
+                    }
+                    test = true;
+                    /*if (Mathf.Abs(distance) < minDistance)
                     {
                         minDistance = Mathf.Abs(distance);
                         actualSpeedY = distance;
                         isGrounded = true;
                         //OnWallCollision?.Invoke(collisionInfo);
-                    }
+                    }*/
                     //return;
                 }
                 originRaycast += new Vector2(Mathf.Abs(bottomRight.x - bottomLeft.x) / (numberRaycastVertical - 1), 0);
             }
+            if (test == false)
+                Debug.Log("Je ne touche pas le sol");
             isGrounded = false;
             // ======================================================================================================
 
@@ -276,7 +292,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
             for (int i = 0; i < numberRaycastVertical; i++)
             {
                 Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
-                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.yellow, 1f);
+                Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.yellow, 0.5f);
                 if (raycastY.collider != null)
                 {
                     collisionInfo = raycastY.collider.transform;
@@ -294,28 +310,28 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                 }
                 originRaycast += new Vector2(Mathf.Abs(upperRight.x - upperLeft.x) / (numberRaycastVertical - 1), 0);
             }
-            // ======================================================================================================
-            // Cas où on check si on prend une pente avec un nouvelle angle
-            if (climbingSlope)
-            {
-                float directionX = Mathf.Sign(actualSpeedX);
-                //rayLength = Mathf.Abs(velocity.x) + skinWidth;
-                originRaycast = ((directionX == -1) ? bottomLeft : bottomRight) + Vector2.up * actualSpeedY;
-                //RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+        }
+        // ======================================================================================================
+        // Cas où on check si on prend une pente avec un nouvelle angle
+        if (climbingSlope)
+        {
+            float directionX = Mathf.Sign(actualSpeedX);
+            //rayLength = Mathf.Abs(velocity.x) + skinWidth;
+            originRaycast = ((directionX == -1) ? bottomLeft : bottomRight) + Vector2.up * actualSpeedY;
+            //RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
 
-                Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastY, Mathf.Abs(actualSpeedX), layerMask);
-                if (raycastY.collider != null)
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastY, Mathf.Abs(actualSpeedX), layerMask);
+            if (raycastY.collider != null)
+            {
+                float slopeAngle = Vector2.Angle(raycastY.normal, Vector2.up);
+                if (slopeAngle != climbingAngle)
                 {
-                    float slopeAngle = Vector2.Angle(raycastY.normal, Vector2.up);
-                    if (slopeAngle != climbingAngle)
-                    {
-                        actualSpeedX = (raycastY.distance - offsetRaycastX) * directionX;
-                        climbingAngle = slopeAngle;
-                    }
+                    actualSpeedX = (raycastY.distance - offsetRaycastX) * directionX;
+                    climbingAngle = slopeAngle;
                 }
             }
-            // ======================================================================================================
         }
+        // ======================================================================================================
     }
 
     private void ClimbSlope(float angle)
@@ -330,5 +346,43 @@ public class CharacterRigidbodyLine : CharacterRigidbody
         }
     }
 
+    void DescendSlope()
+    {
+        /*RaycastHit2D maxSlopHitLeft = Physics2D.Raycast(raycastOrigins.bottomLeft, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
+        RaycastHit2D maxSlopHitRight = Physics2D.Raycast(raycastOrigins.bottomRight, Vector2.down, Mathf.Abs(velocity.y) + skinWidth, collisionMask);
+        if (maxSlopHitLeft ^ maxSlopHitRight)
+        {
+            SlideDownMaxSlope(maxSlopHitLeft, ref velocity);
+            SlideDownMaxSlope(maxSlopHitRight, ref velocity);
+        }*/
 
+        if (true) // !collisions.slidingDownMaxSlope
+        {
+            RaycastHit raycast;
+            float directionX = Mathf.Sign(actualSpeedX);
+            Vector2 rayOrigin = (directionX == -1) ? bottomRight : bottomLeft;
+            //RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -Vector2.up, Mathf.Infinity, layerMask);
+            Physics.Raycast(rayOrigin, -Vector2.up, out raycast, Mathf.Infinity, layerMask);
+            if (raycast.collider != null)
+            {
+                float slopeAngle = Vector2.Angle(raycast.normal, Vector2.up);
+                if (slopeAngle != 0 && slopeAngle <= maxAngle)
+                {
+                    if (Mathf.Sign(raycast.normal.x) == directionX)
+                    {
+                        if (raycast.distance - offsetRaycastY <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX))
+                        {
+                            float moveDistance = Mathf.Abs(actualSpeedX);
+                            float DescendVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+                            actualSpeedX = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(actualSpeedX);
+                            actualSpeedY -= DescendVelocityY;
+
+                            climbingAngle = slopeAngle;
+                            descendingSlope = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

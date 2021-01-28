@@ -10,6 +10,19 @@ public class CharacterRigidbody : MonoBehaviour
     {
         get { return null; }
     }
+    public virtual Transform CollisionGroundInfo
+    {
+        get { return null; }
+    }
+    public virtual Transform CollisionRoofInfo
+    {
+        get { return null; }
+    }
+
+    public virtual bool IsGrounded
+    {
+        get { return true; }
+    }
 
     public virtual void UpdateCollision(float speedX, float speedY)
     {
