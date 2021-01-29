@@ -3591,6 +3591,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825609505}
   m_CullTransparentMesh: 0
+--- !u!1 &830348257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 830348258}
+  - component: {fileID: 830348259}
+  m_Layer: 0
+  m_Name: Entity 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &830348258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830348257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 646.2445, y: 442.18518, z: 29.256287}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &830348259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830348257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7340a9b7e2bc9864f9ce457f6c6e5cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 0
 --- !u!1 &837031893
 GameObject:
   m_ObjectHideFlags: 0
@@ -7984,8 +8028,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80678898e414a94488c028354483ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 2
-  playerInputBuffer:
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 830348259}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: controllable
+      Entry: 7
+      Data: 0|IControllable[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  playerInputs:
   - horizontal: 0
     vertical: 0
     inputActions: []
@@ -8097,18 +8174,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9220151489204085888, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
-      propertyPath: _userData.controllerMapLayoutManagerRuleSets.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9220151489204085888, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
-      propertyPath: _userData.controllerMapLayoutManagerRuleSets.Array.data[0]._name
-      value: RuleSet0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9220151489204085888, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
-      propertyPath: _userData.controllerMapLayoutManagerSetIdCounter
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9220151489204085889, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
       propertyPath: m_Name
       value: Rewired Input Manager

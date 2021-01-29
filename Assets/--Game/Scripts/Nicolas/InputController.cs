@@ -2,32 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using Sirenix.Serialization;
+using Sirenix.OdinInspector;
 
-public enum State{
-	Menu,
-	UI_Pause,
-	InGame,
+[System.Serializable]
+public class InputBuffer
+{
+	public float timeValue;
+	public InputAction action;
+
+	public InputBuffer()
+	{
+		timeValue = 0f;
+		action = null;
+	}
 }
 
 [System.Serializable]
 public class Input_Info
 {
-	//public Rewired.InputAction inputAction;
 	public float horizontal;
 	public float vertical;
 
-	public List<Rewired.InputAction> inputActions;
+	public List<InputBuffer> inputActions;
 
 	public Input_Info()
     {
+		inputActions = new List<InputBuffer>();
+
 		horizontal = 0;
 		vertical = 0;
-
-		inputActions = new List<InputAction>();
 	}
 }
 
-public class InputController : MonoBehaviour
+public class InputController : SerializedMonoBehaviour 
 {
 	List<Rewired.Player> players = new List<Player>();
 
@@ -35,11 +43,11 @@ public class InputController : MonoBehaviour
 
 	//EntityController[] entityControllers;
 	//MenuController menuController;
+	[OdinSerialize]
+	public IControllable[] controllable = new IControllable[4];
 
-	public State state;
-
-	public Input_Info[] playerInputBuffer = new Input_Info[4];
-	public int bufferLength = 6;
+	public Input_Info[] playerInputs = new Input_Info[4];
+	public float bufferLength = 6;
 
 	private void Awake()
 	{
@@ -61,58 +69,98 @@ public class InputController : MonoBehaviour
 	{
 		for (int i = 0; i < 4; i++)
 		{
-            switch (state)
-            {
-                case State.Menu:
-					Input_Interact();
-					Input_Return();
-					break;
-                case State.UI_Pause:
-					Input_Interact();
-					Input_Return();
-					Input_Pause();
-					break;
-                case State.InGame:
-					//if (entityControllers.Length == 0)
-					//{
-					//	entityControllers = GameObject.FindObjectsOfType<EntityController>();
-					//}
-					//else
-					//{
-						Input_Movement(i);
-						Input_Jump(i);
-						Input_Attack();
-						Input_Pause();
-					//}
-					break;
-            }
-        }
-    }
+			if (playerInputs[i].inputActions.Count != 0)
+			{
+				var input = playerInputs[i].inputActions;
+				for (int z = input.Count - 1; z >= 0; z--)
+				{
+					if (input[z].action != null && input[z].timeValue > 0)
+					{
+						input[z].timeValue -= Time.deltaTime;
+					}
+					else if (input[z].action != null && input[z].timeValue <= 0)
+					{
+						input.Remove(input[z]);
+					}
+					else if (input[0].action == null && input[z].timeValue <= 0)
+					{
+						input.Remove(input[0]);
+					}
+				}
+			}
 
-	void Input_Movement(int ID)
+			Input_Interact();
+			Input_Return();
+			Input_Pause();
+			//if (entityControllers.Length == 0)
+			//{
+			//	entityControllers = GameObject.FindObjectsOfType<EntityController>();
+			//}
+			//else
+			//{
+			Input_Horizontal(i);
+			Input_Vertical(i);
+			Input_Jump(i);
+			Input_Attack(i);
+			//}
+
+			if(controllable[i] != null)
+				controllable[i].UpdateControl(i, playerInputs[i]);
+		}
+	}
+
+	void Input_Horizontal(int ID)
 	{
-		if (Mathf.Abs(players[ID].GetAxis("Horizontal")) > .35)
-		{
+		InputBuffer tmp = new InputBuffer();
+		var input = playerInputs[ID].inputActions;
+		playerInputs[ID].horizontal = players[ID].GetAxis("Horizontal");
+	}
 
-		}
-		else
-		{
-
-		}
-
+	void Input_Vertical(int ID)
+	{
+		InputBuffer tmp = new InputBuffer();
+		var input = playerInputs[ID].inputActions;
+		playerInputs[ID].vertical = players[ID].GetAxis("Vertical");
 	}
 
 	void Input_Jump(int ID)
 	{
 		if (players[ID].GetButtonDown("Jump"))
 		{
-			playerInputBuffer[ID].inputActions.Add(ReInput.mapping.GetAction("Jump"));
+			InputBuffer tmp = new InputBuffer();
+			var input = playerInputs[ID].inputActions;
+			foreach(InputBuffer ic in input)
+            {
+				if(ic.action == ReInput.mapping.GetAction("Jump"))
+                {
+					ic.timeValue = bufferLength;
+					return;
+                }
+            }
+			input.Add(tmp);
+			input[input.Count - 1].action = ReInput.mapping.GetAction("Jump");
+			input[input.Count - 1].timeValue = bufferLength;
 		}
 	}
 
-	void Input_Attack()
+	void Input_Attack(int ID)
 	{
-
+		if (players[ID].GetButtonDown("Attack"))
+		{
+			InputBuffer tmp = new InputBuffer();
+			var input = playerInputs[ID].inputActions;
+			foreach (InputBuffer ic in input)
+			{
+				if (ic.action == ReInput.mapping.GetAction("Attack"))
+				{
+					ic.timeValue = bufferLength;
+					return;
+				}
+			}
+			input.Add(tmp);
+			input[input.Count - 1].action = ReInput.mapping.GetAction("Attack");
+			input[input.Count - 1].timeValue = bufferLength;
+		}
 	}
 	void Input_Interact()
 	{

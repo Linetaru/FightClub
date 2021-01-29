@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class InputConst : ScriptableObject
+public static class InputConst
 {
-	string Movement = Rewired.ReInput.mapping.GetAction(0).name;
-	string Jump = Rewired.ReInput.mapping.GetAction(1).name;
-	string Attack = Rewired.ReInput.mapping.GetAction(2).name;
-	string Action3 = Rewired.ReInput.mapping.GetAction(3).name;
-	string Action4 = Rewired.ReInput.mapping.GetAction(4).name;
-	string Interact = Rewired.ReInput.mapping.GetAction(5).name;
-	string Return = Rewired.ReInput.mapping.GetAction(6).name;
-	string Pause = Rewired.ReInput.mapping.GetAction(7).name;
+	public static InputAction Horizontal = Rewired.ReInput.mapping.GetAction(0);
+	public static InputAction Jump = Rewired.ReInput.mapping.GetAction(1);
+	public static InputAction Attack = Rewired.ReInput.mapping.GetAction(2);
+	public static InputAction Vertical = Rewired.ReInput.mapping.GetAction(3);
+	public static InputAction Action4 = Rewired.ReInput.mapping.GetAction(4);
+	public static InputAction Interact = Rewired.ReInput.mapping.GetAction(5);
+	public static InputAction Return = Rewired.ReInput.mapping.GetAction(6);
+	public static InputAction Pause = Rewired.ReInput.mapping.GetAction(7);
 }
