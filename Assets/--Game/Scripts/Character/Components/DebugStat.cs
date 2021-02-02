@@ -20,19 +20,13 @@ public class DebugStat : MonoBehaviour
 	[Button("Add")]
 	public void AddStat()
 	{
-		if(addition == true)
-			speed.IncrementBonusStat();
-		else
-			speed.IncrementBonusStat();
+		speed.IncrementBonusStat(50, addition);
 	}
 
 	[Button("Remove")]
 	public void RemoveStat()
 	{
-		if (addition == true)
-			speed.RemoveBonusStat();
-		else
-			speed.RemoveBonusStat();
+		speed.RemoveBonusStat(50, addition);
 	}
 
 

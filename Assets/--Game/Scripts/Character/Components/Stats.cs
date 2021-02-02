@@ -28,7 +28,7 @@ public class Stats
         }
         else
         {
-            newStat += (baseStat * bonusValue) - baseStat;
+            newStat += baseStat * (bonusValue/100);
         }
     }
     public void RemoveBonusStat(float bonusValue, bool isSubstraction = true)
@@ -39,7 +39,7 @@ public class Stats
         }
         else
         {
-            newStat += (newStat * bonusValue) - baseStat;
+            newStat -= baseStat * (bonusValue / 100);
         }
     }
 }
