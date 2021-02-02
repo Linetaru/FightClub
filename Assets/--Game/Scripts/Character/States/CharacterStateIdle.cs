@@ -37,6 +37,8 @@ public class CharacterStateIdle : CharacterState
 	bool acceleration = false;
 	float timeAcceleration = 0f;
 
+	public bool canWallRun = true;
+
 
 	//int direction;
 
@@ -92,7 +94,7 @@ public class CharacterStateIdle : CharacterState
 		//characterRigidbody.UpdateCollision(10, -10);
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 
-		if (characterRigidbody.CollisionWallInfo != null)
+		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
 		{
 			character.SetState(wallRunState);
 		}

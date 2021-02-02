@@ -4,17 +4,13 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(BoxCollider))]
-public class CharacterRigidbodySimple : CharacterRigidbody
+public class CharacterRigidbodySlope : CharacterRigidbody
 {
-    /*public delegate void ActionCollision(Transform transform);
-    public event ActionCollision OnWallCollision;
-    public event ActionCollision OnGroundCollision;*/
-
-    [Header("CharacterController")]
+    [Title("CharacterController")]
     [SerializeField]
     private BoxCollider characterCollider;
 
-    [Header("Collision")]
+    [Title("Collision")]
     [SerializeField]
     private bool collision = true;
 
@@ -36,27 +32,9 @@ public class CharacterRigidbodySimple : CharacterRigidbody
     private int numberRaycastHorizontal = 2;
 
 
-    /*protected float characterMotionSpeed = 1;
-    public float CharacterMotionSpeed
-    {
-        get { return characterMotionSpeed; }
-        set { characterMotionSpeed = value; }
-    }*/
-
-
-    /*private float speedX = 0;
-    public float SpeedX
-    {
-        get { return speedX; }
-        set { speedX = value; }
-    }
-
-    private float speedY = 0;
-    public float SpeedY
-    {
-        get { return speedY; }
-        set { speedY = value; }
-    }*/
+    [Title("Angle")]
+    [SerializeField]
+    private float maxSlopeAngle = 45;
 
     private float actualSpeedX = 0;
     private float actualSpeedY = 0;
@@ -95,6 +73,17 @@ public class CharacterRigidbodySimple : CharacterRigidbody
         //set { isGrounded = value; }
     }
 
+
+    private void CalculateBounds(Vector2 offset)
+    {
+        bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offset;
+        upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offset;
+        bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offset;
+        upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y) + offset;
+    }
+
+
+
     public override void UpdateCollision(float speedX, float speedY)
     {
         isGrounded = false;
@@ -109,24 +98,78 @@ public class CharacterRigidbodySimple : CharacterRigidbody
 
         if (collision == true)
         {
-            bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y);
-            upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y);
-            bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y);
-            upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y);
+            CalculateBounds(Vector2.zero);
 
-            UpdatePositionX();
+            float slopeAngle = CheckSlope();
+            if (slopeAngle <= maxSlopeAngle) // On climb
+            {
+                float newSlopeAngle = slopeAngle;
+                float speedYSaved = actualSpeedY;
+                do // C'est pour géré des pentes successives
+                {
+                    slopeAngle = newSlopeAngle;
+                    UpdatePositionY();
+                    Vector2 offset = new Vector2(0, actualSpeedY);
+                    CalculateBounds(offset);
 
-            Vector2 offsetX = new Vector2(actualSpeedX, 0);
-            bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offsetX;
-            upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offsetX;
-            bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offsetX;
-            upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y) + offsetX;
+                    speedYSaved = actualSpeedY;
+                    newSlopeAngle = CheckSlope();
 
-            UpdatePositionY();
+                } while (newSlopeAngle <= maxSlopeAngle && newSlopeAngle != slopeAngle);
+
+                actualSpeedY = speedYSaved;
+                UpdatePositionX();
+            }
+            else // On climb pas ou on touche un mur 
+            {
+                UpdatePositionX();
+                Vector2 offsetX = new Vector2(actualSpeedX, 0);
+                CalculateBounds(offsetX);
+                UpdatePositionY();
+            }
+
+
+
             transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, 0);
             Physics.SyncTransforms();
         }
     }
+
+
+
+    private float CheckSlope()
+    {
+        RaycastHit raycastX;
+        float directionX = Mathf.Sign(actualSpeedX);
+        Vector2 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
+        Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+        if (raycastX.collider != null)
+        {
+            float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
+            if (slopeAngle <= maxSlopeAngle)
+            {
+                float distance = raycastX.distance - offsetRaycastX;
+                ClimbSlope(slopeAngle);
+                actualSpeedX += distance * directionX;
+            }
+            return slopeAngle;
+        }
+        return 9999;
+    }
+
+
+    private void ClimbSlope(float angle)
+    {
+        float climbSpeedY = Mathf.Sin(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX);
+        if (actualSpeedY <= climbSpeedY)
+        {
+            actualSpeedY = climbSpeedY;
+            actualSpeedX = Mathf.Cos(angle * Mathf.Deg2Rad) * Mathf.Abs(actualSpeedX) * Mathf.Sign(actualSpeedX);
+        }
+    }
+
+
+
 
     private void UpdatePositionX()
     {
@@ -140,15 +183,14 @@ public class CharacterRigidbodySimple : CharacterRigidbody
 
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX), layerMask);
-            Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0), Color.yellow, 0.5f);
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0) , Color.yellow, 0.5f);
             if (raycastX.collider != null)
             {
                 float distance = raycastX.distance - offsetRaycastX;
                 actualSpeedX = distance * directionX;
-                collisionWallInfo = raycastX.collider.transform;
+                //collisionWallInfo = raycastX.collider.transform;
             }
-
             originRaycast += originOffset;
         }
     }
@@ -179,6 +221,7 @@ public class CharacterRigidbodySimple : CharacterRigidbody
                 }
                 else
                 {
+                    Debug.Log("Woof");
                     collisionRoofInfo = raycastY.collider.transform;
                 }
             }
@@ -195,4 +238,8 @@ public class CharacterRigidbodySimple : CharacterRigidbody
             isGrounded = false;
         }
     }
+
+
+
+
 }
