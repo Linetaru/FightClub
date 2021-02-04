@@ -150,7 +150,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
             //transform.position = new Vector3(transform.position.x + (actualSpeedX * Time.deltaTime), transform.position.y, 0);
             //Physics.SyncTransforms();
 
-            Vector2 offsetX = new Vector2(0, 0);
+            Vector2 offsetX = new Vector2(actualSpeedX, 0);
             bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offsetX;
             upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offsetX;
             bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offsetX;
@@ -219,6 +219,10 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                     float slopeAngle = Vector2.Angle(raycastX.normal, Vector2.up);
                     if (i == 0 && slopeAngle <= maxAngle)
                     {
+                        if (descendingSlope)
+                        {
+                            descendingSlope = false;
+                        }
                         float distance2 = raycastX.distance - offsetRaycastX;
                         ClimbSlope(slopeAngle);
                         actualSpeedX += distance2;
