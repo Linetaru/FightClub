@@ -12,11 +12,15 @@ public class CharacterStateWallRun : CharacterState
 	CharacterRigidbody characterRigidbody;
 	[SerializeField]
 	CharacterMovement movement;
+	[SerializeField]
+	CharacterMovementJump movementJump;
 
 	[SerializeField]
 	float stickRunThreshold = 0.7f;
 	[SerializeField]
 	float deccelerationRate = 0.7f;
+
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -37,7 +41,18 @@ public class CharacterStateWallRun : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		float axisX = Input.GetAxis("Horizontal");
+
+		if(character.Input.inputActions[0].action == InputConst.Jump)
+		{
+			//movementJump.Jump();
+		}
+
+
+
+
+		characterRigidbody.UpdateCollision(movement.SpeedX, movement.SpeedY);
+
+		/*float axisX = Input.GetAxis("Horizontal");
 		if (Mathf.Abs(axisX) > stickRunThreshold)
 		{
 			if(movement.SpeedX > 0)
@@ -57,11 +72,18 @@ public class CharacterStateWallRun : CharacterState
 			characterRigidbody.UpdateCollision(0, 0);
 			movement.SpeedX = 0;
 			character.SetState(idleState);
-		}
+		}*/
 	}
 
 	public override void EndState(CharacterBase character)
 	{
 
 	}
+
+
+
+	public void JumpWallRun()
+	{
+	}
+
 }

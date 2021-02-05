@@ -6,20 +6,7 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-    //[Title("CharacterController")]
-    //[SerializeField]
-    //protected SpriteRenderer spriteRenderer;
-    /*public SpriteRenderer SpriteRenderer
-    {
-        get { return spriteRenderer; }
-    }*/
 
-
-    //protected CharacterBase character;
-    /*public CharacterBase Character
-    {
-        get { return character; }
-    }*/
 
     [Title("Stats")]
     [SerializeField]
@@ -28,6 +15,15 @@ public class CharacterMovement : MonoBehaviour
     {
         get { return speed; }
         set { speed = value; }
+    }
+
+
+    [SerializeField]
+    private float acceleration;
+    public float Acceleration
+    {
+        get { return acceleration; }
+        set { acceleration = value; }
     }
 
 
@@ -72,28 +68,7 @@ public class CharacterMovement : MonoBehaviour
         character = characterBase;
     }*/
 
-    /*public void ApplyGravity(float gravity, float gravityMax)
-    {
-        if (inAir == true)
-        {
-            speedZ -= ((gravity * Time.deltaTime) * character.MotionSpeed);
-            speedZ = Mathf.Max(speedZ, gravityMax);
-            spriteRenderer.transform.localPosition += new Vector3(0, (speedZ * Time.deltaTime) * character.MotionSpeed, 0);
-            if (spriteRenderer.transform.localPosition.y <= 0 && character.MotionSpeed != 0)
-            {
-                inAir = false;
-                speedZ = 0;
-                spriteRenderer.transform.localPosition = new Vector3(spriteRenderer.transform.localPosition.x, 0, spriteRenderer.transform.localPosition.z);
-                //OnGroundCollision();
-            }
-        }
-    }*/
 
-
-    public void Jump(float impulsion)
-    {
-        //speedZ = impulsion;
-    }
 
 
 
