@@ -7,6 +7,8 @@ public class CharacterStateIdle : CharacterState
 
 	[SerializeField]
 	CharacterState wallRunState;
+	[SerializeField]
+	CharacterState jumpState;
 
 	[SerializeField]
 	CharacterRigidbody characterRigidbody;
@@ -94,9 +96,18 @@ public class CharacterStateIdle : CharacterState
 		//characterRigidbody.UpdateCollision(10, -10);
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 
-		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
+		//if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
+		//{
+		//	character.SetState(wallRunState);
+		//}
+
+		if (character.Input.inputActions.Count != 0)
 		{
-			character.SetState(wallRunState);
+			if (character.Input.inputActions[0].action == InputConst.Jump)
+			{
+				character.SetState(jumpState);
+				character.Input.inputActions[0].timeValue = 0;
+			}
 		}
 	}
 
