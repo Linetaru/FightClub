@@ -17,6 +17,13 @@ public class CharacterMovement : MonoBehaviour
         set { speed = value; }
     }
 
+    [SerializeField]
+    private float maxSpeed;
+    public float MaxSpeed
+    {
+        get { return maxSpeed; }
+        set { maxSpeed = value; }
+    }
 
     [SerializeField]
     private float acceleration;
@@ -24,6 +31,14 @@ public class CharacterMovement : MonoBehaviour
     {
         get { return acceleration; }
         set { acceleration = value; }
+    }
+
+    [SerializeField]
+    private float Deceleration;
+    public float deceleration
+    {
+        get { return deceleration; }
+        set { deceleration = value; }
     }
 
 
@@ -71,12 +86,31 @@ public class CharacterMovement : MonoBehaviour
 
 
 
+    public float Accelerate()
+    {
+        if (speed < maxSpeed)
+        {
+            speed += acceleration * Time.deltaTime;
+        }
+        else
+        {
+            speed = maxSpeed;
+        }
+
+        return speed;
+    }
+
+    public void Decelerate()
+    {
+        speed -= deceleration * Time.deltaTime;
+    }
+
 
 
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(speed * multiplier * direction, 0);
+        SetSpeed(speed * multiplier * direction, 0) ;
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)

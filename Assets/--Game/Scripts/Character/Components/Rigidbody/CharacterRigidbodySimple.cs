@@ -176,6 +176,7 @@ public class CharacterRigidbodySimple : CharacterRigidbody
                 if(directionY == -1)
                 {
                     collisionGroundInfo = raycastY.collider.transform;
+                    isGrounded = true;
                 }
                 else
                 {
@@ -186,11 +187,7 @@ public class CharacterRigidbodySimple : CharacterRigidbody
             originRaycast += originOffset;
         }
 
-        if (directionY == -1)
-        {
-            isGrounded = true;
-        }
-        else
+        if (directionY == 1)
         {
             isGrounded = false;
         }
