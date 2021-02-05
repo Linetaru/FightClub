@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CharacterStateJump : CharacterState
 {
+
+	[SerializeField]
+	CharacterRigidbody characterRigidbody;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -23,7 +27,7 @@ public class CharacterStateJump : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-
+		characterRigidbody.UpdateCollision(0, -10f);
 	}
 
 	public override void EndState(CharacterBase character)
