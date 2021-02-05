@@ -7,11 +7,27 @@ public class CharacterStateJump : CharacterState
 
 	[SerializeField]
 	CharacterRigidbody characterRigidbody;
+	[SerializeField]
+	CharacterState idleState;
+	[SerializeField]
+	CharacterMovement movement;
+
+	[SerializeField]
+	int numberOfJump = 1;
+
+	[SerializeField]
+	int currentNumberOfJump = 1;
+
+	[SerializeField]
+	float jumpForce = 10f;
+
+	[SerializeField]
+	float gravity = 1f;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+		currentNumberOfJump = numberOfJump;
 	}
 
 	// Update is called once per frame
@@ -22,16 +38,41 @@ public class CharacterStateJump : CharacterState
 
 	public override void StartState(CharacterBase character)
 	{
-
+		if (currentNumberOfJump > 0)
+		{
+			currentNumberOfJump--;
+			movement.SpeedY = jumpForce;
+		}
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		characterRigidbody.UpdateCollision(0, -10f);
+		if (character.Input.inputActions.Count != 0 && !characterRigidbody.IsGrounded && currentNumberOfJump > 0 && movement.SpeedY < 0)
+		{
+			if (character.Input.inputActions[0].action == InputConst.Jump)
+			{
+				currentNumberOfJump--;
+				movement.SpeedY = jumpForce;
+				character.Input.inputActions[0].timeValue = 0;
+			}
+		}
+		else if(movement.SpeedY < 0)
+			character.SetState(idleState);
+
+		characterRigidbody.UpdateCollision(movement.SpeedX, movement.SpeedY);
+		GravityChange();
 	}
 
 	public override void EndState(CharacterBase character)
 	{
+		if(currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
+        {
+			currentNumberOfJump = numberOfJump;
+		}
+	}
 
+	public void GravityChange()
+    {
+		movement.SpeedY -= gravity;
 	}
 }
