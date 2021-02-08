@@ -58,7 +58,7 @@ public class CharacterStateAerial : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		if (character.Input.inputActions.Count != 0 && !characterRigidbody.IsGrounded && currentNumberOfAerialJump > 0 && movement.SpeedY < 0)
+		if (character.Input.inputActions.Count != 0 && currentNumberOfAerialJump > 0)
 		{
 			if (character.Input.inputActions[0].action == InputConst.Jump)
 			{
@@ -67,33 +67,34 @@ public class CharacterStateAerial : CharacterState
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
-		else if (movement.SpeedY < (jumpForce / 2) && characterRigidbody.IsGrounded)
+		GravityChange();
+		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
+
+
+		if (characterRigidbody.CollisionGroundInfo != null)
 		{
 			character.SetState(idleState);
 			return;
 		}
-
-		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
-
 		if (characterRigidbody.CollisionWallInfo != null && Mathf.Abs(movement.SpeedX) > 2)
 		{
 			character.SetState(wallRunState);
 			//wallrunCount = 0;
 			return;
 		}
-			GravityChange();
 	}
 
 	public override void EndState(CharacterBase character)
 	{
-		if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
+		currentNumberOfAerialJump = numberOfAerialJump;
+		/*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
 		{
 			currentNumberOfAerialJump = numberOfAerialJump;
-		}
+		}*/
 	}
 
 	public void GravityChange()
 	{
-		movement.SpeedY -= gravity;
+		movement.SpeedY -= gravity * Time.deltaTime;
 	}
 }

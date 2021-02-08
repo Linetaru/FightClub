@@ -169,7 +169,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void Jump(float jumpForce)
     {
-        speedY += jumpForce;
+        speedY = jumpForce;
     }
     
     public void Gravity()
