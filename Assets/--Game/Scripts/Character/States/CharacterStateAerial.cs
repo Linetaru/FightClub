@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStateJump : CharacterState
+public class CharacterStateAerial : CharacterState
 {
 
 	[SerializeField]
@@ -16,7 +16,7 @@ public class CharacterStateJump : CharacterState
 	int numberOfJump = 1;
 
 	[SerializeField]
-	int currentNumberOfJump = 1;
+	[ReadOnly] int currentNumberOfJump = 1;
 
 	[SerializeField]
 	float jumpForce = 10f;
@@ -33,11 +33,16 @@ public class CharacterStateJump : CharacterState
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	public override void StartState(CharacterBase character)
 	{
+		//if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
+		//{
+		//	currentNumberOfJump = numberOfJump;
+		//}
+
 		if (currentNumberOfJump > 0)
 		{
 			currentNumberOfJump--;
@@ -56,7 +61,7 @@ public class CharacterStateJump : CharacterState
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
-		else if(movement.SpeedY < 0)
+		else if (movement.SpeedY < (jumpForce / 2) && characterRigidbody.IsGrounded)
 			character.SetState(idleState);
 
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
@@ -65,14 +70,14 @@ public class CharacterStateJump : CharacterState
 
 	public override void EndState(CharacterBase character)
 	{
-		if(currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
-        {
+		if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
+		{
 			currentNumberOfJump = numberOfJump;
 		}
 	}
 
 	public void GravityChange()
-    {
+	{
 		movement.SpeedY -= gravity;
 	}
 }
