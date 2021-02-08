@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired.UI.ControlMapper;
 
 public class TestingControllable : MonoBehaviour, IControllable
 {
 	public int playerID;
+	public ControlMapper controlMapper;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+		controlMapper = GameObject.FindObjectOfType<ControlMapper>();
 	}
 
 	// Update is called once per frame
@@ -20,13 +22,12 @@ public class TestingControllable : MonoBehaviour, IControllable
 
 	public void UpdateControl(int ID, Input_Info input_Info)
     {
-		if(ID == playerID && input_Info.inputActions.Count != 0)
+		if(ID == playerID)
         {
-			if(input_Info.inputActions[0].action == InputConst.Jump)
+			if(input_Info.inputUiAction == InputConst.Pause)
             {
-				input_Info.inputActions[0].timeValue = 0;
-				input_Info.inputActions[0].action = null;
-				Debug.Log("Hi mom !");
+				input_Info.inputUiAction = null;
+				controlMapper.Open();
             }
 		}
     }
