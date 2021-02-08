@@ -39,6 +39,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     private float actualSpeedX = 0;
     private float actualSpeedY = 0;
 
+    private bool climbingSlope = false;
+
 
     Vector2 bottomLeft;
     Vector2 upperLeft;
@@ -90,6 +92,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         collisionWallInfo = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
+        climbingSlope = false;
 
         actualSpeedX = speedX;
         actualSpeedY = speedY;
@@ -103,9 +106,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             float slopeAngle = CheckSlope();
             if (slopeAngle <= maxSlopeAngle) // On climb
             {
+                climbingSlope = true;
                 float newSlopeAngle = slopeAngle;
                 float speedYSaved = actualSpeedY;
-                do // C'est pour géré des pentes successives
+                do // C'est pour géré des pentes successives qu'on fait une boucle
                 {
                     slopeAngle = newSlopeAngle;
                     UpdatePositionY();
