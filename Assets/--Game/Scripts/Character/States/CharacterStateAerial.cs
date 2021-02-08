@@ -67,7 +67,7 @@ public class CharacterStateAerial : CharacterState
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
-		GravityChange();
+		movement.ApplyGravity();
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
 
 
@@ -91,10 +91,5 @@ public class CharacterStateAerial : CharacterState
 		{
 			currentNumberOfAerialJump = numberOfAerialJump;
 		}*/
-	}
-
-	public void GravityChange()
-	{
-		movement.SpeedY -= gravity * Time.deltaTime;
 	}
 }

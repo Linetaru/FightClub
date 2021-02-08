@@ -193,7 +193,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             {
                 float distance = raycastX.distance - offsetRaycastX;
                 actualSpeedX = distance * directionX;
-                //collisionWallInfo = raycastX.collider.transform;
+                if(!(climbingSlope == true && i == 0))
+                    collisionWallInfo = raycastX.collider.transform;
             }
             originRaycast += originOffset;
         }
@@ -221,11 +222,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
                 if(directionY == -1)
                 {
+                    isGrounded = true;
                     collisionGroundInfo = raycastY.collider.transform;
                 }
                 else
                 {
-                    Debug.Log("Woof");
                     collisionRoofInfo = raycastY.collider.transform;
                 }
             }
@@ -233,11 +234,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             originRaycast += originOffset;
         }
 
-        if (directionY == -1)
-        {
-            isGrounded = true;
-        }
-        else
+        if (directionY == 1)
         {
             isGrounded = false;
         }

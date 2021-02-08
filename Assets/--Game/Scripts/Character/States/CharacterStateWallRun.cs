@@ -14,8 +14,6 @@ public class CharacterStateWallRun : CharacterState
     CharacterRigidbody characterRigidbody;
     [SerializeField]
     CharacterMovement movement;
-    [SerializeField]
-    CharacterMovementJump movementJump;
 
     [SerializeField]
     float stickRunThreshold = 0.7f;

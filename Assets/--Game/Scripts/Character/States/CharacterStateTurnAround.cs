@@ -20,17 +20,19 @@ public class CharacterStateTurnAround : CharacterState
 	float timeTurnAround = 0.1f;
 
 	float t = 0f;
+	float initialSpeedX = 0;
 
 	public override void StartState(CharacterBase character)
 	{
 		t = timeTurnAround;
+		initialSpeedX = movement.SpeedX;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		movement.Speed = movement.SpeedX * (t / timeTurnAround);
-		movement.Speed = Mathf.Max(movement.Speed, 0);
-		characterRigidbody.UpdateCollision(movement.Speed * movement.Direction, -10);
+		movement.SpeedX = initialSpeedX * (t / timeTurnAround);
+		movement.SpeedX = Mathf.Max(movement.SpeedX, 0);
+		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 		t -= Time.deltaTime;
 		if (t <= 0)
 			character.SetState(idleState);

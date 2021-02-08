@@ -67,15 +67,6 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField]
     [ReadOnly]
-    protected float speed;
-    public float Speed
-    {
-        get { return speed; }
-        set { speed = value; }
-    }
-
-    [SerializeField]
-    [ReadOnly]
     protected float speedX = 0;
     public float SpeedX
     {
@@ -96,33 +87,31 @@ public class CharacterMovement : MonoBehaviour
 
 
 
-    public float Accelerate()
+    public void Accelerate()
     {
-        return Accelerate(1);
+        Accelerate(1);
     }
-    public float Accelerate(float multiplier)
+    public void Accelerate(float multiplier)
     {
-        if (speed < maxSpeed)
+        if (speedX < maxSpeed)
         {
-            speed += (acceleration * multiplier) * Time.deltaTime;
+            speedX += (acceleration * multiplier) * Time.deltaTime;
         }
         else
         {
-            speed = maxSpeed;
+            speedX = maxSpeed;
         }
-        return speed;
     }
 
 
-    public float Decelerate()
+    public void Decelerate()
     {
-        return Decelerate(1);
+        Decelerate(1);
     }
-    public float Decelerate(float multiplier)
+    public void Decelerate(float multiplier)
     {
-        speed -= (deceleration * multiplier) * Time.deltaTime;
-        speed = Mathf.Max(0, speed); 
-        return speed;
+        speedX -= (deceleration * multiplier) * Time.deltaTime;
+        speedX = Mathf.Max(0, speedX); 
     }
 
 

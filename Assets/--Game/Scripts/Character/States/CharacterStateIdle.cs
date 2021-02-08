@@ -146,12 +146,16 @@ public class CharacterStateIdle : CharacterState
 	private void Accelerate()
 	{
 		timeDecceleration = 0;
+
+		if (timeAcceleration == 0)
+			movement.SpeedX = (movement.MaxSpeed * speedMultiplierWalk);
+
 		if (timeAcceleration < timeAccelerationMax)
 			timeAcceleration += Time.deltaTime;
 
-		float speed = movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
-		speed += (movement.MaxSpeed * speedMultiplierWalk);
-		movement.SpeedX = speed;
+		movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
+		/*speed += (movement.MaxSpeed * speedMultiplierWalk);
+		movement.SpeedX = speed;*/
 	}
 
 
@@ -161,7 +165,7 @@ public class CharacterStateIdle : CharacterState
 		timeAcceleration = 0;
 		if (timeDecceleration < timeDeccelerationMax)
 			timeDecceleration += Time.deltaTime;
-		movement.SpeedX = movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
+		movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
 	}
 
 

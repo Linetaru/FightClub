@@ -255,7 +255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &97945260
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -535,7 +535,6 @@ MonoBehaviour:
   jumpForce: 10
   gravity: 1
   gravityMax: 0
-  speed: 0
   speedX: 0
   speedY: 0
 --- !u!114 &204469697
@@ -554,11 +553,15 @@ MonoBehaviour:
   aerialState: {fileID: 0}
   characterRigidbody: {fileID: 204469688}
   movement: {fileID: 204469696}
-  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
+  wallrunSpeedMin: -2
   wallJumpSpeedX: 5
+  wallCollision: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &251335219
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &251335220
 Transform:
   m_ObjectHideFlags: 0
@@ -1655,6 +1658,7 @@ GameObject:
   - component: {fileID: 668931623}
   - component: {fileID: 668931622}
   - component: {fileID: 668931628}
+  - component: {fileID: 668931632}
   m_Layer: 10
   m_Name: PlayerLineSimple
   m_TagString: Untagged
@@ -1700,9 +1704,8 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 40
   jumpForce: 10
-  gravity: 1
+  gravity: 15
   gravityMax: -10
-  speed: 0
   speedX: 0
   speedY: 0
 --- !u!114 &668931624
@@ -1718,14 +1721,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 668931625}
-  aerialState: {fileID: 0}
+  aerialState: {fileID: 668931632}
   characterRigidbody: {fileID: 668931622}
   movement: {fileID: 668931623}
-  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
+  wallrunSpeedMin: -2
   wallJumpSpeedX: 5
+  wallCollision: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!114 &668931625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1739,13 +1746,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 668931624}
-  jumpState: {fileID: 0}
+  jumpState: {fileID: 668931632}
   turnAroundState: {fileID: 668931628}
   characterRigidbody: {fileID: 668931622}
   movement: {fileID: 668931623}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
-  speedMultiplierWalk: 0.2
+  speedMultiplierWalk: 0.1
   timeAccelerationMax: 0.6
   accelerationMultiplierCurve:
     serializedVersion: 2
@@ -1911,6 +1918,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668931632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668931621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e113125c73a6645afca710f7c2209f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterRigidbody: {fileID: 668931622}
+  idleState: {fileID: 668931625}
+  wallRunState: {fileID: 668931624}
+  movement: {fileID: 668931623}
+  minimalSpeedToWallRun: -2
+  numberOfAerialJump: 1
+  currentNumberOfAerialJump: 1
+  jumpForce: 10
+  gravity: 1
 --- !u!1 &676602494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2692,7 +2720,6 @@ MonoBehaviour:
   jumpForce: 10
   gravity: 1
   gravityMax: 0
-  speed: 0
   speedX: 0
   speedY: 0
 --- !u!114 &952705656
@@ -2711,11 +2738,15 @@ MonoBehaviour:
   aerialState: {fileID: 0}
   characterRigidbody: {fileID: 952705654}
   movement: {fileID: 952705655}
-  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
+  wallrunSpeedMin: -2
   wallJumpSpeedX: 5
+  wallCollision: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &952705657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2869,7 +2900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1053466958
 Transform:
   m_ObjectHideFlags: 0
@@ -4380,7 +4411,6 @@ MonoBehaviour:
   jumpForce: 10
   gravity: 1
   gravityMax: 0
-  speed: 0
   speedX: 0
   speedY: 0
 --- !u!114 &1974604348
@@ -4399,11 +4429,15 @@ MonoBehaviour:
   aerialState: {fileID: 0}
   characterRigidbody: {fileID: 1974604346}
   movement: {fileID: 1974604347}
-  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
+  wallrunSpeedMin: -2
   wallJumpSpeedX: 5
+  wallCollision: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1974604349
 MonoBehaviour:
   m_ObjectHideFlags: 0
