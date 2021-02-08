@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStateIdle : CharacterState
+public class ClarenceStateIdle : CharacterState
 {
 
 	[SerializeField]
 	CharacterState wallRunState;
-	[SerializeField]
-	CharacterState jumpState;
 
 	[SerializeField]
 	CharacterRigidbody characterRigidbody;
@@ -41,29 +39,25 @@ public class CharacterStateIdle : CharacterState
 
 	public bool canWallRun = true;
 
-	//int wallrunCount = 1;
+	int wallrunCount = 1;
+
 
 	//int direction;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	public override void StartState(CharacterBase character)
 	{
-		Debug.Log("IdleState");
-		//if (wallrunCount < 1 && characterRigidbody.IsGrounded)
-		//{
-		//	wallrunCount = 1;
-		//}
 
 	}
 
@@ -102,21 +96,15 @@ public class CharacterStateIdle : CharacterState
 		//characterRigidbody.UpdateCollision(10, -10);
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 
-		
+		if (wallrunCount < 1 && characterRigidbody.IsGrounded)
+		{
+			wallrunCount = 1;
+		}
 
-		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true/*wallrunCount == 1 &&*/ )
+		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true && wallrunCount == 1 && Mathf.Abs(movement.SpeedX) > 11)
 		{
 			character.SetState(wallRunState);
-			//wallrunCount = 0;
-		}
-		else if (character.Input.inputActions.Count != 0)
-		{
-			if (character.Input.inputActions[0].action == InputConst.Jump)
-			{
-				movement.Jump();
-				character.SetState(jumpState);
-				character.Input.inputActions[0].timeValue = 0;
-			}
+			wallrunCount = 0;
 		}
 	}
 
@@ -151,7 +139,7 @@ public class CharacterStateIdle : CharacterState
 		if (movement.SpeedX > 0)
 		{
 			float t = timeAcceleration / timeDeccelerationMax;
-			movement.SpeedX = deccelerationCurve.Evaluate(t) * speedXMax;	
+			movement.SpeedX = deccelerationCurve.Evaluate(t) * speedXMax;
 		}
 
 

@@ -6,20 +6,7 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-    //[Title("CharacterController")]
-    //[SerializeField]
-    //protected SpriteRenderer spriteRenderer;
-    /*public SpriteRenderer SpriteRenderer
-    {
-        get { return spriteRenderer; }
-    }*/
 
-
-    //protected CharacterBase character;
-    /*public CharacterBase Character
-    {
-        get { return character; }
-    }*/
 
     [Title("Stats")]
     [SerializeField]
@@ -28,6 +15,30 @@ public class CharacterMovement : MonoBehaviour
     {
         get { return speed; }
         set { speed = value; }
+    }
+
+    [SerializeField]
+    private float maxSpeed;
+    public float MaxSpeed
+    {
+        get { return maxSpeed; }
+        set { maxSpeed = value; }
+    }
+
+    [SerializeField]
+    private float acceleration;
+    public float Acceleration
+    {
+        get { return acceleration; }
+        set { acceleration = value; }
+    }
+
+    [SerializeField]
+    private float Deceleration;
+    public float deceleration
+    {
+        get { return deceleration; }
+        set { deceleration = value; }
     }
 
 
@@ -58,6 +69,12 @@ public class CharacterMovement : MonoBehaviour
         set { speedY = value; }
     }
 
+
+    [SerializeField]
+    float jumpForce = 10f;
+
+    [SerializeField]
+    float gravity = 1f;
     /*protected float speedZ = 0;
     public float SpeedZ
         {
@@ -72,36 +89,34 @@ public class CharacterMovement : MonoBehaviour
         character = characterBase;
     }*/
 
-    /*public void ApplyGravity(float gravity, float gravityMax)
+
+
+
+    public float Accelerate()
     {
-        if (inAir == true)
+        if (speed < maxSpeed)
         {
-            speedZ -= ((gravity * Time.deltaTime) * character.MotionSpeed);
-            speedZ = Mathf.Max(speedZ, gravityMax);
-            spriteRenderer.transform.localPosition += new Vector3(0, (speedZ * Time.deltaTime) * character.MotionSpeed, 0);
-            if (spriteRenderer.transform.localPosition.y <= 0 && character.MotionSpeed != 0)
-            {
-                inAir = false;
-                speedZ = 0;
-                spriteRenderer.transform.localPosition = new Vector3(spriteRenderer.transform.localPosition.x, 0, spriteRenderer.transform.localPosition.z);
-                //OnGroundCollision();
-            }
+            speed += acceleration * Time.deltaTime;
         }
-    }*/
+        else
+        {
+            speed = maxSpeed;
+        }
 
-
-    public void Jump(float impulsion)
-    {
-        //speedZ = impulsion;
+        return speed;
     }
 
+    public void Decelerate()
+    {
+        speed -= deceleration * Time.deltaTime;
+    }
 
 
 
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(speed * multiplier * direction, 0);
+        SetSpeed(speed * multiplier * direction, 0) ;
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)
@@ -147,6 +162,20 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void Jump()
+    {
+        Jump(jumpForce);
+    }
+
+    public void Jump(float jumpForce)
+    {
+        speedY += jumpForce;
+    }
+    
+    public void Gravity()
+    {
+        SpeedY -= gravity;
+    }
 
     /*public void SetCharacterMotionSpeed(float newSpeed, float time = 0)
     {
