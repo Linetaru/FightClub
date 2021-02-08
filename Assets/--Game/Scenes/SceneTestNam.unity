@@ -392,59 +392,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 204469697}
+  jumpState: {fileID: 0}
+  turnAroundState: {fileID: 0}
   characterRigidbody: {fileID: 204469688}
   movement: {fileID: 204469696}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
-  speedXMin: 1
-  speedXMax: 8
+  speedMultiplierWalk: 0.2
   timeAccelerationMax: 1
-  timeDeccelerationMax: 0.4
-  accelerationCurve:
+  accelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  deccelerationCurve:
+  timeDeccelerationMax: 0.4
+  deccelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -564,7 +529,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maxSpeed: 0
+  acceleration: 0
+  deceleration: 0
+  jumpForce: 10
+  gravity: 1
+  gravityMax: 0
+  speed: 0
+  speedX: 0
+  speedY: 0
 --- !u!114 &204469697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,10 +551,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 204469689}
+  aerialState: {fileID: 0}
   characterRigidbody: {fileID: 204469688}
   movement: {fileID: 204469696}
+  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
+  wallrunSpeedMax: 10
+  wallJumpSpeedX: 5
 --- !u!1 &251335219
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &251335220
 Transform:
   m_ObjectHideFlags: 0
@@ -1488,6 +1465,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &534233943
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4777831737145663256, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_Name
+      value: InputController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+    - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 668931626}
+    - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"controllable.[0]","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 646.2445
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 442.18518
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 29.256287
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777831737145663259, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
 --- !u!1 &558791424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,13 +1648,13 @@ GameObject:
   - component: {fileID: 668931631}
   - component: {fileID: 668931630}
   - component: {fileID: 668931629}
-  - component: {fileID: 668931628}
   - component: {fileID: 668931627}
   - component: {fileID: 668931626}
   - component: {fileID: 668931625}
   - component: {fileID: 668931624}
   - component: {fileID: 668931623}
   - component: {fileID: 668931622}
+  - component: {fileID: 668931628}
   m_Layer: 10
   m_Name: PlayerLineSimple
   m_TagString: Untagged
@@ -1642,7 +1696,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maxSpeed: 50
+  acceleration: 30
+  deceleration: 40
+  jumpForce: 10
+  gravity: 1
+  gravityMax: -10
+  speed: 0
+  speedX: 0
+  speedY: 0
 --- !u!114 &668931624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,10 +1718,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 668931625}
+  aerialState: {fileID: 0}
   characterRigidbody: {fileID: 668931622}
   movement: {fileID: 668931623}
+  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
+  wallrunSpeedMax: 10
+  wallJumpSpeedX: 5
 --- !u!114 &668931625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1673,58 +1739,68 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 668931624}
+  jumpState: {fileID: 0}
+  turnAroundState: {fileID: 668931628}
   characterRigidbody: {fileID: 668931622}
   movement: {fileID: 668931623}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
-  speedXMin: 1
-  speedXMax: 15
-  timeAccelerationMax: 1
-  timeDeccelerationMax: 0.4
-  accelerationCurve:
+  speedMultiplierWalk: 0.2
+  timeAccelerationMax: 0.6
+  accelerationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      time: 0.0063705444
+      value: 0.810585
+      inSlope: 2.0275881
+      outSlope: 2.0275881
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.1
+      value: 1.000427
+      inSlope: 0.20062625
+      outSlope: 0.20062625
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.88447684
+      outWeight: 0.15437676
+    - serializedVersion: 3
+      time: 1.0075886
+      value: 0.07825937
+      inSlope: -1.0160635
+      outSlope: -1.0160635
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  deccelerationCurve:
+  timeDeccelerationMax: 0.5
+  deccelerationMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
+      time: -0.0000005904585
+      value: 1
+      inSlope: 0.078231074
+      outSlope: 0.078231074
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.0927724
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0.49219424
+      inSlope: -0.016948424
+      outSlope: -0.016948424
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.096373826
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1756,20 +1832,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &668931628
-CapsuleCollider:
+--- !u!114 &668931628
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668931621}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77567f9165a2e0442a331e053f79be64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleState: {fileID: 668931625}
+  characterRigidbody: {fileID: 668931622}
+  movement: {fileID: 668931623}
+  timeTurnAround: 0.1
 --- !u!23 &668931629
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2023,6 +2101,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700635283}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &827350181
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 9220151489204085889, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_Name
+      value: Rewired Input Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220151489204085903, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 51144605f111f0d46a9e2c500cc50968, type: 3}
 --- !u!1 &833432601
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,7 +2686,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maxSpeed: 0
+  acceleration: 0
+  deceleration: 0
+  jumpForce: 10
+  gravity: 1
+  gravityMax: 0
+  speed: 0
+  speedX: 0
+  speedY: 0
 --- !u!114 &952705656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2565,10 +2708,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 952705657}
+  aerialState: {fileID: 0}
   characterRigidbody: {fileID: 952705654}
   movement: {fileID: 952705655}
+  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
+  wallrunSpeedMax: 10
+  wallJumpSpeedX: 5
 --- !u!114 &952705657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2582,59 +2729,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 952705656}
+  jumpState: {fileID: 0}
+  turnAroundState: {fileID: 0}
   characterRigidbody: {fileID: 952705654}
   movement: {fileID: 952705655}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
-  speedXMin: 1
-  speedXMax: 15
+  speedMultiplierWalk: 0.2
   timeAccelerationMax: 1
-  timeDeccelerationMax: 0.4
-  accelerationCurve:
+  accelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  deccelerationCurve:
+  timeDeccelerationMax: 0.4
+  deccelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2757,7 +2869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1053466958
 Transform:
   m_ObjectHideFlags: 0
@@ -4262,7 +4374,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maxSpeed: 0
+  acceleration: 0
+  deceleration: 0
+  jumpForce: 10
+  gravity: 1
+  gravityMax: 0
+  speed: 0
+  speedX: 0
+  speedY: 0
 --- !u!114 &1974604348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4276,10 +4396,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 1974604349}
+  aerialState: {fileID: 0}
   characterRigidbody: {fileID: 1974604346}
   movement: {fileID: 1974604347}
+  movementJump: {fileID: 0}
   stickRunThreshold: 0.7
   deccelerationRate: 10
+  wallrunSpeedMax: 10
+  wallJumpSpeedX: 5
 --- !u!114 &1974604349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4293,59 +4417,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 1974604348}
+  jumpState: {fileID: 0}
+  turnAroundState: {fileID: 0}
   characterRigidbody: {fileID: 1974604346}
   movement: {fileID: 1974604347}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
-  speedXMin: 1
-  speedXMax: 15
+  speedMultiplierWalk: 0.2
   timeAccelerationMax: 1
-  timeDeccelerationMax: 0.4
-  accelerationCurve:
+  accelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  deccelerationCurve:
+  timeDeccelerationMax: 0.4
+  deccelerationMultiplierCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

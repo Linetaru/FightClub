@@ -10,19 +10,11 @@ public class CharacterMovement : MonoBehaviour
 
     [Title("Stats")]
     [SerializeField]
-    private float speed;
-    public float Speed
-    {
-        get { return speed; }
-        set { speed = value; }
-    }
-
-    [SerializeField]
     private float maxSpeed;
     public float MaxSpeed
     {
         get { return maxSpeed; }
-        set { maxSpeed = value; }
+        //set { maxSpeed = value; }
     }
 
     [SerializeField]
@@ -30,23 +22,41 @@ public class CharacterMovement : MonoBehaviour
     public float Acceleration
     {
         get { return acceleration; }
-        set { acceleration = value; }
+        //set { acceleration = value; }
     }
 
     [SerializeField]
-    private float Deceleration;
-    public float deceleration
+    private float deceleration;
+    public float Deceleration
     {
         get { return deceleration; }
-        set { deceleration = value; }
+        //set { deceleration = value; }
     }
 
 
-    /*protected bool inAir = false;
-    public bool InAir
+
+    [SerializeField]
+    private float jumpForce;
+    public float JumpForce
     {
-        get { return inAir; }
-    }*/
+        get { return jumpForce; }
+    }
+
+    [SerializeField]
+    private float gravity;
+    public float Gravity
+    {
+        get { return gravity; }
+    }
+
+    [SerializeField]
+    private float gravityMax;
+    public float GravityMax
+    {
+        get { return gravityMax; }
+    }
+
+
 
     protected int direction = 1;
     public int Direction
@@ -55,6 +65,17 @@ public class CharacterMovement : MonoBehaviour
         set { direction = value; }
     }
 
+    [SerializeField]
+    [ReadOnly]
+    protected float speed;
+    public float Speed
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
+
+    [SerializeField]
+    [ReadOnly]
     protected float speedX = 0;
     public float SpeedX
     {
@@ -62,6 +83,8 @@ public class CharacterMovement : MonoBehaviour
         set { speedX = value; }
     }
 
+    [SerializeField]
+    [ReadOnly]
     protected float speedY = 0;
     public float SpeedY
     {
@@ -70,53 +93,43 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    [SerializeField]
-    float jumpForce = 10f;
-
-    [SerializeField]
-    float gravity = 1f;
-    /*protected float speedZ = 0;
-    public float SpeedZ
-        {
-            get { return speedZ; }
-        }
-    */
-    //protected float actualSpeedX = 0;
-    //protected float actualSpeedY = 0;
-
-    /*public void InitializeComponent(CharacterBase characterBase)
-    {
-        character = characterBase;
-    }*/
-
 
 
 
     public float Accelerate()
     {
+        return Accelerate(1);
+    }
+    public float Accelerate(float multiplier)
+    {
         if (speed < maxSpeed)
         {
-            speed += acceleration * Time.deltaTime;
+            speed += (acceleration * multiplier) * Time.deltaTime;
         }
         else
         {
             speed = maxSpeed;
         }
-
         return speed;
     }
 
-    public void Decelerate()
-    {
-        speed -= deceleration * Time.deltaTime;
-    }
 
+    public float Decelerate()
+    {
+        return Decelerate(1);
+    }
+    public float Decelerate(float multiplier)
+    {
+        speed -= (deceleration * multiplier) * Time.deltaTime;
+        speed = Mathf.Max(0, speed); 
+        return speed;
+    }
 
 
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(speed * multiplier * direction, 0) ;
+        SetSpeed(maxSpeed * multiplier * direction, 0);
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)
@@ -128,10 +141,6 @@ public class CharacterMovement : MonoBehaviour
     public void SetDirection(int newDirection)
     {
         direction = newDirection;
-        /*if (direction == 1)
-            spriteRenderer.flipX = false;
-        else if (direction == -1)
-            spriteRenderer.flipX = true;*/
     }
 
     public void TurnBack()
@@ -162,6 +171,8 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+
+
     public void Jump()
     {
         Jump(jumpForce);
@@ -172,9 +183,15 @@ public class CharacterMovement : MonoBehaviour
         speedY = jumpForce;
     }
     
-    public void Gravity()
+    public void ApplyGravity()
     {
-        SpeedY -= gravity;
+        ApplyGravity(1);
+    }
+
+    public void ApplyGravity(float multiplier)
+    {
+        speedY -= ((gravity * multiplier) * Time.deltaTime);
+        speedY = Mathf.Max(speedY, gravityMax);
     }
 
     /*public void SetCharacterMotionSpeed(float newSpeed, float time = 0)
