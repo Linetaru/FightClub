@@ -25,10 +25,12 @@ public class Input_Info
 	public float vertical;
 
 	public List<InputBuffer> inputActions;
+	public Rewired.InputAction inputUiAction;
 
 	public Input_Info()
     {
 		inputActions = new List<InputBuffer>();
+		inputUiAction = null;
 
 		horizontal = 0;
 		vertical = 0;
@@ -82,10 +84,16 @@ public class InputController : SerializedMonoBehaviour
 			Input_Movement(i, InputConst.Vertical.name);
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
-			Input_Action(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Interact.name);
+			Input_ActionUI(i, InputConst.Return.name);
 
-			if(controllable[i] != null)
+			if (controllable[i] != null)
+			{
 				controllable[i].UpdateControl(i, playerInputs[i]);
+				if(playerInputs[i].inputUiAction != null)
+					playerInputs[i].inputUiAction = null;
+			}
 		}
 	}
 
@@ -116,6 +124,14 @@ public class InputController : SerializedMonoBehaviour
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;
+		}
+	}
+
+	void Input_ActionUI(int ID, string action)
+	{
+		if (players[ID].GetButtonDown(action))
+		{
+			playerInputs[ID].inputUiAction = ReInput.mapping.GetAction(action);
 		}
 	}
 }
