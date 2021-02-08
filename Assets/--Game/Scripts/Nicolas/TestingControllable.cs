@@ -22,11 +22,10 @@ public class TestingControllable : MonoBehaviour, IControllable
     {
 		if(ID == playerID && input_Info.inputActions.Count != 0)
         {
-			if(input_Info.inputActions[0].action == InputConst.Jump)
+			if(input_Info.inputActions[0].action == InputConst.Interact)
             {
 				input_Info.inputActions[0].timeValue = 0;
-				input_Info.inputActions[0].action = null;
-				Debug.Log("Hi mom !");
+				Debug.Log("test");
             }
 		}
     }
