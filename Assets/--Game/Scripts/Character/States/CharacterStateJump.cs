@@ -59,7 +59,7 @@ public class CharacterStateJump : CharacterState
 		else if(movement.SpeedY < 0)
 			character.SetState(idleState);
 
-		characterRigidbody.UpdateCollision(movement.SpeedX, movement.SpeedY);
+		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
 		GravityChange();
 	}
 
