@@ -15,6 +15,9 @@ public class CharacterStateAerial : CharacterState
 	CharacterMovement movement;
 
 	[SerializeField]
+	float minimalSpeedToWallRun = -2;
+
+	[SerializeField]
 	int numberOfAerialJump = 1;
 
 	[SerializeField]
@@ -72,7 +75,7 @@ public class CharacterStateAerial : CharacterState
 
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
 
-		if (characterRigidbody.CollisionWallInfo != null && movement.SpeedY >= 0 && Mathf.Abs(movement.SpeedX) > 5)
+		if (characterRigidbody.CollisionWallInfo != null && Mathf.Abs(movement.SpeedX) > 2)
 		{
 			character.SetState(wallRunState);
 			//wallrunCount = 0;

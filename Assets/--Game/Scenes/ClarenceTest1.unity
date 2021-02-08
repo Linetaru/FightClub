@@ -1102,7 +1102,15 @@ PrefabInstance:
       objectReference: {fileID: 1880115683}
     - target: {fileID: 1720246371450771879, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
       propertyPath: wallJumpSpeedX
-      value: 20
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1720246371450771879, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
+      propertyPath: wallrunSpeedMax
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1720246371450771879, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
+      propertyPath: wallLayer.m_Bits
+      value: 32768
       objectReference: {fileID: 0}
     - target: {fileID: 2477928647731977156, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
       propertyPath: jumpState
@@ -1112,6 +1120,10 @@ PrefabInstance:
       propertyPath: characterRigidbody
       value: 
       objectReference: {fileID: 758883824}
+    - target: {fileID: 2477928647731977156, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
+      propertyPath: speedXMax
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8689479755487349554, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2f94935fdaa145e499946f3d4af70910, type: 3}
@@ -3025,6 +3037,7 @@ MonoBehaviour:
   idleState: {fileID: 1880115680}
   wallRunState: {fileID: 1880115682}
   movement: {fileID: 1834275008}
+  minimalSpeedToWallRun: -2
   numberOfAerialJump: 1
   currentNumberOfAerialJump: 1
   jumpForce: 10
