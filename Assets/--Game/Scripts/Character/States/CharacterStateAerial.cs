@@ -10,13 +10,15 @@ public class CharacterStateAerial : CharacterState
 	[SerializeField]
 	CharacterState idleState;
 	[SerializeField]
+	CharacterState wallRunState;
+	[SerializeField]
 	CharacterMovement movement;
 
 	[SerializeField]
-	int numberOfJump = 1;
+	int numberOfAerialJump = 1;
 
 	[SerializeField]
-	[ReadOnly] int currentNumberOfJump = 1;
+	[ReadOnly] int currentNumberOfAerialJump = 1;
 
 	[SerializeField]
 	float jumpForce = 10f;
@@ -27,7 +29,7 @@ public class CharacterStateAerial : CharacterState
 	// Start is called before the first frame update
 	void Start()
 	{
-		currentNumberOfJump = numberOfJump;
+		currentNumberOfAerialJump = numberOfAerialJump;
 	}
 
 	// Update is called once per frame
@@ -38,41 +40,52 @@ public class CharacterStateAerial : CharacterState
 
 	public override void StartState(CharacterBase character)
 	{
+		Debug.Log("AerialState");
 		//if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
 		//{
 		//	currentNumberOfJump = numberOfJump;
 		//}
 
-		if (currentNumberOfJump > 0)
-		{
-			currentNumberOfJump--;
-			movement.SpeedY = jumpForce;
-		}
+		//if (currentNumberOfJump > 0)
+		//{
+		//	currentNumberOfJump--;
+		//	movement.SpeedY = jumpForce;
+		//}
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		if (character.Input.inputActions.Count != 0 && !characterRigidbody.IsGrounded && currentNumberOfJump > 0 && movement.SpeedY < 0)
+		if (character.Input.inputActions.Count != 0 && !characterRigidbody.IsGrounded && currentNumberOfAerialJump > 0 && movement.SpeedY < 0)
 		{
 			if (character.Input.inputActions[0].action == InputConst.Jump)
 			{
-				currentNumberOfJump--;
-				movement.SpeedY = jumpForce;
+				currentNumberOfAerialJump--;
+				movement.Jump(jumpForce);
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
 		else if (movement.SpeedY < (jumpForce / 2) && characterRigidbody.IsGrounded)
+		{
 			character.SetState(idleState);
+			return;
+		}
 
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
-		GravityChange();
+
+		if (characterRigidbody.CollisionWallInfo != null && movement.SpeedY >= 0 && Mathf.Abs(movement.SpeedX) > 5)
+		{
+			character.SetState(wallRunState);
+			//wallrunCount = 0;
+			return;
+		}
+			GravityChange();
 	}
 
 	public override void EndState(CharacterBase character)
 	{
-		if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
+		if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
 		{
-			currentNumberOfJump = numberOfJump;
+			currentNumberOfAerialJump = numberOfAerialJump;
 		}
 	}
 

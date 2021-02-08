@@ -41,6 +41,7 @@ public class CharacterStateIdle : CharacterState
 
 	public bool canWallRun = true;
 
+	//int wallrunCount = 1;
 
 	//int direction;
 
@@ -58,6 +59,11 @@ public class CharacterStateIdle : CharacterState
 
 	public override void StartState(CharacterBase character)
 	{
+		Debug.Log("IdleState");
+		//if (wallrunCount < 1 && characterRigidbody.IsGrounded)
+		//{
+		//	wallrunCount = 1;
+		//}
 
 	}
 
@@ -96,15 +102,18 @@ public class CharacterStateIdle : CharacterState
 		//characterRigidbody.UpdateCollision(10, -10);
 		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 
-		//if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
-		//{
-		//	character.SetState(wallRunState);
-		//}
+		
 
-		if (character.Input.inputActions.Count != 0)
+		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true/*wallrunCount == 1 &&*/ )
+		{
+			character.SetState(wallRunState);
+			//wallrunCount = 0;
+		}
+		else if (character.Input.inputActions.Count != 0)
 		{
 			if (character.Input.inputActions[0].action == InputConst.Jump)
 			{
+				movement.Jump();
 				character.SetState(jumpState);
 				character.Input.inputActions[0].timeValue = 0;
 			}

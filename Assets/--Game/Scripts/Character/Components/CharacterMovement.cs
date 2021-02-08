@@ -69,6 +69,12 @@ public class CharacterMovement : MonoBehaviour
         set { speedY = value; }
     }
 
+
+    [SerializeField]
+    float jumpForce = 10f;
+
+    [SerializeField]
+    float gravity = 1f;
     /*protected float speedZ = 0;
     public float SpeedZ
         {
@@ -156,6 +162,20 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void Jump()
+    {
+        Jump(jumpForce);
+    }
+
+    public void Jump(float jumpForce)
+    {
+        speedY += jumpForce;
+    }
+    
+    public void Gravity()
+    {
+        SpeedY -= gravity;
+    }
 
     /*public void SetCharacterMotionSpeed(float newSpeed, float time = 0)
     {

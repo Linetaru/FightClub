@@ -7,6 +7,8 @@ public class CharacterStateWallRun : CharacterState
 
     [SerializeField]
     CharacterState idleState;
+    [SerializeField]
+    CharacterState aerialState;
 
     [SerializeField]
     CharacterRigidbody characterRigidbody;
@@ -23,6 +25,9 @@ public class CharacterStateWallRun : CharacterState
     float wallrunSpeed = 10.0f;
     [SerializeField]
     float wallrunSpeedMax = 10.0f;
+
+    [SerializeField]
+    float wallJumpSpeedX = 5.0f;
 
 
 
@@ -41,22 +46,43 @@ public class CharacterStateWallRun : CharacterState
 
     public override void StartState(CharacterBase character)
     {
-        Debug.Log("Allo");
+        Debug.Log("Wallrun");
+        Debug.Log(wallrunSpeed);
+
+        wallrunSpeed = wallrunSpeedMax;
+        if (Mathf.Abs(movement.SpeedX) > 5)
+        {
+
+            movement.SetSpeed(0f, wallrunSpeed);
+        }
+        else
+        {
+            character.SetState(aerialState);
+        }
     }
 
     public override void UpdateState(CharacterBase character)
     {
-
-        movement.SetSpeed(0f, wallrunSpeed);
-
-        if (movement.SpeedY > 0)
+        if (movement.SpeedY > 0 || characterRigidbody.CollisionWallInfo != null)
         {
             wallrunSpeed -= deccelerationRate * Time.deltaTime;
+            movement.SpeedY = wallrunSpeed;
+
+            if (character.Input.inputActions.Count != 0)
+            {
+                if (character.Input.inputActions[0].action == InputConst.Jump)
+                {
+                    movement.SpeedX = wallJumpSpeedX;
+                    movement.Direction = movement.Direction * -1;
+                    movement.Jump();
+                    character.SetState(aerialState);
+                    character.Input.inputActions[0].timeValue = 0;
+                }
+            }
         }
         else
         {
-            character.SetState(idleState);
-            wallrunSpeed = wallrunSpeedMax;
+            character.SetState(aerialState);
         }
 
         characterRigidbody.UpdateCollision(movement.SpeedX, movement.SpeedY);
