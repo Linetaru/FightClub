@@ -13,6 +13,8 @@ public class AttackManager : MonoBehaviour
     [SerializeField]
     private List<AttackComponent> atkCompList;
 
+    private List<string> playerHitList = new List<string>();
+
     public void Start()
     {
         ActionActive();
@@ -30,12 +32,24 @@ public class AttackManager : MonoBehaviour
         hitBox.enabled = false;
     }
 
+    public void EndAction()
+    {
+        Destroy(this.gameObject);
+    }
+
     public void Hit(CharacterKnockback target)
     {
-        foreach(AttackComponent atkC in atkCompList)
+        string targetTag = target.transform.root.tag;
+
+        if(!playerHitList.Contains(targetTag))
         {
-            atkC.OnHit(target);
+            foreach (AttackComponent atkC in atkCompList)
+            {
+                atkC.OnHit(target);
+            }
         }
+
+        playerHitList.Add(targetTag);
     }
 
 }
