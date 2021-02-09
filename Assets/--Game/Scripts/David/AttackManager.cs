@@ -30,11 +30,11 @@ public class AttackManager : MonoBehaviour
         hitBox.enabled = false;
     }
 
-    public void Hit()
+    public void Hit(CharacterKnockback target)
     {
         foreach(AttackComponent atkC in atkCompList)
         {
-            atkC.OnHit();
+            atkC.OnHit(target);
         }
     }
 

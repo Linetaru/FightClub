@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackCompTest : AttackComponent
+public class AttackCompTest2 : AttackComponent
 {
     void Start()
     {
@@ -16,6 +16,6 @@ public class AttackCompTest : AttackComponent
 
     public override void OnHit(CharacterKnockback target)
     {
-        Debug.Log("Aie !");
+        Debug.Log("Aie 2 !");
     }
 }

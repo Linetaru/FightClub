@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class AttackComponent : MonoBehaviour
 {
-    public abstract void OnHit();
+    public abstract void OnHit(CharacterKnockback target);
 }
