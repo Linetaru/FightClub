@@ -40,7 +40,7 @@ public class CharacterAction : MonoBehaviour
     {
         if (currentAttackManager != null)
         {
-            // currentAttackManager.ActionActive();
+            currentAttackManager.ActionActive();
         }
     }
 
@@ -89,8 +89,8 @@ public class CharacterAction : MonoBehaviour
 
     public void CancelAction()
     {
-        /* if (currentAttackManager != null)
-             currentAttackManager.CancelAction();*/
+        if (currentAttackManager != null)
+             currentAttackManager.CancelAction();
         currentAttackManager = null;
 
         canMoveCancel = false;
