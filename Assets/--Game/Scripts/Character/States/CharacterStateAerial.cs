@@ -28,7 +28,13 @@ public class CharacterStateAerial : CharacterState
     float jumpForce = 10f;
 
     [SerializeField]
+    float airControl = 1f;
+    [SerializeField]
+    float airFriction = 0.9f;
+    [SerializeField]
     float maxAerialSpeed = 10f;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,20 +98,23 @@ public class CharacterStateAerial : CharacterState
         float axisX = character.Input.horizontal;
 
         float aerialDirection;
+
         if (movement.Direction > 0)
             aerialDirection = axisX;
         else
             aerialDirection = -axisX;
-            //movement.Direction = (int)Mathf.Sign(axisX);
-            // Walk vitesse constante
-            if (movement.SpeedX < maxAerialSpeed)
-            {
-                movement.SpeedX += (movement.Acceleration * aerialDirection) * Time.deltaTime;
-            }
-            else
-            {
-                movement.SpeedX = maxAerialSpeed;
-            }
+
+        movement.SpeedX = ((movement.SpeedX * airFriction) + (airControl * aerialDirection));
+        //    //movement.Direction = (int)Mathf.Sign(axisX);
+        //    // Walk vitesse constante
+        //    if (movement.SpeedX < maxAerialSpeed)
+        //    {
+        //        movement.SpeedX += (movement.Acceleration * aerialDirection) * Time.deltaTime;
+        //    }
+        //    else
+        //    {
+        //        movement.SpeedX = maxAerialSpeed;
+        //    }
 
         
         //if (movement.SpeedX > (movement.MaxSpeed))
