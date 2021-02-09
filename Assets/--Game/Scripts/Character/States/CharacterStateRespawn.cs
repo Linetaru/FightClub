@@ -16,7 +16,7 @@ public class CharacterStateRespawn : CharacterState
 		
 	}
 
-	public override void StartState(CharacterBase character)
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 
 	}
@@ -26,7 +26,7 @@ public class CharacterStateRespawn : CharacterState
 
 	}
 
-	public override void EndState(CharacterBase character)
+	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
 
 	}

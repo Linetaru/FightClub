@@ -13,11 +13,6 @@ public class CharacterStateIdle : CharacterState
 	[SerializeField]
 	CharacterState turnAroundState;
 
-	[Title("Components")]
-	[SerializeField]
-	CharacterRigidbody characterRigidbody;
-	[SerializeField]
-	CharacterMovement movement;
 
 	[Title("Parameter - Controls")]
 	[SerializeField]
@@ -62,9 +57,9 @@ public class CharacterStateIdle : CharacterState
 	float speedImpulsion = 0f;
 
 
-	public override void StartState(CharacterBase character)
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		Debug.Log("IdleState");
+		//Debug.Log("IdleState");
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -85,9 +80,9 @@ public class CharacterStateIdle : CharacterState
 				return;
 			}
 
-			movement.Direction = (int)Mathf.Sign(axisX);
+			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			inputDirection = (int)Mathf.Sign(axisX);
-			Accelerate();
+			Accelerate(character);
 		}
 		else if (Mathf.Abs(axisX) > stickWalkThreshold)			// W A L K
 		{
@@ -102,31 +97,34 @@ public class CharacterStateIdle : CharacterState
 				return;
 			}
 
-			movement.Direction = (int)Mathf.Sign(axisX);
+			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (movement.SpeedX < (movement.MaxSpeed * speedMultiplierWalk))
+			if (character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
 			{
-				movement.SpeedX = (movement.MaxSpeed * speedMultiplierWalk);
+				character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
 			}
 			else
 			{
 				// Decceleration
-				Deccelerate();
+				Deccelerate(character);
 			}
 		}
 		else													// R I E N
 		{
-			if(movement.SpeedX < (movement.MaxSpeed * speedMultiplierWalk))
+			if(character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
 				inputDirection = 0;
 			// Decceleration
-			Deccelerate();
+			Deccelerate(character);
 		}
-
-		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
-
 		
 
-		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
+
+	}
+
+
+	public override void LateUpdateState(CharacterBase character)
+	{
+		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true)
 		{
 			character.SetState(wallRunState);
 		}
@@ -134,43 +132,43 @@ public class CharacterStateIdle : CharacterState
 		{
 			if (character.Input.inputActions[0].action == InputConst.Jump)
 			{
-				movement.Jump();
+				character.Movement.Jump();
 				character.SetState(jumpState);
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
 	}
 
-
-
-	private void Accelerate()
+	private void Accelerate(CharacterBase character)
 	{
 		timeDecceleration = 0;
 
-		if (timeAcceleration == 0)
-			movement.SpeedX = (movement.MaxSpeed * speedMultiplierWalk);
+		if (timeAcceleration == 0 && (character.Movement.MaxSpeed * speedMultiplierWalk) >= character.Movement.SpeedX)
+			character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
 
 		if (timeAcceleration < timeAccelerationMax)
 			timeAcceleration += Time.deltaTime;
 
-		movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
+		character.Movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
 		/*speed += (movement.MaxSpeed * speedMultiplierWalk);
 		movement.SpeedX = speed;*/
 	}
 
 
 
-	private void Deccelerate()
+	private void Deccelerate(CharacterBase character)
 	{
 		timeAcceleration = 0;
 		if (timeDecceleration < timeDeccelerationMax)
 			timeDecceleration += Time.deltaTime;
-		movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
+		character.Movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
 	}
 
 
-	public override void EndState(CharacterBase character)
+	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
-
+		inputDirection = 0;
+		timeDecceleration = 0;
+		timeAcceleration = 0;
 	}
 }

@@ -332,6 +332,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &168781247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2298775848115167662, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+  m_PrefabInstance: {fileID: 2298775848283112465}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &204469687
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,8 +405,6 @@ MonoBehaviour:
   wallRunState: {fileID: 204469697}
   jumpState: {fileID: 0}
   turnAroundState: {fileID: 0}
-  characterRigidbody: {fileID: 204469688}
-  movement: {fileID: 204469696}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
@@ -427,6 +436,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 204469689}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &204469691
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -551,8 +563,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 204469689}
   aerialState: {fileID: 0}
-  characterRigidbody: {fileID: 204469688}
-  movement: {fileID: 204469696}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -586,7 +596,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251335219}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1272846947}
@@ -1722,8 +1732,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 668931625}
   aerialState: {fileID: 668931632}
-  characterRigidbody: {fileID: 668931622}
-  movement: {fileID: 668931623}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -1748,8 +1756,6 @@ MonoBehaviour:
   wallRunState: {fileID: 668931624}
   jumpState: {fileID: 668931632}
   turnAroundState: {fileID: 668931628}
-  characterRigidbody: {fileID: 668931622}
-  movement: {fileID: 668931623}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.1
@@ -1826,6 +1832,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 668931625}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &668931627
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1852,8 +1861,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleState: {fileID: 668931625}
-  characterRigidbody: {fileID: 668931622}
-  movement: {fileID: 668931623}
   timeTurnAround: 0.1
 --- !u!23 &668931629
 MeshRenderer:
@@ -1930,14 +1937,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e113125c73a6645afca710f7c2209f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRigidbody: {fileID: 668931622}
   idleState: {fileID: 668931625}
   wallRunState: {fileID: 668931624}
-  movement: {fileID: 668931623}
   minimalSpeedToWallRun: -2
   numberOfAerialJump: 1
   currentNumberOfAerialJump: 1
   jumpForce: 10
+  airControl: 1
+  airFriction: 0.9
+  maxAerialSpeed: 10
 --- !u!1 &676602494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2735,8 +2743,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 952705657}
   aerialState: {fileID: 0}
-  characterRigidbody: {fileID: 952705654}
-  movement: {fileID: 952705655}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -2761,8 +2767,6 @@ MonoBehaviour:
   wallRunState: {fileID: 952705656}
   jumpState: {fileID: 0}
   turnAroundState: {fileID: 0}
-  characterRigidbody: {fileID: 952705654}
-  movement: {fileID: 952705655}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
@@ -2794,6 +2798,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 952705657}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &952705659
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2899,7 +2906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1053466958
 Transform:
   m_ObjectHideFlags: 0
@@ -3513,7 +3520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1481004540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3779,6 +3786,17 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+--- !u!114 &1567912077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2298775846726268060, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+  m_PrefabInstance: {fileID: 2298775848283112465}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8050b9901876894fa91874caafc4dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1567912080 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2298775846726268033, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
@@ -4437,8 +4455,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 1974604349}
   aerialState: {fileID: 0}
-  characterRigidbody: {fileID: 1974604346}
-  movement: {fileID: 1974604347}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -4463,8 +4479,6 @@ MonoBehaviour:
   wallRunState: {fileID: 1974604348}
   jumpState: {fileID: 0}
   turnAroundState: {fileID: 0}
-  characterRigidbody: {fileID: 1974604346}
-  movement: {fileID: 1974604347}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
@@ -4496,6 +4510,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 1974604349}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &1974604351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4740,6 +4757,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2298775846726268033, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+      propertyPath: rigidbody
+      value: 
+      objectReference: {fileID: 1567912077}
+    - target: {fileID: 2298775846726268033, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 168781247}
     - target: {fileID: 2298775846726268061, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_Name
       value: Michelle
@@ -4754,7 +4779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2298775846726268062, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2298775846726268062, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4787,6 +4812,14 @@ PrefabInstance:
     - target: {fileID: 2298775846726268062, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298775848115167662, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+      propertyPath: gravity
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2298775848288283990, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+      propertyPath: airFriction
+      value: 0.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
