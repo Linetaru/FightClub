@@ -26,9 +26,6 @@ public class CharacterStateAerial : CharacterState
 	[SerializeField]
 	float jumpForce = 10f;
 
-	[SerializeField]
-	float gravity = 1f;
-
 	// Start is called before the first frame update
 	void Start()
 	{
