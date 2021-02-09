@@ -39,6 +39,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     private float actualSpeedX = 0;
     private float actualSpeedY = 0;
 
+    private bool climbingSlope = false;
+
 
     Vector2 bottomLeft;
     Vector2 upperLeft;
@@ -90,6 +92,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         collisionWallInfo = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
+        climbingSlope = false;
 
         actualSpeedX = speedX;
         actualSpeedY = speedY;
@@ -103,9 +106,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             float slopeAngle = CheckSlope();
             if (slopeAngle <= maxSlopeAngle) // On climb
             {
+                climbingSlope = true;
                 float newSlopeAngle = slopeAngle;
                 float speedYSaved = actualSpeedY;
-                do // C'est pour géré des pentes successives
+                do // C'est pour géré des pentes successives qu'on fait une boucle
                 {
                     slopeAngle = newSlopeAngle;
                     UpdatePositionY();
@@ -189,7 +193,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             {
                 float distance = raycastX.distance - offsetRaycastX;
                 actualSpeedX = distance * directionX;
-                //collisionWallInfo = raycastX.collider.transform;
+                if(!(climbingSlope == true && i == 0))
+                    collisionWallInfo = raycastX.collider.transform;
             }
             originRaycast += originOffset;
         }
@@ -217,11 +222,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
                 if(directionY == -1)
                 {
+                    isGrounded = true;
                     collisionGroundInfo = raycastY.collider.transform;
                 }
                 else
                 {
-                    Debug.Log("Woof");
                     collisionRoofInfo = raycastY.collider.transform;
                 }
             }
@@ -229,11 +234,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             originRaycast += originOffset;
         }
 
-        if (directionY == -1)
-        {
-            isGrounded = true;
-        }
-        else
+        if (directionY == 1)
         {
             isGrounded = false;
         }
