@@ -69,7 +69,7 @@ public class CharacterStateIdle : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		float axisX = Input.GetAxis("Horizontal");
+		float axisX = character.Input.horizontal;
 
 		// Controls
 		if (Mathf.Abs(axisX) > stickRunThreshold)				// R U N
