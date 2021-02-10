@@ -10,7 +10,7 @@ public class CharacterAction : MonoBehaviour
     protected bool canEndAction = false;
 
 
-    protected AttackController currentAttackController;
+    protected AttackManager currentAttackManager;
 
 
     public bool CanAct()
@@ -18,7 +18,7 @@ public class CharacterAction : MonoBehaviour
         return true;
     }
 
-    public void Action(AttackController attack)
+    public void Action(AttackManager attack)
     {
         endAction = false;
         canEndAction = false;
@@ -26,21 +26,21 @@ public class CharacterAction : MonoBehaviour
 
         // Animation de l'attaque
         //animator.ResetTrigger("Idle");
-        //animator.Play(currentAttackController.AttackAnimation.name, 0, 0f);
+        //animator.Play(currentAttackManager.AttackAnimation.name, 0, 0f);
 
         // On créer l'attaque et ça setup différent paramètres
-       /* if (currentAttackController != null)
-            currentAttackController.CancelAction();*/
-        currentAttackController = Instantiate(attack, this.transform.position, Quaternion.identity);
-        //currentAttackController.CreateAttack(attack, character);
+        /* if (currentAttackManager != null)
+             currentAttackManager.CancelAction();*/
+        currentAttackManager = Instantiate(attack, this.transform.position, Quaternion.identity);
+        //currentAttackManager.CreateAttack(attack, character);
     }
 
     // Appelé par les anims, active l'attaque
     public void ActionActive()
     {
-        if (currentAttackController != null)
+        if (currentAttackManager != null)
         {
-           // currentAttackController.ActionActive();
+            currentAttackManager.ActionActive();
         }
     }
 
@@ -48,9 +48,9 @@ public class CharacterAction : MonoBehaviour
     // Créer une subaction de l'attaque (Si l'attaque n'a pas de subaction, ne fais rien)
     public void SubAction(int nb)
     {
-        if (currentAttackController != null)
+        if (currentAttackManager != null)
         {
-            //currentAttackController.SubAction(nb);
+            //currentAttackManager.SubAction(nb);
         }
     }
 
@@ -89,9 +89,9 @@ public class CharacterAction : MonoBehaviour
 
     public void CancelAction()
     {
-       /* if (currentAttackController != null)
-            currentAttackController.CancelAction();*/
-        currentAttackController = null;
+        if (currentAttackManager != null)
+             currentAttackManager.CancelAction();
+        currentAttackManager = null;
 
         canMoveCancel = false;
         canEndAction = false;
