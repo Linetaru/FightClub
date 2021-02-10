@@ -15,7 +15,9 @@ public class CharacterStateKnockback : CharacterState
     CharacterMovement movement;
 
     [SerializeField]
-    float minimalKnockBackSpeed = 2.0f;
+    float minimalKnockBackSpeed = 4.0f;
+    [SerializeField]
+    float collisionFriction = 0.8f;
 
     [SerializeField]
     float knockbackDuration = 0;
@@ -34,29 +36,42 @@ public class CharacterStateKnockback : CharacterState
 
     }
 
-    public override void StartState(CharacterBase character)
+    public override void StartState(CharacterBase character, CharacterState oldState)
     {
-
+        projectionAngle = new Vector2(movement.SpeedX, movement.SpeedY);
     }
 
     public override void UpdateState(CharacterBase character)
     {
-        if (Mathf.Abs(movement.SpeedX) < minimalKnockBackSpeed && Mathf.Abs(movement.SpeedY) < minimalKnockBackSpeed)
+        if (Mathf.Abs(projectionAngle.magnitude) < minimalKnockBackSpeed)
         {
             if (characterRigidbody.IsGrounded)
             {
                 character.SetState(idleState);
-                knockbackDuration = 0f;
+                //knockbackDuration = 0f;
             }
             else
             {
                 character.SetState(aerialState);
-                knockbackDuration = 0f;
+                //knockbackDuration = 0f;
             }
         }
     }
 
-    public override void EndState(CharacterBase character)
+    public override void LateUpdateState(CharacterBase character)
+    {
+        if (characterRigidbody.CollisionGroundInfo != null || characterRigidbody.CollisionRoofInfo != null)
+        {
+            movement.SpeedY = -(movement.SpeedY * collisionFriction);
+        }
+
+        if (character.Rigidbody.CollisionGroundInfo != null)
+        {
+            movement.SpeedX = -(movement.SpeedX * collisionFriction);
+        }
+    }
+
+    public override void EndState(CharacterBase character, CharacterState oldState)
     {
 
     }
