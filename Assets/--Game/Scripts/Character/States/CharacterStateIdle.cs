@@ -116,7 +116,7 @@ public class CharacterStateIdle : CharacterState
 			// Decceleration
 			Deccelerate(character);
 		}
-		
+		character.Movement.ApplyGravity();
 
 
 	}
