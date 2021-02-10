@@ -4,30 +4,60 @@ using UnityEngine;
 
 public class CharacterStateKnockback : CharacterState
 {
-	// Start is called before the first frame update
-	void Start()
-	{
-		
-	}
+    [SerializeField]
+    CharacterState idleState;
+    [SerializeField]
+    CharacterState aerialState;
 
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
+    [SerializeField]
+    CharacterRigidbody characterRigidbody;
+    [SerializeField]
+    CharacterMovement movement;
 
-	public override void StartState(CharacterBase character)
-	{
+    [SerializeField]
+    float minimalKnockBackSpeed = 2.0f;
 
-	}
+    [SerializeField]
+    float knockbackDuration = 0;
 
-	public override void UpdateState(CharacterBase character)
-	{
+    Vector2 projectionAngle = new Vector2(0f, 0f);
 
-	}
+    // Start is called before the first frame update
+    void Start()
+    {
 
-	public override void EndState(CharacterBase character)
-	{
+    }
 
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public override void StartState(CharacterBase character)
+    {
+
+    }
+
+    public override void UpdateState(CharacterBase character)
+    {
+        if (Mathf.Abs(movement.SpeedX) < minimalKnockBackSpeed && Mathf.Abs(movement.SpeedY) < minimalKnockBackSpeed)
+        {
+            if (characterRigidbody.IsGrounded)
+            {
+                character.SetState(idleState);
+                knockbackDuration = 0f;
+            }
+            else
+            {
+                character.SetState(aerialState);
+                knockbackDuration = 0f;
+            }
+        }
+    }
+
+    public override void EndState(CharacterBase character)
+    {
+
+    }
 }

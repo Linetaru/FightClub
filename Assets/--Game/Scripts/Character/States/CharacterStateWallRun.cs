@@ -31,8 +31,6 @@ public class CharacterStateWallRun : CharacterState
 
     float horizontalDeadZone = .1f;
 
-
-    [SerializeField]
     bool wallCollision = false;
     
     [SerializeField]
