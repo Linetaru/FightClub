@@ -301,8 +301,6 @@ MonoBehaviour:
   wallRunState: {fileID: 566260349}
   jumpState: {fileID: 566260348}
   turnAroundState: {fileID: 0}
-  characterRigidbody: {fileID: 2069478533}
-  movement: {fileID: 1897853411}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
@@ -333,14 +331,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e113125c73a6645afca710f7c2209f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRigidbody: {fileID: 2069478533}
   idleState: {fileID: 566260347}
   wallRunState: {fileID: 0}
-  movement: {fileID: 1897853411}
   minimalSpeedToWallRun: -2
   numberOfAerialJump: 1
   currentNumberOfAerialJump: 1
   jumpForce: 16
+  airControl: 1
+  airFriction: 0.9
+  maxAerialSpeed: 10
 --- !u!114 &566260349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,8 +354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 566260347}
   aerialState: {fileID: 0}
-  characterRigidbody: {fileID: 2069478533}
-  movement: {fileID: 1897853411}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -647,14 +644,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e113125c73a6645afca710f7c2209f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRigidbody: {fileID: 641239294}
   idleState: {fileID: 2477928646406138221}
   wallRunState: {fileID: 0}
-  movement: {fileID: 5738626774182078291}
   minimalSpeedToWallRun: -2
   numberOfAerialJump: 1
   currentNumberOfAerialJump: 1
   jumpForce: 16
+  airControl: 1
+  airFriction: 0.9
+  maxAerialSpeed: 10
 --- !u!1 &1479361266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1350,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 566260347}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &2069478535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1479,6 +1480,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 2477928646406138221}
+  rigidbody: {fileID: 0}
+  movement: {fileID: 0}
+  action: {fileID: 0}
 --- !u!65 &16060635305592697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1585,8 +1589,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 2477928646406138221}
   aerialState: {fileID: 0}
-  characterRigidbody: {fileID: 641239294}
-  movement: {fileID: 5738626774182078291}
   stickRunThreshold: 0.7
   deccelerationRate: 10
   wallrunSpeedMax: 10
@@ -1611,8 +1613,6 @@ MonoBehaviour:
   wallRunState: {fileID: 1720246370660723470}
   jumpState: {fileID: 1360622252}
   turnAroundState: {fileID: 0}
-  characterRigidbody: {fileID: 641239294}
-  movement: {fileID: 5738626774182078291}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
@@ -1631,6 +1631,63 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   canWallRun: 1
+--- !u!1001 &3419967499511740582
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3419967500365344704, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_Name
+      value: ParticuleSystem_Hit_Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.8057137
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.2595577
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.2714634
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419967500365344705, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
 --- !u!65 &4173316830508973632
 BoxCollider:
   m_ObjectHideFlags: 0
