@@ -9,8 +9,21 @@ public class CharacterAction : MonoBehaviour
     protected bool endAction = false;
     protected bool canEndAction = false;
 
-
+    protected CharacterBase character;
     protected AttackManager currentAttackManager;
+
+    [SerializeField]
+    Animator animator;
+
+    [SerializeField]
+    CharacterState stateAction;
+    [SerializeField]
+    CharacterState stateIdle;
+
+    public void InitializeComponent(CharacterBase c)
+    {
+        character = c;
+    }
 
 
     public bool CanAct()
@@ -26,13 +39,15 @@ public class CharacterAction : MonoBehaviour
 
         // Animation de l'attaque
         //animator.ResetTrigger("Idle");
-        //animator.Play(currentAttackManager.AttackAnimation.name, 0, 0f);
+        animator.Play(attack.AttackAnim.name, 0, 0f);
 
         // On créer l'attaque et ça setup différent paramètres
         /* if (currentAttackManager != null)
              currentAttackManager.CancelAction();*/
         currentAttackManager = Instantiate(attack, this.transform.position, Quaternion.identity);
-        //currentAttackManager.CreateAttack(attack, character);
+        currentAttackManager.CreateAttack(character);
+
+        character.SetState(stateAction);
     }
 
     // Appelé par les anims, active l'attaque
@@ -41,6 +56,14 @@ public class CharacterAction : MonoBehaviour
         if (currentAttackManager != null)
         {
             currentAttackManager.ActionActive();
+        }
+    }
+
+    public void ActionUnactive()
+    {
+        if (currentAttackManager != null)
+        {
+            currentAttackManager.ActionUnactive();
         }
     }
 
@@ -98,6 +121,12 @@ public class CharacterAction : MonoBehaviour
         endAction = false;
 
         /*animator.SetTrigger("Idle");*/
+        character.SetState(stateIdle);
+    }
+
+    public void SetAttackMotionSpeed(float newValue)
+    {
+        animator.speed = newValue;
     }
 
 }

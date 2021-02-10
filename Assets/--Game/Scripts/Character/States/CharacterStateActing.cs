@@ -23,7 +23,15 @@ public class CharacterStateActing : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
+		character.Action.CanEndAction();
+		// Mettre les inputs en dessous
 
+
+	}
+
+	public override void LateUpdateState(CharacterBase character)
+	{
+		character.Action.EndActionState();
 	}
 
 	public override void EndState(CharacterBase character, CharacterState oldState)

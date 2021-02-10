@@ -40,13 +40,26 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
 	public event ActionSetState OnStateChanged;
+	public delegate void ActionFloat(float value);
+	public event ActionFloat OnMotionSpeed;
 
+	[Title("Parameter")]
+	[SerializeField]
+	[ReadOnly]
+	private float motionSpeed = 1;
+	public float MotionSpeed
+	{
+		get { return motionSpeed; }
+	}
+	private IEnumerator motionSpeedCoroutine;
 
 
 	// Start is called before the first frame update
 	void Start()
 	{
 		Application.targetFrameRate = 60;
+		movement.MotionSpeed = MotionSpeed;
+		action.InitializeComponent(this);
 	}
 
 
@@ -71,7 +84,35 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		input = input_Info;
 		currentState.UpdateState(this);
-		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
+		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
 	}
+
+
+
+	public void SetMotionSpeed(float newValue, float time)
+	{
+		motionSpeed = newValue;
+		Movement.MotionSpeed = MotionSpeed;
+		Action.SetAttackMotionSpeed(MotionSpeed);
+
+		if (motionSpeedCoroutine != null)
+			StopCoroutine(motionSpeedCoroutine);
+		motionSpeedCoroutine = MotionSpeedCoroutine(time);
+		StartCoroutine(motionSpeedCoroutine);
+	}
+
+	private IEnumerator MotionSpeedCoroutine(float time)
+	{
+		while (time > 0)
+		{
+			time -= Time.deltaTime;
+			yield return null;
+		}
+		motionSpeed = 1;
+		Movement.MotionSpeed = MotionSpeed;
+		Action.SetAttackMotionSpeed(MotionSpeed);
+	}
+
 }
+

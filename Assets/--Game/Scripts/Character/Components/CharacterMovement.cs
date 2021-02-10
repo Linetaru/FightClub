@@ -84,7 +84,12 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-
+    protected float motionSpeed = 1;
+    public float MotionSpeed
+    {
+        get { return motionSpeed; }
+        set { motionSpeed = value; }
+    }
 
 
     public void Accelerate()
@@ -95,7 +100,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (speedX < maxSpeed)
         {
-            speedX += (acceleration * multiplier) * Time.deltaTime;
+            speedX += ((acceleration * multiplier) * motionSpeed) * Time.deltaTime;
         }
         else
         {
@@ -110,7 +115,7 @@ public class CharacterMovement : MonoBehaviour
     }
     public void Decelerate(float multiplier)
     {
-        speedX -= (deceleration * multiplier) * Time.deltaTime;
+        speedX -= ((deceleration * multiplier) * motionSpeed) * Time.deltaTime;
         speedX = Mathf.Max(0, speedX); 
     }
 
@@ -179,35 +184,9 @@ public class CharacterMovement : MonoBehaviour
 
     public void ApplyGravity(float multiplier)
     {
-        speedY -= ((gravity * multiplier) * Time.deltaTime);
+        speedY -= (((gravity * multiplier) * motionSpeed) * Time.deltaTime);
         speedY = Mathf.Max(speedY, gravityMax);
     }
-
-    /*public void SetCharacterMotionSpeed(float newSpeed, float time = 0)
-    {
-        characterMotionSpeed = newSpeed;
-        characterAnimator.speed = characterMotionSpeed;
-        if (currentAttackController != null)
-            currentAttackController.AttackMotionSpeed(newSpeed);
-        if (time > 0)
-        {
-            StartCoroutine(MotionSpeedCoroutine(time));
-        }
-    }
-
-
-    private IEnumerator MotionSpeedCoroutine(float time)
-    {
-        while (time > 0)
-        {
-            time -= Time.deltaTime;
-            yield return null;
-        }
-        characterMotionSpeed = defaultMotionSpeed;
-        characterAnimator.speed = characterMotionSpeed;
-        if (currentAttackController != null)
-            currentAttackController.AttackMotionSpeed(characterMotionSpeed);
-    }*/
 
 
 }
