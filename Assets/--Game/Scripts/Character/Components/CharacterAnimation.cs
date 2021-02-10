@@ -13,8 +13,7 @@ public class CharacterAnimation : MonoBehaviour
 	[SerializeField]
 	CharacterMovement movement;
 
-	[SerializeField]
-	float speedDelta = 30;
+	public float speedDelta = 30;
 
 	// Start is called before the first frame update
 	void Start()
