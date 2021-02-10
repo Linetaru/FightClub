@@ -5,8 +5,8 @@ using Rewired.UI.ControlMapper;
 
 public class TestingControllable : MonoBehaviour, IControllable
 {
-	public int playerID;
-	public ControlMapper controlMapper;
+	private ControlMapper controlMapper;
+	public GameObject panelPrincipal;
 
 	// Start is called before the first frame update
 	void Start()
@@ -21,14 +21,21 @@ public class TestingControllable : MonoBehaviour, IControllable
 	}
 
 	public void UpdateControl(int ID, Input_Info input_Info)
-    {
-		if(ID == playerID)
-        {
-			if(input_Info.inputUiAction == InputConst.Pause)
-            {
-				input_Info.inputUiAction = null;
+	{
+		if (input_Info.inputUiAction == InputConst.Pause)
+		{
+			input_Info.inputUiAction = null;
+			if (!controlMapper.isOpen)
+			{
 				controlMapper.Open();
-            }
+				panelPrincipal.SetActive(false);
+			}
+			else
+			{
+				controlMapper.Close(true);
+				panelPrincipal.SetActive(true);
+			}
+
 		}
-    }
+	}
 }
