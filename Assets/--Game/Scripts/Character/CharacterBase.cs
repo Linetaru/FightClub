@@ -47,6 +47,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	void Start()
 	{
 		Application.targetFrameRate = 60;
+		action.InitializeComponent(this);
 	}
 
 
