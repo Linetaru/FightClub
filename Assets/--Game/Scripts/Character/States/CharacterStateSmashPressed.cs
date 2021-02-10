@@ -12,11 +12,9 @@ public class CharacterStateSmashPressed : CharacterState
     [SerializeField]
     private float timeToReleaseSmash = 3.0f;
 
-    private bool stateActive;
-
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("IdleState");
+        Debug.Log("Charging State");
         StartCoroutine(Charging(character));
 	}
 
@@ -26,13 +24,15 @@ public class CharacterStateSmashPressed : CharacterState
     }
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-
+        //character.SetState(idleState);
     }
 
     public IEnumerator Charging(CharacterBase character)
     {
         yield return new WaitForSecondsRealtime(timeToReleaseSmash);
-        character.SetState(smashRelease);
+        Debug.Log("Smash Release"); 
+        character.SetState(idleState);
+        //character.SetState(smashRelease);
     }
 
     void Start()
