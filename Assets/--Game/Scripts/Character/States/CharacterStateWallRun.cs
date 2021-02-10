@@ -10,10 +10,6 @@ public class CharacterStateWallRun : CharacterState
     [SerializeField]
     CharacterState aerialState;
 
-    [SerializeField]
-    CharacterRigidbody characterRigidbody;
-    [SerializeField]
-    CharacterMovement movement;
 
     [SerializeField]
     float stickRunThreshold = 0.7f;
@@ -49,26 +45,26 @@ public class CharacterStateWallRun : CharacterState
 
     }
 
-    public override void StartState(CharacterBase character)
+    public override void StartState(CharacterBase character, CharacterState oldState)
     {
         //wallCollision = true;
         Debug.Log("Wallrun");
-        Debug.Log(movement.SpeedX);
+        Debug.Log(character.Movement.SpeedX);
 
-        float speedXBeforeWallRun = movement.SpeedX;
+        float speedXBeforeWallRun = character.Movement.SpeedX;
 
 
         Debug.Log(speedXBeforeWallRun);
 
         wallrunSpeed = wallrunSpeedMax + speedXBeforeWallRun;
-        if (movement.SpeedX > 0)
+        if (character.Movement.SpeedX > 0)
         {
 
-            movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
+            character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
         }
         else
         {
-            if (characterRigidbody.IsGrounded)
+            if (character.Rigidbody.IsGrounded)
             {
                 character.SetState(idleState);
             }
@@ -81,21 +77,21 @@ public class CharacterStateWallRun : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        wallCollision = (Physics.Raycast(transform.position, Vector3.right*movement.Direction, out _, 1.0f, wallLayer));
+        wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, 1.0f, wallLayer));
         
-        if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == movement.Direction && wallCollision)
+        if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == character.Movement.Direction && wallCollision)
         {
-            if (movement.SpeedY > wallrunSpeedMin)
+            if (character.Movement.SpeedY > wallrunSpeedMin)
             {
                 wallrunSpeed -= deccelerationRate * Time.deltaTime;
-                movement.SpeedY = wallrunSpeed;
+                character.Movement.SpeedY = wallrunSpeed;
             }
             else
             {
-                movement.SpeedY = wallrunSpeedMin;
+                character.Movement.SpeedY = wallrunSpeedMin;
             }
 
-            if (movement.SpeedY > 0)
+            if (character.Movement.SpeedY > 0)
             {
                 //Play Wallrun animation
             }
@@ -108,12 +104,12 @@ public class CharacterStateWallRun : CharacterState
             {
                 if (character.Input.inputActions[0].action == InputConst.Jump)
                 {
-                    if (movement.SpeedY > 0)
-                        movement.SpeedX = wallJumpSpeedX + movement.SpeedY;
+                    if (character.Movement.SpeedY > 0)
+                        character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
                     else
-                        movement.SpeedX = wallJumpSpeedX;
-                    movement.Direction = movement.Direction * -1;
-                    movement.Jump();
+                        character.Movement.SpeedX = wallJumpSpeedX;
+                    character.Movement.Direction = character.Movement.Direction * -1;
+                    character.Movement.Jump();
 
                     //Play Walljump animation
 
@@ -126,7 +122,7 @@ public class CharacterStateWallRun : CharacterState
         else
         {
             Debug.Log("IS NO MORE IN WALLRUN");
-            if (characterRigidbody.IsGrounded)
+            if (character.Rigidbody.IsGrounded)
             {
                 character.SetState(idleState);
             }
@@ -135,42 +131,9 @@ public class CharacterStateWallRun : CharacterState
                 character.SetState(aerialState);
             }
         }
-
-        characterRigidbody.UpdateCollision(movement.SpeedX, movement.SpeedY);
-
-        //if (character.Input.inputActions[0].action == InputConst.Jump)
-        //{
-        //    //movementJump.Jump();
-        //}
-
-
-
-
-
-        /*float axisX = Input.GetAxis("Horizontal");
-		if (Mathf.Abs(axisX) > stickRunThreshold)
-		{
-			if(movement.SpeedX > 0)
-			{
-				characterRigidbody.UpdateCollision(movement.SpeedX * Mathf.Sign(axisX), movement.SpeedX);
-				movement.SpeedX -= deccelerationRate * Time.deltaTime;
-			}
-			else
-			{
-				// On tombe
-				movement.SpeedX -= deccelerationRate * Time.deltaTime;
-				characterRigidbody.UpdateCollision(0, movement.SpeedX);
-			}
-		}
-		else
-		{
-			characterRigidbody.UpdateCollision(0, 0);
-			movement.SpeedX = 0;
-			character.SetState(idleState);
-		}*/
     }
 
-    public override void EndState(CharacterBase character)
+    public override void EndState(CharacterBase character, CharacterState oldState)
     {
 
     }

@@ -10,11 +10,6 @@ public class CharacterStateTurnAround : CharacterState
 	[SerializeField]
 	CharacterState idleState;
 
-	[Title("Components")]
-	[SerializeField]
-	CharacterRigidbody characterRigidbody;
-	[SerializeField]
-	CharacterMovement movement;
 
 	[SerializeField]
 	float timeTurnAround = 0.1f;
@@ -22,24 +17,22 @@ public class CharacterStateTurnAround : CharacterState
 	float t = 0f;
 	float initialSpeedX = 0;
 
-	public override void StartState(CharacterBase character)
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		t = timeTurnAround;
-		initialSpeedX = movement.SpeedX;
+		initialSpeedX = character.Movement.SpeedX;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		movement.SpeedX = initialSpeedX * (t / timeTurnAround);
-		movement.SpeedX = Mathf.Max(movement.SpeedX, 0);
-		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
+		character.Movement.SpeedX = initialSpeedX * (t / timeTurnAround);
+		character.Movement.SpeedX = Mathf.Max(character.Movement.SpeedX, 0);
 		t -= Time.deltaTime;
 		if (t <= 0)
 			character.SetState(idleState);
-
 	}
 
-	public override void EndState(CharacterBase character)
+	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
 
 	}
