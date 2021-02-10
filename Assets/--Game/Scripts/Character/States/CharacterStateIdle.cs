@@ -47,6 +47,12 @@ public class CharacterStateIdle : CharacterState
 	AnimationCurve deccelerationMultiplierCurve;
 
 
+
+	[Title("Parameter - Actions")]
+	[SerializeField]
+	AttackManager attackKick;
+
+
 	float timeDecceleration = 0f;
 
 
@@ -117,6 +123,16 @@ public class CharacterStateIdle : CharacterState
 			Deccelerate(character);
 		}
 		character.Movement.ApplyGravity();
+
+
+		if (character.Input.inputActions.Count != 0)
+		{
+			if (character.Input.inputActions[0].action == InputConst.Attack)
+			{
+				character.Action.Action(attackKick);
+				character.Input.inputActions[0].timeValue = 0;
+			}
+		}
 
 
 	}
