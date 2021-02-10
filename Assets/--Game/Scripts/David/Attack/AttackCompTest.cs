@@ -14,8 +14,16 @@ public class AttackCompTest : AttackComponent
 
     }
 
-    public override void OnHit(CharacterKnockback target)
+    public override void StartComponent(CharacterBase user)
+    {
+
+    }
+    public override void OnHit(CharacterBase user, CharacterBase target)
     {
         Debug.Log("Aie !");
+    }
+    public override void EndComponent(CharacterBase user)
+    {
+
     }
 }
