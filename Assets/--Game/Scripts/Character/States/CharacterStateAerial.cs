@@ -89,7 +89,8 @@ public class CharacterStateAerial : CharacterState
         }
         if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
         {
-            character.SetState(wallRunState);
+            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+                character.SetState(wallRunState);
             return;
         }
     }
