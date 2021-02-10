@@ -60,7 +60,7 @@ public class CharacterLaunchKnockback : MonoBehaviour
 
     public float GetMotionSpeed()
     {
-        return characterAnimation.speedDelta;
+        return 1;// characterAnimation.speedDelta;
     }
 
     private void Knockback(AttackController attack, Vector3 knockbackAngle, Vector3 knockbackPower)
