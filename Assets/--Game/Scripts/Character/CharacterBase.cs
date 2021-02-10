@@ -1,17 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
 
+	[Title("Components")]
+	[SerializeField]
+	private CharacterRigidbody rigidbody;
+	public CharacterRigidbody Rigidbody
+	{
+		get { return rigidbody; }
+	}
+
+	[SerializeField]
+	private CharacterMovement movement;
+	public CharacterMovement Movement
+	{
+		get { return movement; }
+	}
+
+	[SerializeField]
+	private CharacterAction action;
+	public CharacterAction Action
+	{
+		get { return action; }
+	}
+
+
+
 	private Input_Info input;
 	public Input_Info Input
 	{
 		get { return input; }
 	}
+
+	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
+	public event ActionSetState OnStateChanged;
+
 
 
 	// Start is called before the first frame update
@@ -24,9 +53,11 @@ public class CharacterBase : MonoBehaviour, IControllable
 	public void SetState(CharacterState characterState)
 	{
 		if(currentState != null)
-			currentState.EndState(this);
+			currentState.EndState(this, characterState);
+		characterState.StartState(this, currentState);
+
+		OnStateChanged?.Invoke(currentState, characterState);
 		currentState = characterState;
-		currentState.StartState(this);
 	}
 
 
@@ -40,5 +71,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		input = input_Info;
 		currentState.UpdateState(this);
+		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
+		currentState.LateUpdateState(this);
 	}
 }

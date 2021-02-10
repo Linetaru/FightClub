@@ -56,7 +56,7 @@ public class ClarenceStateIdle : CharacterState
 
 	}
 
-	public override void StartState(CharacterBase character)
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 
 	}
@@ -145,7 +145,7 @@ public class ClarenceStateIdle : CharacterState
 
 	}
 
-	public override void EndState(CharacterBase character)
+	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 
 	}
