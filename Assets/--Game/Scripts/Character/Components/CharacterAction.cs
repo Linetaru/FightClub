@@ -124,4 +124,9 @@ public class CharacterAction : MonoBehaviour
         character.SetState(stateIdle);
     }
 
+    public void SetAttackMotionSpeed(float newValue)
+    {
+        animator.speed = newValue;
+    }
+
 }

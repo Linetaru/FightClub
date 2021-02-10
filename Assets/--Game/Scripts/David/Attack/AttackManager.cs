@@ -27,6 +27,7 @@ public class AttackManager : MonoBehaviour
     private List<AttackComponent> atkCompList;
 
 
+    CharacterBase user;
     private List<string> playerHitList = new List<string>();
     bool firstTime = false;
 
@@ -39,6 +40,9 @@ public class AttackManager : MonoBehaviour
         atkCompList = new List<AttackComponent>(GetComponentsInChildren<AttackComponent>()); 
     }
 
+
+
+
     // ===============================================================================
 
     public void Start()
@@ -48,6 +52,8 @@ public class AttackManager : MonoBehaviour
 
     public void CreateAttack(CharacterBase character)
     {
+        user = character;
+
         hitBox.enabled = false;
         gameObject.SetActive(false);
 
@@ -90,7 +96,7 @@ public class AttackManager : MonoBehaviour
 
 
 
-    public void Hit(CharacterKnockback target)
+    public void Hit(CharacterBase target)
     {
         string targetTag = target.transform.root.tag;
 
@@ -98,7 +104,7 @@ public class AttackManager : MonoBehaviour
         {
             foreach (AttackComponent atkC in atkCompList)
             {
-                atkC.OnHit(target);
+                atkC.OnHit(user, target);
             }
         }
 

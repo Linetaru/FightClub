@@ -21,7 +21,7 @@ public class AttackC_CharaMovement : AttackComponent
         if (linkToCharacter == true)
             this.transform.SetParent(user.transform);
     }
-    public override void OnHit(CharacterKnockback target)
+    public override void OnHit(CharacterBase user, CharacterBase target)
     {
 
     }
