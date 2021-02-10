@@ -7,13 +7,9 @@ public class CharacterStateAerial : CharacterState
 {
 
     [SerializeField]
-    CharacterRigidbody characterRigidbody;
-    [SerializeField]
     CharacterState idleState;
     [SerializeField]
     CharacterState wallRunState;
-    [SerializeField]
-    CharacterMovement movement;
 
     [SerializeField]
     float minimalSpeedToWallRun = -2;
@@ -48,7 +44,7 @@ public class CharacterStateAerial : CharacterState
 
     }
 
-    public override void StartState(CharacterBase character)
+    public override void StartState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("AerialState");
         //if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
@@ -72,26 +68,33 @@ public class CharacterStateAerial : CharacterState
             if (character.Input.inputActions[0].action == InputConst.Jump)
             {
                 currentNumberOfAerialJump--;
-                movement.Jump(jumpForce);
+                character.Movement.Jump(jumpForce);
                 character.Input.inputActions[0].timeValue = 0;
             }
         }
-        movement.ApplyGravity();
-        characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, movement.SpeedY);
+        character.Movement.ApplyGravity();
+    }
 
 
-        if (characterRigidbody.CollisionGroundInfo != null)
+    /// <summary>
+	/// Update après le check de collision
+    /// </summary>
+    /// <param name="character"></param>
+    public override void LateUpdateState(CharacterBase character)
+    {
+        if (character.Rigidbody.CollisionGroundInfo != null)
         {
             character.SetState(idleState);
             return;
         }
-        if (characterRigidbody.CollisionWallInfo != null && Mathf.Abs(movement.SpeedX) > 2)
+        if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
         {
             character.SetState(wallRunState);
-            //wallrunCount = 0;
             return;
         }
     }
+
+
 
     private void AirControl(CharacterBase character)
     {
@@ -99,12 +102,12 @@ public class CharacterStateAerial : CharacterState
 
         float aerialDirection;
 
-        if (movement.Direction > 0)
+        if (character.Movement.Direction > 0)
             aerialDirection = axisX;
         else
             aerialDirection = -axisX;
 
-        movement.SpeedX = ((movement.SpeedX * airFriction) + (airControl * aerialDirection));
+        character.Movement.SpeedX = ((character.Movement.SpeedX * airFriction) + (airControl * aerialDirection));
         //    //movement.Direction = (int)Mathf.Sign(axisX);
         //    // Walk vitesse constante
         //    if (movement.SpeedX < maxAerialSpeed)
@@ -125,7 +128,7 @@ public class CharacterStateAerial : CharacterState
         //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
     }
 
-    public override void EndState(CharacterBase character)
+    public override void EndState(CharacterBase character, CharacterState oldState)
     {
         currentNumberOfAerialJump = numberOfAerialJump;
         /*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)

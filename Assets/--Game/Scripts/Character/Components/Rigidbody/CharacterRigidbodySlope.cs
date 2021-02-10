@@ -42,10 +42,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     private bool climbingSlope = false;
 
 
-    Vector2 bottomLeft;
-    Vector2 upperLeft;
-    Vector2 bottomRight;
-    Vector2 upperRight;
+    Vector3 bottomLeft;
+    Vector3 upperLeft;
+    Vector3 bottomRight;
+    Vector3 upperRight;
 
     Transform collisionInfo;
 
@@ -76,12 +76,12 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     }
 
 
-    private void CalculateBounds(Vector2 offset)
+    private void CalculateBounds(Vector3 offset)
     {
-        bottomLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.min.y) + offset;
-        upperLeft = new Vector2(characterCollider.bounds.min.x, characterCollider.bounds.max.y) + offset;
-        bottomRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.min.y) + offset;
-        upperRight = new Vector2(characterCollider.bounds.max.x, characterCollider.bounds.max.y) + offset;
+        bottomLeft = new Vector3(characterCollider.bounds.min.x, characterCollider.bounds.min.y, transform.position.z) + offset;
+        upperLeft = new Vector3(characterCollider.bounds.min.x, characterCollider.bounds.max.y, transform.position.z) + offset;
+        bottomRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.min.y, transform.position.z) + offset;
+        upperRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.max.y, transform.position.z) + offset;
     }
 
 
@@ -134,7 +134,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
 
 
-            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, 0);
+            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
             Physics.SyncTransforms();
         }
     }
@@ -145,7 +145,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     {
         RaycastHit raycastX;
         float directionX = Mathf.Sign(actualSpeedX);
-        Vector2 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
+        Vector3 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
         Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
         if (raycastX.collider != null)
         {
@@ -182,8 +182,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
          
         RaycastHit raycastX;
         float directionX = Mathf.Sign(actualSpeedX);
-        Vector2 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
-        Vector2 originOffset = (upperRight - bottomRight) / (numberRaycastHorizontal - 1);
+        Vector3 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
+        Vector3 originOffset = (upperRight - bottomRight) / (numberRaycastHorizontal - 1);
 
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
@@ -208,8 +208,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
         RaycastHit raycastY;
         float directionY = Mathf.Sign(actualSpeedY);
-        Vector2 originRaycast = (directionY == -1) ? bottomLeft: upperLeft;
-        Vector2 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
+        Vector3 originRaycast = (directionY == -1) ? bottomLeft: upperLeft;
+        Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
 
         for (int i = 0; i < numberRaycastVertical; i++)
         {
