@@ -5,6 +5,10 @@ using UnityEngine;
 public class CharacterAnimation : MonoBehaviour
 {
 	[SerializeField]
+	CharacterBase characterBase;
+
+
+	[SerializeField]
 	Animator animator;
 	[SerializeField]
 	CharacterMovement movement;
@@ -14,7 +18,15 @@ public class CharacterAnimation : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+		characterBase.OnStateChanged += CheckState;
+	}
+
+	public void CheckState(CharacterState oldState, CharacterState newState)
+	{
+		if (newState is CharacterStateIdle)
+			animator.SetTrigger("Idle");
+		if (newState is CharacterStateAerial)
+			animator.SetTrigger("Fall");
 	}
 
 	// Update is called once per frame
@@ -27,5 +39,10 @@ public class CharacterAnimation : MonoBehaviour
 			animator.transform.localScale = Vector3.one;
 		else if (movement.Direction == -1)
 			animator.transform.localScale = new Vector3(1,1,-1);
+	}
+
+	void OnDestroy()
+	{
+		characterBase.OnStateChanged -= CheckState;
 	}
 }
