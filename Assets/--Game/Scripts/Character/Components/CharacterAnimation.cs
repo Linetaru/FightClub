@@ -30,88 +30,90 @@ public class CharacterAnimation : MonoBehaviour
         characterBase.OnStateChanged += CheckState;
     }
 
-    public void CheckState(CharacterState oldState, CharacterState newState)
+    public void CheckState(CharacterState oldState, CharacterState newState)
     {
+        animator.SetBool("Hanging", false);
+
         if (oldState is CharacterStateWallRun)
         {
-            isHanging = false;
             animator.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
-        if (newState is CharacterStateIdle)
+        if (newState is CharacterStateIdle)
         {
-
-            animator.SetTrigger("Idle");
-            actualState = ActualState.Idle;
+            animator.SetTrigger("Idle");
+            actualState = ActualState.Idle;
         }
-        if (newState is CharacterStateAerial)
+        if (newState is CharacterStateAerial)
         {
-
-            animator.SetTrigger("Fall");
+            animator.SetTrigger("Fall");
+            animator.transform.rotation = Quaternion.Euler(0, 90, 0);
+            actualState = ActualState.Knockback;
         }
-        if (newState is CharacterStateWallRun)
+        if (newState is CharacterStateWallRun)
         {
+            animator.SetTrigger("Wallrun");
+            if (movement.Direction == 1)
+                animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
 
-            if (movement.SpeedY > 0)
-            {
-                isHanging = false;
-                animator.SetTrigger("Wallrun");                if (movement.Direction == 1)
-                    animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
+            else if (movement.Direction == -1)
+                animator.transform.rotation = Quaternion.Euler(90, 90, 0);
 
-                else if (movement.Direction == -1)
-                    animator.transform.rotation = Quaternion.Euler(90, 90, 0);
-            }
-
-            actualState = ActualState.Wallrun;
+            actualState = ActualState.Wallrun;
         }
-        if (newState is CharacterStateKnockback)
+        if (newState is CharacterStateKnockback)
         {
-
             animator.SetTrigger("Knockback");
-            actualState = ActualState.Knockback;
+            actualState = ActualState.Knockback;
         }
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (movement.Direction == 1)
-            animator.transform.localScale = Vector3.one;
-        else if (movement.Direction == -1)
+    void Update()
+    {
+        if (movement.Direction == 1)
+            animator.transform.localScale = Vector3.one;
+        else if (movement.Direction == -1)
             animator.transform.localScale = new Vector3(1, 1, -1);
-        if (actualState == ActualState.Idle)
-        {
-            AnimationIdle();
-        }
-        else if (actualState == ActualState.Wallrun)
-        {
-            AnimationWallrun();
-        }
-        else if (actualState == ActualState.Knockback)
-        {
-
-        }
-    }
-    void AnimationIdle()
-    {
-        float speedT = movement.SpeedX / (movement.MaxSpeed - speedDelta);
-        animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
-
-    }
-    void AnimationWallrun()
-    {
-        if (movement.SpeedY < 0)
+        if (actualState == ActualState.Idle)
         {
-            if (!isHanging)
-            {
-                animator.transform.rotation = Quaternion.Euler(0, 90, 0);
-                animator.SetTrigger("Hanging");                isHanging = true;
-            }
+            AnimationIdle();
+        }
+        else if (actualState == ActualState.Wallrun)
+        {
+            AnimationWallrun();
+        }
+        else if (actualState == ActualState.Knockback)
+        {
+
         }
     }
+    void AnimationIdle()
+    {
+        float speedT = movement.SpeedX / (movement.MaxSpeed - speedDelta);
+        animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
+    }
+    void AnimationWallrun()
+    {
+        float speedT = movement.SpeedY / (movement.MaxSpeed - speedDelta);
+        animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
+        if(speedT < 0)
+        {
+            animator.transform.rotation = Quaternion.Euler(0, 90, 0);
+            animator.SetBool("Hanging", true);
+        }
+        else
+        {
+            if (movement.Direction == 1)
+                animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
+            else if (movement.Direction == -1)
+                animator.transform.rotation = Quaternion.Euler(90, 90, 0);
+            animator.SetBool("Hanging", false);
+        }
+    }
 
-    void OnDestroy()
-    {
-        characterBase.OnStateChanged -= CheckState;
+    void OnDestroy()
+    {
+        characterBase.OnStateChanged -= CheckState;
     }
 }
