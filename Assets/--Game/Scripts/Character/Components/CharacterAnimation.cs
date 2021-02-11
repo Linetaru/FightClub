@@ -33,7 +33,10 @@ public class CharacterAnimation : MonoBehaviour
     public void CheckState(CharacterState oldState, CharacterState newState)
     {
         if (oldState is CharacterStateWallRun)
+        {
             isHanging = false;
+            animator.transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
 
         if (newState is CharacterStateIdle)
         {
@@ -48,9 +51,17 @@ public class CharacterAnimation : MonoBehaviour
         }
         if (newState is CharacterStateWallRun)
         {
-            isHanging = false;
 
-            animator.SetTrigger("Wallrun");
+            if (movement.SpeedY > 0)
+            {
+                isHanging = false;
+                animator.SetTrigger("Wallrun");                if (movement.Direction == 1)
+                    animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
+
+                else if (movement.Direction == -1)
+                    animator.transform.rotation = Quaternion.Euler(90, 90, 0);
+            }
+
             actualState = ActualState.Wallrun;
         }
         if (newState is CharacterStateKnockback)
@@ -93,6 +104,7 @@ public class CharacterAnimation : MonoBehaviour
         {
             if (!isHanging)
             {
+                animator.transform.rotation = Quaternion.Euler(0, 90, 0);
                 animator.SetTrigger("Hanging");                isHanging = true;
             }
         }
