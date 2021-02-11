@@ -6,6 +6,8 @@ public class AttackC_Knockback : AttackComponent
 {
     [SerializeField]
     float hitStop = 0.1f;
+    [SerializeField]
+    GameObject particle = null;
 
     public Vector2 knockbackAngle;
 
@@ -20,6 +22,9 @@ public class AttackC_Knockback : AttackComponent
 
         user.SetMotionSpeed(0, hitStop);
         target.SetMotionSpeed(0, hitStop);
+
+        if(particle != null)
+            Instantiate(particle, target.Knockback.ContactPoint, Quaternion.identity);
     }
 
     public override void EndComponent(CharacterBase user)
