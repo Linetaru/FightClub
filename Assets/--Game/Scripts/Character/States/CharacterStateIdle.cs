@@ -142,7 +142,8 @@ public class CharacterStateIdle : CharacterState
 	{
 		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true)
 		{
-			character.SetState(wallRunState);
+			if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+				character.SetState(wallRunState);
 		}
 		else if (character.Input.inputActions.Count != 0)
 		{

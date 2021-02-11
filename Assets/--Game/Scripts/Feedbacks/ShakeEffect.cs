@@ -68,11 +68,23 @@ namespace Feedbacks
             while (t < time)
             {
                 t += Time.deltaTime;
+                this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0 + Random.Range(-power, power));
+                yield return null;
+            }
+            this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
+        }
+
+        /*private IEnumerator ShakeSpriteCoroutine(float power, float time)
+        {
+            float t = 0f;
+            while (t < time)
+            {
+                t += Time.deltaTime;
                 this.transform.localPosition = new Vector3(0 + Random.Range(-power, power), this.transform.localPosition.y, this.transform.localPosition.z);
                 yield return null;
             }
             this.transform.localPosition = new Vector3(0, this.transform.localPosition.y, this.transform.localPosition.z);
-        }
+        }*/
 
         #endregion
 
