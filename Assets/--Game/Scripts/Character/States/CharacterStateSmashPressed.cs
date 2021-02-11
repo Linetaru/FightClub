@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Feedbacks;
 using UnityEngine;
+
 
 public class CharacterStateSmashPressed : CharacterState
 {
@@ -8,6 +10,9 @@ public class CharacterStateSmashPressed : CharacterState
     CharacterState idleState;
     [SerializeField]
     AttackManager attackSmash;
+
+    [SerializeField]
+    ParticleSystem chargingParticles;
 
     [SerializeField]
     Animator animator;
@@ -23,6 +28,7 @@ public class CharacterStateSmashPressed : CharacterState
         Debug.Log("Charging State");
 
         animator.Play("Michelle_Kick2Prep", 0, 0f);
+        chargingParticles.Play();
 
 
         if (character.Input.inputActionsUP.Count != 0)
@@ -72,6 +78,8 @@ public class CharacterStateSmashPressed : CharacterState
     public void Attack(CharacterBase character)
     {
         Debug.Log("Attack Smash");
+        
+        chargingParticles.Stop();
         charging = false;
         timer = 0f;
         character.Action.Action(attackSmash);
