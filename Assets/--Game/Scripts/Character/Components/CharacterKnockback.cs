@@ -6,60 +6,6 @@ using Feedbacks;
 
 public class CharacterKnockback : MonoBehaviour
 {
-    private float knockbackMaxTime;
-    public float KnockbackMaxTime
-    {
-        get { return knockbackMaxTime; }
-        //set { knockbackMaxTime = value; }
-    }
-
-    private float knockbackTime;
-    public float KnockbackTime
-    {
-        get { return knockbackTime; }
-        //set { knockbackMTime = value; }
-    }
-
-    private Vector2 knockbackPower;
-    public Vector2 KnockbackPower
-    {
-        get { return knockbackPower; }
-        //set { knockbackPower = value; }
-    }
-
-    private float baseKnockbackTime;
-    public float BaseKnockbackTime
-    {
-        get { return baseKnockbackTime; }
-        //set { baseKnockbackTime = value; }
-    }
-
-    private float knockbackPowerForWallBounce;
-    public float KnockbackPowerForWallBounce
-    {
-        get { return knockbackPowerForWallBounce; }
-        //set { knockbackPowerForWallBounce = value; }
-    }
-
-
-    public event System.Action OnKnockback;
-
-
-    private float currentSpeedX;
-    public float CurrentSpeedX
-    {
-        get { return currentSpeedX; }
-        //set { currentSpeedX = value; }
-    }
-
-    private float currentSpeedY;
-    public float CurrentSpeedY
-    {
-        get { return currentSpeedY; }
-        //set { currentSpeedY = value; }
-    }
-
-
     private Vector3 contactPoint;
     public Vector3 ContactPoint
     {
@@ -75,61 +21,36 @@ public class CharacterKnockback : MonoBehaviour
         get { return shakeEffect; }
     }
 
+    //================================================================================
 
+    Vector2 angleKnockback;
+    public float knockBackPower;
 
-
-
-    public float GetMotionSpeed()
+    public Vector2 GetAngleKnockback()
     {
-        return 1;
+        return angleKnockback;
     }
 
-    private void Knockback(AttackController attack, Vector3 knockbackAngle, Vector3 knockbackPower)
+    public float GetPowerKnockback()
     {
-        if (attack == null)
-            return;
-
-        currentSpeedX = 0;
-        currentSpeedY = 0;
-
-        Vector2 direction = this.transform.position - (attack.transform.position + knockbackAngle);
-        direction *= knockbackPower;
-        knockbackPower = direction;
-        //attack.HasHit(this);
-
-        knockbackTime = 0;
-        knockbackMaxTime = baseKnockbackTime + (direction.magnitude);
-
-        OnKnockback.Invoke();
+        return knockBackPower;
     }
 
-    protected void UpdateKnockback()
+    public void Launch(Vector2 angle)
     {
-        if (GetMotionSpeed() == 0)
-        {
-            return;
-        }
-        knockbackTime += Time.deltaTime * GetMotionSpeed();
-        knockbackPower = Vector2.Lerp(knockbackPower, Vector2.zero, knockbackTime / knockbackMaxTime);
-
-        if (knockbackPower.magnitude < knockbackPowerForWallBounce)
-        {
-            currentSpeedX = knockbackPower.x;
-            currentSpeedY = knockbackPower.y;
-            knockbackPower = Vector2.zero;
-        }
-
-        if (knockbackPower.magnitude < 1f)
-        {
-            knockbackTime = 0;
-            knockbackMaxTime = 0;
-            knockbackPower = Vector2.zero;
-        }
+        angleKnockback =  angle;
     }
 
-    public void AddForce(float forceX, float forceY)
+    public void UpdateKnockback()
     {
-        knockbackMaxTime += new Vector2(forceX, forceY).magnitude;
-        knockbackPower += new Vector2(forceX, forceY);
+        Vector2 tmp = angleKnockback;
+        if (angleKnockback.x > 0.25)
+            tmp.x -= Time.deltaTime * knockBackPower;
+        else if (angleKnockback.x < -0.25)
+            tmp.x += Time.deltaTime * knockBackPower;
+        else
+            tmp.x = 0;
+        tmp.y -= Time.deltaTime * knockBackPower;
+        angleKnockback = tmp;
     }
 }
