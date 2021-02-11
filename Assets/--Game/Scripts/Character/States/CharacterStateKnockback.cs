@@ -22,8 +22,6 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float knockbackDuration = 0;
 
-    Vector2 projectionAngle = new Vector2(0f, 0f);
-
     // Start is called before the first frame update
     void Start()
     {
@@ -38,12 +36,13 @@ public class CharacterStateKnockback : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        projectionAngle = new Vector2(movement.SpeedX, movement.SpeedY);
     }
 
     public override void UpdateState(CharacterBase character)
     {
-        if (Mathf.Abs(projectionAngle.magnitude) < minimalKnockBackSpeed)
+        character.Knockback.UpdateKnockback();
+
+        if (Mathf.Abs(character.Knockback.GetAngleKnockback().magnitude) < minimalKnockBackSpeed)
         {
             if (characterRigidbody.IsGrounded)
             {
@@ -56,18 +55,23 @@ public class CharacterStateKnockback : CharacterState
                 //knockbackDuration = 0f;
             }
         }
+
+        character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
+        character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
     }
 
     public override void LateUpdateState(CharacterBase character)
     {
         if (characterRigidbody.CollisionGroundInfo != null || characterRigidbody.CollisionRoofInfo != null)
         {
-            movement.SpeedY = -(movement.SpeedY * collisionFriction);
+            //movement.SpeedY = -(movement.SpeedY * collisionFriction);
+            character.Knockback.Launch(new Vector2(character.Knockback.GetAngleKnockback().x, -character.Knockback.GetAngleKnockback().y));
         }
 
-        if (character.Rigidbody.CollisionGroundInfo != null)
+        if (characterRigidbody.CollisionWallInfo != null)
         {
-            movement.SpeedX = -(movement.SpeedX * collisionFriction);
+            //movement.SpeedX = -(movement.SpeedX * collisionFriction);
+            character.Knockback.Launch(new Vector2(-character.Knockback.GetAngleKnockback().x, character.Knockback.GetAngleKnockback().y));
         }
     }
 

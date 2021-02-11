@@ -31,7 +31,7 @@ public class CharacterCollisionDetection : MonoBehaviour
             character.Knockback.ContactPoint = atkMan.HitBox.bounds.center;
             atkMan.Hit(character);
 
-            //character.SetState(stateKnockback);
+            character.SetState(stateKnockback);
         }
     }
 }
