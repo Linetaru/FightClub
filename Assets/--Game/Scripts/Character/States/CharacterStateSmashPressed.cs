@@ -9,6 +9,9 @@ public class CharacterStateSmashPressed : CharacterState
     [SerializeField]
     AttackManager attackSmash;
 
+    [SerializeField]
+    Animator animator;
+
     private bool charging;
 
 
@@ -18,6 +21,17 @@ public class CharacterStateSmashPressed : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("Charging State");
+
+        animator.Play("Michelle_Kick2Prep", 0, 0f);
+
+
+        if (character.Input.inputActionsUP.Count != 0)
+        {
+            if (character.Input.inputActionsUP[0].action == InputConst.Attack)
+            {
+                character.Input.inputActionsUP[0].timeValue = 0;
+            }
+        }
         character.Movement.SpeedX = 0f;
         charging = true;
     }
@@ -28,8 +42,8 @@ public class CharacterStateSmashPressed : CharacterState
         {
             if (character.Input.inputActionsUP[0].action == InputConst.Attack)
             {
-                Attack(character);
                 character.Input.inputActionsUP[0].timeValue = 0;
+                Attack(character);
             }
         }
 
