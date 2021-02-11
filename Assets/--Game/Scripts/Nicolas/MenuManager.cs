@@ -62,11 +62,15 @@ public class MenuManager : MonoBehaviour, IControllable
 		}
 		else if(input_Info.inputUiAction == InputConst.Interact)
         {
-			if(currentSelectButton == thridButton && panelPrincipal.activeSelf && timeTransition <= 0)
+			if (currentSelectButton == firstButton && panelPrincipal.activeSelf)
+			{
+				UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+			}
+			else if (currentSelectButton == thridButton && panelPrincipal.activeSelf && timeTransition <= 0)
             {
 				Options();
 			}
-			else if(currentSelectButton == fourthButton && panelPrincipal.activeSelf && timeTransition <= 0)
+			else if(currentSelectButton == fourthButton && panelPrincipal.activeSelf)
             {
 				Application.Quit();
 			}
