@@ -15,16 +15,33 @@ public class AttackManager : MonoBehaviour
 
     [SerializeField]
     private BoxCollider hitBox;
+    public BoxCollider HitBox
+    {
+        get { return hitBox; }
+    }
 
     [Title("Parameters")]
     [SerializeField]
     bool activeAtStart = true;
+
+    [SerializeField]
+    private AttackManager atkCombo;
+    public AttackManager AtkCombo
+    {
+        get { return atkCombo; }
+    }
+
+    [SerializeField]
+    private List<AttackManager> atkSubs;
 
 
     [Title("Components")]
     [SerializeField]
     [ListDrawerSettings(Expanded = true)]
     private List<AttackComponent> atkCompList;
+
+
+
 
 
     CharacterBase user;
@@ -52,8 +69,12 @@ public class AttackManager : MonoBehaviour
 
     public void CreateAttack(CharacterBase character)
     {
+        tag = character.tag;
         user = character;
 
+        transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
+                                           transform.localScale.y * character.transform.localScale.y,
+                                           transform.localScale.z * character.transform.localScale.z);
         hitBox.enabled = false;
         gameObject.SetActive(false);
 
