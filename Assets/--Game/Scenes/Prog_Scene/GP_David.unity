@@ -123,15 +123,15 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &106439940 stripped
+--- !u!114 &154393732 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2298775848115167662, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2298775846726268033, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
   m_PrefabInstance: {fileID: 1697884518}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bd329d6768e16f4083ab57c77fca80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &190016030
@@ -229,17 +229,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190016030}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &287767050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1243007124110432122, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-  m_PrefabInstance: {fileID: 1243007124360342896}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd329d6768e16f4083ab57c77fca80d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &338989069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -611,9 +600,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackAnim: {fileID: 0}
   hitBox: {fileID: 827677829}
+  activeAtStart: 1
+  atkCombo: {fileID: 0}
+  atkSubs: []
   atkCompList:
   - {fileID: 827677826}
-  - {fileID: 827677830}
+  - {fileID: 0}
 --- !u!65 &827677829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -660,16 +652,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1000603640
+--- !u!114 &1000603641 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4328674736687686785, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
+  m_PrefabInstance: {fileID: 1697884518}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000603636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba694fbaaacc03d4084eeedce098235d, type: 3}
+  m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1103311913 stripped
@@ -1429,14 +1420,14 @@ PrefabInstance:
     - target: {fileID: 2298775846726268033, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: movement
       value: 
-      objectReference: {fileID: 106439940}
+      objectReference: {fileID: 1000603641}
     - target: {fileID: 2298775846726268061, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_Name
       value: Michelle
       objectReference: {fileID: 0}
     - target: {fileID: 2298775846726268061, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2298775846726268062, guid: d0cc717acc212414dbef2c68011f8568, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2098,7 +2089,7 @@ PrefabInstance:
     - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
       value: 
-      objectReference: {fileID: 287767050}
+      objectReference: {fileID: 154393732}
     - target: {fileID: 4777831737145663258, guid: ca0d1cdc8f13e9c49a2ae3190c10e786, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[0]
       value: '"path":"controllable.[0]","value":$eref:0'
@@ -2159,6 +2150,10 @@ PrefabInstance:
     - target: {fileID: 1243007124110432119, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_Name
       value: ProtoMan
+      objectReference: {fileID: 0}
+    - target: {fileID: 1243007124110432119, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1243007124110432123, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_LocalPosition.x
