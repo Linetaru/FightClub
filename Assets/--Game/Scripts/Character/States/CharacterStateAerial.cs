@@ -89,7 +89,7 @@ public class CharacterStateAerial : CharacterState
         }
         if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9)
                 character.SetState(wallRunState);
             return;
         }
@@ -131,6 +131,7 @@ public class CharacterStateAerial : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
+        Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
         /*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
 		{

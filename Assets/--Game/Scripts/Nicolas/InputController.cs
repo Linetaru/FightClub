@@ -25,6 +25,7 @@ public class Input_Info
 	public float vertical;
 
 	public List<InputBuffer> inputActions;
+	public List<InputBuffer> inputActionsUP;
 	public Rewired.InputAction inputUiAction;
 
 	public Input_Info()
@@ -63,27 +64,18 @@ public class InputController : SerializedMonoBehaviour
 		{
 			if (playerInputs[i].inputActions.Count != 0)
 			{
-				var input = playerInputs[i].inputActions;
-				for (int z = input.Count - 1; z >= 0; z--)
-				{
-					if (input[z].action != null && input[z].timeValue > 0)
-					{
-						input[z].timeValue -= Time.deltaTime;
-					}
-					else if (input[z].action != null && input[z].timeValue <= 0)
-					{
-						input.Remove(input[z]);
-					}
-					else if (input[0].action == null && input[z].timeValue <= 0)
-					{
-						input.Remove(input[0]);
-					}
-				}
+				UpdateTimeInBuffer(playerInputs[i].inputActions);
 			}
+			if (playerInputs[i].inputActionsUP.Count != 0)
+			{
+				UpdateTimeInBuffer(playerInputs[i].inputActionsUP);
+			}
+
 			Input_Movement(i, InputConst.Horizontal.name);
 			Input_Movement(i, InputConst.Vertical.name);
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
+			Input_Action(i, InputConst.Smash.name);
 			Input_ActionUI(i, InputConst.Pause.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
@@ -93,6 +85,25 @@ public class InputController : SerializedMonoBehaviour
 				controllable[i].UpdateControl(i, playerInputs[i]);
 				if(playerInputs[i].inputUiAction != null)
 					playerInputs[i].inputUiAction = null;
+			}
+		}
+	}
+
+	void UpdateTimeInBuffer(List<InputBuffer> input)
+    {
+		for (int z = input.Count - 1; z >= 0; z--)
+		{
+			if (input[z].action != null && input[z].timeValue > 0)
+			{
+				input[z].timeValue -= Time.deltaTime;
+			}
+			else if (input[z].action != null && input[z].timeValue <= 0)
+			{
+				input.Remove(input[z]);
+			}
+			else if (input[0].action == null && input[z].timeValue <= 0)
+			{
+				input.Remove(input[0]);
 			}
 		}
 	}
@@ -113,14 +124,30 @@ public class InputController : SerializedMonoBehaviour
 		{
 			InputBuffer tmp = new InputBuffer();
 			var input = playerInputs[ID].inputActions;
-			foreach(InputBuffer ic in input)
-            {
-				if(ic.action == ReInput.mapping.GetAction(action))
-                {
+			foreach (InputBuffer ic in input)
+			{
+				if (ic.action == ReInput.mapping.GetAction(action))
+				{
 					ic.timeValue = bufferLength;
 					return;
-                }
-            }
+				}
+			}
+			input.Add(tmp);
+			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
+			input[input.Count - 1].timeValue = bufferLength;
+		}
+		else if (players[ID].GetButtonUp(action))
+		{
+			InputBuffer tmp = new InputBuffer();
+			var input = playerInputs[ID].inputActionsUP;
+			foreach (InputBuffer ic in input)
+			{
+				if (ic.action == ReInput.mapping.GetAction(action))
+				{
+					ic.timeValue = bufferLength;
+					return;
+				}
+			}
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;

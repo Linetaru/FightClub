@@ -30,6 +30,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return action; }
 	}
 
+	[SerializeField]
+	private CharacterKnockback knockback;
+	public CharacterKnockback Knockback
+	{
+		get { return knockback; }
+	}
 
 
 	private Input_Info input;

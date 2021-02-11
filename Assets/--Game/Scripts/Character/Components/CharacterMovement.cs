@@ -57,7 +57,8 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-
+    [SerializeField]
+    [ReadOnly]
     protected int direction = 1;
     public int Direction
     {
