@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class CharacterAction : MonoBehaviour
 {
-
+    // 
+    protected bool canJumpCancel = false;
     protected bool canMoveCancel = false;
+
+    // Utilisé pour gérer le bug d'animation event si on cancel frame perfect
     protected bool endAction = false;
     protected bool canEndAction = false;
 
     protected CharacterBase character;
+    protected AttackManager attackID; // Les combo/target combo partage le meme attackID
     protected AttackManager currentAttackManager;
 
     [SerializeField]
@@ -20,37 +24,91 @@ public class CharacterAction : MonoBehaviour
     [SerializeField]
     CharacterState stateIdle;
 
+
+
     public void InitializeComponent(CharacterBase c)
     {
         character = c;
     }
 
 
-    public bool CanAct()
+    private bool CanAct()
     {
+        if (currentAttackManager != null && canMoveCancel == false)
+            return false;
         return true;
     }
 
-    public void Action(AttackManager attack)
+    private AttackManager CheckCombo(AttackManager attack)
     {
+        if (currentAttackManager != null)
+        {
+            if (attack == attackID)
+            {
+                if (currentAttackManager.AtkCombo != null)
+                {
+                    return currentAttackManager.AtkCombo;
+                }
+            }
+        }
+        return attack;
+    }
+
+
+
+
+
+
+    public bool Action(AttackManager attack)
+    {
+        if (CanAct() == false)
+            return false;
+
         endAction = false;
         canEndAction = false;
         canMoveCancel = false;
 
+        // Combo
+        AttackManager attackToInstantiate = CheckCombo(attack);
+        attackID = attack;
+
         // Animation de l'attaque
         //animator.ResetTrigger("Idle");
-        animator.Play(attack.AttackAnim.name, 0, 0f);
+        animator.Play(attackToInstantiate.AttackAnim.name, 0, 0f);
 
         // On créer l'attaque et ça setup différent paramètres
-        /* if (currentAttackManager != null)
-             currentAttackManager.CancelAction();*/
-        currentAttackManager = Instantiate(attack, this.transform.position, Quaternion.identity);
+        if (currentAttackManager != null)
+             currentAttackManager.CancelAction();
+        currentAttackManager = Instantiate(attackToInstantiate, this.transform.position, Quaternion.identity);
         currentAttackManager.CreateAttack(character);
 
         character.SetState(stateAction);
+        return true;
     }
 
-    // Appelé par les anims, active l'attaque
+
+    public void CancelAction()
+    {
+        if (currentAttackManager != null)
+            currentAttackManager.CancelAction();
+        currentAttackManager = null;
+        attackID = null;
+
+        canMoveCancel = false;
+        canEndAction = false;
+        endAction = false;
+
+        /*animator.SetTrigger("Idle");*/
+        character.SetState(stateIdle);
+    }
+
+
+
+
+
+
+
+    // Appelé par les anims
     public void ActionActive()
     {
         if (currentAttackManager != null)
@@ -59,6 +117,7 @@ public class CharacterAction : MonoBehaviour
         }
     }
 
+    // Appelé par les anims
     public void ActionUnactive()
     {
         if (currentAttackManager != null)
@@ -83,7 +142,8 @@ public class CharacterAction : MonoBehaviour
         canMoveCancel = true;
     }
 
-    // Appelé par les anims, active le bool pour Cancel l'action à la frame suivante
+    // Appelé par les anims
+    // active le bool pour Cancel l'action à la frame suivante
     public void EndAction()
     {
         if (canEndAction == true)
@@ -93,6 +153,12 @@ public class CharacterAction : MonoBehaviour
     }
 
 
+
+
+
+
+
+    // Appelé par le State pour gérer les cancel d'animation frame perfect
     public void CanEndAction()
     {
         if (canEndAction == false)
@@ -110,19 +176,9 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    public void CancelAction()
-    {
-        if (currentAttackManager != null)
-             currentAttackManager.CancelAction();
-        currentAttackManager = null;
 
-        canMoveCancel = false;
-        canEndAction = false;
-        endAction = false;
 
-        /*animator.SetTrigger("Idle");*/
-        character.SetState(stateIdle);
-    }
+
 
     public void SetAttackMotionSpeed(float newValue)
     {
