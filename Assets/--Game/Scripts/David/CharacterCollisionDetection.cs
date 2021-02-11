@@ -21,10 +21,14 @@ public class CharacterCollisionDetection : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag(this.tag))
+            return;
+
         if(other.GetComponent<AttackManager>() != null)
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();
 
+            character.Knockback.ContactPoint = atkMan.HitBox.bounds.center;
             atkMan.Hit(character);
 
             //character.SetState(stateKnockback);

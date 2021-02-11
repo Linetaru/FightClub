@@ -238,6 +238,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         {
             isGrounded = false;
         }
+        if (climbingSlope == true)
+            isGrounded = true;
     }
 
 
