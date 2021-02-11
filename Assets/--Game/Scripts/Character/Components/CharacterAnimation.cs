@@ -14,7 +14,7 @@ public class CharacterAnimation : MonoBehaviour
     CharacterMovement movement;
 
     [SerializeField]
-    float speedDelta = 30;
+    float speedDelta = 30;    bool isHanging = false;
 
     public enum ActualState
     {
@@ -31,23 +31,31 @@ public class CharacterAnimation : MonoBehaviour
     }
 
     public void CheckState(CharacterState oldState, CharacterState newState)
-    {
+    {
+        if (oldState is CharacterStateWallRun)
+            isHanging = false;
+
         if (newState is CharacterStateIdle)
-        {
+        {
+
             animator.SetTrigger("Idle");
             actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
-        {
+        {
+
             animator.SetTrigger("Fall");
         }
         if (newState is CharacterStateWallRun)
-        {
+        {
+            isHanging = false;
+
             animator.SetTrigger("Wallrun");
             actualState = ActualState.Wallrun;
         }
         if (newState is CharacterStateKnockback)
-        {
+        {
+
             animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
@@ -55,8 +63,12 @@ public class CharacterAnimation : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(actualState == ActualState.Idle)
+    {
+        if (movement.Direction == 1)
+            animator.transform.localScale = Vector3.one;
+        else if (movement.Direction == -1)
+            animator.transform.localScale = new Vector3(1, 1, -1);
+        if (actualState == ActualState.Idle)
         {
             AnimationIdle();
         }
@@ -73,21 +85,16 @@ public class CharacterAnimation : MonoBehaviour
     {
         float speedT = movement.SpeedX / (movement.MaxSpeed - speedDelta);
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
-
-        if (movement.Direction == 1)
-            animator.transform.localScale = Vector3.one;
-        else if (movement.Direction == -1)
-            animator.transform.localScale = new Vector3(1, 1, -1);
+
     }
     void AnimationWallrun()
     {
-        if (movement.SpeedY > 0)
-        {
-            animator.SetTrigger("Wallrun");
-        }
-        else
-        {
-            animator.SetTrigger("Hanging");
+        if (movement.SpeedY < 0)
+        {
+            if (!isHanging)
+            {
+                animator.SetTrigger("Hanging");                isHanging = true;
+            }
         }
     }
 
