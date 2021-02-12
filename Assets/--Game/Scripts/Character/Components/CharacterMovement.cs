@@ -6,37 +6,59 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-    //[Title("CharacterController")]
-    //[SerializeField]
-    //protected SpriteRenderer spriteRenderer;
-    /*public SpriteRenderer SpriteRenderer
-    {
-        get { return spriteRenderer; }
-    }*/
 
-
-    //protected CharacterBase character;
-    /*public CharacterBase Character
-    {
-        get { return character; }
-    }*/
 
     [Title("Stats")]
     [SerializeField]
-    private float speed;
-    public float Speed
+    private float maxSpeed;
+    public float MaxSpeed
     {
-        get { return speed; }
-        set { speed = value; }
+        get { return maxSpeed; }
+        //set { maxSpeed = value; }
+    }
+
+    [SerializeField]
+    private float acceleration;
+    public float Acceleration
+    {
+        get { return acceleration; }
+        //set { acceleration = value; }
+    }
+
+    [SerializeField]
+    private float deceleration;
+    public float Deceleration
+    {
+        get { return deceleration; }
+        //set { deceleration = value; }
     }
 
 
-    /*protected bool inAir = false;
-    public bool InAir
-    {
-        get { return inAir; }
-    }*/
 
+    [SerializeField]
+    private float jumpForce;
+    public float JumpForce
+    {
+        get { return jumpForce; }
+    }
+
+    [SerializeField]
+    private float gravity;
+    public float Gravity
+    {
+        get { return gravity; }
+    }
+
+    [SerializeField]
+    private float gravityMax;
+    public float GravityMax
+    {
+        get { return gravityMax; }
+    }
+
+
+    [SerializeField]
+    [ReadOnly]
     protected int direction = 1;
     public int Direction
     {
@@ -44,6 +66,8 @@ public class CharacterMovement : MonoBehaviour
         set { direction = value; }
     }
 
+    [SerializeField]
+    [ReadOnly]
     protected float speedX = 0;
     public float SpeedX
     {
@@ -51,6 +75,8 @@ public class CharacterMovement : MonoBehaviour
         set { speedX = value; }
     }
 
+    [SerializeField]
+    [ReadOnly]
     protected float speedY = 0;
     public float SpeedY
     {
@@ -58,50 +84,47 @@ public class CharacterMovement : MonoBehaviour
         set { speedY = value; }
     }
 
-    /*protected float speedZ = 0;
-    public float SpeedZ
-        {
-            get { return speedZ; }
-        }
-    */
-    //protected float actualSpeedX = 0;
-    //protected float actualSpeedY = 0;
 
-    /*public void InitializeComponent(CharacterBase characterBase)
+    protected float motionSpeed = 1;
+    public float MotionSpeed
     {
-        character = characterBase;
-    }*/
-
-    /*public void ApplyGravity(float gravity, float gravityMax)
-    {
-        if (inAir == true)
-        {
-            speedZ -= ((gravity * Time.deltaTime) * character.MotionSpeed);
-            speedZ = Mathf.Max(speedZ, gravityMax);
-            spriteRenderer.transform.localPosition += new Vector3(0, (speedZ * Time.deltaTime) * character.MotionSpeed, 0);
-            if (spriteRenderer.transform.localPosition.y <= 0 && character.MotionSpeed != 0)
-            {
-                inAir = false;
-                speedZ = 0;
-                spriteRenderer.transform.localPosition = new Vector3(spriteRenderer.transform.localPosition.x, 0, spriteRenderer.transform.localPosition.z);
-                //OnGroundCollision();
-            }
-        }
-    }*/
-
-
-    public void Jump(float impulsion)
-    {
-        //speedZ = impulsion;
+        get { return motionSpeed; }
+        set { motionSpeed = value; }
     }
 
 
+    public void Accelerate()
+    {
+        Accelerate(1);
+    }
+    public void Accelerate(float multiplier)
+    {
+        if (speedX < maxSpeed)
+        {
+            speedX += ((acceleration * multiplier) * motionSpeed) * Time.deltaTime;
+        }
+        else
+        {
+            speedX = maxSpeed;
+        }
+    }
+
+
+    public void Decelerate()
+    {
+        Decelerate(1);
+    }
+    public void Decelerate(float multiplier)
+    {
+        speedX -= ((deceleration * multiplier) * motionSpeed) * Time.deltaTime;
+        speedX = Mathf.Max(0, speedX); 
+    }
 
 
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(speed * multiplier * direction, 0);
+        SetSpeed(maxSpeed * multiplier * direction, 0);
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)
@@ -113,10 +136,6 @@ public class CharacterMovement : MonoBehaviour
     public void SetDirection(int newDirection)
     {
         direction = newDirection;
-        /*if (direction == 1)
-            spriteRenderer.flipX = false;
-        else if (direction == -1)
-            spriteRenderer.flipX = true;*/
     }
 
     public void TurnBack()
@@ -148,30 +167,33 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    /*public void SetCharacterMotionSpeed(float newSpeed, float time = 0)
+
+    public void Jump()
     {
-        characterMotionSpeed = newSpeed;
-        characterAnimator.speed = characterMotionSpeed;
-        if (currentAttackController != null)
-            currentAttackController.AttackMotionSpeed(newSpeed);
-        if (time > 0)
-        {
-            StartCoroutine(MotionSpeedCoroutine(time));
-        }
+        Jump(jumpForce);
     }
 
-
-    private IEnumerator MotionSpeedCoroutine(float time)
+    public void Jump(float jumpForce)
     {
-        while (time > 0)
-        {
-            time -= Time.deltaTime;
-            yield return null;
-        }
-        characterMotionSpeed = defaultMotionSpeed;
-        characterAnimator.speed = characterMotionSpeed;
-        if (currentAttackController != null)
-            currentAttackController.AttackMotionSpeed(characterMotionSpeed);
+        speedY = jumpForce;
+    }
+    
+    public void ApplyGravity()
+    {
+        ApplyGravity(1);
+    }
+
+    public void ApplyGravity(float multiplier)
+    {
+        speedY -= ((gravity * multiplier) * motionSpeed) * Time.deltaTime;
+        speedY = Mathf.Max(speedY, gravityMax);
+    }
+
+    // Variante au cas où
+    /*public void ApplyGravity(ref float speed)
+    {
+        speed -= (((gravity) * motionSpeed) * Time.deltaTime);
+        speed = Mathf.Max(speed, gravityMax);
     }*/
 
 

@@ -1,144 +1,198 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateIdle : CharacterState
 {
-
+	[Title("States")]
 	[SerializeField]
 	CharacterState wallRunState;
-
 	[SerializeField]
-	CharacterRigidbody characterRigidbody;
+	CharacterState jumpState;
 	[SerializeField]
-	CharacterMovement movement;
+	CharacterState turnAroundState;
+	[SerializeField]
+	CharacterState smashPressedState;
 
+
+	[Title("Parameter - Controls")]
 	[SerializeField]
 	float stickWalkThreshold = 0.3f;
 	[SerializeField]
 	float stickRunThreshold = 0.7f;
 
-	//float speedX = 0;
 
+	[Title("Parameter - Speed")]
 	[SerializeField]
-	float speedXMin = 1;
-	[SerializeField]
-	float speedXMax = 8;
+	float speedMultiplierWalk = 0.2f;
+
+	// Acceleration
+	[HorizontalGroup("Acceleration")]
 	[SerializeField]
 	float timeAccelerationMax = 1;
+
+	[HorizontalGroup("Acceleration")]
+	[SerializeField]
+	[HideLabel]
+	AnimationCurve accelerationMultiplierCurve;
+
+	float timeAcceleration = 0f;
+
+	// Decceleration
+	[HorizontalGroup("Decceleration")]
 	[SerializeField]
 	float timeDeccelerationMax = 1;
-
+	[HorizontalGroup("Decceleration")]
 	[SerializeField]
-	AnimationCurve accelerationCurve;
-	[SerializeField]
-	AnimationCurve deccelerationCurve;
+	[HideLabel]
+	AnimationCurve deccelerationMultiplierCurve;
 
-	bool acceleration = false;
-	float timeAcceleration = 0f;
+
+
+	[Title("Parameter - Actions")]
+	[SerializeField]
+	AttackManager attackKick;
+
+
+	float timeDecceleration = 0f;
+
+
+	float inputDirection = 0;
 
 	public bool canWallRun = true;
 
+	float speedImpulsion = 0f;
 
-	//int direction;
 
-	// Start is called before the first frame update
-	void Start()
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
-	public override void StartState(CharacterBase character)
-	{
-
+		//Debug.Log("IdleState");
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		float axisX = Input.GetAxis("Horizontal");
+		float axisX = character.Input.horizontal;
 
-		if (Mathf.Abs(axisX) > stickRunThreshold)
+		// Controls
+		if (Mathf.Abs(axisX) > stickRunThreshold)				// R U N
 		{
-			movement.Direction = (int)Mathf.Sign(axisX);
-			// Acceleration
-			Accelerate();
-
-		}
-		else if (Mathf.Abs(axisX) > stickWalkThreshold)
-		{
-			movement.Direction = (int)Mathf.Sign(axisX);
-			// Walk vitesse constante
-			if (movement.SpeedX < speedXMin)
+			if (inputDirection == 0)
 			{
-				movement.SpeedX = speedXMin;
+				inputDirection = (int)Mathf.Sign(axisX);
+			}
+			if (inputDirection != Mathf.Sign(axisX))
+			{
+				inputDirection = 0;
+				character.SetState(turnAroundState);
+				return;
+			}
+
+			character.Movement.Direction = (int)Mathf.Sign(axisX);
+			inputDirection = (int)Mathf.Sign(axisX);
+			Accelerate(character);
+		}
+		else if (Mathf.Abs(axisX) > stickWalkThreshold)			// W A L K
+		{
+			if (inputDirection == 0)
+			{
+				inputDirection = (int)Mathf.Sign(axisX);
+			}
+			if (inputDirection != Mathf.Sign(axisX))
+			{
+				inputDirection = 0;
+				character.SetState(turnAroundState);
+				return;
+			}
+
+			character.Movement.Direction = (int)Mathf.Sign(axisX);
+			// Walk vitesse constante
+			if (character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+			{
+				character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
 			}
 			else
 			{
 				// Decceleration
-				Deccelerate();
+				Deccelerate(character);
 			}
-
 		}
-		else
+		else													// R I E N
 		{
+			if(character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+				inputDirection = 0;
 			// Decceleration
-			Deccelerate();
+			Deccelerate(character);
 		}
+		character.Movement.ApplyGravity();
 
-		//characterRigidbody.UpdateCollision(10, -10);
-		characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
 
-		if (characterRigidbody.CollisionWallInfo != null && canWallRun == true)
+		if (character.Input.inputActions.Count != 0)
 		{
-			character.SetState(wallRunState);
+			if (character.Input.inputActions[0].action == InputConst.Attack)
+			{
+				if(character.Input.horizontal != 0)
+                {
+					character.SetState(smashPressedState);
+                }
+                else
+				{
+					character.Action.Action(attackKick);
+				}
+				character.Input.inputActions[0].timeValue = 0;
+			}
 		}
 	}
 
 
-
-	private void Accelerate()
+	public override void LateUpdateState(CharacterBase character)
 	{
-		if (acceleration == false)
+		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true)
 		{
-			timeAcceleration = movement.SpeedX / speedXMax * timeAccelerationMax;
+			if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+				character.SetState(wallRunState);
 		}
-		acceleration = true;
+		else if (character.Input.inputActions.Count != 0)
+		{
+			if (character.Input.inputActions[0].action == InputConst.Jump)
+			{
+				character.Movement.Jump();
+				character.SetState(jumpState);
+				character.Input.inputActions[0].timeValue = 0;
+			}
+		}
+	}
+
+	private void Accelerate(CharacterBase character)
+	{
+		timeDecceleration = 0;
+
+		if (timeAcceleration == 0 && (character.Movement.MaxSpeed * speedMultiplierWalk) >= character.Movement.SpeedX)
+			character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
+
 		if (timeAcceleration < timeAccelerationMax)
 			timeAcceleration += Time.deltaTime;
-		if (movement.SpeedX < speedXMax)
-		{
-			float t = timeAcceleration / timeAccelerationMax;
-			movement.SpeedX = speedXMin + (accelerationCurve.Evaluate(t) * (speedXMax - speedXMin));
-		}
 
+		character.Movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
+		/*speed += (movement.MaxSpeed * speedMultiplierWalk);
+		movement.SpeedX = speed;*/
 	}
 
-	private void Deccelerate()
+
+
+	private void Deccelerate(CharacterBase character)
 	{
-		if (acceleration == true)
-		{
-			timeAcceleration = movement.SpeedX / speedXMax * timeDeccelerationMax;
-		}
-		acceleration = false;
-		if (timeAcceleration > 0)
-			timeAcceleration -= Time.deltaTime;
-		if (movement.SpeedX > 0)
-		{
-			float t = timeAcceleration / timeDeccelerationMax;
-			movement.SpeedX = deccelerationCurve.Evaluate(t) * speedXMax;	
-		}
-
-
+		timeAcceleration = 0;
+		if (timeDecceleration < timeDeccelerationMax)
+			timeDecceleration += Time.deltaTime;
+		character.Movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
 	}
 
-	public override void EndState(CharacterBase character)
-	{
 
+	public override void EndState(CharacterBase character, CharacterState oldState)
+	{
+		inputDirection = 0;
+		timeDecceleration = 0;
+		timeAcceleration = 0;
 	}
 }
