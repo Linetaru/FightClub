@@ -19,12 +19,13 @@ public class CharacterAction : MonoBehaviour
     [SerializeField]
     Animator animator;
 
+    // C'est naze faut pas faire ça
     [SerializeField]
     CharacterState stateAction;
     [SerializeField]
     CharacterState stateIdle;
-
-
+    [SerializeField]
+    CharacterState stateAerial;
 
     public void InitializeComponent(CharacterBase c)
     {
@@ -99,7 +100,10 @@ public class CharacterAction : MonoBehaviour
         endAction = false;
 
         /*animator.SetTrigger("Idle");*/
-        character.SetState(stateIdle);
+        if(character.Rigidbody.IsGrounded)
+            character.SetState(stateIdle);
+        else
+            character.SetState(stateAerial);
     }
 
 

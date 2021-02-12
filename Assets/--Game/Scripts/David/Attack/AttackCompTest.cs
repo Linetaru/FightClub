@@ -18,6 +18,10 @@ public class AttackCompTest : AttackComponent
     {
 
     }
+    public override void UpdateComponent(CharacterBase user)
+    {
+
+    }
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         Debug.Log("Aie !");
