@@ -57,7 +57,8 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-
+    [SerializeField]
+    [ReadOnly]
     protected int direction = 1;
     public int Direction
     {
@@ -184,9 +185,16 @@ public class CharacterMovement : MonoBehaviour
 
     public void ApplyGravity(float multiplier)
     {
-        speedY -= (((gravity * multiplier) * motionSpeed) * Time.deltaTime);
+        speedY -= ((gravity * multiplier) * motionSpeed) * Time.deltaTime;
         speedY = Mathf.Max(speedY, gravityMax);
     }
+
+    // Variante au cas où
+    /*public void ApplyGravity(ref float speed)
+    {
+        speed -= (((gravity) * motionSpeed) * Time.deltaTime);
+        speed = Mathf.Max(speed, gravityMax);
+    }*/
 
 
 }
