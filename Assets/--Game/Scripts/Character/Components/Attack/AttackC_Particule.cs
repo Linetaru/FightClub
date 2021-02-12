@@ -10,6 +10,10 @@ public class AttackC_Particule : AttackComponent
     {
 		
     }
+    public override void UpdateComponent(CharacterBase user)
+    {
+
+    }
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
 		

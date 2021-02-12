@@ -15,6 +15,11 @@ public class AttackC_ScreenShake : AttackComponent
 
     }
 
+    public override void UpdateComponent(CharacterBase user)
+    {
+
+    }
+
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         Camera.main.GetComponent<ScreenShake>().StartScreenShake(shakePower, shakeDuration);
