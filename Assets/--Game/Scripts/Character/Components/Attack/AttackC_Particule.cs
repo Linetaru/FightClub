@@ -1,26 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class AttackC_Shake : AttackComponent
+public class AttackC_Particule : AttackComponent
 {
-    [SerializeField]
-    float shakePower = 0.1f;
-    [SerializeField]
-    float shakeTime = 0.1f;
 
     public override void StartComponent(CharacterBase user)
     {
+		
+    }
+    public override void UpdateComponent(CharacterBase user)
+    {
 
     }
-
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-        target.Knockback.ShakeEffect.Shake(shakePower, shakeTime);
+		
     }
-
     public override void EndComponent(CharacterBase user)
     {
-
+		
     }
 }

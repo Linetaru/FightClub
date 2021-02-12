@@ -16,9 +16,14 @@ public class AttackC_Knockback : AttackComponent
 
     }
 
+    public override void UpdateComponent(CharacterBase user)
+    {
+
+    }
+
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-        target.Knockback.Launch(knockbackAngle);
+        target.Knockback.Launch(knockbackAngle * new Vector2(user.Movement.Direction, 1));
 
         user.SetMotionSpeed(0, hitStop);
         target.SetMotionSpeed(0, hitStop);
