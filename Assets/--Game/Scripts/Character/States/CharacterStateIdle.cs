@@ -12,6 +12,8 @@ public class CharacterStateIdle : CharacterState
 	CharacterState jumpState;
 	[SerializeField]
 	CharacterState turnAroundState;
+	[SerializeField]
+	CharacterState smashPressedState;
 
 
 	[Title("Parameter - Controls")]
@@ -129,12 +131,17 @@ public class CharacterStateIdle : CharacterState
 		{
 			if (character.Input.inputActions[0].action == InputConst.Attack)
 			{
-				character.Action.Action(attackKick);
+				if(character.Input.horizontal != 0)
+                {
+					character.SetState(smashPressedState);
+                }
+                else
+				{
+					character.Action.Action(attackKick);
+				}
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
-
-
 	}
 
 

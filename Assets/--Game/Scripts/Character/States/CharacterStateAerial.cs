@@ -30,6 +30,9 @@ public class CharacterStateAerial : CharacterState
     [SerializeField]
     float maxAerialSpeed = 10f;
 
+    [SerializeField]
+    AttackManager attack;
+
 
 
     // Start is called before the first frame update
@@ -73,6 +76,17 @@ public class CharacterStateAerial : CharacterState
             }
         }
         character.Movement.ApplyGravity();
+
+
+        // Placeholder
+        if (character.Input.inputActions.Count != 0)
+        {
+            if (character.Input.inputActions[0].action == InputConst.Attack)
+            {
+                character.Action.Action(attack);
+                character.Input.inputActions[0].timeValue = 0;
+            }
+        }
     }
 
 
@@ -89,7 +103,7 @@ public class CharacterStateAerial : CharacterState
         }
         if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9)
                 character.SetState(wallRunState);
             return;
         }
@@ -131,6 +145,7 @@ public class CharacterStateAerial : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
+        Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
         /*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
 		{

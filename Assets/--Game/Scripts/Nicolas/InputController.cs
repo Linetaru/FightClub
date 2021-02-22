@@ -75,6 +75,7 @@ public class InputController : SerializedMonoBehaviour
 			Input_Movement(i, InputConst.Vertical.name);
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
+			Input_Action(i, InputConst.Smash.name);
 			Input_ActionUI(i, InputConst.Pause.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
