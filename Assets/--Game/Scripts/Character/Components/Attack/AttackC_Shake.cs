@@ -14,6 +14,11 @@ public class AttackC_Shake : AttackComponent
 
     }
 
+    public override void UpdateComponent(CharacterBase user)
+    {
+
+    }
+
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         target.Knockback.ShakeEffect.Shake(shakePower, shakeTime);

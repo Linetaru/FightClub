@@ -30,6 +30,9 @@ public class CharacterStateAerial : CharacterState
     [SerializeField]
     float maxAerialSpeed = 10f;
 
+    [SerializeField]
+    AttackManager attack;
+
 
 
     // Start is called before the first frame update
@@ -73,6 +76,17 @@ public class CharacterStateAerial : CharacterState
             }
         }
         character.Movement.ApplyGravity();
+
+
+        // Placeholder
+        if (character.Input.inputActions.Count != 0)
+        {
+            if (character.Input.inputActions[0].action == InputConst.Attack)
+            {
+                character.Action.Action(attack);
+                character.Input.inputActions[0].timeValue = 0;
+            }
+        }
     }
 
 

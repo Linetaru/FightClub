@@ -50,6 +50,7 @@ public class CharacterKnockback : MonoBehaviour
             tmp.x += Time.deltaTime * knockBackPower;
         else
             tmp.x = 0;
+
         tmp.y -= Time.deltaTime * knockBackPower;
         angleKnockback = tmp;
     }

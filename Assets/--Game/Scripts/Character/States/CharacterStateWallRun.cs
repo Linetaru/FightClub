@@ -49,8 +49,8 @@ public class CharacterStateWallRun : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        //wallCollision = true;
         Debug.Log("Wallrun");
+        character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
         float speedXBeforeWallRun = character.Movement.SpeedX;
 
         wallrunSpeed = baseWallRunSpeed + speedXBeforeWallRun/4;
@@ -60,20 +60,8 @@ public class CharacterStateWallRun : CharacterState
 
         if (character.Movement.SpeedX > 0)
         {
-
             character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
         }
-        //else
-        //{
-        //    if (character.Rigidbody.IsGrounded)
-        //    {
-        //        character.SetState(idleState);
-        //    }
-        //    else
-        //    {
-        //        character.SetState(aerialState);
-        //    }
-        //}
     }
 
     public override void UpdateState(CharacterBase character)
@@ -90,15 +78,6 @@ public class CharacterStateWallRun : CharacterState
             else
             {
                 character.Movement.SpeedY = wallrunSpeedMin;
-            }
-
-            if (character.Movement.SpeedY > 0)
-            {
-                //Play Wallrun animation
-            }
-            else
-            {
-                //Play WallSlide Animation (rester accroché au mur tout en se laissant tomber)
             }
 
             if (character.Input.inputActions.Count != 0 && wallCollision)

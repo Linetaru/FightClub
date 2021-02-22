@@ -58,6 +58,14 @@ public class CharacterStateKnockback : CharacterState
 
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+
+        if(movement.SpeedX > 0)
+        movement.SpeedX -= Time.deltaTime;
+        else
+        movement.SpeedX += Time.deltaTime;
+
+        movement.SpeedY -= Time.deltaTime;
+        character.Movement.ApplyGravity();
     }
 
     public override void LateUpdateState(CharacterBase character)
