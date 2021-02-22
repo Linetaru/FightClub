@@ -4980,6 +4980,7 @@ GameObject:
   - component: {fileID: 4877326219920859221}
   - component: {fileID: 4877326219920859226}
   - component: {fileID: 7339130377589210365}
+  - component: {fileID: 2798864678905260949}
   m_Layer: 15
   m_Name: Michelle_Kick
   m_TagString: Untagged
@@ -5037,6 +5038,7 @@ MonoBehaviour:
   - {fileID: 4877326219920859221}
   - {fileID: 4877326219920859226}
   - {fileID: 7339130377589210365}
+  - {fileID: 2798864678905260949}
 --- !u!114 &4877326219920859221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5066,7 +5068,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
-  particle: {fileID: 3419967500365344704, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
   knockbackAngle: {x: 0.1, y: 5}
 --- !u!114 &7339130377589210365
 MonoBehaviour:
@@ -5082,6 +5083,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakePower: 0.2
   shakeTime: 0.2
+--- !u!114 &2798864678905260949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4877326219920859230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086cbc1dc15c06242a649a357b1a5c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particuleObject: {fileID: 3419967500365344704, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
+  timeBeforeDestroying: 0.5
 --- !u!1 &4877326220556274234
 GameObject:
   m_ObjectHideFlags: 0
@@ -5217,6 +5232,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   stateAction: {fileID: 0}
   stateIdle: {fileID: 0}
+  stateAerial: {fileID: 0}
 --- !u!135 &4877326220208150710
 SphereCollider:
   m_ObjectHideFlags: 0
