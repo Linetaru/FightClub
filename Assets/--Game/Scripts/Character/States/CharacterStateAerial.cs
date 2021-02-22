@@ -96,7 +96,7 @@ public class CharacterStateAerial : CharacterState
     /// <param name="character"></param>
     public override void LateUpdateState(CharacterBase character)
     {
-        if (character.Rigidbody.CollisionGroundInfo != null)
+        if (character.Rigidbody.IsGrounded == true)
         {
             character.SetState(idleState);
             return;
