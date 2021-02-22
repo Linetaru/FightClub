@@ -28,7 +28,7 @@ public class CharacterStateIdle : CharacterState
 	float speedMultiplierWalk = 0.2f;
 
 	// Acceleration
-	[HorizontalGroup("Acceleration")]
+	/*[HorizontalGroup("Acceleration")]
 	[SerializeField]
 	float timeAccelerationMax = 1;
 
@@ -46,7 +46,7 @@ public class CharacterStateIdle : CharacterState
 	[HorizontalGroup("Decceleration")]
 	[SerializeField]
 	[HideLabel]
-	AnimationCurve deccelerationMultiplierCurve;
+	AnimationCurve deccelerationMultiplierCurve;*/
 
 
 
@@ -90,7 +90,7 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			inputDirection = (int)Mathf.Sign(axisX);
-			Accelerate(character);
+			character.Movement.Accelerate();
 		}
 		else if (Mathf.Abs(axisX) > stickWalkThreshold)			// W A L K
 		{
@@ -107,22 +107,22 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
 			{
-				character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
+				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}
 			else
 			{
 				// Decceleration
-				Deccelerate(character);
+				character.Movement.Decelerate();
 			}
 		}
 		else													// R I E N
 		{
-			if(character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+			if(character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
 				inputDirection = 0;
 			// Decceleration
-			Deccelerate(character);
+			character.Movement.Decelerate();
 		}
 		character.Movement.ApplyGravity();
 
@@ -163,7 +163,7 @@ public class CharacterStateIdle : CharacterState
 		}
 	}
 
-	private void Accelerate(CharacterBase character)
+	/*private void Accelerate(CharacterBase character)
 	{
 		timeDecceleration = 0;
 
@@ -176,7 +176,7 @@ public class CharacterStateIdle : CharacterState
 		character.Movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
 		/*speed += (movement.MaxSpeed * speedMultiplierWalk);
 		movement.SpeedX = speed;*/
-	}
+	/*}
 
 
 
@@ -186,13 +186,13 @@ public class CharacterStateIdle : CharacterState
 		if (timeDecceleration < timeDeccelerationMax)
 			timeDecceleration += Time.deltaTime;
 		character.Movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
-	}
+	}*/
 
 
 	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
 		inputDirection = 0;
-		timeDecceleration = 0;
-		timeAcceleration = 0;
+		/*timeDecceleration = 0;
+		timeAcceleration = 0;*/
 	}
 }
