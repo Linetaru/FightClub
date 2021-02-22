@@ -104,7 +104,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             CalculateBounds(Vector2.zero);
 
             float slopeAngle = CheckSlope();
-            if (slopeAngle <= maxSlopeAngle) // On climb
+            if (slopeAngle <= maxSlopeAngle) // On climb --------------------------------------------------------------------
             {
                 climbingSlope = true;
                 float newSlopeAngle = slopeAngle;
@@ -124,19 +124,18 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 actualSpeedY = speedYSaved;
                 UpdatePositionX();
             }
-            else // On climb pas ou on touche un mur 
+            else // On climb pas ou on touche un mur --------------------------------------------------------------------
             {
                 UpdatePositionX();
                 Vector2 offsetX = new Vector2(actualSpeedX, 0);
                 CalculateBounds(offsetX);
                 UpdatePositionY();
             }
-
-
-
-            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
-            Physics.SyncTransforms();
         }
+
+
+        transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
+        Physics.SyncTransforms();
     }
 
 

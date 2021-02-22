@@ -363,20 +363,6 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
-  timeAccelerationMax: 1
-  accelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  timeDeccelerationMax: 0.4
-  deccelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   attackKick: {fileID: 0}
   canWallRun: 1
 --- !u!114 &204469690
@@ -499,9 +485,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
-  acceleration: 0
-  deceleration: 0
+  speedMax: 0
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeAccelerationMax: 1
+  decelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDeccelerationMax: 1
   jumpForce: 10
   gravity: 1
   gravityMax: 0
@@ -860,6 +858,78 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: accelerationCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: acceleration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: maxSpeed
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: deceleration
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: speedMax
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: accelerationCurve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: accelerationCurve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: accelerationCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: accelerationCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: timeAccelerationMax
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[1].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: decelerationCurve.m_Curve.Array.data[1].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: timeDeccelerationMax
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1243007124110432119, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_Name
       value: ProtoMan
@@ -907,6 +977,10 @@ PrefabInstance:
     - target: {fileID: 1243007124110432123, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1243007124115546923, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: speedDelta
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
@@ -1751,9 +1825,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 50
-  acceleration: 30
-  deceleration: 40
+  speedMax: 0
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeAccelerationMax: 1
+  decelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDeccelerationMax: 1
   jumpForce: 10
   gravity: 15
   gravityMax: -10
@@ -1802,65 +1888,6 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.1
-  timeAccelerationMax: 0.6
-  accelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0063705444
-      value: 0.810585
-      inSlope: 2.0275881
-      outSlope: 2.0275881
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.1
-      value: 1.000427
-      inSlope: 0.20062625
-      outSlope: 0.20062625
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.88447684
-      outWeight: 0.15437676
-    - serializedVersion: 3
-      time: 1.0075886
-      value: 0.07825937
-      inSlope: -1.0160635
-      outSlope: -1.0160635
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  timeDeccelerationMax: 0.5
-  deccelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0000005904585
-      value: 1
-      inSlope: 0.078231074
-      outSlope: 0.078231074
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.0927724
-    - serializedVersion: 3
-      time: 1
-      value: 0.49219424
-      inSlope: -0.016948424
-      outSlope: -0.016948424
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.096373826
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   attackKick: {fileID: 0}
   canWallRun: 1
 --- !u!114 &668931626
@@ -2631,9 +2658,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
-  acceleration: 0
-  deceleration: 0
+  speedMax: 0
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeAccelerationMax: 1
+  decelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDeccelerationMax: 1
   jumpForce: 10
   gravity: 1
   gravityMax: 0
@@ -2682,20 +2721,6 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
-  timeAccelerationMax: 1
-  accelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  timeDeccelerationMax: 0.4
-  deccelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   attackKick: {fileID: 0}
   canWallRun: 0
 --- !u!114 &952705658
@@ -5867,9 +5892,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
-  acceleration: 0
-  deceleration: 0
+  speedMax: 0
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeAccelerationMax: 1
+  decelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDeccelerationMax: 1
   jumpForce: 10
   gravity: 1
   gravityMax: 0
@@ -5918,20 +5955,6 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
-  timeAccelerationMax: 1
-  accelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  timeDeccelerationMax: 0.4
-  deccelerationMultiplierCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   attackKick: {fileID: 0}
   canWallRun: 0
 --- !u!114 &1974604350

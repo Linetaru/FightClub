@@ -26,6 +26,8 @@ public class CharacterStateIdle : CharacterState
 	[Title("Parameter - Speed")]
 	[SerializeField]
 	float speedMultiplierWalk = 0.2f;
+	[SerializeField]
+	float speedRequiredForWallRun = 8f;
 
 	// Acceleration
 	/*[HorizontalGroup("Acceleration")]
@@ -149,8 +151,10 @@ public class CharacterStateIdle : CharacterState
 	{
 		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true)
 		{
-			if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+			if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && character.Movement.SpeedX > speedRequiredForWallRun)
 				character.SetState(wallRunState);
+			else
+				character.Movement.ResetAcceleration(); // On reset l'acceleration pour rester a zero
 		}
 		else if (character.Input.inputActions.Count != 0)
 		{
@@ -192,6 +196,7 @@ public class CharacterStateIdle : CharacterState
 	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
 		inputDirection = 0;
+		character.Movement.ResetAcceleration();
 		/*timeDecceleration = 0;
 		timeAcceleration = 0;*/
 	}

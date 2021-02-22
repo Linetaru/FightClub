@@ -21,6 +21,8 @@ public class CharacterMovement : MonoBehaviour
     [HorizontalGroup("Acceleration")]
     private AnimationCurve accelerationCurve;
     [SerializeField]
+    [HorizontalGroup("Acceleration", Width = 50)]
+    [HideLabel]
     private float timeAccelerationMax = 1;
     private float timeAcceleration = 0;
 
@@ -28,6 +30,8 @@ public class CharacterMovement : MonoBehaviour
     [HorizontalGroup("Decceleration")]
     private AnimationCurve decelerationCurve;
     [SerializeField]
+    [HorizontalGroup("Decceleration", Width = 50)]
+    [HideLabel]
     private float timeDeccelerationMax = 1;
     private float timeDecceleration = 0;
 
@@ -104,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
         }
         timeAcceleration += (Time.deltaTime * motionSpeed);
         timeAcceleration = Mathf.Clamp(timeAcceleration, 0, timeAccelerationMax);
-        speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax * 2;
+        speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
     }
 
 
