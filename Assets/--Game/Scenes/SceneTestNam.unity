@@ -363,6 +363,7 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
+  speedRequiredForWallRun: 8
   attackKick: {fileID: 0}
   canWallRun: 1
 --- !u!114 &204469690
@@ -858,78 +859,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: acceleration
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: maxSpeed
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: deceleration
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: speedMax
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[0].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[0].outSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: accelerationCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: timeAccelerationMax
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[0].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[0].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[1].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: decelerationCurve.m_Curve.Array.data[1].outSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 165654871176142652, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: timeDeccelerationMax
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1243007124110432119, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_Name
       value: ProtoMan
@@ -977,10 +906,6 @@ PrefabInstance:
     - target: {fileID: 1243007124110432123, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1243007124115546923, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
-      propertyPath: speedDelta
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
@@ -1888,6 +1813,7 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.1
+  speedRequiredForWallRun: 8
   attackKick: {fileID: 0}
   canWallRun: 1
 --- !u!114 &668931626
@@ -2721,6 +2647,7 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
+  speedRequiredForWallRun: 8
   attackKick: {fileID: 0}
   canWallRun: 0
 --- !u!114 &952705658
@@ -5955,6 +5882,7 @@ MonoBehaviour:
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.2
+  speedRequiredForWallRun: 8
   attackKick: {fileID: 0}
   canWallRun: 0
 --- !u!114 &1974604350
