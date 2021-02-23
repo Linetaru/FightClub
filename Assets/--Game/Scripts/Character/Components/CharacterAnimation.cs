@@ -20,7 +20,7 @@ public class CharacterAnimation : MonoBehaviour
     {
         Idle,
         Knockback,
-        Wallrun
+        Wallrun,        StartJump
     }
     ActualState actualState;
 
@@ -66,6 +66,12 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
+        if(newState is CharacterStateStartJump)
+        {
+            animator.SetTrigger("StartJump");
+
+            actualState = ActualState.StartJump;
+        }
     }
 
     // Update is called once per frame
