@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class CharacterStateStartJump : CharacterState
 {
+	[SerializeField]
+	private CharacterState jumpState;
 
+	[SerializeField]
+	private Animator animator;
 
 	void Start()
 	{
@@ -23,7 +27,12 @@ public class CharacterStateStartJump : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-
+		if (!animator.GetCurrentAnimatorStateInfo(0).IsName("ProtoMan_StartJump"))
+        {
+			Debug.Log("Jump");
+			character.Movement.Jump();
+			character.SetState(jumpState);
+        }
 	}
 	
 	public override void LateUpdateState(CharacterBase character)
