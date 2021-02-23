@@ -51,6 +51,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return ui; }
 	}
 
+	[SerializeField]
+	private CharacterParticle particle;
+	public CharacterParticle Particle
+	{
+		get { return particle; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{
@@ -77,7 +84,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	void Start()
 	{
 		Application.targetFrameRate = 60;
-		movement.MotionSpeed = MotionSpeed;
+		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
 		Stats.InitStats();
 		Ui.InitPlayerPanel(this);
@@ -115,6 +123,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		motionSpeed = newValue;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 
 		if (motionSpeedCoroutine != null)
@@ -132,6 +141,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		}
 		motionSpeed = 1;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 	}
 

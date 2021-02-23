@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-
+    public CharacterParticle characterParticle;
 
     [Title("Stats")]
     [SerializeField]
@@ -108,7 +108,9 @@ public class CharacterMovement : MonoBehaviour
         }
         timeAcceleration += (Time.deltaTime * motionSpeed);
         timeAcceleration = Mathf.Clamp(timeAcceleration, 0, timeAccelerationMax);
-        speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
+        float newSpeedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
+        if(speedX < newSpeedX)
+            speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
     }
 
 
@@ -191,6 +193,7 @@ public class CharacterMovement : MonoBehaviour
     public void Jump(float jumpForce)
     {
         speedY = jumpForce;
+        characterParticle.UseParticle("jump");
     }
     
     public void ApplyGravity()

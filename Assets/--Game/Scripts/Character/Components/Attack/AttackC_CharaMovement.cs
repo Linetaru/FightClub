@@ -28,7 +28,7 @@ public class AttackC_CharaMovement : AttackComponent
     public override void StartComponent(CharacterBase user)
     {
         if (keepMomentum == false)
-            user.Movement.SetSpeed(0, 0);
+            user.Movement.SpeedX = 0;
         if (linkToCharacter == true)
             this.transform.SetParent(user.transform);
         character = user;
