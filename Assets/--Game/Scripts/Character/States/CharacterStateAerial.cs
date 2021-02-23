@@ -124,7 +124,17 @@ public class CharacterStateAerial : CharacterState
         else
             aerialDirection = -axisX;
 
-        character.Movement.SpeedX = ((character.Movement.SpeedX * airFriction) + (airControl * aerialDirection));
+        character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
+
+        if (character.Movement.SpeedX >= maxAerialSpeed)
+        {
+            character.Movement.SpeedX = maxAerialSpeed;
+        }
+        else if(character.Movement.SpeedX <= -maxAerialSpeed)
+        {
+            character.Movement.SpeedX = -maxAerialSpeed;
+        }
+
         //    //movement.Direction = (int)Mathf.Sign(axisX);
         //    // Walk vitesse constante
         //    if (movement.SpeedX < maxAerialSpeed)
@@ -136,13 +146,13 @@ public class CharacterStateAerial : CharacterState
         //        movement.SpeedX = maxAerialSpeed;
         //    }
 
-        
-        //if (movement.SpeedX > (movement.MaxSpeed))
-        //{
-        //	movement.SpeedX = (movement.MaxSpeed);
-        //}
 
-        //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
+            //if (movement.SpeedX > (movement.MaxSpeed))
+            //{
+            //	movement.SpeedX = (movement.MaxSpeed);
+            //}
+
+            //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)

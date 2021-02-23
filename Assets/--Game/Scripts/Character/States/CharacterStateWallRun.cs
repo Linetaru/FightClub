@@ -27,11 +27,11 @@ public class CharacterStateWallRun : CharacterState
     [SerializeField]
     float wallJumpSpeedX = 5.0f;
 
-    float horizontalDeadZone = .1f;
+    float joystickDeadzone = .9f;
 
     bool wallCollision = false;
     bool groundCollision = false;
-    
+
     [SerializeField]
     LayerMask wallLayer;
 
@@ -57,7 +57,7 @@ public class CharacterStateWallRun : CharacterState
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
         float speedXBeforeWallRun = character.Movement.SpeedX;
 
-        wallrunSpeed = baseWallRunSpeed + speedXBeforeWallRun/4;
+        wallrunSpeed = baseWallRunSpeed + speedXBeforeWallRun / 4;
 
         if (wallrunSpeed > wallrunSpeedMax)
             wallrunSpeed = wallrunSpeedMax;
@@ -78,39 +78,45 @@ public class CharacterStateWallRun : CharacterState
     {
         wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
         groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
-        
-            if (character.Movement.SpeedY > wallrunSpeedMin)
+
+        if (character.Movement.SpeedY > wallrunSpeedMin)
+        {
+            wallrunSpeed -= deccelerationRate * Time.deltaTime;
+            character.Movement.SpeedY = wallrunSpeed;
+        }
+        else
+        {
+            character.Movement.SpeedY = wallrunSpeedMin;
+            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction
+                || character.Input.vertical < -joystickDeadzone)
             {
-                wallrunSpeed -= deccelerationRate * Time.deltaTime;
-                character.Movement.SpeedY = wallrunSpeed;
+                character.SetState(aerialState);
+                //character.Input.inputActions[0].timeValue = 0;
             }
-            else
+        }
+
+        if (character.Input.inputActions.Count != 0 && wallCollision)
+        {
+            if (character.Input.inputActions[0].action == InputConst.Jump)
             {
-                character.Movement.SpeedY = wallrunSpeedMin;
+                character.Movement.Direction = character.Movement.Direction * -1;
+
+                if (character.Movement.SpeedY > 0)
+                    character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
+                else
+                    character.Movement.SpeedX = wallJumpSpeedX;
+
+                wallCollision = false;
+
+                character.Movement.Jump();
+
+                //Play Walljump animation
+
+                character.SetState(aerialState);
+                character.Input.inputActions[0].timeValue = 0;
             }
+        }
 
-            if (character.Input.inputActions.Count != 0 && wallCollision)
-            {
-                if (character.Input.inputActions[0].action == InputConst.Jump)
-                {
-                    character.Movement.Direction = character.Movement.Direction * -1;
-
-                    if (character.Movement.SpeedY > 0)
-                        character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
-                    else
-                        character.Movement.SpeedX = wallJumpSpeedX;
-
-                    wallCollision = false;
-
-                    character.Movement.Jump();
-
-                    //Play Walljump animation
-
-                    character.SetState(aerialState);
-                    character.Input.inputActions[0].timeValue = 0;
-                }
-            }
-        
 
         //if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == character.Movement.Direction && wallCollision)
         //{
@@ -145,7 +151,7 @@ public class CharacterStateWallRun : CharacterState
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
 
-            Debug.Log("Wallrun end");
+        Debug.Log("Wallrun end");
     }
 
 
