@@ -14,13 +14,11 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     CharacterMovement movement;
 
+    [Header("Knockback Stats")]
     [SerializeField]
     float minimalKnockBackSpeed = 4.0f;
     [SerializeField]
     float collisionFriction = 0.8f;
-
-    [SerializeField]
-    float knockbackDuration = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +34,12 @@ public class CharacterStateKnockback : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+
     }
 
     public override void UpdateState(CharacterBase character)
     {
-        character.Knockback.UpdateKnockback();
+        character.Knockback.UpdateKnockback(character.Stats.LifePercentage);
 
         if (Mathf.Abs(character.Knockback.GetAngleKnockback().magnitude) < minimalKnockBackSpeed)
         {
