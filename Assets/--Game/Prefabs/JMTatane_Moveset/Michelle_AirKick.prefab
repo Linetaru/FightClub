@@ -90,9 +90,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 50
-  acceleration: 30
-  deceleration: 40
+  characterParticle: {fileID: 0}
+  speedMax: 0
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeAccelerationMax: 1
+  decelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDeccelerationMax: 1
   jumpForce: 10
   gravity: 15
   gravityMax: -10
@@ -5069,8 +5082,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
-  particle: {fileID: 3419967500365344704, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
-  knockbackAngle: {x: 0.1, y: 5}
+  knockbackAngle: 0
+  knockbackPower: 10
+  dynamicAngle: 1
 --- !u!114 &5319126395141383885
 MonoBehaviour:
   m_ObjectHideFlags: 0
