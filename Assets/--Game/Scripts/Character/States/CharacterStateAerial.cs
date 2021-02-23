@@ -12,7 +12,7 @@ public class CharacterStateAerial : CharacterState
     CharacterState wallRunState;
 
     [SerializeField]
-    float minimalSpeedToWallRun = -2;
+    float minimalSpeedToWallRun = 8;
 
     [SerializeField]
     int numberOfAerialJump = 1;
@@ -96,14 +96,16 @@ public class CharacterStateAerial : CharacterState
     /// <param name="character"></param>
     public override void LateUpdateState(CharacterBase character)
     {
-        if (character.Rigidbody.CollisionGroundInfo != null)
+        if (character.Rigidbody.IsGrounded == true)
         {
             character.SetState(idleState);
             return;
         }
-        if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
+        if (character.Rigidbody.CollisionWallInfo != null)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9)
+            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9 
+                && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
+                && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                 character.SetState(wallRunState);
             return;
         }
@@ -122,7 +124,17 @@ public class CharacterStateAerial : CharacterState
         else
             aerialDirection = -axisX;
 
-        character.Movement.SpeedX = ((character.Movement.SpeedX * airFriction) + (airControl * aerialDirection));
+        character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
+
+        if (character.Movement.SpeedX >= maxAerialSpeed)
+        {
+            character.Movement.SpeedX = maxAerialSpeed;
+        }
+        else if(character.Movement.SpeedX <= -maxAerialSpeed)
+        {
+            character.Movement.SpeedX = -maxAerialSpeed;
+        }
+
         //    //movement.Direction = (int)Mathf.Sign(axisX);
         //    // Walk vitesse constante
         //    if (movement.SpeedX < maxAerialSpeed)
@@ -134,13 +146,13 @@ public class CharacterStateAerial : CharacterState
         //        movement.SpeedX = maxAerialSpeed;
         //    }
 
-        
-        //if (movement.SpeedX > (movement.MaxSpeed))
-        //{
-        //	movement.SpeedX = (movement.MaxSpeed);
-        //}
 
-        //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
+            //if (movement.SpeedX > (movement.MaxSpeed))
+            //{
+            //	movement.SpeedX = (movement.MaxSpeed);
+            //}
+
+            //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)

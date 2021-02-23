@@ -20,7 +20,7 @@ public class CharacterAnimation : MonoBehaviour
     {
         Idle,
         Knockback,
-        Wallrun
+        Wallrun,        StartJump
     }
     ActualState actualState;
 
@@ -66,6 +66,12 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
+        if(newState is CharacterStateStartJump)
+        {
+            animator.SetTrigger("StartJump");
+
+            actualState = ActualState.StartJump;
+        }
     }
 
     // Update is called once per frame
@@ -90,12 +96,12 @@ public class CharacterAnimation : MonoBehaviour
     }
     void AnimationIdle()
     {
-        float speedT = movement.SpeedX / (movement.MaxSpeed - speedDelta);
+        float speedT = movement.SpeedX / movement.SpeedMax;
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
     }
     void AnimationWallrun()
     {
-        float speedT = movement.SpeedY / (movement.MaxSpeed - speedDelta);
+        float speedT = movement.SpeedY / movement.SpeedMax;
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
