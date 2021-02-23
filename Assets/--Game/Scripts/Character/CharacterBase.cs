@@ -51,6 +51,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return ui; }
 	}
 
+	[SerializeField]
+	private CharacterParticle particle;
+	public CharacterParticle Particle
+	{
+		get { return particle; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{
