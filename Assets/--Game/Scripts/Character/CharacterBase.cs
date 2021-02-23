@@ -37,6 +37,19 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
+	[SerializeField]
+	private CharacterStats stats;
+	public CharacterStats Stats
+	{
+		get { return stats; }
+	}
+
+	[SerializeField]
+	private CharacterUI ui;
+	public CharacterUI Ui
+	{
+		get { return ui; }
+	}
 
 	private Input_Info input;
 	public Input_Info Input
@@ -66,6 +79,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Application.targetFrameRate = 60;
 		movement.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
+		Stats.InitStats();
+		Ui.InitPlayerPanel(this);
 	}
 
 

@@ -104,7 +104,6 @@ MonoBehaviour:
   movement: {fileID: 636584863381703042}
   minimalKnockBackSpeed: 4
   collisionFriction: 0.8
-  knockbackDuration: 0
 --- !u!135 &3108033799647418925
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -452,7 +451,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeEffect: {fileID: 1139850951628235326}
-  knockBackPower: 5
+  angleKnockback: {x: 0, y: 0}
+  angleFirstKnockback: {x: 0, y: 0}
+  knockBackPower: 10
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.28218648
+      value: 1.0016853
+      inSlope: -0.060739905
+      outSlope: -0.060739905
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0025696
+      value: -1.000711
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3108033800291188820
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +878,7 @@ MonoBehaviour:
   movement: {fileID: 636584863381703042}
   action: {fileID: 3803026218908425775}
   knockback: {fileID: 629662718669683265}
+  stats: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &3108033801048431004
 BoxCollider:
