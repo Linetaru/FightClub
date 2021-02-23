@@ -36,6 +36,7 @@ public class CharacterAnimation : MonoBehaviour
 
         if (oldState is CharacterStateWallRun)
         {
+            animator.transform.localPosition = Vector3.zero;
             animator.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
@@ -47,6 +48,7 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateAerial)
         {
             animator.SetTrigger("Fall");
+            animator.transform.localPosition = Vector3.zero;
             animator.transform.rotation = Quaternion.Euler(0, 90, 0);
             actualState = ActualState.Knockback;
         }
@@ -54,10 +56,16 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("Wallrun");
             if (movement.Direction == 1)
+            {
+                animator.transform.localPosition = new Vector3(0.35f, 0, 0);
                 animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
+            }
 
             else if (movement.Direction == -1)
+            {
+                animator.transform.localPosition = new Vector3(-0.35f, 0, 0);
                 animator.transform.rotation = Quaternion.Euler(90, 90, 0);
+            }
 
             actualState = ActualState.Wallrun;
         }
@@ -105,15 +113,22 @@ public class CharacterAnimation : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
+            animator.transform.localPosition = Vector3.zero;
             animator.transform.rotation = Quaternion.Euler(0, 90, 0);
             animator.SetBool("Hanging", true);
         }
         else
         {
             if (movement.Direction == 1)
+            {
+                animator.transform.localPosition = new Vector3(0.35f, 0, 0);
                 animator.transform.rotation = Quaternion.Euler(-90, 90, 0);
+            }
             else if (movement.Direction == -1)
+            {
+                animator.transform.localPosition = new Vector3(-0.35f, 0, 0);
                 animator.transform.rotation = Quaternion.Euler(90, 90, 0);
+            }
             animator.SetBool("Hanging", false);
         }
     }
