@@ -23,9 +23,13 @@ public class CharacterKnockback : MonoBehaviour
 
     //================================================================================
 
-    Vector2 angleKnockback;
+    [ReadOnly] public Vector2 angleKnockback;
+    [ReadOnly] public Vector2 angleFirstKnockback;
     public float knockBackPower;
+    float t = 0;
 
+    public AnimationCurve curve;
+ 
     public Vector2 GetAngleKnockback()
     {
         return angleKnockback;
@@ -39,9 +43,10 @@ public class CharacterKnockback : MonoBehaviour
     public void Launch(Vector2 angle)
     {
         angleKnockback =  angle;
+        angleFirstKnockback = angle;
     }
 
-    public void UpdateKnockback()
+    public void UpdateKnockback(float percentage)
     {
         Vector2 tmp = angleKnockback;
         if (angleKnockback.x > 0.25)
@@ -52,6 +57,7 @@ public class CharacterKnockback : MonoBehaviour
             tmp.x = 0;
 
         tmp.y -= Time.deltaTime * knockBackPower;
-        angleKnockback = tmp;
+        t += Time.deltaTime;
+        angleKnockback = Vector2.Lerp(tmp, angleFirstKnockback, curve.Evaluate(t));
     }
 }
