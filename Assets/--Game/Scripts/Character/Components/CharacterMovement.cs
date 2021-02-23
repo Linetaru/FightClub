@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-
+    public CharacterParticle characterParticle;
 
     [Title("Stats")]
     [SerializeField]
@@ -176,6 +176,7 @@ public class CharacterMovement : MonoBehaviour
     public void Jump(float jumpForce)
     {
         speedY = jumpForce;
+        characterParticle.UseParticle("jump");
     }
     
     public void ApplyGravity()
