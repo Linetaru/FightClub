@@ -102,9 +102,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         if (collision == true)
         {
             CalculateBounds(Vector2.zero);
+            CheckPush(speedX, speedY);
 
             float slopeAngle = CheckSlope();
-            if (slopeAngle <= maxSlopeAngle) // On climb
+            if (slopeAngle <= maxSlopeAngle) // On climb --------------------------------------------------------------------
             {
                 climbingSlope = true;
                 float newSlopeAngle = slopeAngle;
@@ -124,19 +125,17 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 actualSpeedY = speedYSaved;
                 UpdatePositionX();
             }
-            else // On climb pas ou on touche un mur 
+            else // On climb pas ou on touche un mur --------------------------------------------------------------------
             {
                 UpdatePositionX();
                 Vector2 offsetX = new Vector2(actualSpeedX, 0);
                 CalculateBounds(offsetX);
                 UpdatePositionY();
             }
-
-
-
-            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
-            Physics.SyncTransforms();
         }
+
+        transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
+        Physics.SyncTransforms();
     }
 
 
@@ -242,6 +241,44 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             isGrounded = true;
     }
 
+
+
+
+    // C'est plus clair mais redondant avec le check slope et donc moins performant
+    private void CheckPush(float speedX, float speedY)
+    {
+        RaycastHit raycastX;
+        float directionX = Mathf.Sign(actualSpeedX);
+        Vector3 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
+        Vector3 originOffset = (upperRight - bottomRight) / (numberRaycastHorizontal - 1);
+
+        for (int i = 0; i < numberRaycastHorizontal; i++)
+        {
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            if (raycastX.collider != null)
+            {
+                CharacterRigidbody rigidbody = raycastX.collider.GetComponent<CharacterRigidbody>();
+                if (rigidbody != null)
+                {
+                    rigidbody.UpdateCollision(speedX, speedY);
+                    return;
+                }
+            }
+            originRaycast += originOffset;
+        }
+    }
+
+    /*private void Push(float speedX, float speedY)
+    {
+        CharacterRigidbody rigidbody = GetComponent<CharacterRigidbody>();
+        if(rigidbody != null)
+            rigidbody.UpdateCollision(speedX, speedY);
+    }*/
+
+    /*public override void ForceMove(float speedX, float speedY)
+    {
+        UpdateCollision(speedX, speedY);
+    }*/
 
 
 

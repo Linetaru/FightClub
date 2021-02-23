@@ -30,6 +30,7 @@ public class CharacterStateWallRun : CharacterState
     float horizontalDeadZone = .1f;
 
     bool wallCollision = false;
+    bool groundCollision = false;
     
     [SerializeField]
     LayerMask wallLayer;
@@ -50,6 +51,9 @@ public class CharacterStateWallRun : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("Wallrun");
+        Debug.Log(character.Rigidbody.IsGrounded);
+        groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
+
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
         float speedXBeforeWallRun = character.Movement.SpeedX;
 
@@ -58,8 +62,14 @@ public class CharacterStateWallRun : CharacterState
         if (wallrunSpeed > wallrunSpeedMax)
             wallrunSpeed = wallrunSpeedMax;
 
-        if (character.Movement.SpeedX > 0)
+        if (character.Rigidbody.IsGrounded)
         {
+            wallrunSpeed = wallrunSpeedMax;
+            character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
+        }
+        else
+        {
+            wallrunSpeed = wallrunSpeedMax;
             character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
         }
     }
@@ -67,9 +77,8 @@ public class CharacterStateWallRun : CharacterState
     public override void UpdateState(CharacterBase character)
     {
         wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
+        groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
         
-        if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == character.Movement.Direction && wallCollision)
-        {
             if (character.Movement.SpeedY > wallrunSpeedMin)
             {
                 wallrunSpeed -= deccelerationRate * Time.deltaTime;
@@ -101,17 +110,35 @@ public class CharacterStateWallRun : CharacterState
                     character.Input.inputActions[0].timeValue = 0;
                 }
             }
-        }
-        else
+        
+
+        //if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == character.Movement.Direction && wallCollision)
+        //{
+        //}
+        //else
+        //{
+        //    if (character.Rigidbody.IsGrounded)
+        //    {
+        //        character.SetState(idleState);
+        //    }
+        //    else
+        //    {
+        //        character.SetState(aerialState);
+        //    }
+        //}
+    }
+
+    public override void LateUpdateState(CharacterBase character)
+    {
+        base.LateUpdateState(character);
+
+        if (character.Rigidbody.IsGrounded)
         {
-            if (character.Rigidbody.IsGrounded)
-            {
-                character.SetState(idleState);
-            }
-            else
-            {
-                character.SetState(aerialState);
-            }
+            character.SetState(idleState);
+        }
+        else if (!wallCollision)
+        {
+            character.SetState(aerialState);
         }
     }
 

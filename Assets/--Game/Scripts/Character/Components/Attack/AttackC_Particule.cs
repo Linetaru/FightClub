@@ -5,19 +5,26 @@ using Sirenix.OdinInspector;
 
 public class AttackC_Particule : AttackComponent
 {
+    public GameObject particuleObject;
+    public float timeBeforeDestroying;
 
     public override void StartComponent(CharacterBase user)
     {
 		
     }
+
     public override void UpdateComponent(CharacterBase user)
     {
 
     }
+
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-		
+        GameObject go = Instantiate(particuleObject, target.Knockback.ContactPoint, Quaternion.identity);
+        go.name = particuleObject.name;
+        Destroy(go, timeBeforeDestroying);
     }
+
     public override void EndComponent(CharacterBase user)
     {
 		
