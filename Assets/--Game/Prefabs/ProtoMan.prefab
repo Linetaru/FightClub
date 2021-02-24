@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpState: {fileID: 1243007125067832120}
   animator: {fileID: 1243007123875102093}
-  shortJumpForce: 0
+  shortJumpForce: 14
 --- !u!1 &1330842836
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,6 +680,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 32768
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 98304
   offsetRaycastX: 0.01
   offsetRaycastY: 0.01
   numberRaycastVertical: 2
@@ -818,6 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b653ee969f02533478e1de64e5a203bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aerialState: {fileID: 1243007125067832120}
   wallRunState: {fileID: 1243007124265767654}
   jumpStartState: {fileID: 670615616}
   turnAroundState: {fileID: 1243007123981659652}
@@ -826,6 +830,12 @@ MonoBehaviour:
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.1
   speedRequiredForWallRun: 8
+  platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  goThroughGroundMask:
+    serializedVersion: 2
+    m_Bits: 32768
   attackKick: {fileID: 4877326219920859224, guid: 1999f051021fae841bf15fbefdf4e2a1, type: 3}
   canWallRun: 1
 --- !u!1 &1243007125067479396
