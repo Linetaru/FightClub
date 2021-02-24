@@ -4,44 +4,55 @@ using UnityEngine;
 
 public class CharacterStateStartJump : CharacterState
 {
-	[SerializeField]
-	private CharacterState jumpState;
+    [SerializeField]
+    private CharacterState jumpState;
 
-	[SerializeField]
-	private Animator animator;
+    [SerializeField]
+    private Animator animator;
 
-	void Start()
-	{
-		
-	}
+    [SerializeField]
+    private float shortJumpForce;
+    public float ShortJumpForce
+    {
+        get { return shortJumpForce; }
+    }
 
-	void Update()
-	{
-		
-	}
+    void Start()
+    {
 
-	public override void StartState(CharacterBase character, CharacterState oldState)
-	{
+    }
 
-	}
+    void Update()
+    {
 
-	public override void UpdateState(CharacterBase character)
-	{
-		if (!animator.GetCurrentAnimatorStateInfo(0).IsName("ProtoMan_StartJump"))
+    }
+
+    public override void StartState(CharacterBase character, CharacterState oldState)
+    {
+
+    }
+
+    public override void UpdateState(CharacterBase character)
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("ProtoMan_StartJump"))
         {
-			Debug.Log("Jump");
-			character.Movement.Jump();
-			character.SetState(jumpState);
+            Debug.Log("Jump");
+            if(Input.GetButton("Fire2"))
+                character.Movement.Jump();
+            else
+                character.Movement.Jump(shortJumpForce);
+
+                character.SetState(jumpState);
         }
-	}
-	
-	public override void LateUpdateState(CharacterBase character)
-	{
+    }
 
-	}
+    public override void LateUpdateState(CharacterBase character)
+    {
 
-	public override void EndState(CharacterBase character, CharacterState newState)
-	{
+    }
 
-	}
+    public override void EndState(CharacterBase character, CharacterState newState)
+    {
+
+    }
 }
