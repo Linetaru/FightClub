@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 204469697}
-  jumpState: {fileID: 0}
+  jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 0}
   smashPressedState: {fileID: 0}
   stickWalkThreshold: 0.3
@@ -383,6 +383,9 @@ MonoBehaviour:
   movement: {fileID: 0}
   action: {fileID: 0}
   knockback: {fileID: 0}
+  stats: {fileID: 0}
+  ui: {fileID: 0}
+  particle: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &204469691
 BoxCollider:
@@ -486,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterParticle: {fileID: 0}
   speedMax: 0
   accelerationCurve:
     serializedVersion: 2
@@ -859,6 +863,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 670615616, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: shortJumpForce
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1243007124110432119, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
       propertyPath: m_Name
       value: ProtoMan
@@ -907,6 +915,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1243007125067832120, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
+      propertyPath: doubleJumpParticle
+      value: 
+      objectReference: {fileID: 4988990591217321117, guid: ae596adab4032b24992b4975e1ef68ff, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02d59f96f5bef4c4ebf1961a4e0818ff, type: 3}
 --- !u!114 &375782924 stripped
@@ -1750,6 +1762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterParticle: {fileID: 0}
   speedMax: 0
   accelerationCurve:
     serializedVersion: 2
@@ -1807,7 +1820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 668931624}
-  jumpState: {fileID: 668931632}
+  jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 668931628}
   smashPressedState: {fileID: 0}
   stickWalkThreshold: 0.3
@@ -1833,6 +1846,9 @@ MonoBehaviour:
   movement: {fileID: 0}
   action: {fileID: 0}
   knockback: {fileID: 0}
+  stats: {fileID: 0}
+  ui: {fileID: 0}
+  particle: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &668931627
 BoxCollider:
@@ -1946,6 +1962,7 @@ MonoBehaviour:
   airFriction: 0.9
   maxAerialSpeed: 10
   attack: {fileID: 0}
+  doubleJumpParticle: {fileID: 0}
 --- !u!1 &676602494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2584,6 +2601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterParticle: {fileID: 0}
   speedMax: 0
   accelerationCurve:
     serializedVersion: 2
@@ -2641,7 +2659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 952705656}
-  jumpState: {fileID: 0}
+  jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 0}
   smashPressedState: {fileID: 0}
   stickWalkThreshold: 0.3
@@ -2667,6 +2685,9 @@ MonoBehaviour:
   movement: {fileID: 0}
   action: {fileID: 0}
   knockback: {fileID: 0}
+  stats: {fileID: 0}
+  ui: {fileID: 0}
+  particle: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &952705659
 BoxCollider:
@@ -5946,6 +5967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterParticle: {fileID: 0}
   speedMax: 0
   accelerationCurve:
     serializedVersion: 2
@@ -6003,7 +6025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallRunState: {fileID: 1974604348}
-  jumpState: {fileID: 0}
+  jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 0}
   smashPressedState: {fileID: 0}
   stickWalkThreshold: 0.3
@@ -6029,6 +6051,9 @@ MonoBehaviour:
   movement: {fileID: 0}
   action: {fileID: 0}
   knockback: {fileID: 0}
+  stats: {fileID: 0}
+  ui: {fileID: 0}
+  particle: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &1974604351
 BoxCollider:
