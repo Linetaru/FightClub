@@ -23,27 +23,70 @@ public class CharacterKnockback : MonoBehaviour
 
     //================================================================================
 
-    Vector2 angleKnockback;
-    public float knockBackPower;
+    [SerializeField]
+    private float weight = 1;
+    public float Weight
+    {
+        get { return weight; }
+    }
+
+    [SerializeField]
+    private float timeKnockbackPerDistance;
+    public float TimeKnockbackPerDistance
+    {
+        get { return timeKnockbackPerDistance; }
+    }
+
+
+
+
+
+
+
+    private Vector2 angleKnockback;
+
+    private float knockbackDuration = 0;
+    public float KnockbackDuration
+    {
+        get { return knockbackDuration; }
+        set { knockbackDuration = value; }
+    }
+
+    private bool isArmor = false;
+    public bool IsArmor
+    {
+        get { return isArmor; }
+        set { isArmor = value; }
+    }
+
+
+    protected float motionSpeed = 1;
+    public float MotionSpeed
+    {
+        get { return motionSpeed; }
+        set { motionSpeed = value; }
+    }
+
 
     public Vector2 GetAngleKnockback()
     {
         return angleKnockback;
     }
 
-    public float GetPowerKnockback()
+    public void Launch(Vector2 angle, float bonusKnockback = 0)
     {
-        return knockBackPower;
+        if (isArmor == true)
+            return;
+        angleKnockback = angle * weight;
+        knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
+        knockbackDuration += bonusKnockback;
+
     }
 
-    public void Launch(Vector2 angle)
+    public void UpdateKnockback(float percentage)
     {
-        angleKnockback =  angle;
-    }
-
-    public void UpdateKnockback()
-    {
-        Vector2 tmp = angleKnockback;
+        knockbackDuration -= Time.deltaTime * motionSpeed;
+       /* Vector2 tmp = angleKnockback;
         if (angleKnockback.x > 0.25)
             tmp.x -= Time.deltaTime * knockBackPower;
         else if (angleKnockback.x < -0.25)
@@ -52,6 +95,7 @@ public class CharacterKnockback : MonoBehaviour
             tmp.x = 0;
 
         tmp.y -= Time.deltaTime * knockBackPower;
-        angleKnockback = tmp;
+        t += Time.deltaTime;
+        angleKnockback = Vector2.Lerp(tmp, angleFirstKnockback, curve.Evaluate(t));*/
     }
 }

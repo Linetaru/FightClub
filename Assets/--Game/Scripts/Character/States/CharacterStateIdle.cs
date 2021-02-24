@@ -9,7 +9,7 @@ public class CharacterStateIdle : CharacterState
 	[SerializeField]
 	CharacterState wallRunState;
 	[SerializeField]
-	CharacterState jumpState;
+	CharacterState jumpStartState;
 	[SerializeField]
 	CharacterState turnAroundState;
 	[SerializeField]
@@ -160,8 +160,8 @@ public class CharacterStateIdle : CharacterState
 		{
 			if (character.Input.inputActions[0].action == InputConst.Jump)
 			{
-				character.Movement.Jump();
-				character.SetState(jumpState);
+				//character.Movement.Jump();
+				character.SetState(jumpStartState);
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
