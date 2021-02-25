@@ -8,6 +8,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	[SerializeField]
 	CharacterState currentState;
 
+	[Title("Model")]
+	[SerializeField]
+	private GameObject model;
+	public GameObject Model
+	{
+		get { return model; }
+	}
+
 	[Title("Components")]
 	[SerializeField]
 	private CharacterRigidbody rigidbody;
@@ -42,13 +50,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 	public CharacterStats Stats
 	{
 		get { return stats; }
-	}
-
-	[SerializeField]
-	private CharacterUI ui;
-	public CharacterUI Ui
-	{
-		get { return ui; }
 	}
 
 	[SerializeField]
@@ -87,8 +88,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
-		Stats.InitStats();
-		Ui.InitPlayerPanel(this);
 	}
 
 
@@ -96,10 +95,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		if(currentState != null)
 			currentState.EndState(this, characterState);
-		characterState.StartState(this, currentState);
 
-		OnStateChanged?.Invoke(currentState, characterState);
+		CharacterState oldState = currentState;
 		currentState = characterState;
+
+		currentState.StartState(this, oldState);
+
+		OnStateChanged?.Invoke(oldState, currentState);
+		//currentState = characterState;
 	}
 
 

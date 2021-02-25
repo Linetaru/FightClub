@@ -16,6 +16,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     [SerializeField] 
     private LayerMask layerMask;
+    [SerializeField]
+    private LayerMask groundLayerMask;
 
     [HorizontalGroup("RaycastOffset")]
     [SerializeField]
@@ -56,11 +58,13 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         get { return collisionWallInfo; }
     }
 
+
     private Transform collisionGroundInfo;
     public override Transform CollisionGroundInfo
     {
         get { return collisionGroundInfo; }
     }
+
 
     private Transform collisionRoofInfo;
     public override Transform CollisionRoofInfo
@@ -68,13 +72,33 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         get { return collisionRoofInfo; }
     }
 
+
     private bool isGrounded = false;
     public override bool IsGrounded
     {
         get { return isGrounded; }
-        //set { isGrounded = value; }
     }
 
+
+
+    private LayerMask currentLayerMask;
+    private LayerMask currentGroundLayerMask;
+
+
+    public override void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false)
+    {
+        if(groundLayerMask == true)
+            currentGroundLayerMask = newLayerMask;
+        else
+            currentLayerMask = newLayerMask;
+    }
+
+    // Repasse sur le layerMask par defaut
+    public override void ResetLayerMask()
+    {
+        currentLayerMask = layerMask;
+        currentGroundLayerMask = groundLayerMask;
+    }
 
     private void CalculateBounds(Vector3 offset)
     {
@@ -82,6 +106,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         upperLeft = new Vector3(characterCollider.bounds.min.x, characterCollider.bounds.max.y, transform.position.z) + offset;
         bottomRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.min.y, transform.position.z) + offset;
         upperRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.max.y, transform.position.z) + offset;
+    }
+
+    private void Start()
+    {
+        ResetLayerMask();
     }
 
 
@@ -186,7 +215,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, currentLayerMask);
             Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0) , Color.yellow, 0.5f);
             if (raycastX.collider != null)
             {
@@ -210,9 +239,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         Vector3 originRaycast = (directionY == -1) ? bottomLeft: upperLeft;
         Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
 
+        int layerMaskY = (directionY == -1) ? currentGroundLayerMask : currentLayerMask;
+
         for (int i = 0; i < numberRaycastVertical; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
+            Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMaskY);
             Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.red, 0.5f);
             if (raycastY.collider != null)
             {
@@ -268,17 +299,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         }
     }
 
-    /*private void Push(float speedX, float speedY)
-    {
-        CharacterRigidbody rigidbody = GetComponent<CharacterRigidbody>();
-        if(rigidbody != null)
-            rigidbody.UpdateCollision(speedX, speedY);
-    }*/
 
-    /*public override void ForceMove(float speedX, float speedY)
-    {
-        UpdateCollision(speedX, speedY);
-    }*/
 
 
 

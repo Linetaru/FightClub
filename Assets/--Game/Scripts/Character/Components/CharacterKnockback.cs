@@ -23,6 +23,7 @@ public class CharacterKnockback : MonoBehaviour
 
     //================================================================================
 
+    [Title("Parameter")]
     [SerializeField]
     private float weight = 1;
     public float Weight
@@ -38,8 +39,13 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-
-
+    [Title("Parameter - (Ptet a bouger)")]
+    [SerializeField]
+    private float damagePercentageRatio = 150f;
+    public float DamagePercentageRatio
+    {
+        get { return damagePercentageRatio; }
+    }
 
 
 
@@ -73,29 +79,19 @@ public class CharacterKnockback : MonoBehaviour
         return angleKnockback;
     }
 
-    public void Launch(Vector2 angle, float bonusKnockback = 0)
+    public void Launch(Vector2 angle, float damagePercentage, float bonusKnockback = 0)
     {
         if (isArmor == true)
             return;
         angleKnockback = angle * weight;
+        angleKnockback *= (damagePercentage / damagePercentageRatio);
+
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;
-
     }
 
     public void UpdateKnockback(float percentage)
     {
         knockbackDuration -= Time.deltaTime * motionSpeed;
-       /* Vector2 tmp = angleKnockback;
-        if (angleKnockback.x > 0.25)
-            tmp.x -= Time.deltaTime * knockBackPower;
-        else if (angleKnockback.x < -0.25)
-            tmp.x += Time.deltaTime * knockBackPower;
-        else
-            tmp.x = 0;
-
-        tmp.y -= Time.deltaTime * knockBackPower;
-        t += Time.deltaTime;
-        angleKnockback = Vector2.Lerp(tmp, angleFirstKnockback, curve.Evaluate(t));*/
     }
 }

@@ -51,7 +51,6 @@ public class CharacterStateWallRun : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("Wallrun");
-        Debug.Log(character.Rigidbody.IsGrounded);
         groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
 
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);

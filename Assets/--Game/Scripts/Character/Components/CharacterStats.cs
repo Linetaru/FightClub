@@ -7,12 +7,17 @@ public class CharacterStats : MonoBehaviour
 {
     [Title("Data")]
     [SerializeField]
+    [ReadOnly]
     private GameData gameData;
     public GameData GameData
     {
         get { return gameData; }
         set { gameData = value; }
     }
+
+    [SerializeField]
+    [ReadOnly]
+    public PackageCreator.Event.GameEventFloat gameEvent;
 
     [Title("Life")]
     [SerializeField]
@@ -54,7 +59,6 @@ public class CharacterStats : MonoBehaviour
         set { killNumber = value; }
     }
 
-
     public void InitStats()
     {
         if (GameData.VictoryCondition == VictoryCondition.Health)
@@ -71,6 +75,9 @@ public class CharacterStats : MonoBehaviour
         {
             LifePercentage = 999;
         }
+
+        if (gameEvent != null)
+            gameEvent.Raise(LifePercentage);
     }
 
     public void RespawnStats()
