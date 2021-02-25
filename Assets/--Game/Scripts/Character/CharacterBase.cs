@@ -94,10 +94,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		if(currentState != null)
 			currentState.EndState(this, characterState);
-		characterState.StartState(this, currentState);
 
-		OnStateChanged?.Invoke(currentState, characterState);
+		CharacterState oldState = currentState;
 		currentState = characterState;
+
+		currentState.StartState(this, oldState);
+
+		OnStateChanged?.Invoke(oldState, currentState);
+		//currentState = characterState;
 	}
 
 

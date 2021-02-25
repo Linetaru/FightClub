@@ -40,7 +40,7 @@ public class Input_Info
 	{
 		if (inputActions.Count != 0)
 		{
-			if(inputActions[0].action == inputAction)
+			if(inputActions[id].action == inputAction)
             {
 				return true;
             }
