@@ -7,6 +7,10 @@ public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
+	public CharacterState CurrentState
+	{
+		get { return currentState; }
+	}
 
 	[Title("Model")]
 	[SerializeField]
