@@ -33,6 +33,11 @@ public class CharacterStateAerial : CharacterState
     [SerializeField]
     AttackManager attack;
 
+    [SerializeField]
+    GameObject doubleJumpParticle;
+
+    bool isFastFall = false;
+
 
 
     // Start is called before the first frame update
@@ -70,14 +75,25 @@ public class CharacterStateAerial : CharacterState
         {
             if (character.Input.inputActions[0].action == InputConst.Jump)
             {
+                GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+                Destroy(jumpRippleEffect, 2.0f);
                 currentNumberOfAerialJump--;
                 character.Movement.Jump(jumpForce);
                 character.Input.inputActions[0].timeValue = 0;
             }
         }
-        character.Movement.ApplyGravity();
+
+        if (isFastFall)
+            character.Movement.ApplyGravity(2);
+        else
+            character.Movement.ApplyGravity();
 
 
+        if (character.Movement.SpeedY <= 0 && !isFastFall)
+        {
+            if (character.Input.vertical < -0.9f)
+                isFastFall = true;
+        }
         // Placeholder
         if (character.Input.inputActions.Count != 0)
         {
@@ -103,7 +119,7 @@ public class CharacterStateAerial : CharacterState
         }
         if (character.Rigidbody.CollisionWallInfo != null)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9 
+            if (Mathf.Abs(character.Input.horizontal) > .9
                 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
                 && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                 character.SetState(wallRunState);
@@ -130,7 +146,7 @@ public class CharacterStateAerial : CharacterState
         {
             character.Movement.SpeedX = maxAerialSpeed;
         }
-        else if(character.Movement.SpeedX <= -maxAerialSpeed)
+        else if (character.Movement.SpeedX <= -maxAerialSpeed)
         {
             character.Movement.SpeedX = -maxAerialSpeed;
         }
@@ -147,18 +163,19 @@ public class CharacterStateAerial : CharacterState
         //    }
 
 
-            //if (movement.SpeedX > (movement.MaxSpeed))
-            //{
-            //	movement.SpeedX = (movement.MaxSpeed);
-            //}
+        //if (movement.SpeedX > (movement.MaxSpeed))
+        //{
+        //	movement.SpeedX = (movement.MaxSpeed);
+        //}
 
-            //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
+        //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
+        isFastFall = false;
         /*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
 		{
 			currentNumberOfAerialJump = numberOfAerialJump;

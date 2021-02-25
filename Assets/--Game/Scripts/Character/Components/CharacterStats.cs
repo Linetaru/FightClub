@@ -7,6 +7,7 @@ public class CharacterStats : MonoBehaviour
 {
     [Title("Data")]
     [SerializeField]
+    [ReadOnly]
     private GameData gameData;
     public GameData GameData
     {

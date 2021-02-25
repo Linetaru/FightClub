@@ -84,10 +84,9 @@ public class CharacterBase : MonoBehaviour, IControllable
 	void Start()
 	{
 		Application.targetFrameRate = 60;
-		movement.MotionSpeed = MotionSpeed;
+		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
-		Stats.InitStats();
-		Ui.InitPlayerPanel(this);
 	}
 
 
@@ -95,10 +94,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		if(currentState != null)
 			currentState.EndState(this, characterState);
-		characterState.StartState(this, currentState);
 
-		OnStateChanged?.Invoke(currentState, characterState);
+		CharacterState oldState = currentState;
 		currentState = characterState;
+
+		currentState.StartState(this, oldState);
+
+		OnStateChanged?.Invoke(oldState, currentState);
+		//currentState = characterState;
 	}
 
 
@@ -122,6 +125,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		motionSpeed = newValue;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 
 		if (motionSpeedCoroutine != null)
@@ -139,6 +143,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		}
 		motionSpeed = 1;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 	}
 

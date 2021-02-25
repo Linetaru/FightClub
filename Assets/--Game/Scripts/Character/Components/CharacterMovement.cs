@@ -108,7 +108,9 @@ public class CharacterMovement : MonoBehaviour
         }
         timeAcceleration += (Time.deltaTime * motionSpeed);
         timeAcceleration = Mathf.Clamp(timeAcceleration, 0, timeAccelerationMax);
-        speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
+        float newSpeedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
+        if(speedX < newSpeedX)
+            speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
     }
 
 

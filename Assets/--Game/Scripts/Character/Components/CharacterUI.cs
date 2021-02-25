@@ -5,12 +5,15 @@ using TMPro;
 
 public class CharacterUI : MonoBehaviour
 {
-	public TextMeshProUGUI percentText;
-	public GameObject panelUI;
+	[ReadOnly] public TextMeshProUGUI percentText;
+	[ReadOnly] public GameObject panelUI;
 	CharacterBase userCharacter;
 
-	public void InitPlayerPanel(CharacterBase user)
+	public void InitPlayerPanel(CharacterBase user, GameObject panelPlayer, TextMeshProUGUI percentPlayer)
     {
+		panelUI = panelPlayer;
+		percentText = percentPlayer;
+
 		panelUI.SetActive(!panelUI.activeSelf);
 		percentText.text = user.Stats.LifePercentage.ToString() + " %";
 		userCharacter = user;
