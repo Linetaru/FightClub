@@ -300,6 +300,30 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     }
 
 
+    // Quand on monte une pente on check une collision vers le haut, ce qui peut etre interprété comme un saut, du coup on fais un check supplémentaire en bas pour bien dire qu'on est au sol
+    /*private void CheckClimbGround()
+    {
+        RaycastHit raycastY;
+        float directionY = -1;
+        Vector3 originRaycast = bottomLeft;
+        Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
+
+        int layerMaskY = currentGroundLayerMask;
+
+        for (int i = 0; i < numberRaycastVertical; i++)
+        {
+            Physics.Raycast(originRaycast, new Vector2(0, -offsetRaycastY), out raycastY, Mathf.Abs(offsetRaycastY*2), layerMaskY);
+            Debug.DrawRay(originRaycast, new Vector2(0, offsetRaycastY*2), Color.red, 0.5f);
+            if (raycastY.collider != null)
+            {
+                float distance = raycastY.distance - offsetRaycastY;
+                actualSpeedY = distance * directionY;
+                isGrounded = true;
+                collisionGroundInfo = raycastY.collider.transform;
+            }
+            originRaycast += originOffset;
+        }
+    }*/
 
 
 
