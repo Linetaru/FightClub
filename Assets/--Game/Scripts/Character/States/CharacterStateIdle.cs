@@ -25,11 +25,18 @@ public class CharacterStateIdle : CharacterState
 	float stickRunThreshold = 0.7f;
 
 
+
+
 	[Title("Parameter - Speed")]
 	[SerializeField]
 	float speedMultiplierWalk = 0.2f;
 	[SerializeField]
 	float speedRequiredForWallRun = 8f;
+
+
+	[Title("Parameter - Actions")]
+	[SerializeField]
+	CharacterMoveset moveset;
 
 	[Title("Parameter - Platform")]
 	[SerializeField]
@@ -37,9 +44,6 @@ public class CharacterStateIdle : CharacterState
 	[SerializeField]
 	LayerMask goThroughGroundMask;
 
-	[Title("Parameter - Actions")]
-	[SerializeField]
-	AttackManager attackKick;
 
 
 
@@ -49,28 +53,20 @@ public class CharacterStateIdle : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-
+		Debug.Log("Idle");
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
 		Movement(character);
 
-		if (character.Input.inputActions.Count != 0) // ----------------- Attack
+		if(moveset.ActionAttack(character) == true)
 		{
-			if (character.Input.inputActions[0].action == InputConst.Attack)
-			{
-				if(character.Input.horizontal != 0)
-                {
-					character.SetState(smashPressedState);
-                }
-                else
-				{
-					character.Action.Action(attackKick);
-				}
-				character.Input.inputActions[0].timeValue = 0;
-			}
-			else if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
+
+		}
+		else if (character.Input.inputActions.Count != 0) 
+		{
+			if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
 			{
 				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
 				{
@@ -96,16 +92,17 @@ public class CharacterStateIdle : CharacterState
 	{
 		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true) // ------------ Wall run
 		{
-			if (character.Movement.SpeedX > speedRequiredForWallRun)
+			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
 				character.SetState(wallRunState);
 			else
 				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
 		}
 		
-		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
+		else if (character.Rigidbody.CollisionGroundInfo == null) // ------------ On tombe
 		{
 			character.SetState(aerialState);
 			character.Movement.SpeedY = 0;
+			character.Movement.ApplyGravity();
 		}
 	}
 

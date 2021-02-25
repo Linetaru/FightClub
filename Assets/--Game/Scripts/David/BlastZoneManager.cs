@@ -29,11 +29,14 @@ public class BlastZoneManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log(other.gameObject.name);
+        Debug.Log(other.gameObject.tag);
         if(other.CompareTag("Player1") || other.CompareTag("Player2") || other.CompareTag("Player3") || other.CompareTag("Player4"))
         {
             // Respawn Manager
             playerGO = other.transform.root.gameObject;
             playerGO.GetComponent<CharacterBase>().SetState(playerGO.GetComponentInChildren<CharacterStateDeath>());
+            playerGO.GetComponent<CharacterBase>().Stats.RespawnStats();
         }
     }
 }

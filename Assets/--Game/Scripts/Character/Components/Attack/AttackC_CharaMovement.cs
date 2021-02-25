@@ -23,6 +23,9 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     bool deccelerate = false;
 
+    [SerializeField]
+    bool groundCancel = false;
+
     CharacterBase character;
 
     public override void StartComponent(CharacterBase user)
@@ -41,6 +44,9 @@ public class AttackC_CharaMovement : AttackComponent
             character.Movement.ApplyGravity();
         if (deccelerate == true)
             character.Movement.Decelerate();
+
+        if (groundCancel == true && character.Rigidbody.CollisionGroundInfo != null)
+            character.Action.EndAction();
     }
 
     // jsp

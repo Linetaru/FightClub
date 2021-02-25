@@ -20,8 +20,8 @@ public class CharacterAction : MonoBehaviour
     Animator animator;
 
     // C'est naze faut pas faire ça
-    [SerializeField]
-    CharacterState stateAction;
+    //[SerializeField]
+    //CharacterState stateAction;
     [SerializeField]
     CharacterState stateIdle;
     [SerializeField]
@@ -83,11 +83,13 @@ public class CharacterAction : MonoBehaviour
         currentAttackManager = Instantiate(attackToInstantiate, this.transform.position, Quaternion.identity);
         currentAttackManager.CreateAttack(character);
 
-        character.SetState(stateAction);
+        //character.SetState(stateAction);
         return true;
     }
 
 
+
+    // Cancel l'action mais ne reset pas le state
     public void CancelAction()
     {
         if (currentAttackManager != null)
@@ -98,15 +100,20 @@ public class CharacterAction : MonoBehaviour
         canMoveCancel = false;
         canEndAction = false;
         endAction = false;
+    }
 
-        /*animator.SetTrigger("Idle");*/
-        if(character.Rigidbody.IsGrounded)
+
+
+    // Termine l'action et retourne en état idle
+    public void FinishAction()
+    {
+        CancelAction();
+
+        if (character.Rigidbody.IsGrounded)
             character.SetState(stateIdle);
         else
             character.SetState(stateAerial);
     }
-
-
 
 
 
@@ -147,7 +154,7 @@ public class CharacterAction : MonoBehaviour
     }
 
     // Appelé par les anims
-    // active le bool pour Cancel l'action à la frame suivante
+    // active le bool pour Cancel l'action à la frame suivante via EndActionState
     public void EndAction()
     {
         if (canEndAction == true)
@@ -174,8 +181,7 @@ public class CharacterAction : MonoBehaviour
     {
         if (endAction == true)
         {
-            CancelAction();
-            //OnActionEnd.Invoke();
+            FinishAction();
         }
     }
 
