@@ -7,19 +7,22 @@ public class CharacterStateRespawn : CharacterState
 	[SerializeField]
 	CharacterState idleState;
 
-	public override void StartState(CharacterBase character, CharacterState oldState)
+    public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		Debug.Log("Respawn State");
 
 		Camera.main.GetComponent<CameraController>().playersTarget.Add(character.gameObject);
 
-		character.transform.position = new Vector3(-2.08f, 2f, 0f);
+		character.transform.position = BlastZoneManager.Instance.spawnpoint.position;
 
-		character.SetState(idleState);
+		//character.SetState(idleState);  ACTIVER CELUI LA PLUTOT QUE CELUI DANS LE UPDATE QUAND BUG FIX
+
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
+		//TMP
+		character.SetState(idleState);
 	}
 
 	public override void EndState(CharacterBase character, CharacterState oldState)

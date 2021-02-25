@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class BlastZoneManager : MonoBehaviour
 {
-    public float timeBeforeRespawn = 3.0f;
+    private static BlastZoneManager _instance;
 
-    private CameraController cameraController;
+    public static BlastZoneManager Instance { get { return _instance; } }
+
+    public float timeBeforeRespawn = 3.0f;
 
     private GameObject playerGO;
 
     public Transform spawnpoint;
 
-    private void Start()
+    private void Awake()
     {
+        if(_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     private void OnTriggerExit(Collider other)
