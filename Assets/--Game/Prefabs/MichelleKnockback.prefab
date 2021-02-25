@@ -133,6 +133,9 @@ MonoBehaviour:
   aerialState: {fileID: 3108033800291188821}
   collisionFriction: 0.8
   reboundReduction: 0.75
+  knockbackLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &3108033799647418925
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -429,7 +432,6 @@ GameObject:
   - component: {fileID: 3108033800188005586}
   - component: {fileID: 629662718669683265}
   - component: {fileID: 1788721786}
-  - component: {fileID: 1788721787}
   - component: {fileID: 1788721788}
   m_Layer: 0
   m_Name: Components
@@ -498,6 +500,7 @@ MonoBehaviour:
   shakeEffect: {fileID: 1139850951628235326}
   weight: 1
   timeKnockbackPerDistance: 0
+  damagePercentageRatio: 150
 --- !u!114 &1788721786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,24 +514,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
+  gameEvent: {fileID: 0}
   lifePercentage: 0
   lifeStocks: 0
   death: 0
   killNumber: 0
---- !u!114 &1788721787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3108033800188005551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e52e8bb23d0df64db6aa9f9e4da9302, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  percentText: {fileID: 0}
-  panelUI: {fileID: 0}
 --- !u!114 &1788721788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,7 +926,7 @@ MonoBehaviour:
   action: {fileID: 3803026218908425775}
   knockback: {fileID: 629662718669683265}
   stats: {fileID: 1788721786}
-  ui: {fileID: 1788721787}
+  ui: {fileID: 0}
   particle: {fileID: 1788721788}
   motionSpeed: 1
 --- !u!65 &3108033801048431004
@@ -969,6 +959,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 33792
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   offsetRaycastX: 0.01
   offsetRaycastY: 0.01
   numberRaycastVertical: 2
@@ -1017,6 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b653ee969f02533478e1de64e5a203bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aerialState: {fileID: 3108033800291188821}
   wallRunState: {fileID: 3108033799377190874}
   jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 3108033799759946716}
@@ -1025,6 +1019,12 @@ MonoBehaviour:
   stickRunThreshold: 0.7
   speedMultiplierWalk: 0.1
   speedRequiredForWallRun: 8
+  platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  goThroughGroundMask:
+    serializedVersion: 2
+    m_Bits: 0
   attackKick: {fileID: 4877326219920859224, guid: 1999f051021fae841bf15fbefdf4e2a1, type: 3}
   canWallRun: 1
 --- !u!1 &3803026217766530277

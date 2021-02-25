@@ -8,6 +8,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	[SerializeField]
 	CharacterState currentState;
 
+	[Title("Model")]
+	[SerializeField]
+	private GameObject model;
+	public GameObject Model
+	{
+		get { return model; }
+	}
+
 	[Title("Components")]
 	[SerializeField]
 	private CharacterRigidbody rigidbody;
@@ -42,13 +50,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 	public CharacterStats Stats
 	{
 		get { return stats; }
-	}
-
-	[SerializeField]
-	private CharacterUI ui;
-	public CharacterUI Ui
-	{
-		get { return ui; }
 	}
 
 	[SerializeField]

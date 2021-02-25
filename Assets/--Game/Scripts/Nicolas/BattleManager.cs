@@ -16,10 +16,14 @@ public class BattleManager : MonoBehaviour
 
 	public List<CharacterBase> characterFullDead;
 
-	public List<GameObject> canvasPanelPlayer;
-	public List<TextMeshProUGUI> canvasPercentPlayer;
+	//public List<GameObject> canvasPanelPlayer;
+	//public List<TextMeshProUGUI> canvasPercentPlayer;
 
 	public CameraController cameraController;
+
+	public CharacterUI[] characterUi;
+
+	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
 
 	public bool isGameStarted;
 
@@ -41,12 +45,16 @@ public class BattleManager : MonoBehaviour
         {
 			GameObject go = Instantiate(gameData.CharacterInfos[i].CharacterData.playerPrefab, spawningPoint[i].transform.position, Quaternion.identity);
 			go.name = gameData.CharacterInfos[i].CharacterData.playerPrefab.name;
+			go.tag = "Player" + (i + 1);
 			CharacterBase user = go.GetComponent<CharacterBase>();
+			user.Model.tag = "Player" + (i + 1);
 			inputController.controllable[i] = user;
 			characterAlive.Add(user);
 			user.Stats.GameData = gameData;
+			user.Stats.gameEvent = gameEventFloats[i];
 			user.Stats.InitStats();
-			user.Ui.InitPlayerPanel(user, canvasPanelPlayer[i], canvasPercentPlayer[i]);
+			if(characterUi.Length != 0)
+				characterUi[i].InitPlayerPanel(user);
 			cameraController.playersTarget.Add(go);
 		}
 		isGameStarted = true;

@@ -36,6 +36,7 @@ public class Input_Info
 		horizontal = 0;
 		vertical = 0;
 	}
+
 	public bool CheckAction(int id, InputAction inputAction)
 	{
 		if (inputActions.Count != 0)
