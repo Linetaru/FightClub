@@ -87,8 +87,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
-		Stats.InitStats();
-		Ui.InitPlayerPanel(this);
 	}
 
 
