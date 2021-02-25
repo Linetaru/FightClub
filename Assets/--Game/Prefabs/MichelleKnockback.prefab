@@ -131,10 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 3108033801216834096}
   aerialState: {fileID: 3108033800291188821}
-  characterRigidbody: {fileID: 3108033801048431007}
-  movement: {fileID: 636584863381703042}
-  minimalKnockBackSpeed: 4
   collisionFriction: 0.8
+  reboundReduction: 0.75
 --- !u!135 &3108033799647418925
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -195,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9ac93f64fc2940a9b1374f84f5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterParticle: {fileID: 1788721788}
+  characterParticle: {fileID: 0}
   speedMax: 0
   accelerationCurve:
     serializedVersion: 2
@@ -498,42 +496,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeEffect: {fileID: 1139850951628235326}
-  angleKnockback: {x: 0, y: 0}
-  angleFirstKnockback: {x: 0, y: 0}
-  knockBackPower: 10
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.28218648
-      value: 1.0016853
-      inSlope: -0.060739905
-      outSlope: -0.060739905
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0025696
-      value: -1.000711
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  weight: 1
+  timeKnockbackPerDistance: 0
 --- !u!114 &1788721786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,6 +595,7 @@ MonoBehaviour:
   airFriction: 0.95
   maxAerialSpeed: 10
   attack: {fileID: 0}
+  doubleJumpParticle: {fileID: 0}
 --- !u!1 &3108033800395437829
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +937,7 @@ MonoBehaviour:
   knockback: {fileID: 629662718669683265}
   stats: {fileID: 1788721786}
   ui: {fileID: 1788721787}
-  particle: {fileID: 0}
+  particle: {fileID: 1788721788}
   motionSpeed: 1
 --- !u!65 &3108033801048431004
 BoxCollider:
