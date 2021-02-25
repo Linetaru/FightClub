@@ -102,7 +102,7 @@ public class CharacterStateIdle : CharacterState
 				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
 		}
 		
-		else if (character.Rigidbody.CollisionGroundInfo == null) // ------------ On tombe
+		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
 		{
 			character.SetState(aerialState);
 			character.Movement.SpeedY = 0;
