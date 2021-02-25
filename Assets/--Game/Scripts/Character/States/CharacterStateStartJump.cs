@@ -29,7 +29,7 @@ public class CharacterStateStartJump : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-
+        character.Movement.SpeedY = 0;
     }
 
     public override void UpdateState(CharacterBase character)

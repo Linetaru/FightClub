@@ -11,13 +11,17 @@ public class CharacterStateKnockback : CharacterState
     CharacterState aerialState;
 
 
-    [Header("Knockback Stats")]
+    [Title("Parameter - Collision")]
     [SerializeField]
     float collisionFriction = 5f;
     [SerializeField]
     [MaxValue(1)]
     [MinValue(0)]
     float reboundReduction = 0.75f;
+
+    [Title("Parameter - Collision")]
+    [SerializeField]
+    LayerMask knockbackLayerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +39,7 @@ public class CharacterStateKnockback : CharacterState
     {
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
     }
 
     public override void UpdateState(CharacterBase character)
@@ -77,6 +82,6 @@ public class CharacterStateKnockback : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-
+        character.Rigidbody.ResetLayerMask();
     }
 }

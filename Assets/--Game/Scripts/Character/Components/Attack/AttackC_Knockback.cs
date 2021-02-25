@@ -59,7 +59,7 @@ public class AttackC_Knockback : AttackComponent
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
         }
 
-        target.Knockback.Launch(knockbackDirection);
+        target.Knockback.Launch(knockbackDirection, target.Stats.LifePercentage);
 
 
 
