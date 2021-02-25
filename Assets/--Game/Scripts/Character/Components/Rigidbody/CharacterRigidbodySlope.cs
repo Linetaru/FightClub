@@ -117,7 +117,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     public override void UpdateCollision(float speedX, float speedY)
     {
-        //isGrounded = false;
+        isGrounded = false;
         collisionWallInfo = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
