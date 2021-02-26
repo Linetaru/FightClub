@@ -10,6 +10,14 @@ public class CharacterStateStartJump : CharacterState
     [SerializeField]
     private Animator animator;
 
+
+    [SerializeField]
+    private AnimationClip animationName;
+    public AnimationClip AnimationName
+    {
+        get { return animationName; }
+    }
+
     [SerializeField]
     private float shortJumpForce;
     public float ShortJumpForce
@@ -34,15 +42,20 @@ public class CharacterStateStartJump : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("ProtoMan_StartJump"))
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName.name))
         {
-            Debug.Log("Jump");
-            if(Input.GetButton("Fire2"))
-                character.Movement.Jump();
+            if (character.Input.inputActionsUP.Count != 0)
+            {
+                if (character.Input.inputActionsUP[0].action == InputConst.Jump)
+                {
+                    character.Movement.Jump(shortJumpForce);
+                }
+            }
             else
-                character.Movement.Jump(shortJumpForce);
-
-                character.SetState(jumpState);
+            {
+                character.Movement.Jump();
+            }
+            character.SetState(jumpState);
         }
     }
 
