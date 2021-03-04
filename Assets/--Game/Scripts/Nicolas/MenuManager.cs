@@ -4,27 +4,26 @@ using UnityEngine;
 using Rewired.UI.ControlMapper;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class MenuManager : MonoBehaviour, IControllable
 {
 	private ControlMapper controlMapper;
 
-	[Header("Panels")]
+	[Title("Panels")]
 	public GameObject panelPrincipal;
 
-
-	[Header("Button Panel Principal")]
+	[Title("Button Panel Principal")]
 	public GameObject firstButton;
 	public GameObject secondButton;
 	public GameObject thridButton;
 	public GameObject fourthButton;
 
-
-	[Header("Selected Button")]
+	[Title("Selected Button")]
 	[ReadOnly] public GameObject currentSelectButton;
 	[ReadOnly] public GameObject lastSelectButton;
 
-	[Header("Level Name")]
+	[Title("Level Name")]
 	public string level;
 
 	bool OnTransition = false;
