@@ -7,6 +7,18 @@ public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
+	public CharacterState CurrentState
+	{
+		get { return currentState; }
+	}
+
+	[Title("Model")]
+	[SerializeField]
+	private GameObject model;
+	public GameObject Model
+	{
+		get { return model; }
+	}
 
 	[Title("Components")]
 	[SerializeField]
@@ -45,13 +57,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 	}
 
 	[SerializeField]
-	private CharacterUI ui;
-	public CharacterUI Ui
-	{
-		get { return ui; }
-	}
-
-	[SerializeField]
 	private CharacterParticle particle;
 	public CharacterParticle Particle
 	{
@@ -87,8 +92,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
-		Stats.InitStats();
-		Ui.InitPlayerPanel(this);
 	}
 
 
@@ -115,10 +118,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
+		action.CanEndAction();
+
 		input = input_Info;
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+
+		action.EndActionState();
 	}
 
 
