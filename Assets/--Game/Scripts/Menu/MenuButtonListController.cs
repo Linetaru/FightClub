@@ -275,11 +275,11 @@ namespace Menu
             float t = 0f;
             float time = 0.1f;
             int ratio = indexLimit - scrollSize;
-            //Vector2 destination = new Vector2(0, ratio * prefabItem.RectTransform.sizeDelta.y);
+            Vector2 destination = new Vector2(0, ratio * prefabItem.RectTransform.sizeDelta.y);
             while (t < 1f)
             {
                 t += Time.deltaTime / time;
-                //listTransform.anchoredPosition = Vector2.Lerp(listTransform.anchoredPosition, destination, t);
+                listTransform.anchoredPosition = Vector2.Lerp(listTransform.anchoredPosition, destination, t);
                 //selectionTransform.anchoredPosition = listItem[indexSelection].RectTransform.anchoredPosition;
                 yield return null;
             }

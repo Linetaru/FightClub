@@ -21,7 +21,7 @@ namespace Menu
 		private RectTransform rectTransform;
 		public RectTransform RectTransform
 		{
-			get { return rectTransform; }
+			get { if (rectTransform == null) rectTransform = GetComponent<RectTransform>(); return rectTransform; } // A corriger quand j'aurai moins la flemme
 		}
 
 
