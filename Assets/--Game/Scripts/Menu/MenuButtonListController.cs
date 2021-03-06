@@ -129,7 +129,25 @@ namespace Menu
             return false;
         }
 
-
+        public bool InputListHorizontal(Input_Info input)
+        {
+            if (input.horizontal > stickThreshold)
+            {
+                SelectDown();
+                return true;
+            }
+            else if (input.horizontal < -stickThreshold)
+            {
+                SelectUp();
+                return true;
+            }
+            else if (Mathf.Abs(input.horizontal) <= 0.2f)
+            {
+                StopRepeat();
+                return false;
+            }
+            return false;
+        }
 
         public void SelectUp()
         {
@@ -236,12 +254,12 @@ namespace Menu
         // Gère si la liste est dans un scroll rect
         protected void MoveScrollRect()
         {
-           /* if (listTransform == null)
+            if (listTransform == null)
             {
-                if (selectionTransform != null)
-                    selectionTransform.anchoredPosition = listItem[indexSelection].RectTransform.anchoredPosition;
+                //if (selectionTransform != null)
+                 //   selectionTransform.anchoredPosition = listItem[indexSelection].RectTransform.anchoredPosition;
                 return;
-            }*/
+            }
             if (indexSelection > indexLimit)
             {
                 indexLimit = indexSelection;
@@ -273,16 +291,17 @@ namespace Menu
         private IEnumerator MoveScrollRectCoroutine()
         {
             float t = 0f;
-            float time = 0.1f;
+            float speed = 1 / 0.1f;
             int ratio = indexLimit - scrollSize;
-            Vector2 destination = new Vector2(0, ratio * prefabItem.RectTransform.sizeDelta.y);
+            Vector2 destination = new Vector2(0, Mathf.Clamp(ratio * prefabItem.RectTransform.sizeDelta.y, 0, (listIndexCount - scrollSize) * prefabItem.RectTransform.sizeDelta.y));
             while (t < 1f)
             {
-                t += Time.deltaTime / time;
+                t += Time.deltaTime * speed;
                 listTransform.anchoredPosition = Vector2.Lerp(listTransform.anchoredPosition, destination, t);
                 //selectionTransform.anchoredPosition = listItem[indexSelection].RectTransform.anchoredPosition;
                 yield return null;
             }
+            listTransform.anchoredPosition = destination;
             //selectionTransform.anchoredPosition = listItem[indexSelection].RectTransform.anchoredPosition;
         }
 

@@ -22,6 +22,8 @@ namespace Menu
 	{
 		[SerializeField]
 		MenuButtonListController listEntry;
+		[SerializeField]
+		MenuButtonListController categoryEntry;
 
 		[SerializeField]
 		Encyclopedia[] encyclopediaDatabase;
@@ -30,10 +32,6 @@ namespace Menu
 		[Title("UI")]
 		[SerializeField]
 		TextMeshProUGUI textDescription;
-
-
-		int indexEncyclopedia = 0;
-		bool padDown = false;
 
 
 		private void Start()
@@ -48,23 +46,25 @@ namespace Menu
 				listEntry.DrawItemList(i, null, encyclopedia.Lexiques[i].EntryTitle);
 			}
 			SelectEntry(0);
+			listEntry.SelectIndex(0);
 			listEntry.SetItemCount(encyclopedia.Lexiques.Length);
 		}
+
+
 
 		public void UpdateControl(int id, Input_Info input)
 		{
 			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
+			{
 				SelectEntry(listEntry.IndexSelection);
-			else if (Mathf.Abs(input.horizontal) > 0.9f && padDown == false)
+			}
+			else if (categoryEntry.InputListHorizontal(input) == true)
 			{
 				NextEncyclopedia();
-				padDown = true;
 			}
 			else if (input.CheckAction(id, InputConst.Return) == true)
-				QuitMenu();
-			else if (Mathf.Abs(input.horizontal) < 0.9f)
 			{
-				padDown = false;
+				QuitMenu();
 			}
 		}
 
@@ -73,15 +73,14 @@ namespace Menu
 
 		public void NextEncyclopedia()
 		{
-			indexEncyclopedia += 1;
-			if (indexEncyclopedia >= encyclopediaDatabase.Length)
-				indexEncyclopedia = 0;
-			DrawEncyclopedia(encyclopediaDatabase[indexEncyclopedia]);
+			SelectEntry(0);
+			listEntry.SelectIndex(0);
+			DrawEncyclopedia(encyclopediaDatabase[categoryEntry.IndexSelection]);
 		}
 
 		public void SelectEntry(int id)
 		{
-			textDescription.text = encyclopediaDatabase[indexEncyclopedia].Lexiques[id].EntryText;
+			textDescription.text = encyclopediaDatabase[categoryEntry.IndexSelection].Lexiques[id].EntryText;
 		}
 
 
