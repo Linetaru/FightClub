@@ -53,6 +53,10 @@ public class BattleTimer : MonoBehaviour
         minutes = Mathf.FloorToInt(countdownTimer / 60);
         seconds = Mathf.FloorToInt(countdownTimer % 60);
 
-        timerText.text = minutes + ":" + seconds;
+        if(seconds >= 10)
+            timerText.text = minutes + ":" + seconds;
+        else
+            timerText.text = minutes + ":0" + seconds;
+
     }
 }
