@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
 	[Title("Interractions")]
 	public InputController inputController;
 
-	public CameraController cameraController;
+	public CameraZoomController cameraController;
 
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
