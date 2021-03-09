@@ -19,6 +19,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	[ReadOnly] public bool isStartMenu = true;
 	bool OnTransition = false;
 	float timeTransition = 0;
+	bool CanPulse = true;
 	[ReadOnly] public int currentButtonSelected;
 
 	[Title("Selected Button")]
@@ -28,7 +29,19 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	[Title("Level Name")]
 	public string level;
 
-	public void UpdateControl(int ID, Input_Info input_Info)
+    private void Start()
+    {
+		Pulse();
+	}
+
+	public void Pulse()
+    {
+        //if(CanPulse)
+        //	foreach (TextMeshProUGUI text in startTexts)
+        //		text.transform.DOScale(1f, 0.5f).OnComplete(() => text.transform.DOScale(0.8f, 0.5f).OnComplete(Pulse));
+    }
+
+    public void UpdateControl(int ID, Input_Info input_Info)
 	{
 		if (timeTransition > 0)
 		{
@@ -42,6 +55,11 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 				ChangeSelectedButton(false);
 			else if (input_Info.vertical > 0.75)
 				ChangeSelectedButton(true);
+
+			if (input_Info.horizontal < -0.75)
+				ChangeSelectedButton(true);
+			else if (input_Info.horizontal > 0.75)
+				ChangeSelectedButton(false);
 		}
 
 		if (input_Info.inputUiAction == InputConst.Start && isStartMenu)
@@ -54,6 +72,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 			playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f);
 			currentButtonSelected = 1;
 			currentSelectButton = playButton;
+			CanPulse = false;
 		}
 
 		if (!isStartMenu && input_Info.inputUiAction == InputConst.Interact)
