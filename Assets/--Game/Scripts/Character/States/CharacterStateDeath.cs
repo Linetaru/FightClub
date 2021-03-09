@@ -20,7 +20,7 @@ public class CharacterStateDeath : CharacterState
 		Debug.Log("Death State");
 
 		timer = 0f;
-		Camera.main.GetComponent<CameraController>().playersTarget.Remove(character.gameObject);
+		Camera.main.GetComponent<CameraZoomController>().playersTarget.Remove(character.gameObject);
 		character.Movement.SetSpeed(0f, 0f);
 		renderer.enabled = false;
 	}

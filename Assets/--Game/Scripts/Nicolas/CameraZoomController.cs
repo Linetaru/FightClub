@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraZoomController : MonoBehaviour
 {
     #region Old_Camera_Controller
     //public GameObject[] playerTarget;
