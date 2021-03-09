@@ -23,6 +23,8 @@ public class CharacterStateDeath : CharacterState
 		Camera.main.GetComponent<CameraController>().playersTarget.Remove(character.gameObject);
 		character.Movement.SetSpeed(0f, 0f);
 		renderer.enabled = false;
+
+		character.Stats.LifeStocks--;
 	}
 
 	public override void UpdateState(CharacterBase character)
