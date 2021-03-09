@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CameraZoomController : MonoBehaviour
 {
@@ -74,6 +75,8 @@ public class CameraZoomController : MonoBehaviour
     private float cameraEulerX;
     private Vector3 CameraPosition;
 
+    private bool canFocus = true;
+
     private void Start()
     {
         playersTarget.Add(focusLevel.gameObject);
@@ -81,8 +84,11 @@ public class CameraZoomController : MonoBehaviour
 
     private void LateUpdate()
     {
-        CalculateCameraLocation();
-        MoveCamera();
+        if (canFocus)
+        {
+            CalculateCameraLocation();
+            MoveCamera();
+        }
     }
 
     private void MoveCamera()
@@ -139,5 +145,53 @@ public class CameraZoomController : MonoBehaviour
         CameraPosition = new Vector3(averageCenter.x, averageCenter.y, depth);
     }
 
-    #endregion
+    public void ChangeFocusState()
+    {
+        canFocus = !canFocus;
+    }
+
+    public void ChangeValueFocus(CameraConfig cameraConfig)
+    {
+        depthUpdateSpeed = cameraConfig.config_depthUpdateSpeed;
+        angleUpdateSpeed = cameraConfig.config_angleUpdateSpeed;
+        positionUpdateSpeed = cameraConfig.config_positionUpdateSpeed;
+
+        depthMax = cameraConfig.config_depthMax;
+        depthMin = cameraConfig.config_depthMin;
+
+        angleMax = cameraConfig.config_angleMax;
+        angleMin = cameraConfig.config_angleMin;
+
+        focusLevel.halfXBounds = cameraConfig.halfXBounds;
+        focusLevel.halfYBounds = cameraConfig.halfYBounds;
+        focusLevel.halfZBounds = cameraConfig.halfZBounds;
+    }
+
+    #if UNITY_EDITOR
+        [Title("Editor Save Config")]
+        public CameraConfig camConfig;
+
+        [Button]
+        public void CopyConfigOnScriptable()
+        {
+            if (camConfig != null)
+            {
+                camConfig.config_depthUpdateSpeed = depthUpdateSpeed;
+                camConfig.config_angleUpdateSpeed = angleUpdateSpeed;
+                camConfig.config_positionUpdateSpeed = positionUpdateSpeed;
+
+                camConfig.config_depthMax = depthMax;
+                camConfig.config_depthMin = depthMin;
+
+                camConfig.config_angleMax = angleMax;
+                camConfig.config_angleMin = angleMin;
+
+                camConfig.halfXBounds = focusLevel.halfXBounds;
+                camConfig.halfYBounds = focusLevel.halfYBounds;
+                camConfig.halfZBounds = focusLevel.halfZBounds;
+            }
+        }
+    #endif
+
+#endregion
 }
