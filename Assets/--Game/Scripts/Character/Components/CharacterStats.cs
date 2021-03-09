@@ -1,97 +1,87 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStats : MonoBehaviour
 {
-    [Header("Life")]
+    [Title("Data")]
     [SerializeField]
+    [ReadOnly]
+    private GameData gameData;
+    public GameData GameData
+    {
+        get { return gameData; }
+        set { gameData = value; }
+    }
+
+    [SerializeField]
+    [ReadOnly]
+    public PackageCreator.Event.GameEventFloat gameEvent;
+
+    [Title("Life")]
+    [SerializeField]
+    [ReadOnly]
     private float lifePercentage;
     public float LifePercentage
     {
         get { return lifePercentage; }
-        //set { lifePercentage = value; }
+        set { lifePercentage = value; }
     }
 
     [SerializeField]
+    [ReadOnly]
     private int lifeStocks;
     public int LifeStocks
     {
         get { return lifeStocks; }
-        //set { lifeStocks = value; }
+        set { lifeStocks = value; }
     }
 
-    [Header("Movement")]
+
+    [Title("Death")]
     [SerializeField]
-    private float speed;
-    public float Speed
+    [ReadOnly]
+    private bool death;
+    public bool Death
     {
-        get { return speed; }
-        //set { speed = value; }
+        get { return death; }
+        set { death = value; }
     }
 
+    [Title("Kill")]
     [SerializeField]
-    private float gravity;
-    public float Gravity
+    [ReadOnly]
+    private int killNumber;
+    public int KillNumber
     {
-        get { return gravity; }
-        //set { gravity = value; }
+        get { return killNumber; }
+        set { killNumber = value; }
     }
 
-    [SerializeField]
-    private float groundAcceleration;
-    public float GroundAcceleration
+    public void InitStats()
     {
-        get { return groundAcceleration; }
-        //set { groundAcceleration = value; }
+        if (GameData.VictoryCondition == VictoryCondition.Health)
+            LifeStocks = GameData.NumberOfLifes;
+        LifePercentage = 0;
+        Death = false;
     }
 
-    [SerializeField]
-    private float groundDeceleration;
-    public float GroundDeceleration
+    public void TakeDamage(float damage)
     {
-        get { return groundDeceleration; }
-        //set { groundDeceleration = value; }
+        if(LifePercentage + damage <= 999)
+            LifePercentage += damage;
+        else
+        {
+            LifePercentage = 999;
+        }
+
+        if (gameEvent != null)
+            gameEvent.Raise(LifePercentage);
     }
 
-    [SerializeField]
-    private float airAcceleration;
-    public float AirAcceleration
+    public void RespawnStats()
     {
-        get { return airAcceleration; }
-        //set { airAcceleration = value; }
-    }
-
-    [SerializeField]
-    private float airDeceleration;
-    public float AirDeceleration
-    {
-        get { return airDeceleration; }
-        //set { airDeceleration = value; }
-    }
-
-    [Header("Attack")]
-    [SerializeField]
-    private float attackPower;
-    public float AttackPower
-    {
-        get { return attackPower; }
-        //set { attackPower = value; }
-    }
-
-    [SerializeField]
-    private float throwPower;
-    public float ThrowPower
-    {
-        get { return throwPower; }
-        //set { throwPower = value; }
-    }
-
-    [SerializeField]
-    private float knockbackPower;
-    public float KnockbackPower
-    {
-        get { return knockbackPower; }
-        //set { knockbackPower = value; }
+        LifePercentage = 0;
     }
 }

@@ -12,7 +12,7 @@ public class CharacterStateAerial : CharacterState
     CharacterState wallRunState;
 
     [SerializeField]
-    float minimalSpeedToWallRun = -2;
+    float minimalSpeedToWallRun = 8;
 
     [SerializeField]
     int numberOfAerialJump = 1;
@@ -31,7 +31,12 @@ public class CharacterStateAerial : CharacterState
     float maxAerialSpeed = 10f;
 
     [SerializeField]
-    AttackManager attack;
+    CharacterMoveset characterMoveset;
+
+    [SerializeField]
+    GameObject doubleJumpParticle;
+
+    bool isFastFall = false;
 
 
 
@@ -50,40 +55,35 @@ public class CharacterStateAerial : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("AerialState");
-        //if (currentNumberOfJump == 0 && characterRigidbody.IsGrounded)
-        //{
-        //	currentNumberOfJump = numberOfJump;
-        //}
-
-        //if (currentNumberOfJump > 0)
-        //{
-        //	currentNumberOfJump--;
-        //	movement.SpeedY = jumpForce;
-        //}
     }
 
     public override void UpdateState(CharacterBase character)
     {
         AirControl(character);
+        if (isFastFall)
+            character.Movement.ApplyGravity(2);
+        else
+            character.Movement.ApplyGravity();
 
-        if (character.Input.inputActions.Count != 0 && currentNumberOfAerialJump > 0)
+
+        if (character.Movement.SpeedY <= 0 && !isFastFall)
+        {
+            if (character.Input.vertical < -0.9f)
+                isFastFall = true;
+        }
+
+        if (characterMoveset.ActionAttack(character) == true)
+        {
+
+        }
+        else if (character.Input.inputActions.Count != 0 && currentNumberOfAerialJump > 0)
         {
             if (character.Input.inputActions[0].action == InputConst.Jump)
             {
+                GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+                Destroy(jumpRippleEffect, 2.0f);
                 currentNumberOfAerialJump--;
                 character.Movement.Jump(jumpForce);
-                character.Input.inputActions[0].timeValue = 0;
-            }
-        }
-        character.Movement.ApplyGravity();
-
-
-        // Placeholder
-        if (character.Input.inputActions.Count != 0)
-        {
-            if (character.Input.inputActions[0].action == InputConst.Attack)
-            {
-                character.Action.Action(attack);
                 character.Input.inputActions[0].timeValue = 0;
             }
         }
@@ -96,16 +96,23 @@ public class CharacterStateAerial : CharacterState
     /// <param name="character"></param>
     public override void LateUpdateState(CharacterBase character)
     {
-        if (character.Rigidbody.CollisionGroundInfo != null)
+        if (character.Rigidbody.IsGrounded == true)
         {
             character.SetState(idleState);
             return;
         }
-        if (character.Rigidbody.CollisionWallInfo != null && Mathf.Abs(character.Movement.SpeedX) > 2)
+        if (character.Rigidbody.CollisionWallInfo != null)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15 && Mathf.Abs(character.Input.horizontal) > .9)
+            if (Mathf.Abs(character.Input.horizontal) > .9
+                && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
+                && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                 character.SetState(wallRunState);
             return;
+        }
+        else if (character.Rigidbody.CollisionRoofInfo != null) // ------------ On tombe
+        {
+            character.Movement.SpeedY = 0;
+            character.Movement.ApplyGravity();
         }
     }
 
@@ -122,34 +129,22 @@ public class CharacterStateAerial : CharacterState
         else
             aerialDirection = -axisX;
 
-        character.Movement.SpeedX = ((character.Movement.SpeedX * airFriction) + (airControl * aerialDirection));
-        //    //movement.Direction = (int)Mathf.Sign(axisX);
-        //    // Walk vitesse constante
-        //    if (movement.SpeedX < maxAerialSpeed)
-        //    {
-        //        movement.SpeedX += (movement.Acceleration * aerialDirection) * Time.deltaTime;
-        //    }
-        //    else
-        //    {
-        //        movement.SpeedX = maxAerialSpeed;
-        //    }
+        character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
 
-        
-        //if (movement.SpeedX > (movement.MaxSpeed))
-        //{
-        //	movement.SpeedX = (movement.MaxSpeed);
-        //}
-
-        //characterRigidbody.UpdateCollision(movement.SpeedX * movement.Direction, -10);
+        if (character.Movement.SpeedX >= maxAerialSpeed)
+        {
+            character.Movement.SpeedX = maxAerialSpeed;
+        }
+        else if (character.Movement.SpeedX <= -maxAerialSpeed)
+        {
+            character.Movement.SpeedX = -maxAerialSpeed;
+        }
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
         Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
-        /*if (currentNumberOfAerialJump == 0 && characterRigidbody.IsGrounded)
-		{
-			currentNumberOfAerialJump = numberOfAerialJump;
-		}*/
+        isFastFall = false;
     }
 }

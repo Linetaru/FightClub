@@ -6,35 +6,37 @@ using Sirenix.OdinInspector;
 
 public class CharacterMovement : MonoBehaviour
 {
-
+    public CharacterParticle characterParticle;
 
     [Title("Stats")]
     [SerializeField]
-    private float maxSpeed;
-    public float MaxSpeed
+    private float speedMax;
+    public float SpeedMax
     {
-        get { return maxSpeed; }
+        get { return speedMax; }
         //set { maxSpeed = value; }
     }
 
     [SerializeField]
-    private float acceleration;
-    public float Acceleration
-    {
-        get { return acceleration; }
-        //set { acceleration = value; }
-    }
+    [HorizontalGroup("Acceleration")]
+    private AnimationCurve accelerationCurve;
+    [SerializeField]
+    [HorizontalGroup("Acceleration", Width = 50)]
+    [HideLabel]
+    private float timeAccelerationMax = 1;
+    private float timeAcceleration = 0;
 
     [SerializeField]
-    private float deceleration;
-    public float Deceleration
-    {
-        get { return deceleration; }
-        //set { deceleration = value; }
-    }
+    [HorizontalGroup("Decceleration")]
+    private AnimationCurve decelerationCurve;
+    [SerializeField]
+    [HorizontalGroup("Decceleration", Width = 50)]
+    [HideLabel]
+    private float timeDeccelerationMax = 1;
+    private float timeDecceleration = 0;
 
 
-
+    [Title("Aerial")]
     [SerializeField]
     private float jumpForce;
     public float JumpForce
@@ -93,38 +95,53 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    public void Accelerate()
+    /*public void Accelerate()
     {
         Accelerate(1);
-    }
-    public void Accelerate(float multiplier)
+    }*/
+    public void Accelerate()
     {
-        if (speedX < maxSpeed)
+        if (timeDecceleration > 0)
         {
-            speedX += ((acceleration * multiplier) * motionSpeed) * Time.deltaTime;
+            timeDecceleration = 0;
+            timeAcceleration = (Mathf.Abs(speedX) / speedMax) * timeAccelerationMax;
         }
-        else
-        {
-            speedX = maxSpeed;
-        }
+        timeAcceleration += (Time.deltaTime * motionSpeed);
+        timeAcceleration = Mathf.Clamp(timeAcceleration, 0, timeAccelerationMax);
+        float newSpeedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
+        if(speedX < newSpeedX)
+            speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
     }
 
 
-    public void Decelerate()
+    /*public void Decelerate()
     {
         Decelerate(1);
-    }
-    public void Decelerate(float multiplier)
+    }*/
+    public void Decelerate()
     {
-        speedX -= ((deceleration * multiplier) * motionSpeed) * Time.deltaTime;
-        speedX = Mathf.Max(0, speedX); 
+        if(timeAcceleration > 0)
+        {
+            timeAcceleration = 0;
+            timeDecceleration = (Mathf.Abs(speedX) / speedMax) * timeDeccelerationMax;
+        }
+
+        timeDecceleration -= (Time.deltaTime * motionSpeed);
+        timeDecceleration = Mathf.Clamp(timeDecceleration, 0, timeDeccelerationMax);
+        speedX = decelerationCurve.Evaluate(timeDecceleration / timeDeccelerationMax) * speedMax;
+    }
+
+    public void ResetAcceleration()
+    {
+        timeAcceleration = 0;
+        timeDecceleration = 0;
     }
 
 
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(maxSpeed * multiplier * direction, 0);
+        SetSpeed(speedMax * multiplier * direction, 0);
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)
@@ -176,6 +193,7 @@ public class CharacterMovement : MonoBehaviour
     public void Jump(float jumpForce)
     {
         speedY = jumpForce;
+        characterParticle.UseParticle("jump");
     }
     
     public void ApplyGravity()

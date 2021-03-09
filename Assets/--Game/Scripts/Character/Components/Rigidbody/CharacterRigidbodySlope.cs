@@ -16,6 +16,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     [SerializeField] 
     private LayerMask layerMask;
+    [SerializeField]
+    private LayerMask groundLayerMask;
 
     [HorizontalGroup("RaycastOffset")]
     [SerializeField]
@@ -56,11 +58,13 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         get { return collisionWallInfo; }
     }
 
+
     private Transform collisionGroundInfo;
     public override Transform CollisionGroundInfo
     {
         get { return collisionGroundInfo; }
     }
+
 
     private Transform collisionRoofInfo;
     public override Transform CollisionRoofInfo
@@ -68,13 +72,33 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         get { return collisionRoofInfo; }
     }
 
+
     private bool isGrounded = false;
     public override bool IsGrounded
     {
         get { return isGrounded; }
-        //set { isGrounded = value; }
     }
 
+
+
+    private LayerMask currentLayerMask;
+    private LayerMask currentGroundLayerMask;
+
+
+    public override void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false)
+    {
+        if(groundLayerMask == true)
+            currentGroundLayerMask = newLayerMask;
+        else
+            currentLayerMask = newLayerMask;
+    }
+
+    // Repasse sur le layerMask par defaut
+    public override void ResetLayerMask()
+    {
+        currentLayerMask = layerMask;
+        currentGroundLayerMask = groundLayerMask;
+    }
 
     private void CalculateBounds(Vector3 offset)
     {
@@ -82,6 +106,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         upperLeft = new Vector3(characterCollider.bounds.min.x, characterCollider.bounds.max.y, transform.position.z) + offset;
         bottomRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.min.y, transform.position.z) + offset;
         upperRight = new Vector3(characterCollider.bounds.max.x, characterCollider.bounds.max.y, transform.position.z) + offset;
+    }
+
+    private void Start()
+    {
+        ResetLayerMask();
     }
 
 
@@ -102,9 +131,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         if (collision == true)
         {
             CalculateBounds(Vector2.zero);
+            CheckPush(speedX, speedY);
 
             float slopeAngle = CheckSlope();
-            if (slopeAngle <= maxSlopeAngle) // On climb
+            if (slopeAngle <= maxSlopeAngle) // On climb --------------------------------------------------------------------
             {
                 climbingSlope = true;
                 float newSlopeAngle = slopeAngle;
@@ -124,19 +154,17 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 actualSpeedY = speedYSaved;
                 UpdatePositionX();
             }
-            else // On climb pas ou on touche un mur 
+            else // On climb pas ou on touche un mur --------------------------------------------------------------------
             {
                 UpdatePositionX();
                 Vector2 offsetX = new Vector2(actualSpeedX, 0);
                 CalculateBounds(offsetX);
                 UpdatePositionY();
             }
-
-
-
-            transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
-            Physics.SyncTransforms();
         }
+
+        transform.position = new Vector3(transform.position.x + actualSpeedX, transform.position.y + actualSpeedY, transform.position.z);
+        Physics.SyncTransforms();
     }
 
 
@@ -187,7 +215,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, currentLayerMask);
             Debug.DrawRay(originRaycast, new Vector2(actualSpeedX, 0) , Color.yellow, 0.5f);
             if (raycastX.collider != null)
             {
@@ -211,9 +239,11 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         Vector3 originRaycast = (directionY == -1) ? bottomLeft: upperLeft;
         Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
 
+        int layerMaskY = (directionY == -1) ? currentGroundLayerMask : currentLayerMask;
+
         for (int i = 0; i < numberRaycastVertical; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMask);
+            Physics.Raycast(originRaycast, new Vector2(0, actualSpeedY), out raycastY, Mathf.Abs(actualSpeedY), layerMaskY);
             Debug.DrawRay(originRaycast, new Vector2(0, actualSpeedY), Color.red, 0.5f);
             if (raycastY.collider != null)
             {
@@ -242,6 +272,58 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             isGrounded = true;
     }
 
+
+
+
+    // C'est plus clair mais redondant avec le check slope et donc moins performant
+    private void CheckPush(float speedX, float speedY)
+    {
+        RaycastHit raycastX;
+        float directionX = Mathf.Sign(actualSpeedX);
+        Vector3 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
+        Vector3 originOffset = (upperRight - bottomRight) / (numberRaycastHorizontal - 1);
+
+        for (int i = 0; i < numberRaycastHorizontal; i++)
+        {
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            if (raycastX.collider != null)
+            {
+                CharacterRigidbody rigidbody = raycastX.collider.GetComponent<CharacterRigidbody>();
+                if (rigidbody != null)
+                {
+                    rigidbody.UpdateCollision(speedX, speedY);
+                    return;
+                }
+            }
+            originRaycast += originOffset;
+        }
+    }
+
+
+    // Quand on monte une pente on check une collision vers le haut, ce qui peut etre interprété comme un saut, du coup on fais un check supplémentaire en bas pour bien dire qu'on est au sol
+    /*private void CheckClimbGround()
+    {
+        RaycastHit raycastY;
+        float directionY = -1;
+        Vector3 originRaycast = bottomLeft;
+        Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
+
+        int layerMaskY = currentGroundLayerMask;
+
+        for (int i = 0; i < numberRaycastVertical; i++)
+        {
+            Physics.Raycast(originRaycast, new Vector2(0, -offsetRaycastY), out raycastY, Mathf.Abs(offsetRaycastY*2), layerMaskY);
+            Debug.DrawRay(originRaycast, new Vector2(0, offsetRaycastY*2), Color.red, 0.5f);
+            if (raycastY.collider != null)
+            {
+                float distance = raycastY.distance - offsetRaycastY;
+                actualSpeedY = distance * directionY;
+                isGrounded = true;
+                collisionGroundInfo = raycastY.collider.transform;
+            }
+            originRaycast += originOffset;
+        }
+    }*/
 
 
 

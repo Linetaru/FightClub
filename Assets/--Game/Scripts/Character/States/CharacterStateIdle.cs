@@ -7,9 +7,11 @@ public class CharacterStateIdle : CharacterState
 {
 	[Title("States")]
 	[SerializeField]
+	CharacterState aerialState;
+	[SerializeField]
 	CharacterState wallRunState;
 	[SerializeField]
-	CharacterState jumpState;
+	CharacterState jumpStartState;
 	[SerializeField]
 	CharacterState turnAroundState;
 	[SerializeField]
@@ -23,59 +25,104 @@ public class CharacterStateIdle : CharacterState
 	float stickRunThreshold = 0.7f;
 
 
+
+
 	[Title("Parameter - Speed")]
 	[SerializeField]
 	float speedMultiplierWalk = 0.2f;
-
-	// Acceleration
-	[HorizontalGroup("Acceleration")]
 	[SerializeField]
-	float timeAccelerationMax = 1;
-
-	[HorizontalGroup("Acceleration")]
-	[SerializeField]
-	[HideLabel]
-	AnimationCurve accelerationMultiplierCurve;
-
-	float timeAcceleration = 0f;
-
-	// Decceleration
-	[HorizontalGroup("Decceleration")]
-	[SerializeField]
-	float timeDeccelerationMax = 1;
-	[HorizontalGroup("Decceleration")]
-	[SerializeField]
-	[HideLabel]
-	AnimationCurve deccelerationMultiplierCurve;
-
+	float speedRequiredForWallRun = 8f;
 
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
-	AttackManager attackKick;
+	CharacterMoveset moveset;
+
+	[Title("Parameter - Platform")]
+	[SerializeField]
+	LayerMask platformLayerMask;
+	[SerializeField]
+	LayerMask goThroughGroundMask;
 
 
-	float timeDecceleration = 0f;
 
 
 	float inputDirection = 0;
-
 	public bool canWallRun = true;
-
-	float speedImpulsion = 0f;
 
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		//Debug.Log("IdleState");
+		Debug.Log("Idle");
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
+		Movement(character);
+
+		if(moveset.ActionAttack(character) == true)
+		{
+
+		}
+		else if (character.Input.inputActions.Count != 0) 
+		{
+			if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
+			{
+				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+				{
+					character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
+					StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));// Coroutine qui attend 1 frame pour reset le mask de collision du perso
+
+					character.SetState(aerialState);
+					character.Movement.SpeedY = 0;
+					character.Movement.ApplyGravity();
+					character.Input.inputActions[0].timeValue = 0;
+				}
+			}
+			else if (character.Input.inputActions[0].action == InputConst.Jump) // ----------------- Jump
+			{
+				character.SetState(jumpStartState);
+				character.Input.inputActions[0].timeValue = 0;
+			}
+		}
+	}
+
+
+	public override void LateUpdateState(CharacterBase character)
+	{
+		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true) // ------------ Wall run
+		{
+			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+				character.SetState(wallRunState);
+			else
+				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
+		}
+		
+		else if (character.Rigidbody.CollisionGroundInfo == null) // ------------ On tombe
+		{
+			character.SetState(aerialState);
+			character.Movement.SpeedY = 0;
+			character.Movement.ApplyGravity();
+		}
+	}
+
+
+
+	public override void EndState(CharacterBase character, CharacterState oldState)
+	{
+		inputDirection = 0;
+		character.Movement.ResetAcceleration();
+
+	}
+
+
+
+	private void Movement(CharacterBase character)
+	{
 		float axisX = character.Input.horizontal;
 
 		// Controls
-		if (Mathf.Abs(axisX) > stickRunThreshold)				// R U N
+		if (Mathf.Abs(axisX) > stickRunThreshold)               // R U N
 		{
 			if (inputDirection == 0)
 			{
@@ -90,9 +137,9 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			inputDirection = (int)Mathf.Sign(axisX);
-			Accelerate(character);
+			character.Movement.Accelerate();
 		}
-		else if (Mathf.Abs(axisX) > stickWalkThreshold)			// W A L K
+		else if (Mathf.Abs(axisX) > stickWalkThreshold)         // W A L K
 		{
 			if (inputDirection == 0)
 			{
@@ -107,92 +154,37 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
 			{
-				character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
+				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}
 			else
 			{
 				// Decceleration
-				Deccelerate(character);
+				character.Movement.Decelerate();
 			}
 		}
-		else													// R I E N
+		else                                                    // R I E N
 		{
-			if(character.Movement.SpeedX < (character.Movement.MaxSpeed * speedMultiplierWalk))
+			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
 				inputDirection = 0;
 			// Decceleration
-			Deccelerate(character);
+			character.Movement.Decelerate();
 		}
 		character.Movement.ApplyGravity();
-
-
-		if (character.Input.inputActions.Count != 0)
-		{
-			if (character.Input.inputActions[0].action == InputConst.Attack)
-			{
-				if(character.Input.horizontal != 0)
-                {
-					character.SetState(smashPressedState);
-                }
-                else
-				{
-					character.Action.Action(attackKick);
-				}
-				character.Input.inputActions[0].timeValue = 0;
-			}
-		}
 	}
 
 
-	public override void LateUpdateState(CharacterBase character)
+
+
+
+	private IEnumerator GoThroughGroundCoroutine(CharacterRigidbody rigidbody)
 	{
-		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true)
-		{
-			if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
-				character.SetState(wallRunState);
-		}
-		else if (character.Input.inputActions.Count != 0)
-		{
-			if (character.Input.inputActions[0].action == InputConst.Jump)
-			{
-				character.Movement.Jump();
-				character.SetState(jumpState);
-				character.Input.inputActions[0].timeValue = 0;
-			}
-		}
-	}
-
-	private void Accelerate(CharacterBase character)
-	{
-		timeDecceleration = 0;
-
-		if (timeAcceleration == 0 && (character.Movement.MaxSpeed * speedMultiplierWalk) >= character.Movement.SpeedX)
-			character.Movement.SpeedX = (character.Movement.MaxSpeed * speedMultiplierWalk);
-
-		if (timeAcceleration < timeAccelerationMax)
-			timeAcceleration += Time.deltaTime;
-
-		character.Movement.Accelerate(accelerationMultiplierCurve.Evaluate(timeAcceleration / timeAccelerationMax));
-		/*speed += (movement.MaxSpeed * speedMultiplierWalk);
-		movement.SpeedX = speed;*/
+		yield return null;
+		rigidbody.ResetLayerMask();
 	}
 
 
 
-	private void Deccelerate(CharacterBase character)
-	{
-		timeAcceleration = 0;
-		if (timeDecceleration < timeDeccelerationMax)
-			timeDecceleration += Time.deltaTime;
-		character.Movement.Decelerate(deccelerationMultiplierCurve.Evaluate(timeDecceleration / timeDeccelerationMax));
-	}
 
-
-	public override void EndState(CharacterBase character, CharacterState oldState)
-	{
-		inputDirection = 0;
-		timeDecceleration = 0;
-		timeAcceleration = 0;
-	}
 }

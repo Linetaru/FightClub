@@ -29,6 +29,7 @@ public struct Character_Info
 		set { characterColorID = value; }
 	}
 
+	[Expandable]
 	[SerializeField]
 	private CharacterData characterData;
 	public CharacterData CharacterData
