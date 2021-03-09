@@ -169,6 +169,7 @@ public class CameraZoomController : MonoBehaviour
 
     #if UNITY_EDITOR
         [Title("Editor Save Config")]
+        [Expandable]
         public CameraConfig camConfig;
 
         [Button]
@@ -189,6 +190,8 @@ public class CameraZoomController : MonoBehaviour
                 camConfig.halfXBounds = focusLevel.halfXBounds;
                 camConfig.halfYBounds = focusLevel.halfYBounds;
                 camConfig.halfZBounds = focusLevel.halfZBounds;
+
+                camConfig = null;
             }
         }
     #endif

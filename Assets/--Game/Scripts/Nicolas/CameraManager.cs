@@ -10,6 +10,7 @@ public enum StateCamera{
 [System.Serializable]
 public class Cam_Infos
 {
+	[Expandable]
 	public CameraConfig cameraConfig;
 
 	public float timeBeforeMoving;

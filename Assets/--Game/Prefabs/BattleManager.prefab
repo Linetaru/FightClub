@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 3409050773024403818}
   - component: {fileID: 3409050773024403815}
   - component: {fileID: 3409050773024403814}
+  - component: {fileID: 1181690236344132219}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -121,8 +122,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3409050773024403819}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: -21}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.9, y: 14, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3409050773178537297}
@@ -301,10 +302,55 @@ MonoBehaviour:
   depthUpdateSpeed: 5
   angleUpdateSpeed: 7
   positionUpdateSpeed: 5
-  depthMax: 0
-  depthMin: -15
+  depthMax: 40
+  depthMin: 15
   angleMax: 11
   angleMin: 3
+  camConfig: {fileID: 0}
+--- !u!114 &1181690236344132219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409050773024403819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03dadc5345c36343aff79863035b60c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateCamera: 0
+  zoomController: {fileID: 3409050773024403814}
+  cam_Infos:
+  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
+    timeBeforeMoving: 10
+    railsCamTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    railsBlastZoneTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    durationTravelling: 10
+    movingInY: 1
+  - cameraConfig: {fileID: 11400000, guid: 2f96d1c77f5abe74b88f036a3ca37b9a, type: 2}
+    timeBeforeMoving: 10
+    railsCamTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    railsBlastZoneTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
+    durationTravelling: 10
+    movingInY: 0
+  blastZone: {fileID: 0}
+  timer: 0
+  positionID: 0
 --- !u!1 &3409050773124424720
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,14 +432,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
   inputController: {fileID: 7854600161939016466}
+  cameraController: {fileID: 3409050773024403814}
   spawningPoint:
   - {fileID: 3409050772101850437}
   - {fileID: 3409050772834056070}
   - {fileID: 3409050773124424720}
   - {fileID: 3409050773253414538}
-  characterAlive: []
-  characterFullDead: []
-  cameraController: {fileID: 3409050773024403814}
   characterUi:
   - {fileID: 9207280891095281702}
   - {fileID: 7257217458610601076}
@@ -404,6 +448,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 48346f2999bb8304f8648949d9112678, type: 2}
   - {fileID: 11400000, guid: d4c8de44d8322e249bbb83f364df7cbd, type: 2}
   - {fileID: 11400000, guid: 3407a1b6e41fe494eac23a85d635837c, type: 2}
+  characterAlive: []
+  characterFullDead: []
   isGameStarted: 0
 --- !u!1 &3409050773253414538
 GameObject:
