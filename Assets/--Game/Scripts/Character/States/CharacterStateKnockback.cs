@@ -37,6 +37,7 @@ public class CharacterStateKnockback : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);

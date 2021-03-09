@@ -118,10 +118,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
+		action.CanEndAction();
+
 		input = input_Info;
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+
+		action.EndActionState();
 	}
 
 
