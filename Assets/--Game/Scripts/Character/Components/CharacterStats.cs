@@ -26,7 +26,10 @@ public class CharacterStats : MonoBehaviour
     public float LifePercentage
     {
         get { return lifePercentage; }
-        set { lifePercentage = value; }
+        set { lifePercentage = value;
+            if (gameEvent != null)
+                gameEvent.Raise(LifePercentage);
+        }
     }
 
     [SerializeField]
@@ -75,9 +78,6 @@ public class CharacterStats : MonoBehaviour
         {
             LifePercentage = 999;
         }
-
-        if (gameEvent != null)
-            gameEvent.Raise(LifePercentage);
     }
 
     public void RespawnStats()
