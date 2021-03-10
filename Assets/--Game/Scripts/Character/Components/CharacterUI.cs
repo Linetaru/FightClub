@@ -27,5 +27,10 @@ public class CharacterUI : MonoBehaviour
 		stocksText.text = "Stocks : " + lifeStocks.ToString();
     }
 
+	public void UpdateStocksUI(CharacterBase cb)
+    {
+		UpdateStocksUI(cb.Stats.LifeStocks);
+	}
+
 
 }

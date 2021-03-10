@@ -15,8 +15,8 @@ public class BlastZoneManager : MonoBehaviour
 
     public Transform spawnpoint;
 
-    //Float Event to update Stock UI
-    public PackageCreator.Event.GameEventFloat[] gameEventStocks;
+    //Character Event
+    public PackageCreator.Event.GameEventCharacter[] gameEventStocks;
 
     private void Awake()
     {
@@ -38,9 +38,10 @@ public class BlastZoneManager : MonoBehaviour
 
         string tag = other.gameObject.tag;
 
-        if(other.transform.root.gameObject.GetComponent<CharacterBase>() != null)
+        playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
+
+        if (playerCB != null)
         {
-            playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
             float stocks = playerCB.Stats.LifeStocks;
             if (stocks - 1 >= 0)
             {
@@ -52,13 +53,13 @@ public class BlastZoneManager : MonoBehaviour
 
                 //Float Event to update Stock UI
                 if (tag == "Player1")
-                    gameEventStocks[0].Raise(stocks);
+                    gameEventStocks[0].Raise(playerCB);
                 else if (tag == "Player2")
-                    gameEventStocks[1].Raise(stocks);
+                    gameEventStocks[1].Raise(playerCB);
                 else if (tag == "Player3")
-                    gameEventStocks[2].Raise(stocks);
+                    gameEventStocks[2].Raise(playerCB);
                 else if (tag == "Player4")
-                    gameEventStocks[3].Raise(stocks);
+                    gameEventStocks[3].Raise(playerCB);
             }
             else
             {

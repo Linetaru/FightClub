@@ -6,7 +6,7 @@ using UnityEngine;
 public class BattleTimer : MonoBehaviour
 {
     [SerializeField]
-    private float timerInSeconds = 90;
+    private float timerInSeconds = 90; // Récupérer depuis le game data à terme
 
     [SerializeField]
     private Text timerText;
