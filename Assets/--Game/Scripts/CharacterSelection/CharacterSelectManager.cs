@@ -44,24 +44,30 @@ public class CharacterSelectManager : MonoBehaviour
             gameData.NumberOfLifes = playerStocks;
 
             StartCoroutine(GoToStageMenu());
-            //int characterInfoNumber = 0;
 
-            //gameData.CharacterInfos.Clear();
+            int characterInfoNumber = 0;
 
-            //for (int i = 0; i < numberOfReadyPlayers; i++)
-            //{
-            //    gameData.CharacterInfos.Add(new Character_Info());
-            //}
+            gameData.CharacterInfos.Clear();
 
-            //for (int i = 0; i < players.Length; i++)
-            //{
+            for (int i = 0; i < numberOfReadyPlayers; i++)
+            {
+                gameData.CharacterInfos.Add(new Character_Info());
+            }
+            Debug.Log(players.Length);
 
-            //    if (players[i].gameObject.activeSelf && players[i].isPlayerReady)
-            //    {
-            //        gameData.CharacterInfos[characterInfoNumber].CharacterData = players[i].characterCells[players[i].actualCursorPosition];
-            //        gameData.CharacterInfos[characterInfoNumber].CharacterData.
-            //        }
-            //}
+            for (int i = 0; i < players.Length; i++)
+            {
+                Debug.Log(players[i].actualCursorPosition);
+
+                if (players[i].isPlayerReady)
+                {
+                    Debug.Log(players[i].actualCursorPosition);
+                    gameData.CharacterInfos[characterInfoNumber].CharacterData = players[i].characterCells[players[i].actualCursorPosition].characterData;
+                    gameData.CharacterInfos[characterInfoNumber].CharacterColorID = players[i].actualColorSkin;
+                    characterInfoNumber++;
+                    //gameData.CharacterInfos[characterInfoNumber].CharacterData.
+                }
+            }
         }
     }
 

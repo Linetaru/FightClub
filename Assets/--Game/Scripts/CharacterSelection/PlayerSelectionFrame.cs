@@ -41,12 +41,16 @@ public class PlayerSelectionFrame : MonoBehaviour
     GameObject randomModel;
 
     [SerializeField]
+    GameObject[] hologramModels;
+
+    [SerializeField]
     GameObject spotLights;
 
     [SerializeField]
     Material hologramMaterial;
 
-    int actualColorSkin = 0;
+    [HideInInspector]
+    public int actualColorSkin = 0;
 
     [Header("Skin Color")]
     [SerializeField]
@@ -178,6 +182,11 @@ public class PlayerSelectionFrame : MonoBehaviour
                     characterSelectManager.DisplayReadyBands();
 
                     DisplayHologram();
+                    if (hologramModels[actualCursorPosition].GetComponent<Animator>() != null)
+                    {
+                        hologramModels[actualCursorPosition].GetComponent<Animator>().SetTrigger("SelectionReady");
+
+                    }
                 }
                 else if (player.GetButtonDown("Return"))
                 {
@@ -256,11 +265,19 @@ public class PlayerSelectionFrame : MonoBehaviour
     {
         if (!colorChoiceObject.activeSelf)
             colorChoiceObject.SetActive(true);
+
+        foreach (GameObject hologramModel in hologramModels)
+        {
+            if (hologramModel.activeSelf)
+                hologramModel.SetActive(false);
+        }
+
+        if (!hologramModels[actualCursorPosition].activeSelf)
+            hologramModels[actualCursorPosition].SetActive(true);
+
         switch (actualCursorPosition)
         {
             case 0:
-                if (!bernardModel.activeSelf)
-                    bernardModel.SetActive(true);
 
                 if (!isPlayerReady)
                 {
@@ -273,101 +290,19 @@ public class PlayerSelectionFrame : MonoBehaviour
                     bernardHair.material = characterCells[actualCursorPosition].characterData.characterMaterials[actualColorSkin];
                 }
 
-                robotioModel.SetActive(false);
-                ninjaMuraiModel.SetActive(false);
-                katarinaModel.SetActive(false);
-                randomModel.SetActive(false);
                 break;
+
             case 1:
-                if (!robotioModel.activeSelf)
-                    robotioModel.SetActive(true);
-
-                bernardModel.SetActive(false);
-                ninjaMuraiModel.SetActive(false);
-                katarinaModel.SetActive(false);
-                randomModel.SetActive(false);
                 break;
+
             case 2:
-                if (!randomModel.activeSelf)
-                    randomModel.SetActive(true);
-
-                robotioModel.SetActive(false);
-                ninjaMuraiModel.SetActive(false);
-                katarinaModel.SetActive(false);
-                bernardModel.SetActive(false);
                 break;
+
             case 3:
-                if (!ninjaMuraiModel.activeSelf)
-                    ninjaMuraiModel.SetActive(true);
-
-                robotioModel.SetActive(false);
-                bernardModel.SetActive(false);
-                katarinaModel.SetActive(false);
-                randomModel.SetActive(false);
                 break;
+
             case 4:
-                if (!katarinaModel.activeSelf)
-                    katarinaModel.SetActive(true);
-
-                robotioModel.SetActive(false);
-                ninjaMuraiModel.SetActive(false);
-                bernardModel.SetActive(false);
-                randomModel.SetActive(false);
-                break;
-            default:
                 break;
         }
     }
-    //[SerializeField]
-    //GameObject pressButtonText;
-
-    //[SerializeField]
-    //GameObject playerBox;
-
-    //[SerializeField]
-    //Color playerColor;
-
-    //Color CPUColor = Color.gray;
-
-    //[SerializeField]
-    //Image frameOutline;
-
-    //[SerializeField]
-    //Image characterPortrait;
-
-    //[SerializeField]
-    //TextMeshProUGUI characterName;
-
-    //public void DisplayFrame(bool isCPU)
-    //{
-    //    pressButtonText.SetActive(false);
-    //    playerBox.SetActive(true);
-
-    //    ChangeOutlineColor(isCPU);
-    //}
-
-    //public void ChangeOutlineColor(bool isCPU)
-    //{
-    //    if (isCPU)
-    //        frameOutline.color = CPUColor;
-    //    else
-    //        frameOutline.color = playerColor;
-    //}
-
-    //public void HideFrame()
-    //{
-    //    pressButtonText.SetActive(true);
-    //    playerBox.SetActive(false);
-    //}
-
-    //public void SetActiveCharacterPortrait(bool active)
-    //{
-    //    if (active != characterPortrait.gameObject.activeSelf)
-    //        characterPortrait.gameObject.SetActive(active);
-    //}
-
-    //public void ChangeCharacterPortrait(Sprite newCharacterSprite)
-    //{
-    //    characterPortrait.sprite = newCharacterSprite;
-    //}
 }
