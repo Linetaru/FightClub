@@ -40,14 +40,15 @@ public class BlastZoneManager : MonoBehaviour
 
         if(other.transform.root.gameObject.GetComponent<CharacterBase>() != null)
         {
+            playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
             float stocks = playerCB.Stats.LifeStocks;
             if (stocks - 1 >= 0)
             {
                 // Respawn Manager
-                playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 playerCB.Stats.RespawnStats();
 
+                stocks = playerCB.Stats.LifeStocks;
 
                 //Float Event to update Stock UI
                 if (tag == "Player1")

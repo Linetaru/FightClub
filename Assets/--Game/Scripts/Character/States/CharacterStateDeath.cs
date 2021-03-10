@@ -16,6 +16,7 @@ public class CharacterStateDeath : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
 		Debug.Log("Death State");
 
@@ -24,7 +25,6 @@ public class CharacterStateDeath : CharacterState
 		character.Movement.SetSpeed(0f, 0f);
 		renderer.enabled = false;
 
-		character.Stats.LifeStocks--;
 	}
 
 	public override void UpdateState(CharacterBase character)
