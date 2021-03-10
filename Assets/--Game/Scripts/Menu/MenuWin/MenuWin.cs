@@ -28,7 +28,7 @@ namespace Menu
 		List<MenuWinResultDrawer> listResultDrawers;
 		List<int> listPlayerChoice;
 
-		public void InitializeWin()
+		public void InitializeWin(List<CharacterBase> deadCharacters, List<CharacterBase> winners)
 		{
 			// Créer la liste playerChoice
 			// Spawn du victory
