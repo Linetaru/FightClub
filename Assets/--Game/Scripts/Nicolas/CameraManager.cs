@@ -227,7 +227,7 @@ public class CameraManager : MonoBehaviour
 					//Reset timer for the next config
 					timeLerp = 0;
 
-					if (loopScrolling)
+					if (loopScrolling && cam_Infos.Length >= positionID)
 					{
 						positionID = 0;
 						timer = cam_Infos[positionID].timeBeforeMoving;
