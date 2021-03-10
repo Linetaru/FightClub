@@ -11,7 +11,7 @@ public class CharacterStateRespawn : CharacterState
 	{
 		Debug.Log("Respawn State");
 
-		Camera.main.GetComponent<CameraZoomController>().playersTarget.Add(character.gameObject);
+		Camera.main.GetComponent<CameraZoomController>().targets.Add(character.gameObject.transform);
 
 		character.transform.position = BlastZoneManager.Instance.spawnpoint.position;
 
