@@ -17,6 +17,8 @@ public class BlastZoneManager : MonoBehaviour
 
     //Character Event
     public PackageCreator.Event.GameEventCharacter[] gameEventStocks;
+    //Character Event
+    public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
     private void Awake()
     {
@@ -33,9 +35,6 @@ public class BlastZoneManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.gameObject.name);
-        Debug.Log(other.gameObject.tag);
-
         string tag = other.gameObject.tag;
 
         playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
@@ -63,7 +62,7 @@ public class BlastZoneManager : MonoBehaviour
             }
             else
             {
-                // Handle Definitive death
+                gameEventCharacterFullDead.Raise(playerCB);
             }
         }
     }

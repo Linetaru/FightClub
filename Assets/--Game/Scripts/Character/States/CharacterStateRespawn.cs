@@ -9,7 +9,7 @@ public class CharacterStateRespawn : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		Debug.Log("Respawn State");
+
 
 		Camera.main.GetComponent<CameraZoomController>().targets.Add(character.gameObject.transform);
 

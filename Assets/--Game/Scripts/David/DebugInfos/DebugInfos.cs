@@ -34,11 +34,8 @@ public class DebugInfos : MonoBehaviour
 
     private void UpdateInfos()
     {
-        Debug.Log("length : " + playersList.Length);
-
         for (int i = 0; i < playersList.Length; i++)
         {
-            Debug.Log("Passage : " + i);
 
             playerInfos[i].CurrentState.text = playersList[i].CurrentState.name;
             playerInfos[i].SpeedX.text = playersList[i].Movement.SpeedX.ToString();
