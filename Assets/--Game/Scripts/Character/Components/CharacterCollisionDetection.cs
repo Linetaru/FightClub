@@ -24,7 +24,7 @@ public class CharacterCollisionDetection : MonoBehaviour
         Debug.Log(other.gameObject.name);
         if (other.CompareTag(this.tag))
             return;
-        Debug.Log("bite");
+
         if (other.GetComponent<AttackManager>() != null)
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();

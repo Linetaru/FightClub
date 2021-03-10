@@ -2,16 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
+	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Interractions")]
 	public InputController inputController;
 
+	public CameraZoomController cameraController;
+
+	[Title("Composants")]
 	public GameObject[] spawningPoint;
 
+	public CharacterUI[] characterUi;
+
+	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
+
+	[Title("Players List")]
 	public List<CharacterBase> characterAlive;
 
 	public List<CharacterBase> characterFullDead;
@@ -19,12 +30,8 @@ public class BattleManager : MonoBehaviour
 	//public List<GameObject> canvasPanelPlayer;
 	//public List<TextMeshProUGUI> canvasPercentPlayer;
 
-	public CameraController cameraController;
 
-	public CharacterUI[] characterUi;
-
-	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
-
+	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
 	// Start is called before the first frame update
@@ -55,7 +62,7 @@ public class BattleManager : MonoBehaviour
 			user.Stats.InitStats();
 			if(characterUi.Length != 0)
 				characterUi[i].InitPlayerPanel(user);
-			cameraController.playersTarget.Add(go);
+			cameraController.targets.Add(go.transform);
 		}
 		isGameStarted = true;
 	}

@@ -38,6 +38,15 @@ public class CharacterAnimation : MonoBehaviour
     public void CheckState(CharacterState oldState, CharacterState newState)
     {
         animator.SetBool("Hanging", false);
+        if (newState is CharacterStateDeath)
+        {
+            animator.SetTrigger("Idle");
+            animator.ResetTrigger("Fall");
+            animator.ResetTrigger("Wallrun");
+            animator.ResetTrigger("Knockback");
+            animator.ResetTrigger("StartJump");
+        }
+
         if (newState is CharacterStateActing)
         {
             animator.ResetTrigger("Idle");
