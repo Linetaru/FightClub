@@ -112,8 +112,6 @@ public class CameraManager : MonoBehaviour
 						//If focus wasn't already change then change canvas visibility, change focus of camera zoom controller, change bool of this condition and store position
 						if (!isFocusChanged)
 						{
-							//Change canvas visibility of arrow alert
-							cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(true);
 							//Change focus of camera zoom controller
 							zoomController.ChangeFocusState();
 							//Change bool of this condition to don't play again
@@ -121,6 +119,9 @@ public class CameraManager : MonoBehaviour
 							//Store Position of this at this moment
 							positionTaken = transform.position;
 						}
+
+						//Change canvas visibility of arrow alert
+						cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(!cam_Infos[positionID].canvasPanelArrowToActivate.activeSelf);
 
 						//Update this position to be on same position at first point on camera rail array using actual timer to lerp on the position.
 						Vector3 newPos = transform.position;

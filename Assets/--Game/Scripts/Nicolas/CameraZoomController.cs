@@ -321,6 +321,7 @@ public class CameraZoomController : MonoBehaviour
             camConfig.config_zoomLimiter = zoomLimiter;
             camConfig.config_fovForStaticScrolling = fovForStaticScrolling;
 
+            UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
         }
     }
