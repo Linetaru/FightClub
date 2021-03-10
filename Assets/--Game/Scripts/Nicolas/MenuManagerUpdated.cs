@@ -26,12 +26,18 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	[ReadOnly] public GameObject currentSelectButton;
 	[ReadOnly] public GameObject lastSelectButton;
 
+	[Title("ControlMapper")]
+	public ControlMapper controlMapper;
+
 	[Title("Level Name")]
 	public string level;
 
     private void Start()
     {
 		Pulse();
+
+		controlMapper.onScreenClosed -= CloseOptions;
+		controlMapper.onScreenClosed += CloseOptions;
 	}
 
 	public void Pulse()
@@ -43,51 +49,54 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
     public void UpdateControl(int ID, Input_Info input_Info)
 	{
+
 		if (timeTransition > 0)
 		{
 			timeTransition -= Time.deltaTime;
 		}
 
-
-		if (!OnTransition)
+		if (!controlMapper.isOpen && timeTransition <= 0)
 		{
-			if (input_Info.vertical < -0.75)
-				ChangeSelectedButton(false);
-			else if (input_Info.vertical > 0.75)
-				ChangeSelectedButton(true);
-
-			if (input_Info.horizontal < -0.75)
-				ChangeSelectedButton(true);
-			else if (input_Info.horizontal > 0.75)
-				ChangeSelectedButton(false);
-		}
-
-		if (input_Info.inputUiAction == InputConst.Start && isStartMenu)
-		{
-			isStartMenu = false;
-			Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;
-			foreach (TextMeshProUGUI text in startTexts)
-				text.transform.gameObject.SetActive(false);
-			EventSystem.current.SetSelectedGameObject(playButton);
-			playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f);
-			currentButtonSelected = 1;
-			currentSelectButton = playButton;
-			CanPulse = false;
-		}
-
-		if (!isStartMenu && input_Info.inputUiAction == InputConst.Interact)
-		{
-			switch (currentButtonSelected)
+			if (!OnTransition)
 			{
-				case 1:
-					UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-					break;
-				case 2:
-					Options();
-					break;
-				case 3:
-					Application.Quit();
-					break;
+				if (input_Info.vertical < -0.75)
+					ChangeSelectedButton(false);
+				else if (input_Info.vertical > 0.75)
+					ChangeSelectedButton(true);
+
+				if (input_Info.horizontal < -0.75)
+					ChangeSelectedButton(true);
+				else if (input_Info.horizontal > 0.75)
+					ChangeSelectedButton(false);
+			}
+
+			if (input_Info.inputUiAction == InputConst.Start && isStartMenu)
+			{
+				isStartMenu = false;
+				Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;
+				foreach (TextMeshProUGUI text in startTexts)
+					text.transform.gameObject.SetActive(false);
+				EventSystem.current.SetSelectedGameObject(playButton);
+				playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f);
+				currentButtonSelected = 1;
+				currentSelectButton = playButton;
+				CanPulse = false;
+			}
+
+			if (!isStartMenu && input_Info.inputUiAction == InputConst.Interact)
+			{
+				switch (currentButtonSelected)
+				{
+					case 1:
+						UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+						break;
+					case 2:
+						Options();
+						break;
+					case 3:
+						Application.Quit();
+						break;
+				}
 			}
 		}
 	}
@@ -149,6 +158,21 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	public void Options()
 	{
+		controlMapper.Open();
 
+		currentSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
+		currentSelectButton = null;
+		//clear selected object
+		EventSystem.current.SetSelectedGameObject(null);
+	}
+
+	public void CloseOptions()
+	{
+		OnTransition = true;
+		optionButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f).OnComplete(() => OnTransition = false);
+		currentButtonSelected = 1;
+		currentSelectButton = optionButton;
+		EventSystem.current.SetSelectedGameObject(currentSelectButton);
+		timeTransition = 0.4f;
 	}
 }
