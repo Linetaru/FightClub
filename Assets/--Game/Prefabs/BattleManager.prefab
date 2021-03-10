@@ -698,6 +698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3409050773178537297}
   - component: {fileID: 3409050773178537296}
+  - component: {fileID: 205298903}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -757,6 +758,34 @@ MonoBehaviour:
   characterAlive: []
   characterFullDead: []
   isGameStarted: 0
+--- !u!114 &205298903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409050773178537298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b195110f22aa6cb438ff124adc637ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventCharacter: {fileID: 11400000, guid: 382e3279729629441a2be88412945f74, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3409050773178537296}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: ObliterateCharacter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3409050773253414538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,6 +1223,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 884362d9fc8144d4f9adc9d98b986a00, type: 3}
+--- !u!1 &4420289996547835815 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3724213936166259896, guid: 884362d9fc8144d4f9adc9d98b986a00, type: 3}
+  m_PrefabInstance: {fileID: 1078355386950322975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4863298136225629707 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5587543688805993748, guid: 884362d9fc8144d4f9adc9d98b986a00, type: 3}
@@ -1276,11 +1310,6 @@ GameObject:
 --- !u!224 &3409050773329793822 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2429822974419425281, guid: 884362d9fc8144d4f9adc9d98b986a00, type: 3}
-  m_PrefabInstance: {fileID: 1078355386950322975}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4420289996547835815 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3724213936166259896, guid: 884362d9fc8144d4f9adc9d98b986a00, type: 3}
   m_PrefabInstance: {fileID: 1078355386950322975}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4162313341712735203

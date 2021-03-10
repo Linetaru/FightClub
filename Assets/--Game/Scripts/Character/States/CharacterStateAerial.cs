@@ -54,7 +54,6 @@ public class CharacterStateAerial : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("AerialState");
     }
 
     public override void UpdateState(CharacterBase character)
@@ -143,7 +142,6 @@ public class CharacterStateAerial : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
         isFastFall = false;
     }
