@@ -23,6 +23,8 @@ public class Cam_Infos
 
 	public bool movingInY;
 
+	public GameObject canvasPanelArrowToActivate;
+
 	public bool isAtLimit(Transform c)
 	{
 		if (movingInY)
@@ -73,7 +75,12 @@ public class CameraManager : MonoBehaviour
             case StateCamera.InFocusMode:
 				if (timer > 0)
 				{
-					timer -= Time.deltaTime;
+					timer -= Time.deltaTime; 
+
+					if (timer / cam_Infos[positionID].timeBeforeMoving * 100 <= 35 )
+					{
+						cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(true);
+					}
 				}
 				else if (timer <= 0)
 				{
@@ -81,6 +88,7 @@ public class CameraManager : MonoBehaviour
 					{
 						stateCamera = StateCamera.InMovingMode;
 						zoomController.ChangeFocusState();
+						cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(false);
 					}
 				}
 					break;
