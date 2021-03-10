@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
 	[Title("Interractions")]
 	public InputController inputController;
 
-	public CameraController cameraController;
+	public CameraZoomController cameraController;
 
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
@@ -62,7 +62,7 @@ public class BattleManager : MonoBehaviour
 			user.Stats.InitStats();
 			if(characterUi.Length != 0)
 				characterUi[i].InitPlayerPanel(user);
-			cameraController.playersTarget.Add(go);
+			cameraController.targets.Add(go.transform);
 		}
 		isGameStarted = true;
 	}
