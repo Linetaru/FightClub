@@ -174,7 +174,7 @@ public class CameraZoomController : MonoBehaviour
     #region Brackey_Camera_Controller
     public List<Transform> targets;
 
-    public GameObject focusLevel;
+    //public GameObject focusLevel;
 
     [Title("Movement Parameter")]
     public Vector3 offset;
@@ -320,6 +320,25 @@ public class CameraZoomController : MonoBehaviour
             camConfig.config_maxZoom = maxZoom;
             camConfig.config_zoomLimiter = zoomLimiter;
             camConfig.config_fovForStaticScrolling = fovForStaticScrolling;
+
+            UnityEditor.EditorUtility.SetDirty(camConfig);
+            camConfig = null;
+        }
+    }
+
+    //Change parameter base on scriptable object camConfig config parameter
+    [Button]
+    public void AddParameterConfigOnThisScript()
+    {
+        if (camConfig != null)
+        {
+            offset = camConfig.config_offset;
+            smoothTime = camConfig.config_smoothTime;
+
+            minZoom = camConfig.config_minZoom;
+            maxZoom = camConfig.config_maxZoom;
+            zoomLimiter = camConfig.config_zoomLimiter;
+            fovForStaticScrolling = camConfig.config_fovForStaticScrolling;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;

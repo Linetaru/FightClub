@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 //State machine for camera manager
 public enum StateCamera{
@@ -11,26 +12,34 @@ public enum StateCamera{
 [System.Serializable]
 public class Cam_Infos
 {
+	[Title("Config")]
 	//Config Object for changing Camera parameter
 	[Expandable]
 	public CameraConfig cameraConfig;
 
-	//Float for timer before scrolling start
-	public float timeBeforeMoving;
-
+	[Title("Rails Array")]
 	//All array for scrolling movement get A and B point for each rails
 	public GameObject[] railsCamTravelling = new GameObject[2];
-	public GameObject[] railsFocusTravelling = new GameObject[2];
+	//public GameObject[] railsFocusTravelling = new GameObject[2];
 	public GameObject[] railsBlastZoneTravelling = new GameObject[2];
+
+	[Title("Parameter Timer")]
+	//Float for timer before scrolling start
+	public float timeBeforeMoving;
 
 	//Time before camera reaching Last point of this travelling rails
 	public float durationTravelling;
 
+	[Title("Parameter Bool")]
 	//Boolean to know if this travelling will move on axis Y or not
 	public bool movingInY;
 
+	[Title("Object Reference")]
 	//GameObject Panel of Arrows scrolling information
 	public GameObject canvasPanelArrowToActivate;
+
+	//List de GameObject a desactiver en mode focus
+	public List<GameObject> objectDisableOnFocusMode;
 
 	//Function boolean to check if camera position has reach the last Point (Function to clear some condition in other class)
 	public bool isNotAtLimit(Transform c)
@@ -53,6 +62,14 @@ public class Cam_Infos
 				return false;
 		}
 	}
+
+	//Change Visibility of all Gameobject in a array
+	public void ChangeToVisible(bool value)
+	{
+		if(objectDisableOnFocusMode.Count > 0)
+			foreach (GameObject go in objectDisableOnFocusMode)
+				go.SetActive(value);
+	}
 }
 
 public class CameraManager : MonoBehaviour
@@ -60,15 +77,23 @@ public class CameraManager : MonoBehaviour
 	//State machine camera with enumerator
 	[ReadOnly] public StateCamera stateCamera = StateCamera.InFocusMode;
 
+	[Title("Reference Object")]
 	//Script Camera for Zoom between Player in Focus Mode
 	public CameraZoomController zoomController;
-
-	//Array for all config on the level
-	public Cam_Infos[] cam_Infos;
 
 	//Get reference at blastZone object
 	public GameObject blastZone;
 
+	[Title("Configs Path Scrolling")]
+	//Array for all config on the level
+	public Cam_Infos[] cam_Infos;
+
+	//Boolean to know if we loop scrolling movement at last config
+	public bool loopScrolling;
+
+	public List<GameObject> disableGameObjectOnStart;
+
+	[Title("Parametre in Visible to Debug")]
 	//Initialize timer for changing state
 	[ReadOnly] public float timer;
 
@@ -88,13 +113,20 @@ public class CameraManager : MonoBehaviour
 	void Start()
 	{
 		if (cam_Infos.Length != 0)
+		{
 			timer = cam_Infos[0].timeBeforeMoving;
+			cam_Infos[0].ChangeToVisible(false);
+		}
+
+		if (disableGameObjectOnStart.Count > 0)
+			foreach (GameObject go in disableGameObjectOnStart)
+				go.SetActive(false);
+			
 	}
 
 	//Update function to apply scrolling and make timer updated
 	void Update()
 	{
-		//Switch between all state of camera
         switch (stateCamera)
         {
 			case StateCamera.InFocusMode:
@@ -139,6 +171,19 @@ public class CameraManager : MonoBehaviour
 						cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(false);
 						//Change bool of this condition for the next config update
 						isFocusChanged = false;
+						
+						if(positionID == 0)
+                        {
+							if (disableGameObjectOnStart.Count > 0)
+							{
+								foreach (GameObject go in disableGameObjectOnStart)
+								{
+									go.SetActive(true);
+								}
+							}
+						}
+						else
+							cam_Infos[positionID].ChangeToVisible(true);
 					}
 				}
 					break;
@@ -165,6 +210,9 @@ public class CameraManager : MonoBehaviour
 				{
                     //Change zoom camera parameter to value of new config 
                     zoomController.ChangeValueFocus(cam_Infos[positionID].cameraConfig);
+
+					cam_Infos[positionID].ChangeToVisible(false);
+
 					//Change position ID for change config
 					positionID++;
 					//Change state of state machine
@@ -178,6 +226,12 @@ public class CameraManager : MonoBehaviour
 					}
 					//Reset timer for the next config
 					timeLerp = 0;
+
+					if (loopScrolling)
+					{
+						positionID = 0;
+						timer = cam_Infos[positionID].timeBeforeMoving;
+					}
 				}
                 break;
         }
