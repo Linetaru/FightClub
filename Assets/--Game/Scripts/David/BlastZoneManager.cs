@@ -16,10 +16,7 @@ public class BlastZoneManager : MonoBehaviour
     public Transform spawnpoint;
 
     //Float Event to update Stock UI
-    public PackageCreator.Event.GameEventFloat gameEventStocksP1;
-    public PackageCreator.Event.GameEventFloat gameEventStocksP2;
-    public PackageCreator.Event.GameEventFloat gameEventStocksP3;
-    public PackageCreator.Event.GameEventFloat gameEventStocksP4;
+    public PackageCreator.Event.GameEventFloat[] gameEventStocks;
 
     private void Awake()
     {
@@ -43,21 +40,29 @@ public class BlastZoneManager : MonoBehaviour
 
         if(other.transform.root.gameObject.GetComponent<CharacterBase>() != null)
         {
-            // Respawn Manager
-            playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
-            playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
-            playerCB.Stats.RespawnStats();
+            float stocks = playerCB.Stats.LifeStocks;
+            if (stocks - 1 >= 0)
+            {
+                // Respawn Manager
+                playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
+                playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
+                playerCB.Stats.RespawnStats();
 
 
-            //Float Event to update Stock UI
-            if (tag == "Player1")
-                gameEventStocksP1.Raise(playerCB.Stats.LifeStocks);
-            else if (tag == "Player2")
-                gameEventStocksP2.Raise(playerCB.Stats.LifeStocks);
-            else if (tag == "Player3")
-                gameEventStocksP3.Raise(playerCB.Stats.LifeStocks);
-            else if (tag == "Player4")
-                gameEventStocksP4.Raise(playerCB.Stats.LifeStocks);
+                //Float Event to update Stock UI
+                if (tag == "Player1")
+                    gameEventStocks[0].Raise(stocks);
+                else if (tag == "Player2")
+                    gameEventStocks[1].Raise(stocks);
+                else if (tag == "Player3")
+                    gameEventStocks[2].Raise(stocks);
+                else if (tag == "Player4")
+                    gameEventStocks[3].Raise(stocks);
+            }
+            else
+            {
+                // Handle Definitive death
+            }
         }
     }
 
