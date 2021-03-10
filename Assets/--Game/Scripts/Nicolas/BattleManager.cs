@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		isFinish();
+		//isFinish();
 	}
 
 	public void SpawnPlayer()
@@ -67,10 +67,26 @@ public class BattleManager : MonoBehaviour
 		isGameStarted = true;
 	}
 
+	// This function transfer player from isAlive to isFullDead and check if party over
+	// Basically it manages definitive death
+	public void ObliterateCharacter(CharacterBase cb)
+    {
+		Debug.Log("Character full dead");
+		if(characterAlive.Contains(cb))
+        {
+			characterFullDead.Add(cb);
+			characterAlive.Remove(cb);
+
+			isFinish();
+        }
+    }
+
 	public void isFinish()
     {
 		if(characterAlive.Count == 1 && isGameStarted)
-        {
+		{
+			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
+			
 			UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
         }
     }

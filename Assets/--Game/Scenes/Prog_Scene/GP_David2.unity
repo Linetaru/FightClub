@@ -1342,6 +1342,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195182180}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &205298900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3409050773178537298, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
+  m_PrefabInstance: {fileID: 2000678808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &205298901 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3409050773178537296, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
+  m_PrefabInstance: {fileID: 2000678808}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205298900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df66098039010844192f332602fa25d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &205298903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205298900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b195110f22aa6cb438ff124adc637ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventCharacter: {fileID: 11400000, guid: 382e3279729629441a2be88412945f74, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 205298901}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: ObliterateCharacter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &224336098
 GameObject:
   m_ObjectHideFlags: 0
@@ -5408,6 +5452,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4235491457739584082, guid: 40e5856964515414fb7949c4ffefe039, type: 3}
+      propertyPath: gameEventCharacterDead.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235491457739584082, guid: 40e5856964515414fb7949c4ffefe039, type: 3}
       propertyPath: gameEventStocks.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: d220d08d87c3fcd42b28f7664aed1db1, type: 2}
@@ -5423,6 +5471,14 @@ PrefabInstance:
       propertyPath: gameEventStocks.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 6a45de91ff8900b429f1b243d95ff6d1, type: 2}
+    - target: {fileID: 4235491457739584082, guid: 40e5856964515414fb7949c4ffefe039, type: 3}
+      propertyPath: gameEventCharacterDead.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 382e3279729629441a2be88412945f74, type: 2}
+    - target: {fileID: 4235491457739584082, guid: 40e5856964515414fb7949c4ffefe039, type: 3}
+      propertyPath: gameEventCharacterFullDead
+      value: 
+      objectReference: {fileID: 11400000, guid: 382e3279729629441a2be88412945f74, type: 2}
     - target: {fileID: 4235491457739584083, guid: 40e5856964515414fb7949c4ffefe039, type: 3}
       propertyPath: m_Name
       value: BlastZone

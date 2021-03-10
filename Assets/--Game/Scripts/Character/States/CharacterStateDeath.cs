@@ -18,7 +18,7 @@ public class CharacterStateDeath : CharacterState
 	{
 		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
-		Debug.Log("Death State");
+
 
 		timer = 0f;
 		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
