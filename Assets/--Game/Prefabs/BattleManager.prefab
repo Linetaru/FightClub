@@ -1889,16 +1889,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84bc466695ff65b4c9226f449cf22509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusLevel: {fileID: 3409050773902488431}
-  playersTarget: []
-  depthUpdateSpeed: 5
-  angleUpdateSpeed: 7
-  positionUpdateSpeed: 5
-  depthMax: 40
-  depthMin: 15
-  angleMax: 11
-  angleMin: 3
-  camConfig: {fileID: 11400000, guid: 2f96d1c77f5abe74b88f036a3ca37b9a, type: 2}
+  targets: []
+  focusLevel: {fileID: 3409050773902488432}
+  offset: {x: 0, y: 0, z: -45}
+  smoothTime: 0.5
+  minZoom: 60
+  maxZoom: 10
+  zoomLimiter: 50
+  fovForStaticScrolling: 30
+  camConfig: {fileID: 0}
 --- !u!114 &1181690236344132219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,8 +2085,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3409050773902488430}
-  - component: {fileID: 3409050773902488431}
-  - component: {fileID: 65988689}
   m_Layer: 0
   m_Name: Focus
   m_TagString: Untagged
@@ -2109,37 +2106,6 @@ Transform:
   m_Father: {fileID: 3409050773178537297}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &3409050773902488431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3409050773902488432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41c7bd96f29604d4a946d518bc562346, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  halfXBounds: 15
-  halfYBounds: 20
-  halfZBounds: 8
-  focusBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
---- !u!65 &65988689
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3409050773902488432}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 15, y: 20, z: 8}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7854600161939016464
 GameObject:
   m_ObjectHideFlags: 0

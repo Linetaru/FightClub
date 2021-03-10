@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 
+[Serializable]
 [CreateAssetMenu(fileName = "CameraConfig", menuName = "Camera/CameraConfig", order = 1)]
 public class CameraConfig : ScriptableObject
 {
     [Title("Config Zoom Controller")]
-    public float config_depthUpdateSpeed;
-    public float config_angleUpdateSpeed;
-    public float config_positionUpdateSpeed;
+    public Vector3 config_offset;
 
-    public float config_depthMax;
-    public float config_depthMin;
+    public float config_smoothTime = 0.5f;
 
-    public float config_angleMax;
-    public float config_angleMin;
+    public float config_minZoom = 40f;
+    public float config_maxZoom = 10f;
+    public float config_zoomLimiter = 50f;
 
-
-    [Title("Config Focus Level")]
-    public float halfXBounds;
-    public float halfYBounds;
-    public float halfZBounds;
+    public float config_fovForStaticScrolling = 60f;
 }
