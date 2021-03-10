@@ -97,19 +97,15 @@ public class CameraManager : MonoBehaviour
 		//Switch between all state of camera
         switch (stateCamera)
         {
-			//Play when state machine is in focus mode
 			case StateCamera.InFocusMode:
-
-				//Condition timer to update it if is bigger than 0
 				if (timer > 0)
 				{
-					//Update timer each frame
 					timer -= Time.deltaTime;
 
 					//Check if timer in at or under 35 percent of starting timer value
 					if (timer / cam_Infos[positionID].timeBeforeMoving * 100 <= 35)
 					{
-						//If focus wasn't already change then change canvas visibility, change focus of camera zoom controller, change bool of this condition and store position
+						
 						if (!isFocusChanged)
 						{
 							//Change focus of camera zoom controller
@@ -130,7 +126,6 @@ public class CameraManager : MonoBehaviour
 						transform.position = newPos;
 					}
 				}
-				//Condition timer to check if the time is finish
 				else if (timer <= 0)
 				{
 					//Check if we have a new config after this one to update parameter
@@ -147,8 +142,6 @@ public class CameraManager : MonoBehaviour
 					}
 				}
 					break;
-
-			//Play when state machine is in scrolling mode
 			case StateCamera.InMovingMode:
 
 				//Check if position of this is at limit of the rail position
@@ -166,11 +159,8 @@ public class CameraManager : MonoBehaviour
 					//Update position of the blastzone to kill player when they are to slow on scrolling mode
 					blastZone.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
-					//Timer for lerp Vector3
 					timeLerp += Time.deltaTime;
 				}
-
-				//If position is at the limit of last point then
 				else
 				{
                     //Change zoom camera parameter to value of new config 
