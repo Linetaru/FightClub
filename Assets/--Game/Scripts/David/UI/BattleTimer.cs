@@ -42,6 +42,7 @@ public class BattleTimer : MonoBehaviour
             else
             {
                 timesUp = true;
+                timerText.text = "END";
                 Debug.Log("End of battle");
                 // Do Something
             }
@@ -50,13 +51,17 @@ public class BattleTimer : MonoBehaviour
 
     void DisplayTimer()
     {
+        // METHOD TO DISPLAY IN "00:00" FORMAT
+        /* 
         minutes = Mathf.FloorToInt(countdownTimer / 60);
         seconds = Mathf.FloorToInt(countdownTimer % 60);
-
-        if(seconds >= 10)
+        if (seconds >= 10)
             timerText.text = minutes + ":" + seconds;
         else
             timerText.text = minutes + ":0" + seconds;
+        */
 
+        // METHOD TO DISPLAY SECONDS
+        timerText.text = ((int) countdownTimer).ToString();
     }
 }
