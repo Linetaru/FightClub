@@ -12,6 +12,9 @@ public class BattleTimer : MonoBehaviour
     private Text timerText;
 
     private float countdownTimer;
+    private int oldTimer;
+
+    // Used only for the 00:00 format
     private float minutes;
     private float seconds;
 
@@ -36,8 +39,13 @@ public class BattleTimer : MonoBehaviour
         {
             if (countdownTimer > 0)
             {
+                oldTimer = Mathf.RoundToInt(countdownTimer);
                 countdownTimer -= Time.deltaTime;
-                DisplayTimer();
+
+                if(oldTimer != Mathf.RoundToInt(countdownTimer))
+                {
+                    DisplayTimer();
+                }
             }
             else
             {
@@ -62,6 +70,6 @@ public class BattleTimer : MonoBehaviour
         */
 
         // METHOD TO DISPLAY SECONDS
-        timerText.text = ((int) countdownTimer).ToString();
+        timerText.text = Mathf.RoundToInt(countdownTimer).ToString();
     }
 }
