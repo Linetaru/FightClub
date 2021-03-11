@@ -45,6 +45,7 @@ namespace Menu
 			for (int i = 0; i < charactersPodium.Count; i++)
 			{
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
+				listPlayerChoice.Add(i);
 			}
 
 			winnerID = 0;
@@ -61,7 +62,7 @@ namespace Menu
 			stateResult = 1;
 			for (int i = 0; i < listResultDrawers.Count; i++)
 			{
-				listResultDrawers[i].DrawResult(0, 0);
+				listResultDrawers[i].DrawResult(i, 0);
 			}
 		}
 
@@ -93,7 +94,7 @@ namespace Menu
 		{
 			if (listPlayerChoice[id] == 0) // Aucun choix de fait  
 			{
-				if (input.CheckAction(id, InputConst.Jump))
+				if (input.inputUiAction == InputConst.Return)
 				{
 					listPlayerChoice[id] = 1;
 					listResultDrawers[id].SetFeedback("Surrend"); // le surrend a virer et ne pas hardcodé
