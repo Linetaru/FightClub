@@ -16,13 +16,15 @@ public class CharacterStateDeath : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
-		Debug.Log("Death State");
+
 
 		timer = 0f;
-		Camera.main.GetComponent<CameraController>().playersTarget.Remove(character.gameObject);
+		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
 		character.Movement.SetSpeed(0f, 0f);
 		renderer.enabled = false;
+
 	}
 
 	public override void UpdateState(CharacterBase character)
