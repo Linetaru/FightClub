@@ -8,13 +8,20 @@ public class CharacterStateDeath : CharacterState
 	private CharacterState respawnState;
 
 	[SerializeField]
-	private SkinnedMeshRenderer renderer;
+	private GameObject playerObject;
+
+	private SkinnedMeshRenderer[] meshes;
 
 	[SerializeField]
 	private float timebeforeRespawn = 3.0f;
 	private float timer = 0.0f;
 
-	public override void StartState(CharacterBase character, CharacterState oldState)
+    private void Awake()
+    {
+		meshes = playerObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+    }
+
+    public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
@@ -23,7 +30,7 @@ public class CharacterStateDeath : CharacterState
 		timer = 0f;
 		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
 		character.Movement.SetSpeed(0f, 0f);
-		renderer.enabled = false;
+		HidePlayer();
 
 	}
 
@@ -32,11 +39,11 @@ public class CharacterStateDeath : CharacterState
 		timer += Time.deltaTime;
 		if(timer >= timebeforeRespawn)
 		{
-			renderer.enabled = true;
+			DisplayPlayer();
 			character.SetState(respawnState);
         }
 	}
-	
+
 	public override void LateUpdateState(CharacterBase character)
 	{
 
@@ -45,5 +52,21 @@ public class CharacterStateDeath : CharacterState
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 		//character.Stats.RespawnStats();
+	}
+
+	private void DisplayPlayer()
+    {
+		foreach(SkinnedMeshRenderer mesh in meshes)
+        {
+			mesh.enabled = true;
+        }
+    }
+
+	private void HidePlayer()
+	{
+		foreach (SkinnedMeshRenderer mesh in meshes)
+		{
+			mesh.enabled = false;
+		}
 	}
 }
