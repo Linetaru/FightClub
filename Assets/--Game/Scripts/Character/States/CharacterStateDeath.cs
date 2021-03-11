@@ -29,12 +29,15 @@ public class CharacterStateDeath : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		timer += Time.deltaTime;
-		if(timer >= timebeforeRespawn)
-		{
-			DisplayPlayer();
-			character.SetState(respawnState);
-        }
+		if(!character.Stats.Death)
+        {
+			timer += Time.deltaTime;
+			if (timer >= timebeforeRespawn)
+			{
+				DisplayPlayer();
+				character.SetState(respawnState);
+			}
+		}
 	}
 
 	public override void LateUpdateState(CharacterBase character)
