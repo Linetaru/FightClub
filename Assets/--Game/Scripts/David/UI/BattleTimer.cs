@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class BattleTimer : MonoBehaviour
 {
+    [Title("Timer infos")]
     [SerializeField]
     private float timerInSeconds = 90; // Récupérer depuis le game data à terme
 
@@ -19,6 +21,10 @@ public class BattleTimer : MonoBehaviour
     private float seconds;
 
     private bool timesUp;
+
+    [Title("Uncheck if 00:00 format is wanted")]
+    [SerializeField]
+    private bool isFormatSeconds = true;
 
 
 
@@ -52,24 +58,28 @@ public class BattleTimer : MonoBehaviour
                 timesUp = true;
                 timerText.text = "END";
                 Debug.Log("End of battle");
-                // Do Something
+
+                // Call the end game by timer
             }
         }
     }
 
     void DisplayTimer()
     {
-        // METHOD TO DISPLAY IN "00:00" FORMAT
-        /* 
-        minutes = Mathf.FloorToInt(countdownTimer / 60);
-        seconds = Mathf.FloorToInt(countdownTimer % 60);
-        if (seconds >= 10)
-            timerText.text = minutes + ":" + seconds;
+        if(!isFormatSeconds)
+        {
+            // METHOD TO DISPLAY IN "00:00" FORMAT
+            minutes = Mathf.FloorToInt(countdownTimer / 60);
+            seconds = Mathf.FloorToInt(countdownTimer % 60);
+            if (seconds >= 10)
+                timerText.text = minutes + ":" + seconds;
+            else
+                timerText.text = minutes + ":0" + seconds;
+        }
         else
-            timerText.text = minutes + ":0" + seconds;
-        */
-
-        // METHOD TO DISPLAY SECONDS
-        timerText.text = Mathf.RoundToInt(countdownTimer).ToString();
+        {
+            // METHOD TO DISPLAY SECONDS
+            timerText.text = Mathf.RoundToInt(countdownTimer).ToString();
+        }
     }
 }
