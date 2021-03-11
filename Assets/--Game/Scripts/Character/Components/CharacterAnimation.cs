@@ -66,6 +66,7 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("Idle");
             animator.ResetTrigger("Fall");
+            animator.ResetTrigger("Knockback");
             actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
@@ -94,6 +95,8 @@ public class CharacterAnimation : MonoBehaviour
         }
         if (newState is CharacterStateKnockback)
         {
+            animator.ResetTrigger("Idle");
+            animator.ResetTrigger("Fall");
             animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
