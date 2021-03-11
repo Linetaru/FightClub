@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,21 @@ public class CharacterSelectManager : MonoBehaviour
     public bool gameLaunched = false;
 
     int gameDuration = 8;
-    int playerStocks = 3;
+    [HideInInspector]
+    public int playerStocks = 3;
+
+    [SerializeField]
+    TextMeshProUGUI numberOfStocksText;
+
+    private void Awake()
+    {
+        UpdateStockText();
+    }
+
+    public void UpdateStockText()
+    {
+        numberOfStocksText.text = playerStocks.ToString();
+    }
 
     public void DisplayReadyBands()
     {
