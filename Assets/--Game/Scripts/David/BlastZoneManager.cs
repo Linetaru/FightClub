@@ -46,16 +46,13 @@ public class BlastZoneManager : MonoBehaviour
 
         if (playerCB != null)
         {
-
+            ExplosionDeath(other);
             float stocks = playerCB.Stats.LifeStocks;
             if (stocks - 1 >= 0)
             {
-                ExplosionDeath(other);
                 // Respawn Manager
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 playerCB.Stats.RespawnStats();
-
-                stocks = playerCB.Stats.LifeStocks;
 
                 //Float Event to update Stock UI
                 if (tag == "Player1")
@@ -69,6 +66,8 @@ public class BlastZoneManager : MonoBehaviour
             }
             else
             {
+                playerCB.Stats.Death = true;
+                playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 gameEventCharacterFullDead.Raise(playerCB);
             }
         }
@@ -81,6 +80,8 @@ public class BlastZoneManager : MonoBehaviour
         float angleZ = Mathf.Atan2(transform.position.y - go.transform.position.y, transform.position.x - go.transform.position.x) * Mathf.Rad2Deg;
 
         go.transform.rotation = Quaternion.Euler(go.transform.eulerAngles.x, go.transform.eulerAngles.y, angleZ);
+
+        Destroy(go, 3f);
     }
 
 }
