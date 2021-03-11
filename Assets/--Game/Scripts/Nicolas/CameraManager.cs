@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 //State machine for camera manager
 public enum StateCamera{
@@ -83,6 +84,13 @@ public class CameraManager : MonoBehaviour
 
 	//Get reference at blastZone object
 	public GameObject blastZone;
+
+	public List<UnityEngine.UI.Image> imagesUiRedScrolling;
+
+	[Range(0.5f, 5)]
+	public float timeRedBorder = 0.8f;
+	[Range(1, 10)]
+	public int loopRedBorder = 2;
 
 	[Title("Configs Path Scrolling")]
 	//Array for all config on the level
@@ -184,6 +192,13 @@ public class CameraManager : MonoBehaviour
 						}
 						else
 							cam_Infos[positionID].ChangeToVisible(true);
+
+						imagesUiRedScrolling[0].transform.parent.gameObject.SetActive(true);
+
+						foreach (UnityEngine.UI.Image image in imagesUiRedScrolling)
+                        {
+							image.DOColor(new Color(1, 0, 0, 0), timeRedBorder).SetLoops(loopRedBorder).OnComplete(() => imagesUiRedScrolling[0].transform.parent.gameObject.SetActive(false));
+                        }
 					}
 				}
 					break;
@@ -192,6 +207,7 @@ public class CameraManager : MonoBehaviour
 				//Check if position of this is at limit of the rail position
 				if (cam_Infos[positionID].isNotAtLimit(transform))
 				{
+
 					//Update this position to be on same position at last point on camera rail array using a timer to lerp on the position divide by travelling time of the config.
 					Vector3 newPos = transform.position;
 					newPos = Vector3.Lerp(cam_Infos[positionID].railsCamTravelling[0].transform.position, cam_Infos[positionID].railsCamTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
@@ -231,6 +247,11 @@ public class CameraManager : MonoBehaviour
 					{
 						positionID = 0;
 						timer = cam_Infos[positionID].timeBeforeMoving;
+					}
+
+					foreach (UnityEngine.UI.Image image in imagesUiRedScrolling)
+					{
+						image.color = new Color(1,0,0,1);
 					}
 				}
                 break;
