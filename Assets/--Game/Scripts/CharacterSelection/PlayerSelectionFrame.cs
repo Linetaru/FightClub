@@ -121,6 +121,23 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     private void Update()
     {
+        if (player.GetButtonDown("LeftTaunt"))
+        {
+            if(characterSelectManager.playerStocks > 1)
+            {
+                --characterSelectManager.playerStocks;
+                characterSelectManager.UpdateStockText();
+            }
+        }
+        else if (player.GetButtonDown("RightTaunt"))
+        {
+            if (characterSelectManager.playerStocks < 999)
+            {
+                ++characterSelectManager.playerStocks;
+                characterSelectManager.UpdateStockText();
+            }
+        }
+
         if (isPlayerConnected && player.GetButtonDown("RightShoulder"))
         {
             if (actualColorSkin < characterCells[actualCursorPosition].characterData.characterMaterials.Count - 1)

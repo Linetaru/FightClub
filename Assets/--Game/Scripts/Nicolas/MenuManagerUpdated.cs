@@ -21,6 +21,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	float timeTransition = 0;
 	bool CanPulse = true;
 	[ReadOnly] public int currentButtonSelected;
+	[HideInInspector] public bool canChangeScene;
 
 	[Title("Selected Button")]
 	[ReadOnly] public GameObject currentSelectButton;
@@ -53,6 +54,11 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		if (timeTransition > 0)
 		{
 			timeTransition -= Time.deltaTime;
+		}
+
+		if(canChangeScene)
+        {
+			GoToOtherScene();
 		}
 
 		if (!controlMapper.isOpen && timeTransition <= 0)
@@ -88,7 +94,8 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 				switch (currentButtonSelected)
 				{
 					case 1:
-						UnityEngine.SceneManagement.SceneManager.LoadScene(level);
+						Camera.main.GetComponent<Animator>().SetBool("canTransition", true);
+						timeTransition = 999;
 						break;
 					case 2:
 						Options();
@@ -174,5 +181,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		currentSelectButton = optionButton;
 		EventSystem.current.SetSelectedGameObject(currentSelectButton);
 		timeTransition = 0.4f;
+	}
+
+	public void GoToOtherScene()
+    {
+		UnityEngine.SceneManagement.SceneManager.LoadScene(level);
 	}
 }

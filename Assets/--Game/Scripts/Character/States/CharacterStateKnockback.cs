@@ -39,6 +39,7 @@ public class CharacterStateKnockback : CharacterState
     {
         character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
+        character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
     }
@@ -49,6 +50,8 @@ public class CharacterStateKnockback : CharacterState
             character.Movement.SpeedX = 0;
         else
             character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) *  Time.deltaTime;
+
+
 
         character.Movement.ApplyGravity();
 
