@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct Character_Info
+public class Character_Info
 {
 	[SerializeField]
 	private int playerID;

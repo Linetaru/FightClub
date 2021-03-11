@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Menu
 {
@@ -44,10 +45,12 @@ namespace Menu
 		[SerializeField]
 		Animator feedback;
 
+		[SerializeField]
+		Animator fadeIn;
+		[SerializeField]
+		Animator animatorCamera;
 
-
-
-
+		bool canControl = true;
 		private IEnumerator stageCoroutine;
 
 
@@ -63,15 +66,18 @@ namespace Menu
 			{
 				listStage.DrawItemList(i, null, stageDatabase[i].StageName);
 			}
-			//listStage.SelectIndex(0);
 			SelectStage(0);
+			listStage.SelectIndex(0);
 		}
 
 		public void UpdateControl(int id, Input_Info input)
-		{
+		{	
+			if (canControl == false)
+				return;
+
 			if (listStage.InputList(input) == true) // On s'est déplacé dans la liste
 				SelectStage(listStage.IndexSelection);
-			else if (input.CheckAction(id, InputConst.Interact) == true)
+			else if (input.CheckAction(id, InputConst.Jump) == true)
 				ValidateStage(listStage.IndexSelection);
 			else if (input.CheckAction(id, InputConst.Return) == true)
 				QuitMenu();
@@ -105,7 +111,8 @@ namespace Menu
 
 		public void ValidateStage(int id)
 		{
-
+			canControl = false;
+			StartCoroutine(StageSelectedCoroutine(id));
 		}
 
 		public void QuitMenu()
@@ -132,6 +139,21 @@ namespace Menu
 			}
 
 			noiseFeedback.gameObject.SetActive(false);
+		}
+
+
+		private IEnumerator StageSelectedCoroutine(int id)
+		{
+			fadeIn.SetTrigger("Feedback");
+			animatorCamera.SetTrigger("Feedback");
+
+			float t = 0;
+			while (t < 1)
+			{
+				t += Time.deltaTime;
+				yield return null;
+			}
+			SceneManager.LoadScene(stageDatabase[id].SceneName);
 		}
 
 

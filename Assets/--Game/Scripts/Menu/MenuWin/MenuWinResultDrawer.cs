@@ -27,5 +27,10 @@ namespace Menu
 			textControllerID.text = controllerID + "P";
 			this.gameObject.SetActive(true);
 		}
+
+		public void SetFeedback(string text)
+		{
+			animator.SetTrigger("Feedback");
+		}
 	}
 }
