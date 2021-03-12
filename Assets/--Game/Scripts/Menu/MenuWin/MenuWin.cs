@@ -45,8 +45,8 @@ namespace Menu
 			for (int i = 0; i < charactersPodium.Count; i++)
 			{
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
+				listPlayerChoice.Add(0);
 			}
-
 			winnerID = 0;
 			debugVictory.circularReference = this;
 			// Créer la liste playerChoice
@@ -61,7 +61,7 @@ namespace Menu
 			stateResult = 1;
 			for (int i = 0; i < listResultDrawers.Count; i++)
 			{
-				listResultDrawers[i].DrawResult(0, 0);
+				listResultDrawers[i].DrawResult(i+1, i+1);
 			}
 		}
 
@@ -91,9 +91,12 @@ namespace Menu
 
 		private void UpdateControlResult(int id, Input_Info input)
 		{
+			if (listPlayerChoice.Count <= id)
+				return;
+
 			if (listPlayerChoice[id] == 0) // Aucun choix de fait  
 			{
-				if (input.CheckAction(id, InputConst.Jump))
+				if (input.inputUiAction == InputConst.Return)
 				{
 					listPlayerChoice[id] = 1;
 					listResultDrawers[id].SetFeedback("Surrend"); // le surrend a virer et ne pas hardcodé

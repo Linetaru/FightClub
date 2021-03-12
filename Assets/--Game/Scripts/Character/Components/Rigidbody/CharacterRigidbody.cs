@@ -47,6 +47,9 @@ public class CharacterRigidbody : MonoBehaviour
 
     }
 
+    public virtual void Push(float speedX, float speedY)
+    {
 
+    }
 
 }

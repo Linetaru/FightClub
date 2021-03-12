@@ -8,14 +8,15 @@ public class CharacterStateDeath : CharacterState
 	private CharacterState respawnState;
 
 	[SerializeField]
-	private SkinnedMeshRenderer renderer;
+	private GameObject playerObject; // Si on désactive l'objet avec l'animator y'a un bug trop chelou ou la rotation du perso est cassé, je scale a 0 du coup y'a sans doute mieux
 
 	[SerializeField]
 	private float timebeforeRespawn = 3.0f;
 	private float timer = 0.0f;
 
-	public override void StartState(CharacterBase character, CharacterState oldState)
+    public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		HidePlayer();
 		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
 
@@ -23,20 +24,22 @@ public class CharacterStateDeath : CharacterState
 		timer = 0f;
 		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
 		character.Movement.SetSpeed(0f, 0f);
-		renderer.enabled = false;
 
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		timer += Time.deltaTime;
-		if(timer >= timebeforeRespawn)
-		{
-			renderer.enabled = true;
-			character.SetState(respawnState);
-        }
+		if(!character.Stats.Death)
+        {
+			timer += Time.deltaTime;
+			if (timer >= timebeforeRespawn)
+			{
+				DisplayPlayer();
+				character.SetState(respawnState);
+			}
+		}
 	}
-	
+
 	public override void LateUpdateState(CharacterBase character)
 	{
 
@@ -45,5 +48,17 @@ public class CharacterStateDeath : CharacterState
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 		//character.Stats.RespawnStats();
+	}
+
+	private void DisplayPlayer()
+    {
+		playerObject.transform.localScale = new Vector3(1, 1, 1);
+		//playerObject.SetActive(true);
+    }
+
+	private void HidePlayer()
+	{
+		playerObject.transform.localScale = new Vector3(0, 0, 1);
+		//playerObject.SetActive(false);
 	}
 }

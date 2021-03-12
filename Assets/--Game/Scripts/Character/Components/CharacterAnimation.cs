@@ -58,21 +58,22 @@ public class CharacterAnimation : MonoBehaviour
 
         if (oldState is CharacterStateWallRun)
         {
-            animatorPivot.transform.localPosition = Vector3.zero;
-            animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
+            //animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
         if (newState is CharacterStateIdle)
         {
             animator.SetTrigger("Idle");
             animator.ResetTrigger("Fall");
+            animator.ResetTrigger("Knockback");
             actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
         {
             animator.SetTrigger("Fall");
-            animatorPivot.transform.localPosition = Vector3.zero;
-            animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
+            //animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             actualState = ActualState.Knockback;
         }
         if (newState is CharacterStateWallRun)
@@ -80,20 +81,22 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("Wallrun");
             if (movement.Direction == 1)
             {
-                animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
-                animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
+                //animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
+                //animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
             }
 
             else if (movement.Direction == -1)
             {
-                animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
-                animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
+                //animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
+                //animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
             }
 
             actualState = ActualState.Wallrun;
         }
         if (newState is CharacterStateKnockback)
         {
+            animator.ResetTrigger("Idle");
+            animator.ResetTrigger("Fall");
             animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
@@ -111,7 +114,7 @@ public class CharacterAnimation : MonoBehaviour
         if (movement.Direction == 1)
             animatorPivot.transform.localScale = Vector3.one;
         else if (movement.Direction == -1)
-            animatorPivot.transform.localScale = new Vector3(1, 1, -1);
+            animatorPivot.transform.localScale = new Vector3(-1, 1, 1);
         if (actualState == ActualState.Idle)
         {
             AnimationIdle();
@@ -132,21 +135,21 @@ public class CharacterAnimation : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
-            animatorPivot.transform.localPosition = Vector3.zero;
-            animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
+            //animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             animator.SetBool("Hanging", true);
         }
         else
         {
             if (movement.Direction == 1)
             {
-                animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
-                animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
+                //animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
+                //animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
             }
             else if (movement.Direction == -1)
             {
-                animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
-                animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
+                //animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
+                //animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
             }
             animator.SetBool("Hanging", false);
         }

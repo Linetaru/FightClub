@@ -65,6 +65,13 @@ public class CharacterKnockback : MonoBehaviour
         set { isArmor = value; }
     }
 
+    private bool isInvulnerable = false;
+    public bool IsInvulnerable
+    {
+        get { return isInvulnerable; }
+        set { isInvulnerable = value; }
+    }
+
 
     protected float motionSpeed = 1;
     public float MotionSpeed
@@ -85,6 +92,8 @@ public class CharacterKnockback : MonoBehaviour
             return;
         angleKnockback = angle * weight;
         angleKnockback *= (damagePercentage / damagePercentageRatio);
+
+        Debug.Log(angleKnockback.x);
 
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;

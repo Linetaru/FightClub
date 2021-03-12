@@ -24,6 +24,8 @@ public class CharacterMoveset : MonoBehaviour
 	[Title("Parameter - Actions Aerial")]
 	[SerializeField]
 	AttackManager neutralAir;
+	[SerializeField]
+	AttackManager upAir;
 
 	[Title("Parameter - Smash")]
 
@@ -70,7 +72,16 @@ public class CharacterMoveset : MonoBehaviour
 		}
 		else // Attaque dans les airs
 		{
-			if (character.Input.CheckAction(0, InputConst.Attack))
+			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical > verticalDeadZone)
+			{
+				if (character.Action.Action(upAir) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Attack))
 			{
 				if (character.Action.Action(neutralAir) == true)
 				{
