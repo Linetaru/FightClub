@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateKnockback : CharacterState
 {
@@ -9,18 +10,18 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     CharacterState aerialState;
 
-    [SerializeField]
-    CharacterRigidbody characterRigidbody;
-    [SerializeField]
-    CharacterMovement movement;
 
+    [Title("Parameter - Collision")]
     [SerializeField]
-    float minimalKnockBackSpeed = 4.0f;
+    float collisionFriction = 5f;
     [SerializeField]
-    float collisionFriction = 0.8f;
+    [MaxValue(1)]
+    [MinValue(0)]
+    float reboundReduction = 0.75f;
 
+    [Title("Parameter - Collision")]
     [SerializeField]
-    float knockbackDuration = 0;
+    LayerMask knockbackLayerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -36,55 +37,55 @@ public class CharacterStateKnockback : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        character.Action.CancelAction();
+        character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
+        character.Movement.SpeedX *= character.Movement.Direction;
+        character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
     }
 
     public override void UpdateState(CharacterBase character)
     {
-        character.Knockback.UpdateKnockback();
+        if (Mathf.Abs(character.Movement.SpeedX) < (collisionFriction * Time.deltaTime * 2))
+            character.Movement.SpeedX = 0;
+        else
+            character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) *  Time.deltaTime;
 
-        if (Mathf.Abs(character.Knockback.GetAngleKnockback().magnitude) < minimalKnockBackSpeed)
+
+
+        character.Movement.ApplyGravity();
+
+
+        character.Knockback.UpdateKnockback(1);
+        if (character.Knockback.KnockbackDuration <= 0)
         {
-            if (characterRigidbody.IsGrounded)
+            if (character.Rigidbody.IsGrounded)
             {
                 character.SetState(idleState);
-                //knockbackDuration = 0f;
             }
             else
             {
                 character.SetState(aerialState);
-                //knockbackDuration = 0f;
             }
         }
 
-        character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
-        character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
-
-        if(movement.SpeedX > 0)
-        movement.SpeedX -= Time.deltaTime;
-        else
-        movement.SpeedX += Time.deltaTime;
-
-        movement.SpeedY -= Time.deltaTime;
-        character.Movement.ApplyGravity();
     }
 
     public override void LateUpdateState(CharacterBase character)
     {
-        if (characterRigidbody.CollisionGroundInfo != null || characterRigidbody.CollisionRoofInfo != null)
+        if (character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null)
         {
-            //movement.SpeedY = -(movement.SpeedY * collisionFriction);
-            character.Knockback.Launch(new Vector2(character.Knockback.GetAngleKnockback().x, -character.Knockback.GetAngleKnockback().y));
+            character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
         }
 
-        if (characterRigidbody.CollisionWallInfo != null)
+        if (character.Rigidbody.CollisionWallInfo != null)
         {
-            //movement.SpeedX = -(movement.SpeedX * collisionFriction);
-            character.Knockback.Launch(new Vector2(-character.Knockback.GetAngleKnockback().x, character.Knockback.GetAngleKnockback().y));
+            character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
         }
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-
+        character.Rigidbody.ResetLayerMask();
     }
 }

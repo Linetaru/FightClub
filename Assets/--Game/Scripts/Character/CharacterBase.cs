@@ -7,6 +7,18 @@ public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
+	public CharacterState CurrentState
+	{
+		get { return currentState; }
+	}
+
+	[Title("Model")]
+	[SerializeField]
+	private GameObject model;
+	public GameObject Model
+	{
+		get { return model; }
+	}
 
 	[Title("Components")]
 	[SerializeField]
@@ -37,6 +49,19 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
+	[SerializeField]
+	private CharacterStats stats;
+	public CharacterStats Stats
+	{
+		get { return stats; }
+	}
+
+	[SerializeField]
+	private CharacterParticle particle;
+	public CharacterParticle Particle
+	{
+		get { return particle; }
+	}
 
 	private Input_Info input;
 	public Input_Info Input
@@ -64,7 +89,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	void Start()
 	{
 		Application.targetFrameRate = 60;
-		movement.MotionSpeed = MotionSpeed;
+		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
 	}
 
@@ -73,10 +99,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		if(currentState != null)
 			currentState.EndState(this, characterState);
-		characterState.StartState(this, currentState);
 
-		OnStateChanged?.Invoke(currentState, characterState);
+		CharacterState oldState = currentState;
 		currentState = characterState;
+
+		currentState.StartState(this, oldState);
+
+		OnStateChanged?.Invoke(oldState, currentState);
+		//currentState = characterState;
 	}
 
 
@@ -88,10 +118,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
+		action.CanEndAction();
+
 		input = input_Info;
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+
+		action.EndActionState();
 	}
 
 
@@ -100,6 +134,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		motionSpeed = newValue;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 
 		if (motionSpeedCoroutine != null)
@@ -117,6 +152,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		}
 		motionSpeed = 1;
 		Movement.MotionSpeed = MotionSpeed;
+		Knockback.MotionSpeed = MotionSpeed;
 		Action.SetAttackMotionSpeed(MotionSpeed);
 	}
 

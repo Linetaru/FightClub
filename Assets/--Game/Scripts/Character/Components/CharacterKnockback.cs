@@ -23,35 +23,84 @@ public class CharacterKnockback : MonoBehaviour
 
     //================================================================================
 
-    Vector2 angleKnockback;
-    public float knockBackPower;
+    [Title("Parameter")]
+    [SerializeField]
+    private float weight = 1;
+    public float Weight
+    {
+        get { return weight; }
+    }
+
+    [SerializeField]
+    private float timeKnockbackPerDistance;
+    public float TimeKnockbackPerDistance
+    {
+        get { return timeKnockbackPerDistance; }
+    }
+
+
+    [Title("Parameter - (Ptet a bouger)")]
+    [SerializeField]
+    private float damagePercentageRatio = 150f;
+    public float DamagePercentageRatio
+    {
+        get { return damagePercentageRatio; }
+    }
+
+
+
+    private Vector2 angleKnockback;
+
+    private float knockbackDuration = 0;
+    public float KnockbackDuration
+    {
+        get { return knockbackDuration; }
+        set { knockbackDuration = value; }
+    }
+
+    private bool isArmor = false;
+    public bool IsArmor
+    {
+        get { return isArmor; }
+        set { isArmor = value; }
+    }
+
+    private bool isInvulnerable = false;
+    public bool IsInvulnerable
+    {
+        get { return isInvulnerable; }
+        set { isInvulnerable = value; }
+    }
+
+
+    protected float motionSpeed = 1;
+    public float MotionSpeed
+    {
+        get { return motionSpeed; }
+        set { motionSpeed = value; }
+    }
+
 
     public Vector2 GetAngleKnockback()
     {
         return angleKnockback;
     }
 
-    public float GetPowerKnockback()
+    public void Launch(Vector2 angle, float damagePercentage, float bonusKnockback = 0)
     {
-        return knockBackPower;
+        if (isArmor == true)
+            return;
+        angleKnockback = angle * weight;
+        angleKnockback *= (damagePercentage / damagePercentageRatio);
+
+        Debug.Log(angleKnockback.x);
+
+        knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
+        knockbackDuration += bonusKnockback;
     }
 
-    public void Launch(Vector2 angle)
+    public void UpdateKnockback(float percentage)
     {
-        angleKnockback =  angle;
-    }
-
-    public void UpdateKnockback()
-    {
-        Vector2 tmp = angleKnockback;
-        if (angleKnockback.x > 0.25)
-            tmp.x -= Time.deltaTime * knockBackPower;
-        else if (angleKnockback.x < -0.25)
-            tmp.x += Time.deltaTime * knockBackPower;
-        else
-            tmp.x = 0;
-
-        tmp.y -= Time.deltaTime * knockBackPower;
-        angleKnockback = tmp;
+        knockbackDuration -= Time.deltaTime * motionSpeed;
     }
 }

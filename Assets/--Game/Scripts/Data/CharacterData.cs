@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterData : MonoBehaviour
+[CreateAssetMenu(fileName = "CharacterData_Name", menuName = "Data/CharacterData", order = 1)]
+public class CharacterData : ScriptableObject
 {
-	// Start is called before the first frame update
-	void Start()
-	{
-		
-	}
+    public GameObject playerPrefab;
 
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
+    public GameObject characterSelectionModel;
+
+    public GameObject characterSelectionSprite;
+
+    public List<Material> characterMaterials;
 }

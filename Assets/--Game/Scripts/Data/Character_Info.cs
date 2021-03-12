@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct Character_Info
+public class Character_Info
 {
 	[SerializeField]
 	private int playerID;
@@ -29,6 +29,7 @@ public struct Character_Info
 		set { characterColorID = value; }
 	}
 
+	[Expandable]
 	[SerializeField]
 	private CharacterData characterData;
 	public CharacterData CharacterData

@@ -36,6 +36,21 @@ public class Input_Info
 		horizontal = 0;
 		vertical = 0;
 	}
+
+	public bool CheckAction(int id, InputAction inputAction)
+	{
+		if (inputActions.Count != 0)
+		{
+			if(inputActions[id].action == inputAction)
+            {
+				return true;
+            }
+			else
+				return false;
+		}
+		else
+			return false;
+	}
 }
 
 public class InputController : SerializedMonoBehaviour 
@@ -76,7 +91,7 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
 			Input_Action(i, InputConst.Smash.name);
-			Input_ActionUI(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Start.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
@@ -161,4 +176,5 @@ public class InputController : SerializedMonoBehaviour
 			playerInputs[ID].inputUiAction = ReInput.mapping.GetAction(action);
 		}
 	}
+
 }

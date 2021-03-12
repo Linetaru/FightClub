@@ -24,7 +24,9 @@ public class CharacterCollisionDetection : MonoBehaviour
         if (other.CompareTag(this.tag))
             return;
 
-        if(other.GetComponent<AttackManager>() != null)
+        if (character.Knockback.IsInvulnerable == true)
+            return;
+        if (other.GetComponent<AttackManager>() != null)
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();
 
