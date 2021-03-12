@@ -29,7 +29,7 @@ public class BlastZoneManager : MonoBehaviour
         if(_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
             deathVFX = deathVFXPrefab.GetComponentInChildren<ParticleSystem>();
         }
         else

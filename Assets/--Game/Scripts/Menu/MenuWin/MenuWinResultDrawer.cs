@@ -24,6 +24,22 @@ namespace Menu
 
 		public void DrawResult(int position, int controllerID)
 		{
+
+			switch(position)
+			{
+				case 1:
+					textPosition.text = "1st";
+					break;
+				case 2:
+					textPosition.text = "2nd";
+					break;
+				case 3:
+					textPosition.text = "3rd";
+					break;
+				case 4:
+					textPosition.text = "4th";
+					break;
+			}
 			textControllerID.text = controllerID + "P";
 			this.gameObject.SetActive(true);
 		}

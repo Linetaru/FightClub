@@ -58,7 +58,7 @@ public class CharacterAnimation : MonoBehaviour
 
         if (oldState is CharacterStateWallRun)
         {
-            animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.localPosition = Vector3.zero;
             //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
@@ -72,7 +72,7 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateAerial)
         {
             animator.SetTrigger("Fall");
-            animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.localPosition = Vector3.zero;
             //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             actualState = ActualState.Knockback;
         }
@@ -135,7 +135,7 @@ public class CharacterAnimation : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
-            animatorPivot.transform.localPosition = Vector3.zero;
+            //animatorPivot.transform.localPosition = Vector3.zero;
             //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             animator.SetBool("Hanging", true);
         }

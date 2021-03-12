@@ -8,7 +8,7 @@ public class CharacterStateDeath : CharacterState
 	private CharacterState respawnState;
 
 	[SerializeField]
-	private GameObject playerObject;
+	private GameObject playerObject; // Si on désactive l'objet avec l'animator y'a un bug trop chelou ou la rotation du perso est cassé, je scale a 0 du coup y'a sans doute mieux
 
 	[SerializeField]
 	private float timebeforeRespawn = 3.0f;
@@ -52,11 +52,13 @@ public class CharacterStateDeath : CharacterState
 
 	private void DisplayPlayer()
     {
-		playerObject.SetActive(true);
+		playerObject.transform.localScale = new Vector3(1, 1, 1);
+		//playerObject.SetActive(true);
     }
 
 	private void HidePlayer()
 	{
-		playerObject.SetActive(false);
+		playerObject.transform.localScale = new Vector3(0, 0, 1);
+		//playerObject.SetActive(false);
 	}
 }
