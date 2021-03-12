@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
 	[Title("Interractions")]
 	public InputController inputController;
 
-	public CameraController cameraController;
+	public CameraZoomController cameraController;
 
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
@@ -30,6 +30,10 @@ public class BattleManager : MonoBehaviour
 	//public List<GameObject> canvasPanelPlayer;
 	//public List<TextMeshProUGUI> canvasPercentPlayer;
 
+	[Title("Victory")]
+	[SerializeField]
+	private Menu.MenuWin menuWin;
+
 
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
@@ -43,7 +47,7 @@ public class BattleManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		isFinish();
+		//isFinish();
 	}
 
 	public void SpawnPlayer()
@@ -62,16 +66,56 @@ public class BattleManager : MonoBehaviour
 			user.Stats.InitStats();
 			if(characterUi.Length != 0)
 				characterUi[i].InitPlayerPanel(user);
-			cameraController.playersTarget.Add(go);
+			cameraController.targets.Add(go.transform);
 		}
 		isGameStarted = true;
 	}
 
+	// This function transfer player from isAlive to isFullDead and check if party over
+	// Basically it manages definitive death
+	public void ObliterateCharacter(CharacterBase cb)
+    {
+		Debug.Log("Character full dead");
+		if(characterAlive.Contains(cb))
+        {
+			characterFullDead.Add(cb);
+			characterAlive.Remove(cb);
+
+			isFinish();
+        }
+    }
+
 	public void isFinish()
     {
 		if(characterAlive.Count == 1 && isGameStarted)
-        {
-			UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
+		{
+			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
+
+			StartCoroutine(EndBattleCoroutine());
+			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
         }
     }
+
+
+	private IEnumerator EndBattleCoroutine()
+	{
+		Time.timeScale = 0.2f;
+		yield return new WaitForSecondsRealtime(2f);
+		Time.timeScale = 1f;
+
+		cameraController.gameObject.SetActive(false);
+		for (int i = 0; i < inputController.controllable.Length; i++)
+		{
+			inputController.controllable[i] = menuWin;
+		}
+
+
+
+		for (int i = 0; i < characterAlive.Count; i++)
+		{
+			characterFullDead.Add(characterAlive[i]);
+		}
+		characterFullDead.Reverse();
+		menuWin.InitializeWin(characterFullDead);
+	}
 }

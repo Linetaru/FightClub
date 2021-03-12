@@ -54,7 +54,6 @@ public class CharacterStateAerial : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("AerialState");
     }
 
     public override void UpdateState(CharacterBase character)
@@ -84,6 +83,10 @@ public class CharacterStateAerial : CharacterState
                 Destroy(jumpRippleEffect, 2.0f);
                 currentNumberOfAerialJump--;
                 character.Movement.Jump(jumpForce);
+
+                if(character.Input.horizontal != 0)
+                    character.Movement.Direction = (int) Mathf.Sign(character.Input.horizontal);
+
                 character.Input.inputActions[0].timeValue = 0;
             }
         }
@@ -107,6 +110,8 @@ public class CharacterStateAerial : CharacterState
                 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
                 && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                 character.SetState(wallRunState);
+
+            character.Movement.SpeedX = 0;
             return;
         }
         else if (character.Rigidbody.CollisionRoofInfo != null) // ------------ On tombe
@@ -143,7 +148,6 @@ public class CharacterStateAerial : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("Aerial End");
         currentNumberOfAerialJump = numberOfAerialJump;
         isFastFall = false;
     }

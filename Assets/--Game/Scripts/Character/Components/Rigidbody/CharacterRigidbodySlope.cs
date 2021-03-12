@@ -10,6 +10,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     [SerializeField]
     private BoxCollider characterCollider;
 
+    [SerializeField]
+    [SuffixLabel(" en kilo")]
+    private float weight = 62;
+
     [Title("Collision")]
     [SerializeField]
     private bool collision = true;
@@ -291,7 +295,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 CharacterRigidbody rigidbody = raycastX.collider.GetComponent<CharacterRigidbody>();
                 if (rigidbody != null)
                 {
-                    rigidbody.UpdateCollision(speedX, speedY);
+                    rigidbody.Push(speedX, speedY);
                     return;
                 }
             }
@@ -299,7 +303,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         }
     }
 
-
+    public override void Push(float speedX, float speedY)
+    {
+        UpdateCollision(speedX * (30 / weight), speedY);
+    }
     // Quand on monte une pente on check une collision vers le haut, ce qui peut etre interprété comme un saut, du coup on fais un check supplémentaire en bas pour bien dire qu'on est au sol
     /*private void CheckClimbGround()
     {

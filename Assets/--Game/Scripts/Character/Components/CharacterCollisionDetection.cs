@@ -21,10 +21,11 @@ public class CharacterCollisionDetection : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.CompareTag(this.tag))
             return;
 
+        if (character.Knockback.IsInvulnerable == true)
+            return;
         if (other.GetComponent<AttackManager>() != null)
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();

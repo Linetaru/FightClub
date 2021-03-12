@@ -6,4 +6,10 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     public GameObject playerPrefab;
+
+    public GameObject characterSelectionModel;
+
+    public GameObject characterSelectionSprite;
+
+    public List<Material> characterMaterials;
 }

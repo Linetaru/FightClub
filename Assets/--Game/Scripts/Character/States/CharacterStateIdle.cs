@@ -53,7 +53,7 @@ public class CharacterStateIdle : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		Debug.Log("Idle");
+
 	}
 
 	public override void UpdateState(CharacterBase character)
