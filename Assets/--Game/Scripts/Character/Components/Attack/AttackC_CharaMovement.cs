@@ -15,6 +15,8 @@ public class AttackC_CharaMovement : AttackComponent
     [HorizontalGroup("Movement")]
     [SerializeField]
     bool keepMomentum = false;
+    [SerializeField]
+    bool keepMomentumY = false;
 
     [ShowIf("keepMomentum")]
     [SerializeField]
@@ -35,6 +37,8 @@ public class AttackC_CharaMovement : AttackComponent
     {
         if (keepMomentum == false)
             user.Movement.SpeedX = 0;
+        if (keepMomentumY == false)
+            user.Movement.SpeedY = 0;
         if (linkToCharacter == true)
             this.transform.SetParent(user.transform);
         character = user;

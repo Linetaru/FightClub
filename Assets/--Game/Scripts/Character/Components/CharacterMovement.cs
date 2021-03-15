@@ -32,7 +32,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     [HorizontalGroup("Decceleration", Width = 50)]
     [HideLabel]
-    private float timeDeccelerationMax = 1;
+    private float timeDeccelerationMax = 3;
     private float timeDecceleration = 0;
 
 
