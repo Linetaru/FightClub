@@ -26,6 +26,9 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     bool groundCancel = false;
 
+    [SerializeField]
+    float gravityMultiplier = 1f;
+
     CharacterBase character;
 
     public override void StartComponent(CharacterBase user)
@@ -41,7 +44,7 @@ public class AttackC_CharaMovement : AttackComponent
     private void Update()
     {
         if (applyGravity == true)
-            character.Movement.ApplyGravity();
+            character.Movement.ApplyGravity(gravityMultiplier);
         if (deccelerate == true)
             character.Movement.Decelerate();
 
@@ -52,8 +55,9 @@ public class AttackC_CharaMovement : AttackComponent
     // jsp
     public override void UpdateComponent(CharacterBase user)
     {
+
         if (applyGravity == false)
-            user.Movement.ApplyGravity();
+            user.Movement.ApplyGravity(gravityMultiplier);
         if (deccelerate == true)
             user.Movement.Decelerate();
     }
