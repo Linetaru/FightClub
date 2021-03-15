@@ -141,7 +141,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void MoveForward(float multiplier)
     {
-        SetSpeed(speedMax * multiplier * direction, 0);
+        SetSpeed(speedMax * multiplier, speedY);
     }
 
     public void SetSpeed(float newSpeedX, float newSpeedY)

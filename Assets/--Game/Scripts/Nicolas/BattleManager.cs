@@ -108,6 +108,14 @@ public class BattleManager : MonoBehaviour
 		{
 			inputController.controllable[i] = menuWin;
 		}
-		menuWin.InitializeWin(characterAlive);
+
+
+
+		for (int i = 0; i < characterAlive.Count; i++)
+		{
+			characterFullDead.Add(characterAlive[i]);
+		}
+		characterFullDead.Reverse();
+		menuWin.InitializeWin(characterFullDead);
 	}
 }

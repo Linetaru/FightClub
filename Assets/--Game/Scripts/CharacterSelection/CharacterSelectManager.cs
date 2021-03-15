@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CharacterSelectManager : MonoBehaviour
 {
+
     [SerializeField]
     PlayerSelectionFrame[] players;
 
@@ -22,7 +24,24 @@ public class CharacterSelectManager : MonoBehaviour
     public bool gameLaunched = false;
 
     int gameDuration = 8;
-    int playerStocks = 3;
+    [HideInInspector]
+    public int playerStocks = 3;
+
+    [SerializeField]
+    TextMeshProUGUI numberOfStocksText;
+
+    [SerializeField]
+    Animator cameraTransition;
+
+    private void Awake()
+    {
+        UpdateStockText();
+    }
+
+    public void UpdateStockText()
+    {
+        numberOfStocksText.text = playerStocks.ToString();
+    }
 
     public void DisplayReadyBands()
     {
@@ -73,6 +92,7 @@ public class CharacterSelectManager : MonoBehaviour
 
     IEnumerator GoToStageMenu()
     {
+        cameraTransition.SetTrigger("Feedback");
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene("MenuSelection_Stage");
     }
