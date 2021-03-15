@@ -16,9 +16,9 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	{
 		characterMovement.MoveForward(multiplier);
 	}
-	public void Jump()
+	public void Jump(float multiplier)
 	{
-		characterMovement.Jump();
+		characterMovement.Jump(multiplier);
 	}
 
 	// Character Action
