@@ -19,6 +19,7 @@ public class CharacterStateTurnAround : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		character.Movement.ResetAcceleration();
 		t = timeTurnAround;
 		initialSpeedX = character.Movement.SpeedX;
 	}

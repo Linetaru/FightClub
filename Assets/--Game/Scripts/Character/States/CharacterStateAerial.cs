@@ -32,6 +32,8 @@ public class CharacterStateAerial : CharacterState
 
     [SerializeField]
     CharacterMoveset characterMoveset;
+    [SerializeField]
+    CharacterEvasiveMoveset evasiveMoveset;
 
     [SerializeField]
     GameObject doubleJumpParticle;
@@ -72,6 +74,10 @@ public class CharacterStateAerial : CharacterState
         }
 
         if (characterMoveset.ActionAttack(character) == true)
+        {
+
+        }
+        else if (evasiveMoveset.Dodge(character) == true)
         {
 
         }
