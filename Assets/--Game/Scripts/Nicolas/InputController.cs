@@ -91,6 +91,17 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
 			Input_Action(i, InputConst.Smash.name);
+			Input_Action(i, InputConst.LeftShoulder.name);
+			Input_Action(i, InputConst.RightShoulder.name);
+			Input_Action(i, InputConst.Dodge.name);
+			Input_Action(i, InputConst.Grab.name);
+			Input_Action(i, InputConst.SignatureMove.name);
+			Input_Action(i, InputConst.UpTaunt.name);
+			Input_Action(i, InputConst.LeftTaunt.name);
+			Input_Action(i, InputConst.DownTaunt.name);
+			Input_Action(i, InputConst.RightTaunt.name);
+			Input_Action(i, InputConst.LeftTrigger.name);
+			Input_Action(i, InputConst.RightTrigger.name);
 			Input_ActionUI(i, InputConst.Start.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
