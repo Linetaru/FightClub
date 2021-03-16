@@ -93,6 +93,8 @@ public class CharacterKnockback : MonoBehaviour
         angleKnockback = angle * weight;
         angleKnockback *= (damagePercentage / damagePercentageRatio);
 
+        Debug.Log(angleKnockback.x);
+
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;
     }

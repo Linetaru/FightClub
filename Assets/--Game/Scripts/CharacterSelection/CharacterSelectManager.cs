@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelectManager : MonoBehaviour
 {
+
     [SerializeField]
     PlayerSelectionFrame[] players;
 
@@ -28,6 +29,9 @@ public class CharacterSelectManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI numberOfStocksText;
+
+    [SerializeField]
+    Animator cameraTransition;
 
     private void Awake()
     {
@@ -88,6 +92,7 @@ public class CharacterSelectManager : MonoBehaviour
 
     IEnumerator GoToStageMenu()
     {
+        cameraTransition.SetTrigger("Feedback");
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene("MenuSelection_Stage");
     }

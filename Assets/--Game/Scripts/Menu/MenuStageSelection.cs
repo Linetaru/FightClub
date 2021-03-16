@@ -134,7 +134,7 @@ namespace Menu
 			while(t < 1)
 			{
 				t += Time.deltaTime * 3;
-				cameraPivot.transform.localPosition *= 0.95f;
+				cameraPivot.transform.localPosition = Vector3.Lerp(cameraPivot.transform.localPosition, Vector3.zero, 0.25f) ;
 				yield return null;
 			}
 
