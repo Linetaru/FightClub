@@ -17,10 +17,9 @@ public class AttackC_Knockback : AttackComponent
 
     [Space]
     [SerializeField]
-    //[HorizontalGroup("Knockback")]
     float knockbackAngle = 0;
+
     [SerializeField]
-    //[HorizontalGroup("Knockback")]
     float knockbackPower = 0;
 
     // L'angle dynamique signifie que l'angle de trajectoire se fait par rapport aux positions des personnages
