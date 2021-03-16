@@ -12,6 +12,7 @@ public class CharacterUI : MonoBehaviour
 
     public void InitPlayerPanel(CharacterBase user)
 	{
+		this.gameObject.SetActive(true);
 		panelUI.SetActive(!panelUI.activeSelf);
 		percentText.text = user.Stats.LifePercentage.ToString() + " %";
 		stocksText.text = "Stocks : " + user.Stats.LifeStocks.ToString();

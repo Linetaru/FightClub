@@ -37,6 +37,8 @@ public class CharacterStateIdle : CharacterState
 	[Title("Parameter - Actions")]
 	[SerializeField]
 	CharacterMoveset moveset;
+	[SerializeField]
+	CharacterEvasiveMoveset evasiveMoveset;
 
 	[Title("Parameter - Platform")]
 	[SerializeField]
@@ -61,6 +63,10 @@ public class CharacterStateIdle : CharacterState
 		Movement(character);
 
 		if(moveset.ActionAttack(character) == true)
+		{
+
+		}
+		else if (evasiveMoveset.Dodge(character) == true)
 		{
 
 		}

@@ -32,6 +32,8 @@ public class CharacterStateAerial : CharacterState
 
     [SerializeField]
     CharacterMoveset characterMoveset;
+    [SerializeField]
+    CharacterEvasiveMoveset evasiveMoveset;
 
     [SerializeField]
     GameObject doubleJumpParticle;
@@ -75,6 +77,10 @@ public class CharacterStateAerial : CharacterState
         {
 
         }
+        else if (evasiveMoveset.Dodge(character) == true)
+        {
+
+        }
         else if (character.Input.inputActions.Count != 0 && currentNumberOfAerialJump > 0)
         {
             if (character.Input.inputActions[0].action == InputConst.Jump)
@@ -83,6 +89,10 @@ public class CharacterStateAerial : CharacterState
                 Destroy(jumpRippleEffect, 2.0f);
                 currentNumberOfAerialJump--;
                 character.Movement.Jump(jumpForce);
+
+                if(character.Input.horizontal != 0)
+                    character.Movement.Direction = (int) Mathf.Sign(character.Input.horizontal);
+
                 character.Input.inputActions[0].timeValue = 0;
             }
         }
@@ -106,6 +116,8 @@ public class CharacterStateAerial : CharacterState
                 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
                 && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                 character.SetState(wallRunState);
+
+            character.Movement.SpeedX = 0;
             return;
         }
         else if (character.Rigidbody.CollisionRoofInfo != null) // ------------ On tombe
