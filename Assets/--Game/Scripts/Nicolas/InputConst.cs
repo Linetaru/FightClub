@@ -22,6 +22,6 @@ public static class InputConst
 	public static InputAction LeftTaunt = Rewired.ReInput.mapping.GetAction(14);
 	public static InputAction DownTaunt = Rewired.ReInput.mapping.GetAction(15);
 	public static InputAction RightTaunt = Rewired.ReInput.mapping.GetAction(16);
-	public static InputAction LeftTrigger = Rewired.ReInput.mapping.GetAction(17);
-	public static InputAction RightTrigger = Rewired.ReInput.mapping.GetAction(18);
+	public static InputAction LeftTrigger = Rewired.ReInput.mapping.GetAction(19);
+	public static InputAction RightTrigger = Rewired.ReInput.mapping.GetAction(20);
 }
