@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+//Class Static to Link action of Rewired in variable usable from all script
 public static class InputConst
 {
 	public static InputAction Horizontal = Rewired.ReInput.mapping.GetAction(0);
