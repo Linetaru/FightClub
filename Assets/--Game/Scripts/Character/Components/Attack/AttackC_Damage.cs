@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 
 public class AttackC_Damage : AttackComponent
 {
+    [Title("Damage Percent")]
     public float percentDamage;
 
     public override void StartComponent(CharacterBase user)
@@ -20,6 +21,8 @@ public class AttackC_Damage : AttackComponent
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         target.Stats.TakeDamage(percentDamage);
+        user.PowerGauge.AddPower(user.PowerGauge.powerGivenOnAttack);
+        target.PowerGauge.AddPower(user.PowerGauge.powerGivenToHitTarget);
     }
 
     public override void EndComponent(CharacterBase user)
