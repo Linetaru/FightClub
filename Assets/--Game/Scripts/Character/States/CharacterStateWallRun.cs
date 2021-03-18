@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateWallRun : CharacterState
 {
@@ -34,7 +35,6 @@ public class CharacterStateWallRun : CharacterState
 
     [SerializeField]
     LayerMask wallLayer;
-
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +71,7 @@ public class CharacterStateWallRun : CharacterState
             wallrunSpeed = wallrunSpeedMax;
             character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
         }
+        character.PowerGauge.canGainPointByWallRun = true;
     }
 
     public override void UpdateState(CharacterBase character)
@@ -108,6 +109,7 @@ public class CharacterStateWallRun : CharacterState
                 wallCollision = false;
 
                 character.Movement.Jump();
+                character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
 
                 //Play Walljump animation
 
@@ -149,7 +151,7 @@ public class CharacterStateWallRun : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-
+        character.PowerGauge.canGainPointByWallRun = false;
         Debug.Log("Wallrun end");
     }
 

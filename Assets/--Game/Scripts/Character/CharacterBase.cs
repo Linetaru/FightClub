@@ -63,6 +63,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return particle; }
 	}
 
+	[SerializeField]
+	private CharacterPowerGauge powerGauge;
+	public CharacterPowerGauge PowerGauge
+	{
+		get { return powerGauge; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{
@@ -124,6 +131,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+		powerGauge.ConsumePowerSegment(input_Info);
 
 		action.EndActionState();
 	}
