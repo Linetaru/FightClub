@@ -5,6 +5,7 @@ using Rewired;
 using Sirenix.Serialization;
 using Sirenix.OdinInspector;
 
+//Class to create Buffer for each input, stock Rewired action and time before action disapear
 [System.Serializable]
 public class InputBuffer
 {
@@ -18,6 +19,7 @@ public class InputBuffer
 	}
 }
 
+//Class for each player can use to have input reference and know each input is use.
 [System.Serializable]
 public class Input_Info
 {
@@ -31,12 +33,14 @@ public class Input_Info
 	public Input_Info()
     {
 		inputActions = new List<InputBuffer>();
+		inputActionsUP = new List<InputBuffer>();
 		inputUiAction = null;
 
 		horizontal = 0;
 		vertical = 0;
 	}
 
+	//Check Action can reduce code to help you to check if list of input is different from 0 and then check if input u want to know is in this list
 	public bool CheckAction(int id, InputAction inputAction)
 	{
 		if (inputActions.Count != 0)
@@ -53,17 +57,21 @@ public class Input_Info
 	}
 }
 
+//Main class for Input Management, Send input to all player attached to this controller And manage input buffer for each player.
 public class InputController : SerializedMonoBehaviour 
 {
 	List<Rewired.Player> players = new List<Player>();
 
+	//All Entity using Input is stocked in this array to be able to use input
 	[OdinSerialize]
 	public IControllable[] controllable = new IControllable[4];
 
 	[ReadOnly] public Input_Info[] playerInputs = new Input_Info[4];
+
+	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
 
-	// Start is called before the first frame update
+	// Start will add all player Referenced by Rewired
 	void Start()
 	{
 		for (int i = 0; i < 4; i++)
@@ -72,29 +80,52 @@ public class InputController : SerializedMonoBehaviour
 		}
 	}
 
-	// Update is called once per frame
+	// Will Update Time action in Buffer, Check if a input is push or unpush and Send at each entity all input in their linked lists 
 	void Update()
 	{
+		//Repeat for each Entity
 		for (int i = 0; i < 4; i++)
 		{
+			//Update Time of each down action in each Entity buffer and remove them if time has come to zero  
 			if (playerInputs[i].inputActions.Count != 0)
 			{
 				UpdateTimeInBuffer(playerInputs[i].inputActions);
 			}
+
+			//Update Time of each up action in each Entity buffer and remove them if time has come to zero  
 			if (playerInputs[i].inputActionsUP.Count != 0)
 			{
 				UpdateTimeInBuffer(playerInputs[i].inputActionsUP);
 			}
 
+
+			//Check if Movement Axis is moving to reference in each buffer
 			Input_Movement(i, InputConst.Horizontal.name);
 			Input_Movement(i, InputConst.Vertical.name);
+
+			//Check if a Action is using to reference in each buffer
 			Input_Action(i, InputConst.Jump.name);
 			Input_Action(i, InputConst.Attack.name);
 			Input_Action(i, InputConst.Smash.name);
+			Input_Action(i, InputConst.LeftShoulder.name);
+			Input_Action(i, InputConst.RightShoulder.name);
+			Input_Action(i, InputConst.Dodge.name);
+			Input_Action(i, InputConst.Grab.name);
+			Input_Action(i, InputConst.SignatureMove.name);
+			Input_Action(i, InputConst.UpTaunt.name);
+			Input_Action(i, InputConst.LeftTaunt.name);
+			Input_Action(i, InputConst.DownTaunt.name);
+			Input_Action(i, InputConst.RightTaunt.name);
+			Input_Action(i, InputConst.LeftTrigger.name);
+			Input_Action(i, InputConst.RightTrigger.name);
+			Input_Action(i, InputConst.Special.name);
+
+			//Check if a Action UI is using to reference in each buffer
 			Input_ActionUI(i, InputConst.Start.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
+			//If we got at least one entity will send to each entity their linked list for input buffer
 			if (controllable[i] != null)
 			{
 				controllable[i].UpdateControl(i, playerInputs[i]);
@@ -104,6 +135,7 @@ public class InputController : SerializedMonoBehaviour
 		}
 	}
 
+	//Update Time of each action in Entity buffer and remove them if time has come to zero, or action is null
 	void UpdateTimeInBuffer(List<InputBuffer> input)
     {
 		for (int z = input.Count - 1; z >= 0; z--)
@@ -123,6 +155,8 @@ public class InputController : SerializedMonoBehaviour
 		}
 	}
 
+
+	//Check if Movement Axis is moving to reference in each buffer
 	void Input_Movement(int ID, string axis)
 	{
 		InputBuffer tmp = new InputBuffer();
@@ -133,6 +167,7 @@ public class InputController : SerializedMonoBehaviour
 			playerInputs[ID].vertical = players[ID].GetAxis(axis);
 	}
 
+	//Check if a Action is using to reference in each buffer
 	void Input_Action(int ID, string action)
 	{
 		if (players[ID].GetButtonDown(action))
@@ -169,6 +204,7 @@ public class InputController : SerializedMonoBehaviour
 		}
 	}
 
+	//Check if a Action UI is using to reference in each buffer
 	void Input_ActionUI(int ID, string action)
 	{
 		if (players[ID].GetButtonDown(action))
