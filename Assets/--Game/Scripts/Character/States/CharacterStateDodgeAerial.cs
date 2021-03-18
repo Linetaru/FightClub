@@ -21,7 +21,7 @@ public class CharacterStateDodgeAerial : CharacterState
 	float timeDodge = 0.2f;
 	[SerializeField]
 	[SuffixLabel("en frame")]
-	Vector2 invulnerableInterval = new Vector2(0.02f, 0.15f);
+	Vector3 invulnerableInterval = new Vector2(0.02f, 0.15f);
 
 	[Title("States")]
 	[SerializeField]
@@ -59,22 +59,24 @@ public class CharacterStateDodgeAerial : CharacterState
 	{
 		t += Time.deltaTime;
 
-		if (t >= invulnerableInterval.x && t < invulnerableInterval.y)
+		if (t >= invulnerableInterval.x && t < invulnerableInterval.y) // Dodge
 		{
 			character.Knockback.IsInvulnerable = true;
 			character.Movement.SetSpeed(directionDodge.x * speedDodge * character.Movement.Direction, directionDodge.y * speedDodge);
 		}
-		else if (t < invulnerableInterval.x)
+		else if (t < invulnerableInterval.x) // Startup du Dodge
 		{
 			character.Movement.SetSpeed(0, 0);
 			character.Knockback.IsInvulnerable = false;
 		}
-		else if (t >= invulnerableInterval.y)
+		else if (t >= invulnerableInterval.y) // Lag du Dodge
 		{
-			AirControl(character);
-			character.Movement.ApplyGravity();
+			//AirControl(character);
+			//character.Movement.ApplyGravity();
 			character.Knockback.IsInvulnerable = false;
+			character.Movement.SetSpeed(0, 0);
 		}
+
 
 		if (t >= timeDodge)
 		{

@@ -5,9 +5,6 @@ using UnityEngine;
 public class CharacterStateRecovery : CharacterState
 {
 	[SerializeField]
-	CharacterState aerialState;
-
-	[SerializeField]
 	GameObject recoveryAura;
 
 
@@ -27,7 +24,7 @@ public class CharacterStateRecovery : CharacterState
 		timer += Time.deltaTime;
 		if(timer >= recoveryDuration)
         {
-			character.SetState(aerialState);
+			character.ResetToIdle();
         }
 	}
 	

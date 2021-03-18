@@ -64,7 +64,7 @@ public class CharacterStateAerial : CharacterState
     {
         AirControl(character);
         if (isFastFall)
-            character.Movement.ApplyGravity(2);
+            character.Movement.SpeedY = character.Movement.GravityMax * 0.75f;
         else
             character.Movement.ApplyGravity();
 
