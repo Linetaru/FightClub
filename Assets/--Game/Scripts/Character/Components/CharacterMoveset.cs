@@ -12,7 +12,7 @@ public class CharacterMoveset : MonoBehaviour
 	float verticalDeadZone = 0.5f;
 	[Range(0f, 1f)]
 	[SerializeField]
-	private float minHorizontalToDash = 0.5f;
+	float fractionOfSpeedMaxToDash = 0.95f;
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
@@ -67,7 +67,8 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
-			else if (character.Input.CheckAction(0, InputConst.Attack) && (character.Input.horizontal < -minHorizontalToDash || character.Input.horizontal > minHorizontalToDash))
+			else if (character.Input.CheckAction(0, InputConst.Attack) 
+				&& (character.Movement.SpeedX < -(fractionOfSpeedMaxToDash * character.Movement.SpeedMax) || character.Movement.SpeedX > (fractionOfSpeedMaxToDash * character.Movement.SpeedMax)))
 			{
 				if (character.Action.Action(dashAttack) == true)
 				{
