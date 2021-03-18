@@ -10,6 +10,8 @@ public class CharacterStateAerial : CharacterState
     CharacterState idleState;
     [SerializeField]
     CharacterState wallRunState;
+    [SerializeField]
+    CharacterState recoveryChargeState;
 
     [SerializeField]
     float minimalSpeedToWallRun = 8;
@@ -81,19 +83,27 @@ public class CharacterStateAerial : CharacterState
         {
 
         }
-        else if (character.Input.inputActions.Count != 0 && currentNumberOfAerialJump > 0)
+        else if (character.Input.inputActions.Count != 0)
         {
-            if (character.Input.inputActions[0].action == InputConst.Jump)
+            if(character.Input.inputActions[0].action == InputConst.Special && character.Input.vertical > .8f)
             {
-                GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
-                Destroy(jumpRippleEffect, 2.0f);
-                currentNumberOfAerialJump--;
-                character.Movement.Jump(jumpForce);
+                character.SetState(recoveryChargeState);
+            }
 
-                if(character.Input.horizontal != 0)
-                    character.Movement.Direction = (int) Mathf.Sign(character.Input.horizontal);
+            if (currentNumberOfAerialJump > 0)
+            {
+                if (character.Input.inputActions[0].action == InputConst.Jump)
+                {
+                    GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+                    Destroy(jumpRippleEffect, 2.0f);
+                    currentNumberOfAerialJump--;
+                    character.Movement.Jump(jumpForce);
 
-                character.Input.inputActions[0].timeValue = 0;
+                    if (character.Input.horizontal != 0)
+                        character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+
+                    character.Input.inputActions[0].timeValue = 0;
+                }
             }
         }
     }

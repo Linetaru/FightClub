@@ -34,16 +34,16 @@ public class CharacterStateRecoveryCharge : CharacterState
     {
         timer += Time.deltaTime;
 
-        if (character.Input.horizontal > 0)
+        if (character.Input.horizontal > .3)
             joystickPositionX = 1;
-        else if (character.Input.horizontal < 0)
+        else if (character.Input.horizontal < -.3)
             joystickPositionX = -1;
         else
             joystickPositionX = 0;
 
-        if (character.Input.vertical > 0)
+        if (character.Input.vertical > .3)
             joystickPositionY = 1;
-        else if (character.Input.vertical < 0)
+        else if (character.Input.vertical < -.3)
             joystickPositionY = -1;
         else
             joystickPositionY = 0;
@@ -69,6 +69,6 @@ public class CharacterStateRecoveryCharge : CharacterState
         }
         if (joystickPositionX != 0)
             character.Movement.Direction = joystickPositionX;
-        character.Movement.SetSpeed(joystickPositionX * recoverySpeed, joystickPositionY * recoverySpeed);
+        character.Movement.SetSpeed(character.Movement.Direction * joystickPositionX * recoverySpeed, joystickPositionY * recoverySpeed);
     }
 }

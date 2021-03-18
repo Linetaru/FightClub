@@ -118,6 +118,7 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.RightTaunt.name);
 			Input_Action(i, InputConst.LeftTrigger.name);
 			Input_Action(i, InputConst.RightTrigger.name);
+			Input_Action(i, InputConst.Special.name);
 
 			//Check if a Action UI is using to reference in each buffer
 			Input_ActionUI(i, InputConst.Start.name);
