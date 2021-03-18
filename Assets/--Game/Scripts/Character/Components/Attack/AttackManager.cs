@@ -41,9 +41,6 @@ public class AttackManager : MonoBehaviour
     private List<AttackComponent> atkCompList;
 
 
-
-
-
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
     bool firstTime = false;
