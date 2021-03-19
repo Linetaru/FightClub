@@ -51,14 +51,14 @@ public class CharacterUI : MonoBehaviour
 
 		if (power != -1)
 		{
-			// Fill up or Reduce Power Bar to the value on time (gamefeel)
-			powerGaugeImage.DOFillAmount(((float)power) / 100, 0.3f);
 
 			// If power is on max value set fill amount bar to 1
 			if (power == 99)
-			{
 				powerGaugeImage.DOFillAmount(1, 0.2f);
-			}
+			else
+				// Fill up or Reduce Power Bar to the value on time (gamefeel)
+				powerGaugeImage.DOFillAmount(((float)power) / 100, 0.3f);
+
 		}
 	}
 
