@@ -64,7 +64,7 @@ public class CharacterPowerGauge : MonoBehaviour
     {
         CurrentPower = 0;
         if (gameEvent != null)
-            gameEvent.Raise(/*null, 0, */ currentPower);
+            gameEvent.Raise(currentPower);
     }
 
     public void Update()
@@ -130,7 +130,7 @@ public class CharacterPowerGauge : MonoBehaviour
         }
 
         if (gameEvent != null)
-            gameEvent.Raise(/*null, 0, */ currentPower);
+            gameEvent.Raise(currentPower);
     }
 
     public void ConsumePowerSegment(Input_Info input_Info)
@@ -159,7 +159,7 @@ public class CharacterPowerGauge : MonoBehaviour
                     currentPower -= 33;
                     Debug.Log("SignatureMove");
                     if (gameEvent != null)
-                        gameEvent.Raise(/*null, 0, */ currentPower);
+                        gameEvent.Raise(currentPower);
                 }
                 else
                 {
@@ -173,7 +173,7 @@ public class CharacterPowerGauge : MonoBehaviour
                     currentPower -= 99;
                     Debug.Log("SignatureMove");
                     if (gameEvent != null)
-                        gameEvent.Raise(/*null, 0, */ currentPower);
+                        gameEvent.Raise(currentPower);
                 }
                 else
                 {
