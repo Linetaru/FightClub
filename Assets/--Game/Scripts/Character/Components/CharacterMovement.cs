@@ -14,7 +14,7 @@ public class CharacterMovement : MonoBehaviour
     public float SpeedMax
     {
         get { return speedMax; }
-        //set { maxSpeed = value; }
+        set { speedMax = value; }
     }
 
     [SerializeField]

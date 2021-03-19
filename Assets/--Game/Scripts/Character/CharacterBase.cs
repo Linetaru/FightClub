@@ -137,7 +137,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
-		powerGauge.ConsumePowerSegment(input_Info);
+		powerGauge.ConsumePowerSegment(input_Info, this);
 
 		action.EndActionState();
 	}
