@@ -12,10 +12,20 @@ namespace PackageCreator.Event
         /// </summary>
         private readonly List<GameEventListenerUICharacter> eventListeners = new List<GameEventListenerUICharacter>();
 
-        public void Raise(/*CharacterBase cb_Value, float f_value,*/ int i_value)
+        public void Raise(CharacterBase cb_Value = null)
         {
             for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventRaised(/*cb_Value, f_value,*/ i_value);
+                eventListeners[i].OnEventRaised(cb_Value, 0, -1);
+        }
+        public void Raise(float f_value = 0)
+        {
+            for (int i = eventListeners.Count - 1; i >= 0; i--)
+                eventListeners[i].OnEventRaised(null, f_value, -1);
+        }
+        public void Raise(int i_value = -1)
+        {
+            for (int i = eventListeners.Count - 1; i >= 0; i--)
+                eventListeners[i].OnEventRaised(null, 0, i_value);
         }
 
         public void RegisterListener(GameEventListenerUICharacter listener)

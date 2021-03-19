@@ -37,26 +37,28 @@ public class CharacterUI : MonoBehaviour
 	}
 
 	//Change Fill amount of Power Bar in UI
-	public void UpdatePowerGauge(/*CharacterBase user, float percent,*/ int power)
+	public void UpdateUICharacter(CharacterBase user, float percent, int power)
 	{
-		//if (user != null)
-		//{
-		//	UpdateStocksUI(user.Stats.LifeStocks);
-		//}
+        if (user != null)
+        {
+            UpdateStocksUI(user.Stats.LifeStocks);
+        }
 
-		//if (percent != 0)
-		//{
-		//	UpdateUI(percent);
-		//}
+        if (percent != 0)
+        {
+            UpdateUI(percent);
+        }
 
-
-		// Fill up or Reduce Power Bar to the value on time (gamefeel)
-		powerGaugeImage.DOFillAmount(((float)power) / 100, 0.3f);
-
-		// If power is on max value set fill amount bar to 1
-		if (power == 99)
+		if (power != -1)
 		{
-			powerGaugeImage.DOFillAmount(1, 0.2f);
+			// Fill up or Reduce Power Bar to the value on time (gamefeel)
+			powerGaugeImage.DOFillAmount(((float)power) / 100, 0.3f);
+
+			// If power is on max value set fill amount bar to 1
+			if (power == 99)
+			{
+				powerGaugeImage.DOFillAmount(1, 0.2f);
+			}
 		}
 	}
 
