@@ -95,6 +95,13 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
+    [SerializeField]
+    float airControl = 20f;
+    [SerializeField]
+    float airFriction = 0.9f;
+    [SerializeField]
+    float maxAerialSpeed = 10f;
+
     /*public void Accelerate()
     {
         Accelerate(1);
@@ -184,6 +191,29 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
+
+    public void AirControl(CharacterBase character)
+    {
+        float axisX = character.Input.horizontal;
+
+        float aerialDirection;
+
+        if (character.Movement.Direction > 0)
+            aerialDirection = axisX;
+        else
+            aerialDirection = -axisX;
+
+        character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
+
+        if (character.Movement.SpeedX >= maxAerialSpeed)
+        {
+            character.Movement.SpeedX = maxAerialSpeed;
+        }
+        else if (character.Movement.SpeedX <= -maxAerialSpeed)
+        {
+            character.Movement.SpeedX = -maxAerialSpeed;
+        }
+    }
 
     public void Jump()
     {

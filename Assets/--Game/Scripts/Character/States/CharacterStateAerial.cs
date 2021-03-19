@@ -25,12 +25,6 @@ public class CharacterStateAerial : CharacterState
     [SerializeField]
     float jumpForce = 10f;
 
-    [SerializeField]
-    float airControl = 1f;
-    [SerializeField]
-    float airFriction = 0.9f;
-    [SerializeField]
-    float maxAerialSpeed = 10f;
 
     [SerializeField]
     CharacterMoveset characterMoveset;
@@ -62,7 +56,7 @@ public class CharacterStateAerial : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        AirControl(character);
+        character.Movement.AirControl(character);
         if (isFastFall)
             character.Movement.SpeedY = character.Movement.GravityMax * 0.75f;
         else
@@ -138,29 +132,6 @@ public class CharacterStateAerial : CharacterState
     }
 
 
-
-    private void AirControl(CharacterBase character)
-    {
-        float axisX = character.Input.horizontal;
-
-        float aerialDirection;
-
-        if (character.Movement.Direction > 0)
-            aerialDirection = axisX;
-        else
-            aerialDirection = -axisX;
-
-        character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
-
-        if (character.Movement.SpeedX >= maxAerialSpeed)
-        {
-            character.Movement.SpeedX = maxAerialSpeed;
-        }
-        else if (character.Movement.SpeedX <= -maxAerialSpeed)
-        {
-            character.Movement.SpeedX = -maxAerialSpeed;
-        }
-    }
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
