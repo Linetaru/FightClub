@@ -26,6 +26,8 @@ public class CharacterMoveset : MonoBehaviour
 	AttackManager neutralAir;
 	[SerializeField]
 	AttackManager upAir;
+	[SerializeField]
+	AttackManager downAir;
 
 	[Title("Parameter - Smash")]
 
@@ -75,6 +77,15 @@ public class CharacterMoveset : MonoBehaviour
 			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical > verticalDeadZone)
 			{
 				if (character.Action.Action(upAir) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
+			{
+				if (character.Action.Action(downAir) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;

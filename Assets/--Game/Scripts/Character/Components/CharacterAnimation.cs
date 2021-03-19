@@ -106,6 +106,11 @@ public class CharacterAnimation : MonoBehaviour
 
             actualState = ActualState.StartJump;
         }
+
+        if (newState is CharacterStateDodgeAerial)
+        {
+            animator.SetTrigger("DodgeAerial");
+        }
     }
 
     // Update is called once per frame
