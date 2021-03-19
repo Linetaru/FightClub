@@ -6,7 +6,10 @@ using Sirenix.OdinInspector;
 public class AttackC_Dash : AttackComponent
 {
     [SerializeField]
-    AttackManager dashAttackHit;
+    private bool isChargeDash = false;
+    [SerializeField] 
+    [ShowIf("isChargeDash")] 
+    private AttackManager dashAttackHit;
     [SerializeField]
 	private float dashSpeed = 20f;
 
@@ -21,9 +24,17 @@ public class AttackC_Dash : AttackComponent
     private void Update()
     {
         if(currentUser != null)
-        {
-            currentUser.Movement.SpeedX = dashSpeed;
+        { 
+            if(GetComponent<BoxCollider>().enabled)
+            {
+                currentUser.Movement.SpeedX = dashSpeed;
+            }
+            else
+            {
+                currentUser.Movement.Decelerate();
+            }
         }
+
     }
 
     // Appelé tant que l'attaque existe 
@@ -37,9 +48,12 @@ public class AttackC_Dash : AttackComponent
     {
         if(dashAttackHit != null)
         {
-            Debug.Log("Tape");
             user.Action.CancelAction();
             user.Action.Action(dashAttackHit);
+        }
+        else
+        {
+            user.Action.FinishAction();
         }
     }
 	
