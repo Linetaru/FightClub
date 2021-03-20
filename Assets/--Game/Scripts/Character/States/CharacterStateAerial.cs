@@ -14,10 +14,10 @@ public class CharacterStateAerial : CharacterState
     //[SerializeField]
     //CharacterState recoveryChargeState;
 
-
-
+    [Title("WallRun")]
     [SerializeField]
-    float minimalSpeedToWallRun = 8;
+    LayerMask wallRunLayerMask;
+
 
     [Title("Moveset")]
     [SerializeField]
@@ -104,11 +104,13 @@ public class CharacterStateAerial : CharacterState
             character.SetState(idleState);
             return;
         }
-        if (character.Rigidbody.CollisionWallInfo != null)
+        if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
-            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+            // On ne peut s'accrocher que si le raycast tiré du bas du perso est true
+            if ((character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15 || character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 17) 
+            && character.Rigidbody.CollisionWallInfo.Contacts[0] == true)
             {
-                if (Mathf.Abs(character.Input.horizontal) > .9 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))// && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
+                if (Mathf.Abs(character.Input.horizontal) > .8 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))// && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                     character.SetState(wallRunState);
             }
             character.Movement.SpeedX = 0;

@@ -58,8 +58,8 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     Transform collisionInfo;
 
 
-    private Transform collisionWallInfo;
-    public override Transform CollisionWallInfo
+    private CollisionRigidbody collisionWallInfo;
+    public override CollisionRigidbody CollisionWallInfo
     {
         get { return collisionWallInfo; }
     }
@@ -120,6 +120,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     private void Start()
     {
         ResetLayerMask();
+        collisionWallInfo = new CollisionRigidbody(numberRaycastHorizontal);
     }
 
 
@@ -127,7 +128,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     public override void UpdateCollision(float speedX, float speedY)
     {
         //isGrounded = false;
-        collisionWallInfo = null;
+        collisionWallInfo.Collision = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
         climbingSlope = false;
@@ -234,8 +235,9 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 float distance = raycastX.distance - offsetRaycastX;
                 actualSpeedX = distance * directionX;
                 if(!(climbingSlope == true && i == 0))
-                    collisionWallInfo = raycastX.collider.transform;
+                    collisionWallInfo.Collision = raycastX.collider.transform;
             }
+            collisionWallInfo.Contacts[i] = (raycastX.collider != null);
             originRaycast += originOffset;
         }
     }

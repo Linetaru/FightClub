@@ -87,7 +87,7 @@ public class CharacterStateKnockback : CharacterState
             }
         }
 
-        if (character.Rigidbody.CollisionWallInfo != null)
+        if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
         }

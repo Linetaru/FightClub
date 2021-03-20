@@ -103,11 +103,11 @@ public class CharacterStateIdle : CharacterState
 
 	public override void LateUpdateState(CharacterBase character)
 	{
-		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true) // ------------ Wall run
+		if (character.Rigidbody.CollisionWallInfo.Collision != null && canWallRun == true) // ------------ Wall run
 		{
-			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
 				character.SetState(wallRunState);
-			else if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+			else if (character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
 				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
 		}	
 		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
