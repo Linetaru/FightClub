@@ -19,14 +19,6 @@ public class CharacterAction : MonoBehaviour
     [SerializeField]
     Animator animator;
 
-    // C'est naze faut pas faire ça
-    //[SerializeField]
-    //CharacterState stateAction;
-    [SerializeField]
-    CharacterState stateIdle;
-    [SerializeField]
-    CharacterState stateAerial;
-
     public void InitializeComponent(CharacterBase c)
     {
         character = c;
@@ -109,10 +101,7 @@ public class CharacterAction : MonoBehaviour
     {
         CancelAction();
 
-        if (character.Rigidbody.IsGrounded)
-            character.SetState(stateIdle);
-        else
-            character.SetState(stateAerial);
+        character.ResetToIdle();
     }
 
 

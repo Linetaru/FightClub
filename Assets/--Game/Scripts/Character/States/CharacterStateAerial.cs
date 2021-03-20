@@ -108,7 +108,7 @@ public class CharacterStateAerial : CharacterState
         {
             if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
             {
-                if (Mathf.Abs(character.Input.horizontal) > .9 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction) && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
+                if (Mathf.Abs(character.Input.horizontal) > .9 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))// && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
                     character.SetState(wallRunState);
             }
             character.Movement.SpeedX = 0;

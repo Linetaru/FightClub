@@ -8,6 +8,8 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     CharacterState idleState;
     [SerializeField]
+    CharacterState landState;
+    [SerializeField]
     CharacterState aerialState;
 
 
@@ -15,9 +17,12 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float collisionFriction = 5f;
     [SerializeField]
-    [MaxValue(1)]
-    [MinValue(0)]
+    [Range(0,1)]
     float reboundReduction = 0.75f;
+
+    [SerializeField]
+    [SuffixLabel("en frames")]
+    float landingTime = 10;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -28,7 +33,10 @@ public class CharacterStateKnockback : CharacterState
     ParticleSystem particleTrail;
 
 
-
+    private void Start()
+    {
+        landingTime /= 60f;
+    }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
@@ -73,6 +81,10 @@ public class CharacterStateKnockback : CharacterState
         if (character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null)
         {
             character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
+            {
+                character.SetState(landState);
+            }
         }
 
         if (character.Rigidbody.CollisionWallInfo != null)

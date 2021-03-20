@@ -30,7 +30,7 @@ public class CharacterCollisionDetection : MonoBehaviour
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();
 
-            character.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + character.transform.position) / 2f;
+            character.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + character.CenterPoint.position) / 2f;
             atkMan.Hit(character);
 
             character.SetState(stateKnockback);

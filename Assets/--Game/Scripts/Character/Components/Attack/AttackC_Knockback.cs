@@ -17,7 +17,6 @@ public class AttackC_Knockback : AttackComponent
     float hitStop = 0.1f;
 
 
-
     [Title("Ejection - Power")]
     [SerializeField]
     bool knockbackAdvancedSettings = true;
@@ -111,13 +110,12 @@ public class AttackC_Knockback : AttackComponent
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
         }
 
-        target.Knockback.Launch(knockbackDirection, CalculateKnockback(target.Stats.LifePercentage) * 0.5f);
+        float knockbackValue = CalculateKnockback(target.Stats.LifePercentage) * 0.5f;
+        target.Knockback.Launch(knockbackDirection, knockbackValue);
 
-
-
-
-        user.SetMotionSpeed(0, hitStop);
-        target.SetMotionSpeed(0, hitStop);
+        float hitStopAmount = hitStop;
+        user.SetMotionSpeed(0, hitStopAmount);
+        target.SetMotionSpeed(0, hitStopAmount);
     }
 
     public override void EndComponent(CharacterBase user)
