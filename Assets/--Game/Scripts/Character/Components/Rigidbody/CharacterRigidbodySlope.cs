@@ -81,6 +81,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     public override bool IsGrounded
     {
         get { return isGrounded; }
+        //set { isGrounded = value; }
     }
 
 
@@ -121,7 +122,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     public override void UpdateCollision(float speedX, float speedY)
     {
-        isGrounded = false;
+        //isGrounded = false;
         collisionWallInfo = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
@@ -268,10 +269,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             originRaycast += originOffset;
         }
 
-        if (directionY == 1)
-        {
+        if (directionY == -1 && collisionGroundInfo == null)
             isGrounded = false;
-        }
+        if (directionY == 1)
+            isGrounded = false;
         if (climbingSlope == true)
             isGrounded = true;
     }
@@ -289,7 +290,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
-            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, layerMask);
+            Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, currentLayerMask);
             if (raycastX.collider != null)
             {
                 CharacterRigidbody rigidbody = raycastX.collider.GetComponent<CharacterRigidbody>();
@@ -307,6 +308,13 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     {
         UpdateCollision(speedX * (30 / weight), speedY);
     }
+
+
+    /*private int GetLayerMask()
+    {
+        return (directionY == -1) ? currentGroundLayerMask : currentLayerMask;
+    }*/
+
     // Quand on monte une pente on check une collision vers le haut, ce qui peut etre interprété comme un saut, du coup on fais un check supplémentaire en bas pour bien dire qu'on est au sol
     /*private void CheckClimbGround()
     {

@@ -4,113 +4,81 @@ using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField]
     CharacterBase characterBase;
-
-
-
 
     [SerializeField]
     GameObject animatorPivot;
 
     [SerializeField]
     Animator animator;
-    [SerializeField]
+    [SerializeField]
     CharacterMovement movement;
 
-    [SerializeField]
+    [SerializeField]
     float wallRunOffset = 0.35f;    bool isHanging = false;
 
-    public enum ActualState
-    {
-        Idle,
-        Knockback,
-        Wallrun,        StartJump
+    public enum ActualState
+    {
+        Null,
+        Idle,
+        Knockback,
+        Wallrun,        StartJump
     }
     ActualState actualState;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        characterBase.OnStateChanged += CheckState;
+    void Start()
+    {
+        characterBase.OnStateChanged += CheckState;
     }
 
     public void CheckState(CharacterState oldState, CharacterState newState)
     {
+        actualState = ActualState.Null;
+
         animator.SetBool("Hanging", false);
+        animator.ResetTrigger("Idle");
+        animator.ResetTrigger("Fall");
+        animator.ResetTrigger("Wallrun");
+        animator.ResetTrigger("Knockback");
+        animator.ResetTrigger("Crouch");
+
+
         if (newState is CharacterStateDeath)
         {
             animator.SetTrigger("Idle");
-            animator.ResetTrigger("Fall");
-            animator.ResetTrigger("Wallrun");
-            animator.ResetTrigger("Knockback");
-            animator.ResetTrigger("StartJump");
-        }
-
-        if (newState is CharacterStateActing)
-        {
-            animator.ResetTrigger("Idle");
-            animator.ResetTrigger("Fall");
-            animator.ResetTrigger("Wallrun");
-            animator.ResetTrigger("Knockback");
-            animator.ResetTrigger("StartJump");
-        }
-
-        if (oldState is CharacterStateWallRun)
-        {
-            //animatorPivot.transform.localPosition = Vector3.zero;
-            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
         if (newState is CharacterStateIdle)
         {
             animator.SetTrigger("Idle");
-            animator.ResetTrigger("Fall");
-            animator.ResetTrigger("Knockback");
             actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
         {
             animator.SetTrigger("Fall");
-            //animatorPivot.transform.localPosition = Vector3.zero;
-            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
-            actualState = ActualState.Knockback;
         }
         if (newState is CharacterStateWallRun)
         {
             animator.SetTrigger("Wallrun");
-            if (movement.Direction == 1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
-            }
-
-            else if (movement.Direction == -1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
-            }
-
             actualState = ActualState.Wallrun;
         }
         if (newState is CharacterStateKnockback)
         {
-            animator.ResetTrigger("Idle");
-            animator.ResetTrigger("Fall");
-            animator.SetTrigger("Knockback");
+            animator.SetTrigger("Knockback");
             actualState = ActualState.Knockback;
         }
-        if(newState is CharacterStateStartJump)
+        if(newState is CharacterStateStartJump || newState is CharacterStateLanding)
         {
-            animator.SetTrigger("StartJump");
-
-            actualState = ActualState.StartJump;
+            animator.SetTrigger("Crouch");
         }
 
         if (newState is CharacterStateDodgeAerial)
         {
             animator.SetTrigger("DodgeAerial");
         }
+
     }
 
     // Update is called once per frame

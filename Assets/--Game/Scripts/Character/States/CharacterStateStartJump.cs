@@ -1,54 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateStartJump : CharacterState
 {
+
+    [Title("States")]
     [SerializeField]
-    private CharacterState jumpState;
+    CharacterState jumpState;
+
+    [Title("Parameter")]
+    [SerializeField]
+    [SuffixLabel("en frames")]
+    float crouchTime = 10f;
+
+    float maxCrouchTime = 0f;
+    float currentCrouchTime = 0f;
 
     [SerializeField]
-    private Animator animator;
+    [Range(0, 1)]
+    private float shortJumpForceMultiplier = 0.5f;
 
-
-    [SerializeField]
-    private AnimationClip animationName;
-    public AnimationClip AnimationName
-    {
-        get { return animationName; }
-    }
-
-    [SerializeField]
-    private float shortJumpForce;
-    public float ShortJumpForce
-    {
-        get { return shortJumpForce; }
-    }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        character.Movement.SpeedY = 0;
+        maxCrouchTime = crouchTime / 60f;
+        currentCrouchTime = 0f;
+        //character.Movement.SpeedY = 0;
     }
 
     public override void UpdateState(CharacterBase character)
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationName.name))
+        currentCrouchTime += Time.deltaTime;
+        if(currentCrouchTime >= maxCrouchTime)
         {
             if (character.Input.inputActionsUP.Count != 0)
             {
                 if (character.Input.inputActionsUP[0].action == InputConst.Jump)
                 {
-                    character.Movement.Jump(shortJumpForce);
+                    character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
                 }
             }
             else

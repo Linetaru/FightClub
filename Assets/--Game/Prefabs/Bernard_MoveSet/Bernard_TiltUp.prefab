@@ -4990,6 +4990,7 @@ MonoBehaviour:
   - {fileID: 9033541459041347727}
   - {fileID: 8611879502725033015}
   - {fileID: 4833471959591654870}
+  - {fileID: 7076700809703489431}
 --- !u!114 &2241581033417558323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5017,6 +5018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkToCharacter: 1
   keepMomentum: 0
+  keepMomentumY: 0
   applyGravity: 0
   deccelerate: 0
   groundCancel: 0
@@ -5034,8 +5036,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 20
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 50
+  minCurvePercentage: 10
+  maxCurvePercentage: 100
+  linearKnockbackPower: 1
+  percentage: 0
+  ejectionPowerTheoric: 0
   knockbackAngle: 80
-  knockbackPower: 50
   dynamicAngle: 0
 --- !u!114 &4833471959591654870
 MonoBehaviour:
@@ -5063,7 +5096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b48c330b55e4192419463a7cdda29f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakePower: 1
+  shakePower: 0.2
   shakeTime: 0.2
 --- !u!1 &8777733556946576749
 GameObject:

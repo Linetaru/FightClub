@@ -23,20 +23,16 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     LayerMask knockbackLayerMask;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    [Title("Parameter - Collision")]
+    [SerializeField]
+    ParticleSystem particleTrail;
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        particleTrail.Play();
         character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
@@ -59,14 +55,15 @@ public class CharacterStateKnockback : CharacterState
         character.Knockback.UpdateKnockback(1);
         if (character.Knockback.KnockbackDuration <= 0)
         {
-            if (character.Rigidbody.IsGrounded)
+            character.ResetToIdle();
+            /*if (character.Rigidbody.IsGrounded)
             {
                 character.SetState(idleState);
             }
             else
             {
                 character.SetState(aerialState);
-            }
+            }*/
         }
 
     }
@@ -86,6 +83,7 @@ public class CharacterStateKnockback : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
+        particleTrail.Stop();
         character.Rigidbody.ResetLayerMask();
     }
 }

@@ -2,30 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateAerial : CharacterState
 {
-
+    [Title("States")]
     [SerializeField]
     CharacterState idleState;
     [SerializeField]
     CharacterState wallRunState;
-    [SerializeField]
-    CharacterState recoveryChargeState;
+    //[SerializeField]
+    //CharacterState recoveryChargeState;
+
+
 
     [SerializeField]
     float minimalSpeedToWallRun = 8;
 
-    [SerializeField]
-    int numberOfAerialJump = 1;
-
-    [SerializeField]
-    [ReadOnly] int currentNumberOfAerialJump = 1;
-
-    [SerializeField]
-    float jumpForce = 10f;
-
-
+    [Title("Moveset")]
     [SerializeField]
     CharacterMoveset characterMoveset;
     [SerializeField]
@@ -38,17 +32,6 @@ public class CharacterStateAerial : CharacterState
 
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentNumberOfAerialJump = numberOfAerialJump;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
@@ -56,7 +39,9 @@ public class CharacterStateAerial : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        character.Movement.AirControl(character);
+
+        character.Movement.AirControl(character.Input.horizontal);
+
         if (isFastFall)
             character.Movement.SpeedY = character.Movement.GravityMax * 0.75f;
         else
@@ -79,24 +64,29 @@ public class CharacterStateAerial : CharacterState
         }
         else if (character.Input.inputActions.Count != 0)
         {
-            if(character.Input.inputActions[0].action == InputConst.Special && character.Input.vertical > .8f)
+            /*if(character.Input.inputActions[0].action == InputConst.Special && character.Input.vertical > .8f)
             {
                 character.SetState(recoveryChargeState);
-            }
+            }*/
 
-            if (currentNumberOfAerialJump > 0)
+            if (character.Movement.CurrentNumberOfJump > 0)
             {
                 if (character.Input.inputActions[0].action == InputConst.Jump)
                 {
+                    character.Input.inputActions[0].timeValue = 0;
+
                     GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
                     Destroy(jumpRippleEffect, 2.0f);
-                    currentNumberOfAerialJump--;
-                    character.Movement.Jump(jumpForce);
+                    character.Movement.CurrentNumberOfJump--;
+                    character.Movement.Jump();
 
                     if (character.Input.horizontal != 0)
+                    {
+                        int newDirection = (int)Mathf.Sign(character.Input.horizontal);
+                        if (newDirection != character.Movement.Direction)
+                            character.Movement.SpeedX *= -1;
                         character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-
-                    character.Input.inputActions[0].timeValue = 0;
+                    }
                 }
             }
         }
@@ -116,11 +106,11 @@ public class CharacterStateAerial : CharacterState
         }
         if (character.Rigidbody.CollisionWallInfo != null)
         {
-            if (Mathf.Abs(character.Input.horizontal) > .9
-                && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction)
-                && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
-                character.SetState(wallRunState);
-
+            if (character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+            {
+                if (Mathf.Abs(character.Input.horizontal) > .9 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction) && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
+                    character.SetState(wallRunState);
+            }
             character.Movement.SpeedX = 0;
             return;
         }
@@ -135,7 +125,6 @@ public class CharacterStateAerial : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-        currentNumberOfAerialJump = numberOfAerialJump;
         isFastFall = false;
     }
 }
