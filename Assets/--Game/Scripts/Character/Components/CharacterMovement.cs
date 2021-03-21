@@ -71,8 +71,11 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     float airFriction = 0.9f;
     [SerializeField]
-    float maxAerialSpeed = 10f;
-
+    private float maxAerialSpeed = 10f;
+    public float MaxAerialSpeed
+    {
+        get { return maxAerialSpeed; }
+    }
 
 
 

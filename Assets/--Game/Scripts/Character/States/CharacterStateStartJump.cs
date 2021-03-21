@@ -23,6 +23,11 @@ public class CharacterStateStartJump : CharacterState
     private float shortJumpForceMultiplier = 0.5f;
 
 
+    [Title("Feedback")]
+    [SerializeField]
+    private ParticleSystem jumpParticleSystem;
+
+
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         maxCrouchTime = crouchTime / 60f;
@@ -47,6 +52,9 @@ public class CharacterStateStartJump : CharacterState
                 character.Movement.Jump();
             }
             character.SetState(jumpState);
+
+            ParticleSystem particle = Instantiate(jumpParticleSystem, this.transform.position, Quaternion.Euler(0,0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
+            Destroy(particle.gameObject, 0.5f);
         }
     }
 

@@ -69,6 +69,8 @@ public class CharacterStateWallRun : CharacterState
         if (character.Movement.SpeedY > wallrunSpeedMin)
         {
             wallrunSpeed -= deccelerationRate * Time.deltaTime;
+            if (character.Input.vertical < -joystickDeadzone) 
+                wallrunSpeed -= (deccelerationRate * 3) * Time.deltaTime;
             character.Movement.SpeedY = wallrunSpeed;
         }
         else

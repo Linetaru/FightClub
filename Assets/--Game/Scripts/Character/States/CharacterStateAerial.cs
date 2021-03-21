@@ -84,7 +84,13 @@ public class CharacterStateAerial : CharacterState
                     {
                         int newDirection = (int)Mathf.Sign(character.Input.horizontal);
                         if (newDirection != character.Movement.Direction)
-                            character.Movement.SpeedX *= -1;
+                        {
+                            if(Mathf.Sign(character.Movement.SpeedX * newDirection) != character.Movement.Direction)
+                                character.Movement.SpeedX *= 0;
+                            else
+                                character.Movement.SpeedX *= -1;
+                                //character.Movement.SpeedX += (character.Movement.MaxAerialSpeed * 0.5f * Mathf.Abs(character.Input.horizontal));*/
+                        }
                         character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
                     }
                 }
