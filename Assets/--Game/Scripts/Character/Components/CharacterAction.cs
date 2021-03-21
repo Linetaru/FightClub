@@ -5,8 +5,13 @@ using UnityEngine;
 public class CharacterAction : MonoBehaviour
 {
     // 
-    protected bool canJumpCancel = false;
+    //protected bool canJumpCancel = false;
     protected bool canMoveCancel = false;
+    public bool CanMoveCancel
+    {
+        get { return canMoveCancel; }
+    }
+
 
     // Utilisé pour gérer le bug d'animation event si on cancel frame perfect
     protected bool endAction = false;

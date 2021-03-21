@@ -14,9 +14,7 @@ public class CharacterAnimation : MonoBehaviour
     Animator animator;
     [SerializeField]
     CharacterMovement movement;
-
-    [SerializeField]
-    float wallRunOffset = 0.35f;    bool isHanging = false;
+    bool isHanging = false;
 
     public enum ActualState
     {
