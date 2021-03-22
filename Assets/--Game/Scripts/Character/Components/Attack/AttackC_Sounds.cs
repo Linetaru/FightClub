@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using AK.Wwise;
 
 public class AttackC_Sounds : AttackComponent
 {
 
+	/*[SerializeField]
+	AK.Wwise.Event soundEvent;*/
 	[SerializeField]
-	AK.Wwise.Event soundEvent;
+	AK.Wwise.Event hitSound;
+
 
 	// Appelé au moment où l'attaque est initialisé
-    public override void StartComponent(CharacterBase user)
+	public override void StartComponent(CharacterBase user)
     {
-		AkSoundEngine.PostEvent(soundEvent.Id, this.gameObject);
+		//AkSoundEngine.PostEvent(soundEvent.Id, this.gameObject);
 	}
 	
 	// Appelé tant que l'attaque existe 
@@ -25,8 +29,8 @@ public class AttackC_Sounds : AttackComponent
 	// Appelé au moment où l'attaque touche une target
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-		
-    }
+		AkSoundEngine.PostEvent(hitSound.Id, this.gameObject);
+	}
 	
 	// Appelé au moment de la destruction de l'attaque
     public override void EndComponent(CharacterBase user)

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using AK.Wwise;
 
 // Sert de proxy pour les events d'animations
 public class CharacterAnimatorEvent : MonoBehaviour
@@ -41,4 +41,13 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	{
 		characterAction.EndAction();
 	}
+
+
+	public void PlaySound(string soundName)
+	{
+		AkSoundEngine.PostEvent(soundName, this.gameObject);
+	}
+
+
+
 }
