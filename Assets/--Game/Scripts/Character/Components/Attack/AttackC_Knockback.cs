@@ -12,15 +12,69 @@ public enum KnockbackAngleSetting
 
 public class AttackC_Knockback : AttackComponent
 {
+    [Title("HitStop")]
     [SerializeField]
     float hitStop = 0.1f;
 
-    [Space]
+
+    [Title("Ejection - Power")]
     [SerializeField]
-    float knockbackAngle = 0;
+    bool knockbackAdvancedSettings = true;
+
+
+    [ShowIf("knockbackAdvancedSettings")]
+    [HorizontalGroup("Knockback - Power")]
+    [SerializeField]
+    [LabelText("Knockback Power")]
+    float minKnockbackPower = 10;
+
+    [ShowIf("knockbackAdvancedSettings")]
+    [HorizontalGroup("Knockback - Power", Width = 0.4f)]
+    [SerializeField]
+    [HideLabel]
+    AnimationCurve knockbackCurve;
+
+    [ShowIf("knockbackAdvancedSettings")]
+    [HorizontalGroup("Knockback - Power", Width = 40f)]
+    [SerializeField]
+    [HideLabel]
+    float maxKnockbackPower = 50;
+
+
+
+
+
+    [ShowIf("knockbackAdvancedSettings")]
+    [HorizontalGroup("Knockback - Percentage")]
+    [SerializeField]
+    float minCurvePercentage = 0;
+    [ShowIf("knockbackAdvancedSettings")]
+    [HorizontalGroup("Knockback - Percentage")]
+    [SerializeField]
+    float maxCurvePercentage = 100;
+
+
+
 
     [SerializeField]
-    float knockbackPower = 0;
+    float linearKnockbackPower = 0.5f;
+
+
+    [FoldoutGroup("Ejection Power Calculator")]
+    [OnValueChanged("DebugCalculation")]
+    [SerializeField]
+    float percentage = 0;
+    [FoldoutGroup("Ejection Power Calculator")]
+    [ReadOnly]
+    [SerializeField]
+    float ejectionPowerTheoric = 0;
+
+
+
+    [Space]
+    [Title("Ejection - Angle")]
+    [SerializeField] 
+    float knockbackAngle = 0;
 
     // L'angle dynamique signifie que l'angle de trajectoire se fait par rapport aux positions des personnages
     [SerializeField]
@@ -49,29 +103,46 @@ public class AttackC_Knockback : AttackComponent
             float angle = Vector2.SignedAngle(targetDirection, Vector2.right);
 
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
-            knockbackDirection *= knockbackPower;
         }
         else
         {
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * knockbackAngle), Mathf.Sin(Mathf.Deg2Rad * knockbackAngle));
-            knockbackDirection *= knockbackPower;
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
         }
 
-        target.Knockback.Launch(knockbackDirection, target.Stats.LifePercentage);
+        float knockbackValue = CalculateKnockback(target.Stats.LifePercentage) * 0.5f;
+        target.Knockback.Launch(knockbackDirection, knockbackValue);
 
-
-
-
-        user.SetMotionSpeed(0, hitStop);
-        target.SetMotionSpeed(0, hitStop);
-
-        //if(particle != null)
-        //    Instantiate(particle, target.Knockback.ContactPoint, Quaternion.identity);
+        float hitStopAmount = hitStop;
+        user.SetMotionSpeed(0, hitStopAmount);
+        target.SetMotionSpeed(0, hitStopAmount);
     }
 
     public override void EndComponent(CharacterBase user)
     {
 
     }
+
+
+
+    private void DebugCalculation()
+    {
+        ejectionPowerTheoric = CalculateKnockback(percentage);
+    }
+
+    private float CalculateKnockback(float percentage)
+    {
+        if (knockbackAdvancedSettings == false)
+            return (linearKnockbackPower * percentage);
+
+        if (percentage < minCurvePercentage)
+            return minKnockbackPower;
+        else if (percentage > maxCurvePercentage)
+            return maxKnockbackPower + ((linearKnockbackPower * maxKnockbackPower) * ((percentage / maxCurvePercentage) - 1));
+
+        float factor = knockbackCurve.Evaluate((percentage - minCurvePercentage) / (maxCurvePercentage - minCurvePercentage));
+        return minKnockbackPower + ((maxKnockbackPower - minKnockbackPower) * factor);
+    }
+
+
 }
