@@ -141,27 +141,12 @@ public class CharacterPowerGauge : MonoBehaviour
             gameEvent.Raise(currentPower);
     }
 
-    public void AddBoost(Collectible_type collectible_Type)
+    public void AddBoost(int i_value)
     {
-
-        switch (collectible_Type)
-        {
-            case Collectible_type.None:
-                return;
-
-            case Collectible_type.BasicBoost:
-                if (currentPower + powerGivenByBoost <= maxPower)
-                    currentPower += powerGivenByBoost;
-                else
-                    currentPower = maxPower;
-                break;
-            case Collectible_type.MegaBoost:
-                if (currentPower + powerGivenByMegaBoost <= maxPower)
-                    currentPower += powerGivenByMegaBoost;
-                else
-                    currentPower = maxPower;
-                break;
-        }
+        if (currentPower + i_value <= maxPower)
+            currentPower += i_value;
+        else
+            currentPower = maxPower;
 
         if (gameEvent != null)
             gameEvent.Raise(currentPower);
