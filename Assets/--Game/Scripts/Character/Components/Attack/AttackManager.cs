@@ -39,8 +39,8 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
-    [SerializeField]
-    private List<AttackManager> atkSubs;
+    /*[SerializeField]
+    private List<AttackManager> atkSubs;*/
 
 
     [Title("Components")]
