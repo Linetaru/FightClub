@@ -27,6 +27,10 @@ public class AttackC_CharaMovement : AttackComponent
 
     [SerializeField]
     bool groundCancel = false;
+    [SerializeField]
+    [ShowIf("groundCancel")]
+    [Tooltip("If not specified, return to idle")]
+    private AttackManager groundEndLag;
 
     [SerializeField]
     float gravityMultiplier = 1f;
@@ -51,19 +55,31 @@ public class AttackC_CharaMovement : AttackComponent
             character.Movement.ApplyGravity(gravityMultiplier);
         if (deccelerate == true)
             character.Movement.Decelerate();
-
-        if (groundCancel == true && character.Rigidbody.CollisionGroundInfo != null)
-            character.Action.EndAction();
     }
 
     // jsp
     public override void UpdateComponent(CharacterBase user)
     {
-
         if (applyGravity == false)
             user.Movement.ApplyGravity(gravityMultiplier);
         if (deccelerate == true)
             user.Movement.Decelerate();
+
+
+
+        if (groundCancel == true && character.Rigidbody.CollisionGroundInfo != null)
+        {
+            if(groundEndLag != null)
+            {
+                user.Action.CancelAction();
+                user.Action.Action(groundEndLag);
+            }
+            else
+            {
+                character.Action.EndAction();
+            }
+        }
+
     }
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
