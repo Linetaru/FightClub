@@ -12,7 +12,7 @@ public class CharacterStateActing : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		Debug.Log("Action");
+		//Debug.Log("Action");
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -30,6 +30,6 @@ public class CharacterStateActing : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
-		Debug.Log("End Action");
+		//Debug.Log("End Action");
 	}
 }

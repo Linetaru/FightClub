@@ -20,6 +20,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	[Title("Model")]
 	[SerializeField]
+	private Transform centerPoint;
+	public Transform CenterPoint
+	{
+		get { return centerPoint; }
+	}
+
+	[SerializeField]
 	private GameObject model;
 	public GameObject Model
 	{

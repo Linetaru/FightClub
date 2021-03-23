@@ -6,6 +6,14 @@ using Sirenix.OdinInspector;
 public class AttackManager : MonoBehaviour
 {
     [SerializeField]
+    private CharacterState attackState;
+    public CharacterState AttackState
+    {
+        get { return attackState; }
+    }
+
+
+    [SerializeField]
     private AnimationClip attackAnim;
     public AnimationClip AttackAnim
     {
@@ -79,6 +87,9 @@ public class AttackManager : MonoBehaviour
         {
             atkCompList[i].StartComponent(character);
         }
+
+        if(attackState != null)
+            character.SetState(attackState);
     }
 
     public void ActionActive()

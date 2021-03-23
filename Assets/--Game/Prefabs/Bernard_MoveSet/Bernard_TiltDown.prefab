@@ -4931,6 +4931,7 @@ GameObject:
   - component: {fileID: 1812325575655401943}
   - component: {fileID: 4924304028457848699}
   - component: {fileID: 3341885099181919375}
+  - component: {fileID: 2442119745240319843}
   m_Layer: 0
   m_Name: Bernard_TiltDown
   m_TagString: Untagged
@@ -4979,6 +4980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ab8aea232089a4998672c9813411e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackState: {fileID: 0}
   attackAnim: {fileID: -88960144031201624, guid: 13a7f9c00739a444594038dbddf7a0b2, type: 3}
   hitBox: {fileID: 8045468721652775529}
   activeAtStart: 1
@@ -4990,6 +4992,7 @@ MonoBehaviour:
   - {fileID: 1812325575655401943}
   - {fileID: 4924304028457848699}
   - {fileID: 3341885099181919375}
+  - {fileID: 2442119745240319843}
 --- !u!114 &4397507033044829536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5003,9 +5006,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkToCharacter: 1
-  keepMomentum: 0
+  keepMomentum: 1
+  keepMomentumY: 0
   applyGravity: 0
-  deccelerate: 0
+  deccelerate: 1
   groundCancel: 0
   gravityMultiplier: 1
 --- !u!114 &9209528126596095327
@@ -5033,9 +5037,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitStop: 0.1
+  hitStop: 0.2
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 10
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 30
+  minCurvePercentage: 10
+  maxCurvePercentage: 100
+  linearKnockbackPower: 1
+  percentage: 10
+  ejectionPowerTheoric: 10
   knockbackAngle: 45
-  knockbackPower: 50
   dynamicAngle: 0
 --- !u!114 &4924304028457848699
 MonoBehaviour:
@@ -5049,7 +5084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b48c330b55e4192419463a7cdda29f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakePower: 1
+  shakePower: 0.2
   shakeTime: 0.2
 --- !u!114 &3341885099181919375
 MonoBehaviour:
@@ -5065,6 +5100,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particuleObject: {fileID: 3419967500365344704, guid: a9cb2bfa75a7d5e47b5b2fd308739c2f, type: 3}
   timeBeforeDestroying: 1
+--- !u!114 &2442119745240319843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045468721652775534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300033e4a33fb75428f535cbe5eb2d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1362641358728353803
 PrefabInstance:
   m_ObjectHideFlags: 0
