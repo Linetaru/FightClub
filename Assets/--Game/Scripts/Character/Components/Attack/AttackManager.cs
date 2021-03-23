@@ -5,12 +5,12 @@ using Sirenix.OdinInspector;
 
 public class AttackManager : MonoBehaviour
 {
-    [SerializeField]
+    /*[SerializeField]
     private CharacterState attackState;
     public CharacterState AttackState
     {
         get { return attackState; }
-    }
+    }*/
 
 
     [SerializeField]
@@ -72,6 +72,14 @@ public class AttackManager : MonoBehaviour
         ActionActive();
     }
 
+    public void Update()
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.UpdateComponent(user);
+        }
+    }
+
     public void CreateAttack(CharacterBase character)
     {
         tag = character.tag;
@@ -88,8 +96,8 @@ public class AttackManager : MonoBehaviour
             atkCompList[i].StartComponent(character);
         }
 
-        if(attackState != null)
-            character.SetState(attackState);
+        /*if(attackState != null)
+            character.SetState(attackState);*/
     }
 
     public void ActionActive()
