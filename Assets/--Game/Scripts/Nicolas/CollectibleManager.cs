@@ -54,8 +54,9 @@ public class CollectibleManager : MonoBehaviour
     public Boost_Config[] boost_Configs;
 
     //Debug Parameter
-    //[Title("Parameter")]
+    [Title("Parameter")]
     private int isAlreadyReset;
+    public bool destroyBoostOnStartScrolling;
 
     // Update is called once per frame
     private void Update()
@@ -153,5 +154,8 @@ public class CollectibleManager : MonoBehaviour
         b.state = Boost_Transition_State.OnStart;
 
         isAlreadyReset++;
+
+        if(destroyBoostOnStartScrolling)
+            Destroy(b.currentSpawnedBoost.gameObject);
     }
 }
