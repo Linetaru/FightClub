@@ -5,6 +5,9 @@ using Sirenix.OdinInspector;
 
 public class CharacterStateActing : CharacterState
 {
+	[Title("States")]
+	[SerializeField]
+	CharacterState homingDashState;
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
@@ -19,7 +22,15 @@ public class CharacterStateActing : CharacterState
 	{
 		//character.Action.CanEndAction();
 		// Mettre les inputs en dessous
-
+		if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
+		{
+			if (character.Action.CharacterHit != null) // On a touché quelqu'un 
+			{
+				character.SetState(homingDashState);
+				character.Input.inputActions[0].timeValue = 0;
+				return;
+			}
+		}
 		characterMoveset.ActionAttack(character);
 	}
 

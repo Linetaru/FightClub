@@ -6,7 +6,7 @@ using UnityEngine;
 public class DebugInfos : MonoBehaviour
 {
     [SerializeField]
-    private CharacterBase[] playersList;
+    private List<CharacterBase> playersList = new List<CharacterBase>();
 
     [SerializeField]
     private PlayerInfos[] playerInfos;
@@ -24,9 +24,15 @@ public class DebugInfos : MonoBehaviour
         UpdateInfos();
     }
 
+    public void AddCharacter(CharacterBase character)
+    {
+        playersList.Add(character);
+    }
+
+
     private void InitInfos()
     {
-        for(int i = 0; i < playersList.Length; i++)
+        for(int i = 0; i < playersList.Count; i++)
         {
             playerInfos[i].PlayerName.text = playersList[i].gameObject.name;
         }
@@ -34,7 +40,7 @@ public class DebugInfos : MonoBehaviour
 
     private void UpdateInfos()
     {
-        for (int i = 0; i < playersList.Length; i++)
+        for (int i = 0; i < playersList.Count; i++)
         {
 
             playerInfos[i].CurrentState.text = playersList[i].CurrentState.name;
@@ -52,7 +58,7 @@ public class DebugInfos : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            for(int i = 0; i < playersList.Length; i++)
+            for(int i = 0; i < playersList.Count; i++)
             {
                 CanvasGroup canvasG = playerInfos[i].GetComponent<CanvasGroup>();
                 if (canvasG.alpha < 1f)

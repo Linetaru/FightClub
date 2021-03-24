@@ -12,6 +12,13 @@ public class CharacterAction : MonoBehaviour
         get { return canMoveCancel; }
     }
 
+    // Le dernier personnage qu'on a touché
+    protected CharacterBase characterHit;
+    public CharacterBase CharacterHit
+    {
+        get { return characterHit; }
+    }
+
 
     // Utilisé pour gérer le bug d'animation event si on cancel frame perfect
     protected bool endAction = false;
@@ -23,6 +30,13 @@ public class CharacterAction : MonoBehaviour
 
     [SerializeField]
     Animator animator;
+
+    // à virer 
+    public Animator Animator
+    {
+        get { return animator; }
+    }
+
 
     public void InitializeComponent(CharacterBase c)
     {
@@ -65,6 +79,7 @@ public class CharacterAction : MonoBehaviour
         endAction = false;
         canEndAction = false;
         canMoveCancel = false;
+        characterHit = null;
 
         // Combo
         AttackManager attackToInstantiate = CheckCombo(attack);
@@ -151,7 +166,7 @@ public class CharacterAction : MonoBehaviour
     // active le bool pour Cancel l'action à la frame suivante via EndActionState
     public void EndAction()
     {
-        if (canEndAction == true)
+        if (canEndAction == true && currentAttackManager != null)
         {
             endAction = true;
         }
@@ -180,6 +195,14 @@ public class CharacterAction : MonoBehaviour
     }
 
 
+
+
+    // Appelé par les attack controller
+    public void HasHit(CharacterBase target)
+    {
+        characterHit = target;
+        // Event
+    }
 
 
 
