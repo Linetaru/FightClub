@@ -11,6 +11,11 @@ public class DebugInfos : MonoBehaviour
     [SerializeField]
     private PlayerInfos[] playerInfos;
 
+    [SerializeField]
+    private InputController inputController;
+
+    int nextPos = 1;
+
     void Start()
     {
     }
@@ -19,6 +24,8 @@ public class DebugInfos : MonoBehaviour
     void Update()
     {
         ShowHideInfos();
+
+        SwitchPlayers();
 
         UpdateInfos();
     }
@@ -49,8 +56,10 @@ public class DebugInfos : MonoBehaviour
             playerInfos[i].SpeedY.text = playersList[i].Movement.SpeedY.ToString();
 
             // A Update avec la liste entière
-            if(playersList[i].Input.inputActions.Count > 0)
+            if(playersList[i].Input != null && playersList[i].Input.inputActions.Count > 0)
+            {
                 playerInfos[i].Inputs.text = playersList[i].Input.inputActions[0].action.name;
+            }
 
         }
     }
@@ -67,6 +76,25 @@ public class DebugInfos : MonoBehaviour
                 else
                     canvasG.alpha = 0f;
             }
+        }
+    }
+
+    private void SwitchPlayers()
+    {
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Debug.Log("Switch Players");
+
+            IControllable tmp = inputController.controllable[0];
+
+            inputController.controllable[0] = inputController.controllable[nextPos];
+            inputController.controllable[nextPos] = tmp;
+
+            if (nextPos < playersList.Count - 1)
+                nextPos++;
+            else
+                nextPos = 1;
+
         }
     }
 
