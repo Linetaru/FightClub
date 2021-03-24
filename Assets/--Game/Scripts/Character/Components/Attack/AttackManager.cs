@@ -39,8 +39,8 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
-    [SerializeField]
-    private List<AttackManager> atkSubs;
+    /*[SerializeField]
+    private List<AttackManager> atkSubs;*/
 
 
     [Title("Components")]
@@ -135,8 +135,9 @@ public class AttackManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
-        string targetTag = target.transform.root.tag;
+        user.Action.HasHit(target);
 
+        string targetTag = target.transform.root.tag;
         if(!playerHitList.Contains(targetTag))
         {
             foreach (AttackComponent atkC in atkCompList)
@@ -144,8 +145,8 @@ public class AttackManager : MonoBehaviour
                 atkC.OnHit(user, target);
             }
         }
-
         playerHitList.Add(targetTag);
+
     }
 
 }

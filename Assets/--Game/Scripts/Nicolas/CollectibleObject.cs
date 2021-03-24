@@ -19,6 +19,9 @@ public abstract class CollectibleObject : MonoBehaviour
 	[Title("Type of Collectible")]
 	public Collectible_type collectibleType;
 
+	[Title("Parameter")]
+	[Range(0, 99)] public int boostValueOnGauge;
+
 	//Method to set automaticaly when script is apply on a object
     private void Reset()
     {
@@ -33,7 +36,7 @@ public abstract class CollectibleObject : MonoBehaviour
 		{
 			if (other.tag == "Player" + i)
 			{
-				other.GetComponent<CharacterBase>().PowerGauge.AddBoost(collectibleType);
+				other.GetComponent<CharacterBase>().PowerGauge.AddBoost(boostValueOnGauge);
 				Destroy(this.gameObject);
 			}
 		}

@@ -77,6 +77,11 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("DodgeAerial");
         }
 
+        if (newState is CharacterStateHomingDash)
+        {
+            animator.SetTrigger("Idle");
+            animator.SetTrigger("HomingDash");
+        }
     }
 
     // Update is called once per frame
