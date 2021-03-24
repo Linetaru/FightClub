@@ -90,7 +90,7 @@ public class DebugInfos : MonoBehaviour
             inputController.controllable[0] = inputController.controllable[nextPos];
             inputController.controllable[nextPos] = tmp;
 
-            if (nextPos < 3)
+            if (nextPos < playersList.Count - 1)
                 nextPos++;
             else
                 nextPos = 1;
