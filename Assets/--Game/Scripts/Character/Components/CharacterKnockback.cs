@@ -81,6 +81,20 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
+    // A mettre dans une interface
+    public bool CanHit()
+    {
+        return true;
+    }
+
+    // Fonction a appelé quand le personnage se fait touché
+    // A mettre dans une interface
+    public void Hit()
+    {
+        // Event onHit
+    }
+
+
     public Vector2 GetAngleKnockback()
     {
         return angleKnockback;

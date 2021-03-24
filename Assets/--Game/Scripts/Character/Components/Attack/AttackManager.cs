@@ -5,12 +5,12 @@ using Sirenix.OdinInspector;
 
 public class AttackManager : MonoBehaviour
 {
-    [SerializeField]
+    /*[SerializeField]
     private CharacterState attackState;
     public CharacterState AttackState
     {
         get { return attackState; }
-    }
+    }*/
 
 
     [SerializeField]
@@ -39,8 +39,8 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
-    [SerializeField]
-    private List<AttackManager> atkSubs;
+    /*[SerializeField]
+    private List<AttackManager> atkSubs;*/
 
 
     [Title("Components")]
@@ -72,6 +72,14 @@ public class AttackManager : MonoBehaviour
         ActionActive();
     }
 
+    public void Update()
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.UpdateComponent(user);
+        }
+    }
+
     public void CreateAttack(CharacterBase character)
     {
         tag = character.tag;
@@ -88,8 +96,8 @@ public class AttackManager : MonoBehaviour
             atkCompList[i].StartComponent(character);
         }
 
-        if(attackState != null)
-            character.SetState(attackState);
+        /*if(attackState != null)
+            character.SetState(attackState);*/
     }
 
     public void ActionActive()
@@ -127,8 +135,9 @@ public class AttackManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
-        string targetTag = target.transform.root.tag;
+        user.Action.HasHit(target);
 
+        string targetTag = target.transform.root.tag;
         if(!playerHitList.Contains(targetTag))
         {
             foreach (AttackComponent atkC in atkCompList)
@@ -136,8 +145,8 @@ public class AttackManager : MonoBehaviour
                 atkC.OnHit(user, target);
             }
         }
-
         playerHitList.Add(targetTag);
+
     }
 
 }
