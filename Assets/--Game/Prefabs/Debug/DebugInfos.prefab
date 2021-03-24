@@ -112,6 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8767401388650292147}
   - component: {fileID: 8767401388650292144}
+  - component: {fileID: 3240291351616640154}
   m_Layer: 0
   m_Name: DebugInfos
   m_TagString: Untagged
@@ -146,14 +147,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d936b6fd9c0654c93e44046ed32210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playersList:
-  - {fileID: 0}
-  - {fileID: 0}
+  playersList: []
   playerInfos:
   - {fileID: 8767401387537400843}
   - {fileID: 2202005288583030895}
   - {fileID: 2202005289129316194}
   - {fileID: 2202005289296697980}
+--- !u!114 &3240291351616640154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8767401388650292146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b195110f22aa6cb438ff124adc637ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventCharacter: {fileID: 11400000, guid: f1ec76ee325b2fe4ea94206e0a9e7710, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8767401388650292144}
+        m_TargetAssemblyTypeName: DebugInfos, Assembly-CSharp
+        m_MethodName: AddCharacter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2202005288887447538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -336,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7431793948475386877, guid: af97477d5756cf149a68273129b6ddac, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40.099945
+      value: -40.099854
       objectReference: {fileID: 0}
     - target: {fileID: 7431793948475386877, guid: af97477d5756cf149a68273129b6ddac, type: 3}
       propertyPath: m_SizeDelta.x

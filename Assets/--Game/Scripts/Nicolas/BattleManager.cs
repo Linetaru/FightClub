@@ -10,6 +10,9 @@ public class BattleManager : MonoBehaviour
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Events")]
+	public PackageCreator.Event.GameEventCharacter uiEvent;
+
 	[Title("Interractions")]
 	public InputController inputController;
 
@@ -17,8 +20,6 @@ public class BattleManager : MonoBehaviour
 
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
-
-	public CharacterUI[] characterUi;
 
 	public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
@@ -68,8 +69,11 @@ public class BattleManager : MonoBehaviour
 
             user.PowerGauge.gameEvent = gameEventUICharacter[i];
 
-			if (characterUi.Length != 0)
-				characterUi[i].InitPlayerPanel(user);
+			//if (characterUi.Length != 0)
+			//	characterUi[i].InitPlayerPanel(user);
+
+			if (uiEvent != null)
+				uiEvent.Raise(user);
 
 			cameraController.targets.Add(go.transform);
 		}
