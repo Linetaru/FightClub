@@ -13,7 +13,6 @@ public class DebugInfos : MonoBehaviour
 
     void Start()
     {
-        InitInfos();
     }
 
 
@@ -27,6 +26,8 @@ public class DebugInfos : MonoBehaviour
     public void AddCharacter(CharacterBase character)
     {
         playersList.Add(character);
+
+        InitInfos();
     }
 
 
