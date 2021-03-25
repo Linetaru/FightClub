@@ -28,10 +28,12 @@ public class CharacterStateLanding : CharacterState
 
         ParticleSystem particle = Instantiate(landParticleSystem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         Destroy(particle.gameObject, 0.5f);
+
     }
 
     public override void UpdateState(CharacterBase character)
     {
+        character.Movement.SpeedX *= 0.9f;
         currentLandingTime += Time.deltaTime;
         if (currentLandingTime >= maxLandingTime)
         {

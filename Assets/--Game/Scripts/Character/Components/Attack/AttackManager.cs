@@ -31,6 +31,10 @@ public class AttackManager : MonoBehaviour
     [Title("Parameters")]
     [SerializeField]
     bool activeAtStart = true;
+    [SerializeField]
+    bool linkToCharacter = true;
+    [SerializeField]
+    bool noDirection = false; // à virer
 
     [SerializeField]
     private AttackManager atkCombo;
@@ -39,8 +43,10 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
-    /*[SerializeField]
-    private List<AttackManager> atkSubs;*/
+    [Title("Multiple Hitbox")]
+    [SerializeField]
+    [ListDrawerSettings(Expanded = true)]
+    private List<AttackManager> atkSubs;
 
 
     [Title("Components")]
@@ -84,37 +90,57 @@ public class AttackManager : MonoBehaviour
     {
         tag = character.tag;
         user = character;
-
-        transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
-                                           transform.localScale.y * character.transform.localScale.y,
-                                           transform.localScale.z * character.transform.localScale.z);
+        if (noDirection == false)
+        {
+            transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
+                                               transform.localScale.y * character.transform.localScale.y,
+                                               transform.localScale.z * character.transform.localScale.z);
+        }
         hitBox.enabled = false;
         gameObject.SetActive(false);
+        if (linkToCharacter == true)
+            this.transform.SetParent(user.transform);
 
         for (int i = 0; i < atkCompList.Count; i++)
         {
             atkCompList[i].StartComponent(character);
         }
 
-        /*if(attackState != null)
-            character.SetState(attackState);*/
-    }
-
-    public void ActionActive()
-    {
-        if (firstTime == false)
+        for (int i = 0; i < atkSubs.Count; i++)
         {
-            gameObject.SetActive(true);
-            firstTime = true;
-            if (activeAtStart == false)
-                return;
+            atkSubs[i].CreateAttack(character);
         }
-        hitBox.enabled = true;
     }
 
-    public void ActionUnactive()
+    public void ActionActive(int subAttack = 0)
     {
-        hitBox.enabled = false;
+        if (subAttack == 0)
+        {
+            if (firstTime == false)
+            {
+                gameObject.SetActive(true);
+                firstTime = true;
+                if (activeAtStart == false)
+                    return;
+            }
+            hitBox.enabled = true;
+        }
+        else
+        {
+            atkSubs[subAttack - 1].ActionActive();
+        }
+    }
+
+    public void ActionUnactive(int subAttack = 0)
+    {
+        if (subAttack == 0)
+        {
+            hitBox.enabled = false;
+        }
+        else
+        {
+            atkSubs[subAttack - 1].ActionActive();
+        }
     }
 
 

@@ -28,6 +28,7 @@ public class CharacterStateHomingDash : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		character.Knockback.IsInvulnerable = true;
 		character.Action.CancelAction();
 
 		target = character.Action.CharacterHit;
@@ -56,15 +57,27 @@ public class CharacterStateHomingDash : CharacterState
 			return;
 		}
 
-
-		if (canDash == true && target.Knockback.KnockbackDuration >= 0)
+		Vector2 direction = target.transform.position - this.transform.position;
+		if (target.Stats.Death == true)
 		{
-			character.Movement.SetSpeed(target.Movement.SpeedX * target.Movement.Direction * character.Movement.Direction, target.Movement.SpeedY);
-		}
-		else if (canDash == true && target.Knockback.KnockbackDuration <= 0)
-		{
+			character.Movement.SetSpeed(0, 0);
 			character.ResetToIdle();
 		}
+		if (canDash == true && direction.sqrMagnitude <= 1)
+		{
+			character.Movement.SetSpeed(0, 0);
+			character.ResetToIdle();
+		}
+		else if (canDash == true)
+		{
+			//Vector2 direction = target.transform.position - this.transform.position;
+			direction.Normalize();
+			float speedX = Mathf.Max(character.Movement.SpeedMax, Mathf.Abs(target.Movement.SpeedX) * 1.05f);
+			float speedY = Mathf.Max(character.Movement.SpeedMax, Mathf.Abs(target.Movement.SpeedY) * 1.05f);
+			character.Movement.SetSpeed(direction.x * character.Movement.Direction * speedX, direction.y * speedY);
+			//character.Movement.SetSpeed(target.Movement.SpeedX * target.Movement.Direction * character.Movement.Direction, target.Movement.SpeedY);
+		}
+
 	}
 
 
@@ -101,6 +114,6 @@ public class CharacterStateHomingDash : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-
+		character.Knockback.IsInvulnerable = false;
 	}
 }

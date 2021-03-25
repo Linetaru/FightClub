@@ -4984,6 +4984,8 @@ MonoBehaviour:
   attackAnim: {fileID: 7400000, guid: 98a044a56ed5ba448ba8d5a4443c2625, type: 2}
   hitBox: {fileID: 8045468721652775529}
   activeAtStart: 1
+  linkToCharacter: 1
+  noDirection: 0
   atkCombo: {fileID: 0}
   atkSubs: []
   atkCompList:
@@ -5006,14 +5008,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761f3598c661c6c4c866878983df53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkToCharacter: 1
-  keepMomentum: 1
+  keepMomentumX: 1
+  deccelerate: 0
+  deccelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDecceleration: 10
   keepMomentumY: 0
   applyGravity: 0
-  deccelerate: 1
+  gravityMultiplier: 1
   groundCancel: 0
   groundEndLag: {fileID: 0}
-  gravityMultiplier: 1
 --- !u!114 &3146222199439706042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5055,6 +5063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
+  bonusHitstun: 0
   knockbackAdvancedSettings: 1
   minKnockbackPower: 10
   knockbackCurve:
@@ -5071,6 +5080,9 @@ MonoBehaviour:
   ejectionPowerTheoric: 10
   knockbackAngle: 45
   dynamicAngle: 0
+  percentageSpawnParticle: 0
+  particleDirection: {fileID: 0}
+  timeBeforeDestroying: 0
 --- !u!114 &-7077541903108071162
 MonoBehaviour:
   m_ObjectHideFlags: 0
