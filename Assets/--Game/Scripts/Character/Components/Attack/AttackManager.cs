@@ -5,6 +5,14 @@ using Sirenix.OdinInspector;
 
 public class AttackManager : MonoBehaviour
 {
+    /*[SerializeField]
+    private CharacterState attackState;
+    public CharacterState AttackState
+    {
+        get { return attackState; }
+    }*/
+
+
     [SerializeField]
     private AnimationClip attackAnim;
     public AnimationClip AttackAnim
@@ -23,6 +31,10 @@ public class AttackManager : MonoBehaviour
     [Title("Parameters")]
     [SerializeField]
     bool activeAtStart = true;
+    [SerializeField]
+    bool linkToCharacter = true;
+    [SerializeField]
+    bool noDirection = false; // à virer
 
     [SerializeField]
     private AttackManager atkCombo;
@@ -31,7 +43,9 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
+    [Title("Multiple Hitbox")]
     [SerializeField]
+    [ListDrawerSettings(Expanded = true)]
     private List<AttackManager> atkSubs;
 
 
@@ -64,38 +78,69 @@ public class AttackManager : MonoBehaviour
         ActionActive();
     }
 
+    public void Update()
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.UpdateComponent(user);
+        }
+    }
+
     public void CreateAttack(CharacterBase character)
     {
         tag = character.tag;
         user = character;
-
-        transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
-                                           transform.localScale.y * character.transform.localScale.y,
-                                           transform.localScale.z * character.transform.localScale.z);
+        if (noDirection == false)
+        {
+            transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
+                                               transform.localScale.y * character.transform.localScale.y,
+                                               transform.localScale.z * character.transform.localScale.z);
+        }
         hitBox.enabled = false;
         gameObject.SetActive(false);
+        if (linkToCharacter == true)
+            this.transform.SetParent(user.transform);
 
         for (int i = 0; i < atkCompList.Count; i++)
         {
             atkCompList[i].StartComponent(character);
         }
-    }
 
-    public void ActionActive()
-    {
-        if (firstTime == false)
+        for (int i = 0; i < atkSubs.Count; i++)
         {
-            gameObject.SetActive(true);
-            firstTime = true;
-            if (activeAtStart == false)
-                return;
+            atkSubs[i].CreateAttack(character);
         }
-        hitBox.enabled = true;
     }
 
-    public void ActionUnactive()
+    public void ActionActive(int subAttack = 0)
     {
-        hitBox.enabled = false;
+        if (subAttack == 0)
+        {
+            if (firstTime == false)
+            {
+                gameObject.SetActive(true);
+                firstTime = true;
+                if (activeAtStart == false)
+                    return;
+            }
+            hitBox.enabled = true;
+        }
+        else
+        {
+            atkSubs[subAttack - 1].ActionActive();
+        }
+    }
+
+    public void ActionUnactive(int subAttack = 0)
+    {
+        if (subAttack == 0)
+        {
+            hitBox.enabled = false;
+        }
+        else
+        {
+            atkSubs[subAttack - 1].ActionActive();
+        }
     }
 
 
@@ -116,8 +161,9 @@ public class AttackManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
-        string targetTag = target.transform.root.tag;
+        user.Action.HasHit(target);
 
+        string targetTag = target.transform.root.tag;
         if(!playerHitList.Contains(targetTag))
         {
             foreach (AttackComponent atkC in atkCompList)
@@ -125,8 +171,8 @@ public class AttackManager : MonoBehaviour
                 atkC.OnHit(user, target);
             }
         }
-
         playerHitList.Add(targetTag);
+
     }
 
 }

@@ -5,8 +5,20 @@ using UnityEngine;
 public class CharacterAction : MonoBehaviour
 {
     // 
-    protected bool canJumpCancel = false;
+    //protected bool canJumpCancel = false;
     protected bool canMoveCancel = false;
+    public bool CanMoveCancel
+    {
+        get { return canMoveCancel; }
+    }
+
+    // Le dernier personnage qu'on a touché
+    protected CharacterBase characterHit;
+    public CharacterBase CharacterHit
+    {
+        get { return characterHit; }
+    }
+
 
     // Utilisé pour gérer le bug d'animation event si on cancel frame perfect
     protected bool endAction = false;
@@ -19,13 +31,12 @@ public class CharacterAction : MonoBehaviour
     [SerializeField]
     Animator animator;
 
-    // C'est naze faut pas faire ça
-    //[SerializeField]
-    //CharacterState stateAction;
-    [SerializeField]
-    CharacterState stateIdle;
-    [SerializeField]
-    CharacterState stateAerial;
+    // à virer 
+    public Animator Animator
+    {
+        get { return animator; }
+    }
+
 
     public void InitializeComponent(CharacterBase c)
     {
@@ -68,6 +79,7 @@ public class CharacterAction : MonoBehaviour
         endAction = false;
         canEndAction = false;
         canMoveCancel = false;
+        characterHit = null;
 
         // Combo
         AttackManager attackToInstantiate = CheckCombo(attack);
@@ -109,10 +121,7 @@ public class CharacterAction : MonoBehaviour
     {
         CancelAction();
 
-        if (character.Rigidbody.IsGrounded)
-            character.SetState(stateIdle);
-        else
-            character.SetState(stateAerial);
+        character.ResetToIdle();
     }
 
 
@@ -120,32 +129,32 @@ public class CharacterAction : MonoBehaviour
 
 
     // Appelé par les anims
-    public void ActionActive()
+    public void ActionActive(int subAttack = 0)
     {
         if (currentAttackManager != null)
         {
-            currentAttackManager.ActionActive();
+            currentAttackManager.ActionActive(subAttack);
         }
     }
 
     // Appelé par les anims
-    public void ActionUnactive()
+    public void ActionUnactive(int subAttack = 0)
     {
         if (currentAttackManager != null)
         {
-            currentAttackManager.ActionUnactive();
+            currentAttackManager.ActionUnactive(subAttack);
         }
     }
 
     // Appelé par les anims
     // Créer une subaction de l'attaque (Si l'attaque n'a pas de subaction, ne fais rien)
-    public void SubAction(int nb)
+   /* public void SubAction(int nb)
     {
         if (currentAttackManager != null)
         {
             //currentAttackManager.SubAction(nb);
         }
-    }
+    }*/
 
     // Appelé par les anims
     public void MoveCancelable()
@@ -157,7 +166,7 @@ public class CharacterAction : MonoBehaviour
     // active le bool pour Cancel l'action à la frame suivante via EndActionState
     public void EndAction()
     {
-        if (canEndAction == true)
+        if (canEndAction == true && currentAttackManager != null)
         {
             endAction = true;
         }
@@ -186,6 +195,14 @@ public class CharacterAction : MonoBehaviour
     }
 
 
+
+
+    // Appelé par les attack controller
+    public void HasHit(CharacterBase target)
+    {
+        characterHit = target;
+        // Event
+    }
 
 
 

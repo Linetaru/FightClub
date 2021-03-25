@@ -20,7 +20,7 @@ public class BlastZoneManager : MonoBehaviour
     public Transform spawnpoint;
 
     //Character Event
-    public PackageCreator.Event.GameEventCharacter[] gameEventStocks;
+    public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
     //Character Event
     public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
@@ -48,21 +48,12 @@ public class BlastZoneManager : MonoBehaviour
         {
             ExplosionDeath(other);
             float stocks = playerCB.Stats.LifeStocks;
-            if (stocks - 1 >= 0)
+            if (stocks - 1 > 0)
             {
                 // Respawn Manager
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 playerCB.Stats.RespawnStats();
 
-                //Float Event to update Stock UI
-                if (tag == "Player1")
-                    gameEventStocks[0].Raise(playerCB);
-                else if (tag == "Player2")
-                    gameEventStocks[1].Raise(playerCB);
-                else if (tag == "Player3")
-                    gameEventStocks[2].Raise(playerCB);
-                else if (tag == "Player4")
-                    gameEventStocks[3].Raise(playerCB);
             }
             else
             {
@@ -70,6 +61,16 @@ public class BlastZoneManager : MonoBehaviour
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 gameEventCharacterFullDead.Raise(playerCB);
             }
+
+            //Float Event to update Stock UI
+            if (tag == "Player1")
+                gameEventStocks[0].Raise(playerCB);
+            else if (tag == "Player2")
+                gameEventStocks[1].Raise(playerCB);
+            else if (tag == "Player3")
+                gameEventStocks[2].Raise(playerCB);
+            else if (tag == "Player4")
+                gameEventStocks[3].Raise(playerCB);
         }
     }
 

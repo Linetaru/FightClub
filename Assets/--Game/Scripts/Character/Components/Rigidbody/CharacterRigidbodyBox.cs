@@ -75,8 +75,8 @@ public class CharacterRigidbodyBox : CharacterRigidbody
     Transform collisionInfo;
 
 
-    private Transform collisionWallInfo;
-    public override Transform CollisionWallInfo
+    private CollisionRigidbody collisionWallInfo;
+    public override CollisionRigidbody CollisionWallInfo
     {
         get { return collisionWallInfo; }
     }
@@ -108,7 +108,7 @@ public class CharacterRigidbodyBox : CharacterRigidbody
 
     public override void UpdateCollision(float speedX, float speedY)
     {
-        collisionWallInfo = null;
+        collisionWallInfo.Collision = null;
 
         actualSpeedX = speedX;
         actualSpeedY = speedY;
@@ -172,7 +172,7 @@ public class CharacterRigidbodyBox : CharacterRigidbody
                         collisionInfo = raycastX.collider.transform;
                         float distance = -raycastX.distance + offsetRaycastX;
                         actualSpeedX = distance;
-                        collisionWallInfo = collisionInfo;
+                        collisionWallInfo.Collision = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
                         return;
                     }
@@ -205,7 +205,7 @@ public class CharacterRigidbodyBox : CharacterRigidbody
                         collisionInfo = raycastX.collider.transform;
                         float distance = raycastX.distance - offsetRaycastX;
                         actualSpeedX = distance;
-                        collisionWallInfo = collisionInfo;
+                        collisionWallInfo.Collision = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
                         return;
                     }

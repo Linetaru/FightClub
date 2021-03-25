@@ -10,6 +10,9 @@ public class CharacterMoveset : MonoBehaviour
 	float horizontalDeadZone = 0.5f;
 	[SerializeField]
 	float verticalDeadZone = 0.5f;
+	[Range(0f, 1f)]
+	[SerializeField]
+	float fractionOfSpeedMaxToDash = 0.95f;
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
@@ -20,6 +23,8 @@ public class CharacterMoveset : MonoBehaviour
 	AttackManager upTilt;
 	[SerializeField]
 	AttackManager forwardTilt;
+	[SerializeField]
+	AttackManager dashAttack;
 
 	[Title("Parameter - Actions Aerial")]
 	[SerializeField]
@@ -62,6 +67,17 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
+			else if (character.Input.CheckAction(0, InputConst.Attack) 
+				&& (character.Movement.SpeedX < -(fractionOfSpeedMaxToDash * character.Movement.SpeedMax) || character.Movement.SpeedX > (fractionOfSpeedMaxToDash * character.Movement.SpeedMax)))
+			{
+				if (character.Action.Action(dashAttack) == true)
+				{
+					Debug.Log("Dash attack");
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+            }
 			else if (character.Input.CheckAction(0, InputConst.Attack))
 			{
 				if (character.Action.Action(jab) == true)

@@ -89,7 +89,7 @@ public class CharacterStateDodgeAerial : CharacterState
 		if (character.Rigidbody.IsGrounded == true) // Ground cancel
 		{
 			character.Movement.ResetAcceleration();
-			character.Movement.SetSpeed(0, 0);
+			character.Movement.SetSpeed(character.Movement.SpeedX, -5f);
 			character.SetState(groundState);
 		}
 	}
@@ -104,7 +104,7 @@ public class CharacterStateDodgeAerial : CharacterState
 
 
 	// Note - à dégager le plus vite possible
-	[Title("Air Control")]
+	/*[Title("Air Control")]
 	[SerializeField]
 	float airControl = 1f;
 	[SerializeField]
@@ -132,6 +132,6 @@ public class CharacterStateDodgeAerial : CharacterState
 		{
 			character.Movement.SpeedX = -maxAerialSpeed;
 		}
-	}
+	}*/
 
 }

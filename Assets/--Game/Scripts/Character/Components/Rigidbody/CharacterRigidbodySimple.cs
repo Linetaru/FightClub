@@ -70,8 +70,8 @@ public class CharacterRigidbodySimple : CharacterRigidbody
     Transform collisionInfo;
 
 
-    private Transform collisionWallInfo;
-    public override Transform CollisionWallInfo
+    private CollisionRigidbody collisionWallInfo;
+    public override CollisionRigidbody CollisionWallInfo
     {
         get { return collisionWallInfo; }
     }
@@ -98,7 +98,7 @@ public class CharacterRigidbodySimple : CharacterRigidbody
     public override void UpdateCollision(float speedX, float speedY)
     {
         isGrounded = false;
-        collisionWallInfo = null;
+        collisionWallInfo.Collision = null;
         collisionGroundInfo = null;
         collisionRoofInfo = null;
 
@@ -146,7 +146,7 @@ public class CharacterRigidbodySimple : CharacterRigidbody
             {
                 float distance = raycastX.distance - offsetRaycastX;
                 actualSpeedX = distance * directionX;
-                collisionWallInfo = raycastX.collider.transform;
+                collisionWallInfo.Collision = raycastX.collider.transform;
             }
 
             originRaycast += originOffset;
