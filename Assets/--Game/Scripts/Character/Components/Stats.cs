@@ -5,41 +5,45 @@ using UnityEngine;
 [System.Serializable]
 public class Stats
 {
-    public float baseStat = 100.0f;
+    public float baseStat;
     public float multiplierValue = 1.0f;
     public float incrementValue = 0.0f;
-    public float newStat;
-
+    [ReadOnly] public float valueStat;
 
     public Stats()
     {
-        baseStat = 100.0f;
         multiplierValue = 1.0f;
         incrementValue = 0.0f;
 
-        newStat = baseStat;
+        valueStat = baseStat;
+    }
+
+    public void InitStats(float stat)
+    {
+        baseStat = stat;
+        valueStat = baseStat;
     }
 
     public void IncrementBonusStat(float bonusValue, bool isAddition = true)
     {
         if (isAddition)
         {
-            newStat += bonusValue;
+            valueStat += bonusValue;
         }
         else
         {
-            newStat += baseStat * (bonusValue/100);
+            valueStat += baseStat * (bonusValue/100);
         }
     }
     public void RemoveBonusStat(float bonusValue, bool isSubstraction = true)
     {
         if (isSubstraction)
         {
-            newStat -= bonusValue;
+            valueStat -= bonusValue;
         }
         else
         {
-            newStat -= baseStat * (bonusValue / 100);
+            valueStat -= baseStat * (bonusValue / 100);
         }
     }
 }

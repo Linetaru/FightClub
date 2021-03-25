@@ -9,7 +9,7 @@ public class CharacterCollisionDetection : MonoBehaviour
     [SerializeField]
     CharacterState stateKnockback;
 
-    void Start()
+    /*void Start()
     {
         
     }
@@ -17,7 +17,7 @@ public class CharacterCollisionDetection : MonoBehaviour
     void Update()
     {
         
-    }
+    }*/
 
     public void OnTriggerEnter(Collider other)
     {
@@ -30,7 +30,7 @@ public class CharacterCollisionDetection : MonoBehaviour
         {
             AttackManager atkMan = other.GetComponent<AttackManager>();
 
-            character.Knockback.ContactPoint = atkMan.HitBox.bounds.center;
+            character.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + character.CenterPoint.position) / 2f;
             atkMan.Hit(character);
 
             character.SetState(stateKnockback);

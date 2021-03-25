@@ -13,7 +13,7 @@ public class AttackC_Dash : AttackComponent
     [SerializeField]
 	private float dashSpeed = 20f;
 
-    private CharacterBase currentUser;
+    CharacterBase currentUser;
 
 	// Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
@@ -23,18 +23,17 @@ public class AttackC_Dash : AttackComponent
 
     private void Update()
     {
-        if(currentUser != null)
-        { 
-            if(GetComponent<BoxCollider>().enabled)
+        if (currentUser != null)
+        {
+            if (GetComponent<BoxCollider>().enabled)
             {
-                currentUser.Movement.SpeedX = dashSpeed;
+                currentUser.Movement.SetSpeed(dashSpeed, 0f);
             }
             else
             {
                 currentUser.Movement.Decelerate();
             }
         }
-
     }
 
     // Appelé tant que l'attaque existe 
@@ -42,18 +41,14 @@ public class AttackC_Dash : AttackComponent
     public override void UpdateComponent(CharacterBase user)
     {
     }
-	
-	// Appelé au moment où l'attaque touche une target
+
+    // Appelé au moment où l'attaque touche une target
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-        if(dashAttackHit != null)
+        if(isChargeDash && dashAttackHit != null)
         {
             user.Action.CancelAction();
             user.Action.Action(dashAttackHit);
-        }
-        else
-        {
-            user.Action.FinishAction();
         }
     }
 	

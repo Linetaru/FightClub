@@ -19,20 +19,16 @@ public class CharacterPowerGauge : MonoBehaviour
     }
 
     [SerializeField]
-    private int speedPower = 0;
-    public int SpeedPower
+    private float speedPower = 100;
+    public float SpeedPower
     {
         get { return speedPower; }
         set{ speedPower = value; }
     }
 
-    [SerializeField]
-    private float speedTime = 0;
-    public float SpeedTime
-    {
-        get { return speedTime; }
-        set { speedTime = value; }
-    }
+    public float speedTimeMax = 3;
+    private float speedTime;
+    private bool isOnSpeedBoost;
 
     [ReadOnly]
     public const int maxPower = 99;
@@ -67,29 +63,41 @@ public class CharacterPowerGauge : MonoBehaviour
             gameEvent.Raise(currentPower);
     }
 
-    public void Update()
+    public void UpdateTimer(CharacterBase user)
     {
-        if(!canGainPoint)
+        if (!canGainPoint)
         {
-            if(timerSegmentPower < timerSegmentPowerMax)
+            if (timerSegmentPower < timerSegmentPowerMax)
             {
                 timerSegmentPower += Time.deltaTime;
             }
-            else if(timerSegmentPower >= timerSegmentPowerMax)
+            else if (timerSegmentPower >= timerSegmentPowerMax)
             {
                 canGainPoint = !canGainPoint;
                 timerSegmentPower = 0;
             }
         }
 
-        if(canGainPointByWallRun && timePowerGivenOnWallRun >= timePowerGivenOnWallRunMax)
+        if (canGainPointByWallRun && timePowerGivenOnWallRun >= timePowerGivenOnWallRunMax)
         {
             AddPower(powerGivenOnWallRun);
             timePowerGivenOnWallRun = 0;
         }
-        else if(canGainPointByWallRun && timePowerGivenOnWallRun < timePowerGivenOnWallRunMax)
+        else if (canGainPointByWallRun && timePowerGivenOnWallRun < timePowerGivenOnWallRunMax)
         {
             timePowerGivenOnWallRun += Time.deltaTime;
+        }
+
+        if(isOnSpeedBoost && speedTime < speedTimeMax)
+        {
+            speedTime += Time.deltaTime;
+        }
+        else if(isOnSpeedBoost)
+        {
+            speedTime = 0;
+            isOnSpeedBoost = false;
+            user.Stats.ChangeSpeed(-SpeedPower);
+            Debug.Log("SpeedBoost Off");
         }
     }
 
@@ -108,7 +116,7 @@ public class CharacterPowerGauge : MonoBehaviour
             else
                 currentPower += i_value;
         }
-        else if(currentPower >= 33 && currentPower <= 66)
+        else if(currentPower >= 33 && currentPower < 66)
         {
             if (currentPower + i_value >= 66)
             {
@@ -133,7 +141,18 @@ public class CharacterPowerGauge : MonoBehaviour
             gameEvent.Raise(currentPower);
     }
 
-    public void ConsumePowerSegment(Input_Info input_Info)
+    public void AddBoost(int i_value)
+    {
+        if (currentPower + i_value <= maxPower)
+            currentPower += i_value;
+        else
+            currentPower = maxPower;
+
+        if (gameEvent != null)
+            gameEvent.Raise(currentPower);
+    }
+
+    public void ConsumePowerSegment(Input_Info input_Info, CharacterBase user)
     {
         if (input_Info.CheckAction(0, InputConst.LeftTrigger))
         {
@@ -142,6 +161,11 @@ public class CharacterPowerGauge : MonoBehaviour
             {
                 currentPower -= 33;
                 Debug.Log("SpeedBoost");
+                user.Stats.ChangeSpeed(SpeedPower);
+                isOnSpeedBoost = true;
+
+                if (gameEvent != null)
+                    gameEvent.Raise(currentPower);
             }
             else
             {
@@ -182,5 +206,6 @@ public class CharacterPowerGauge : MonoBehaviour
             }
         }
 
+        UpdateTimer(user);
     }
 }

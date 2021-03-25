@@ -4932,6 +4932,7 @@ GameObject:
   - component: {fileID: -8777326014334551207}
   - component: {fileID: -7077541903108071162}
   - component: {fileID: 7563362398480412814}
+  - component: {fileID: 34580215753300152}
   m_Layer: 0
   m_Name: Bernard_DashAttack
   m_TagString: Untagged
@@ -4983,6 +4984,8 @@ MonoBehaviour:
   attackAnim: {fileID: 7400000, guid: 98a044a56ed5ba448ba8d5a4443c2625, type: 2}
   hitBox: {fileID: 8045468721652775529}
   activeAtStart: 1
+  linkToCharacter: 1
+  noDirection: 0
   atkCombo: {fileID: 0}
   atkSubs: []
   atkCompList:
@@ -4992,6 +4995,7 @@ MonoBehaviour:
   - {fileID: -8777326014334551207}
   - {fileID: -7077541903108071162}
   - {fileID: 7563362398480412814}
+  - {fileID: 34580215753300152}
 --- !u!114 &4773528517522781597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5004,13 +5008,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761f3598c661c6c4c866878983df53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkToCharacter: 1
-  keepMomentum: 1
+  keepMomentumX: 1
+  deccelerate: 0
+  deccelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDecceleration: 10
   keepMomentumY: 0
   applyGravity: 0
-  deccelerate: 1
-  groundCancel: 0
   gravityMultiplier: 1
+  groundCancel: 0
+  groundEndLag: {fileID: 0}
 --- !u!114 &3146222199439706042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5052,9 +5063,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
+  bonusHitstun: 0
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 10
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 50
+  minCurvePercentage: 0
+  maxCurvePercentage: 100
+  linearKnockbackPower: 0.5
+  percentage: 0
+  ejectionPowerTheoric: 10
   knockbackAngle: 45
-  knockbackPower: 25
   dynamicAngle: 0
+  percentageSpawnParticle: 0
+  particleDirection: {fileID: 0}
+  timeBeforeDestroying: 0
 --- !u!114 &-7077541903108071162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5083,6 +5111,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakePower: 1
   shakeTime: 0.2
+--- !u!114 &34580215753300152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045468721652775534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7a3d18b2208014bbbf891bbe01e967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHitEndLag: {fileID: 8045468721652775528, guid: 09028e44ac25bb3488fb89b6b2562721, type: 3}
 --- !u!1001 &1362641358728353803
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -79,20 +79,20 @@ public class CharacterRigidbodyLine : CharacterRigidbody
     bool descendingSlope = false;
 
 
-    private Transform collisionWallInfo;
-    public override Transform CollisionWallInfo
+    private CollisionRigidbody collisionWallInfo;
+    public override CollisionRigidbody CollisionWallInfo
     {
         get { return collisionWallInfo; }
     }
 
     private Transform collisionGroundInfo;
-    public Transform CollisionGroundInfo
+    public override Transform CollisionGroundInfo
     {
         get { return collisionGroundInfo; }
     }
 
     private Transform collisionRoofInfo;
-    public Transform CollisionRoofInfo
+    public override Transform CollisionRoofInfo
     {
         get { return collisionRoofInfo; }
     }
@@ -123,7 +123,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
         climbingAngle = 0;
         climbingSlope = false;
         descendingSlope = false;
-        collisionWallInfo = null;
+        collisionWallInfo.Collision = null;
 
         actualSpeedX = speedX;
         actualSpeedY = speedY;
@@ -195,7 +195,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                         collisionInfo = raycastX.collider.transform;
                         float distance = -raycastX.distance + offsetRaycastX;
                         actualSpeedX = distance;
-                        collisionWallInfo = collisionInfo;
+                        collisionWallInfo.Collision = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
                         //return;
                     }
@@ -232,7 +232,7 @@ public class CharacterRigidbodyLine : CharacterRigidbody
                         collisionInfo = raycastX.collider.transform;
                         float distance = raycastX.distance - offsetRaycastX;
                         actualSpeedX = distance;
-                        collisionWallInfo = collisionInfo;
+                        collisionWallInfo.Collision = collisionInfo;
                         OnWallCollision?.Invoke(collisionInfo);
                         //return;
                     }
