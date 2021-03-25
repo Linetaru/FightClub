@@ -66,17 +66,9 @@ public class CharacterStateIdle : CharacterState
 		character.Movement.SpeedY = gravityConst;
 		//character.Movement.ApplyGravity();
 
-		if (moveset.ActionAttack(character) == true)
+		if (character.Input.CheckAction(0, InputConst.Jump)) 
 		{
-
-		}
-		else if (evasiveMoveset.Dodge(character) == true)
-		{
-
-		}
-		else if (character.Input.inputActions.Count != 0) 
-		{
-			if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
+			if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
 			{
 				character.Input.inputActions[0].timeValue = 0;
 				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
@@ -97,6 +89,14 @@ public class CharacterStateIdle : CharacterState
 				character.SetState(jumpStartState);
 				character.Input.inputActions[0].timeValue = 0;
 			}
+		}
+		else if (moveset.ActionAttack(character) == true)
+		{
+
+		}
+		else if (evasiveMoveset.Dodge(character) == true)
+		{
+
 		}
 	}
 
