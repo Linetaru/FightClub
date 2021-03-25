@@ -20,7 +20,6 @@ public class BattleManager : MonoBehaviour
 
 	public CharacterUI[] characterUi;
 
-	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
 	public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
 	[Title("Players List")]
@@ -64,11 +63,10 @@ public class BattleManager : MonoBehaviour
 			characterAlive.Add(user);
 
 			user.Stats.GameData = gameData;
-			user.Stats.gameEvent = gameEventFloats[i];
+			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
 
-			if (user.PowerGauge != null)
-                user.PowerGauge.gameEvent = gameEventUICharacter[i];
+            user.PowerGauge.gameEvent = gameEventUICharacter[i];
 
 			if (characterUi.Length != 0)
 				characterUi[i].InitPlayerPanel(user);

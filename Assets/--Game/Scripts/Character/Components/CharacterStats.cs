@@ -17,7 +17,7 @@ public class CharacterStats : MonoBehaviour
 
     [SerializeField]
     [ReadOnly]
-    public PackageCreator.Event.GameEventFloat gameEvent;
+    public PackageCreator.Event.GameEventUICharacter gameEvent;
 
     [Title("Life")]
     [SerializeField]
