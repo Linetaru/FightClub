@@ -14,7 +14,7 @@ public class CharacterAnimation : MonoBehaviour
     Animator animator;
     [SerializeField]
     CharacterMovement movement;
-    bool isHanging = false;
+    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    float previousSpeedT = 0;
 
     public enum ActualState
     {
@@ -72,6 +72,11 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("Crouch");
         }
 
+        if (newState is CharacterStateDodge)
+        {
+            animator.SetTrigger("Dodge");
+        }
+
         if (newState is CharacterStateDodgeAerial)
         {
             animator.SetTrigger("DodgeAerial");
@@ -83,7 +88,7 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("HomingDash");
         }
     }
-
+
     // Update is called once per frame
     void Update()
     {
@@ -104,6 +109,33 @@ public class CharacterAnimation : MonoBehaviour
     {
         float speedT = movement.SpeedX / movement.SpeedMax;
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
+        if (speedT >= 1)
+        {
+            canDeccelerate = true;
+        }
+        else if (speedT < 1 && canDeccelerate == true)
+        {
+            animator.SetTrigger("Deccelerate");
+            canDeccelerate = false;
+            isDeccelerating = true;
+            previousSpeedT = speedT;
+        }
+
+        if(isDeccelerating == true)
+        {
+            if (speedT == 0)
+            {
+                animator.SetTrigger("Idle");
+                isDeccelerating = false;
+            }
+            if (speedT > previousSpeedT)
+            {
+                animator.SetTrigger("Idle");
+                isDeccelerating = false;
+            }
+            previousSpeedT = speedT;
+        }
+
     }
     void AnimationWallrun()
     {

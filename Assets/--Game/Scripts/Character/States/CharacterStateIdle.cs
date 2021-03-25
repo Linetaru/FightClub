@@ -164,7 +164,7 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
+			if (character.Movement.SpeedX <= (character.Movement.SpeedMax * speedMultiplierWalk) + 0.1f) // Le + 0.1f c'est un probleme de precision de float (et c'est ce probleme qui nous empeche de faire du rollback si on a des float)
 			{
 				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}
