@@ -40,7 +40,12 @@ public class CharacterStateStartJump : CharacterState
         currentCrouchTime += Time.deltaTime;
         if(currentCrouchTime >= maxCrouchTime)
         {
-            if (character.Input.inputActionsUP.Count != 0)
+            if (character.Input.CheckAction(0, InputConst.Attack))
+            {
+                Debug.Log("Allo");
+                character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
+            }
+            else if (character.Input.inputActionsUP.Count != 0)
             {
                 if (character.Input.inputActionsUP[0].action == InputConst.Jump)
                 {
