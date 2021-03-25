@@ -4982,6 +4982,8 @@ MonoBehaviour:
   attackAnim: {fileID: -8368489921170650988, guid: b0ed5b67182669e42bd9767bc20fa29e, type: 3}
   hitBox: {fileID: 8045468721652775529}
   activeAtStart: 1
+  linkToCharacter: 1
+  noDirection: 0
   atkCombo: {fileID: 0}
   atkSubs: []
   atkCompList:
@@ -5016,9 +5018,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
+  bonusHitstun: 0
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 10
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 50
+  minCurvePercentage: 0
+  maxCurvePercentage: 100
+  linearKnockbackPower: 0.5
+  percentage: 0
+  ejectionPowerTheoric: 0
   knockbackAngle: 45
-  knockbackPower: 25
   dynamicAngle: 0
+  percentageSpawnParticle: 0
+  particleDirection: {fileID: 0}
+  timeBeforeDestroying: 0
 --- !u!114 &4773528517522781597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5031,13 +5068,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761f3598c661c6c4c866878983df53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkToCharacter: 1
-  keepMomentum: 0
+  keepMomentumX: 0
+  deccelerate: 0
+  deccelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDecceleration: 10
   keepMomentumY: 0
   applyGravity: 0
-  deccelerate: 0
-  groundCancel: 0
   gravityMultiplier: 1
+  groundCancel: 0
+  groundEndLag: {fileID: 0}
 --- !u!114 &4921888112821883998
 MonoBehaviour:
   m_ObjectHideFlags: 0
