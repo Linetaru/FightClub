@@ -30,7 +30,11 @@ public class CharacterStateTurnAround : CharacterState
 		character.Movement.SpeedX = Mathf.Max(character.Movement.SpeedX, 0);
 		t -= Time.deltaTime;
 		if (t <= 0)
+		{
+			character.Movement.SpeedX = initialSpeedX * 0.75f;
 			character.SetState(idleState);
+		}
+
 	}
 
 	public override void EndState(CharacterBase character, CharacterState oldState)
