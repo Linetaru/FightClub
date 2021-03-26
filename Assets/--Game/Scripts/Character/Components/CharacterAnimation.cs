@@ -35,13 +35,17 @@ public class CharacterAnimation : MonoBehaviour
     {
         actualState = ActualState.Null;
 
+        canDeccelerate = false;
+        isDeccelerating = false;
+
         animator.SetBool("Hanging", false);
         animator.ResetTrigger("Idle");
         animator.ResetTrigger("Fall");
         animator.ResetTrigger("Wallrun");
         animator.ResetTrigger("Knockback");
         animator.ResetTrigger("Crouch");
-
+        animator.ResetTrigger("Deccelerate");
+        animator.ResetTrigger("TurnAround");
 
         if (newState is CharacterStateDeath)
         {
@@ -86,6 +90,11 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("Idle");
             animator.SetTrigger("HomingDash");
+        }
+
+        if (newState is CharacterStateTurnAround)
+        {
+            animator.SetTrigger("TurnAround");
         }
     }
 
