@@ -34,7 +34,10 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager downAir;
 
-	[Title("Parameter - Smash")]
+	[Title("Parameter - Specials")]
+
+	[SerializeField]
+	AttackManager upSpecial;
 
 	[Title("States")]
 	[SerializeField]
@@ -49,7 +52,7 @@ public class CharacterMoveset : MonoBehaviour
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
-			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
+            if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downTilt) == true)
 				{
@@ -87,6 +90,15 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
+			else if (character.Input.CheckAction(0, InputConst.Special))
+			{
+				if (character.Action.Action(upSpecial) == true)
+                {
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
 		}
 		else // Attaque dans les airs
 		{
@@ -111,6 +123,15 @@ public class CharacterMoveset : MonoBehaviour
 			else if (character.Input.CheckAction(0, InputConst.Attack))
 			{
 				if (character.Action.Action(neutralAir) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special))
+			{
+				if (character.Action.Action(upSpecial) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
