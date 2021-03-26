@@ -17,6 +17,10 @@ public class AttackC_Knockback : AttackComponent
     float hitStop = 0.1f;
 
 
+    [SerializeField]
+    [SuffixLabel("en frames")]
+    float bonusHitstun = 0;
+
     [Title("Ejection - Power")]
     [SerializeField]
     bool knockbackAdvancedSettings = true;
@@ -83,6 +87,16 @@ public class AttackC_Knockback : AttackComponent
 
 
 
+    [Space]
+    [Title("Feedback")]
+    public float percentageSpawnParticle;
+    [HorizontalGroup("2")]
+    [HideLabel]
+    public GameObject particleDirection;
+    [HorizontalGroup("2")]
+    public float timeBeforeDestroying;
+
+
 
     public override void StartComponent(CharacterBase user)
     {
@@ -102,7 +116,7 @@ public class AttackC_Knockback : AttackComponent
             Vector2 targetDirection = (target.transform.position - user.transform.position).normalized;
             float angle = Vector2.SignedAngle(targetDirection, Vector2.right);
 
-            knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
+            knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), -Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
         }
         else
         {
@@ -111,12 +125,23 @@ public class AttackC_Knockback : AttackComponent
         }
 
         float knockbackValue = CalculateKnockback(target.Stats.LifePercentage) * 0.5f;
-        target.Knockback.Launch(knockbackDirection, knockbackValue);
+        target.Knockback.Launch(knockbackDirection, knockbackValue, bonusHitstun / 60f);
 
         float hitStopAmount = hitStop;
         user.SetMotionSpeed(0, hitStopAmount);
         target.SetMotionSpeed(0, hitStopAmount);
+
+
+        if (target.Stats.LifePercentage >= percentageSpawnParticle && particleDirection != null)
+        {
+            GameObject go = Instantiate(particleDirection, target.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(knockbackDirection.x, knockbackDirection.y) * Mathf.Rad2Deg));
+            go.name = particleDirection.name;
+            Destroy(go, timeBeforeDestroying);
+        }
+
     }
+
+
 
     public override void EndComponent(CharacterBase user)
     {
