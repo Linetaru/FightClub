@@ -9796,6 +9796,7 @@ GameObject:
   - component: {fileID: 8045468721652775531}
   - component: {fileID: 8045468721652775529}
   - component: {fileID: 8045468721652775528}
+  - component: {fileID: 4980423587377651562}
   - component: {fileID: 8045468721652775525}
   m_Layer: 0
   m_Name: Bernard_AerialDownEndGround
@@ -9830,7 +9831,7 @@ BoxCollider:
   m_GameObject: {fileID: 8045468721652775534}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.88036835, y: 0.7324095, z: 1}
   m_Center: {x: -0.02157855, y: 0.17464066, z: 0}
@@ -9847,10 +9848,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAnim: {fileID: 7400000, guid: ea2f31fc9d0d4104488974321ef7481e, type: 2}
-  hitBox: {fileID: 8045468721652775529}
-  activeAtStart: 1
+  linkToCharacter: 1
   atkCombo: {fileID: 0}
-  atkSubs: []
+  atkSubs:
+  - {fileID: 4980423587377651562}
+--- !u!114 &4980423587377651562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8045468721652775534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8e35e756b86a341b233ebe6c513586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBox: {fileID: 8045468721652775529}
   atkCompList:
   - {fileID: 8045468721652775525}
 --- !u!114 &8045468721652775525
@@ -9865,13 +9879,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761f3598c661c6c4c866878983df53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkToCharacter: 1
-  keepMomentum: 0
+  keepMomentumX: 0
+  deccelerate: 1
+  deccelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeDecceleration: 10
   keepMomentumY: 0
   applyGravity: 1
-  deccelerate: 1
-  groundCancel: 0
   gravityMultiplier: 1
+  canAirControl: 0
+  groundCancel: 0
+  groundEndLag: {fileID: 0}
 --- !u!1001 &1362641358728353803
 PrefabInstance:
   m_ObjectHideFlags: 0

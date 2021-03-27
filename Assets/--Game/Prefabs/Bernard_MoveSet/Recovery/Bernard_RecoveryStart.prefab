@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4573064618767878536}
   m_Layer: 0
-  m_Name: ======================== (1)
+  m_Name: ========================
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1413595226675813381
 Transform:
   m_ObjectHideFlags: 0
@@ -219,8 +219,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7171701730008101376}
+  - component: {fileID: 8226127642823842253}
+  - component: {fileID: 4115750712046349460}
   m_Layer: 0
-  m_Name: Components
+  m_Name: Hitbox1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,6 +245,35 @@ Transform:
   m_Father: {fileID: 8045468721652775531}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8226127642823842253
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3817915881177489032}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9825008, y: 2.2942567, z: 1}
+  m_Center: {x: 0.34125042, y: 1.3024807, z: 0}
+--- !u!114 &4115750712046349460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3817915881177489032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8e35e756b86a341b233ebe6c513586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBox: {fileID: 8226127642823842253}
+  atkCompList:
+  - {fileID: 475136960455095257}
+  - {fileID: 591375028510943551}
 --- !u!135 &2743924203216895602
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -329,6 +360,7 @@ MonoBehaviour:
   keepMomentumY: 0
   applyGravity: 1
   gravityMultiplier: 0.1
+  canAirControl: 0
   groundCancel: 0
   groundEndLag: {fileID: 0}
 --- !u!114 &8988985149728484350
@@ -468,7 +500,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8045468721652775531}
-  - component: {fileID: 8045468721652775529}
   - component: {fileID: 8045468721652775528}
   m_Layer: 0
   m_Name: Bernard_RecoveryStart
@@ -496,19 +527,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8045468721652775529
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8045468721652775534}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.9825008, y: 2.2942567, z: 1}
-  m_Center: {x: 0.34125042, y: 1.3024807, z: 0}
 --- !u!114 &8045468721652775528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,15 +540,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAnim: {fileID: 6610827252346660484, guid: 1d6cfbd2d988bac4e9d05bfa2340930a, type: 3}
-  hitBox: {fileID: 8045468721652775529}
-  activeAtStart: 1
   linkToCharacter: 1
-  noDirection: 0
   atkCombo: {fileID: 0}
-  atkSubs: []
-  atkCompList:
-  - {fileID: 475136960455095257}
-  - {fileID: 591375028510943551}
+  atkSubs:
+  - {fileID: 4115750712046349460}
 --- !u!136 &1868422020767181866
 CapsuleCollider:
   m_ObjectHideFlags: 0
