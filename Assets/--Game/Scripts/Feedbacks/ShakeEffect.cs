@@ -68,10 +68,10 @@ namespace Feedbacks
             while (t < time)
             {
                 t += Time.deltaTime;
-                this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0 + Random.Range(-power, power));
+                this.transform.localPosition = new Vector3(0 + Random.Range(-power, power), 0 + Random.Range(-power, power), 0 + Random.Range(-power, power));
                 yield return null;
             }
-            this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, 0);
+            this.transform.localPosition = new Vector3(0, 0 , 0);
         }
 
         /*private IEnumerator ShakeSpriteCoroutine(float power, float time)

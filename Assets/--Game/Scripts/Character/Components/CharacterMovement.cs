@@ -14,7 +14,7 @@ public class CharacterMovement : MonoBehaviour
     public float SpeedMax
     {
         get { return speedMax; }
-        //set { maxSpeed = value; }
+        set { speedMax = value; }
     }
 
     [SerializeField]
@@ -45,6 +45,13 @@ public class CharacterMovement : MonoBehaviour
     }
 
     [SerializeField]
+    private int jumpNumber;
+    public int JumpNumber
+    {
+        get { return jumpNumber; }
+    }
+
+    [SerializeField]
     private float gravity;
     public float Gravity
     {
@@ -58,7 +65,21 @@ public class CharacterMovement : MonoBehaviour
         get { return gravityMax; }
     }
 
+    [Title("Air Control")]
+    [SerializeField]
+    float airControl = 20f;
+    [SerializeField]
+    float airFriction = 0.9f;
+    [SerializeField]
+    private float maxAerialSpeed = 10f;
+    public float MaxAerialSpeed
+    {
+        get { return maxAerialSpeed; }
+    }
 
+
+
+    [Title("Debug")]
     [SerializeField]
     [ReadOnly]
     protected int direction = 1;
@@ -95,10 +116,19 @@ public class CharacterMovement : MonoBehaviour
     }
 
 
-    /*public void Accelerate()
+
+
+
+    int currentNumberOfJump = 1;
+    public int CurrentNumberOfJump
     {
-        Accelerate(1);
-    }*/
+        get { return currentNumberOfJump; }
+        set { currentNumberOfJump = value; }
+    }
+
+
+
+
     public void Accelerate()
     {
         if (timeDecceleration > 0)
@@ -113,11 +143,6 @@ public class CharacterMovement : MonoBehaviour
             speedX = accelerationCurve.Evaluate(timeAcceleration / timeAccelerationMax) * speedMax;
     }
 
-
-    /*public void Decelerate()
-    {
-        Decelerate(1);
-    }*/
     public void Decelerate()
     {
         if(timeAcceleration > 0)
@@ -136,6 +161,8 @@ public class CharacterMovement : MonoBehaviour
         timeAcceleration = 0;
         timeDecceleration = 0;
     }
+
+
 
 
 
@@ -185,6 +212,27 @@ public class CharacterMovement : MonoBehaviour
 
 
 
+    public void AirControl(float axisX)
+    {
+        float aerialDirection;
+
+        if (direction > 0)
+            aerialDirection = axisX;
+        else
+            aerialDirection = -axisX;
+
+        speedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
+        speedX = Mathf.Clamp(speedX, -maxAerialSpeed, maxAerialSpeed);
+        /*if (speedX >= maxAerialSpeed)
+        {
+            speedX = maxAerialSpeed;
+        }
+        else if (speedX <= -maxAerialSpeed)
+        {
+            speedX = -maxAerialSpeed;
+        }*/
+    }
+
     public void Jump()
     {
         Jump(jumpForce);
@@ -196,6 +244,7 @@ public class CharacterMovement : MonoBehaviour
         characterParticle.UseParticle("jump");
     }
     
+
     public void ApplyGravity()
     {
         ApplyGravity(1);

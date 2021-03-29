@@ -10,6 +10,9 @@ public class BattleManager : MonoBehaviour
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Events")]
+	public PackageCreator.Event.GameEventCharacter uiEvent;
+
 	[Title("Interractions")]
 	public InputController inputController;
 
@@ -18,9 +21,6 @@ public class BattleManager : MonoBehaviour
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
 
-	public CharacterUI[] characterUi;
-
-	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
 	public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
 	[Title("Players List")]
@@ -64,14 +64,16 @@ public class BattleManager : MonoBehaviour
 			characterAlive.Add(user);
 
 			user.Stats.GameData = gameData;
-			user.Stats.gameEvent = gameEventFloats[i];
+			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
 
-			if (user.PowerGauge != null)
-                user.PowerGauge.gameEvent = gameEventUICharacter[i];
+            user.PowerGauge.gameEvent = gameEventUICharacter[i];
 
-			if (characterUi.Length != 0)
-				characterUi[i].InitPlayerPanel(user);
+			//if (characterUi.Length != 0)
+			//	characterUi[i].InitPlayerPanel(user);
+
+			if (uiEvent != null)
+				uiEvent.Raise(user);
 
 			cameraController.targets.Add(go.transform);
 		}
