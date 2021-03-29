@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateWallRun : CharacterState
 {
@@ -17,6 +18,7 @@ public class CharacterStateWallRun : CharacterState
     float deccelerationRate = 0.7f;
 
     float wallrunSpeed = 10.0f;
+
     [SerializeField]
     float baseWallRunSpeed = 8.0f;
     [SerializeField]
@@ -35,9 +37,8 @@ public class CharacterStateWallRun : CharacterState
     [SerializeField]
     LayerMask wallLayer;
 
-
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
 
     }
@@ -46,48 +47,37 @@ public class CharacterStateWallRun : CharacterState
     void Update()
     {
 
-    }
+    }*/
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("Wallrun");
-        groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
 
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
-        float speedXBeforeWallRun = character.Movement.SpeedX;
 
-        wallrunSpeed = baseWallRunSpeed + speedXBeforeWallRun / 4;
+        wallrunSpeed = Mathf.Clamp(character.Movement.SpeedX, wallrunSpeedMin, wallrunSpeedMax);
+        character.Movement.SetSpeed(0.0f, wallrunSpeed);
 
-        if (wallrunSpeed > wallrunSpeedMax)
-            wallrunSpeed = wallrunSpeedMax;
+        character.PowerGauge.canGainPointByWallRun = true;
 
-        if (character.Rigidbody.IsGrounded)
-        {
-            wallrunSpeed = wallrunSpeedMax;
-            character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
-        }
-        else
-        {
-            wallrunSpeed = wallrunSpeedMax;
-            character.Movement.SetSpeed(0.0f, wallrunSpeed/* + speedXBeforeWallRun*/);
-        }
+        character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
     }
 
     public override void UpdateState(CharacterBase character)
     {
         wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
-        groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
+        //groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
 
         if (character.Movement.SpeedY > wallrunSpeedMin)
         {
             wallrunSpeed -= deccelerationRate * Time.deltaTime;
+            if (character.Input.vertical < -joystickDeadzone) 
+                wallrunSpeed -= (deccelerationRate * 3) * Time.deltaTime;
             character.Movement.SpeedY = wallrunSpeed;
         }
         else
         {
             character.Movement.SpeedY = wallrunSpeedMin;
-            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction
-                || character.Input.vertical < -joystickDeadzone)
+            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction) //|| character.Input.vertical < -joystickDeadzone)
             {
                 character.SetState(aerialState);
                 //character.Input.inputActions[0].timeValue = 0;
@@ -98,16 +88,17 @@ public class CharacterStateWallRun : CharacterState
         {
             if (character.Input.inputActions[0].action == InputConst.Jump)
             {
-                character.Movement.Direction = character.Movement.Direction * -1;
+                character.Movement.Direction *= -1;
 
-                if (character.Movement.SpeedY > 0)
+                /*if (character.Movement.SpeedY > 0)
                     character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
-                else
-                    character.Movement.SpeedX = wallJumpSpeedX;
+                else*/
+                character.Movement.SpeedX = wallJumpSpeedX;
 
                 wallCollision = false;
 
                 character.Movement.Jump();
+                character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
 
                 //Play Walljump animation
 
@@ -116,21 +107,6 @@ public class CharacterStateWallRun : CharacterState
             }
         }
 
-
-        //if (Mathf.Abs(character.Input.horizontal) > horizontalDeadZone && Mathf.Sign(character.Input.horizontal) == character.Movement.Direction && wallCollision)
-        //{
-        //}
-        //else
-        //{
-        //    if (character.Rigidbody.IsGrounded)
-        //    {
-        //        character.SetState(idleState);
-        //    }
-        //    else
-        //    {
-        //        character.SetState(aerialState);
-        //    }
-        //}
     }
 
     public override void LateUpdateState(CharacterBase character)
@@ -149,8 +125,7 @@ public class CharacterStateWallRun : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
-
-        Debug.Log("Wallrun end");
+        character.PowerGauge.canGainPointByWallRun = false;
     }
 
 

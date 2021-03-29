@@ -9,7 +9,7 @@ public class CharacterCollisionDetection : MonoBehaviour
     [SerializeField]
     CharacterState stateKnockback;
 
-    void Start()
+    /*void Start()
     {
         
     }
@@ -17,7 +17,7 @@ public class CharacterCollisionDetection : MonoBehaviour
     void Update()
     {
         
-    }
+    }*/
 
     public void OnTriggerEnter(Collider other)
     {
@@ -26,14 +26,16 @@ public class CharacterCollisionDetection : MonoBehaviour
 
         if (character.Knockback.IsInvulnerable == true)
             return;
-        if (other.GetComponent<AttackManager>() != null)
+        AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
+        if (atkMan != null)
         {
-            AttackManager atkMan = other.GetComponent<AttackManager>();
+            //Debug.Log(other.gameObject.name);
 
-            character.Knockback.ContactPoint = atkMan.HitBox.bounds.center;
+            character.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + character.CenterPoint.position) / 2f;
             atkMan.Hit(character);
 
-            character.SetState(stateKnockback);
+            if(character.Knockback.CanHit() == true)
+                character.SetState(stateKnockback);
         }
     }
 }

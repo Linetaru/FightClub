@@ -39,13 +39,13 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-    [Title("Parameter - (Ptet a bouger)")]
+    /*[Title("Parameter - (Ptet a bouger)")]
     [SerializeField]
     private float damagePercentageRatio = 150f;
     public float DamagePercentageRatio
     {
         get { return damagePercentageRatio; }
-    }
+    }*/
 
 
 
@@ -81,19 +81,33 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
+    // A mettre dans une interface
+    public bool CanHit()
+    {
+        if (knockbackDuration <= 0)
+            return false;
+        return true;
+    }
+
+    // Fonction a appelé quand le personnage se fait touché
+    // A mettre dans une interface
+    public void Hit()
+    {
+        // Event onHit
+    }
+
+
     public Vector2 GetAngleKnockback()
     {
         return angleKnockback;
     }
 
-    public void Launch(Vector2 angle, float damagePercentage, float bonusKnockback = 0)
+    public void Launch(Vector2 angle, float ejectionPower, float bonusKnockback = 0)
     {
         if (isArmor == true)
             return;
         angleKnockback = angle * weight;
-        angleKnockback *= (damagePercentage / damagePercentageRatio);
-
-        Debug.Log(angleKnockback.x);
+        angleKnockback *= ejectionPower; // (damagePercentage / damagePercentageRatio);
 
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;

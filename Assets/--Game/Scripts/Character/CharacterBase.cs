@@ -7,12 +7,25 @@ public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
+
+	[SerializeField]
+	CharacterState idleState;
+
+	[SerializeField]
+	CharacterState aerialState;
 	public CharacterState CurrentState
 	{
 		get { return currentState; }
 	}
 
 	[Title("Model")]
+	[SerializeField]
+	private Transform centerPoint;
+	public Transform CenterPoint
+	{
+		get { return centerPoint; }
+	}
+
 	[SerializeField]
 	private GameObject model;
 	public GameObject Model
@@ -63,6 +76,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return particle; }
 	}
 
+	[SerializeField]
+	private CharacterPowerGauge powerGauge;
+	public CharacterPowerGauge PowerGauge
+	{
+		get { return powerGauge; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{
@@ -97,6 +117,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void SetState(CharacterState characterState)
 	{
+		Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 
@@ -124,11 +145,27 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+		powerGauge.ConsumePowerSegment(input_Info, this);
 
 		action.EndActionState();
 	}
 
+	public void ResetToIdle()
+    {
+        if (rigidbody.IsGrounded)
+        {
+			SetState(idleState);
+        }
+        else
+        {
+			ResetToAerial();
+		}
+    }
 
+	public void ResetToAerial()
+	{
+		SetState(aerialState);
+	}
 
 	public void SetMotionSpeed(float newValue, float time)
 	{
