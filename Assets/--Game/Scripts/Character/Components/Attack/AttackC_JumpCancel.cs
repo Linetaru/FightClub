@@ -20,7 +20,7 @@ public class AttackC_JumpCancel : AttackComponent
 			if (user.Input.CheckAction(0, InputConst.Jump))
 			{
 				user.Action.FinishAction();
-				user.Movement.Jump();
+				//user.Movement.Jump();
 
 			}
 		}

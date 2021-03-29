@@ -21,6 +21,9 @@ public class CharacterStateKnockback : CharacterState
     float reboundReduction = 0.75f;
 
     [SerializeField]
+    float reboundSpeedNeeded = 2f;
+
+    [SerializeField]
     [SuffixLabel("en frames")]
     float landingTime = 10;
 
@@ -78,18 +81,20 @@ public class CharacterStateKnockback : CharacterState
 
     public override void LateUpdateState(CharacterBase character)
     {
-        if (character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null)
+        if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null) && Mathf.Abs(character.Movement.SpeedY) > reboundSpeedNeeded)
         {
             character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
-            if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
+            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
+            /*if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
             {
                 character.SetState(landState);
-            }
+            }*/
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
+            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }
     }
 
