@@ -6,35 +6,51 @@ using Sirenix.OdinInspector;
 public class AttackC_JoystickMovement : AttackComponent
 {
     public float joystickDeadZone = .3f;
+    public float speedMultiplier = 1f;
 
+    public bool canDeccelerate = false;
 
+    [ShowIf("canDeccelerate")]
+    [HideLabel]
+    [HorizontalGroup("")]
+    public AnimationCurve deccelerationCurve;
+    [ShowIf("canDeccelerate")]
+    [HorizontalGroup("")]
+    public float timeSpeed;
 
     Vector2 direction;
+    float timer = 0;
 
     // Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
     {
-        direction = new Vector2(user.Input.horizontal, user.Input.vertical);
+        timer = 0f;
+        timeSpeed /= 60f;
 
+        direction = new Vector2(user.Input.horizontal, user.Input.vertical);
         direction.Normalize();
-        Debug.Log(direction);
 
         if (Mathf.Abs(user.Input.horizontal) < joystickDeadZone && Mathf.Abs(user.Input.vertical) < joystickDeadZone)
         {
-            Debug.Log(direction);
-            user.Movement.SetSpeed(0, user.Movement.SpeedMax);
+            direction.y = 1f;
+            user.Movement.SetSpeed(0, user.Movement.SpeedMax * speedMultiplier);
             return;
         }
-        //if (direction.x != 0)
-        //    user.Movement.Direction = (int)direction.x;
-        user.Movement.SetSpeed(user.Movement.Direction * direction.x * user.Movement.SpeedMax, direction.y * user.Movement.SpeedMax);
+
+        if (direction.x != 0)
+            user.Movement.Direction = (int)Mathf.Sign(direction.x);
+        user.Movement.SetSpeed(user.Movement.Direction * direction.x * user.Movement.SpeedMax * speedMultiplier, direction.y * user.Movement.SpeedMax * speedMultiplier);
     }
 
     // Appelé tant que l'attaque existe 
-    //(Peut-être remplacé par l'Update d'Unity de base si l'ordre d'éxécution n'est pas important)
     public override void UpdateComponent(CharacterBase user)
     {
-
+        if(canDeccelerate == true)
+        {
+            timer += Time.deltaTime * user.MotionSpeed;
+            float multiplier = deccelerationCurve.Evaluate(timer / timeSpeed);
+            user.Movement.SetSpeed(user.Movement.Direction * direction.x * user.Movement.SpeedMax * speedMultiplier * multiplier, direction.y * user.Movement.SpeedMax * speedMultiplier * multiplier);
+        }
     }
 
     // Appelé au moment où l'attaque touche une target

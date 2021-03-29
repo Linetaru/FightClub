@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public enum KnockbackAngleSetting
-{
-    StaticAngle,
-    DynamicAngle,
-    SpeedAngle
-};
-
-
-public class AttackC_Knockback : AttackComponent
+public class AttackC_KnockbackSpeed : AttackComponent
 {
     [Title("HitStop")]
     [SerializeField]
@@ -24,69 +16,19 @@ public class AttackC_Knockback : AttackComponent
 
     [Title("Ejection - Power")]
     [SerializeField]
-    bool knockbackAdvancedSettings = true;
+    float knockbackSpeedMultiplier = 1f;
 
-
-    [ShowIf("knockbackAdvancedSettings")]
-    [HorizontalGroup("Knockback - Power")]
-    [SerializeField]
-    [LabelText("Knockback Power")]
-    float minKnockbackPower = 10;
-
-    [ShowIf("knockbackAdvancedSettings")]
-    [HorizontalGroup("Knockback - Power", Width = 0.4f)]
-    [SerializeField]
-    [HideLabel]
-    AnimationCurve knockbackCurve;
-
-    [ShowIf("knockbackAdvancedSettings")]
-    [HorizontalGroup("Knockback - Power", Width = 40f)]
-    [SerializeField]
-    [HideLabel]
-    float maxKnockbackPower = 50;
-
-
-
-
-
-    [ShowIf("knockbackAdvancedSettings")]
-    [HorizontalGroup("Knockback - Percentage")]
-    [SerializeField]
-    float minCurvePercentage = 0;
-    [ShowIf("knockbackAdvancedSettings")]
-    [HorizontalGroup("Knockback - Percentage")]
-    [SerializeField]
-    float maxCurvePercentage = 100;
-
-
-
-
-    [SerializeField]
-    float linearKnockbackPower = 0.5f;
-
-
-    [FoldoutGroup("Ejection Power Calculator")]
-    [OnValueChanged("DebugCalculation")]
-    [SerializeField]
-    float percentage = 0;
-    [FoldoutGroup("Ejection Power Calculator")]
-    [ReadOnly]
-    [SerializeField]
-    float ejectionPowerTheoric = 0;
 
 
 
     [Space]
     [Title("Ejection - Angle")]
-    [SerializeField] 
+    [SerializeField]
     float knockbackAngle = 0;
 
     // L'angle dynamique signifie que l'angle de trajectoire se fait par rapport aux positions des personnages
     [SerializeField]
     KnockbackAngleSetting dynamicAngle = KnockbackAngleSetting.StaticAngle;
-
-
-
 
     [Space]
     [Title("Feedback")]
@@ -99,18 +41,23 @@ public class AttackC_Knockback : AttackComponent
 
 
 
+    // Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
     {
-
+		
     }
-
-    public override void UpdateComponent(CharacterBase user)
+	
+	// Appelé tant que l'attaque existe 
+	//(Peut-être remplacé par l'Update d'Unity de base si l'ordre d'éxécution n'est pas important)
+	public override void UpdateComponent(CharacterBase user)
     {
-
+		
     }
-
+	
+	// Appelé au moment où l'attaque touche une target
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
+        // Calcul de l'angle (simillaire a AttackC_Knockback donc y'a un truc a optimiser)
         Vector2 knockbackDirection;
         if (dynamicAngle == KnockbackAngleSetting.DynamicAngle)
         {
@@ -119,7 +66,7 @@ public class AttackC_Knockback : AttackComponent
 
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), -Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
         }
-        else if(dynamicAngle == KnockbackAngleSetting.StaticAngle)
+        else if (dynamicAngle == KnockbackAngleSetting.StaticAngle)
         {
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * knockbackAngle), Mathf.Sin(Mathf.Deg2Rad * knockbackAngle));
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
@@ -130,7 +77,8 @@ public class AttackC_Knockback : AttackComponent
             knockbackDirection.Normalize();
         }
 
-        float knockbackValue = CalculateKnockback(target.Stats.LifePercentage) * 0.5f;
+
+        float knockbackValue = new Vector2(user.Movement.SpeedX, user.Movement.SpeedY).magnitude * knockbackSpeedMultiplier;
         target.Knockback.Launch(knockbackDirection, knockbackValue, bonusHitstun / 60f);
 
         float hitStopAmount = hitStop;
@@ -144,36 +92,11 @@ public class AttackC_Knockback : AttackComponent
             go.name = particleDirection.name;
             Destroy(go, timeBeforeDestroying);
         }
-
     }
-
-
-
+	
+	// Appelé au moment de la destruction de l'attaque
     public override void EndComponent(CharacterBase user)
     {
-
+		
     }
-
-
-
-    private void DebugCalculation()
-    {
-        ejectionPowerTheoric = CalculateKnockback(percentage);
-    }
-
-    private float CalculateKnockback(float percentage)
-    {
-        if (knockbackAdvancedSettings == false)
-            return (linearKnockbackPower * percentage);
-
-        if (percentage < minCurvePercentage)
-            return minKnockbackPower;
-        else if (percentage > maxCurvePercentage)
-            return maxKnockbackPower + ((linearKnockbackPower * maxKnockbackPower) * ((percentage / maxCurvePercentage) - 1));
-
-        float factor = knockbackCurve.Evaluate((percentage - minCurvePercentage) / (maxCurvePercentage - minCurvePercentage));
-        return minKnockbackPower + ((maxKnockbackPower - minKnockbackPower) * factor);
-    }
-
-
 }

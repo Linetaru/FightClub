@@ -42,6 +42,9 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     float gravityMultiplier = 1f;
 
+    [SerializeField]
+    bool canAirControl = false;
+
 
 
     [Title("Ground Cancel")]
@@ -88,7 +91,8 @@ public class AttackC_CharaMovement : AttackComponent
                 user.Movement.SpeedX = 0;
         }
 
-
+        if (canAirControl == true)
+            user.Movement.AirControl(user.Input.horizontal);
 
         if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
         {
