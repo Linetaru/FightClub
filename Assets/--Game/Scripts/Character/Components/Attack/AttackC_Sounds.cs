@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using AK.Wwise;
 
+[RequireComponent(typeof(AkGameObj))]
 public class AttackC_Sounds : AttackComponent
 {
 
