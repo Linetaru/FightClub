@@ -27,7 +27,7 @@ namespace Menu
 		float timeScale = 0f;
 
 		IControllable character = null;
-
+		bool menuOn = false;
 
 
 
@@ -46,12 +46,17 @@ namespace Menu
 
 		private void Update()
 		{
-			if(inputController.playerInputs[0].CheckAction(0, InputConst.Start))
+			if(inputController.playerInputs[0].CheckAction(0, InputConst.Pause) && menuOn == false)
 			{
-				Debug.Log("Heho");
+				inputController.playerInputs[0].inputActions[0].timeValue = 0;
+
 				character = inputController.controllable[0];
 				inputController.controllable[0] = this;
 				ShowMenu();
+			}
+			else if (inputController.playerInputs[0].CheckAction(0, InputConst.DownTaunt) && menuOn == false)
+			{
+				battleManager.ResetPlayer();
 			}
 		}
 
@@ -91,11 +96,13 @@ namespace Menu
 
 		private void ShowMenu()
 		{
+			menuOn = true;
 			menuUI.SetActive(true);
 		}
 
 		private void HideMenu()
 		{
+			menuOn = false;
 			menuUI.SetActive(false);
 		}
 
