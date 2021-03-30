@@ -82,16 +82,25 @@ public class DebugRegisterInput : MonoBehaviour
 	InputController inputController;
 	[SerializeField]
 	int characterID = 0;
-
-	IControllable character;
+	[SerializeField]
+	float maxTimeRecord = 1000;
 
 	[SerializeField]
 	List<DebugInput> debugInputs;
 
-	bool registerInput = false;
+	[Title("UI")]
+	[SerializeField]
+	TMPro.TextMeshProUGUI textRecord;
 
-	bool playInput = false;
-	public float playTime = 0;
+	IControllable character;
+
+
+	[HideInInspector]
+	public bool registerInput = false;
+	[HideInInspector]
+	public bool playInput = false;
+
+	float playTime = 0;
 	Input_Info inputs;
 	int indexPlay = 0;
 
@@ -103,17 +112,25 @@ public class DebugRegisterInput : MonoBehaviour
 		playTime = 0f;
 		registerInput = true;
 		debugInputs.Clear();
+
+		textRecord.text = "Recording J" + characterID;
+		textRecord.gameObject.SetActive(true);
 	}
 
 	public void RegisterInput()
 	{
 		debugInputs.Add(new DebugInput(playTime, inputController.playerInputs[characterID]));
+		if (playTime >= maxTimeRecord)
+			StopRegisterInput();
 	}
 
 	[Button]
 	public void StopRegisterInput()
 	{
 		registerInput = false;
+
+
+		textRecord.gameObject.SetActive(false);
 	}
 
 
@@ -125,6 +142,8 @@ public class DebugRegisterInput : MonoBehaviour
 	[Button]
 	public void StartPlayInput()
 	{
+		if (debugInputs.Count == 0)
+			return;
 		if(inputController.controllable[characterID] == null)
 		{
 			StopPlayInput();
@@ -136,6 +155,9 @@ public class DebugRegisterInput : MonoBehaviour
 		inputs = new Input_Info();
 		character = inputController.controllable[characterID];
 		inputController.controllable[characterID] = null;
+
+		textRecord.text = "Play Record J" + characterID;
+		textRecord.gameObject.SetActive(true);
 	}
 
 	public void PlayInput()
@@ -177,6 +199,8 @@ public class DebugRegisterInput : MonoBehaviour
 
 		inputController.controllable[characterID] = character;
 		character = null;
+
+		textRecord.gameObject.SetActive(false);
 	}
 
 

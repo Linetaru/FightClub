@@ -17,14 +17,19 @@ namespace Menu
 		[SerializeField]
 		BattleManager battleManager;
 		[SerializeField]
-		DebugTimeScale debugTimeScale;
+		DebugRegisterInput registerInput;
 
 		[Title("Parameter")]
 		[SerializeField]
-		Vector2 percentageValue;
+		Vector2 timeScaleInterval;
+		[SerializeField]
+		Vector2 percentageInterval;
 
-		int basePercentage = 0;
-		float timeScale = 0f;
+
+
+
+		float timeScale = 1f;
+		int percentage = 0;
 
 		IControllable character = null;
 		bool menuOn = false;
@@ -35,6 +40,8 @@ namespace Menu
 		[Title("UI")]
 		[SerializeField]
 		GameObject menuUI;
+		[SerializeField]
+		GameObject selection;
 
 		[Button]
 		private void UpdateComponents()
@@ -44,8 +51,22 @@ namespace Menu
 		}
 
 
+
+
+
+
+		private void Start()
+		{
+			timeScale = 1f;
+		}
+
+
+
 		private void Update()
 		{
+			if (menuOn == true)
+				return;
+
 			if(inputController.playerInputs[0].CheckAction(0, InputConst.Pause) && menuOn == false)
 			{
 				inputController.playerInputs[0].inputActions[0].timeValue = 0;
@@ -54,31 +75,72 @@ namespace Menu
 				inputController.controllable[0] = this;
 				ShowMenu();
 			}
-			else if (inputController.playerInputs[0].CheckAction(0, InputConst.DownTaunt) && menuOn == false)
+			else if (inputController.playerInputs[0].CheckAction(0, InputConst.LeftTrigger) && menuOn == false)
 			{
+				if (registerInput.registerInput == true)
+					registerInput.StopRegisterInput();
+				if (registerInput.playInput == true)
+					registerInput.StopPlayInput();
 				battleManager.ResetPlayer();
+				ValidateOptions();
+			}
+
+
+			else if (inputController.playerInputs[0].CheckAction(0, InputConst.DownTaunt))
+			{
+				inputController.playerInputs[0].inputActions[0].timeValue = 0;
+				if (registerInput.registerInput == true)
+					registerInput.StopRegisterInput();
+				else
+					registerInput.StartRegisterInput();
+
+			}
+			else if (inputController.playerInputs[0].CheckAction(0, InputConst.UpTaunt))
+			{
+				inputController.playerInputs[0].inputActions[0].timeValue = 0;
+				registerInput.StartPlayInput();
 			}
 		}
 
+
+
+
+
+
+
+
+
+
+
+
+
+		bool inputDown = false;
 		public void UpdateControl(int id, Input_Info input)
 		{
 			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
 			{
 				SelectTrainingOption(listEntry.IndexSelection);
 			}
-			/*else if (categoryEntry.InputListHorizontal(input) == true)
+			else if (Mathf.Abs(input.horizontal) > 0.5f && inputDown == false)
 			{
-				NextEncyclopedia();
-			}*/
-			else if (input.CheckAction(id, InputConst.Return) == true)
+				ModifyOptions(listEntry.IndexSelection, (int)Mathf.Sign(input.horizontal));
+				inputDown = true;
+			}
+			else if (Mathf.Abs(input.horizontal) < 0.5f && inputDown == true)
 			{
+				inputDown = false;
+			}
+			else if (input.CheckAction(id, InputConst.Pause) == true)
+			{
+				inputController.playerInputs[0].inputActions[0].timeValue = 0;
+				ValidateOptions();
 				QuitMenu();
 			}
 		}
 
 		public void SelectTrainingOption(int id)
 		{
-			
+			selection.transform.position = listEntry.ListItem[id].transform.position;
 		}
 
 		public void QuitMenu()
@@ -91,6 +153,34 @@ namespace Menu
 
 
 
+		private void ModifyOptions(int indexSelection, int direction)
+		{
+			switch(indexSelection)
+			{
+				case 0:
+					timeScale += 0.1f * direction;
+					timeScale = Mathf.Clamp(timeScale, timeScaleInterval.x, timeScaleInterval.y);
+					break;
+				case 1:
+					percentage += 10 * direction;
+					percentage = (int) Mathf.Clamp(percentage, percentageInterval.x, percentageInterval.y);
+					break;
+			}
+			DrawOptions();
+		}
+
+		private void ValidateOptions()
+		{
+			Time.timeScale = timeScale;
+			for (int i = 0; i < battleManager.characterAlive.Count; i++)
+			{
+				battleManager.characterAlive[i].Stats.LifePercentage = percentage;
+			}
+		}
+
+
+
+
 
 
 
@@ -98,14 +188,26 @@ namespace Menu
 		{
 			menuOn = true;
 			menuUI.SetActive(true);
+			DrawOptions();
 		}
 
 		private void HideMenu()
 		{
-			menuOn = false;
 			menuUI.SetActive(false);
+			StartCoroutine(WaitOneFrame());
 		}
 
+		private IEnumerator WaitOneFrame()
+		{
+			yield return null;
+			menuOn = false;
+		}
+
+		private void DrawOptions()
+		{
+			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
+			listEntry.ListItem[1].DrawSubText(percentage.ToString());
+		}
 
 
 	}
