@@ -30,6 +30,8 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager neutralAir;
 	[SerializeField]
+	AttackManager forwardAir;
+	[SerializeField]
 	AttackManager upAir;
 	[SerializeField]
 	AttackManager downAir;
@@ -115,6 +117,16 @@ public class CharacterMoveset : MonoBehaviour
 			{
 				if (character.Action.Action(downAir) == true)
 				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Attack) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+			{
+				if (character.Action.Action(forwardAir) == true)
+				{
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
