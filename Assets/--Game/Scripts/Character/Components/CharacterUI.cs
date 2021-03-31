@@ -32,6 +32,7 @@ public class CharacterUI : MonoBehaviour
 		vertexGradient.bottomLeft = gradient.Evaluate(percent / 200);
 		vertexGradient.bottomRight = gradient.Evaluate(percent / 200);
 		percentText.colorGradient = vertexGradient;
+		percentText.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.3f).OnComplete(() => percentText.transform.DOScale(new Vector3(1f, 1f, 1f), 0.1f));
 	}
 
 	public void UpdateStocksUI(float lifeStocks)
