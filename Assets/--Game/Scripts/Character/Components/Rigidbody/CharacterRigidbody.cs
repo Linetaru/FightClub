@@ -6,9 +6,9 @@ using Sirenix.OdinInspector;
 [RequireComponent(typeof(BoxCollider))]
 public class CharacterRigidbody : MonoBehaviour
 {
-    public virtual Transform CollisionWallInfo
+    public virtual CollisionRigidbody CollisionWallInfo
     {
-        get { return null; }
+        get { return new CollisionRigidbody(); }
     }
     public virtual Transform CollisionGroundInfo
     {
@@ -47,6 +47,9 @@ public class CharacterRigidbody : MonoBehaviour
 
     }
 
+    public virtual void Push(float speedX, float speedY)
+    {
 
+    }
 
 }

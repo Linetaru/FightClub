@@ -5,8 +5,12 @@ using Sirenix.OdinInspector;
 
 public class AttackC_Particule : AttackComponent
 {
+    [HorizontalGroup("1")]
+    [HideLabel]
     public GameObject particuleObject;
+    [HorizontalGroup("1")]
     public float timeBeforeDestroying;
+
 
     public override void StartComponent(CharacterBase user)
     {
