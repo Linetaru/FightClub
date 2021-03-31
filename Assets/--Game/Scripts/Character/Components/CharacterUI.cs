@@ -44,7 +44,7 @@ public class CharacterUI : MonoBehaviour
             UpdateStocksUI(user.Stats.LifeStocks);
         }
 
-        if (percent != 0)
+        if (percent != -1)
         {
             UpdateUI(percent);
         }
