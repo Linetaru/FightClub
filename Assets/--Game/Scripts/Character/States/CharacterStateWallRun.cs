@@ -51,7 +51,6 @@ public class CharacterStateWallRun : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-        Debug.Log("Wallrun");
 
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
 
@@ -59,6 +58,8 @@ public class CharacterStateWallRun : CharacterState
         character.Movement.SetSpeed(0.0f, wallrunSpeed);
 
         character.PowerGauge.canGainPointByWallRun = true;
+
+        character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
     }
 
     public override void UpdateState(CharacterBase character)
@@ -125,7 +126,6 @@ public class CharacterStateWallRun : CharacterState
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
         character.PowerGauge.canGainPointByWallRun = false;
-        Debug.Log("Wallrun end");
     }
 
 

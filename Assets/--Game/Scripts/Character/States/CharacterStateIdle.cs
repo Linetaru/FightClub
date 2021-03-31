@@ -66,17 +66,9 @@ public class CharacterStateIdle : CharacterState
 		character.Movement.SpeedY = gravityConst;
 		//character.Movement.ApplyGravity();
 
-		if (moveset.ActionAttack(character) == true)
+		if (character.Input.CheckAction(0, InputConst.Jump)) 
 		{
-
-		}
-		else if (evasiveMoveset.Dodge(character) == true)
-		{
-
-		}
-		else if (character.Input.inputActions.Count != 0) 
-		{
-			if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
+			if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
 			{
 				character.Input.inputActions[0].timeValue = 0;
 				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
@@ -97,6 +89,14 @@ public class CharacterStateIdle : CharacterState
 				character.SetState(jumpStartState);
 				character.Input.inputActions[0].timeValue = 0;
 			}
+		}
+		else if (moveset.ActionAttack(character) == true)
+		{
+
+		}
+		else if (evasiveMoveset.Dodge(character) == true)
+		{
+
 		}
 	}
 
@@ -164,7 +164,7 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
+			if (character.Movement.SpeedX <= (character.Movement.SpeedMax * speedMultiplierWalk) + 0.1f) // Le + 0.1f c'est un probleme de precision de float (et c'est ce probleme qui nous empeche de faire du rollback si on a des float)
 			{
 				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}

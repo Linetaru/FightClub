@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using AK.Wwise;
 
 // Sert de proxy pour les events d'animations
 public class CharacterAnimatorEvent : MonoBehaviour
@@ -22,14 +22,14 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	}
 
 	// Character Action
-	public void ActionActive()
+	public void ActionActive(int subAction = 0)
 	{
-		characterAction.ActionActive();
+		characterAction.ActionActive(subAction);
 	}
 
-	public void ActionUnactive()
+	public void ActionUnactive(int subAction = 0)
 	{
-		characterAction.ActionUnactive();
+		characterAction.ActionUnactive(subAction);
 	}
 
 	public void MoveCancelable()
@@ -41,4 +41,13 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	{
 		characterAction.EndAction();
 	}
+
+
+	public void PlaySound(string soundName)
+	{
+		AkSoundEngine.PostEvent(soundName, this.gameObject);
+	}
+
+
+
 }

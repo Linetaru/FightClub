@@ -21,16 +21,18 @@ public class AttackManager : MonoBehaviour
     }
 
 
-    [SerializeField]
+    /*[SerializeField]
     private BoxCollider hitBox;
     public BoxCollider HitBox
     {
         get { return hitBox; }
-    }
+    }*/
 
     [Title("Parameters")]
+    /*[SerializeField]
+    bool activeAtStart = true;*/
     [SerializeField]
-    bool activeAtStart = true;
+    bool linkToCharacter = true;
 
     [SerializeField]
     private AttackManager atkCombo;
@@ -39,19 +41,21 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
-    /*[SerializeField]
-    private List<AttackManager> atkSubs;*/
-
-
-    [Title("Components")]
+    [Title("Multiple Hitbox")]
     [SerializeField]
     [ListDrawerSettings(Expanded = true)]
-    private List<AttackComponent> atkCompList;
+    private List<AttackSubManager> atkSubs;
+
+
+   /* [Title("Components")]
+    [SerializeField]
+    [ListDrawerSettings(Expanded = true)]
+    private List<AttackComponent> atkCompList;*/
 
 
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
-    bool firstTime = false;
+    //bool firstTime = false;
 
 
 
@@ -59,7 +63,7 @@ public class AttackManager : MonoBehaviour
     [Button]
     public void UpdateComponents()
     {
-        atkCompList = new List<AttackComponent>(GetComponentsInChildren<AttackComponent>()); 
+        atkSubs = new List<AttackSubManager>(GetComponentsInChildren<AttackSubManager>()); 
     }
 
 
@@ -67,54 +71,43 @@ public class AttackManager : MonoBehaviour
 
     // ===============================================================================
 
-    public void Start()
+    /*public void Start()
     {
         ActionActive();
-    }
+    }*/
 
-    public void Update()
+   /* public void Update()
     {
         foreach (AttackComponent atkC in atkCompList)
         {
             atkC.UpdateComponent(user);
         }
-    }
+    }*/
 
     public void CreateAttack(CharacterBase character)
     {
         tag = character.tag;
         user = character;
-
         transform.localScale = new Vector3(transform.localScale.x * character.transform.localScale.x * user.Movement.Direction,
                                            transform.localScale.y * character.transform.localScale.y,
                                            transform.localScale.z * character.transform.localScale.z);
-        hitBox.enabled = false;
-        gameObject.SetActive(false);
+        if (linkToCharacter == true)
+            this.transform.SetParent(user.transform);
 
-        for (int i = 0; i < atkCompList.Count; i++)
+        for (int i = 0; i < atkSubs.Count; i++)
         {
-            atkCompList[i].StartComponent(character);
+            atkSubs[i].InitAttack(character);
         }
-
-        /*if(attackState != null)
-            character.SetState(attackState);*/
     }
 
-    public void ActionActive()
+    public void ActionActive(int subAttack = 0)
     {
-        if (firstTime == false)
-        {
-            gameObject.SetActive(true);
-            firstTime = true;
-            if (activeAtStart == false)
-                return;
-        }
-        hitBox.enabled = true;
+        atkSubs[subAttack].ActionActive();
     }
 
-    public void ActionUnactive()
+    public void ActionUnactive(int subAttack = 0)
     {
-        hitBox.enabled = false;
+        atkSubs[subAttack].ActionUnactive();
     }
 
 
@@ -127,13 +120,17 @@ public class AttackManager : MonoBehaviour
 
     public void EndAction()
     {
+        for (int i = 0; i < atkSubs.Count; i++)
+        {
+            atkSubs[i].CancelAction();
+        }
         Destroy(this.gameObject);
     }
 
 
 
 
-    public void Hit(CharacterBase target)
+   /* public void Hit(CharacterBase target)
     {
         user.Action.HasHit(target);
 
@@ -147,6 +144,6 @@ public class AttackManager : MonoBehaviour
         }
         playerHitList.Add(targetTag);
 
-    }
+    }*/
 
 }

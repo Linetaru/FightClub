@@ -37,10 +37,14 @@ public class CharacterStateStartJump : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        currentCrouchTime += Time.deltaTime;
+        currentCrouchTime += Time.deltaTime * character.MotionSpeed;
         if(currentCrouchTime >= maxCrouchTime)
         {
-            if (character.Input.inputActionsUP.Count != 0)
+            if (character.Input.CheckAction(0, InputConst.Attack))
+            {
+                character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
+            }
+            else if (character.Input.inputActionsUP.Count != 0)
             {
                 if (character.Input.inputActionsUP[0].action == InputConst.Jump)
                 {

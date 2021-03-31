@@ -28,6 +28,7 @@ public class CharacterStateActing : CharacterState
 			{
 				character.SetState(homingDashState);
 				character.Input.inputActions[0].timeValue = 0;
+				//character.PowerGauge.AddPower(-33);
 				return;
 			}
 		}
