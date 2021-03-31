@@ -27,8 +27,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	}
 
 	[SerializeField]
-	private GameObject model;
-	public GameObject Model
+	private CharacterModel model;
+	public CharacterModel Model
 	{
 		get { return model; }
 	}
