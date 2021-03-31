@@ -12,7 +12,7 @@ namespace Menu
 		[SerializeField]
 		PlayableDirector playableDirector;
 		[SerializeField]
-		CharacterModel characterModel;
+		public CharacterModel characterModel;
 
 		[HideInInspector]
 		public MenuWin circularReference; // Flemme de faire un event il est 1h du mat

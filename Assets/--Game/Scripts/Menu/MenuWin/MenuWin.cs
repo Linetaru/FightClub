@@ -53,7 +53,8 @@ namespace Menu
 			listPlayerChoice.Add(0);
 
 			int winnerID = charactersPodium[0].PlayerID;
-			VictoryScreen victoryScreen = Instantiate(gameData.CharacterInfos[winnerID].CharacterData.victoryScreen, winnerPosition.position, Quaternion.identity);
+			VictoryScreen victoryScreen = Instantiate(gameData.CharacterInfos[winnerID].CharacterData.victoryScreen, winnerPosition);
+			victoryScreen.characterModel.SetColor(winnerID, gameData.CharacterInfos[winnerID].CharacterData.characterMaterials[gameData.CharacterInfos[winnerID].CharacterColorID]);
 			victoryScreen.circularReference = this;
 
 
@@ -66,7 +67,7 @@ namespace Menu
 
 				// Aled
 				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
-				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1].position, Quaternion.identity);
+				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
 				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
 			}
 		}
