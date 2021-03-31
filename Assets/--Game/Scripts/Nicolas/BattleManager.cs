@@ -80,6 +80,22 @@ public class BattleManager : MonoBehaviour
 		isGameStarted = true;
 	}
 
+
+	public void ResetPlayer()
+	{
+		for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+		{
+			characterAlive[i].transform.position = spawningPoint[i].transform.position;
+			characterAlive[i].Stats.InitStats();
+
+			characterAlive[i].Action.CancelAction();
+			characterAlive[i].ResetToIdle();
+			characterAlive[i].Movement.SpeedX = 0;
+			characterAlive[i].Movement.SpeedY = 0;
+		}
+		isGameStarted = true;
+	}
+
 	// This function transfer player from isAlive to isFullDead and check if party over
 	// Basically it manages definitive death
 	public void ObliterateCharacter(CharacterBase cb)

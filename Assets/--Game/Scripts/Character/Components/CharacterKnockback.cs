@@ -84,6 +84,8 @@ public class CharacterKnockback : MonoBehaviour
     // A mettre dans une interface
     public bool CanHit()
     {
+        if (knockbackDuration <= 0)
+            return false;
         return true;
     }
 

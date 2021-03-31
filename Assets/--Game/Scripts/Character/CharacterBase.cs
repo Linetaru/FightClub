@@ -158,9 +158,14 @@ public class CharacterBase : MonoBehaviour, IControllable
         }
         else
         {
-			SetState(aerialState);
-        }
+			ResetToAerial();
+		}
     }
+
+	public void ResetToAerial()
+	{
+		SetState(aerialState);
+	}
 
 	public void SetMotionSpeed(float newValue, float time)
 	{

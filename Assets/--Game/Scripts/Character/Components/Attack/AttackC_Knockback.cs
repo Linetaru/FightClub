@@ -6,7 +6,8 @@ using Sirenix.OdinInspector;
 public enum KnockbackAngleSetting
 {
     StaticAngle,
-    DynamicAngle
+    DynamicAngle,
+    SpeedAngle
 };
 
 
@@ -118,10 +119,15 @@ public class AttackC_Knockback : AttackComponent
 
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), -Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
         }
-        else
+        else if(dynamicAngle == KnockbackAngleSetting.StaticAngle)
         {
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * knockbackAngle), Mathf.Sin(Mathf.Deg2Rad * knockbackAngle));
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
+        }
+        else
+        {
+            knockbackDirection = new Vector2(user.Movement.SpeedX * user.Movement.Direction, user.Movement.SpeedY);
+            knockbackDirection.Normalize();
         }
 
         float knockbackValue = CalculateKnockback(target.Stats.LifePercentage) * 0.5f;
