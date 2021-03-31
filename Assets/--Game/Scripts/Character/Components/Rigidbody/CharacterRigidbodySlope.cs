@@ -170,6 +170,9 @@ public class CharacterRigidbodySlope : CharacterRigidbody
             else // On climb pas ou on touche un mur --------------------------------------------------------------------
             {
                 UpdatePositionX();
+                if (preventFall == true && isGrounded == true)
+                    CheckEdge();
+
                 Vector2 offsetX = new Vector2(actualSpeedX, 0);
                 CalculateBounds(offsetX);
                 UpdatePositionY();
@@ -350,6 +353,33 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         }
     }*/
 
+    [SerializeField]
+    float edgeDetection = 0.2f;
 
+
+    private void CheckEdge()
+    {
+        RaycastHit raycastY;
+        float directionY = -edgeDetection;
+        Vector3 originRaycast = (Mathf.Sign(actualSpeedX) == -1) ? bottomLeft : bottomRight;
+        originRaycast += new Vector3(actualSpeedX, 0, 0);
+
+        Physics.Raycast(originRaycast, new Vector2(0, -edgeDetection), out raycastY, edgeDetection, currentCheckGroundLayerMask);
+        if (raycastY.collider == null) // Il y du vide danger
+        {
+            originRaycast += new Vector3(0, -edgeDetection);
+
+            Physics.Raycast(originRaycast, new Vector2(-actualSpeedX, 0), out raycastY, Mathf.Abs(actualSpeedX), currentLayerMask);
+            if (raycastY.collider != null) // On a touché un mur, on sait la distance
+            {
+                float distance = raycastY.distance;
+                actualSpeedX -= (distance * Mathf.Sign(actualSpeedX));
+            }
+            else // On sait pas donc c'est chaud, on bouge pas pour le moment mais wait & see
+            {
+                actualSpeedX = 0;
+            }
+        }
+    }
 
 }

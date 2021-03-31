@@ -50,6 +50,7 @@ public class CharacterStateDodge : CharacterState
 			directionDodge.x = Mathf.Sign(character.Input.horizontal);
 
 		character.Rigidbody.SetNewLayerMask(dodgeLayerMask);
+		//character.Rigidbody.PreventFall(true);
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -87,5 +88,6 @@ public class CharacterStateDodge : CharacterState
 	{
 		character.Knockback.IsInvulnerable = false;
 		character.Rigidbody.ResetLayerMask();
+		//character.Rigidbody.PreventFall(false);
 	}
 }
