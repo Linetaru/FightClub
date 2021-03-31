@@ -10,6 +10,8 @@ namespace Menu
 	{
 		// Database de victory
 		[SerializeField]
+		GameData gameData;
+		[SerializeField]
 		VictoryScreen debugVictory;
 
 		[Title("Positions")]
@@ -34,7 +36,9 @@ namespace Menu
 
 		int winnerID = -1;
 		List<MenuWinResultDrawer> listResultDrawers;
-		List<int> listPlayerChoice;
+		List<int> listPlayerChoice; // Choix de surrend ou rematch
+
+
 
 		public void InitializeWin(List<CharacterBase> charactersPodium)
 		{
@@ -42,16 +46,30 @@ namespace Menu
 
 			listResultDrawers = new List<MenuWinResultDrawer>(charactersPodium.Count);
 			listPlayerChoice = new List<int>(charactersPodium.Count);
-			for (int i = 0; i < charactersPodium.Count; i++)
+
+
+			// On instancie le winner
+			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
+			listPlayerChoice.Add(0);
+
+			int winnerID = charactersPodium[0].PlayerID;
+			VictoryScreen victoryScreen = Instantiate(gameData.CharacterInfos[winnerID].CharacterData.victoryScreen, winnerPosition);
+			victoryScreen.characterModel.SetColor(winnerID, gameData.CharacterInfos[winnerID].CharacterData.characterMaterials[gameData.CharacterInfos[winnerID].CharacterColorID]);
+			victoryScreen.circularReference = this;
+
+
+			// On instancie les loosers
+			for (int i = 1; i < charactersPodium.Count; i++)
 			{
+
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 				listPlayerChoice.Add(0);
+
+				// Aled
+				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
+				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
+				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
 			}
-			winnerID = 0;
-			debugVictory.circularReference = this;
-			// Créer la liste playerChoice
-			// Spawn du victory
-			// Spawn des mesh sur les loosersPosition
 		}
 
 

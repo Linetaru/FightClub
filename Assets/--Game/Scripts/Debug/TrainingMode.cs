@@ -18,6 +18,8 @@ namespace Menu
 		BattleManager battleManager;
 		[SerializeField]
 		DebugRegisterInput registerInput;
+		[SerializeField]
+		DebugDummyBehavior dummyBehavior;
 
 		[Title("Parameter")]
 		[SerializeField]
@@ -30,6 +32,10 @@ namespace Menu
 
 		float timeScale = 1f;
 		int percentage = 0;
+
+		int characterToRecordID = 1;
+
+		int behavior = 0;
 
 		IControllable character = null;
 		bool menuOn = false;
@@ -157,13 +163,17 @@ namespace Menu
 		{
 			switch(indexSelection)
 			{
-				case 0:
+				case 0: // TimeScale
 					timeScale += 0.1f * direction;
 					timeScale = Mathf.Clamp(timeScale, timeScaleInterval.x, timeScaleInterval.y);
 					break;
-				case 1:
+				case 1: // Percentage
 					percentage += 10 * direction;
 					percentage = (int) Mathf.Clamp(percentage, percentageInterval.x, percentageInterval.y);
+					break;
+				case 2: // Dummy Behavior
+					behavior += 1 * direction;
+					behavior = Mathf.Clamp(behavior, 0, System.Enum.GetValues(typeof(DummyBehavior)).Length-1);
 					break;
 			}
 			DrawOptions();
@@ -171,11 +181,18 @@ namespace Menu
 
 		private void ValidateOptions()
 		{
+			// TimeScale
 			Time.timeScale = timeScale;
+
+			// Percentage
 			for (int i = 0; i < battleManager.characterAlive.Count; i++)
 			{
 				battleManager.characterAlive[i].Stats.LifePercentage = percentage;
 			}
+
+			Debug.Log("Allooooooooooooo");
+			// Dummy Behavior
+			dummyBehavior.SetBehaviorToCharacter(1, (DummyBehavior)behavior);
 		}
 
 
@@ -207,6 +224,7 @@ namespace Menu
 		{
 			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
 			listEntry.ListItem[1].DrawSubText(percentage.ToString());
+			listEntry.ListItem[2].DrawSubText(((DummyBehavior) behavior).ToString());
 		}
 
 

@@ -9,7 +9,7 @@ public class CharacterStats : MonoBehaviour
 
     [Title("Data")]
     [SerializeField]
-    [ReadOnly]
+    [ReadOnly] // A mettre dans battle manager
     private GameData gameData;
     public GameData GameData
     {
