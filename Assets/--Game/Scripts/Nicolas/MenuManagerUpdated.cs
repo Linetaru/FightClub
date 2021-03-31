@@ -76,7 +76,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					ChangeSelectedButton(false);
 			}
 
-			if (input_Info.inputUiAction == InputConst.Start && isStartMenu)
+			if (input_Info.inputUiAction == InputConst.Pause && isStartMenu)
 			{
 				isStartMenu = false;
 				Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;

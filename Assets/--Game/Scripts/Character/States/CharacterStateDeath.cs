@@ -47,6 +47,7 @@ public class CharacterStateDeath : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
+		DisplayPlayer();
 		//character.Stats.RespawnStats();
 	}
 
