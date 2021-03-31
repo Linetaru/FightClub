@@ -122,6 +122,7 @@ public class InputController : SerializedMonoBehaviour
 
 			//Check if a Action UI is using to reference in each buffer
 			Input_Action(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Pause.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
