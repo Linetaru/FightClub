@@ -13,7 +13,9 @@ public class CharacterUI : MonoBehaviour
 	public TextMeshProUGUI stocksText;
 	public Image powerGaugeImage;
 
-    public void InitPlayerPanel(CharacterBase user)
+	public Gradient gradient;
+
+	public void InitPlayerPanel(CharacterBase user)
 	{
 		this.gameObject.SetActive(true);
 		panelUI.SetActive(true);
@@ -24,6 +26,12 @@ public class CharacterUI : MonoBehaviour
 	public void UpdateUI(float percent)
     {
 		percentText.text = percent.ToString() + " %";
+		VertexGradient vertexGradient = percentText.colorGradient;
+		vertexGradient.topLeft = gradient.Evaluate(percent / 200);
+		vertexGradient.topRight = gradient.Evaluate(percent / 200);
+		vertexGradient.bottomLeft = gradient.Evaluate(percent / 200);
+		vertexGradient.bottomRight = gradient.Evaluate(percent / 200);
+		percentText.colorGradient = vertexGradient;
 	}
 
 	public void UpdateStocksUI(float lifeStocks)
