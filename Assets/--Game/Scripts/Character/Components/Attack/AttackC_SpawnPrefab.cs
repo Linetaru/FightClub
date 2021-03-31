@@ -9,13 +9,15 @@ public class AttackC_SpawnPrefab : AttackComponent
 	[SerializeField]
 	private GameObject prefabToSpawn;
 
+	GameObject go;
+
 	// Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
 	{
 		if (prefabToSpawn != null)
 		{
-			GameObject go = Instantiate(prefabToSpawn, transform.root.position, prefabToSpawn.transform.rotation);
-			go.transform.parent = gameObject.transform.root;
+			go = Instantiate(prefabToSpawn, transform.root.position, prefabToSpawn.transform.rotation);
+			go.transform.parent = transform.root;
 		}
 	}
 	
@@ -35,6 +37,6 @@ public class AttackC_SpawnPrefab : AttackComponent
 	// Appelé au moment de la destruction de l'attaque
     public override void EndComponent(CharacterBase user)
     {
-		
+		Destroy(go);
     }
 }
