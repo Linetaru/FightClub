@@ -27,8 +27,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	}
 
 	[SerializeField]
-	private GameObject model;
-	public GameObject Model
+	private CharacterModel model;
+	public CharacterModel Model
 	{
 		get { return model; }
 	}
@@ -88,6 +88,17 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		get { return input; }
 	}
+
+
+	private int playerID;
+	public int PlayerID
+	{
+		get { return playerID; }
+		set { playerID = value; }
+	}
+
+
+
 
 	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
 	public event ActionSetState OnStateChanged;
