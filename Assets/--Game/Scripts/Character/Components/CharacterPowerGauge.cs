@@ -154,7 +154,7 @@ public class CharacterPowerGauge : MonoBehaviour
 
     public void ConsumePowerSegment(Input_Info input_Info, CharacterBase user)
     {
-        if (input_Info.CheckAction(0, InputConst.LeftTrigger))
+        if (input_Info.CheckAction(0, InputConst.LeftShoulder))
         {
             input_Info.inputActions[0].timeValue = 0;
             if (currentPower >= 33)
@@ -173,7 +173,7 @@ public class CharacterPowerGauge : MonoBehaviour
             }
         }
 
-        if(input_Info.CheckAction(0, InputConst.RightTrigger))
+        if(input_Info.CheckAction(0, InputConst.RightShoulder) && input_Info.CheckAction(1, InputConst.LeftShoulder))
         {
             input_Info.inputActions[0].timeValue = 0;
             if (canSignatureMoveUseOneSegmentPerUse)
