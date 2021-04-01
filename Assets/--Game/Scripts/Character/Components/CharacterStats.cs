@@ -9,7 +9,7 @@ public class CharacterStats : MonoBehaviour
 
     [Title("Data")]
     [SerializeField]
-    [ReadOnly]
+    [ReadOnly] // A mettre dans battle manager
     private GameData gameData;
     public GameData GameData
     {
@@ -103,6 +103,8 @@ public class CharacterStats : MonoBehaviour
 
     public void RespawnStats()
     {
-        LifePercentage = 0;
+        LifePercentage = 0.0f;
+        if (gameEvent != null)
+            gameEvent.Raise(LifePercentage);
     }
 }

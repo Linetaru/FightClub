@@ -63,6 +63,9 @@ public class BattleManager : MonoBehaviour
 			inputController.controllable[i] = user;
 			characterAlive.Add(user);
 
+			user.PlayerID = i;
+			user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
+
 			user.Stats.GameData = gameData;
 			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
@@ -76,6 +79,22 @@ public class BattleManager : MonoBehaviour
 				uiEvent.Raise(user);
 
 			cameraController.targets.Add(go.transform);
+		}
+		isGameStarted = true;
+	}
+
+
+	public void ResetPlayer()
+	{
+		for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+		{
+			characterAlive[i].transform.position = spawningPoint[i].transform.position;
+			characterAlive[i].Stats.InitStats();
+
+			characterAlive[i].Action.CancelAction();
+			characterAlive[i].ResetToIdle();
+			characterAlive[i].Movement.SpeedX = 0;
+			characterAlive[i].Movement.SpeedY = 0;
 		}
 		isGameStarted = true;
 	}

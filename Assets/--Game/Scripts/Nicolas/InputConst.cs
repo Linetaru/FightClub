@@ -13,7 +13,7 @@ public static class InputConst
 	public static InputAction Smash = Rewired.ReInput.mapping.GetAction(4);
 	public static InputAction Interact = Rewired.ReInput.mapping.GetAction(5);
 	public static InputAction Return = Rewired.ReInput.mapping.GetAction(6);
-	public static InputAction Start = Rewired.ReInput.mapping.GetAction(7);
+	public static InputAction Pause = Rewired.ReInput.mapping.GetAction(7);
 	public static InputAction LeftShoulder = Rewired.ReInput.mapping.GetAction(8);
 	public static InputAction RightShoulder = Rewired.ReInput.mapping.GetAction(9);
 	public static InputAction Dodge = Rewired.ReInput.mapping.GetAction(10);
