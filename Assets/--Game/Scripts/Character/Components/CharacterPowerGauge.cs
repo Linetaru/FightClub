@@ -173,7 +173,7 @@ public class CharacterPowerGauge : MonoBehaviour
             }
         }
 
-        if(input_Info.CheckAction(0, InputConst.RightShoulder) && input_Info.CheckAction(1, InputConst.LeftShoulder))
+        if(input_Info.CheckAction(0, InputConst.RightShoulder))
         {
             input_Info.inputActions[0].timeValue = 0;
             if (canSignatureMoveUseOneSegmentPerUse)
