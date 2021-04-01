@@ -52,4 +52,12 @@ public class CharacterRigidbody : MonoBehaviour
 
     }
 
+
+    protected bool preventFall = true;
+
+    public void PreventFall(bool b)
+    {
+        preventFall = b;
+    }
+
 }
