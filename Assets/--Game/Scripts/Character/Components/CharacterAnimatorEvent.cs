@@ -31,6 +31,15 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	{
 		characterAction.ActionUnactive(subAction);
 	}
+	public void ActionAllActive()
+	{
+		characterAction.ActionAllActive();
+	}
+
+	public void ActionAllUnactive()
+	{
+		characterAction.ActionAllUnactive();
+	}
 
 	public void MoveCancelable()
 	{

@@ -145,16 +145,32 @@ public class CharacterAction : MonoBehaviour
             currentAttackManager.ActionUnactive(subAttack);
         }
     }
-
-    // Appelé par les anims
-    // Créer une subaction de l'attaque (Si l'attaque n'a pas de subaction, ne fais rien)
-   /* public void SubAction(int nb)
+    public void ActionAllActive()
     {
         if (currentAttackManager != null)
         {
-            //currentAttackManager.SubAction(nb);
+            currentAttackManager.ActionAllActive();
         }
-    }*/
+    }
+
+    // Appelé par les anims
+    public void ActionAllUnactive()
+    {
+        if (currentAttackManager != null)
+        {
+            currentAttackManager.ActionAllUnactive();
+        }
+    }
+
+    // Appelé par les anims
+    // Créer une subaction de l'attaque (Si l'attaque n'a pas de subaction, ne fais rien)
+    /* public void SubAction(int nb)
+     {
+         if (currentAttackManager != null)
+         {
+             //currentAttackManager.SubAction(nb);
+         }
+     }*/
 
     // Appelé par les anims
     public void MoveCancelable()
