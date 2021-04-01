@@ -110,8 +110,42 @@ public class AttackManager : MonoBehaviour
         atkSubs[subAttack].ActionUnactive();
     }
 
+    public void ActionAllActive()
+    {
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.ActionActive();
+        }
+    }
 
+    public void ActionAllUnactive()
+    {
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.ActionUnactive();
+        }
+    }
+    public void AddPlayerHitList(string targetTag)
+    {
+        Debug.Log("KIKOU");
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.AddPlayerHitList(targetTag);
+        }
+    }
 
+    /*
+    public void ActionAllUnactiveExceptOne(AttackSubManager atkStayActive)
+    {
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            if(atkSub != atkStayActive)
+            {
+                atkSub.ActionUnactive();
+            }
+        }
+    }
+    */
 
     public void CancelAction()
     {
@@ -127,10 +161,8 @@ public class AttackManager : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-
-
-
-   /* public void Hit(CharacterBase target)
+    /*
+    public void Hit(CharacterBase target)
     {
         user.Action.HasHit(target);
 
@@ -144,6 +176,7 @@ public class AttackManager : MonoBehaviour
         }
         playerHitList.Add(targetTag);
 
-    }*/
+    }
+    */
 
 }

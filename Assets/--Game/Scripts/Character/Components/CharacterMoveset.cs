@@ -40,6 +40,8 @@ public class CharacterMoveset : MonoBehaviour
 
 	[SerializeField]
 	AttackManager upSpecial;
+	[SerializeField]
+	AttackManager downSpecial;
 
 	[Title("States")]
 	[SerializeField]
@@ -92,10 +94,19 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
-			else if (character.Input.CheckAction(0, InputConst.Special))
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
 			{
 				if (character.Action.Action(upSpecial) == true)
                 {
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			{
+				if (character.Action.Action(downSpecial) == true)
+				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
@@ -141,9 +152,18 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
-			else if (character.Input.CheckAction(0, InputConst.Special))
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
 			{
 				if (character.Action.Action(upSpecial) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			{
+				if (character.Action.Action(downSpecial) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
