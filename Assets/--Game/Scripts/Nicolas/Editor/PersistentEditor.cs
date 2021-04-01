@@ -16,8 +16,15 @@ public class PersistentEditor
         //Debug.Log("New State = " + obj.ToString());
         if (obj == PlayModeStateChange.EnteredPlayMode)
         {
-            EditorApplication.isPlaying = false;
-            Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                EditorApplication.isPlaying = true;
+            }
+            else
+            {
+                EditorApplication.isPlaying = false;
+                Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            }
         }
     }
 }
