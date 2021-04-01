@@ -121,7 +121,8 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.Special.name);
 
 			//Check if a Action UI is using to reference in each buffer
-			Input_ActionUI(i, InputConst.Start.name);
+			Input_Action(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Pause.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
@@ -136,7 +137,7 @@ public class InputController : SerializedMonoBehaviour
 	}
 
 	//Update Time of each action in Entity buffer and remove them if time has come to zero, or action is null
-	void UpdateTimeInBuffer(List<InputBuffer> input)
+	public void UpdateTimeInBuffer(List<InputBuffer> input)
     {
 		for (int z = input.Count - 1; z >= 0; z--)
 		{
@@ -211,6 +212,40 @@ public class InputController : SerializedMonoBehaviour
 		{
 			playerInputs[ID].inputUiAction = ReInput.mapping.GetAction(action);
 		}
+	}
+
+
+
+
+
+
+
+
+
+	public void AddInput(string action, ref Input_Info inputInfo)
+	{
+
+		InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;
+		foreach (InputBuffer ic in input)
+		{
+			if (ic.action == ReInput.mapping.GetAction(action))
+			{
+				ic.timeValue = bufferLength;
+				return;
+			}
+		}
+		input.Add(tmp);
+		input[input.Count - 1].action = ReInput.mapping.GetAction(action);
+		input[input.Count - 1].timeValue = bufferLength;
+	}
+
+	public void AddMovement(float horizontal, float vertical, ref Input_Info inputInfo)
+	{
+		InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;
+		inputInfo.horizontal = horizontal;
+		inputInfo.vertical = vertical;
 	}
 
 }
