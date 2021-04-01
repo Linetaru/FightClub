@@ -100,6 +100,10 @@ public class AttackSubManager : MonoBehaviour
                 onHitColliderEvents.Invoke(targetTag);
                 eventReceived = true;
             }
+            else
+            {
+                playerHitList.Add(targetTag);
+            }
 
             foreach (AttackComponent atkC in atkCompList)
             {
