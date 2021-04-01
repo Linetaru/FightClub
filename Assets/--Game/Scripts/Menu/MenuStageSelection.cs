@@ -52,7 +52,7 @@ namespace Menu
 
 		bool canControl = true;
 		private IEnumerator stageCoroutine;
-
+		public string menuSelectionPersoScene;
 
 		private void Start()
 		{
@@ -117,7 +117,7 @@ namespace Menu
 
 		public void QuitMenu()
 		{
-
+			UnityEngine.SceneManagement.SceneManager.LoadScene(menuSelectionPersoScene);
 		}
 
 

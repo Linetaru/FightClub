@@ -70,6 +70,8 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     bool joystickPushed = false;
 
+    public string menuSceneName;
+
     enum PlayerInput
     {
         One,
@@ -186,6 +188,7 @@ public class PlayerSelectionFrame : MonoBehaviour
                 else if (player.GetButtonDown("Return"))
                 {
                     //Return to previous menu
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(menuSceneName);
                 }
             }
             else
