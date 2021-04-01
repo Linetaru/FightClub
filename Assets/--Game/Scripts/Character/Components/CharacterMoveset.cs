@@ -40,8 +40,8 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager upSpecial;
 	[SerializeField]
-	AttackManager downSpecial;
-
+	AttackManager downSpecial;
+
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
 	AttackManager signatureMove;
@@ -58,7 +58,7 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ActionAttack(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
-		{
+		{
 			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
 				if (character.Action.Action(signatureMove) == true)
@@ -68,7 +68,7 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
+			}
 			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downTilt) == true)
@@ -87,16 +87,16 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
-			else if (character.Input.CheckAction(0, InputConst.Attack) 
-				&& (character.Movement.SpeedX < -(fractionOfSpeedMaxToDash * character.Movement.SpeedMax) || character.Movement.SpeedX > (fractionOfSpeedMaxToDash * character.Movement.SpeedMax)))
+			else if (character.Input.CheckAction(0, InputConst.Attack) 
+				&& (character.Movement.SpeedX < -(fractionOfSpeedMaxToDash * character.Movement.SpeedMax) || character.Movement.SpeedX > (fractionOfSpeedMaxToDash * character.Movement.SpeedMax)))
 			{
 				if (character.Action.Action(dashAttack) == true)
-				{
-					Debug.Log("Dash attack");
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
+				{
+					Debug.Log("Dash attack");
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
             }
 			else if (character.Input.CheckAction(0, InputConst.Attack))
 			{
@@ -106,24 +106,24 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upSpecial) == true)
-                {
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+			{
+				if (character.Action.Action(upSpecial) == true)
+                {
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downSpecial) == true)
-				{
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			{
+				if (character.Action.Action(downSpecial) == true)
+				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
+					return true;
+				}
 			}
 		}
 		else // Attaque dans les airs
@@ -164,24 +164,24 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upSpecial) == true)
-				{
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+			{
+				if (character.Action.Action(upSpecial) == true)
+				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downSpecial) == true)
-				{
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			{
+				if (character.Action.Action(downSpecial) == true)
+				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
+					return true;
+				}
 			}
 		}
 

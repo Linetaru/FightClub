@@ -28,11 +28,11 @@ public class AttackSubManager : MonoBehaviour
     public void UpdateComponents()
     {
         hitBox = GetComponent<Collider>();
-        atkCompList = new List<AttackComponent>(GetComponentsInChildren<AttackComponent>());
-    }
-
+        atkCompList = new List<AttackComponent>(GetComponentsInChildren<AttackComponent>());
+    }
+
     [Title("Events")]
-    [SerializeField]
+    [SerializeField]
     private UnityEvent<string> onHitColliderEvents;
     private bool eventReceived;
 
@@ -82,9 +82,9 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
-    public void AddPlayerHitList(string targetTag)
-    {
-        playerHitList.Add(targetTag);
+    public void AddPlayerHitList(string targetTag)
+    {
+        playerHitList.Add(targetTag);
     }
 
     public void Hit(CharacterBase target)
@@ -92,23 +92,23 @@ public class AttackSubManager : MonoBehaviour
         string targetTag = target.transform.root.tag;
 
         if (!playerHitList.Contains(targetTag))
-        {
-            playerHitList.Add(targetTag);
-            if (onHitColliderEvents != null && !eventReceived)
-            {
-                //Debug.Log("Allo");
-                onHitColliderEvents.Invoke(targetTag);
-                eventReceived = true;
+        {
+            playerHitList.Add(targetTag);
+            if (onHitColliderEvents != null && !eventReceived)
+            {
+                //Debug.Log("Allo");
+                onHitColliderEvents.Invoke(targetTag);
+                eventReceived = true;
             }
-            /*else
-            {
-                playerHitList.Add(targetTag);
+            /*else
+            {
+                playerHitList.Add(targetTag);
             }*/
 
             foreach (AttackComponent atkC in atkCompList)
             {
                 atkC.OnHit(user, target);
-            }
+            }
             user.Action.HasHit(target);
         }
     }
