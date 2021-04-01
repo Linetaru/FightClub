@@ -22,7 +22,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		if (character.Rigidbody.IsGrounded == true)
 			nbOfDodge = 1;
 
-		if (character.Input.CheckAction(0, InputConst.Smash) && CanDodge())
+		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge())
 		{
 			if (character.Rigidbody.IsGrounded == true)
 			{
