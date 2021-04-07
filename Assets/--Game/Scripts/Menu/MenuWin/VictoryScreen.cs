@@ -11,9 +11,10 @@ namespace Menu
 		float timeSkip;
 		[SerializeField]
 		PlayableDirector playableDirector;
+		[SerializeField]
+		public CharacterModel characterModel;
 
-
-
+		[HideInInspector]
 		public MenuWin circularReference; // Flemme de faire un event il est 1h du mat
 
 
