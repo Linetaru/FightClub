@@ -195,10 +195,11 @@ public class CameraManager : MonoBehaviour
 								{
 									go.SetActive(true);
 								}
+								cam_Infos[positionID].ChangeToVisible(true);
 							}
 						}
 						else
-							cam_Infos[positionID].ChangeToVisible(true);
+							cam_Infos[positionID - 1].ChangeToVisible(true);
 
 						imagesUiRedScrolling[0].transform.parent.gameObject.SetActive(true);
 

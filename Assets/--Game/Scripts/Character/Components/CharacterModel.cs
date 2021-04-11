@@ -30,5 +30,10 @@ public class CharacterModel : MonoBehaviour
 		}
 	}
 
+	public Material GetColor()
+	{
+		return skinnedMeshRenderers[0].material;
+	}
+
 
 }

@@ -103,6 +103,8 @@ public class CharacterStats : MonoBehaviour
 
     public void RespawnStats()
     {
-        LifePercentage = 0;
+        LifePercentage = 0.0f;
+        if (gameEvent != null)
+            gameEvent.Raise(LifePercentage);
     }
 }
