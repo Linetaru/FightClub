@@ -49,6 +49,8 @@ public class CharacterStateKnockback : CharacterState
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
+
+        character.Parry.ParryNumber = 0;
     }
 
     public override void UpdateState(CharacterBase character)
