@@ -6,7 +6,6 @@ using UnityEngine;
 public class BlastZoneManager : MonoBehaviour
 {
     private static BlastZoneManager _instance;
-
     public static BlastZoneManager Instance { get { return _instance; } }
 
     public float timeBeforeRespawn = 3.0f;
