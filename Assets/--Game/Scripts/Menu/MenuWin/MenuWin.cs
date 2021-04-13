@@ -159,12 +159,12 @@ namespace Menu
 
 			stateResult = StateResult.EndTransition;
 
-			if (playerSurrend >= playerRematch)
+			if (playerSurrend > 0)
 			{
 				StartCoroutine(EndCoroutine());
 				// Retour au menu
 			}
-			else if(playerRematch > playerSurrend)
+			else
 			{
 				StartCoroutine(RematchCoroutine());
 				// Rematch
