@@ -14,14 +14,15 @@ public class CharacterAnimation : MonoBehaviour
     Animator animator;
     [SerializeField]
     CharacterMovement movement;
-    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    float previousSpeedT = 0;
+    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
 
     public enum ActualState
     {
         Null,
         Idle,
         Knockback,
-        Wallrun,        StartJump
+        Wallrun,        StartJump,
+        ParryBlow
     }
     ActualState actualState;
 
@@ -37,6 +38,7 @@ public class CharacterAnimation : MonoBehaviour
 
         canDeccelerate = false;
         isDeccelerating = false;
+        parryBlow = false;
 
         animator.SetBool("Hanging", false);
         animator.ResetTrigger("Idle");
@@ -96,6 +98,12 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("TurnAround");
         }
+
+        if (newState is CharacterStateParryBlow)
+        {
+            actualState = ActualState.ParryBlow;
+            //animator.SetTrigger("Knockback");
+        }
     }
 
     // Update is called once per frame
@@ -112,6 +120,12 @@ public class CharacterAnimation : MonoBehaviour
         else if (actualState == ActualState.Wallrun)
         {
             AnimationWallrun();
+        }
+
+
+        else if (actualState == ActualState.ParryBlow)
+        {
+            AnimationParryBlow();
         }
     }
     void AnimationIdle()
@@ -170,8 +184,19 @@ public class CharacterAnimation : MonoBehaviour
             }
             animator.SetBool("Hanging", false);
         }
-    }
-
+    }
+
+
+    void AnimationParryBlow()
+    {
+        if (characterBase.MotionSpeed == 0)
+            return;
+        if (parryBlow == false)
+        {
+            animator.SetTrigger("Knockback");
+            parryBlow = true;
+        }
+    }
     void OnDestroy()
     {
         characterBase.OnStateChanged -= CheckState;
