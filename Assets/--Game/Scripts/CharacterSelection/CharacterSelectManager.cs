@@ -33,6 +33,12 @@ public class CharacterSelectManager : MonoBehaviour
     [SerializeField]
     Animator cameraTransition;
 
+
+    [SerializeField]
+    List<CharacterData> database;
+
+
+
     private void Awake()
     {
         UpdateStockText();

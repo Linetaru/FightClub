@@ -224,13 +224,8 @@ public class PlayerSelectionFrame : MonoBehaviour
                     if (actualCursorPosition < 4)
                     {
                         ++actualCursorPosition;
-                        DisplayHologram();
-
-                        playerCursor.transform.DOMove(characterCells[actualCursorPosition].transform.position, .2f);
-                        playerCursor.transform.DORotateQuaternion(characterCells[actualCursorPosition].transform.rotation, .2f);
-                        //playerCursor.transform.position = characterCells[actualCursorPosition].transform.position;
-                        //playerCursor.transform.rotation = characterCells[actualCursorPosition].transform.rotation;
                     }
+                    Wesh();
                 }
                 else if (player.GetAxis("Horizontal") < -.5f && !joystickPushed)
                 {
@@ -238,13 +233,8 @@ public class PlayerSelectionFrame : MonoBehaviour
                     if (actualCursorPosition > 0)
                     {
                         --actualCursorPosition;
-                        DisplayHologram();
-
-                        playerCursor.transform.DOMove(characterCells[actualCursorPosition].transform.position, .2f);
-                        playerCursor.transform.DORotateQuaternion(characterCells[actualCursorPosition].transform.rotation, .2f);
-                        //playerCursor.transform.position = characterCells[actualCursorPosition].transform.position;
-                        //playerCursor.transform.rotation = characterCells[actualCursorPosition].transform.rotation;
                     }
+                    Wesh();
                 }
                 else if (Mathf.Abs(player.GetAxis("Horizontal")) < 0.5f && playerCursor.gameObject.activeSelf)
                 {
@@ -269,6 +259,16 @@ public class PlayerSelectionFrame : MonoBehaviour
             }
         }
     }
+
+
+    private void Wesh()
+    {
+        DisplayHologram();
+
+        playerCursor.transform.DOMove(characterCells[actualCursorPosition].transform.position, .2f);
+        playerCursor.transform.DORotateQuaternion(characterCells[actualCursorPosition].transform.rotation, .2f);
+    }
+
 
     void HideHolograms()
     {

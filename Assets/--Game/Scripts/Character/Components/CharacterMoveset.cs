@@ -59,7 +59,7 @@ public class CharacterMoveset : MonoBehaviour
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
-			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
+			/*if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
 				if (character.Action.Action(signatureMove) == true)
 				{
@@ -68,8 +68,8 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
+			}*/
+			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downTilt) == true)
 				{
@@ -150,6 +150,9 @@ public class CharacterMoveset : MonoBehaviour
 			{
 				if (character.Action.Action(forwardAir) == true)
 				{
+					/*if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal))
+						character.Movement.SpeedX *= character.Movement.Direction;*/
+
 					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
@@ -185,6 +188,19 @@ public class CharacterMoveset : MonoBehaviour
 			}
 		}
 
+		return false;
+	}
+
+
+
+	public bool ActionAttack(CharacterBase character, AttackManager attack)
+	{
+		if (character.Action.Action(attack) == true)
+		{
+			character.SetState(stateAction);
+			character.Input.inputActions[0].timeValue = 0;
+			return true;
+		}
 		return false;
 	}
 

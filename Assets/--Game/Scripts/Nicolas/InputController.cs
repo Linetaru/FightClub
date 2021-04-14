@@ -11,6 +11,7 @@ public class InputBuffer
 {
 	public float timeValue;
 	public InputAction action;
+	public bool hold;
 
 	public InputBuffer()
 	{
@@ -49,11 +50,32 @@ public class Input_Info
             {
 				return true;
             }
-			else
-				return false;
 		}
-		else
-			return false;
+		return false;
+	}
+
+	public bool CheckActionUP(int id, InputAction inputAction)
+	{
+		if (inputActionsUP.Count != 0)
+		{
+			if (inputActionsUP[id].action == inputAction)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public bool IsHolding(int id, InputAction inputAction)
+	{
+		if (inputActions.Count != 0)
+		{
+			if (inputActions[id].action == inputAction)
+			{
+				return inputActions[id].hold;
+			}
+		}
+		return false;
 	}
 }
 
@@ -206,6 +228,7 @@ public class InputController : SerializedMonoBehaviour
 			input[input.Count - 1].timeValue = bufferLength;
 		}
 	}
+
 
 	//Check if a Action UI is using to reference in each buffer
 	void Input_ActionUI(int ID, string action)

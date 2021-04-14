@@ -72,7 +72,11 @@ public class CharacterParry : MonoBehaviour
 	/// <param name="user"></param>
 	public virtual void Parry(CharacterBase user, CharacterBase target)
 	{
-		user.SetMotionSpeed(0, 0.3f);
+		isParry = false;
+		user.SetMotionSpeed(0, 0.2f);
+		user.Action.CancelAction();
+		user.PowerGauge.ForceAddPower(20);
+
 		user.SetState(parrySuccesState);
 
 		Vector2 angleEjection = (target.transform.position - this.transform.position).normalized;
@@ -87,7 +91,8 @@ public class CharacterParry : MonoBehaviour
 	/// <param name="user"></param>
 	public virtual void ParryRepel(CharacterBase user, CharacterBase target)
 	{
-		user.SetMotionSpeed(0, 0.3f);
+		isParry = false;
+		user.SetMotionSpeed(0f, 0.2f);
 		user.Action.CancelAction();
 
 

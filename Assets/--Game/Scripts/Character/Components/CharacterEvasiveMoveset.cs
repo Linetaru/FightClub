@@ -25,6 +25,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	[SerializeField]
 	CharacterState stateParry;
 
+
 	public bool Dodge(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true)
@@ -95,16 +96,11 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public bool Parry(CharacterBase character)
 	{
-
 		if ((character.Input.CheckAction(0, InputConst.RightShoulder) || character.Input.CheckAction(0, InputConst.RightTrigger)) && (Mathf.Abs(character.Input.horizontal) <= 0.3f && Mathf.Abs(character.Input.vertical) <= 0.3f))
 		{
 			character.SetState(stateParry);
 			character.Input.inputActions[0].timeValue = 0;
 		}
-
-
-
-
 		return false;
 	}
 }

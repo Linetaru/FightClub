@@ -29,6 +29,10 @@ public class CharacterStateDodgeAerial : CharacterState
 	[SerializeField]
 	CharacterState aerialState; // à bouger dans le characterBase peut etre ?
 
+	[Title("Move")]
+	[SerializeField]
+	CharacterEvasiveMoveset evasiveMoveset;
+
 	float speedDodge;
 	float t = 0f;
 	Vector2 directionDodge;
@@ -75,6 +79,10 @@ public class CharacterStateDodgeAerial : CharacterState
 			//character.Movement.ApplyGravity();
 			//character.Knockback.IsInvulnerable = false;
 			character.Movement.SetSpeed(0, 0);
+			if (evasiveMoveset.Dodge(character))
+			{
+				return;
+			}
 		}
 
 

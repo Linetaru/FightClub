@@ -261,14 +261,14 @@ MonoBehaviour:
   speedTimeMax: 3
   timerSegmentPowerMax: 1.5
   canSignatureMoveUseOneSegmentPerUse: 1
-  powerGivenOnAttack: 5
-  powerGivenToHitTarget: 7
-  powerGivenOnWallJump: 5
-  powerGivenOnWallRun: 5
-  timePowerGivenOnWallRunMax: 1
+  powerGivenOnAttack: 0
+  powerGivenToHitTarget: 0
+  powerGivenOnWallJump: 0
+  powerGivenOnWallRun: 0
+  timePowerGivenOnWallRunMax: 0
   canGainPointByWallRun: 0
-  powerGivenByBoost: 33
-  powerGivenByMegaBoost: 99
+  powerGivenByBoost: 0
+  powerGivenByMegaBoost: 0
   gameEvent: {fileID: 0}
 --- !u!1 &2847860676197293454
 GameObject:
@@ -365,7 +365,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   timeDeccelerationMax: 0.4
-  jumpForce: 14
+  jumpForce: 15
   jumpNumber: 1
   gravity: 40
   gravityMax: -30
@@ -438,9 +438,10 @@ MonoBehaviour:
     m_Bits: 163840
   distanceDodge: 3.5
   timeDodge: 25
-  invulnerableInterval: {x: 2, y: 20, z: 0}
+  invulnerableInterval: {x: 2, y: 18, z: 0}
   groundState: {fileID: 5769821569668653963}
   aerialState: {fileID: 7364260066389778871}
+  evasiveMoveset: {fileID: 7481538343195565769}
 --- !u!1 &3232722472736563930
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +610,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 7364260066677308678}
   landingTime: 10
+  evasiveMoveset: {fileID: 7481538343195565769}
   landParticleSystem: {fileID: 3437174643515704472, guid: 3eefa559557e9654bb0eea27afa83f94, type: 3}
+--- !u!1 &5126250387012395055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7582694866858877281}
+  - component: {fileID: 2072314472946243815}
+  m_Layer: 0
+  m_Name: CharacterPowerGaugeSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7582694866858877281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5126250387012395055}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7364260067050035621}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2072314472946243815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5126250387012395055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f4f6b06829dbf429f3eb85313e7ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPower: 0
+  speedPower: 0
+  speedTimeMax: 3
+  timerSegmentPowerMax: 1.5
+  canSignatureMoveUseOneSegmentPerUse: 1
+  powerGivenOnAttack: 5
+  powerGivenToHitTarget: 7
+  powerGivenOnWallJump: 5
+  powerGivenOnWallRun: 5
+  timePowerGivenOnWallRunMax: 1
+  canGainPointByWallRun: 0
+  powerGivenByBoost: 33
+  powerGivenByMegaBoost: 99
+  gameEvent: {fileID: 0}
 --- !u!1 &5396166535366848696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,7 +1094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2901a05f6aa8440bc59e6097161f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBlow: 0.1
+  timeBlow: 0.2
+  timeStop: 0.12
   evasiveMoveset: {fileID: 7481538343195565769}
 --- !u!54 &2103439547867400745
 Rigidbody:
@@ -1097,6 +1157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 5648743404634757910}
   characterAction: {fileID: 1018038835429141750}
+  characterParry: {fileID: 1634794949363116733}
 --- !u!114 &5784047344819564395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1595,6 +1656,7 @@ Transform:
   - {fileID: 3026259008955996395}
   - {fileID: 5914631824535433103}
   - {fileID: 7552953646911135305}
+  - {fileID: 7582694866858877281}
   m_Father: {fileID: 7364260067045191156}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2058,7 +2120,7 @@ Transform:
   m_GameObject: {fileID: 9079314222798312562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.85, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 6896249184189029708}
   m_RootOrder: 2
@@ -2162,6 +2224,7 @@ MonoBehaviour:
   timeCancelAttack: 0.3
   moveset: {fileID: 250346952992248130}
   evasiveMoveset: {fileID: 7481538343195565769}
+  counterAction: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
 --- !u!1 &9122743825121428134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,14 +3213,14 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7363746182218879307, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 5784047345489147412}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8797950453777396756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6170625038081293824, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
+  m_PrefabInstance: {fileID: 5784047345489147412}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6863504484745029662 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1082271958561512970, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
-  m_PrefabInstance: {fileID: 5784047345489147412}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &705250203975206586 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2770666803903516498, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 5784047345489147412}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8917153191867186233 stripped
@@ -3180,11 +3243,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 5784047345489147412}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8797950453777396756 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -6170625038081293824, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
-  m_PrefabInstance: {fileID: 5784047345489147412}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6327461918287499775 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
@@ -3193,6 +3251,11 @@ Transform:
 --- !u!95 &85433993262746501 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
+  m_PrefabInstance: {fileID: 5784047345489147412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &705250203975206586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2770666803903516498, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 5784047345489147412}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &391767720177484447 stripped

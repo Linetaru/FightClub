@@ -16,6 +16,9 @@ public class CharacterStateParrySuccess : CharacterState
 	[SerializeField]
 	CharacterEvasiveMoveset evasiveMoveset;
 
+	[SerializeField]
+	AttackManager counterAction;
+
 	float t = 0f;
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
@@ -25,6 +28,19 @@ public class CharacterStateParrySuccess : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
+		//if((!character.Input.CheckActionUP(0, InputConst.RightShoulder) && !character.Input.CheckActionUP(0, InputConst.RightTrigger)) && character.MotionSpeed != 0)
+		if (character.Input.CheckActionUP(0, InputConst.RightShoulder) == false && character.MotionSpeed != 0)
+		{
+			if (moveset.ActionAttack(character, counterAction) == true)
+			{
+				character.Input.inputActionsUP[0].timeValue = 0;
+				return;
+			}
+		}
+
+
+
+
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= timeCancel)
 		{
@@ -53,7 +69,7 @@ public class CharacterStateParrySuccess : CharacterState
 	
 	public override void LateUpdateState(CharacterBase character)
 	{
-		if (character.Rigidbody.IsGrounded == true)
+		if (character.Rigidbody.IsGrounded == true && character.MotionSpeed != 0)
 			character.ResetToIdle();
 	}
 
