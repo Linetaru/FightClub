@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.EventSystems;
 using Rewired.UI.ControlMapper;
-
+using AK;
 public class MenuManagerUpdated : MonoBehaviour, IControllable
 {
 	[Title("Canvas Object")]
@@ -32,8 +32,11 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	[Title("Level Name")]
 	public string level;
+	public AK.Wwise.Event clickIn;
+	public AK.Wwise.Event pressStart;
+	public AK.Wwise.Event mainWhoosh;
 
-    private void Start()
+	private void Start()
     {
 		Pulse();
 		controlMapper.Open();
@@ -90,6 +93,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 			if (input_Info.inputUiAction == InputConst.Pause && isStartMenu)
 			{
+				AkSoundEngine.PostEvent(pressStart.Id, this.gameObject);
+				AkSoundEngine.PostEvent(mainWhoosh.Id, this.gameObject);
+				
 				isStartMenu = false;
 				Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;
 				foreach (TextMeshProUGUI text in startTexts)
@@ -122,6 +128,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	public void ChangeSelectedButton(bool isGoingUp)
 	{
+		AkSoundEngine.PostEvent(clickIn.Id, this.gameObject);
+		
+		
 		OnTransition = true;
 
 		if (isGoingUp)

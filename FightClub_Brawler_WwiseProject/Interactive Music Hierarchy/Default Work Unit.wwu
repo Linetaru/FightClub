@@ -20,6 +20,7 @@
 						<MusicSegment Name="New Music Segment" ID="{12A7F1C9-06E4-49DC-B234-F2FB12A30947}" ShortID="386187021">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="180000"/>
+								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -36,6 +37,11 @@
 											<ValueList>
 												<Value>-18</Value>
 											</ValueList>
+											<RTPCList>
+												<RTPC Name="" ID="{2E58C9B3-C27F-48C7-A23D-9C67497C6EBD}" ShortID="293029230">
+													<ReferenceList/>
+												</RTPC>
+											</RTPCList>
 										</Property>
 									</PropertyList>
 									<ReferenceList>
@@ -45,11 +51,23 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="MUS_OST_Menu_V1" ID="{CC92CBF9-EB7A-4F43-9AB9-136B4CE380D4}">
+											<PropertyList>
+												<Property Name="MarkerInputMode" Type="int16" Value="2"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Music\MUS_OST_Menu_V1.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="571110717"/>
+												<MediaID ID="263619541"/>
 											</MediaIDList>
+											<PluginInnerObjectList>
+												<List Name="Markers">
+													<PluginInnerObject Name="" ID="{FC5E8C54-C7AC-4F8A-8304-51916EC47E69}" PluginName="Marker" CompanyID="0" PluginID="993">
+														<PropertyList>
+															<Property Name="Time" Type="Real64" Value="50.4"/>
+														</PropertyList>
+													</PluginInnerObject>
+												</List>
+											</PluginInnerObjectList>
 										</AudioFileSource>
 									</ChildrenList>
 									<TransitionList>

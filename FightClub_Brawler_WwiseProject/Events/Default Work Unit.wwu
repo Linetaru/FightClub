@@ -545,23 +545,37 @@
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ChildrenList>
-						<Event Name="Play_MUS_InGame_01" ID="{3B87F506-BA08-4230-A5AE-64E99D537157}">
-							<ChildrenList>
-								<Action Name="" ID="{39C791D3-BA11-4071-B07B-2F99EDB92DE2}" ShortID="854744654">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="Phonograph_BreakPunch_OST_Ingame_V1" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
 						<Event Name="Play_MUS_Menu_Main" ID="{958E6611-037E-4DF3-9E4C-F809D07C9EB5}">
 							<ChildrenList>
 								<Action Name="" ID="{9279246D-4BDE-47DD-84CA-AEC1BE631A88}" ShortID="222526368">
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="New Music Segment" ID="{12A7F1C9-06E4-49DC-B234-F2FB12A30947}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{52928AAA-B317-4D3D-A356-A7A7BE86EA8B}" ShortID="441519104">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="41"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Stop_MUS_Menu_Main" ID="{6204E3C8-9565-49F1-A92A-86DFBEF70BF7}" WorkUnitID="{0358B5A1-1177-4367-AAB4-AA40CAE8318A}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Stop_MUS_Menu_Main" ID="{6204E3C8-9565-49F1-A92A-86DFBEF70BF7}">
+							<ChildrenList>
+								<Action Name="" ID="{E2564964-5442-4FDA-B5E5-231B975416ED}" ShortID="413610865">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="4"/>
+										<Property Name="FadeTime" Type="Real64" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MUS_OST_Menu_V1" ID="{54DB0C07-A3F9-4A28-AC4B-44E252525511}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
