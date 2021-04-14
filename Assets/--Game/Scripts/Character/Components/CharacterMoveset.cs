@@ -40,7 +40,9 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager upSpecial;
 	[SerializeField]
-	AttackManager downSpecial;
+	AttackManager downSpecial;
+	[SerializeField]
+	AttackManager forwardSpecial;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
@@ -119,6 +121,15 @@ public class CharacterMoveset : MonoBehaviour
 			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downSpecial) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.horizontal < -horizontalDeadZone)
+			{
+				if (character.Action.Action(forwardSpecial) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;
