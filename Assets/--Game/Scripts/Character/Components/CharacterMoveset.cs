@@ -127,7 +127,7 @@ public class CharacterMoveset : MonoBehaviour
 					return true;
 				}
 			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.horizontal < -horizontalDeadZone)
+			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
 			{
 				if (character.Action.Action(forwardSpecial) == true)
 				{
@@ -188,6 +188,15 @@ public class CharacterMoveset : MonoBehaviour
 			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downSpecial) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
+			{
+				if (character.Action.Action(forwardSpecial) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;

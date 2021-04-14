@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 public class AttackC_SpawnPrefab : AttackComponent
 {
 
+	[Title("General")]
 	[SerializeField]
 	private GameObject prefabToSpawn;
 
@@ -14,13 +15,32 @@ public class AttackC_SpawnPrefab : AttackComponent
 
 	GameObject go;
 
+
+	[Title("Projectile")]
+	[SerializeField]
+	private bool isProjectile;
+	[ShowIf("isProjectile")]
+	public float projectileSpeed;
+
 	// Appelé au moment où l'attaque est initialisé
-    public override void StartComponent(CharacterBase user)
+	public override void StartComponent(CharacterBase user)
 	{
 		if (prefabToSpawn != null)
 		{
 			go = Instantiate(prefabToSpawn, transform.position, prefabToSpawn.transform.rotation);
-			go.transform.parent = transform.root;
+
+			if(!isProjectile)
+			{
+				//Si pas un projectile, on le stick au joueur
+				go.transform.parent = transform.root;
+			}
+			else
+            {
+				Projectile projectile = go.GetComponent<Projectile>();
+				projectile.Speed = projectileSpeed;
+				projectile.Direction = user.Movement.Direction;
+				projectile.User = user;
+            }
 		}
 	}
 	
