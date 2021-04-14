@@ -32,15 +32,7 @@ namespace Menu
 		[SerializeField]
 		Animator fadeInTransition;
 
-		public enum StateResult{
-			Skip = 0,
-			Result = 1,
-			EndTransition = 2,
-        }
-
-		StateResult stateResult;
-
-		//int stateResult = 0; // 0 = skip // 1 = result // 2 = transition de fin (faire un enum)
+		int stateResult = 0; // 0 = skip // 1 = result // 2 = transition de fin (faire un enum)
 
 		int winnerID = -1;
 		List<MenuWinResultDrawer> listResultDrawers;
@@ -84,7 +76,7 @@ namespace Menu
 		// Se lance après la petite ciné de victoire
 		public void SetStateResult()
 		{
-			stateResult = StateResult.Result;
+			stateResult = 1;
 			for (int i = 0; i < listResultDrawers.Count; i++)
 			{
 				listResultDrawers[i].DrawResult(i+1, i+1);
@@ -92,11 +84,15 @@ namespace Menu
 		}
 
 
+
+
+
+
 		public void UpdateControl(int id, Input_Info input)
 		{
-			if (stateResult == StateResult.EndTransition)
+			if (stateResult == 2)
 				return;
-			if (stateResult == StateResult.Skip)
+			if (stateResult == 0)
 				UpdateControlSkip(id, input);
 			else
 				UpdateControlResult(id, input);
@@ -124,59 +120,45 @@ namespace Menu
 					listResultDrawers[id].SetFeedback("Surrend"); // le surrend a virer et ne pas hardcodé
 					CheckEndScreen();
 				}
-				else if(input.inputUiAction == InputConst.Interact)
-                {
-					listPlayerChoice[id] = 2;
-					listResultDrawers[id].SetFeedback("Rematch"); // le rematch a virer et ne pas hardcodé
-					CheckEndScreen();
-				}
 			}
 			else // On a fait un choix donc on peut juste l'annuler
 			{
-				if (input.CheckAction(0, InputConst.Jump))
+				if (input.CheckAction(id, InputConst.Jump))
 				{
 					listPlayerChoice[id] = 0;
-					listResultDrawers[id].SetReverseFeedback();
 				}
 			}
 		}
+
+
 
 
 		// On check si chaque joueur a fais un choix, et donc qu'il n'y ait pas d'élément égal à -1 dans la listPlayerChoice
 		private void CheckEndScreen()
 		{
-			int playerSurrend = 0;
-			int playerRematch = 0;
+			bool onePlayerSurrend = false;
 			for (int i = 0; i < listPlayerChoice.Count; i++)
 			{
 				if (listPlayerChoice[i] == 0)
 					return;
 				else if (listPlayerChoice[i] == 1) // Surrend
-					playerSurrend += 1;
-				else if (listPlayerChoice[i] == 2)
-					playerRematch += 1;
+					onePlayerSurrend = true;
 			}
 
-			stateResult = StateResult.EndTransition;
 
-			if (playerSurrend > 0)
+			if (onePlayerSurrend == true)
 			{
+				stateResult = 2;
 				StartCoroutine(EndCoroutine());
 				// Retour au menu
 			}
 			else
 			{
-				StartCoroutine(RematchCoroutine());
 				// Rematch
 			}
 		}
 
-		private IEnumerator RematchCoroutine()
-		{
-			fadeInTransition.SetTrigger("Feedback");
-			yield return new WaitForSeconds(1.2f);
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-		}
+
 
 
 		private IEnumerator EndCoroutine()
