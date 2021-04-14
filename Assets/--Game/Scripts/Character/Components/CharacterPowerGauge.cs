@@ -154,7 +154,7 @@ public class CharacterPowerGauge : MonoBehaviour
 
     public void ConsumePowerSegment(Input_Info input_Info, CharacterBase user)
     {
-        if (input_Info.CheckAction(0, InputConst.LeftShoulder))
+        /*if (input_Info.CheckAction(0, InputConst.LeftShoulder))
         {
             input_Info.inputActions[0].timeValue = 0;
             if (currentPower >= 33)
@@ -173,7 +173,7 @@ public class CharacterPowerGauge : MonoBehaviour
             }
         }
 
-        if(input_Info.CheckAction(0, InputConst.RightShoulder) && input_Info.CheckAction(1, InputConst.LeftShoulder))
+        if(input_Info.CheckAction(0, InputConst.RightShoulder))
         {
             input_Info.inputActions[0].timeValue = 0;
             if (canSignatureMoveUseOneSegmentPerUse)
@@ -204,7 +204,7 @@ public class CharacterPowerGauge : MonoBehaviour
                     Debug.Log("No Power to active SignatureMove");
                 }
             }
-        }
+        }*/
 
         UpdateTimer(user);
     }

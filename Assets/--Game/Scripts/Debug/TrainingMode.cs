@@ -81,7 +81,7 @@ namespace Menu
 				inputController.controllable[0] = this;
 				ShowMenu();
 			}
-			else if (inputController.playerInputs[0].CheckAction(0, InputConst.LeftTrigger) && menuOn == false)
+			else if (inputController.playerInputs[0].CheckAction(0, InputConst.Back) && menuOn == false)
 			{
 				if (registerInput.registerInput == true)
 					registerInput.StopRegisterInput();

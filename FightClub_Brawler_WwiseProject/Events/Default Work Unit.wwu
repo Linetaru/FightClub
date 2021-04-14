@@ -32,6 +32,13 @@
 																</Reference>
 															</ReferenceList>
 														</Action>
+														<Action Name="" ID="{07EEE478-E6F5-4C90-875B-2D95E9F5301F}" ShortID="163958172">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_FLY_Cloth_Run" ID="{E6F4C777-3969-412D-8B92-152B0A2F168C}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
 													</ChildrenList>
 												</Event>
 												<Event Name="Play_BRND_FT_Concrete_Walk" ID="{C9E1988F-21DC-4376-B33E-9642B5732493}">
@@ -40,6 +47,13 @@
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="BRND_FT_Concrete_Walk" ID="{92554A6B-D76D-49DA-9F43-FD62F3B048A1}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+														<Action Name="" ID="{397553FA-5F6E-487D-B83D-CF1753428095}" ShortID="816940844">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_FLY_Cloth_Walk" ID="{29160FCB-5584-4E62-8EE5-3AFE0009FD8A}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -140,23 +154,37 @@
 												</Event>
 											</ChildrenList>
 										</Folder>
+										<Event Name="Play_BRND_WallSlide" ID="{1660F585-65BD-4798-8648-79985E61F6C6}">
+											<ChildrenList>
+												<Action Name="" ID="{472F1802-2D82-46C1-9C4C-0CF40C5CABF6}" ShortID="176971062">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="BRND_WallSlide_v1" ID="{DF094EE4-BF43-463E-8A77-CE85C810E76D}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Stop_BRND_WallSlide" ID="{F572F30E-BB52-489C-844F-07A92C281E86}">
+											<ChildrenList>
+												<Action Name="" ID="{3F316A18-E396-4FD0-AB30-8F0B45E06845}" ShortID="210732816">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="2"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="BRND_WallSlide_v1" ID="{DF094EE4-BF43-463E-8A77-CE85C810E76D}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
 									</ChildrenList>
 								</Folder>
 								<Folder Name="BRND_Attack" ID="{4875AAA0-6E5A-49ED-9C43-DE224A800A64}" ShortID="422884072">
 									<ChildrenList>
 										<Folder Name="BRND_Attack_Whoosh" ID="{A1D629FF-1F3D-47CB-BE7C-B27E94733061}" ShortID="508508642">
 											<ChildrenList>
-												<Event Name="Play_BRND_Whoosh_DownTilt" ID="{03DDA772-F435-439C-B0AF-9AE4F3A78E47}">
-													<ChildrenList>
-														<Action Name="" ID="{F4261120-1759-4CEC-9D89-95B72F3510E2}" ShortID="370267731">
-															<ReferenceList>
-																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Whoosh_Down" ID="{89FFF1F7-BBE4-46CC-A844-CEF9C9F59249}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
-																</Reference>
-															</ReferenceList>
-														</Action>
-													</ChildrenList>
-												</Event>
 												<Event Name="Play_BRND_Attack_Whoosh_Hurricane" ID="{A3B4FA3B-5DA5-4ED5-BC4B-26BB2BA41077}">
 													<ChildrenList>
 														<Action Name="" ID="{DF602E37-5989-4285-A827-84709CEFC539}" ShortID="892049282">
@@ -168,23 +196,12 @@
 														</Action>
 													</ChildrenList>
 												</Event>
-												<Event Name="Play_BRND_Attack_Whoosh_Neutral_Air" ID="{5255E0C4-9B33-4108-9AF9-1CDDBADF6CDD}">
+												<Event Name="Play_BRND_Attack_Whoosh_NeutralAir" ID="{5255E0C4-9B33-4108-9AF9-1CDDBADF6CDD}">
 													<ChildrenList>
-														<Action Name="" ID="{59BD7A86-C2B6-4065-B065-8EE11E9403CF}" ShortID="181381635">
+														<Action Name="" ID="{8D966B2B-891C-4549-B9E7-B8354551AE4D}" ShortID="779592702">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Attack_Whoosh_Neutral_Air" ID="{1030182C-15F3-4F12-9C96-436691CF7978}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
-																</Reference>
-															</ReferenceList>
-														</Action>
-													</ChildrenList>
-												</Event>
-												<Event Name="Play_BRND_Attack_Whoosh_UpTilt" ID="{1C2946DD-E3FD-448E-B6C3-E11034313D94}">
-													<ChildrenList>
-														<Action Name="" ID="{C4EC0A6B-C2DD-41E0-96AC-77211A69E209}" ShortID="109928952">
-															<ReferenceList>
-																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Attack_Whoosh_Up" ID="{E2252808-D805-42B1-AE07-D308101F7B21}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Whoosh_NeutralAir" ID="{A8BF0380-AC7F-446E-BA7A-0E383BC6C393}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -195,28 +212,249 @@
 														<Action Name="" ID="{6EB74BD6-7106-4501-8C7E-800CB8C1611D}" ShortID="1018737335">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Whoosh_Forward" ID="{9F73B0DF-FEDE-4772-91F6-8E15457D063C}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Whoosh_ForwardTilt" ID="{9F73B0DF-FEDE-4772-91F6-8E15457D063C}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
 													</ChildrenList>
 												</Event>
+												<Event Name="Play_BRND_Attack_Whoosh_DodgeAerial" ID="{E89C96BA-A60C-405A-9ED2-BD0FBFC6260E}">
+													<ChildrenList>
+														<Action Name="" ID="{D3D980DA-816C-4EAF-BE0A-88A9C2A69F62}" ShortID="510600943">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Whoosh_DodgeAerial" ID="{F30DEC8A-E5A6-4895-9B6D-DFF59A7F08DF}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Folder Name="BRND_DodgeGround" ID="{A4D6ED25-0F9A-4091-BAED-789DEA4876E9}" ShortID="149120825">
+													<ChildrenList>
+														<Event Name="Play_BRND_Whoosh_DodgeGround" ID="{DF3C5061-D260-437B-ABC5-6E06B3843C88}">
+															<ChildrenList>
+																<Action Name="" ID="{55F4FF2F-A174-4AB4-9E48-731B815F888D}" ShortID="31671745">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_DodgeGround" ID="{750CC0EB-8E68-4EC6-A3F5-B3DCC5FFD151}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Land_DodgeGround" ID="{C52A605A-F9E9-49DB-892C-ACC54DE6C2CC}">
+															<ChildrenList>
+																<Action Name="" ID="{2D0566A0-37F0-4A2D-85E6-30A33F579981}" ShortID="773614430">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_DodgeGround_Land" ID="{0430AD79-96D1-4CD4-BE63-6A4C9F832842}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+													</ChildrenList>
+												</Folder>
+												<Folder Name="BRND_DownTilt" ID="{7DCEDF8D-F598-49FC-A1C7-35B506AD9E1F}" ShortID="167893050">
+													<ChildrenList>
+														<Event Name="Play_BRND_Whoosh_DownTilt" ID="{03DDA772-F435-439C-B0AF-9AE4F3A78E47}">
+															<ChildrenList>
+																<Action Name="" ID="{780C0484-E88A-4269-BB89-8D153F3881F8}" ShortID="643543377">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_Down" ID="{89FFF1F7-BBE4-46CC-A844-CEF9C9F59249}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_FT_DownTilt" ID="{57B2A7C9-4EBB-47E7-84D5-F43BBC6BACCA}">
+															<ChildrenList>
+																<Action Name="" ID="{E2E0C802-B8B5-43E2-AACD-25642CF9168D}" ShortID="313102389">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_FT_DownTilt" ID="{4AC6433B-A897-4C75-8AC4-1C73FE09716E}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_FT_DownTilt_02" ID="{AB902808-AEF0-48F9-866B-50EAA19FCA86}">
+															<ChildrenList>
+																<Action Name="" ID="{6A575DD7-1E27-4481-8857-790CF0AFFEC0}" ShortID="695647457">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_FT_DownTilt_02" ID="{DAC4E49D-2EC7-41DC-B8FF-3D1745157FF6}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+													</ChildrenList>
+												</Folder>
+												<Event Name="Play_BRND_Attack_Whoosh_UpTilt" ID="{C4CBDDEB-2850-4DFB-85C8-34BE76894C3B}">
+													<ChildrenList>
+														<Action Name="" ID="{0C893F6C-7E03-4612-A192-89DB1D322F57}" ShortID="452625557">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Whoosh_UpTilt" ID="{E2252808-D805-42B1-AE07-D308101F7B21}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_BRND_Attack_Whoosh_UpAir" ID="{020351DF-3146-49CE-9E73-176310C99943}">
+													<ChildrenList>
+														<Action Name="" ID="{68BD1542-83AD-4247-AF0A-2EA5D78C978D}" ShortID="208252149">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Whoosh_UpAir" ID="{1030182C-15F3-4F12-9C96-436691CF7978}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Folder Name="BRND_Attack_Whoosh_RecoverHit&amp;EL" ID="{49B17508-E915-4E8C-B9A8-7A467580E773}" ShortID="723282857">
+													<ChildrenList>
+														<Event Name="Play_BRND_Attack_Whoosh_RecoverHitEL_MedKick" ID="{20C471F2-766D-4D31-9348-B00D1DFDC54A}">
+															<ChildrenList>
+																<Action Name="" ID="{6B40583C-034D-4294-9E6D-2B1F5EE66DF0}" ShortID="1059682872">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_RecoverHit&amp;EL_MedKick" ID="{1AA1CAF3-4204-4254-A14C-832E96777B15}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_Power_RecoverHitEL" ID="{830C032C-D7B8-44EE-B145-8A6EACB0C252}">
+															<ChildrenList>
+																<Action Name="" ID="{AA7415EE-6072-4BAE-8CA7-97052D1A85FC}" ShortID="486374270">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Power_RecoverHit&amp;EL" ID="{F9EF376E-09A9-4846-BC2F-D54D9F38884C}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_Whoosh_RecoverHitEL_BigKick" ID="{BD97DA1F-DB6E-44BA-B157-95A06FC9B64C}">
+															<ChildrenList>
+																<Action Name="" ID="{6BD29E3B-1174-4389-AF43-3EAF99CB1E47}" ShortID="1031115991">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_RecoverHit&amp;EL_BigKick" ID="{E7882CD8-36DF-475A-8F39-CC7E70CCFC41}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_Whoosh_RecoverStart" ID="{FBD5B2C0-7FE2-4678-877B-5D0801DCE015}">
+															<ChildrenList>
+																<Action Name="" ID="{9FB66A65-BFDA-4EA3-A546-6BF215913E64}" ShortID="123525982">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_RecoverStart" ID="{B2865B2A-9DC6-420C-AD29-A19597E1CE8D}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+													</ChildrenList>
+												</Folder>
+												<Folder Name="BRND_Attack_DownSpecial" ID="{89B30CE6-47A3-418F-ACE6-1459E2DFDD3A}" ShortID="901965383">
+													<ChildrenList>
+														<Event Name="Play_BRND_Grab_DownSpecial" ID="{6AC77E7A-019F-4B03-84AA-15FD9EE0083A}">
+															<ChildrenList>
+																<Action Name="" ID="{933A42CB-69ED-4B7B-80E8-50175FA0CCD8}" ShortID="327840434">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Grab_DownSpecial" ID="{13A35125-74C8-4157-B962-EC130ABA6B26}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Speaker_DownSpecial" ID="{1C867AC8-B534-467E-B6AF-51948F75BF06}">
+															<ChildrenList>
+																<Action Name="" ID="{18DB1763-C466-40A4-AB2E-AFAFA1B4169A}" ShortID="472518279">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Speaker_DownSpecial" ID="{0A9C66B5-746D-4345-8769-F57DBE5E6C83}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_FLY_DownSpecial" ID="{AF2C1061-F01E-4EC1-8DCF-41435D69753B}">
+															<ChildrenList>
+																<Action Name="" ID="{3CFC1141-4DFF-4C9F-B203-2DD90947CB45}" ShortID="142301470">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_FLY_DownSpecial" ID="{E50F85D0-26BF-4EEE-95D0-A805635E233E}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+													</ChildrenList>
+												</Folder>
+												<Event Name="BRND_Attack_Whoosh_ForwardAir" ID="{83853F97-91AF-40AA-9E8A-B1A844BCC043}">
+													<ChildrenList>
+														<Action Name="" ID="{CFDC4844-605F-470B-B69E-07BE1BFDFF4F}" ShortID="994614399">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Whoosh_ForwardAir" ID="{C9A1CE23-F314-45EA-A044-6755A253CC3D}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Folder Name="BRND_Attack_Whoosh_DashAttack" ID="{424D5564-4DD3-420A-A316-02A46D29434B}" ShortID="628209673">
+													<ChildrenList>
+														<Event Name="Stop_BRND_Attack_Whoosh_DashAttack" ID="{78723D57-6C1F-4B5C-9D6A-FC1F65EADDB0}">
+															<ChildrenList>
+																<Action Name="" ID="{1C5CEEFA-A9E4-4E8D-BC8C-D2621B1E4DA9}" ShortID="170380010">
+																	<PropertyList>
+																		<Property Name="ActionType" Type="int16" Value="2"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_DashAttack" ID="{D0BD97C2-B04C-4C5C-A539-757F0507FBC9}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+														<Event Name="Play_BRND_Attack_Whoosh_DashAttack" ID="{264B5BE1-47BD-48F5-B263-4E1F02AD7A3D}">
+															<ChildrenList>
+																<Action Name="" ID="{3E9779E4-2C39-45BF-8B6D-52E4F137BEEB}" ShortID="721595752">
+																	<ReferenceList>
+																		<Reference Name="Target">
+																			<ObjectRef Name="BRND_Attack_Whoosh_DashAttack" ID="{D0BD97C2-B04C-4C5C-A539-757F0507FBC9}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																		</Reference>
+																	</ReferenceList>
+																</Action>
+															</ChildrenList>
+														</Event>
+													</ChildrenList>
+												</Folder>
 											</ChildrenList>
 										</Folder>
 										<Folder Name="BRND_Attack_Hit" ID="{34D19964-3D99-4E69-9DDD-BA8CC93BF066}" ShortID="540322374">
 											<ChildrenList>
-												<Event Name="Play_BRND_Attack_Hit_ForwardTilt" ID="{AAC2B919-4598-44FA-9A97-73ABE603C4A1}">
+												<Event Name="Play_BRND_Attack_Hit_AerialForward" ID="{AAC2B919-4598-44FA-9A97-73ABE603C4A1}">
 													<ChildrenList>
-														<Action Name="" ID="{5BEBD2F8-5B52-4A6B-852B-3269E6423CDC}" ShortID="21357604">
+														<Action Name="" ID="{C75EC5C6-50BB-4639-B724-60D75A074FB7}" ShortID="441983722">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Attack_Hit_Forward" ID="{7E2D7714-D9EF-47EB-A9E0-A1239BEF531F}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Hit_AerialForward" ID="{12A53995-F00D-47C7-AA57-BB7F9B3218DA}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
 													</ChildrenList>
 												</Event>
-												<Event Name="Play_BRND__Attack_Hit_Hurricane" ID="{B8E2E89A-FDDA-4BA2-814E-3DE38F48ECA7}">
+												<Event Name="Play_BRND_Attack_Hit_UpAir" ID="{B8E2E89A-FDDA-4BA2-814E-3DE38F48ECA7}">
 													<ChildrenList>
 														<Action Name="" ID="{1E7858B6-D469-4715-B233-460112AA5BA0}" ShortID="618343668">
 															<ReferenceList>
@@ -227,12 +465,12 @@
 														</Action>
 													</ChildrenList>
 												</Event>
-												<Event Name="Play_BRND_Attack_Hit_Neutral_Air" ID="{6769E5D2-C8A2-4336-9FB4-A0ADC7C9EBBC}">
+												<Event Name="Play_BRND_Attack_Hit_AerialNeutral" ID="{6769E5D2-C8A2-4336-9FB4-A0ADC7C9EBBC}">
 													<ChildrenList>
-														<Action Name="" ID="{CA16032C-A7F9-4FAE-9C61-34705FCB2070}" ShortID="217455389">
+														<Action Name="" ID="{10779FF8-D024-47D3-A62A-E335F9058C56}" ShortID="442118823">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Attack_Hit_Neutral_Air" ID="{B62D2A84-44A9-4B96-9A13-FE2443783A8A}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Hit_AerialNeutral" ID="{71FA60F3-D9BD-4BF6-AF1D-8CA920D669FA}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -240,21 +478,54 @@
 												</Event>
 												<Event Name="Play_BRND_Attack_Hit_DownTilt" ID="{957DD71E-8F15-4ADE-B6CB-53BFF277D61A}">
 													<ChildrenList>
-														<Action Name="" ID="{3FA7CA52-79E0-4836-ABA0-9CF33C22F0D1}" ShortID="808452333">
+														<Action Name="" ID="{DBECAE6B-43A3-402B-B327-1C46A817AE45}" ShortID="649970351">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Hit_Down" ID="{BCAB0500-4BED-4726-AA77-52844A62A583}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Hit_DownTilt" ID="{84808491-5F08-45BC-8022-8E89F9C32BD2}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
 													</ChildrenList>
 												</Event>
-												<Event Name="Play_BRND_Attack_Hit_UpTilt" ID="{503704E6-B1D8-423D-B673-4AC444F4E92A}">
+												<Event Name="Play_BRND_Attack_Hit_UpTilt" ID="{3FA84085-F23A-41A8-861B-95C9E13622FA}">
 													<ChildrenList>
-														<Action Name="" ID="{E4E8A292-ABB6-4692-862A-01D879BF47C0}" ShortID="288283779">
+														<Action Name="" ID="{E4582FF1-0A01-43C9-9A07-E69A1B76B796}" ShortID="503940017">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_Hit_Up" ID="{62A78330-8656-4899-906C-66475AF9833E}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="BRND_Attack_Hit_UpTilt_v2" ID="{04E4A164-97E6-4288-914C-D149172CE2E9}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_BRND_Attack_Hit_AerialDown" ID="{F21F7470-8365-482F-8921-2A6A9F9F40D4}">
+													<ChildrenList>
+														<Action Name="" ID="{DB74469B-6F04-41C7-A428-972788EF254D}" ShortID="918599585">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Hit_AerialDown" ID="{BCAB0500-4BED-4726-AA77-52844A62A583}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_BRND_Attack_Hit_RecoverHitEL_MedKick" ID="{568C9293-AD68-48EB-917D-1A4917631CC1}">
+													<ChildrenList>
+														<Action Name="" ID="{843B5DFE-D5C2-4A73-997E-A33C14DA71AF}" ShortID="803363969">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Hit_RecoverHit&amp;EL_MedKick" ID="{FC43B922-8F65-4150-8F33-1A99537C82F0}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_BRND_Attack_Hit_RecoverHitEL_BigKick" ID="{73E00B98-66C1-4B0C-A5AF-3A804521FB19}">
+													<ChildrenList>
+														<Action Name="" ID="{F7CA24F9-4284-4835-9EA3-6CDF23BDF15E}" ShortID="355936274">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="BRND_Attack_Hit_RecoverHit&amp;EL_BigKick" ID="{8ACA8FAA-3B84-49C9-9E73-0BBED499E15D}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
