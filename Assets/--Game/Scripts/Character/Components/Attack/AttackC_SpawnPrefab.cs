@@ -15,12 +15,14 @@ public class AttackC_SpawnPrefab : AttackComponent
 
 	GameObject go;
 
-
 	[Title("Projectile")]
 	[SerializeField]
 	private bool isProjectile;
+
+	/*
 	[ShowIf("isProjectile")]
 	public float projectileSpeed;
+	*/
 
 	// Appelé au moment où l'attaque est initialisé
 	public override void StartComponent(CharacterBase user)
@@ -37,7 +39,7 @@ public class AttackC_SpawnPrefab : AttackComponent
 			else
             {
 				Projectile projectile = go.GetComponent<Projectile>();
-				projectile.Speed = projectileSpeed;
+				//projectile.Speed = projectileSpeed;
 				projectile.Direction = user.Movement.Direction;
 				projectile.User = user;
             }

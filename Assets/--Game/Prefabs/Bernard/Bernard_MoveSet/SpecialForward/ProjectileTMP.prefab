@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1568825264172707271}
   - component: {fileID: 5108113299335884591}
   - component: {fileID: 7967963088579800630}
-  - component: {fileID: 6723561414953573290}
+  - component: {fileID: 8662316429236291609}
   - component: {fileID: -5375160511275344708}
+  - component: {fileID: -7492238502169440802}
   m_Layer: 0
   m_Name: ProjectileTMP
   m_TagString: Untagged
@@ -28,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912090028952418745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.712805, y: 8.33, z: 30.605}
-  m_LocalScale: {x: 0.43056852, y: 0.1561332, z: 0.1561332}
+  m_LocalPosition: {x: 13.5776, y: 8.33, z: 30.605}
+  m_LocalScale: {x: 0.16019814, y: 0.1561332, z: 0.1561332}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6723561414953573290
+--- !u!65 &8662316429236291609
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,3 +109,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3fd8185109fb140abba498095ac6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedMax: 10
+  speedX: 0
+  speedY: 0
+  timeBeforeFall: 0.2
+  speedYAcceleration:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.32466847
+      value: 0.7991048
+      inSlope: 1.0034924
+      outSlope: 1.0034924
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.702981
+    - serializedVersion: 3
+      time: 0.47924572
+      value: 0.927105
+      inSlope: 0.42090136
+      outSlope: 0.42090136
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.9439447
+      outWeight: 0.3635366
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedXDeceleration:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &-7492238502169440802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912090028952418745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8050b9901876894fa91874caafc4dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterCollider: {fileID: 7364260067045191158, guid: d8617a787b069984ab5e21f5712acc71, type: 3}
+  weight: 100
+  collision: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 164864
+  aerialLayerMask:
+    serializedVersion: 2
+    m_Bits: 163840
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 229376
+  offsetRaycastX: 0.01
+  offsetRaycastY: 0.01
+  numberRaycastVertical: 2
+  numberRaycastHorizontal: 3
+  maxSlopeAngle: 80
+  edgeDetection: 0.2
