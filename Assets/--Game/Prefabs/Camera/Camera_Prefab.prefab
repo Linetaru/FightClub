@@ -232,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -23.300049}
+  m_AnchoredPosition: {x: 0, y: -23.299805}
   m_SizeDelta: {x: 0, y: 46.514404}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3006900242474338969
@@ -338,10 +338,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5284728091476298527}
   - component: {fileID: 5284728091476298526}
-  - component: {fileID: 5284728091476298525}
   - component: {fileID: 5284728091476298512}
   - component: {fileID: 5284728091476298513}
   - component: {fileID: 8538390229823526924}
+  - component: {fileID: 770927625}
+  - component: {fileID: 770927628}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -356,7 +357,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728091476298524}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.9, y: 14, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -395,7 +396,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1564471
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -407,14 +408,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5284728091476298525
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5284728091476298524}
-  m_Enabled: 1
 --- !u!114 &5284728091476298512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,13 +526,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
-  offset: {x: 0, y: 0, z: -45}
-  smoothTime: 0.5
-  minZoom: 60
-  maxZoom: 10
+  focusLevel: {fileID: 5284728092334524679}
+  blastZoneManager: {fileID: 0}
+  offset: {x: 0, y: 1, z: -45}
+  smoothTime: 0.2
+  minZoom: 30
+  maxZoom: 15
   zoomLimiter: 50
   fovForStaticScrolling: 30
-  camConfig: {fileID: 0}
+  max_X_DistanceWithFocusLevel: 20
+  max_Y_DistanceWithFocusLevel: 15
+  max_X_MoveCam: 10
+  offsetModifier: 7
+  camConfig: {fileID: 11400000, guid: 389d8d9bb63a1c140ae9e53e326ecc13, type: 2}
 --- !u!114 &8538390229823526924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +546,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728091476298524}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a03dadc5345c36343aff79863035b60c, type: 3}
   m_Name: 
@@ -567,22 +566,31 @@ MonoBehaviour:
     railsCamTravelling:
     - {fileID: 7356702210667485821}
     - {fileID: 7356702209298322965}
-    railsBlastZoneTravelling:
-    - {fileID: 7356702211077233033}
-    - {fileID: 7356702210643295635}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
     timeBeforeMoving: 10
     durationTravelling: 10
     movingInY: 1
     canvasPanelArrowToActivate: {fileID: 7356702209863148138}
     objectDisableOnFocusMode: []
-    platform: []
+    platform:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - cameraConfig: {fileID: 11400000, guid: 2f96d1c77f5abe74b88f036a3ca37b9a, type: 2}
     railsCamTravelling:
     - {fileID: 7356702209298322965}
     - {fileID: 7356702210237618555}
-    railsBlastZoneTravelling:
-    - {fileID: 7356702210643295635}
-    - {fileID: 7356702210315734991}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
     timeBeforeMoving: 10
     durationTravelling: 10
     movingInY: 0
@@ -594,6 +602,42 @@ MonoBehaviour:
   disableGameObjectOnStart: []
   timer: 0
   positionID: 0
+--- !u!114 &770927625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728091476298524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c103141c78a1a440ab1221695ed3cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &770927628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728091476298524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0241f6d33764c564993f1f119e6f2687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &5284728092334524679
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,10 +647,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5284728092334524697}
+  - component: {fileID: 65988688}
   m_Layer: 0
   m_Name: Focus
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -617,13 +662,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728092334524679}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 6, y: 28.629997, z: 30}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 7.89, y: 11.75, z: 30.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2432747193972192253}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!135 &65988688
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728092334524679}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5956535376212452092
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +707,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5956535376212452092}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -725,7 +783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -19.300293, y: 0}
+  m_AnchoredPosition: {x: -19.299805, y: 0}
   m_SizeDelta: {x: 38.601196, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6640786118530821971
@@ -1272,7 +1330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 465.7}
+  m_AnchoredPosition: {x: 0, y: 465.70312}
   m_SizeDelta: {x: 0, y: -931.3787}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7356702209863148136
@@ -1352,7 +1410,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 867.98, y: 3.3554688}
+  m_AnchoredPosition: {x: 867.98047, y: 3.359375}
   m_SizeDelta: {x: -1735.9562, y: -6.689575}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7356702209945360184
@@ -1507,7 +1565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -868, y: 3.3449707}
+  m_AnchoredPosition: {x: -867.9961, y: 3.34375}
   m_SizeDelta: {x: -1735.9562, y: -6.689575}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7356702210126659201
@@ -2474,7 +2532,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -2527,8 +2585,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 40
-      minScalar: 20
+      scalar: 10
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2643,8 +2701,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.03
-      minScalar: 0.2
+      scalar: 0.01
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2696,8 +2754,8 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 3
+      scalar: 0.3
+      minScalar: 0.6
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3022,7 +3080,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 0.1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 90, z: 0}
@@ -3105,7 +3163,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 7
+      value: 1
       mode: 0
       spread: 0
       speed:

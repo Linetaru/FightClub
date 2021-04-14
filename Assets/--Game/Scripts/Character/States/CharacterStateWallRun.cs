@@ -97,7 +97,9 @@ public class CharacterStateWallRun : CharacterState
 
                 wallCollision = false;
 
-                character.Movement.Jump();
+                character.Movement.Jump(); 
+                ParticleSystem particle = Instantiate(character.Particle.startJumpParticle, this.transform.position, Quaternion.Euler(0, 0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
+                Destroy(particle.gameObject, 0.5f);
                 character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
 
                 //Play Walljump animation
