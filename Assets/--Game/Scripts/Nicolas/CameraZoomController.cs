@@ -176,7 +176,7 @@ public class CameraZoomController : MonoBehaviour
 
     public GameObject focusLevel;
 
-    public BlastZoneManager blastZoneManager;
+    //public BlastZoneManager blastZoneManager;
 
     [Title("Movement Parameter")]
     public Vector3 offset;
@@ -195,8 +195,8 @@ public class CameraZoomController : MonoBehaviour
     public float max_Y_DistanceWithFocusLevel = 15f;
 
     [Title("Moving Cam Blast Parameter")]
-    public float max_X_MoveCam = 10;
-    public float offsetModifier = 7;
+    [ReadOnly] public float max_X_MoveCam = 10;
+    [ReadOnly] public float offsetModifier = 7;
 
     private Vector3 velocity;
     private float velocityRef;
@@ -227,6 +227,7 @@ public class CameraZoomController : MonoBehaviour
         else
         {
             UnZoomCamera();
+            GetNewBoundsEncapsulate();
         }
     }
 
@@ -258,12 +259,12 @@ public class CameraZoomController : MonoBehaviour
     {
         //---------- Try to change offset camera for moving in x to not show blast zone --------------
 
-        if((focusLevel.transform.position.x - cam.transform.position.x) >= max_X_MoveCam - offset.x)
-            offset.x = offsetModifier;
-        else if((focusLevel.transform.position.x - cam.transform.position.x) <= -max_X_MoveCam / 2 - offset.x)
-            offset.x = -offsetModifier - 2;
-        else
-            offset.x = 0;
+        //if((focusLevel.transform.position.x - cam.transform.position.x) >= max_X_MoveCam - offset.x)
+        //    offset.x = offsetModifier;
+        //else if((focusLevel.transform.position.x - cam.transform.position.x) <= -max_X_MoveCam / 2 - offset.x)
+        //    offset.x = -offsetModifier - 2;
+        //else
+        //    offset.x = 0;
 
         //---------------------- In working progress (Doesn't work perfectly ) ---------------------------------------
 
@@ -334,7 +335,7 @@ public class CameraZoomController : MonoBehaviour
             if (((focusLevel.transform.position.x - targets[i].position.x <= max_X_DistanceWithFocusLevel) && (focusLevel.transform.position.x - targets[i].position.x >= -max_X_DistanceWithFocusLevel)) && ((focusLevel.transform.position.y - targets[i].position.y <= max_Y_DistanceWithFocusLevel) && (focusLevel.transform.position.y - targets[i].position.y >= -max_Y_DistanceWithFocusLevel)))
                 bounds.Encapsulate(targets[i].position);
             else if (targets[i] != null)
-                blastZoneManager.OutOfCamera(targets[i].gameObject);
+                BlastZoneManager.Instance.OutOfCamera(targets[i].gameObject);
         }
 
         //Return bounds with all targets encapsulte in
