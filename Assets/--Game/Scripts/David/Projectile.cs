@@ -11,10 +11,12 @@ public class Projectile : MonoBehaviour
     public float speedX = 0.0f;
     public float speedY = 0.0f;
 
+    private bool isColliding;
+
     // Fall Management
     [SerializeField]
     private float timeBeforeFall = 0.4f;
-    private float timer;
+    private float timerFall;
     private bool isFalling;
 
     //SpeedY Acceleration Duration / SpeedX Deceleration Duration
@@ -24,6 +26,9 @@ public class Projectile : MonoBehaviour
     private AnimationCurve speedYAcceleration;
     [SerializeField]
     private AnimationCurve speedXDeceleration;
+
+    private bool isReadyToExplode;
+
 
 
     private CharacterBase user;
@@ -46,41 +51,65 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         rb = GetComponent<CharacterRigidbodySlope>();
+        GetComponentInChildren<AttackSubManager>().InitAttack(User);
         speedX = speedMax;
     }
 
     void Update()
     {
-        rb.UpdateCollision(speedX * direction, -speedY);
+        SpeedManager();
+    }
 
-        if(!isFalling)
+    public void ReadyToExplode()
+    {
+        Debug.Log("Explode");
+        isReadyToExplode = true;
+        GetComponentInChildren<AttackSubManager>().ActionActive();
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
+    private void SpeedManager()
+    {
+        if (!isColliding)
         {
-            timer += Time.deltaTime;
-            if(timer >= timeBeforeFall)
+            rb.UpdateCollision(speedX * direction, -speedY);
+
+            if (rb.CollisionGroundInfo != null || rb.CollisionWallInfo.Collision != null)
+                isColliding = true;
+
+            if (!isFalling)
             {
-                isFalling = true;
+                timerFall += Time.deltaTime;
+                if (timerFall >= timeBeforeFall)
+                {
+                    isFalling = true;
+                }
+
             }
-            
+            else
+            {
+                if (currentDuration <= duration)
+                {
+                    //SpeedY Accel
+                    currentDuration += Time.deltaTime;
+                    float percent = Mathf.Clamp01(currentDuration / duration);
+                    float curvePercentY = speedYAcceleration.Evaluate(percent);
+                    speedY = Mathf.Lerp(0f, speedMax, curvePercentY);
+
+                    //SpeedX Decel
+                    float curvePercentX = speedXDeceleration.Evaluate(percent);
+                    speedX = Mathf.Lerp(speedMax, 0f, curvePercentX);
+                }
+            }
         }
         else
         {
-            if (currentDuration <= duration)
-            {
-                //SpeedY Accel
-                currentDuration += Time.deltaTime;
-                float percent = Mathf.Clamp01(currentDuration / duration);
-                float curvePercentY = speedYAcceleration.Evaluate(percent);
-                speedY = Mathf.Lerp(0f, speedMax, curvePercentY);
-
-                //SpeedX Decel
-                float curvePercentX = speedXDeceleration.Evaluate(percent);
-                speedX = Mathf.Lerp(speedMax, 0f, curvePercentX);
-            }
+            if(!isReadyToExplode)
+                ReadyToExplode();
         }
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
     }
 }
