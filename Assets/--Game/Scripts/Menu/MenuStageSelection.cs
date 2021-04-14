@@ -52,7 +52,7 @@ namespace Menu
 
 		bool canControl = true;
 		private IEnumerator stageCoroutine;
-
+		public string menuSelectionPersoScene;
 
 		private void Start()
 		{
@@ -72,14 +72,14 @@ namespace Menu
 
 		public void UpdateControl(int id, Input_Info input)
 		{	
-			if (canControl == false)
+			if (!canControl)
 				return;
 
-			if (listStage.InputList(input) == true) // On s'est déplacé dans la liste
+			if (listStage.InputList(input)) // On s'est déplacé dans la liste
 				SelectStage(listStage.IndexSelection);
-			else if (input.CheckAction(id, InputConst.Jump) == true)
+			else if (input.inputUiAction == InputConst.Interact)
 				ValidateStage(listStage.IndexSelection);
-			else if (input.CheckAction(id, InputConst.Return) == true)
+			else if (input.inputUiAction == InputConst.Return)
 				QuitMenu();
 		}
 
@@ -117,7 +117,7 @@ namespace Menu
 
 		public void QuitMenu()
 		{
-
+			UnityEngine.SceneManagement.SceneManager.LoadScene(menuSelectionPersoScene);
 		}
 
 

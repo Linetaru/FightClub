@@ -11,10 +11,23 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     bool keepMomentumX = false;
 
-    [ShowIf("keepMomentumX")]
+
+    [HideIf("keepMomentumX")]
+    [HorizontalGroup("MomentumX")]
+    [SerializeField]
+    bool setMomentumX = false;
+
+    [HorizontalGroup("MomentumX")]
+    [HideIf("keepMomentumX")]
+    [SerializeField]
+    float momentumX = 0f;
+
+
+
+
+    //[ShowIf("keepMomentumX")]
     [SerializeField]
     bool deccelerate = false;
-
 
     [HorizontalGroup("Decceleration")]
     [ShowIf("deccelerate")]
@@ -27,6 +40,22 @@ public class AttackC_CharaMovement : AttackComponent
     [SuffixLabel("en frames")]
     [SerializeField]
     float timeDecceleration = 10f;
+
+    /*
+    [SerializeField]
+    bool accelerate = false;
+
+    [HorizontalGroup("Acceleration")]
+    [ShowIf("accelerate")]
+    [SerializeField]
+    [HideLabel]
+    AnimationCurve AccelerationCurve;
+
+    [HorizontalGroup("Acceleration", LabelWidth = 120)]
+    [ShowIf("accelerate")]
+    [SuffixLabel("en frames")]
+    [SerializeField]
+    float timeAcceleration = 10f;*/
 
 
     [Title("Movement Y")]
@@ -64,7 +93,12 @@ public class AttackC_CharaMovement : AttackComponent
     public override void StartComponent(CharacterBase user)
     {
         if (keepMomentumX == false)
+        {
             user.Movement.SpeedX = 0;
+            if(setMomentumX == true)
+                user.Movement.SpeedX = momentumX;
+        }
+
         if (keepMomentumY == false)
             user.Movement.SpeedY = 0;
 
@@ -90,6 +124,14 @@ public class AttackC_CharaMovement : AttackComponent
             if (timer >= timeDecceleration)
                 user.Movement.SpeedX = 0;
         }
+
+      /*  if (accelerate == true && timer < timeDecceleration)
+        {
+            timer += Time.deltaTime * user.MotionSpeed;
+            user.Movement.SpeedX = initialSpeedX * AccelerationCurve.Evaluate(timer / timeAcceleration);
+            if (timer >= timeAcceleration)
+                user.Movement.SpeedX = 0;
+        }*/
 
         if (canAirControl == true)
             user.Movement.AirControl(user.Input.horizontal);

@@ -26,4 +26,5 @@ public static class InputConst
 	public static InputAction LeftTrigger = Rewired.ReInput.mapping.GetAction(19);
 	public static InputAction RightTrigger = Rewired.ReInput.mapping.GetAction(20);
 	public static InputAction Special = Rewired.ReInput.mapping.GetAction(21);
+	public static InputAction Back = Rewired.ReInput.mapping.GetAction(22);
 }
