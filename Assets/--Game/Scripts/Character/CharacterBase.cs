@@ -62,14 +62,6 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
-
-	[SerializeField]
-	private CharacterParry parry;
-	public CharacterParry Parry
-	{
-		get { return parry; }
-	}
-
 	[SerializeField]
 	private CharacterStats stats;
 	public CharacterStats Stats

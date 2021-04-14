@@ -82,7 +82,7 @@ public class CharacterKnockback : MonoBehaviour
 
 
     // A mettre dans une interface
-    public bool CanKnockback()
+    public bool CanHit()
     {
         if (knockbackDuration <= 0)
             return false;
@@ -102,12 +102,6 @@ public class CharacterKnockback : MonoBehaviour
         return angleKnockback;
     }
 
-    /// <summary>
-    /// Launch utilisé par le knockback
-    /// </summary>
-    /// <param name="angle"></param>
-    /// <param name="ejectionPower"></param>
-    /// <param name="bonusKnockback"></param>
     public void Launch(Vector2 angle, float ejectionPower, float bonusKnockback = 0)
     {
         if (isArmor == true)
@@ -117,17 +111,6 @@ public class CharacterKnockback : MonoBehaviour
 
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;
-    }
-
-    /// <summary>
-    /// Launch arbitraire
-    /// </summary>
-    /// <param name="angle"></param>
-    /// <param name="ejectionPower"></param>
-    public void Launch(Vector2 angle, float ejectionPower)
-    {
-        angleKnockback = angle * weight;
-        angleKnockback *= ejectionPower;
     }
 
     public void UpdateKnockback(float percentage)

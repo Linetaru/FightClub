@@ -61,19 +61,19 @@ public class CharacterStateDodgeAerial : CharacterState
 
 		if (t >= invulnerableInterval.x && t < invulnerableInterval.y) // Dodge
 		{
-			//character.Knockback.IsInvulnerable = true;
+			character.Knockback.IsInvulnerable = true;
 			character.Movement.SetSpeed(directionDodge.x * speedDodge * character.Movement.Direction, directionDodge.y * speedDodge);
 		}
 		else if (t < invulnerableInterval.x) // Startup du Dodge
 		{
 			character.Movement.SetSpeed(0, 0);
-			//character.Knockback.IsInvulnerable = false;
+			character.Knockback.IsInvulnerable = false;
 		}
 		else if (t >= invulnerableInterval.y) // Lag du Dodge
 		{
 			//AirControl(character);
 			//character.Movement.ApplyGravity();
-			//character.Knockback.IsInvulnerable = false;
+			character.Knockback.IsInvulnerable = false;
 			character.Movement.SetSpeed(0, 0);
 		}
 

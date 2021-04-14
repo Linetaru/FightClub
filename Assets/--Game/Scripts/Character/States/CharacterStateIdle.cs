@@ -98,10 +98,6 @@ public class CharacterStateIdle : CharacterState
 		{
 
 		}
-		else if (evasiveMoveset.Parry(character) == true)
-		{
-
-		}
 	}
 
 

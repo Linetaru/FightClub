@@ -50,8 +50,8 @@ public class CharacterStateAerial : CharacterState
 
         if (character.Movement.SpeedY <= 0 && !isFastFall)
         {
-            //if (character.Input.vertical < -0.9f)
-                //isFastFall = true;
+            if (character.Input.vertical < -0.9f)
+                isFastFall = true;
         }
 
         if (characterMoveset.ActionAttack(character) == true)
@@ -59,10 +59,6 @@ public class CharacterStateAerial : CharacterState
 
         }
         else if (evasiveMoveset.Dodge(character) == true)
-        {
-
-        }
-        else if (evasiveMoveset.Parry(character) == true)
         {
 
         }

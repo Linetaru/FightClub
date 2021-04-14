@@ -21,11 +21,6 @@ public class AttackSubManager : MonoBehaviour
 
 
     CharacterBase user;
-    public CharacterBase User
-    {
-        get { return user; }
-    }
-
     private List<string> playerHitList = new List<string>();
 
 
@@ -87,14 +82,9 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
-    public void AddPlayerHitList(string targetTag)
-    {
-        playerHitList.Add(targetTag);
-    }
-
-    public bool IsInHitList(string targetTag)
-    {
-        return playerHitList.Contains(targetTag);
+    public void AddPlayerHitList(string targetTag)
+    {
+        playerHitList.Add(targetTag);
     }
 
     public void Hit(CharacterBase target)
@@ -122,7 +112,5 @@ public class AttackSubManager : MonoBehaviour
             user.Action.HasHit(target);
         }
     }
-
-
 
 }
