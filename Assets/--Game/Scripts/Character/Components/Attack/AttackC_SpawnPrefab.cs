@@ -29,20 +29,24 @@ public class AttackC_SpawnPrefab : AttackComponent
 	{
 		if (prefabToSpawn != null)
 		{
-			go = Instantiate(prefabToSpawn, transform.position, prefabToSpawn.transform.rotation);
 
 			if(!isProjectile)
 			{
 				//Si pas un projectile, on le stick au joueur
+				go = Instantiate(prefabToSpawn, transform.position, prefabToSpawn.transform.rotation);
 				go.transform.parent = transform.root;
 			}
 			else
             {
-				Projectile projectile = go.GetComponent<Projectile>();
-				user.Projectile.AddProjectile(projectile);
-				//projectile.Speed = projectileSpeed;
-				projectile.Direction = user.Movement.Direction;
-				projectile.User = user;
+				if(user.Projectile.CanShootProjectile())
+				{
+					go = Instantiate(prefabToSpawn, transform.position, prefabToSpawn.transform.rotation);
+					Projectile projectile = go.GetComponent<Projectile>();
+					user.Projectile.AddProjectile(projectile);
+					//projectile.Speed = projectileSpeed;
+					projectile.Direction = user.Movement.Direction;
+					projectile.User = user;
+				}
             }
 		}
 	}
