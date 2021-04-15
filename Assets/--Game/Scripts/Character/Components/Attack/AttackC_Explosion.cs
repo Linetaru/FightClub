@@ -41,18 +41,18 @@ public class AttackC_Explosion : AttackComponent
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         hasHit = true;
+        // Lancer les VFX d'explosion ici
     }
-	
-	// Appelé au moment de la destruction de l'attaque
+
+    // Appelé au moment de la destruction de l'attaque
     public override void EndComponent(CharacterBase user)
     {
 		
     }
     private IEnumerator Explode()
     {
-        // Lancer les VFX d'explosion
+        // Lancer les VFX d'explosion ici
         collider.radius = explosionRadius;
-
         yield return new WaitForSeconds(0.5f);
         if (!hasHit)
             Destroy(objectToDestroy);

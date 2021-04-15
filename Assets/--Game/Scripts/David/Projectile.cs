@@ -52,6 +52,7 @@ public class Projectile : MonoBehaviour
     {
         rb = GetComponent<CharacterRigidbodySlope>();
         GetComponentInChildren<AttackSubManager>().InitAttack(User);
+        GetComponentInChildren<AttackSubManager>().ActionActive();
         speedX = speedMax;
     }
 
@@ -64,7 +65,6 @@ public class Projectile : MonoBehaviour
     {
         Debug.Log("Explode");
         isReadyToExplode = true;
-        GetComponentInChildren<AttackSubManager>().ActionActive();
     }
 
     public void DestroySelf()

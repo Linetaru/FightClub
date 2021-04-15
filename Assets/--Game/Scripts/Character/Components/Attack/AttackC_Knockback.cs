@@ -7,7 +7,8 @@ public enum KnockbackAngleSetting
 {
     StaticAngle,
     DynamicAngle,
-    SpeedAngle
+    SpeedAngle,
+    ProjectileAngle
 };
 
 
@@ -125,6 +126,13 @@ public class AttackC_Knockback : AttackComponent
         {
             knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * knockbackAngle), Mathf.Sin(Mathf.Deg2Rad * knockbackAngle));
             knockbackDirection *= new Vector2(user.Movement.Direction, 1);
+        }
+        else if (dynamicAngle == KnockbackAngleSetting.ProjectileAngle)
+        {
+            Vector2 targetDirection = (target.transform.position - transform.position).normalized;
+            float angle = Vector2.SignedAngle(targetDirection, Vector2.right);
+
+            knockbackDirection = new Vector2(Mathf.Cos(Mathf.Deg2Rad * (knockbackAngle + angle)), -Mathf.Sin(Mathf.Deg2Rad * (knockbackAngle + angle)));
         }
         else
         {
