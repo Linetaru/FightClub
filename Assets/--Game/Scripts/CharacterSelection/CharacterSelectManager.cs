@@ -70,19 +70,17 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
-        holograms[ID].UpdateCharacterModel(characterDatas[ID].characterSelectionModel);
-        holograms[ID].UpdateDisplay();
         DisplayReadyBands();
 
-        if(input_Info.inputUiAction == InputConst.LeftTaunt)
+        if (input_Info.CheckAction(0, InputConst.LeftTaunt))
         {
-            if(playerStocks > 1)
+            if (playerStocks > 1)
             {
                 playerStocks--;
                 UpdateStockText();
             }
         }
-        else if(input_Info.inputUiAction == InputConst.RightTaunt)
+        else if (input_Info.CheckAction(0, InputConst.RightTaunt))
         {
             if (playerStocks < 99)
             {
@@ -93,25 +91,24 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         //Quand le joueur n'est pas connecté
 
-        Debug.Log(holograms[ID]);
 
         if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Interact)
         {
-            Debug.Log("Joueur connecté");
             holograms[ID].isPlayerConnected = true;
             numberOfConnectedPlayers++;
+            holograms[ID].Connected();
             //playersReadyStates[ID] = true;
+            input_Info.inputUiAction = null;
         }
 
         if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Return)
         {
             foreach (PlayerSelectionFrame hologram in holograms)
             {
-                hologram.isPlayerConnected = false;
-                hologram.isCharacterChoosed = false;
-                hologram.paramsChoosed = false;
+                hologram.Disconnected();
             }
             ReturnToMainMenu();
+            input_Info.inputUiAction = null;
         }
 
         //Quand le joueur est connecté mais qu'il n'as pas choisi son perso
@@ -146,12 +143,14 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                         holograms[ID].ChooseCharacter();
                     }
                 }
+                input_Info.inputUiAction = null;
             }
 
             if (input_Info.inputUiAction == InputConst.Return)
             {
-                holograms[ID].isCharacterChoosed = false;
+                holograms[ID].Disconnected();
                 numberOfConnectedPlayers--;
+                input_Info.inputUiAction = null;
             }
         }
 
@@ -164,12 +163,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 holograms[ID].joystickPushed = true;
                 holograms[ID].ChangeParam();
             }
-            else if (Mathf.Abs(input_Info.vertical) < .5f)
-            {
-                holograms[ID].joystickPushed = false;
-            }
-
-            if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
+            else if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
                 holograms[ID].UpdateParam(true);
@@ -179,37 +173,42 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 holograms[ID].joystickPushed = true;
                 holograms[ID].UpdateParam(false);
             }
-            else if (Mathf.Abs(input_Info.horizontal) < .5f)
+            else if (Mathf.Abs(input_Info.vertical) < .5f && (Mathf.Abs(input_Info.horizontal) < .5f))
             {
                 holograms[ID].joystickPushed = false;
             }
+            //else if (Mathf.Abs(input_Info.horizontal) < .5f)
+            //{
+            //    holograms[ID].joystickPushed = false;
+            //}
 
             if (input_Info.inputUiAction == InputConst.Interact)
             {
                 holograms[ID].Ready();
                 numberOfReadyPlayers++;
+                input_Info.inputUiAction = null;
             }
 
             if (input_Info.inputUiAction == InputConst.Return)
             {
-                holograms[ID].paramsChoosed = false;
+                holograms[ID].UnchooseCharacter();
+                input_Info.inputUiAction = null;
             }
         }
 
         // Quand le joueur est prêt
 
-        if((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady))
+        if ((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady))
         {
-            if(input_Info.inputUiAction == InputConst.Pause)
+            if (input_Info.inputUiAction == InputConst.Pause)
             {
                 PlayReadySlashAnimation();
             }
 
-            if(input_Info.inputUiAction == InputConst.Return)
+            if (input_Info.inputUiAction == InputConst.Return)
             {
                 HideReadyBands();
-                holograms[ID].isPlayerReady = false;
-                holograms[ID].paramsChoosed = false;
+                holograms[ID].NotReady();
             }
         }
 
@@ -266,7 +265,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             //}
             for (int i = 0; i < holograms.Length; i++)
             {
-                Debug.Log(holograms[i].currentCursorPosition);
 
                 if (holograms[i].isPlayerReady)
                 {

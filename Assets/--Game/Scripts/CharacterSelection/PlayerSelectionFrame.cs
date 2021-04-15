@@ -25,10 +25,12 @@ public class PlayerSelectionFrame : MonoBehaviour
     [SerializeField]
     GameObject spotLights;
 
-    GameObject characterModel = null;
+    public GameObject modelParent;
+
+    CharacterModel charModel;
 
     [SerializeField]
-    Material HologramMaterial;
+    Material hologramMaterial;
 
     [Space]
 
@@ -106,67 +108,108 @@ public class PlayerSelectionFrame : MonoBehaviour
         choosableSkillsColor[5] = Color.yellow;
     }
 
-    public void UpdateDisplay()
+    //public void UpdateDisplay()
+    //{
+    //    if (isPlayerConnected)
+    //    {
+    //        spotLights.SetActive(true);
+    //        playerCursor.SetActive(true);
+    //        //currentCursorPosition = 0;
+    //    }
+    //    else
+    //    {
+    //        spotLights.SetActive(false);
+    //        playerCursor.SetActive(false);
+    //        //UpdateCharacterModel(null);
+    //    }
+
+    //    if (isPlayerConnected && isCharacterChoosed)
+    //    {
+    //        spotLights.SetActive(true);
+    //        playerCursor.SetActive(false);
+    //    }
+
+    //    if (isCharacterChoosed && !paramsChoosed)
+    //    {
+    //        characterParams.SetActive(true);
+    //        colorChoiceText.text = "Color " + currentChoosableSkill + 1;
+    //        skillChoiceText.text = choosableSkills[currentChoosableSkill];
+    //        choosableSkillIcon.color = choosableSkillsColor[currentChoosableSkill];
+
+    //    }
+    //}
+
+    public void Connected()
     {
-        if (isPlayerConnected)
-        {
-            spotLights.SetActive(true);
-            playerCursor.SetActive(true);
-            currentCursorPosition = 0;
-            UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
-        }
-        else
-        {
-            spotLights.SetActive(false);
-            playerCursor.SetActive(false);
-            UpdateCharacterModel(null);
-        }
+        isPlayerConnected = true;
+        spotLights.SetActive(true);
+        playerCursor.SetActive(true);
+        currentCursorPosition = 0;
 
-        if (isPlayerConnected && isCharacterChoosed)
-        {
-            spotLights.SetActive(true);
-            playerCursor.SetActive(false);
-        }
-
-        if (isCharacterChoosed && !paramsChoosed)
-        {
-            characterParams.SetActive(true);
-            colorChoiceText.text = "Color " + currentChoosableSkill + 1;
-            skillChoiceText.text = choosableSkills[currentChoosableSkill];
-            choosableSkillIcon.color = choosableSkillsColor[currentChoosableSkill];
-
-        }
+        CreateCharacterModel();
     }
 
-    public void UpdateCharacterModel(GameObject characterModel)
+    public void Disconnected()
     {
-        if (characterModel != null || CharacterSelectManager._instance.characterDatas[currentCursorPosition] != null)
-        {
-            this.characterModel = Instantiate(characterModel, transform.position, new Quaternion(0, 180, 0, 0));
-        }
-        else
-        {
-            this.characterModel = null;
-        }
+        isPlayerConnected = false;
+        isCharacterChoosed = false;
+        isPlayerReady = false;
+        paramsChoosed = false;
+        spotLights.SetActive(false);
+        playerCursor.SetActive(false);
+
+        //foreach (GameObject child in characterModel.transform)
+        //{
+        //    if(child != null)
+        //    Destroy(child);
+        //}
+
+        if (charModel != null)
+            Destroy(charModel.gameObject);
     }
 
-    public void UpdateCharacterColor(List<Material> characterMaterials)
+    public void CreateCharacterModel()
     {
-        if (!isCharacterChoosed && characterModel != null)
-        {
-            foreach (SkinnedMeshRenderer mesh in characterModel.transform)
+        //if (characterModel.GetComponentInChildren<GameObject>() != CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterSelectionModel)
+        //{
+            if (charModel != null)
+                Destroy(charModel.gameObject);
+
+            if (CharacterSelectManager._instance.characterDatas[currentCursorPosition] != null)
             {
-                mesh.material = HologramMaterial;
+                charModel = Instantiate(CharacterSelectManager._instance.characterDatas[currentCursorPosition].looserModel, modelParent.transform);
+                //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
+                charModel.SetColor(0, hologramMaterial);
             }
-        }
-        else if (isCharacterChoosed)
-        {
-            foreach (SkinnedMeshRenderer mesh in characterModel.transform)
-            {
-                mesh.material = characterMaterials[currentColorSkin];
-            }
-        }
+        //}
+        //else
+        //{
+        //    this.characterModel = null;
+        //}
     }
+
+    public void ChangeCharacterModelColor()
+    {
+        charModel.SetColor(0, CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
+    }
+
+    //public void UpdateCharacterColor(List<Material> characterMaterials)
+    //{
+    //    if (!isCharacterChoosed)
+    //    {
+    //        foreach (SkinnedMeshRenderer mesh in characterModel.transform)
+    //        {
+    //            mesh.material = HologramMaterial;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        foreach (SkinnedMeshRenderer mesh in characterModel.transform)
+    //        {
+    //            mesh.material = characterMaterials[currentColorSkin];
+    //        }
+    //    }
+    //}
 
     public void UpdateCursorPosition(bool goToRight)
     {
@@ -186,6 +229,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         }
         playerCursor.transform.DOMove(characterCells[currentCursorPosition].transform.position, .2f);
         playerCursor.transform.DORotateQuaternion(characterCells[currentCursorPosition].transform.rotation, .2f);
+        CreateCharacterModel();
     }
 
     public void ChooseCharacter()
@@ -193,6 +237,27 @@ public class PlayerSelectionFrame : MonoBehaviour
         currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[currentCursorPosition];
         isPlayerConnected = true;
         isCharacterChoosed = true;
+
+        playerCursor.SetActive(false);
+        characterParams.SetActive(true);
+
+        UpdateParamsDisplay();
+    }
+
+    public void UnchooseCharacter()
+    {
+        currentChoosedCharacter = null;
+        isCharacterChoosed = false;
+
+        playerCursor.SetActive(true);
+        characterParams.SetActive(false);
+    }
+
+    public void UpdateParamsDisplay()
+    {
+        colorChoiceText.text = "Color " + (currentColorSkin + 1).ToString();
+        skillChoiceText.text = choosableSkills[currentChoosableSkill];
+        choosableSkillIcon.color = choosableSkillsColor[currentChoosableSkill];
     }
 
     public void ChangeParam()
@@ -206,10 +271,14 @@ public class PlayerSelectionFrame : MonoBehaviour
             currentParam = 0;
 
         paramCursor.transform.DOMove(paramPositions[currentParam].transform.position, .2f);
+        UpdateParamsDisplay();
     }
 
     public void UpdateParam(bool goToRight)
     {
+
+        //0 c'est les couleurs et 1 c'est les skills
+
         if (goToRight)
         {
             if (currentParam == 0)
@@ -261,21 +330,38 @@ public class PlayerSelectionFrame : MonoBehaviour
             }
         }
 
+        ChangeCharacterModelColor();
+        UpdateParamsDisplay();
+
     }
 
     public void Ready()
     {
+        characterParams.SetActive(false);
         isPlayerConnected = true;
         isCharacterChoosed = true;
         paramsChoosed = true;
         isPlayerReady = true;
     }
 
+    public void NotReady()
+    {
+        isPlayerConnected = true;
+        isCharacterChoosed = true;
+        paramsChoosed = false;
+        isPlayerReady = false;
+        characterParams.SetActive(true);
+    }
+
     public void RandomReady()
     {
+        characterParams.SetActive(false);
+        playerCursor.SetActive(false);
+
         currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[0];
         currentColorSkin = Random.Range(0, CharacterSelectManager._instance.characterDatas[0].characterMaterials.Count);
         currentChoosableSkill = Random.Range(0, choosableSkills.Length);
+        ChangeCharacterModelColor();
 
         isPlayerConnected = true;
         isCharacterChoosed = true;
