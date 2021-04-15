@@ -91,6 +91,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return powerGauge; }
 	}
 
+	[SerializeField]
+	private CharacterProjectile projectile;
+	public CharacterProjectile Projectile
+	{
+		get { return projectile; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{

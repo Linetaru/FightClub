@@ -42,7 +42,9 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager downSpecial;
 	[SerializeField]
-	AttackManager forwardSpecial;
+	AttackManager forwardSpecial;
+	[SerializeField]
+	AttackManager simpleSpecial;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
@@ -135,6 +137,15 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special))
+			{
+				if (character.Action.Action(simpleSpecial) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
 			}
 		}
 		else // Attaque dans les airs
@@ -197,6 +208,15 @@ public class CharacterMoveset : MonoBehaviour
 			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
 			{
 				if (character.Action.Action(forwardSpecial) == true)
+				{
+					character.SetState(stateAction);
+					character.Input.inputActions[0].timeValue = 0;
+					return true;
+				}
+			}
+			else if (character.Input.CheckAction(0, InputConst.Special))
+			{
+				if (character.Action.Action(simpleSpecial) == true)
 				{
 					character.SetState(stateAction);
 					character.Input.inputActions[0].timeValue = 0;

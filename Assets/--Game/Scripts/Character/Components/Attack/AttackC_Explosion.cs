@@ -36,7 +36,7 @@ public class AttackC_Explosion : AttackComponent
         timerExplosion += Time.deltaTime;
         if (timerExplosion >= timeBeforeExplosion)
         {
-            StartCoroutine(AutoExplode());
+            TriggerExplosion();
         }
     }
 	
@@ -44,7 +44,8 @@ public class AttackC_Explosion : AttackComponent
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         hasHit = true;
-        HitVFX();
+        collider.radius = explosionRadius;
+        ExplosionVFX();
     }
 
     // Appelé au moment de la destruction de l'attaque
@@ -52,18 +53,23 @@ public class AttackC_Explosion : AttackComponent
     {
 		
     }
-    private IEnumerator AutoExplode()
+    public IEnumerator Explode()
     {
         collider.radius = explosionRadius;
         yield return new WaitForSeconds(0.5f); // Pour qu'il prenne en compte le hit
-        HitVFX();
+        ExplosionVFX();
         if (!hasHit)
             Destroy(transform.root.gameObject);
     }
 
-    public void HitVFX()
+    public void ExplosionVFX()
     {
         GameObject go = Instantiate(explosionVFX, transform.position, Quaternion.identity);
         Destroy(go, timeBeforeDestroying);
+    }
+
+    public void TriggerExplosion()
+    {
+        StartCoroutine(Explode());
     }
 }

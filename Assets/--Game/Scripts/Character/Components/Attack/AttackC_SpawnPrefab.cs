@@ -39,6 +39,7 @@ public class AttackC_SpawnPrefab : AttackComponent
 			else
             {
 				Projectile projectile = go.GetComponent<Projectile>();
+				user.Projectile.AddProjectile(projectile);
 				//projectile.Speed = projectileSpeed;
 				projectile.Direction = user.Movement.Direction;
 				projectile.User = user;

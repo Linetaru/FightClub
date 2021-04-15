@@ -27,10 +27,6 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private AnimationCurve speedXDeceleration;
 
-    private bool isReadyToExplode;
-
-
-
     private CharacterBase user;
     public CharacterBase User
     {
@@ -48,6 +44,12 @@ public class Projectile : MonoBehaviour
     private CharacterRigidbodySlope rb;
 
 
+
+    [Title("Explosion Parameters")]
+    [SerializeField]
+    private AttackC_Explosion explosionComp; //Besoin pour trigger explosion télécommande
+
+
     void Start()
     {
         rb = GetComponent<CharacterRigidbodySlope>();
@@ -61,10 +63,10 @@ public class Projectile : MonoBehaviour
         SpeedManager();
     }
 
-    public void ReadyToExplode()
+    public void Explode()
     {
         Debug.Log("Explode");
-        isReadyToExplode = true;
+        explosionComp.TriggerExplosion();
     }
 
     public void DestroySelf()
@@ -105,11 +107,6 @@ public class Projectile : MonoBehaviour
                     speedX = Mathf.Lerp(speedMax, 0f, curvePercentX);
                 }
             }
-        }
-        else
-        {
-            if(!isReadyToExplode)
-                ReadyToExplode();
         }
     }
 }

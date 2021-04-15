@@ -127,7 +127,6 @@ public class AttackManager : MonoBehaviour
     }
     public void AddPlayerHitList(string targetTag)
     {
-        Debug.Log("KIKOU");
         foreach (AttackSubManager atkSub in atkSubs)
         {
             atkSub.AddPlayerHitList(targetTag);
