@@ -42,11 +42,11 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     //bool[] playersReadyStates = new bool[4];
 
-    public static CharacterSelectManager _instance;
+    //public static CharacterSelectManager _instance;
 
     private bool isStarted = false;
 
-    private void Awake()
+    /*private void Awake()
     {
         if (_instance == null)
         {
@@ -63,7 +63,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             Destroy(this);
         }
 
-    }
+    }*/
 
     //private void Start()
     //{
@@ -100,7 +100,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             holograms[ID].isPlayerConnected = true;
             numberOfConnectedPlayers++;
-            holograms[ID].Connected();
+            holograms[ID].Connected(characterDatas);
             //playersReadyStates[ID] = true;
             input_Info.inputUiAction = null;
         }
@@ -122,12 +122,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateCursorPosition(true);
+                holograms[ID].UpdateCursorPosition(characterDatas, true);
             }
             else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateCursorPosition(false);
+                holograms[ID].UpdateCursorPosition(characterDatas, false);
             }
             else if (Mathf.Abs(input_Info.horizontal) < .5f)
             {
@@ -138,13 +138,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[ID].currentCursorPosition == 2)
                 {
-                    holograms[ID].RandomReady();
+                    holograms[ID].RandomReady(characterDatas);
                 }
                 else
                 {
                     if (characterDatas[holograms[ID].currentCursorPosition] != null)
                     {
-                        holograms[ID].ChooseCharacter();
+                        holograms[ID].ChooseCharacter(characterDatas);
                     }
                 }
                 input_Info.inputUiAction = null;
@@ -170,12 +170,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             else if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateParam(true);
+                holograms[ID].UpdateParam(characterDatas, true);
             }
             else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateParam(false);
+                holograms[ID].UpdateParam(characterDatas, false);
             }
             else if (Mathf.Abs(input_Info.vertical) < .5f && (Mathf.Abs(input_Info.horizontal) < .5f))
             {
@@ -207,6 +207,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             if (input_Info.inputUiAction == InputConst.Pause)
             {
                 PlayReadySlashAnimation();
+                input_Info.inputUiAction = null;
             }
 
             if (input_Info.inputUiAction == InputConst.Return)
@@ -273,6 +274,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
+                    //gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
+                    //gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
                     if (gameData.CharacterInfos[i] != null)
                     {
                         if(holograms[i].currentChoosedCharacter != null)
@@ -283,15 +286,17 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 }
             }
 
-            //StartCoroutine(GoToStageMenu());
-            SceneManager.LoadScene("MenuSelection_Stage");
+            cameraTransition.SetTrigger("Feedback");
+            StartCoroutine(GoToStageMenu());
+            //SceneManager.LoadScene("MenuSelection_Stage");
         }
     }
 
-    //IEnumerator GoToStageMenu()
-    //{
-    //    yield return new WaitForSeconds(1.2f);
-    //}
+    private IEnumerator GoToStageMenu()
+    {
+        yield return new WaitForSeconds(1.2f);
+        SceneManager.LoadScene("MenuSelection_Stage");
+    }
 
     void ReturnToMainMenu()
     {
