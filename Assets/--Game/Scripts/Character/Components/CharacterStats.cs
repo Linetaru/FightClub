@@ -5,9 +5,11 @@ using Sirenix.OdinInspector;
 
 public class CharacterStats : MonoBehaviour
 {
+    public CharacterBase userBase;
+
     [Title("Data")]
     [SerializeField]
-    [ReadOnly]
+    [ReadOnly] // A mettre dans battle manager
     private GameData gameData;
     public GameData GameData
     {
@@ -17,7 +19,7 @@ public class CharacterStats : MonoBehaviour
 
     [SerializeField]
     [ReadOnly]
-    public PackageCreator.Event.GameEventFloat gameEvent;
+    public PackageCreator.Event.GameEventUICharacter gameEvent;
 
     [Title("Life")]
     [SerializeField]
@@ -62,12 +64,31 @@ public class CharacterStats : MonoBehaviour
         set { killNumber = value; }
     }
 
+    [Title("Movement Stats")]
+    [SerializeField]
+    private Stats speed;
+    public Stats Speed
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
+
+//=======================================================================================
+
     public void InitStats()
     {
+        userBase = this.transform.parent.transform.parent.GetComponent<CharacterBase>();
         if (GameData.VictoryCondition == VictoryCondition.Health)
             LifeStocks = GameData.NumberOfLifes;
         LifePercentage = 0;
         Death = false;
+        Speed.InitStats(userBase.Movement.SpeedMax);
+    }
+
+    public void ChangeSpeed(float newValue)
+    {
+        Speed.IncrementBonusStat(newValue);
+        userBase.Movement.SpeedMax = Speed.valueStat;
     }
 
     public void TakeDamage(float damage)
@@ -82,6 +103,8 @@ public class CharacterStats : MonoBehaviour
 
     public void RespawnStats()
     {
-        LifePercentage = 0;
+        LifePercentage = 0.0f;
+        if (gameEvent != null)
+            gameEvent.Raise(LifePercentage);
     }
 }

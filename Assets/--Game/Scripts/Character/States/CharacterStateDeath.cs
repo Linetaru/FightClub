@@ -17,9 +17,8 @@ public class CharacterStateDeath : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		HidePlayer();
-		character.Stats.LifeStocks--;
 		character.Action.CancelAction();
-
+		character.Knockback.IsInvulnerable = true;
 
 		timer = 0f;
 		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
@@ -47,6 +46,8 @@ public class CharacterStateDeath : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
+		character.Knockback.IsInvulnerable = false;
+		DisplayPlayer();
 		//character.Stats.RespawnStats();
 	}
 
@@ -58,6 +59,7 @@ public class CharacterStateDeath : CharacterState
 
 	private void HidePlayer()
 	{
+
 		playerObject.transform.localScale = new Vector3(0, 0, 1);
 		//playerObject.SetActive(false);
 	}

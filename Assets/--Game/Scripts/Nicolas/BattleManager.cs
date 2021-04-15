@@ -10,6 +10,9 @@ public class BattleManager : MonoBehaviour
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Events")]
+	public PackageCreator.Event.GameEventCharacter uiEvent;
+
 	[Title("Interractions")]
 	public InputController inputController;
 
@@ -18,9 +21,7 @@ public class BattleManager : MonoBehaviour
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
 
-	public CharacterUI[] characterUi;
-
-	public PackageCreator.Event.GameEventFloat[] gameEventFloats;
+	public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
 	[Title("Players List")]
 	public List<CharacterBase> characterAlive;
@@ -61,12 +62,39 @@ public class BattleManager : MonoBehaviour
 			user.Model.tag = "Player" + (i + 1);
 			inputController.controllable[i] = user;
 			characterAlive.Add(user);
+
+			user.PlayerID = i;
+			user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
+
 			user.Stats.GameData = gameData;
-			user.Stats.gameEvent = gameEventFloats[i];
+			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
-			if(characterUi.Length != 0)
-				characterUi[i].InitPlayerPanel(user);
+
+            user.PowerGauge.gameEvent = gameEventUICharacter[i];
+
+			//if (characterUi.Length != 0)
+			//	characterUi[i].InitPlayerPanel(user);
+
+			if (uiEvent != null)
+				uiEvent.Raise(user);
+
 			cameraController.targets.Add(go.transform);
+		}
+		isGameStarted = true;
+	}
+
+
+	public void ResetPlayer()
+	{
+		for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+		{
+			characterAlive[i].transform.position = spawningPoint[i].transform.position;
+			characterAlive[i].Stats.InitStats();
+
+			characterAlive[i].Action.CancelAction();
+			characterAlive[i].ResetToIdle();
+			characterAlive[i].Movement.SpeedX = 0;
+			characterAlive[i].Movement.SpeedY = 0;
 		}
 		isGameStarted = true;
 	}

@@ -14,8 +14,6 @@ public class CharacterStateIdle : CharacterState
 	CharacterState jumpStartState;
 	[SerializeField]
 	CharacterState turnAroundState;
-	[SerializeField]
-	CharacterState smashPressedState;
 
 
 	[Title("Parameter - Controls")]
@@ -37,10 +35,10 @@ public class CharacterStateIdle : CharacterState
 	[Title("Parameter - Actions")]
 	[SerializeField]
 	CharacterMoveset moveset;
+	[SerializeField]
+	CharacterEvasiveMoveset evasiveMoveset;
 
 	[Title("Parameter - Platform")]
-	[SerializeField]
-	LayerMask platformLayerMask;
 	[SerializeField]
 	LayerMask goThroughGroundMask;
 
@@ -49,34 +47,41 @@ public class CharacterStateIdle : CharacterState
 
 	float inputDirection = 0;
 	public bool canWallRun = true;
+	float gravityConst = 0.1f;
+
+	private void Start()
+	{
+		gravityConst = -0.1f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
+	}
 
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-
+		character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
 		Movement(character);
+		character.Movement.SpeedY = gravityConst;
+		//character.Movement.ApplyGravity();
 
-		if(moveset.ActionAttack(character) == true)
+		if (character.Input.CheckAction(0, InputConst.Jump)) 
 		{
-
-		}
-		else if (character.Input.inputActions.Count != 0) 
-		{
-			if (character.Input.inputActions[0].action == InputConst.Jump && character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
+			if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
 			{
+				character.Input.inputActions[0].timeValue = 0;
 				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
 				{
 					character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
 					StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));// Coroutine qui attend 1 frame pour reset le mask de collision du perso
 
 					character.SetState(aerialState);
-					character.Movement.SpeedY = 0;
 					character.Movement.ApplyGravity();
-					character.Input.inputActions[0].timeValue = 0;
+				}
+				else
+				{
+					character.SetState(jumpStartState);
 				}
 			}
 			else if (character.Input.inputActions[0].action == InputConst.Jump) // ----------------- Jump
@@ -85,24 +90,33 @@ public class CharacterStateIdle : CharacterState
 				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
+		else if (moveset.ActionAttack(character) == true)
+		{
+
+		}
+		else if (evasiveMoveset.Dodge(character) == true)
+		{
+
+		}
+		else if (evasiveMoveset.Parry(character) == true)
+		{
+
+		}
 	}
 
 
 	public override void LateUpdateState(CharacterBase character)
 	{
-		if (character.Rigidbody.CollisionWallInfo != null && canWallRun == true) // ------------ Wall run
+		if (character.Rigidbody.CollisionWallInfo.Collision != null && canWallRun == true) // ------------ Wall run
 		{
-			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.gameObject.layer == 15)
+			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
 				character.SetState(wallRunState);
-			else
+			else if (character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
 				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
-		}
-		
-		else if (character.Rigidbody.CollisionGroundInfo == null) // ------------ On tombe
+		}	
+		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
 		{
 			character.SetState(aerialState);
-			character.Movement.SpeedY = 0;
-			character.Movement.ApplyGravity();
 		}
 	}
 
@@ -154,7 +168,7 @@ public class CharacterStateIdle : CharacterState
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			// Walk vitesse constante
-			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
+			if (character.Movement.SpeedX <= (character.Movement.SpeedMax * speedMultiplierWalk) + 0.1f) // Le + 0.1f c'est un probleme de precision de float (et c'est ce probleme qui nous empeche de faire du rollback si on a des float)
 			{
 				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}
@@ -171,7 +185,6 @@ public class CharacterStateIdle : CharacterState
 			// Decceleration
 			character.Movement.Decelerate();
 		}
-		character.Movement.ApplyGravity();
 	}
 
 

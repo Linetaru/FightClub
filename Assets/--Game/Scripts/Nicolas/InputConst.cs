@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+//Class Static to Link action of Rewired in variable usable from all script
 public static class InputConst
 {
 	public static InputAction Horizontal = Rewired.ReInput.mapping.GetAction(0);
@@ -12,5 +13,18 @@ public static class InputConst
 	public static InputAction Smash = Rewired.ReInput.mapping.GetAction(4);
 	public static InputAction Interact = Rewired.ReInput.mapping.GetAction(5);
 	public static InputAction Return = Rewired.ReInput.mapping.GetAction(6);
-	public static InputAction Start = Rewired.ReInput.mapping.GetAction(7);
+	public static InputAction Pause = Rewired.ReInput.mapping.GetAction(7);
+	public static InputAction LeftShoulder = Rewired.ReInput.mapping.GetAction(8);
+	public static InputAction RightShoulder = Rewired.ReInput.mapping.GetAction(9);
+	public static InputAction Dodge = Rewired.ReInput.mapping.GetAction(10);
+	public static InputAction Grab = Rewired.ReInput.mapping.GetAction(11);
+	public static InputAction SignatureMove = Rewired.ReInput.mapping.GetAction(12);
+	public static InputAction UpTaunt = Rewired.ReInput.mapping.GetAction(13);
+	public static InputAction LeftTaunt = Rewired.ReInput.mapping.GetAction(14);
+	public static InputAction DownTaunt = Rewired.ReInput.mapping.GetAction(15);
+	public static InputAction RightTaunt = Rewired.ReInput.mapping.GetAction(16);
+	public static InputAction LeftTrigger = Rewired.ReInput.mapping.GetAction(19);
+	public static InputAction RightTrigger = Rewired.ReInput.mapping.GetAction(20);
+	public static InputAction Special = Rewired.ReInput.mapping.GetAction(21);
+	public static InputAction Back = Rewired.ReInput.mapping.GetAction(22);
 }

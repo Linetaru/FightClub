@@ -7,6 +7,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 {
 	[SerializeField]
 	CharacterState currentState;
+
+	[SerializeField]
+	CharacterState idleState;
+
+	[SerializeField]
+	CharacterState aerialState;
 	public CharacterState CurrentState
 	{
 		get { return currentState; }
@@ -14,8 +20,15 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	[Title("Model")]
 	[SerializeField]
-	private GameObject model;
-	public GameObject Model
+	private Transform centerPoint;
+	public Transform CenterPoint
+	{
+		get { return centerPoint; }
+	}
+
+	[SerializeField]
+	private CharacterModel model;
+	public CharacterModel Model
 	{
 		get { return model; }
 	}
@@ -49,6 +62,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
+
+	[SerializeField]
+	private CharacterParry parry;
+	public CharacterParry Parry
+	{
+		get { return parry; }
+	}
+
 	[SerializeField]
 	private CharacterStats stats;
 	public CharacterStats Stats
@@ -63,11 +84,36 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return particle; }
 	}
 
+	[SerializeField]
+	private CharacterPowerGauge powerGauge;
+	public CharacterPowerGauge PowerGauge
+	{
+		get { return powerGauge; }
+	}
+
+	[SerializeField]
+	private CharacterProjectile projectile;
+	public CharacterProjectile Projectile
+	{
+		get { return projectile; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{
 		get { return input; }
 	}
+
+
+	private int playerID;
+	public int PlayerID
+	{
+		get { return playerID; }
+		set { playerID = value; }
+	}
+
+
+
 
 	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
 	public event ActionSetState OnStateChanged;
@@ -97,6 +143,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void SetState(CharacterState characterState)
 	{
+		Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 
@@ -124,11 +171,27 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
+		powerGauge.ConsumePowerSegment(input_Info, this);
 
 		action.EndActionState();
 	}
 
+	public void ResetToIdle()
+    {
+        if (rigidbody.IsGrounded)
+        {
+			SetState(idleState);
+        }
+        else
+        {
+			ResetToAerial();
+		}
+    }
 
+	public void ResetToAerial()
+	{
+		SetState(aerialState);
+	}
 
 	public void SetMotionSpeed(float newValue, float time)
 	{

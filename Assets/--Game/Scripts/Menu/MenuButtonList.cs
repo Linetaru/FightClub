@@ -32,6 +32,11 @@ namespace Menu
 			subText.text = text2;
 		}
 
+		public virtual void DrawSubText(string text2)
+		{
+			subText.text = text2;
+		}
+
 		public virtual void SelectButton()
 		{
 			animator.SetTrigger("Selected");

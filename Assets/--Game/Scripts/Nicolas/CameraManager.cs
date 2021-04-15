@@ -21,7 +21,7 @@ public class Cam_Infos
 	[Title("Rails Array")]
 	//All array for scrolling movement get A and B point for each rails
 	public GameObject[] railsCamTravelling = new GameObject[2];
-	//public GameObject[] railsFocusTravelling = new GameObject[2];
+	public GameObject[] railsFocusTravelling = new GameObject[2];
 	public GameObject[] railsBlastZoneTravelling = new GameObject[2];
 
 	[Title("Parameter Timer")]
@@ -39,8 +39,11 @@ public class Cam_Infos
 	//GameObject Panel of Arrows scrolling information
 	public GameObject canvasPanelArrowToActivate;
 
-	//List de GameObject a desactiver en mode focus
+	//List GameObject who will be disable on focus mode
 	public List<GameObject> objectDisableOnFocusMode;
+
+	//List of platform 
+	public List<GameObject> platform;
 
 	//Function boolean to check if camera position has reach the last Point (Function to clear some condition in other class)
 	public bool isNotAtLimit(Transform c)
@@ -83,7 +86,7 @@ public class CameraManager : MonoBehaviour
 	public CameraZoomController zoomController;
 
 	//Get reference at blastZone object
-	public GameObject blastZone;
+	//public GameObject blastZone;
 
 	public List<UnityEngine.UI.Image> imagesUiRedScrolling;
 
@@ -98,6 +101,8 @@ public class CameraManager : MonoBehaviour
 
 	//Boolean to know if we loop scrolling movement at last config
 	public bool loopScrolling;
+
+	public bool canScroll = true;
 
 	public List<GameObject> disableGameObjectOnStart;
 
@@ -135,6 +140,8 @@ public class CameraManager : MonoBehaviour
 	//Update function to apply scrolling and make timer updated
 	void Update()
 	{
+		if(!canScroll) { return; }
+
         switch (stateCamera)
         {
 			case StateCamera.InFocusMode:
@@ -188,10 +195,11 @@ public class CameraManager : MonoBehaviour
 								{
 									go.SetActive(true);
 								}
+								cam_Infos[positionID].ChangeToVisible(true);
 							}
 						}
 						else
-							cam_Infos[positionID].ChangeToVisible(true);
+							cam_Infos[positionID - 1].ChangeToVisible(true);
 
 						imagesUiRedScrolling[0].transform.parent.gameObject.SetActive(true);
 
@@ -215,10 +223,10 @@ public class CameraManager : MonoBehaviour
 					transform.position = newPos;
 
 					//Update position of the gameObject Focus 
-					//zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					//Update position of the blastzone to kill player when they are to slow on scrolling mode
-					blastZone.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					BlastZoneManager.Instance.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					timeLerp += Time.deltaTime;
 				}

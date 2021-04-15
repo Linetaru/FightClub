@@ -36,9 +36,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
     private void Start()
     {
 		Pulse();
-
+		controlMapper.Open();
 		controlMapper.onScreenClosed -= CloseOptions;
 		controlMapper.onScreenClosed += CloseOptions;
+		controlMapper.Close(true);
 	}
 
 	public void Pulse()
@@ -63,7 +64,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 		if (!controlMapper.isOpen && timeTransition <= 0)
 		{
-			if (!OnTransition)
+			if (!OnTransition && !isStartMenu)
 			{
 				if (input_Info.vertical < -0.75)
 					ChangeSelectedButton(false);
@@ -74,16 +75,28 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					ChangeSelectedButton(true);
 				else if (input_Info.horizontal > 0.75)
 					ChangeSelectedButton(false);
+
+				if (input_Info.CheckAction(0, InputConst.LeftTaunt) || input_Info.CheckAction(0, InputConst.UpTaunt))
+				{
+					input_Info.inputActions[0].timeValue = 0;
+					ChangeSelectedButton(true);
+				}
+				else if (input_Info.CheckAction(0, InputConst.RightTaunt) || input_Info.CheckAction(0, InputConst.DownTaunt))
+				{
+					input_Info.inputActions[0].timeValue = 0;
+					ChangeSelectedButton(false);
+				}
 			}
 
-			if (input_Info.inputUiAction == InputConst.Start && isStartMenu)
+			if (input_Info.inputUiAction == InputConst.Pause && isStartMenu)
 			{
 				isStartMenu = false;
 				Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;
 				foreach (TextMeshProUGUI text in startTexts)
 					text.transform.gameObject.SetActive(false);
-				EventSystem.current.SetSelectedGameObject(playButton);
-				playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f);
+				//EventSystem.current.SetSelectedGameObject(playButton);
+				playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.2f);
+				optionButton.transform.DOScale(new Vector3(1f, 1f, 0), 0.2f);
 				currentButtonSelected = 1;
 				currentSelectButton = playButton;
 				CanPulse = false;
@@ -158,29 +171,29 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					break;
 			}
 		}
-		lastSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
 		currentSelectButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f).OnComplete(() => OnTransition = false);
-		EventSystem.current.SetSelectedGameObject(currentSelectButton);
+		lastSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
+		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
 	}
 
 	public void Options()
 	{
 		controlMapper.Open();
 
-		currentSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
+		currentSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.2f);
 		currentSelectButton = null;
 		//clear selected object
-		EventSystem.current.SetSelectedGameObject(null);
+		//EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	public void CloseOptions()
 	{
 		OnTransition = true;
-		optionButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f).OnComplete(() => OnTransition = false);
+		optionButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.2f).OnComplete(() => OnTransition = false);
 		currentButtonSelected = 1;
 		currentSelectButton = optionButton;
-		EventSystem.current.SetSelectedGameObject(currentSelectButton);
-		timeTransition = 0.4f;
+		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
+		timeTransition = 0.2f;
 	}
 
 	public void GoToOtherScene()

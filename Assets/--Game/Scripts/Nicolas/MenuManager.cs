@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour, IControllable
 		else if (input_Info.vertical > 0.75)
 			ChangeSelectedButton(true);
 
-		if (input_Info.inputUiAction == InputConst.Start)
+		if (input_Info.inputUiAction == InputConst.Pause)
 		{
 			input_Info.inputUiAction = null;
 			Options();

@@ -8,6 +8,8 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     CharacterState idleState;
     [SerializeField]
+    CharacterState landState;
+    [SerializeField]
     CharacterState aerialState;
 
 
@@ -15,33 +17,40 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float collisionFriction = 5f;
     [SerializeField]
-    [MaxValue(1)]
-    [MinValue(0)]
+    [Range(0,1)]
     float reboundReduction = 0.75f;
+
+    [SerializeField]
+    float reboundSpeedNeeded = 2f;
+
+    [SerializeField]
+    [SuffixLabel("en frames")]
+    float landingTime = 10;
 
     [Title("Parameter - Collision")]
     [SerializeField]
     LayerMask knockbackLayerMask;
 
-    // Start is called before the first frame update
-    void Start()
+    [Title("Parameter - Collision")]
+    [SerializeField]
+    ParticleSystem particleTrail;
+
+
+    private void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        landingTime /= 60f;
     }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        particleTrail.Play();
         character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
+
+        character.Parry.ParryNumber = 0;
     }
 
     public override void UpdateState(CharacterBase character)
@@ -59,33 +68,41 @@ public class CharacterStateKnockback : CharacterState
         character.Knockback.UpdateKnockback(1);
         if (character.Knockback.KnockbackDuration <= 0)
         {
-            if (character.Rigidbody.IsGrounded)
+            character.ResetToIdle();
+            /*if (character.Rigidbody.IsGrounded)
             {
                 character.SetState(idleState);
             }
             else
             {
                 character.SetState(aerialState);
-            }
+            }*/
         }
 
     }
 
     public override void LateUpdateState(CharacterBase character)
     {
-        if (character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null)
+        if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null) && Mathf.Abs(character.Movement.SpeedY) > reboundSpeedNeeded)
         {
             character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
+            /*if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
+            {
+                character.SetState(landState);
+            }*/
         }
 
-        if (character.Rigidbody.CollisionWallInfo != null)
+        if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
+            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }
     }
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {
+        particleTrail.Stop();
         character.Rigidbody.ResetLayerMask();
     }
 }
