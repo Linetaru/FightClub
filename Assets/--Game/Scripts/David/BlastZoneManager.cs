@@ -82,8 +82,12 @@ public class BlastZoneManager : MonoBehaviour
         if (playerCB != null)
         {
             ExplosionDeath(other.GetComponent<Collider>());
+
+            playerCB.Stats.LifeStocks--;
+
             float stocks = playerCB.Stats.LifeStocks;
-            if (stocks - 1 > 0)
+
+            if (stocks > 0)
             {
                 // Respawn Manager
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
