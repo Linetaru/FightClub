@@ -8,16 +8,19 @@ public class AttackC_Explosion : AttackComponent
     [SerializeField]
     private SphereCollider collider;
 
-	[SerializeField]
+    [HorizontalGroup("1")]
+    [HideLabel]
+    public GameObject explosionVFX;
+    [HorizontalGroup("1")]
+    public float timeBeforeDestroying;
+
+    [SerializeField]
 	private float explosionRadius = 5.0f;
 	[SerializeField]
 	private float timeBeforeExplosion = 8.0f;
     private float timerExplosion = 0f;
 
     private bool hasHit;
-
-    [SerializeField]
-    private GameObject objectToDestroy;
 
 	// Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
@@ -33,7 +36,7 @@ public class AttackC_Explosion : AttackComponent
         timerExplosion += Time.deltaTime;
         if (timerExplosion >= timeBeforeExplosion)
         {
-            StartCoroutine(Explode());
+            StartCoroutine(AutoExplode());
         }
     }
 	
@@ -41,7 +44,7 @@ public class AttackC_Explosion : AttackComponent
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         hasHit = true;
-        // Lancer les VFX d'explosion ici
+        HitVFX();
     }
 
     // Appelé au moment de la destruction de l'attaque
@@ -49,12 +52,18 @@ public class AttackC_Explosion : AttackComponent
     {
 		
     }
-    private IEnumerator Explode()
+    private IEnumerator AutoExplode()
     {
-        // Lancer les VFX d'explosion ici
         collider.radius = explosionRadius;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f); // Pour qu'il prenne en compte le hit
+        HitVFX();
         if (!hasHit)
-            Destroy(objectToDestroy);
+            Destroy(transform.root.gameObject);
+    }
+
+    public void HitVFX()
+    {
+        GameObject go = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+        Destroy(go, timeBeforeDestroying);
     }
 }
