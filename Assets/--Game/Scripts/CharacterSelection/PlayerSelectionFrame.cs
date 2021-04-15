@@ -242,6 +242,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
 
         UpdateParamsDisplay();
+        ChangeCharacterModelColor();
     }
 
     public void UnchooseCharacter()
