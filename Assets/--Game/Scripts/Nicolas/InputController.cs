@@ -29,6 +29,9 @@ public class Input_Info
 
 	public List<InputBuffer> inputActions;
 	public List<InputBuffer> inputActionsUP;
+
+	public List<InputAction> inputActionsHold;
+
 	public Rewired.InputAction inputUiAction;
 
 	public Input_Info()
@@ -66,17 +69,11 @@ public class Input_Info
 		return false;
 	}
 
-	public bool IsHolding(int id, InputAction inputAction)
+	public bool CheckActionHold(InputAction inputAction)
 	{
-		if (inputActions.Count != 0)
-		{
-			if (inputActions[id].action == inputAction)
-			{
-				return inputActions[id].hold;
-			}
-		}
-		return false;
+		return inputActionsHold.Contains(inputAction);
 	}
+
 }
 
 //Main class for Input Management, Send input to all player attached to this controller And manage input buffer for each player.
@@ -210,6 +207,8 @@ public class InputController : SerializedMonoBehaviour
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;
+
+			playerInputs[ID].inputActionsHold.Add(ReInput.mapping.GetAction(action));
 		}
 		else if (players[ID].GetButtonUp(action))
 		{
@@ -226,6 +225,8 @@ public class InputController : SerializedMonoBehaviour
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;
+
+			playerInputs[ID].inputActionsHold.Remove(ReInput.mapping.GetAction(action));
 		}
 	}
 

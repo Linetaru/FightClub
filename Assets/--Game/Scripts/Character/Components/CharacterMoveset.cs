@@ -198,7 +198,6 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.Action.Action(attack) == true)
 		{
 			character.SetState(stateAction);
-			character.Input.inputActions[0].timeValue = 0;
 			return true;
 		}
 		return false;

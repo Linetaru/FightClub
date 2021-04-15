@@ -29,7 +29,7 @@ public class CharacterStateParrySuccess : CharacterState
 	public override void UpdateState(CharacterBase character)
 	{
 		//if((!character.Input.CheckActionUP(0, InputConst.RightShoulder) && !character.Input.CheckActionUP(0, InputConst.RightTrigger)) && character.MotionSpeed != 0)
-		if (character.Input.CheckActionUP(0, InputConst.RightShoulder) == false && character.MotionSpeed != 0)
+		if (character.Input.CheckActionHold(InputConst.RightShoulder) == true && character.MotionSpeed != 0)
 		{
 			if (moveset.ActionAttack(character, counterAction) == true)
 			{

@@ -48,6 +48,7 @@ public class CharacterAnimation : MonoBehaviour
         animator.ResetTrigger("Crouch");
         animator.ResetTrigger("Deccelerate");
         animator.ResetTrigger("TurnAround");
+        animator.ResetTrigger("Parry");
 
         if (newState is CharacterStateDeath)
         {
@@ -97,6 +98,11 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateTurnAround)
         {
             animator.SetTrigger("TurnAround");
+        }
+
+        if (newState is CharacterStateParry)
+        {
+            animator.SetTrigger("Parry");
         }
 
         if (newState is CharacterStateParryBlow)

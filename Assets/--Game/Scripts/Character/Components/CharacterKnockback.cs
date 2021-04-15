@@ -13,6 +13,10 @@ public class CharacterKnockback : MonoBehaviour
         set { contactPoint = value; }
     }
 
+    [Title("States")]
+    [SerializeField]
+    CharacterState stateKnockback;
+
     [Title("FeedbackComponents")]
     [SerializeField]
     private ShakeEffect shakeEffect;
@@ -81,7 +85,8 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-    // A mettre dans une interface
+
+
     public bool CanKnockback()
     {
         if (knockbackDuration <= 0)
@@ -89,12 +94,62 @@ public class CharacterKnockback : MonoBehaviour
         return true;
     }
 
-    // Fonction a appelé quand le personnage se fait touché
-    // A mettre dans une interface
+
     public void Hit()
     {
         // Event onHit
     }
+
+
+    List<AttackSubManager> atkRegistered = new List<AttackSubManager>();
+
+    public void RegisterHit(AttackSubManager attack)
+    {
+        if(!atkRegistered.Contains(attack))
+            atkRegistered.Add(attack);
+    }
+
+    public void CheckHit(CharacterBase character)
+    {
+        for (int i = atkRegistered.Count-1; i >= 0; i--)
+        {
+
+            /*if (character.Parry.CanParry(atkMan) == true)   // On parry
+            {
+                Debug.Log("Parry");
+                character.Parry.Parry(character, atkMan.User);
+                atkMan.User.Parry.ParryRepel(atkMan.User, character);
+                atkMan.AddPlayerHitList(character.tag);
+            }*/
+
+            if(atkRegistered[i].HasClash == true)
+            {
+                character.Parry.Parry(character, atkRegistered[i].User);
+                //atkMan.User.Parry.ParryRepel(atkMan.User, character);
+            }
+            else
+            {
+                atkRegistered[i].Hit(character);
+                if (CanKnockback() == true)
+                    character.SetState(stateKnockback);
+            }
+            atkRegistered.RemoveAt(i);
+
+
+           /* if (!attackRegistered[i].IsInHitList(character.tag))  // On se prend l'attaque
+            {
+                attackRegistered[i].Hit(character);
+                if (CanKnockback() == true)
+                    character.SetState(stateKnockback);
+            }*/
+        }
+ 
+    }
+
+
+
+
+
 
 
     public Vector2 GetAngleKnockback()

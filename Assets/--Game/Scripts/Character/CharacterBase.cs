@@ -158,7 +158,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
+		// Les animation event se lancent avant l'update
+		// Action.CanEndAction() se lance en tout début pour bien recevoir les animation event
 		action.CanEndAction();
+
+		// Les OnTrigger se lancent avant l'update
+		// Knockback.CheckHit se lance en tout début pour bien recevoir les collisions
+		knockback.CheckHit(this);
 
 		input = input_Info;
 		currentState.UpdateState(this);

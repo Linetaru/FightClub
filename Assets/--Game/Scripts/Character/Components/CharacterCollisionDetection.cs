@@ -6,8 +6,8 @@ public class CharacterCollisionDetection : MonoBehaviour
 {
     [SerializeField]
     CharacterBase character;
-    [SerializeField]
-    CharacterState stateKnockback;
+    /*[SerializeField]
+    CharacterState stateKnockback;*/
 
 
     public void OnTriggerEnter(Collider other)
@@ -25,19 +25,23 @@ public class CharacterCollisionDetection : MonoBehaviour
             character.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + character.CenterPoint.position) / 2f;
 
 
-            if (character.Parry.CanParry(atkMan) == true)   // On parry
-            {
-                Debug.Log("Parry");
-                character.Parry.Parry(character, atkMan.User);
-                atkMan.User.Parry.ParryRepel(atkMan.User, character);
-                atkMan.AddPlayerHitList(character.tag);
-            }
-            else if (!atkMan.IsInHitList(character.tag))  // On se prend l'attaque
-            {
-                atkMan.Hit(character);
-                if (character.Knockback.CanKnockback() == true)
-                    character.SetState(stateKnockback);
-            }
+            // Register Collision
+            character.Knockback.RegisterHit(atkMan);
+
+
+            /* if (character.Parry.CanParry(atkMan) == true)   // On parry
+             {
+                 Debug.Log("Parry");
+                 character.Parry.Parry(character, atkMan.User);
+                 atkMan.User.Parry.ParryRepel(atkMan.User, character);
+                 atkMan.AddPlayerHitList(character.tag);
+             }
+             else if (!atkMan.IsInHitList(character.tag))  // On se prend l'attaque
+             {
+                 atkMan.Hit(character);
+                 if (character.Knockback.CanKnockback() == true)
+                     character.SetState(stateKnockback);
+             }*/
         }
     }
 }

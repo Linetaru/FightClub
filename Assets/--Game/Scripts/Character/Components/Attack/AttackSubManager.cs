@@ -26,6 +26,12 @@ public class AttackSubManager : MonoBehaviour
         get { return user; }
     }
 
+    bool hasClash;
+    public bool HasClash
+    {
+        get { return hasClash; }
+    }
+
     private List<string> playerHitList = new List<string>();
 
 
@@ -97,6 +103,10 @@ public class AttackSubManager : MonoBehaviour
         return playerHitList.Contains(targetTag);
     }
 
+
+
+
+
     public void Hit(CharacterBase target)
     {
         string targetTag = target.transform.root.tag;
@@ -122,6 +132,23 @@ public class AttackSubManager : MonoBehaviour
             user.Action.HasHit(target);
         }
     }
+
+
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(this.tag))
+            return;
+        AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
+        if (atkMan != null)
+        {
+            Debug.Log("Clash");
+            hasClash = true;
+        }
+    }
+
 
 
 
