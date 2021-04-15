@@ -40,7 +40,12 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager upSpecial;
 	[SerializeField]
-	AttackManager downSpecial;
+	AttackManager downSpecial;
+
+
+	[Title("Test")]
+	[SerializeField]
+	AttackManager testAttack;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
@@ -57,8 +62,19 @@ public class CharacterMoveset : MonoBehaviour
 	/// <returns></returns>
 	public bool ActionAttack(CharacterBase character)
 	{
+		if (character.Input.CheckAction(0, InputConst.LeftShoulder))
+		{
+			if (character.Action.Action(testAttack) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}
+		}
+
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
-		{
+		{
+
 			/*if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
 				if (character.Action.Action(signatureMove) == true)
@@ -68,7 +84,7 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}*/
+			}*/
 			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 			{
 				if (character.Action.Action(downTilt) == true)

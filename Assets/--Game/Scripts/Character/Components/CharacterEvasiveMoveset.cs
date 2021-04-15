@@ -31,7 +31,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		if (character.Rigidbody.IsGrounded == true)
 			nbOfDodge = 2;
 
-		if ((character.Input.CheckAction(0, InputConst.RightShoulder) || character.Input.CheckAction(0, InputConst.RightTrigger)) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
+		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
 		{
 			if (character.Rigidbody.IsGrounded == true)
 			{
@@ -96,7 +96,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public bool Parry(CharacterBase character)
 	{
-		if ((character.Input.CheckAction(0, InputConst.RightShoulder) || character.Input.CheckAction(0, InputConst.RightTrigger)) && (Mathf.Abs(character.Input.horizontal) <= 0.3f && Mathf.Abs(character.Input.vertical) <= 0.3f))
+		if (character.Input.CheckAction(0, InputConst.RightShoulder))
 		{
 			character.SetState(stateParry);
 			character.Input.inputActions[0].timeValue = 0;

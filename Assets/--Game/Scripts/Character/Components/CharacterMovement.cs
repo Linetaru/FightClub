@@ -123,7 +123,7 @@ public class CharacterMovement : MonoBehaviour
     public int CurrentNumberOfJump
     {
         get { return currentNumberOfJump; }
-        set { currentNumberOfJump = value; }
+        set { currentNumberOfJump = Mathf.Clamp(value, 0, JumpNumber); }
     }
 
 

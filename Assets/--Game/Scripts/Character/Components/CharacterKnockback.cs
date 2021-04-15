@@ -114,16 +114,17 @@ public class CharacterKnockback : MonoBehaviour
         for (int i = atkRegistered.Count-1; i >= 0; i--)
         {
 
-            /*if (character.Parry.CanParry(atkMan) == true)   // On parry
+            if (character.Parry.CanParry(atkRegistered[i]) == true)   // On parry
             {
                 Debug.Log("Parry");
-                character.Parry.Parry(character, atkMan.User);
-                atkMan.User.Parry.ParryRepel(atkMan.User, character);
-                atkMan.AddPlayerHitList(character.tag);
-            }*/
+                character.Parry.Parry(character, atkRegistered[i].User);
+                atkRegistered[i].User.Parry.ParryRepel(atkRegistered[i].User, character);
+                atkRegistered[i].AddPlayerHitList(character.tag);
+            }
 
-            if(atkRegistered[i].HasClash == true)
+            else if(atkRegistered[i].HasClash == true)
             {
+                Debug.Log("Parry");
                 character.Parry.Parry(character, atkRegistered[i].User);
                 //atkMan.User.Parry.ParryRepel(atkMan.User, character);
             }

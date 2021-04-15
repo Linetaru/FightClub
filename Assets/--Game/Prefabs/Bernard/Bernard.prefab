@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterParticle: {fileID: 4428976173574812713}
-  speedMax: 11
+  speedMax: 10
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -365,13 +365,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   timeDeccelerationMax: 0.4
-  jumpForce: 15
+  jumpForce: 14
   jumpNumber: 1
-  gravity: 40
+  gravity: 35
   gravityMax: -20
   airControl: 30
   airFriction: 0.8
-  maxAerialSpeed: 10.5
+  maxAerialSpeed: 9
   direction: 1
   speedX: 0
   speedY: 0
@@ -820,6 +820,7 @@ MonoBehaviour:
   downAir: {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
   upSpecial: {fileID: 8045468721652775528, guid: 26095eaf69edd8f47a61feff9140ba8e, type: 3}
   downSpecial: {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
+  testAttack: {fileID: 8045468721652775528, guid: b0fca29db030e114a832febf116a82a4, type: 3}
   signatureMove: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
   stateAction: {fileID: 8607249597957437018}
 --- !u!136 &3237672040681805802
@@ -1095,9 +1096,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2901a05f6aa8440bc59e6097161f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBlow: 0.2
-  timeStop: 0.12
+  timeBlow: 0.5
+  timeStop: 0.1
   evasiveMoveset: {fileID: 7481538343195565769}
+  ejectionPower: 8
+  ejectionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!54 &2103439547867400745
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2219,12 +2245,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3aad6b830e08c140b6763cf6e6dc9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLag: 0.5
-  timeCancel: 0.4
-  timeCancelAttack: 0.3
+  timeLag: 0.4
+  timeCancel: 0.3
+  timeCancelAttack: 0.2
   moveset: {fileID: 250346952992248130}
   evasiveMoveset: {fileID: 7481538343195565769}
   counterAction: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
+  homingDashState: {fileID: 2322163792456258630}
 --- !u!1 &9122743825121428134
 GameObject:
   m_ObjectHideFlags: 0

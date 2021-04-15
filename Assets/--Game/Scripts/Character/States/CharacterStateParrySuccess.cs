@@ -19,45 +19,63 @@ public class CharacterStateParrySuccess : CharacterState
 	[SerializeField]
 	AttackManager counterAction;
 
+	[SerializeField]
+	CharacterState homingDashState;
+
 	float t = 0f;
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		t = timeLag;
+		character.Movement.CurrentNumberOfJump += 1;
+		evasiveMoveset.ResetDodge();
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
 		//if((!character.Input.CheckActionUP(0, InputConst.RightShoulder) && !character.Input.CheckActionUP(0, InputConst.RightTrigger)) && character.MotionSpeed != 0)
-		if (character.Input.CheckActionHold(InputConst.RightShoulder) == true && character.MotionSpeed != 0)
+		/*if (character.Input.CheckActionHold(InputConst.RightShoulder) == true && character.MotionSpeed != 0)
 		{
 			if (moveset.ActionAttack(character, counterAction) == true)
 			{
-				character.Input.inputActionsUP[0].timeValue = 0;
 				return;
 			}
-		}
+		}*/
 
+		/*if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
+		{
+			if (character.Action.CharacterHit != null) // On a touché quelqu'un 
+			{
+				character.SetState(homingDashState);
+				character.Input.inputActions[0].timeValue = 0;
+				return;
+			}
+		}*/
 
 
 
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= timeCancel)
 		{
-			if(evasiveMoveset.Dodge(character))
+			if (evasiveMoveset.Parry(character))
 			{
 				return;
 			}
-			else if (character.Input.CheckAction(0, InputConst.Jump))
-			{
-				character.ResetToIdle();
-			}
+
 		}
 		if (t <= timeCancelAttack)
 		{
 			if (moveset.ActionAttack(character))
 			{
 				return;
+			}
+			else if (evasiveMoveset.Dodge(character))
+			{
+				return;
+			}
+			else if (character.Input.CheckAction(0, InputConst.Jump))
+			{
+				character.ResetToIdle();
 			}
 		}
 
