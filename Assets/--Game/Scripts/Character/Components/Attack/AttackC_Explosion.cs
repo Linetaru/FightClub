@@ -21,11 +21,14 @@ public class AttackC_Explosion : AttackComponent
     private float timerExplosion = 0f;
 
     private bool hasHit;
+    private bool clearAfterExplode;
+
+    private CharacterBase character;
 
 	// Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
     {
-		
+        character = user;
     }
 	
 	// Appelé tant que l'attaque existe 
@@ -36,18 +39,23 @@ public class AttackC_Explosion : AttackComponent
         timerExplosion += Time.deltaTime;
         if (timerExplosion >= timeBeforeExplosion)
         {
-            user.Projectile.ClearAll();
             TriggerExplosion();
+        }
+
+        if(clearAfterExplode)
+        {
+            clearAfterExplode = false;
+            user.Projectile.ClearAll();
         }
     }
 	
 	// Appelé au moment où l'attaque touche une target
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
+        user.Projectile.ClearAll();
         hasHit = true;
         collider.radius = explosionRadius;
         ExplosionVFX();
-        user.Projectile.ClearAll();
     }
 
     // Appelé au moment de la destruction de l'attaque
@@ -61,7 +69,10 @@ public class AttackC_Explosion : AttackComponent
         yield return new WaitForSeconds(0.5f); // Pour qu'il prenne en compte le hit
         ExplosionVFX();
         if (!hasHit)
+        {
+            character.Projectile.ClearAll();
             Destroy(transform.root.gameObject);
+        }
     }
 
     public void ExplosionVFX()
