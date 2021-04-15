@@ -4,11 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterSelectManager : MonoBehaviour
+public class CharacterSelectManager : MonoBehaviour, IControllable
 {
 
-    [SerializeField]
-    PlayerSelectionFrame[] players;
+    //[SerializeField]
+    //PlayerSelectionFrame[] players;
 
     [SerializeField]
     GameObject readyBands;
@@ -33,9 +33,186 @@ public class CharacterSelectManager : MonoBehaviour
     [SerializeField]
     Animator cameraTransition;
 
+
+    [SerializeField]
+    public CharacterData[] characterDatas;
+
+    [SerializeField]
+    PlayerSelectionFrame[] holograms;
+
+    //bool[] playersReadyStates = new bool[4];
+
+    public static CharacterSelectManager _instance;
+
     private void Awake()
     {
-        UpdateStockText();
+        if (_instance == null)
+        {
+
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+
+            //Rest of your Awake code
+            UpdateStockText();
+
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+    }
+
+    //private void Start()
+    //{
+
+    //}
+
+    public void UpdateControl(int ID, Input_Info input_Info)
+    {
+        holograms[ID].UpdateCharacterModel(characterDatas[ID].characterSelectionModel);
+        holograms[ID].UpdateDisplay();
+        DisplayReadyBands();
+
+        if(input_Info.inputUiAction == InputConst.LeftTaunt)
+        {
+            if(playerStocks > 1)
+            {
+                playerStocks--;
+                UpdateStockText();
+            }
+        }
+        else if(input_Info.inputUiAction == InputConst.RightTaunt)
+        {
+            if (playerStocks < 99)
+            {
+                playerStocks++;
+                UpdateStockText();
+            }
+        }
+
+        //Quand le joueur n'est pas connecté
+
+        Debug.Log(holograms[ID]);
+
+        if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Interact)
+        {
+            Debug.Log("Joueur connecté");
+            holograms[ID].isPlayerConnected = true;
+            numberOfConnectedPlayers++;
+            //playersReadyStates[ID] = true;
+        }
+
+        if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Return)
+        {
+            foreach (PlayerSelectionFrame hologram in holograms)
+            {
+                hologram.isPlayerConnected = false;
+                hologram.isCharacterChoosed = false;
+                hologram.paramsChoosed = false;
+            }
+            ReturnToMainMenu();
+        }
+
+        //Quand le joueur est connecté mais qu'il n'as pas choisi son perso
+
+        if (holograms[ID].isPlayerConnected && !holograms[ID].isCharacterChoosed)
+        {
+            if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
+            {
+                holograms[ID].joystickPushed = true;
+                holograms[ID].UpdateCursorPosition(true);
+            }
+            else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
+            {
+                holograms[ID].joystickPushed = true;
+                holograms[ID].UpdateCursorPosition(false);
+            }
+            else if (Mathf.Abs(input_Info.horizontal) < .5f)
+            {
+                holograms[ID].joystickPushed = false;
+            }
+
+            if (input_Info.inputUiAction == InputConst.Interact)
+            {
+                if (holograms[ID].currentCursorPosition == 2)
+                {
+                    holograms[ID].RandomReady();
+                }
+                else
+                {
+                    if (characterDatas[holograms[ID].currentCursorPosition] != null)
+                    {
+                        holograms[ID].ChooseCharacter();
+                    }
+                }
+            }
+
+            if (input_Info.inputUiAction == InputConst.Return)
+            {
+                holograms[ID].isCharacterChoosed = false;
+                numberOfConnectedPlayers--;
+            }
+        }
+
+        //Quand le joueur a choisi son perso mais pas sa couleur et son skill
+
+        if (holograms[ID].isCharacterChoosed && !holograms[ID].paramsChoosed)
+        {
+            if (Mathf.Abs(input_Info.vertical) > .5f && !holograms[ID].joystickPushed)
+            {
+                holograms[ID].joystickPushed = true;
+                holograms[ID].ChangeParam();
+            }
+            else if (Mathf.Abs(input_Info.vertical) < .5f)
+            {
+                holograms[ID].joystickPushed = false;
+            }
+
+            if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
+            {
+                holograms[ID].joystickPushed = true;
+                holograms[ID].UpdateParam(true);
+            }
+            else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
+            {
+                holograms[ID].joystickPushed = true;
+                holograms[ID].UpdateParam(false);
+            }
+            else if (Mathf.Abs(input_Info.horizontal) < .5f)
+            {
+                holograms[ID].joystickPushed = false;
+            }
+
+            if (input_Info.inputUiAction == InputConst.Interact)
+            {
+                holograms[ID].Ready();
+                numberOfReadyPlayers++;
+            }
+
+            if (input_Info.inputUiAction == InputConst.Return)
+            {
+                holograms[ID].paramsChoosed = false;
+            }
+        }
+
+        // Quand le joueur est prêt
+
+        if((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady))
+        {
+            if(input_Info.inputUiAction == InputConst.Pause)
+            {
+                PlayReadySlashAnimation();
+            }
+
+            if(input_Info.inputUiAction == InputConst.Return)
+            {
+                HideReadyBands();
+                holograms[ID].isPlayerReady = false;
+                holograms[ID].paramsChoosed = false;
+            }
+        }
+
     }
 
     public void UpdateStockText()
@@ -72,17 +249,29 @@ public class CharacterSelectManager : MonoBehaviour
             {
                 gameData.CharacterInfos.Add(new Character_Info());
             }
-            Debug.Log(players.Length);
+            //Debug.Log(players.Length);
 
-            for (int i = 0; i < players.Length; i++)
+            //for (int i = 0; i < players.Length; i++)
+            //{
+            //    Debug.Log(players[i].currentCursorPosition);
+
+            //    if (players[i].isPlayerReady)
+            //    {
+            //        Debug.Log(players[i].currentCursorPosition);
+            //        gameData.CharacterInfos[characterInfoNumber].CharacterData = players[i].characterCells[players[i].currentCursorPosition].characterData;
+            //        gameData.CharacterInfos[characterInfoNumber].CharacterColorID = players[i].currentColorSkin;
+            //        characterInfoNumber++;
+            //        //gameData.CharacterInfos[characterInfoNumber].CharacterData.
+            //    }
+            //}
+            for (int i = 0; i < holograms.Length; i++)
             {
-                Debug.Log(players[i].actualCursorPosition);
+                Debug.Log(holograms[i].currentCursorPosition);
 
-                if (players[i].isPlayerReady)
+                if (holograms[i].isPlayerReady)
                 {
-                    Debug.Log(players[i].actualCursorPosition);
-                    gameData.CharacterInfos[characterInfoNumber].CharacterData = players[i].characterCells[players[i].actualCursorPosition].characterData;
-                    gameData.CharacterInfos[characterInfoNumber].CharacterColorID = players[i].actualColorSkin;
+                    gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
+                    gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
                     characterInfoNumber++;
                     //gameData.CharacterInfos[characterInfoNumber].CharacterData.
                 }
@@ -95,5 +284,10 @@ public class CharacterSelectManager : MonoBehaviour
         cameraTransition.SetTrigger("Feedback");
         yield return new WaitForSeconds(1.2f);
         SceneManager.LoadScene("MenuSelection_Stage");
+    }
+
+    void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("GP_Menu");
     }
 }
