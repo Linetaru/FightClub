@@ -5,16 +5,15 @@ using Sirenix.OdinInspector;
 
 public class AttackC_TriggerExplosion : AttackComponent
 {
-	[SerializeField]
-	AttackManager atkMan;
-
 	// Appelé au moment où l'attaque est initialisé
 	public override void StartComponent(CharacterBase user)
 	{
 		if (!user.Projectile.CanShootProjectile())
 			user.Projectile.TriggerAll();
 		else
-			atkMan.CancelAction();
+		{ 
+			Debug.Log("PAS DE BOMBES");
+		}
 	}
 	
 	// Appelé tant que l'attaque existe 

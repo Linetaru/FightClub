@@ -21,6 +21,11 @@ public class CharacterProjectile : MonoBehaviour
             p.Explode();
             //listProjectiles.Remove(p);
         }
+        ClearAll();
+    }
+
+    public void ClearAll()
+    {
         listProjectiles.Clear();
     }
 

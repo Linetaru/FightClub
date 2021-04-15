@@ -36,6 +36,7 @@ public class AttackC_Explosion : AttackComponent
         timerExplosion += Time.deltaTime;
         if (timerExplosion >= timeBeforeExplosion)
         {
+            user.Projectile.ClearAll();
             TriggerExplosion();
         }
     }
@@ -46,6 +47,7 @@ public class AttackC_Explosion : AttackComponent
         hasHit = true;
         collider.radius = explosionRadius;
         ExplosionVFX();
+        user.Projectile.ClearAll();
     }
 
     // Appelé au moment de la destruction de l'attaque
