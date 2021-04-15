@@ -16,6 +16,8 @@ public class AttackC_Knockback : AttackComponent
     [Title("HitStop")]
     [SerializeField]
     float hitStop = 0.1f;
+    [SerializeField]
+    bool removeHitStopAttacker = false;
 
 
     [SerializeField]
@@ -134,7 +136,10 @@ public class AttackC_Knockback : AttackComponent
         target.Knockback.Launch(knockbackDirection, knockbackValue, bonusHitstun / 60f);
 
         float hitStopAmount = hitStop;
-        user.SetMotionSpeed(0, hitStopAmount);
+
+        if(!removeHitStopAttacker)
+            user.SetMotionSpeed(0, hitStopAmount);
+
         target.SetMotionSpeed(0, hitStopAmount);
 
 
