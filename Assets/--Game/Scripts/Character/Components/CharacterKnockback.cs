@@ -17,15 +17,16 @@ public class CharacterKnockback : MonoBehaviour
     [SerializeField]
     CharacterState stateKnockback;
 
-    [Title("FeedbackComponents")]
+
+    [Title("Parry")]
     [SerializeField]
-    private ShakeEffect shakeEffect;
-    public ShakeEffect ShakeEffect
+    private CharacterParry parry;
+    public CharacterParry Parry
     {
-        get { return shakeEffect; }
+        get { return parry; }
     }
 
-    //================================================================================
+
 
     [Title("Parameter")]
     [SerializeField]
@@ -41,16 +42,6 @@ public class CharacterKnockback : MonoBehaviour
     {
         get { return timeKnockbackPerDistance; }
     }
-
-
-    /*[Title("Parameter - (Ptet a bouger)")]
-    [SerializeField]
-    private float damagePercentageRatio = 150f;
-    public float DamagePercentageRatio
-    {
-        get { return damagePercentageRatio; }
-    }*/
-
 
 
     private Vector2 angleKnockback;
@@ -87,6 +78,17 @@ public class CharacterKnockback : MonoBehaviour
 
 
 
+
+    [Title("FeedbackComponents")]
+    [SerializeField]
+    private ShakeEffect shakeEffect;
+    public ShakeEffect ShakeEffect
+    {
+        get { return shakeEffect; }
+    }
+
+
+
     public bool CanKnockback()
     {
         if (knockbackDuration <= 0)
@@ -105,44 +107,40 @@ public class CharacterKnockback : MonoBehaviour
 
     public void RegisterHit(AttackSubManager attack)
     {
-        if(!atkRegistered.Contains(attack))
+        if (!atkRegistered.Contains(attack))
             atkRegistered.Add(attack);
+    }
+
+    public void UnregisterHit(AttackSubManager attack)
+    {
+        atkRegistered.Remove(attack);
     }
 
     public void CheckHit(CharacterBase character)
     {
         for (int i = atkRegistered.Count-1; i >= 0; i--)
         {
-
-            if (character.Parry.CanParry(atkRegistered[i]) == true)   // On parry
+            if (Parry.CanParry(atkRegistered[i]) == true)   // On parry
             {
                 Debug.Log("Parry");
-                character.Parry.Parry(character, atkRegistered[i].User);
-                atkRegistered[i].User.Parry.ParryRepel(atkRegistered[i].User, character);
+                Parry.Parry(character, atkRegistered[i].User);
+                atkRegistered[i].User.Knockback.Parry.ParryRepel(atkRegistered[i].User, character);
                 atkRegistered[i].AddPlayerHitList(character.tag);
             }
 
-            else if(atkRegistered[i].HasClash == true)
+            else if(atkRegistered[i].AttackClashed != null) // On clash
             {
-                Debug.Log("Parry");
-                character.Parry.Parry(character, atkRegistered[i].User);
-                //atkMan.User.Parry.ParryRepel(atkMan.User, character);
+                Debug.Log("Clash");
+                Parry.Clash(character, atkRegistered[i]); // Le clash
+                atkRegistered[i].User.Knockback.UnregisterHit(atkRegistered[i].AttackClashed); // On retire l'attaque de l'adversaire pour ne pas lancer 2 fois le clash
             }
-            else
+            else // On touche
             {
                 atkRegistered[i].Hit(character);
                 if (CanKnockback() == true)
                     character.SetState(stateKnockback);
             }
             atkRegistered.RemoveAt(i);
-
-
-           /* if (!attackRegistered[i].IsInHitList(character.tag))  // On se prend l'attaque
-            {
-                attackRegistered[i].Hit(character);
-                if (CanKnockback() == true)
-                    character.SetState(stateKnockback);
-            }*/
         }
  
     }

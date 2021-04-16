@@ -17,9 +17,9 @@ public class CharacterStateParry : CharacterState
 		character.Movement.SpeedX = 0;
 		character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
 		//character.Movement.SpeedX = 0;
-		character.Parry.IsParry = true;
-		timeState = character.Parry.TimingParry[0] / 60f;
-		timeParry = character.Parry.TimingParry[character.Parry.ParryNumber] / 60f;
+		character.Knockback.Parry.IsParry = true;
+		timeState = character.Knockback.Parry.TimingParry[0] / 60f;
+		timeParry = character.Knockback.Parry.TimingParry[character.Knockback.Parry.ParryNumber] / 60f;
 
 		/*character.Parry.ParryNumber += 1;
 		if (character.Parry.ParryNumber >= character.Parry.TimingParry.Length)
@@ -36,7 +36,7 @@ public class CharacterStateParry : CharacterState
 
 		if (timeParry <= 0)
 		{
-			character.Parry.IsParry = false;
+			character.Knockback.Parry.IsParry = false;
 			//debug.SetActive(false);
 		}
 		if (timeState <= 0)
@@ -55,7 +55,7 @@ public class CharacterStateParry : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-		character.Parry.IsParry = false;
+		character.Knockback.Parry.IsParry = false;
 		//debug.SetActive(false);
 	}
 }

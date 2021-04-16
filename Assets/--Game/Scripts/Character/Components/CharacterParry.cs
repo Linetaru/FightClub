@@ -45,7 +45,11 @@ public class CharacterParry : MonoBehaviour
 		set { isParry = value; }
 	}
 
-
+	CharacterBase characterParried;
+	public CharacterBase CharacterParried
+	{
+		get { return characterParried; }
+	}
 
 	[Title("Particle - A virer plus tard")]
 	[SerializeField]
@@ -54,6 +58,10 @@ public class CharacterParry : MonoBehaviour
 	{
 		get { return particleParry; }
 	}
+
+
+
+
 
 
 	// Faire une interface ou une classe abstraire pour attackManager
@@ -66,22 +74,61 @@ public class CharacterParry : MonoBehaviour
 		return isParry;
 	}
 
+
+
+	public virtual void Clash(CharacterBase user, AttackSubManager attack)
+	{
+		AttackSubManager attackUser = attack.AttackClashed;
+		AttackSubManager attackEnemy = attack;
+		if (attackUser.User == user) // C'est bien notre attaque
+		{
+			if(attackEnemy.ClashLevel > attackUser.ClashLevel) // User est repoussé
+			{
+				Parry(attackEnemy.User, user);
+				attackEnemy.User.Knockback.Parry.ParryRepel(user, attackEnemy.User);
+			}
+			else if (attackUser.ClashLevel > attackEnemy.ClashLevel) // Enemy est repoussé
+			{
+				Parry(user, attackEnemy.User);
+				attackEnemy.User.Knockback.Parry.ParryRepel(attackEnemy.User, user);
+			}
+			else // Match nul
+			{
+				user.SetMotionSpeed(0, 0.2f);
+				attackEnemy.User.SetMotionSpeed(0f, 0.2f);
+
+				Vector2 angleEjection = (user.transform.position - this.transform.position).normalized;
+				GameObject go = Instantiate(particleParry, (user.Knockback.ContactPoint + attackEnemy.User.Knockback.ContactPoint) * 0.5f, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+				go.name = particleParry.name;
+				Destroy(go, 1f);
+
+				attackUser.ActionUnactive();
+				attackEnemy.ActionUnactive();
+			}
+
+		}
+	}
+
+
+
+
 	/// <summary>
 	/// Fonction à utiliser sur celui qui parry
 	/// </summary>
 	/// <param name="user"></param>
-	public virtual void Parry(CharacterBase user, CharacterBase target)
+	public virtual void Parry(CharacterBase characterParry, CharacterBase characterRepelled)
 	{
 		isParry = false;
-		user.SetMotionSpeed(0, 0.3f);
-		user.Action.CancelAction();
-		user.PowerGauge.ForceAddPower(20);
+		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.08f);
+		characterParry.SetMotionSpeed(0, 0.3f);
+		characterParry.Action.CancelAction();
+		characterParry.PowerGauge.ForceAddPower(20);
 
-		user.SetState(parrySuccesState);
-		user.Action.HasHit(target);
+		characterParry.SetState(parrySuccesState);
+		characterParry.Action.HasHit(characterRepelled);
 
-		Vector2 angleEjection = (target.transform.position - this.transform.position).normalized;
-		GameObject go = Instantiate(particleParry, user.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+		Vector2 angleEjection = (characterRepelled.transform.position - this.transform.position).normalized;
+		GameObject go = Instantiate(particleParry, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 		go.name = particleParry.name;
 		Destroy(go, 1f);
 	}
@@ -90,18 +137,19 @@ public class CharacterParry : MonoBehaviour
 	/// Fonction à utiliser sur celui qui se fait parry
 	/// </summary>
 	/// <param name="user"></param>
-	public virtual void ParryRepel(CharacterBase user, CharacterBase target)
+	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry)
 	{
 		isParry = false;
-		user.SetMotionSpeed(0f, 0.3f);
-		user.Action.CancelAction();
+		characterRepelled.Knockback.ShakeEffect.Shake(0.1f, 0.2f);
+		characterRepelled.SetMotionSpeed(0f, 0.3f);
+		characterRepelled.Action.CancelAction();
 
 
 
-		Vector2 angleEjection = (user.transform.position - target.transform.position).normalized;
-		user.Knockback.Launch(angleEjection, 1);
+		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
+		characterRepelled.Knockback.Launch(angleEjection, 1);
 
-		user.SetState(parryRepelState);
+		characterRepelled.SetState(parryRepelState);
 	}
 
 }
