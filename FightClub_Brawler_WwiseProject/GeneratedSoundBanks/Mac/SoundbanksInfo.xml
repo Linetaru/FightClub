@@ -11,7 +11,7 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="760662396">
+		<SoundBank Id="152968626" Language="SFX" Hash="251922020">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -61,6 +61,14 @@
 						<File Id="917689148" Language="SFX">
 							<ShortName>BRND_Attack_Hit_UpAir.wav</ShortName>
 							<Path>SFX\BRND_Attack_Hit_UpAir_01DB0155.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3912046528" Name="Play_BRND_Attack_Hit_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Hit\Play_BRND_Attack_Hit_DashAttack" DurationType="OneShot" DurationMin="0.901229" DurationMax="0.901229">
+					<IncludedMemoryFiles>
+						<File Id="365613827" Language="SFX">
+							<ShortName>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_DashAttack_03.wav</ShortName>
+							<Path>SFX\Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_DashAttack_03_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -125,6 +133,14 @@
 						<File Id="690600414" Language="SFX">
 							<ShortName>BRND_Attack_Whoosh_DashAttack.wav</ShortName>
 							<Path>SFX\BRND_Attack_Whoosh_DashAttack_E92F10D3.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="781218111" Name="Play_BRND_Attack_Whoosh_DashAttack_01" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Attack_Whoosh_DashAttack\Play_BRND_Attack_Whoosh_DashAttack_01" DurationType="OneShot" DurationMin="0.659938" DurationMax="0.659938">
+					<IncludedMemoryFiles>
+						<File Id="567732705" Language="SFX">
+							<ShortName>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Whoosh_DashAttack_01.wav</ShortName>
+							<Path>SFX\Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Whoosh_DashAttack_01_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -480,15 +496,35 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="992806370" Name="SFX_Explosion" ObjectPath="\Events\Default Work Unit\Feedback\SFX_Explosion" DurationType="OneShot" DurationMin="3.467875" DurationMax="3.467875">
+					<IncludedMemoryFiles>
+						<File Id="533673143" Language="SFX">
+							<ShortName>Feedback\SFX_Explosion.wav</ShortName>
+							<Path>SFX\Feedback\SFX_Explosion_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="2429595649" Name="Stop_BRND_Attack_Whoosh_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Attack_Whoosh_DashAttack\Stop_BRND_Attack_Whoosh_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="3433362088" Name="Stop_BRND_WallSlide" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Foley\Stop_BRND_WallSlide" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
 		</SoundBank>
-		<SoundBank Id="289583631" Language="SFX" Hash="3771864708">
+		<SoundBank Id="289583631" Language="SFX" Hash="2034105548">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>
 			<ShortName>SB_UI</ShortName>
 			<Path>SB_UI.bnk</Path>
 			<IncludedEvents>
+				<Event Id="3473751993" Name="Play_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Main" DurationType="OneShot" DurationMin="180.000000" DurationMax="180.000000">
+					<IncludedMemoryFiles>
+						<File Id="263619541" Language="SFX">
+							<ShortName>Music\MUS_OST_Menu_V1.wav</ShortName>
+							<Path>SFX\Music\MUS_OST_Menu_V1_CF624C1B.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Stop_MUS_Menu_Main"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Stop_MUS_Menu_Main" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="236586094" Name="UI_Menu_Main_Click_In" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Main\UI_Menu_Main_Click_In" DurationType="OneShot" DurationMin="0.472292" DurationMax="0.472292">
 					<IncludedMemoryFiles>
 						<File Id="805262253" Language="SFX">
@@ -569,11 +605,15 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1556323221" Name="UI_Menu_Versus_Click_01" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Versus\UI_Menu_Versus_Click_01" DurationType="OneShot" DurationMin="0.142500" DurationMax="0.142500">
+				<Event Id="1556323221" Name="UI_Menu_Versus_Click_01" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Versus\UI_Menu_Versus_Click_01" DurationType="OneShot" DurationMin="0.285146" DurationMax="0.285146">
 					<IncludedMemoryFiles>
 						<File Id="370985068" Language="SFX">
 							<ShortName>UI\UI_MENU_VERSUS_CLIC_01.wav</ShortName>
 							<Path>SFX\UI\UI_MENU_VERSUS_CLIC_01_10C4C929.wem</Path>
+						</File>
+						<File Id="888704966" Language="SFX">
+							<ShortName>UI\UI_MENU_VERSUS_WHOOSH_01.wav</ShortName>
+							<Path>SFX\UI\UI_MENU_VERSUS_WHOOSH_01_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -625,11 +665,11 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3906294467" Name="UI_Menu_Whoosh_Transition_Main_To_Versus" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Versus\UI_Menu_Whoosh_Transition_Main_To_Versus" DurationType="OneShot" DurationMin="2.342667" DurationMax="2.342667">
+				<Event Id="3906294467" Name="UI_Menu_Whoosh_Transition_Main_To_Versus" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Versus\UI_Menu_Whoosh_Transition_Main_To_Versus" DurationType="Infinite">
 					<IncludedMemoryFiles>
 						<File Id="198504930" Language="SFX">
 							<ShortName>UI\UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS.wav</ShortName>
-							<Path>SFX\UI\UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS_10C4C929.wem</Path>
+							<Path>SFX\UI\UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS_D79FB2B7.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
