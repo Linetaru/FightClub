@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpParticle: {fileID: 8607249596928305705}
+  startJumpParticle: {fileID: 7988084566752569279, guid: a6eb1f151e1bc1742a3cd02b305c56a1, type: 3}
 --- !u!1 &1062753804054872691
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +610,7 @@ MonoBehaviour:
   stateDodge: {fileID: 1601053359020295585}
   stateDodgeAerial: {fileID: 3051198174416256598}
   dodgeCooldown: 0.05
+  stateParry: {fileID: 0}
 --- !u!1 &5784047345815025904
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +715,9 @@ MonoBehaviour:
   downAir: {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
   upSpecial: {fileID: 8045468721652775528, guid: 26095eaf69edd8f47a61feff9140ba8e, type: 3}
   downSpecial: {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
+  forwardSpecial: {fileID: 0}
+  simpleSpecial: {fileID: 0}
+  signatureMove: {fileID: 0}
   stateAction: {fileID: 8607249597957437018}
 --- !u!136 &3237672040681805802
 CapsuleCollider:
@@ -1367,9 +1372,11 @@ MonoBehaviour:
   movement: {fileID: 5648743404634757910}
   action: {fileID: 1018038835429141750}
   knockback: {fileID: 663804200105322894}
+  parry: {fileID: 0}
   stats: {fileID: 8530186416480093326}
   particle: {fileID: 4428976173574812713}
   powerGauge: {fileID: 7403772773356152261}
+  projectile: {fileID: 0}
   motionSpeed: 1
 --- !u!114 &7364260067045191159
 MonoBehaviour:
@@ -1751,7 +1758,6 @@ MonoBehaviour:
   jumpState: {fileID: 7364260066389778871}
   crouchTime: 5
   shortJumpForceMultiplier: 0.6
-  jumpParticleSystem: {fileID: 7988084566752569279, guid: a6eb1f151e1bc1742a3cd02b305c56a1, type: 3}
 --- !u!1 &8607249596576815104
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class Cam_Infos
 	[Title("Rails Array")]
 	//All array for scrolling movement get A and B point for each rails
 	public GameObject[] railsCamTravelling = new GameObject[2];
-	//public GameObject[] railsFocusTravelling = new GameObject[2];
+	public GameObject[] railsFocusTravelling = new GameObject[2];
 	public GameObject[] railsBlastZoneTravelling = new GameObject[2];
 
 	[Title("Parameter Timer")]
@@ -226,7 +226,7 @@ public class CameraManager : MonoBehaviour
 					//zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					//Update position of the blastzone to kill player when they are to slow on scrolling mode
-					blastZone.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					BlastZoneManager.Instance.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					timeLerp += Time.deltaTime;
 				}

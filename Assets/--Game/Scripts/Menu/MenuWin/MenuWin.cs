@@ -120,6 +120,14 @@ namespace Menu
 					listResultDrawers[id].SetFeedback("Surrend"); // le surrend a virer et ne pas hardcodé
 					CheckEndScreen();
 				}
+				else if(input.inputUiAction == InputConst.Interact)
+                {
+					listPlayerChoice[id] = 2;
+					listResultDrawers[id].SetFeedback("Rematch"); // le rematch a virer et ne pas hardcodé
+					if (input.CheckAction(0, InputConst.Jump))
+						input.inputActions[0].timeValue = 0;
+					CheckEndScreen();
+				}
 			}
 			else // On a fait un choix donc on peut juste l'annuler
 			{
