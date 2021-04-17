@@ -619,6 +619,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BRND_Attack_Whoosh_DashAttack" ID="{D0BD97C2-B04C-4C5C-A539-757F0507FBC9}" ShortID="120995748">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -643,6 +650,70 @@
 															</ChildrenList>
 															<ActiveSourceList>
 																<ActiveSource Name="BRND_Attack_Whoosh_DashAttack" ID="{9814E243-7B15-4DD9-B548-DA3D146A4937}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="BRND_Attack_Whoosh_DownAir" ID="{D7CEC5F0-2128-4B1E-814F-F0FCBEA41FD5}" ShortID="164367599">
+															<PropertyList>
+																<Property Name="Pitch" Type="int32">
+																	<ModifierList>
+																		<ModifierInfo>
+																			<Modifier Name="" ID="{CFC2FD05-D79D-467B-BFCE-EFD0AAD1E546}">
+																				<PropertyList>
+																					<Property Name="Enabled" Type="bool" Value="True"/>
+																					<Property Name="Max" Type="Real64" Value="50"/>
+																					<Property Name="Min" Type="Real64" Value="-50"/>
+																				</PropertyList>
+																			</Modifier>
+																		</ModifierInfo>
+																	</ModifierList>
+																</Property>
+																<Property Name="Volume" Type="Real64">
+																	<ValueList>
+																		<Value>-5</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="SFX_BRND_Attack_Whoosh_AerialDown_01" ID="{A5DE4F08-B86C-4BF0-85EC-86D51A0D33A5}">
+																	<Language>SFX</Language>
+																	<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\SFX_BRND_Attack_Whoosh_AerialDown_01.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="602833946"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="SFX_BRND_Attack_Whoosh_AerialDown_01" ID="{A5DE4F08-B86C-4BF0-85EC-86D51A0D33A5}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Sound Name="SFX_BRND_Attack_Whoosh_DownAir_02" ID="{D03A3A98-AF9E-4464-B5B0-DE405082ED6D}" ShortID="768927926">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="SFX_BRND_Attack_Whoosh_DownAir_02" ID="{E588DDEE-0632-49F0-B072-870E63937349}">
+																	<Language>SFX</Language>
+																	<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh_v2\SFX_BRND_Attack_Whoosh_DownAir_02.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="682690403"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="SFX_BRND_Attack_Whoosh_DownAir_02" ID="{E588DDEE-0632-49F0-B072-870E63937349}" Platform="Linked"/>
 															</ActiveSourceList>
 														</Sound>
 													</ChildrenList>
@@ -843,11 +914,11 @@
 											<ChildrenList>
 												<Folder Name="V1" ID="{EEC0C97D-FCD5-4016-AA89-112756E99F67}" ShortID="172035648">
 													<ChildrenList>
-														<Sound Name="BRND_Attack_Hit_AerialDown" ID="{BCAB0500-4BED-4726-AA77-52844A62A583}" ShortID="198748142">
+														<Sound Name="BRND_Attack_Hit_DownAir" ID="{BCAB0500-4BED-4726-AA77-52844A62A583}" ShortID="198748142">
 															<PropertyList>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-3</Value>
+																		<Value>2</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -899,7 +970,7 @@
 																		<Property Name="TrimBegin" Type="Real64" Value="0.125289855072464"/>
 																		<Property Name="VolumeOffset" Type="Real64">
 																			<ValueList>
-																				<Value>1.9</Value>
+																				<Value>5.7</Value>
 																			</ValueList>
 																		</Property>
 																	</PropertyList>
@@ -915,13 +986,6 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BRND_Attack_Hit_Hurricane" ID="{355CED2B-7F28-48A6-8132-E623B40DF355}" ShortID="467443104">
-															<PropertyList>
-																<Property Name="Volume" Type="Real64">
-																	<ValueList>
-																		<Value>-2</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -936,6 +1000,11 @@
 																		<Property Name="FadeOutDuration" Type="Real64" Value="0.0108605935127674"/>
 																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 																		<Property Name="TrimBegin" Type="Real64" Value="0.0667150744355713"/>
+																		<Property Name="VolumeOffset" Type="Real64">
+																			<ValueList>
+																				<Value>5.5</Value>
+																			</ValueList>
+																		</Property>
 																	</PropertyList>
 																	<Language>SFX</Language>
 																	<AudioFile>SFX_BRND_Attack_Hit_Hurricane.wav</AudioFile>
@@ -963,6 +1032,11 @@
 																		<Property Name="FadeInDuration" Type="Real64" Value="0.00391304347826087"/>
 																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 																		<Property Name="TrimBegin" Type="Real64" Value="0.129782608695652"/>
+																		<Property Name="VolumeOffset" Type="Real64">
+																			<ValueList>
+																				<Value>5.5</Value>
+																			</ValueList>
+																		</Property>
 																	</PropertyList>
 																	<Language>SFX</Language>
 																	<AudioFile>SFX_BRND_Attack_Hit_Neutral_Air.wav</AudioFile>
@@ -978,11 +1052,6 @@
 														<Sound Name="BRND_Attack_Hit_ForwardTilt" ID="{7E2D7714-D9EF-47EB-A9E0-A1239BEF531F}" ShortID="229103462">
 															<PropertyList>
 																<Property Name="OverrideEffect" Type="bool" Value="True"/>
-																<Property Name="Volume" Type="Real64">
-																	<ValueList>
-																		<Value>-4</Value>
-																	</ValueList>
-																</Property>
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
@@ -1003,7 +1072,7 @@
 																		<Property Name="TrimBegin" Type="Real64" Value="0.286086956521739"/>
 																		<Property Name="VolumeOffset" Type="Real64">
 																			<ValueList>
-																				<Value>5.9</Value>
+																				<Value>7.9</Value>
 																			</ValueList>
 																		</Property>
 																	</PropertyList>
@@ -1019,13 +1088,6 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BRND_Attack_Hit_DownTilt" ID="{84808491-5F08-45BC-8022-8E89F9C32BD2}" ShortID="453063922">
-															<PropertyList>
-																<Property Name="Volume" Type="Real64">
-																	<ValueList>
-																		<Value>-4</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -1040,6 +1102,11 @@
 																		<Property Name="FadeOutDuration" Type="Real64" Value="0.0317102355072464"/>
 																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 																		<Property Name="TrimEnd" Type="Real64" Value="0.264873731884058"/>
+																		<Property Name="VolumeOffset" Type="Real64">
+																			<ValueList>
+																				<Value>4.5</Value>
+																			</ValueList>
+																		</Property>
 																	</PropertyList>
 																	<Language>SFX</Language>
 																	<AudioFile>BRND_Attack_Hit_DownTilt_Impact_1&amp;2.wav</AudioFile>
@@ -1053,13 +1120,6 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="BRND_Attack_Hit_AerialNeutral" ID="{71FA60F3-D9BD-4BF6-AF1D-8CA920D669FA}" ShortID="978242603">
-															<PropertyList>
-																<Property Name="Volume" Type="Real64">
-																	<ValueList>
-																		<Value>-5</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -1089,7 +1149,7 @@
 															<PropertyList>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-7</Value>
+																		<Value>-1</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -1239,18 +1299,7 @@
 																</Sound>
 															</ChildrenList>
 														</Folder>
-													</ChildrenList>
-												</Folder>
-												<Folder Name="V2" ID="{D3393F1F-1686-460D-8E43-329491AB4ECE}" ShortID="90133517">
-													<ChildrenList>
 														<Sound Name="BRND_Attack_Hit_UpTilt_v2" ID="{04E4A164-97E6-4288-914C-D149172CE2E9}" ShortID="721755206">
-															<PropertyList>
-																<Property Name="Volume" Type="Real64">
-																	<ValueList>
-																		<Value>-6</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -1261,6 +1310,13 @@
 															</ReferenceList>
 															<ChildrenList>
 																<AudioFileSource Name="BRND_Attack_Hit_UpTilt_v2" ID="{67D4F2F1-BF91-474A-880D-3661D5B43BD2}">
+																	<PropertyList>
+																		<Property Name="VolumeOffset" Type="Real64">
+																			<ValueList>
+																				<Value>1.4</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
 																	<Language>SFX</Language>
 																	<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Attack_Hit_UpTilt_v2.wav</AudioFile>
 																	<MediaIDList>
@@ -1270,6 +1326,127 @@
 															</ChildrenList>
 															<ActiveSourceList>
 																<ActiveSource Name="BRND_Attack_Hit_UpTilt_v2" ID="{67D4F2F1-BF91-474A-880D-3661D5B43BD2}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
+														<Folder Name="BRND_Attack_Hit_DashAttack" ID="{DD54989D-E769-473D-80BD-41DCFF5C22D8}" ShortID="67752016">
+															<ChildrenList>
+																<Sound Name="SFX_BRND_Attack_Hit_DashAttack_01" ID="{A2916434-0D78-482A-9E63-E1AC9E378518}" ShortID="550018052">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="SFX_BRND_Attack_Hit_DashAttack_01" ID="{1F0285AD-705D-4228-9605-D2FD72FE1584}">
+																			<PropertyList>
+																				<Property Name="VolumeOffset" Type="Real64">
+																					<ValueList>
+																						<Value>2.1</Value>
+																					</ValueList>
+																				</Property>
+																			</PropertyList>
+																			<Language>SFX</Language>
+																			<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_DashAttack_01.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="892668224"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="SFX_BRND_Attack_Hit_DashAttack_01" ID="{1F0285AD-705D-4228-9605-D2FD72FE1584}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="SFX_BRND_Attack_Whoosh_DashAttack_01" ID="{077A9012-E083-4C7B-95D2-A69C2D39A644}" ShortID="890527813">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="SFX_BRND_Attack_Whoosh_DashAttack_01" ID="{0229C68D-21E7-40B4-A183-5AA6130D968B}">
+																			<Language>SFX</Language>
+																			<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Whoosh_DashAttack_01.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="567732705"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="SFX_BRND_Attack_Whoosh_DashAttack_01" ID="{0229C68D-21E7-40B4-A183-5AA6130D968B}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="SFX_BRND_Attack_Hit_DashAttack_02" ID="{EAAD718A-89D4-4BEB-AB14-B505D83E2E57}" ShortID="673174624">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="SFX_BRND_Attack_Hit_DashAttack_02" ID="{F8DD247F-9EFB-43D3-9FA2-E31FE0F2DBCD}">
+																			<Language>SFX</Language>
+																			<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_DashAttack_02.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="999486579"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="SFX_BRND_Attack_Hit_DashAttack_02" ID="{F8DD247F-9EFB-43D3-9FA2-E31FE0F2DBCD}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{0ABA2E25-D3B7-4788-9F2B-ABEA2EE22459}" ShortID="271236472">
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{77F56A7F-6D7E-4640-B5EE-8902A5C6DB9C}">
+																			<Language>SFX</Language>
+																			<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_DashAttack_03.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="365613827"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{77F56A7F-6D7E-4640-B5EE-8902A5C6DB9C}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+															</ChildrenList>
+														</Folder>
+														<Sound Name="BRND_Attack_Hit_AerialDown_01" ID="{D50A98CB-D15A-414C-B32B-0C28DCD4070E}" ShortID="721245443">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="SFX_BRND_Attack_Hit_AerialDown_01" ID="{D4E59A47-9FC3-4365-942A-8E29409961C7}">
+																	<Language>SFX</Language>
+																	<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\SFX_BRND_Attack_Hit_AerialDown_01.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="350807010"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="SFX_BRND_Attack_Hit_AerialDown_01" ID="{D4E59A47-9FC3-4365-942A-8E29409961C7}" Platform="Linked"/>
 															</ActiveSourceList>
 														</Sound>
 													</ChildrenList>
