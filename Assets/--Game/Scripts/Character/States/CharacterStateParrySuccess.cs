@@ -23,9 +23,11 @@ public class CharacterStateParrySuccess : CharacterState
 	CharacterState homingDashState;
 
 	float t = 0f;
+	bool inHitStop = true;
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		inHitStop = true;
 		t = timeLag;
 		character.Movement.CurrentNumberOfJump += 1;
 		evasiveMoveset.ResetDodge();
@@ -33,6 +35,15 @@ public class CharacterStateParrySuccess : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
+		if (character.MotionSpeed == 0)
+			return;
+
+		if (inHitStop == true) // Première frame de fin de hitlag
+		{
+			ParryInfluence(character);
+			inHitStop = false;
+		}
+
 		//if((!character.Input.CheckActionUP(0, InputConst.RightShoulder) && !character.Input.CheckActionUP(0, InputConst.RightTrigger)) && character.MotionSpeed != 0)
 		/*if (character.Input.CheckActionHold(InputConst.RightShoulder) == true && character.MotionSpeed != 0)
 		{
@@ -100,4 +111,24 @@ public class CharacterStateParrySuccess : CharacterState
 	{
 
 	}
+
+	[SerializeField]
+	float parryInfluenceAngle = 30f;
+	private void ParryInfluence(CharacterBase character)
+	{
+		if (Mathf.Abs(character.Input.horizontal) < 0.25f && Mathf.Abs(character.Input.vertical) < 0.25f)
+			return;
+		Vector2 ejectionAngle = character.Knockback.Parry.CharacterParried.Knockback.GetAngleKnockback();
+		Vector2 input = new Vector2(character.Input.horizontal, character.Input.vertical);
+
+		//ejectionAngle = Vector2.Perpendicular(ejectionAngle);
+		float influence = Vector2.Dot(input, Vector2.Perpendicular(ejectionAngle));
+
+		Vector2 finalDirection = Quaternion.Euler(0, 0, parryInfluenceAngle * influence) * ejectionAngle;
+		Debug.Log(finalDirection.normalized);
+		character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, 1);
+	}
+
+
+
 }

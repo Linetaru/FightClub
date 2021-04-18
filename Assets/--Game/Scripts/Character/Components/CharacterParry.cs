@@ -66,6 +66,12 @@ public class CharacterParry : MonoBehaviour
 		get { return particleParry; }
 	}
 
+	[SerializeField]
+	GameObject particleDirectionRepel;
+	public GameObject ParticleDirectionRepel
+	{
+		get { return particleDirectionRepel; }
+	}
 
 
 
@@ -134,12 +140,14 @@ public class CharacterParry : MonoBehaviour
 		characterParry.Action.CancelAction();
 		characterParry.PowerGauge.ForceAddPower(20);
 
-		characterParry.Model.FlashModel(Color.white, 0.7f);
+
 
 		characterParry.SetState(parrySuccesState);
 		characterParry.Action.HasHit(characterRepelled);
 
-		Vector2 angleEjection = (characterRepelled.transform.position - this.transform.position).normalized;
+		characterParried = characterRepelled;
+
+		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
 		GameObject go = Instantiate(particleParry, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 		go.name = particleParry.name;
 		Destroy(go, 1f);
@@ -156,12 +164,18 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 
+		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
 
 		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
 		characterRepelled.Knockback.Launch(angleEjection, 1);
 
 		characterRepelled.SetState(parryRepelState);
+
+
+		GameObject go = Instantiate(particleDirectionRepel, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+		go.name = particleParry.name;
+		Destroy(go, 1f);
 	}
 
 }

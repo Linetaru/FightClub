@@ -37,6 +37,9 @@ public class CharacterStateParryBlow : CharacterState
 	public override void UpdateState(CharacterBase character)
 	{
 		float coef = ejectionCurve.Evaluate(1 - (t / (timeBlow - timeStop)));
+
+		initialSpeedX = character.Knockback.GetAngleKnockback().x * ejectionPower * character.Movement.Direction;
+		initialSpeedY = character.Knockback.GetAngleKnockback().y * ejectionPower;
 		character.Movement.SpeedX = Mathf.Lerp(initialSpeedX, 0, coef); //character.Knockback.GetAngleKnockback().x * character.Movement.Direction;
 		character.Movement.SpeedY = Mathf.Lerp(initialSpeedY, 0, coef); //character.Knockback.GetAngleKnockback().y;
 
