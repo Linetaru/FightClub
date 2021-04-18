@@ -24,7 +24,10 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	[Title("Parry")]
 	[SerializeField]
 	CharacterState stateParry;
-
+	[SerializeField]
+	CharacterState stateAction;
+	[SerializeField]
+	AttackManager attackParry;
 
 	public bool Dodge(CharacterBase character)
 	{
@@ -65,6 +68,15 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		return false;
 	}
 
+	public void ForceDodge(CharacterBase character)
+	{
+		nbOfDodge -= 1;
+		character.SetState(stateDodgeAerial);
+		StartCoroutine(DodgeCooldownCoroutine());
+	}
+
+
+
 	private bool CanDodge()
 	{
 		if (nbOfDodge == 0)
@@ -98,6 +110,12 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	{
 		if (character.Input.CheckAction(0, InputConst.RightShoulder))
 		{
+			/*if(character.Action.Action(attackParry) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}*/
 			character.SetState(stateParry);
 			character.Input.inputActions[0].timeValue = 0;
 		}

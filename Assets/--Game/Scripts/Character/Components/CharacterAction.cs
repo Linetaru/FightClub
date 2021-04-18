@@ -44,7 +44,7 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    private bool CanAct()
+    public bool CanAct()
     {
         if (currentAttackManager != null && canMoveCancel == false)
             return false;

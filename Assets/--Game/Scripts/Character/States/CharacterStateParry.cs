@@ -7,19 +7,33 @@ public class CharacterStateParry : CharacterState
 	float timeState = 0f;
 	float timeParry = 0f;
 
-
+	[SerializeField]
+	float timeInParry = 10;
+	[SerializeField]
+	float timeInGuard = 20;
 
 	[SerializeField]
 	GameObject debug;
 
+
+	float t = 0f;
+
+	private void Start()
+	{
+		timeInParry /= 60f;
+		timeInGuard /= 60f;
+	}
+
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		character.Movement.SpeedX = 0;
+		//character.Movement.SpeedX = character.Movement.SpeedX * 0.2f;
 		character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
 		//character.Movement.SpeedX = 0;
 		character.Knockback.Parry.IsParry = true;
-		timeState = character.Knockback.Parry.TimingParry[0] / 60f;
-		timeParry = character.Knockback.Parry.TimingParry[character.Knockback.Parry.ParryNumber] / 60f;
+
+		t = 0f;
+		//timeState = character.Knockback.Parry.TimingParry[0] / 60f;
+		//timeParry = character.Knockback.Parry.TimingParry[character.Knockback.Parry.ParryNumber] / 60f;
 
 		/*character.Parry.ParryNumber += 1;
 		if (character.Parry.ParryNumber >= character.Parry.TimingParry.Length)
@@ -30,19 +44,28 @@ public class CharacterStateParry : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
+		character.Movement.SpeedX = character.Movement.SpeedX * 0.9f;
 		character.Movement.ApplyGravity(0.05f);
-		timeState -= Time.deltaTime * character.MotionSpeed;
-		timeParry -= Time.deltaTime * character.MotionSpeed;
+		t += Time.deltaTime * character.MotionSpeed;
+		/*timeState -= Time.deltaTime * character.MotionSpeed;
+		timeParry -= Time.deltaTime * character.MotionSpeed;*/
 
-		if (timeParry <= 0)
+		/*if (timeParry <= 0)
 		{
 			character.Knockback.Parry.IsParry = false;
-			//debug.SetActive(false);
 		}
 		if (timeState <= 0)
 		{
-			/*character.Parry.ParryNumber -= 1;
-			character.Parry.ParryNumber = Mathf.Max(character.Parry.ParryNumber, 0);*/
+			character.ResetToIdle();
+		}*/
+
+		if (t >= timeInParry && t <= timeInParry + timeInGuard)
+		{
+			character.Knockback.Parry.IsParry = false;
+			character.Knockback.Parry.IsGuard = true;
+		}
+		else if (t >= timeInParry + timeInGuard)
+		{
 			character.ResetToIdle();
 		}
 
@@ -56,6 +79,7 @@ public class CharacterStateParry : CharacterState
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 		character.Knockback.Parry.IsParry = false;
+		character.Knockback.Parry.IsGuard = false;
 		//debug.SetActive(false);
 	}
 }

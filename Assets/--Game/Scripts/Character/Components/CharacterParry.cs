@@ -45,6 +45,13 @@ public class CharacterParry : MonoBehaviour
 		set { isParry = value; }
 	}
 
+	private bool isGuard;
+	public bool IsGuard
+	{
+		get { return isGuard; }
+		set { isGuard = value; }
+	}
+
 	CharacterBase characterParried;
 	public CharacterBase CharacterParried
 	{
@@ -74,7 +81,10 @@ public class CharacterParry : MonoBehaviour
 		return isParry;
 	}
 
-
+	public virtual bool CanGuard(AttackSubManager attackManager)
+	{
+		return isGuard;
+	}
 
 	public virtual void Clash(CharacterBase user, AttackSubManager attack)
 	{
@@ -120,9 +130,11 @@ public class CharacterParry : MonoBehaviour
 	{
 		isParry = false;
 		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.08f);
-		characterParry.SetMotionSpeed(0, 0.3f);
+		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
 		characterParry.PowerGauge.ForceAddPower(20);
+
+		characterParry.Model.FlashModel(Color.white, 0.7f);
 
 		characterParry.SetState(parrySuccesState);
 		characterParry.Action.HasHit(characterRepelled);
@@ -141,7 +153,7 @@ public class CharacterParry : MonoBehaviour
 	{
 		isParry = false;
 		characterRepelled.Knockback.ShakeEffect.Shake(0.1f, 0.2f);
-		characterRepelled.SetMotionSpeed(0f, 0.3f);
+		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 
 

@@ -161,7 +161,11 @@ public class CharacterMovement : MonoBehaviour
         timeAcceleration = 0;
         timeDecceleration = 0;
     }
-
+    public void MaxAcceleration()
+    {
+        timeAcceleration = 1;
+        timeDecceleration = 0;
+    }
 
 
 

@@ -61,6 +61,10 @@ public class CharacterStateParrySuccess : CharacterState
 			{
 				return;
 			}
+			else if (Mathf.Abs(character.Input.horizontal) > 0.25f || Mathf.Abs(character.Input.vertical) > 0.25f)
+			{
+				evasiveMoveset.ForceDodge(character);
+			}
 
 		}
 		if (t <= timeCancelAttack)
@@ -69,10 +73,11 @@ public class CharacterStateParrySuccess : CharacterState
 			{
 				return;
 			}
-			else if (evasiveMoveset.Dodge(character))
+			/*else if (evasiveMoveset.Dodge(character))
 			{
 				return;
-			}
+			}*/
+
 			else if (character.Input.CheckAction(0, InputConst.Jump))
 			{
 				character.ResetToIdle();
