@@ -75,6 +75,8 @@ public class CharacterAction : MonoBehaviour
     {
         if (CanAct() == false)
             return false;
+        if (attack.CanUseAttack(character) == false)
+            return false;
 
         endAction = false;
         canEndAction = false;
@@ -86,7 +88,6 @@ public class CharacterAction : MonoBehaviour
         attackID = attack;
 
         // Animation de l'attaque
-        //animator.ResetTrigger("Idle");
         animator.Play(attackToInstantiate.AttackAnim.name, 0, 0f);
 
         // On créer l'attaque et ça setup différent paramètres
@@ -95,7 +96,6 @@ public class CharacterAction : MonoBehaviour
         currentAttackManager = Instantiate(attackToInstantiate, this.transform.position, Quaternion.identity);
         currentAttackManager.CreateAttack(character);
 
-        //character.SetState(stateAction);
         return true;
     }
 

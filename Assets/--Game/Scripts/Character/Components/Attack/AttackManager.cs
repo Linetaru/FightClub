@@ -5,13 +5,6 @@ using Sirenix.OdinInspector;
 
 public class AttackManager : MonoBehaviour
 {
-    /*[SerializeField]
-    private CharacterState attackState;
-    public CharacterState AttackState
-    {
-        get { return attackState; }
-    }*/
-
 
     [SerializeField]
     private AnimationClip attackAnim;
@@ -21,16 +14,12 @@ public class AttackManager : MonoBehaviour
     }
 
 
-    /*[SerializeField]
-    private BoxCollider hitBox;
-    public BoxCollider HitBox
-    {
-        get { return hitBox; }
-    }*/
+
+
+
+
 
     [Title("Parameters")]
-    /*[SerializeField]
-    bool activeAtStart = true;*/
     [SerializeField]
     bool linkToCharacter = true;
 
@@ -41,21 +30,17 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
+    [SerializeField]
+    private CharacterConditionGameObject attackCondition;
+
     [Title("Multiple Hitbox")]
     [SerializeField]
     [ListDrawerSettings(Expanded = true)]
     private List<AttackSubManager> atkSubs;
 
 
-   /* [Title("Components")]
-    [SerializeField]
-    [ListDrawerSettings(Expanded = true)]
-    private List<AttackComponent> atkCompList;*/
-
-
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
-    //bool firstTime = false;
 
 
 
@@ -83,6 +68,13 @@ public class AttackManager : MonoBehaviour
             atkC.UpdateComponent(user);
         }
     }*/
+
+    public bool CanUseAttack(CharacterBase character)
+    {
+        if (attackCondition == null)
+            return true;
+        return attackCondition.CheckConditions(character);
+    }
 
     public void CreateAttack(CharacterBase character)
     {

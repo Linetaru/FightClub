@@ -129,7 +129,7 @@ public class CharacterParry : MonoBehaviour
 	public virtual void Parry(CharacterBase characterParry, CharacterBase characterRepelled)
 	{
 		isParry = false;
-		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.08f);
+		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.1f);
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
 		characterParry.PowerGauge.ForceAddPower(20);
@@ -152,7 +152,7 @@ public class CharacterParry : MonoBehaviour
 	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry)
 	{
 		isParry = false;
-		characterRepelled.Knockback.ShakeEffect.Shake(0.1f, 0.2f);
+		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.3f);
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 

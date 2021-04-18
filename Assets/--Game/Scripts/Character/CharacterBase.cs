@@ -62,7 +62,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
-
+	[SerializeField]
+	private CharacterStatusEffects status;
+	public CharacterStatusEffects Status
+	{
+		get { return status; }
+	}
 
 
 	[SerializeField]
@@ -126,6 +131,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
+		status.InitializeComponent(this);
 	}
 
 
@@ -141,15 +147,10 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.StartState(this, oldState);
 
 		OnStateChanged?.Invoke(oldState, currentState);
-		//currentState = characterState;
 	}
 
 
-	// Update is called once per frame
-	/*void Update()
-	{
-		currentState.UpdateState(this);
-	}*/
+
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
@@ -162,6 +163,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		knockback.CheckHit(this);
 
 		input = input_Info;
+		status.UpdateStatus();
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
