@@ -126,14 +126,28 @@ public class CharacterKnockback : MonoBehaviour
                 Parry.Parry(character, atkRegistered[i].User);
                 atkRegistered[i].User.Knockback.Parry.ParryRepel(atkRegistered[i].User, character);
                 atkRegistered[i].AddPlayerHitList(character.tag);
+
+                // Pour tourner le joueur dans le sens de la garde
+                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+                    character.Movement.Direction *= -1;
             }
             else if (Parry.CanGuard(atkRegistered[i]) == true)   // On Garde
             {
-                Debug.Log("Parry");
+                /*Debug.Log("Parry");
                 atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
                 Parry.Parry(atkRegistered[i].User, character);
                 atkRegistered[i].User.Knockback.Parry.ParryRepel(character, atkRegistered[i].User);
+                atkRegistered[i].AddPlayerHitList(character.tag);*/
+
+                Debug.Log("On garde");
+                atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
+                atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
+                Parry.ParryRepel(character, atkRegistered[i].User);
                 atkRegistered[i].AddPlayerHitList(character.tag);
+
+                // Pour tourner le joueur dans le sens de la garde
+                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+                    character.Movement.Direction *= -1;
             }
             else if(atkRegistered[i].AttackClashed != null) // On clash
             {

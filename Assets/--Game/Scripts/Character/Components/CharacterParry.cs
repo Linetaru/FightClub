@@ -52,6 +52,7 @@ public class CharacterParry : MonoBehaviour
 		set { isGuard = value; }
 	}
 
+	[SerializeField]
 	CharacterBase characterParried;
 	public CharacterBase CharacterParried
 	{
@@ -100,8 +101,10 @@ public class CharacterParry : MonoBehaviour
 		{
 			if(attackEnemy.ClashLevel > attackUser.ClashLevel) // User est repoussé
 			{
-				Parry(attackEnemy.User, user);
-				attackEnemy.User.Knockback.Parry.ParryRepel(user, attackEnemy.User);
+				/*Parry(attackEnemy.User, user);
+				attackEnemy.User.Knockback.Parry.ParryRepel(user, attackEnemy.User);*/
+				attackEnemy.User.Knockback.Parry.Parry(attackEnemy.User, user);
+				ParryRepel(user, attackEnemy.User);
 			}
 			else if (attackUser.ClashLevel > attackEnemy.ClashLevel) // Enemy est repoussé
 			{
