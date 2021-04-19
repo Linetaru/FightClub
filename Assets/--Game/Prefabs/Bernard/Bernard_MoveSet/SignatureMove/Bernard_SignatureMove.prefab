@@ -71,6 +71,11 @@ MonoBehaviour:
   - {fileID: 8468548829373850114}
   - {fileID: 8069698233384573538}
   - {fileID: 8966345666950095123}
+  clashLevel: 1
+  clashCancel: 1
+  onHitColliderEvents:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &6847641087695171298
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -271,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 0}
   characterAction: {fileID: 0}
+  characterParry: {fileID: 0}
 --- !u!114 &7133085703737463510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
-  stateKnockback: {fileID: 0}
 --- !u!136 &1090450021587598052
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -404,8 +409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitStop: 0
   bonusHitstun: 0
-  knockbackAdvancedSettings: 0
-  minKnockbackPower: 20
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 1
   knockbackCurve:
     serializedVersion: 2
     m_Curve:
@@ -430,7 +435,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxKnockbackPower: 50
+  maxKnockbackPower: 1
   minCurvePercentage: 10
   maxCurvePercentage: 100
   linearKnockbackPower: 0
@@ -5654,6 +5659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 0}
   characterAction: {fileID: 0}
+  characterParry: {fileID: 0}
 --- !u!1 &7954107827119747891
 GameObject:
   m_ObjectHideFlags: 0
@@ -5750,6 +5756,7 @@ MonoBehaviour:
   attackAnim: {fileID: 7400000, guid: 98a044a56ed5ba448ba8d5a4443c2625, type: 2}
   linkToCharacter: 1
   atkCombo: {fileID: 0}
+  attackCondition: {fileID: 0}
   atkSubs:
   - {fileID: 556300893683851836}
 --- !u!136 &1523253126521685341

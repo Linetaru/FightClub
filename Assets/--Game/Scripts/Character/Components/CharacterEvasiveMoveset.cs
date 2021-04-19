@@ -24,13 +24,17 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	[Title("Parry")]
 	[SerializeField]
 	CharacterState stateParry;
+	[SerializeField]
+	CharacterState stateAction;
+	[SerializeField]
+	AttackManager attackParry;
 
 	public bool Dodge(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true)
 			nbOfDodge = 2;
 
-		if ((character.Input.CheckAction(0, InputConst.RightShoulder) || character.Input.CheckAction(0, InputConst.RightTrigger)) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
+		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
 		{
 			if (character.Rigidbody.IsGrounded == true)
 			{
@@ -64,6 +68,22 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		return false;
 	}
 
+
+	public void ForceDodgeGround(CharacterBase character)
+	{
+		nbOfDodge -= 1;
+		character.SetState(stateDodge);
+		StartCoroutine(DodgeCooldownCoroutine());
+	}
+	public void ForceDodgeAerial(CharacterBase character)
+	{
+		nbOfDodge -= 1;
+		character.SetState(stateDodgeAerial);
+		StartCoroutine(DodgeCooldownCoroutine());
+	}
+
+
+
 	private bool CanDodge()
 	{
 		if (nbOfDodge == 0)
@@ -95,16 +115,17 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public bool Parry(CharacterBase character)
 	{
-
-		if ((character.Input.CheckAction(0, InputConst.RightShoulder) || character.Input.CheckAction(0, InputConst.RightTrigger)) && (Mathf.Abs(character.Input.horizontal) <= 0.3f && Mathf.Abs(character.Input.vertical) <= 0.3f))
+		if (character.Input.CheckAction(0, InputConst.RightShoulder))
 		{
+			/*if(character.Action.Action(attackParry) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}*/
 			character.SetState(stateParry);
 			character.Input.inputActions[0].timeValue = 0;
 		}
-
-
-
-
 		return false;
 	}
 }

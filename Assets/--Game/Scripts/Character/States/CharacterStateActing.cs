@@ -24,11 +24,11 @@ public class CharacterStateActing : CharacterState
 		// Mettre les inputs en dessous
 		if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
 		{
-			if (character.Action.CharacterHit != null && character.PowerGauge.CurrentPower > 33) // On a touché quelqu'un 
+			if (character.Action.CharacterHit != null && character.PowerGauge.CurrentPower > 20) // On a touché quelqu'un 
 			{
 				character.SetState(homingDashState);
 				character.Input.inputActions[0].timeValue = 0;
-				character.PowerGauge.AddPower(-33);
+				character.PowerGauge.ForceAddPower(-20);
 				return;
 			}
 		}

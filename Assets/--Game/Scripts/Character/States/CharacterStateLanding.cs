@@ -14,6 +14,9 @@ public class CharacterStateLanding : CharacterState
     [SuffixLabel("en frames")]
     float landingTime = 10f;
 
+    [SerializeField]
+    CharacterEvasiveMoveset evasiveMoveset;
+
     [Title("Particle")] // à dégager un jour
     [SerializeField]
     ParticleSystem landParticleSystem;
@@ -29,13 +32,20 @@ public class CharacterStateLanding : CharacterState
         ParticleSystem particle = Instantiate(landParticleSystem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         Destroy(particle.gameObject, 0.5f);
 
+        evasiveMoveset.ResetDodge();
+
     }
 
     public override void UpdateState(CharacterBase character)
     {
         character.Movement.SpeedX *= 0.9f;
         currentLandingTime += Time.deltaTime;
-        if (currentLandingTime >= maxLandingTime)
+
+        if (character.Input.CheckAction(0, InputConst.Jump))
+        {
+            character.ResetToIdle();
+        }
+        else if (currentLandingTime >= maxLandingTime)
         {
             character.SetState(idleState);
         }
