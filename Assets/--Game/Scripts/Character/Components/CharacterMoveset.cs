@@ -41,11 +41,8 @@ public class CharacterMoveset : MonoBehaviour
 	AttackManager upSpecial;
 	[SerializeField]
 	AttackManager downSpecial;
-
-
-	[Title("Test")]
 	[SerializeField]
-	AttackManager testAttack;
+	AttackManager forwardSpecial;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
@@ -62,16 +59,6 @@ public class CharacterMoveset : MonoBehaviour
 	/// <returns></returns>
 	public bool ActionAttack(CharacterBase character)
 	{
-		if (character.Input.CheckAction(0, InputConst.LeftShoulder))
-		{
-			if (character.Action.Action(testAttack) == true)
-			{
-				character.SetState(stateAction);
-				character.Input.inputActions[0].timeValue = 0;
-				return true;
-			}
-		}
-
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
 
@@ -134,50 +121,6 @@ public class CharacterMoveset : MonoBehaviour
 
 
 			else if (character.Input.CheckAction(0, InputConst.Attack))
-			{
-				if (character.Action.Action(neutralAir) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
-			{
-				if (character.Action.Action(forwardSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special))
-			{
-				if (character.Action.Action(simpleSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
 				return ActionAttack(character, neutralAir);
 
 			return ActionSpecial(character);
@@ -211,6 +154,25 @@ public class CharacterMoveset : MonoBehaviour
 		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
 			return ActionAttack(character, downSpecial);
 
+		else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
+		{
+			if (character.Action.Action(forwardSpecial) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}
+		}
+
+		/*else if (character.Input.CheckAction(0, InputConst.Special))
+		{
+			if (character.Action.Action(simpleSpecial) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}
+		}*/
 
 		return false;
 	}

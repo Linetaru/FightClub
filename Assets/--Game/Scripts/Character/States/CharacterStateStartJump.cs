@@ -23,9 +23,9 @@ public class CharacterStateStartJump : CharacterState
     private float shortJumpForceMultiplier = 0.5f;
 
 
-    //[Title("Feedback")]
-    //[SerializeField]
-    //private ParticleSystem jumpParticleSystem;
+    [Title("Feedback")]
+    [SerializeField]
+    private ParticleSystem jumpParticleSystem;
 
 
     public override void StartState(CharacterBase character, CharacterState oldState)
