@@ -32,6 +32,7 @@ public class CharacterStateParryBlow : CharacterState
 
 		character.Movement.SpeedX = initialSpeedX;
 		character.Movement.SpeedY = initialSpeedY;
+		character.Rigidbody.PreventFall(false);
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -57,11 +58,10 @@ public class CharacterStateParryBlow : CharacterState
 	
 	public override void LateUpdateState(CharacterBase character)
 	{
-
 	}
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-
+		character.Rigidbody.PreventFall(true);
 	}
 }

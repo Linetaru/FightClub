@@ -159,7 +159,9 @@ public class CharacterKnockback : MonoBehaviour
             {
                 atkRegistered[i].Hit(character);
                 if (CanKnockback() == true)
-                    character.SetState(stateKnockback);
+                    character.SetState(stateKnockback); // Pardon
+
+                
             }
             atkRegistered.RemoveAt(i);
         }

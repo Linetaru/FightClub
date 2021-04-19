@@ -13,6 +13,9 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	[SerializeField]
 	CharacterState aerialState;
+	[SerializeField]
+	CharacterState landingState;
+
 	public CharacterState CurrentState
 	{
 		get { return currentState; }
@@ -172,6 +175,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 		action.EndActionState();
 	}
 
+
+	// Aveux de faiblesse pardon les amis
 	public void ResetToIdle()
     {
         if (rigidbody.IsGrounded)
@@ -188,6 +193,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		SetState(aerialState);
 	}
+
+	public void ResetToLand()
+	{
+		SetState(landingState);
+	}
+
+
+
 
 	public void SetMotionSpeed(float newValue, float time)
 	{

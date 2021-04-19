@@ -44,16 +44,29 @@ public class CharacterStateStartJump : CharacterState
             {
                 character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
             }
-            else if (character.Input.inputActionsUP.Count != 0)
+            /*else if (character.Input.inputActionsUP.Count != 0)
             {
                 if (character.Input.inputActionsUP[0].action == InputConst.Jump)
                 {
                     character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
                 }
+                else
+                {
+                    character.Movement.Jump();
+                    Debug.Log("Aye");
+                }
             }
             else
             {
                 character.Movement.Jump();
+            }*/
+            else if (character.Input.CheckActionHold(InputConst.Jump))
+            {
+                character.Movement.Jump();
+            }
+            else
+            {
+                character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
             }
             character.SetState(jumpState);
 

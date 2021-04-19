@@ -99,7 +99,15 @@ public class CharacterMoveset : MonoBehaviour
 				return ActionAttack(character, dashAttack);
             }
 			else if (character.Input.CheckAction(0, InputConst.Attack))
-				return ActionAttack(character, jab);
+			{
+				if (character.Action.CanAct()) // A patcher pour prendre en compte les attack conditions
+				{
+					if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+						character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+					return ActionAttack(character, jab);
+				}
+			}
+
 
 			return ActionSpecial(character);
 		}
@@ -140,7 +148,8 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.Action.Action(attack) == true)
 		{
 			character.SetState(stateAction);
-			character.Input.inputActions[0].timeValue = 0;
+			if(character.Input.inputActions.Count != 0)
+				character.Input.inputActions[0].timeValue = 0;
 			return true;
 		}
 		return false;

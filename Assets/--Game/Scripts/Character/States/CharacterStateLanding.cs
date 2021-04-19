@@ -45,8 +45,7 @@ public class CharacterStateLanding : CharacterState
         {
             character.ResetToIdle();
         }
-
-        if (currentLandingTime >= maxLandingTime)
+        else if (currentLandingTime >= maxLandingTime)
         {
             character.SetState(idleState);
         }

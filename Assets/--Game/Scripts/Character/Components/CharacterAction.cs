@@ -44,6 +44,8 @@ public class CharacterAction : MonoBehaviour
     }
 
 
+
+    // A patcher pour prendre en compte les attack conditions
     public bool CanAct()
     {
         if (currentAttackManager != null && canMoveCancel == false)
