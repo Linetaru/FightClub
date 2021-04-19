@@ -84,6 +84,10 @@ public class CharacterStateDodgeAerial : CharacterState
 			{
 				return;
 			}
+			else if (character.Input.CheckActionHold(InputConst.RightTrigger))
+			{
+				evasiveMoveset.ForceDodgeAerial(character);
+			}
 		}
 
 

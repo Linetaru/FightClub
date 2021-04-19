@@ -77,6 +77,8 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	}
 	public void ForceDodgeAerial(CharacterBase character)
 	{
+		if (!CanDodge())
+			return;
 		nbOfDodge -= 1;
 		character.SetState(stateDodgeAerial);
 		StartCoroutine(DodgeCooldownCoroutine());
