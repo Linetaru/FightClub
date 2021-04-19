@@ -29,6 +29,22 @@ public class CharacterParry : MonoBehaviour
 		get { return timingParry; }
 	}
 
+	[SerializeField]
+	private float parryAngle;
+	public float ParryAngle
+	{
+		get { return parryAngle; }
+	}
+
+
+
+	private Vector2 parryDirection;
+	public Vector2 ParryDirection
+	{
+		get { return parryDirection; }
+		set { parryDirection = value; }
+	}
+
 
 
 	private int parryNumber;
@@ -52,12 +68,15 @@ public class CharacterParry : MonoBehaviour
 		set { isGuard = value; }
 	}
 
-	[SerializeField]
+
 	CharacterBase characterParried;
 	public CharacterBase CharacterParried
 	{
 		get { return characterParried; }
 	}
+
+
+
 
 	[Title("Particle - A virer plus tard")]
 	[SerializeField]
@@ -83,14 +102,38 @@ public class CharacterParry : MonoBehaviour
 	{
 		return isParry;
 	}
-	public virtual bool CanParry(AttackSubManager attackManager)
+	/*public virtual bool CanParry(AttackSubManager attackManager)
 	{
 		return isParry;
+	}*/
+
+	// Directionnal
+	public virtual bool CanParry(AttackSubManager attackManager)
+	{
+		if (isParry == false)
+			return false;
+		return CheckAngle(attackManager);
 	}
+
+	/*public virtual bool CanGuard(AttackSubManager attackManager)
+	{
+		return isGuard;
+	}*/
 
 	public virtual bool CanGuard(AttackSubManager attackManager)
 	{
-		return isGuard;
+		if (isGuard == false)
+			return false;
+		return CheckAngle(attackManager);
+	}
+
+	public bool CheckAngle(AttackSubManager attackManager)
+	{
+		float angle = Vector2.Angle((attackManager.transform.position - this.transform.position), parryDirection);
+		//Debug.Log("Angle : " + angle);
+		/*Debug.Log("Parry direction : " + parryDirection);*/
+		//return (parryDirection - (parryAngle *0.5f) < angle && angle < parryDirection + (parryAngle * 0.5f));
+		return angle < (parryAngle * 0.5f);
 	}
 
 	public virtual void Clash(CharacterBase user, AttackSubManager attack)
