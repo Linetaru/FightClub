@@ -111,7 +111,7 @@ public class CharacterStateDash : CharacterState
 
 
 
-				if (character.Input.CheckAction(0, InputConst.Jump))
+				if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
 				{
 					character.Input.inputActions[0].timeValue = 0;
 					if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -0.25f) // ----------------- On passe au travers de la plateforme

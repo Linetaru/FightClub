@@ -95,7 +95,7 @@ public class CharacterStateParrySuccess : CharacterState
 			{
 				return;
 			}
-			else if (character.Input.CheckAction(0, InputConst.Jump))
+			else if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
 			{
 				character.ResetToIdle();
 			}

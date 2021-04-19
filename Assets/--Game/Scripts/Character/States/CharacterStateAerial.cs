@@ -75,7 +75,7 @@ public class CharacterStateAerial : CharacterState
 
             if (character.Movement.CurrentNumberOfJump > 0)
             {
-                if (character.Input.inputActions[0].action == InputConst.Jump)
+                if (character.Input.inputActions[0].action == InputConst.Jump || character.Input.CheckAction(0, InputConst.Smash))
                 {
                     character.Input.inputActions[0].timeValue = 0;
 

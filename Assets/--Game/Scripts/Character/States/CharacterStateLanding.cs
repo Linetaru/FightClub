@@ -41,7 +41,7 @@ public class CharacterStateLanding : CharacterState
         character.Movement.SpeedX *= 0.9f;
         currentLandingTime += Time.deltaTime;
 
-        if (character.Input.CheckAction(0, InputConst.Jump))
+        if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
         {
             character.ResetToIdle();
         }
