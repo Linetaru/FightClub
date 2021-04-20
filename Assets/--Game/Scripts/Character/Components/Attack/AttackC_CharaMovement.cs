@@ -146,6 +146,7 @@ public class AttackC_CharaMovement : AttackComponent
             else
             {
                 user.Action.EndAction();
+                user.ResetToLand();
             }
         }
 

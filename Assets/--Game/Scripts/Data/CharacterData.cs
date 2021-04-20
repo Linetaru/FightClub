@@ -10,9 +10,9 @@ public class CharacterData : ScriptableObject
     [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 160)]
     public GameObject playerPrefab;
 
-    public GameObject characterSelectionModel;
+    public CharacterModel characterSelectionModel;
 
-    public GameObject characterSelectionSprite;
+    public Sprite characterSelectionSprite;
 
     [Title("Colors")]
     public List<Material> characterMaterials;

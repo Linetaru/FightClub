@@ -48,6 +48,7 @@ public class CharacterAnimation : MonoBehaviour
         animator.ResetTrigger("Crouch");
         animator.ResetTrigger("Deccelerate");
         animator.ResetTrigger("TurnAround");
+        animator.ResetTrigger("Parry");
 
         if (newState is CharacterStateDeath)
         {
@@ -58,6 +59,12 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("Idle");
             actualState = ActualState.Idle;
+        }
+        if (newState is CharacterStateDash)
+        {
+            animator.SetFloat("Speed", 1);
+            //animator.SetTrigger("Idle");
+            //actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
         {
@@ -97,6 +104,11 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateTurnAround)
         {
             animator.SetTrigger("TurnAround");
+        }
+
+        if (newState is CharacterStateParry)
+        {
+            animator.SetTrigger("Parry");
         }
 
         if (newState is CharacterStateParryBlow)
@@ -166,22 +178,10 @@ public class CharacterAnimation : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
-            //animatorPivot.transform.localPosition = Vector3.zero;
-            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             animator.SetBool("Hanging", true);
         }
         else
         {
-            if (movement.Direction == 1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
-            }
-            else if (movement.Direction == -1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
-            }
             animator.SetBool("Hanging", false);
         }
     }
