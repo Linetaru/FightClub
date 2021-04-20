@@ -43,6 +43,8 @@ public class CharacterMoveset : MonoBehaviour
 	AttackManager downSpecial;
 	[SerializeField]
 	AttackManager forwardSpecial;
+	[SerializeField]
+	AttackManager neutralSpecial;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
@@ -164,6 +166,8 @@ public class CharacterMoveset : MonoBehaviour
 				return true;
 			}
 		}
+		else if (character.Input.CheckAction(0, InputConst.Special))
+			return ActionAttack(character, neutralSpecial);
 
 		/*else if (character.Input.CheckAction(0, InputConst.Special))
 		{
