@@ -54,7 +54,7 @@ public class CharacterStateStartJump : CharacterState
             }
             character.SetState(jumpState);
 
-            ParticleSystem particle = Instantiate(character.Particle.startJumpParticle, this.transform.position, Quaternion.Euler(0,0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
+            ParticleSystem particle = Instantiate(jumpParticleSystem, this.transform.position, Quaternion.Euler(0,0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
             Destroy(particle.gameObject, 0.5f);
         }
     }
