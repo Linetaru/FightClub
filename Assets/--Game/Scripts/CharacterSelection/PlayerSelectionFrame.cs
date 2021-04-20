@@ -139,14 +139,14 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void Connected()
+    public void Connected(CharacterData[] characterDatas)
     {
         isPlayerConnected = true;
         spotLights.SetActive(true);
         playerCursor.SetActive(true);
         currentCursorPosition = 0;
 
-        CreateCharacterModel();
+        CreateCharacterModel(characterDatas);
     }
 
     public void Disconnected()
@@ -168,16 +168,16 @@ public class PlayerSelectionFrame : MonoBehaviour
             Destroy(charModel.gameObject);
     }
 
-    public void CreateCharacterModel()
+    public void CreateCharacterModel(CharacterData[] characterDatas)
     {
         //if (characterModel.GetComponentInChildren<GameObject>() != CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterSelectionModel)
         //{
             if (charModel != null)
                 Destroy(charModel.gameObject);
 
-            if (CharacterSelectManager._instance.characterDatas[currentCursorPosition] != null)
+            if (characterDatas[currentCursorPosition] != null)
             {
-                charModel = Instantiate(CharacterSelectManager._instance.characterDatas[currentCursorPosition].looserModel, modelParent.transform);
+                charModel = Instantiate(characterDatas[currentCursorPosition].looserModel, modelParent.transform);
                 //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
                 charModel.SetColor(0, hologramMaterial);
             }
@@ -188,9 +188,9 @@ public class PlayerSelectionFrame : MonoBehaviour
         //}
     }
 
-    public void ChangeCharacterModelColor()
+    public void ChangeCharacterModelColor(CharacterData[] characterDatas)
     {
-        charModel.SetColor(0, CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
+        charModel.SetColor(0, characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
     }
 
     //public void UpdateCharacterColor(List<Material> characterMaterials)
@@ -211,7 +211,7 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void UpdateCursorPosition(bool goToRight)
+    public void UpdateCursorPosition(bool goToRight, CharacterData[] characterDatas)
     {
         if (goToRight)
         {
@@ -229,12 +229,12 @@ public class PlayerSelectionFrame : MonoBehaviour
         }
         playerCursor.transform.DOMove(characterCells[currentCursorPosition].transform.position, .2f);
         playerCursor.transform.DORotateQuaternion(characterCells[currentCursorPosition].transform.rotation, .2f);
-        CreateCharacterModel();
+        CreateCharacterModel(characterDatas);
     }
 
-    public void ChooseCharacter()
+    public void ChooseCharacter(CharacterData[] characterDatas)
     {
-        currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[currentCursorPosition];
+        currentChoosedCharacter = characterDatas[currentCursorPosition];
         isPlayerConnected = true;
         isCharacterChoosed = true;
 
@@ -242,7 +242,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
 
         UpdateParamsDisplay();
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
     }
 
     public void UnchooseCharacter()
@@ -275,7 +275,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         UpdateParamsDisplay();
     }
 
-    public void UpdateParam(bool goToRight)
+    public void UpdateParam(bool goToRight, CharacterData[] characterDatas)
     {
 
         //0 c'est les couleurs et 1 c'est les skills
@@ -331,7 +331,7 @@ public class PlayerSelectionFrame : MonoBehaviour
             }
         }
 
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
         UpdateParamsDisplay();
 
     }
@@ -354,15 +354,15 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
     }
 
-    public void RandomReady()
+    public void RandomReady(CharacterData[] characterDatas)
     {
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
 
-        currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[0];
-        currentColorSkin = Random.Range(0, CharacterSelectManager._instance.characterDatas[0].characterMaterials.Count);
+        currentChoosedCharacter = characterDatas[0];
+        currentColorSkin = Random.Range(0, characterDatas[0].characterMaterials.Count);
         currentChoosableSkill = Random.Range(0, choosableSkills.Length);
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
 
         isPlayerConnected = true;
         isCharacterChoosed = true;

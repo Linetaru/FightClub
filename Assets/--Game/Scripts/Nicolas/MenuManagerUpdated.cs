@@ -115,6 +115,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					case 1:
 						Camera.main.GetComponent<Animator>().SetBool("canTransition", true);
 						timeTransition = 999;
+						canChangeScene = true;
 						break;
 					case 2:
 						Options();
@@ -207,6 +208,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	public void GoToOtherScene()
     {
+		Debug.Log("Ta mère l'anjanath");
 		UnityEngine.SceneManagement.SceneManager.LoadScene(level);
 	}
 }

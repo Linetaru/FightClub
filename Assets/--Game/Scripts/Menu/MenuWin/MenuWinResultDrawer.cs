@@ -48,5 +48,9 @@ namespace Menu
 		{
 			animator.SetTrigger("Feedback");
 		}
+		public void SetReverseFeedback()
+		{
+			animator.SetTrigger("Feedback");
+		}
 	}
 }

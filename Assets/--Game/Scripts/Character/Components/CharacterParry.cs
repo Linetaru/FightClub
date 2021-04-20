@@ -34,6 +34,7 @@ public class CharacterParry : MonoBehaviour
 	public float ParryAngle
 	{
 		get { return parryAngle; }
+		set { parryAngle = value; } // Pour les tests, ne pas mettre en write sinon
 	}
 
 
