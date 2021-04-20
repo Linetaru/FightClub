@@ -56,12 +56,13 @@ public class CharacterAnimatorEvent : MonoBehaviour
 
 	public void ParryOn()
 	{
-		characterParry.IsParry = true;
+		Debug.Log("Allo?");
+		//characterParry.IsParry = true;
 	}
 
 	public void ParryOff()
 	{
-		characterParry.IsParry = false;
+		//characterParry.IsParry = false;
 	}
 
 	public void PlaySound(string soundName)

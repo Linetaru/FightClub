@@ -138,7 +138,7 @@ public class CharacterKnockback : MonoBehaviour
                 Parry.Parry(atkRegistered[i].User, character);
                 atkRegistered[i].User.Knockback.Parry.ParryRepel(character, atkRegistered[i].User);
                 atkRegistered[i].AddPlayerHitList(character.tag);*/
-
+                character.PowerGauge.ForceAddPower(20);
                 Debug.Log("On garde");
                 atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
                 atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
