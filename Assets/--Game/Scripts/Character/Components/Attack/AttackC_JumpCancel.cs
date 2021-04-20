@@ -17,7 +17,7 @@ public class AttackC_JumpCancel : AttackComponent
     {
 		if (user.Action.CanMoveCancel)
 		{
-			if (user.Input.CheckAction(0, InputConst.Jump))
+			if (user.Input.CheckAction(0, InputConst.Jump) || user.Input.CheckAction(0, InputConst.Smash))
 			{
 				user.Action.FinishAction();
 				//user.Movement.Jump();

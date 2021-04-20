@@ -11,7 +11,7 @@ public enum VictoryCondition{
 public class GameData : ScriptableObject
 {
 	[SerializeField]
-	private List<Character_Info> characterInfos;
+	private List<Character_Info> characterInfos = new List<Character_Info>();
 	public List<Character_Info> CharacterInfos
 	{
 		get { return characterInfos; }

@@ -44,6 +44,9 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public static CharacterSelectManager _instance;
 
+    private bool isStarted = false;
+
+    // à enlever sinon les coroutines ne fonctionnent pas
     private void Awake()
     {
         if (_instance == null)
@@ -70,6 +73,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
+        if(isStarted) { return; }
+
         DisplayReadyBands();
 
         if (input_Info.CheckAction(0, InputConst.LeftTaunt))
@@ -234,11 +239,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     {
         if (!gameLaunched && numberOfReadyPlayers == numberOfConnectedPlayers && numberOfConnectedPlayers > 1)
         {
+            isStarted = true;
             gameLaunched = true;
-            readySlash.SetActive(true);
             gameData.NumberOfLifes = playerStocks;
 
-            StartCoroutine(GoToStageMenu());
+            cameraTransition.SetTrigger("Feedback");
+            readySlash.SetActive(true);
 
             int characterInfoNumber = 0;
 
@@ -248,6 +254,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 gameData.CharacterInfos.Add(new Character_Info());
             }
+
             //Debug.Log(players.Length);
 
             //for (int i = 0; i < players.Length; i++)
@@ -265,24 +272,27 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             //}
             for (int i = 0; i < holograms.Length; i++)
             {
-
                 if (holograms[i].isPlayerReady)
                 {
-                    gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
-                    gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
-                    characterInfoNumber++;
+                    if (gameData.CharacterInfos[i] != null)
+                    {
+                        if(holograms[i].currentChoosedCharacter != null)
+                            gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
+                    }
                     //gameData.CharacterInfos[characterInfoNumber].CharacterData.
                 }
             }
+
+            //StartCoroutine(GoToStageMenu());
+            SceneManager.LoadScene("MenuSelection_Stage");
         }
     }
 
-    IEnumerator GoToStageMenu()
-    {
-        cameraTransition.SetTrigger("Feedback");
-        yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene("MenuSelection_Stage");
-    }
+    //IEnumerator GoToStageMenu()
+    //{
+    //    yield return new WaitForSeconds(1.2f);
+    //}
 
     void ReturnToMainMenu()
     {

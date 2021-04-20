@@ -12,6 +12,9 @@ public class CharacterAnimatorEvent : MonoBehaviour
 	[SerializeField]
 	CharacterAction characterAction;
 
+	[SerializeField]
+	CharacterParry characterParry;
+
 	public void MoveForward(float multiplier)
 	{
 		characterMovement.MoveForward(multiplier);
@@ -51,6 +54,15 @@ public class CharacterAnimatorEvent : MonoBehaviour
 		characterAction.EndAction();
 	}
 
+	public void ParryOn()
+	{
+		characterParry.IsParry = true;
+	}
+
+	public void ParryOff()
+	{
+		characterParry.IsParry = false;
+	}
 
 	public void PlaySound(string soundName)
 	{

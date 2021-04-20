@@ -44,20 +44,17 @@ public class CharacterStateStartJump : CharacterState
             {
                 character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
             }
-            else if (character.Input.inputActionsUP.Count != 0)
-            {
-                if (character.Input.inputActionsUP[0].action == InputConst.Jump)
-                {
-                    character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
-                }
-            }
-            else
+            else if (character.Input.CheckActionHold(InputConst.Jump) || character.Input.CheckActionHold(InputConst.Smash))
             {
                 character.Movement.Jump();
             }
+            else
+            {
+                character.Movement.Jump(character.Movement.JumpForce * shortJumpForceMultiplier);
+            }
             character.SetState(jumpState);
 
-            ParticleSystem particle = Instantiate(jumpParticleSystem, this.transform.position, Quaternion.Euler(0,0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
+            ParticleSystem particle = Instantiate(character.Particle.startJumpParticle, this.transform.position, Quaternion.Euler(0,0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
             Destroy(particle.gameObject, 0.5f);
         }
     }

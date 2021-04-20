@@ -96,6 +96,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					text.transform.gameObject.SetActive(false);
 				//EventSystem.current.SetSelectedGameObject(playButton);
 				playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.2f);
+				optionButton.transform.DOScale(new Vector3(1f, 1f, 0), 0.2f);
 				currentButtonSelected = 1;
 				currentSelectButton = playButton;
 				CanPulse = false;
@@ -170,8 +171,8 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					break;
 			}
 		}
-		lastSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
 		currentSelectButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f).OnComplete(() => OnTransition = false);
+		lastSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
 		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
 	}
 

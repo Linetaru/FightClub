@@ -86,7 +86,7 @@ public class CharacterStateWallRun : CharacterState
 
         if (character.Input.inputActions.Count != 0 && wallCollision)
         {
-            if (character.Input.inputActions[0].action == InputConst.Jump)
+            if (character.Input.inputActions[0].action == InputConst.Jump || character.Input.CheckAction(0, InputConst.Smash))
             {
                 character.Movement.Direction *= -1;
 
@@ -97,7 +97,9 @@ public class CharacterStateWallRun : CharacterState
 
                 wallCollision = false;
 
-                character.Movement.Jump();
+                character.Movement.Jump(); 
+                ParticleSystem particle = Instantiate(character.Particle.startJumpParticle, this.transform.position, Quaternion.Euler(0, 0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
+                Destroy(particle.gameObject, 0.5f);
                 character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
 
                 //Play Walljump animation

@@ -35,7 +35,6 @@ public class CharacterStats : MonoBehaviour
     }
 
     [SerializeField]
-    [ReadOnly]
     private int lifeStocks;
     public int LifeStocks
     {
