@@ -28,11 +28,42 @@ public class CharacterModel : MonoBehaviour
 		{
 			skinnedMeshRenderers[i].material = color;
 		}
+
+
 	}
 
 	public Material GetColor()
 	{
 		return skinnedMeshRenderers[0].material;
+	}
+
+	[Button]
+	public void FlashModel()
+	{
+		StartCoroutine(FlashCoroutine(Color.white, 1f));
+	}
+
+	public void FlashModel(Color flashColor, float time)
+	{
+		StartCoroutine(FlashCoroutine(flashColor, time));
+	}
+
+
+	private IEnumerator FlashCoroutine(Color flashColor, float time)
+	{
+		float t = 0f;
+		Color c = new Color(flashColor.r, flashColor.g, flashColor.b, 1);
+		Color transparent = new Color(flashColor.r, flashColor.g, flashColor.b, 0);
+		while (t < time)
+		{
+			t += Time.deltaTime;
+			c = Color.Lerp(c, transparent, t / time);
+			for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+			{
+				skinnedMeshRenderers[i].materials[1].SetColor("_UnlitColor", c);
+			}
+			yield return null;
+		}
 	}
 
 

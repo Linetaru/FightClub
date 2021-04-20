@@ -86,7 +86,7 @@ public class CharacterStateWallRun : CharacterState
 
         if (character.Input.inputActions.Count != 0 && wallCollision)
         {
-            if (character.Input.inputActions[0].action == InputConst.Jump)
+            if (character.Input.inputActions[0].action == InputConst.Jump || character.Input.CheckAction(0, InputConst.Smash))
             {
                 character.Movement.Direction *= -1;
 

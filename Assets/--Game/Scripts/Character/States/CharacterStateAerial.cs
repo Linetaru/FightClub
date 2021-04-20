@@ -71,16 +71,27 @@ public class CharacterStateAerial : CharacterState
 
             if (character.Movement.CurrentNumberOfJump > 0)
             {
-                if (character.Input.inputActions[0].action == InputConst.Jump)
+                if (character.Input.inputActions[0].action == InputConst.Jump || character.Input.CheckAction(0, InputConst.Smash))
                 {
                     character.Input.inputActions[0].timeValue = 0;
 
                     GameObject jumpRippleEffect = Instantiate(doubleJumpParticle, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
                     Destroy(jumpRippleEffect, 2.0f);
                     character.Movement.CurrentNumberOfJump--;
+
                     character.Movement.Jump();
 
-                    if (character.Input.horizontal != 0)
+                    if (Mathf.Abs(character.Input.horizontal) < 0.25f)
+                    {
+                        character.Movement.SpeedX = 0;
+                    }
+                    else
+                    {
+                        character.Movement.SpeedX = character.Movement.MaxAerialSpeed * Mathf.Abs(character.Input.horizontal);
+                        character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+                    }
+
+                    /*if (character.Input.horizontal != 0)
                     {
                         int newDirection = (int)Mathf.Sign(character.Input.horizontal);
                         if (newDirection != character.Movement.Direction)
@@ -89,10 +100,10 @@ public class CharacterStateAerial : CharacterState
                                 character.Movement.SpeedX *= 0;
                             else
                                 character.Movement.SpeedX *= -1;
-                                //character.Movement.SpeedX += (character.Movement.MaxAerialSpeed * 0.5f * Mathf.Abs(character.Input.horizontal));*/
+                                //character.Movement.SpeedX += (character.Movement.MaxAerialSpeed * 0.5f * Mathf.Abs(character.Input.horizontal));
                         }
                         character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-                    }
+                    }*/
                 }
             }
         }
@@ -113,10 +124,18 @@ public class CharacterStateAerial : CharacterState
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
             // On ne peut s'accrocher que si le raycast tiré du bas du perso est true
-            if ((character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15 || character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 17) 
-            && character.Rigidbody.CollisionWallInfo.Contacts[0] == true)
+            if (character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15 || character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 17)
             {
-                if (Mathf.Abs(character.Input.horizontal) > .8 && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))// && Mathf.Abs(character.Movement.SpeedX) > minimalSpeedToWallRun)
+                // On check bien qu'on touche en entier un mur
+                for (int i = 0; i < character.Rigidbody.CollisionWallInfo.Contacts.Length; i++)
+                {
+                    if(character.Rigidbody.CollisionWallInfo.Contacts[i] == false)
+                    {
+                        character.Movement.SpeedX = 0;
+                        return;
+                    }
+                }
+                if (Mathf.Abs(character.Input.horizontal) > .2) // && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))
                     character.SetState(wallRunState);
             }
             character.Movement.SpeedX = 0;

@@ -29,6 +29,10 @@ public class CharacterStateDodgeAerial : CharacterState
 	[SerializeField]
 	CharacterState aerialState; // à bouger dans le characterBase peut etre ?
 
+	[Title("Move")]
+	[SerializeField]
+	CharacterEvasiveMoveset evasiveMoveset;
+
 	float speedDodge;
 	float t = 0f;
 	Vector2 directionDodge;
@@ -57,7 +61,9 @@ public class CharacterStateDodgeAerial : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		t += Time.deltaTime;
+		t += Time.deltaTime * character.MotionSpeed;
+
+		DodgeInfluence(character);
 
 		if (t >= invulnerableInterval.x && t < invulnerableInterval.y) // Dodge
 		{
@@ -71,10 +77,17 @@ public class CharacterStateDodgeAerial : CharacterState
 		}
 		else if (t >= invulnerableInterval.y) // Lag du Dodge
 		{
-			//AirControl(character);
 			//character.Movement.ApplyGravity();
 			character.Knockback.IsInvulnerable = false;
 			character.Movement.SetSpeed(0, 0);
+			if (evasiveMoveset.Dodge(character))
+			{
+				return;
+			}
+			else if (character.Input.CheckActionHold(InputConst.RightTrigger))
+			{
+				evasiveMoveset.ForceDodgeAerial(character);
+			}
 		}
 
 
@@ -102,36 +115,25 @@ public class CharacterStateDodgeAerial : CharacterState
 
 
 
-
-	// Note - à dégager le plus vite possible
-	/*[Title("Air Control")]
 	[SerializeField]
-	float airControl = 1f;
-	[SerializeField]
-	float airFriction = 0.9f;
-	[SerializeField]
-	float maxAerialSpeed = 10f;
-	private void AirControl(CharacterBase character)
+	float rotationSpeed = 5f;
+	private void DodgeInfluence(CharacterBase character)
 	{
-		float axisX = character.Input.horizontal;
+		if (Mathf.Abs(character.Input.horizontal) < 0.25f && Mathf.Abs(character.Input.vertical) < 0.25f)
+			return;
 
-		float aerialDirection;
+		Vector2 input = new Vector2(character.Input.horizontal, character.Input.vertical);
 
-		if (character.Movement.Direction > 0)
-			aerialDirection = axisX;
-		else
-			aerialDirection = -axisX;
-
-		character.Movement.SpeedX += (airControl * aerialDirection * airFriction) * Time.deltaTime;
-
-		if (character.Movement.SpeedX >= maxAerialSpeed)
+		float influence = Vector2.Dot(input, Vector2.Perpendicular(directionDodge));
+		if(influence < -0.1f) // Rotate Left
 		{
-			character.Movement.SpeedX = maxAerialSpeed;
+			directionDodge = Quaternion.Euler(0, 0, -rotationSpeed) * directionDodge;
 		}
-		else if (character.Movement.SpeedX <= -maxAerialSpeed)
+		else if (influence > 0.1f) // Rotate Right 
 		{
-			character.Movement.SpeedX = -maxAerialSpeed;
+			directionDodge = Quaternion.Euler(0, 0, rotationSpeed) * directionDodge;
 		}
-	}*/
+	}
+
 
 }

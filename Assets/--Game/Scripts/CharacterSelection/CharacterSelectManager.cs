@@ -46,6 +46,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private bool isStarted = false;
 
+    // à enlever sinon les coroutines ne fonctionnent pas
     private void Awake()
     {
         if (_instance == null)

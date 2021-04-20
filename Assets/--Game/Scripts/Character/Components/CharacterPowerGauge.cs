@@ -36,7 +36,7 @@ public class CharacterPowerGauge : MonoBehaviour
     public const int maxPower = 100;
 
     [Title("Segment Parameter")]
-    private bool canGainPoint = true;
+    private bool canGainPoint = false;//true;
     public float timerSegmentPowerMax = 1.5f;
     private float timerSegmentPower;
     public bool canSignatureMoveUseOneSegmentPerUse = true;
@@ -146,6 +146,15 @@ public class CharacterPowerGauge : MonoBehaviour
             else
                 CurrentPower += i_value;
         }
+    }
+
+    public void ForceAddPower(int i_value)
+    {
+        currentPower += i_value;
+        currentPower = Mathf.Clamp(currentPower, 0, 100);
+
+        if (gameEvent != null)
+            gameEvent.Raise(currentPower);
     }
 
     public void AddBoost(int i_value)
