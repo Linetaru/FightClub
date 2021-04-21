@@ -102,9 +102,8 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Cancel l'action mais ne reset pas le state
-    /// </summary>
+
+    // Cancel l'action mais ne reset pas le state
     public void CancelAction()
     {
         if (currentAttackManager != null)
@@ -118,9 +117,8 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    /// <summary>
+
     // Termine l'action et retourne en état idle
-    /// </summary>
     public void FinishAction()
     {
         CancelAction();

@@ -14,11 +14,11 @@ public class CharacterUI : MonoBehaviour
 	//public Image powerGaugeImage;
 	[Title("Percent")]
 	public Image percentBar;
+	public Gradient gradient;
 
 	[Title("Power")]
 	public Image[] powerGaugeImages = new Image[4];
 
-	//public Gradient gradient;
 	[Title("Life")]
 	public Image[] imagesLife = new Image[6];
 	public TextMeshProUGUI stocksText;
@@ -61,6 +61,9 @@ public class CharacterUI : MonoBehaviour
 			percentBar.fillAmount = 0.20f;
 		else
 			percentBar.DOFillAmount((percentCalculate + 0.10f) + 1 - ((percentCalculate + 0.10f) * 2), 0.5f);
+
+		percentBar.color = gradient.Evaluate(percent / 250);
+
 	}
 
 
