@@ -63,6 +63,12 @@ public class PlayerSelectionFrame : MonoBehaviour
     [HideInInspector]
     public int currentColorSkin = 0;
 
+    // Teams
+    //[HideInInspector]
+    public TeamEnum currentTeam;
+    private int teamInt = 0;
+    private int teamEnumLength;
+
     public CharacterData currentChoosedCharacter = null;
 
     [HideInInspector]
@@ -106,6 +112,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         choosableSkillsColor[3] = Color.blue;
         choosableSkillsColor[4] = Color.white;
         choosableSkillsColor[5] = Color.yellow;
+
+        teamEnumLength = System.Enum.GetValues(typeof(TeamEnum)).Length - 1;
     }
 
     //public void UpdateDisplay()
@@ -369,6 +377,17 @@ public class PlayerSelectionFrame : MonoBehaviour
         paramsChoosed = true;
         isPlayerReady = true;
     }
+
+    public void CycleTeam()
+    {
+        if (teamInt < teamEnumLength)
+            teamInt++;
+        else
+            teamInt = 0;
+        currentTeam = (TeamEnum) teamInt;
+    }
+
+
     //private void Awake()
     //{
     //    //rectTransform = GetComponent<RectTransform>();
@@ -408,6 +427,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(false);
         //HideHolograms();
     }
+
+
 
     //private void Update()
     //{
