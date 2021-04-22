@@ -13,6 +13,9 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	[SerializeField]
 	CharacterState aerialState;
+	[SerializeField]
+	CharacterState landingState;
+
 	public CharacterState CurrentState
 	{
 		get { return currentState; }
@@ -24,6 +27,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 	public Transform CenterPoint
 	{
 		get { return centerPoint; }
+	}
+	[SerializeField]
+	private Transform centerPivot;
+	public Transform CenterPivot
+	{
+		get { return centerPivot; }
 	}
 
 	[SerializeField]
@@ -62,13 +71,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return knockback; }
 	}
 
-
 	[SerializeField]
-	private CharacterParry parry;
-	public CharacterParry Parry
+	private CharacterStatusEffects status;
+	public CharacterStatusEffects Status
 	{
-		get { return parry; }
+		get { return status; }
 	}
+
 
 	[SerializeField]
 	private CharacterStats stats;
@@ -89,6 +98,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 	public CharacterPowerGauge PowerGauge
 	{
 		get { return powerGauge; }
+	}
+
+	[SerializeField]
+	private CharacterProjectile projectile;
+	public CharacterProjectile Projectile
+	{
+		get { return projectile; }
 	}
 
 	private Input_Info input;
@@ -131,12 +147,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
 		action.InitializeComponent(this);
+		status.InitializeComponent(this);
 	}
 
 
 	public void SetState(CharacterState characterState)
 	{
-		Debug.Log(characterState.gameObject.name);
+		//Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 
@@ -146,21 +163,23 @@ public class CharacterBase : MonoBehaviour, IControllable
 		currentState.StartState(this, oldState);
 
 		OnStateChanged?.Invoke(oldState, currentState);
-		//currentState = characterState;
 	}
 
 
-	// Update is called once per frame
-	/*void Update()
-	{
-		currentState.UpdateState(this);
-	}*/
+
 
 	public void UpdateControl(int ID, Input_Info input_Info)
 	{
+		// Les animation event se lancent avant l'update
+		// Action.CanEndAction() se lance en tout début pour bien recevoir les animation event
 		action.CanEndAction();
 
+		// Les OnTrigger se lancent avant l'update
+		// Knockback.CheckHit se lance en tout début pour bien recevoir les collisions
+		knockback.CheckHit(this);
+
 		input = input_Info;
+		status.UpdateStatus();
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
@@ -169,6 +188,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 		action.EndActionState();
 	}
 
+
+	// Aveux de faiblesse pardon les amis
 	public void ResetToIdle()
     {
         if (rigidbody.IsGrounded)
@@ -185,6 +206,14 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		SetState(aerialState);
 	}
+
+	public void ResetToLand()
+	{
+		SetState(landingState);
+	}
+
+
+
 
 	public void SetMotionSpeed(float newValue, float time)
 	{

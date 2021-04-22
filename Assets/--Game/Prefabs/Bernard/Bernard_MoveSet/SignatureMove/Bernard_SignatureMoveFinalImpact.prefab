@@ -71,6 +71,11 @@ MonoBehaviour:
   - {fileID: 9148084274938369658}
   - {fileID: 691058427735319177}
   - {fileID: 8966345666950095123}
+  clashLevel: 1
+  clashCancel: 1
+  onHitColliderEvents:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &6847641087695171298
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -271,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 0}
   characterAction: {fileID: 0}
+  characterParry: {fileID: 0}
 --- !u!114 &7133085703737463510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
-  stateKnockback: {fileID: 0}
 --- !u!136 &1090450021587598052
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -403,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 2
+  removeHitStopAttacker: 0
   bonusHitstun: 0
   knockbackAdvancedSettings: 1
   minKnockbackPower: 40
@@ -5597,6 +5603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterMovement: {fileID: 0}
   characterAction: {fileID: 0}
+  characterParry: {fileID: 0}
 --- !u!1 &7954107827119747891
 GameObject:
   m_ObjectHideFlags: 0
@@ -5690,9 +5697,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ab8aea232089a4998672c9813411e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackAnim: {fileID: 7400000, guid: 67b6daff48fd4104c817a5c347941306, type: 2}
+  attackAnim: {fileID: 7400000, guid: eed5ec20c3f19bf4fa141cd8ad541d54, type: 2}
   linkToCharacter: 1
   atkCombo: {fileID: 0}
+  attackCondition: {fileID: 0}
   atkSubs:
   - {fileID: 556300893683851836}
 --- !u!1 &8402041882964761022

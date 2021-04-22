@@ -15,6 +15,8 @@ public class CharacterPowerGauge : MonoBehaviour
         set
         {
             currentPower = value;
+            if (gameEvent != null)
+                gameEvent.Raise(currentPower);
         }
     }
 
@@ -31,10 +33,10 @@ public class CharacterPowerGauge : MonoBehaviour
     private bool isOnSpeedBoost;
 
     [ReadOnly]
-    public const int maxPower = 99;
+    public const int maxPower = 100;
 
     [Title("Segment Parameter")]
-    private bool canGainPoint = true;
+    private bool canGainPoint = false;//true;
     public float timerSegmentPowerMax = 1.5f;
     private float timerSegmentPower;
     public bool canSignatureMoveUseOneSegmentPerUse = true;
@@ -59,8 +61,6 @@ public class CharacterPowerGauge : MonoBehaviour
     public void Start()
     {
         CurrentPower = 0;
-        if (gameEvent != null)
-            gameEvent.Raise(currentPower);
     }
 
     public void UpdateTimer(CharacterBase user)
@@ -106,36 +106,52 @@ public class CharacterPowerGauge : MonoBehaviour
         if (!canGainPoint)
             return;
 
-        if (currentPower < 33)
+        if (CurrentPower < 25)
         {
-            if (currentPower + i_value >= 33)
+            if (CurrentPower + i_value >= 25)
             {
-                currentPower = 33;
+                CurrentPower = 25;
                 canGainPoint = false;
             }
             else
-                currentPower += i_value;
+                CurrentPower += i_value;
         }
-        else if(currentPower >= 33 && currentPower < 66)
+        else if(CurrentPower >= 25 && CurrentPower < 50)
         {
-            if (currentPower + i_value >= 66)
+            if (CurrentPower + i_value >= 50)
             {
-                currentPower = 66;
+                CurrentPower = 50;
                 canGainPoint = false;
             }
             else
-                currentPower += i_value;
+                CurrentPower += i_value;
         }
-        else if(currentPower <= 99 && currentPower >= 66)
+        else if (CurrentPower >= 50 && CurrentPower < 75)
         {
-            if (currentPower + i_value >= 99)
+            if (CurrentPower + i_value >= 75)
             {
-                currentPower = maxPower;
+                CurrentPower = 75;
                 canGainPoint = false;
             }
             else
-                currentPower += i_value;
+                CurrentPower += i_value;
         }
+        else if(CurrentPower >= 75 && CurrentPower <= 100)
+        {
+            if (CurrentPower + i_value >= 100)
+            {
+                CurrentPower = maxPower;
+                canGainPoint = false;
+            }
+            else
+                CurrentPower += i_value;
+        }
+    }
+
+    public void ForceAddPower(int i_value)
+    {
+        currentPower += i_value;
+        currentPower = Mathf.Clamp(currentPower, 0, 100);
 
         if (gameEvent != null)
             gameEvent.Raise(currentPower);
@@ -143,13 +159,10 @@ public class CharacterPowerGauge : MonoBehaviour
 
     public void AddBoost(int i_value)
     {
-        if (currentPower + i_value <= maxPower)
-            currentPower += i_value;
+        if (CurrentPower + i_value <= maxPower)
+            CurrentPower += i_value;
         else
-            currentPower = maxPower;
-
-        if (gameEvent != null)
-            gameEvent.Raise(currentPower);
+            CurrentPower = maxPower;
     }
 
     public void ConsumePowerSegment(Input_Info input_Info, CharacterBase user)
