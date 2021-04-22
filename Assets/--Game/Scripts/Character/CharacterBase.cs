@@ -121,7 +121,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 		set { playerID = value; }
 	}
 
-
+	private TeamEnum teamID;
+	public TeamEnum TeamID
+	{
+		get { return teamID; }
+		set { teamID = value; }
+	}
 
 
 	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
