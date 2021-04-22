@@ -219,6 +219,7 @@ public class InputController : SerializedMonoBehaviour
 				if (ic.action == ReInput.mapping.GetAction(action))
 				{
 					ic.timeValue = bufferLength;
+					playerInputs[ID].inputActionsHold.Remove(ReInput.mapping.GetAction(action));
 					return;
 				}
 			}

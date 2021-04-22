@@ -22,6 +22,13 @@ public class CharacterStateParryBlow : CharacterState
 	AnimationCurve ejectionCurve;
 
 
+	private void Start()
+	{
+		timeBlow /= 60f;
+		timeStop /= 60f;
+	}
+
+
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		evasiveMoveset.ResetDodge();

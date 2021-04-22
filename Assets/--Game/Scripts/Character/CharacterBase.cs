@@ -28,6 +28,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		get { return centerPoint; }
 	}
+	[SerializeField]
+	private Transform centerPivot;
+	public Transform CenterPivot
+	{
+		get { return centerPivot; }
+	}
 
 	[SerializeField]
 	private CharacterModel model;

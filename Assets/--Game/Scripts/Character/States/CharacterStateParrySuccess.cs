@@ -6,11 +6,11 @@ using Sirenix.OdinInspector;
 public class CharacterStateParrySuccess : CharacterState
 {
 	[SerializeField]
-	float timeLag = 0.2f;
+	[SuffixLabel("en frames")]
+	float timeLag = 24;
 	[SerializeField]
-	float timeCancel = 0.2f;
-	[SerializeField]
-	float timeCancelAttack = 0.2f;
+	[SuffixLabel("en frames")]
+	float timeCancel = 12;
 
 	[SerializeField]
 	CharacterMoveset moveset;
@@ -30,6 +30,8 @@ public class CharacterStateParrySuccess : CharacterState
 	[Title("Parry")]
 	[SerializeField]
 	float parryInfluenceAngle = 30f;
+
+
 	[SerializeField]
 	AttackManager counterAction;
 
@@ -38,6 +40,15 @@ public class CharacterStateParrySuccess : CharacterState
 
 	float t = 0f;
 	bool inHitStop = true;
+
+
+	private void Start()
+	{
+		timeLag /= 60;
+		timeCancel /= 60;
+	}
+
+
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
@@ -62,11 +73,6 @@ public class CharacterStateParrySuccess : CharacterState
 				{
 					return;
 				}
-			}
-			else
-			{
-				// Parry
-				ParryInfluence(character);
 			}*/
 			ParryInfluence(character);
 		}
@@ -100,22 +106,6 @@ public class CharacterStateParrySuccess : CharacterState
 				character.ResetToIdle();
 			}
 		}
-		/*if (t <= timeCancelAttack)
-		{
-			if (moveset.ActionAttack(character))
-			{
-				return;
-			}
-			/*else if (evasiveMoveset.Dodge(character))
-			{
-				return;
-			}
-
-			else if (character.Input.CheckAction(0, InputConst.Jump))
-			{
-				character.ResetToIdle();
-			}
-		}*/
 
 		if (t <= 0)
 		{

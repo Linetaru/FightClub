@@ -50,6 +50,8 @@ public class CharacterAnimation : MonoBehaviour
         animator.ResetTrigger("TurnAround");
         animator.ResetTrigger("Parry");
 
+        characterBase.CenterPivot.localRotation = Quaternion.identity;
+
         if (newState is CharacterStateDeath)
         {
             animator.SetTrigger("Idle");
@@ -134,6 +136,10 @@ public class CharacterAnimation : MonoBehaviour
             AnimationWallrun();
         }
 
+        else if (actualState == ActualState.Knockback)
+        {
+            AnimationKnockback();
+        }
 
         else if (actualState == ActualState.ParryBlow)
         {
@@ -186,6 +192,11 @@ public class CharacterAnimation : MonoBehaviour
         }
     }
 
+    void AnimationKnockback()
+    {
+        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(characterBase.Movement.SpeedX, characterBase.Movement.SpeedY), Vector2.left * characterBase.Movement.Direction));
+    }
+
 
     void AnimationParryBlow()
     {
@@ -196,6 +207,7 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("Knockback");
             parryBlow = true;
         }
+        AnimationKnockback();
     }
     void OnDestroy()
     {
