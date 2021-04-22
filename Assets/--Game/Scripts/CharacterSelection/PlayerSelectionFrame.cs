@@ -5,6 +5,7 @@ using UnityEngine;
 using Rewired;
 using UnityEngine.UI;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class PlayerSelectionFrame : MonoBehaviour
 {
@@ -63,10 +64,21 @@ public class PlayerSelectionFrame : MonoBehaviour
     [HideInInspector]
     public int currentColorSkin = 0;
 
-    // Teams
-    //[HideInInspector]
-    public TeamEnum currentTeam;
-    private int teamInt = 0;
+    [Title("Team Infos UI")]
+    private Dictionary<int, string> teamColors = new Dictionary<int, string>() {
+        {0, "#C8C8C8"},
+        {1, "#800000"},
+        {2, "#000E80"},
+        {3, "#7E8000"},
+        {4, "#00801A"}
+    };
+// Teams
+[SerializeField]
+    private TextMeshProUGUI teamText;
+    [SerializeField]
+    private Image teamBackground;
+    [HideInInspector]
+    public TeamEnum currentTeam = 0;
     private int teamEnumLength;
 
     public CharacterData currentChoosedCharacter = null;
@@ -114,6 +126,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         choosableSkillsColor[5] = Color.yellow;
 
         teamEnumLength = System.Enum.GetValues(typeof(TeamEnum)).Length - 1;
+
+        UpdateTeamColor();
     }
 
     //public void UpdateDisplay()
@@ -380,11 +394,24 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void CycleTeam()
     {
-        if (teamInt < teamEnumLength)
-            teamInt++;
+        if ((int)currentTeam < teamEnumLength)
+            currentTeam++;
         else
-            teamInt = 0;
-        currentTeam = (TeamEnum) teamInt;
+            currentTeam = 0;
+
+        teamText.SetText(currentTeam.ToString());
+
+        // UI Team Color
+        UpdateTeamColor();
+    }
+
+    private void UpdateTeamColor()
+    {
+        Color color = new Color();
+        ColorUtility.TryParseHtmlString(teamColors[(int)currentTeam], out color);
+
+        teamBackground.color = color;
+        teamBackground.color = new Color(color.r, color.g, color.b, 0.6f);
     }
 
 
