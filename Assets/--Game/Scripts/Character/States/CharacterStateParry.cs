@@ -42,10 +42,13 @@ public class CharacterStateParry : CharacterState
 		if (Mathf.Abs(character.Input.horizontal) < 0.3f && Mathf.Abs(character.Input.vertical) < 0.3f)
 			character.Knockback.Parry.ParryDirection = new Vector2(character.Movement.Direction, 0);
 		else
-			character.Knockback.Parry.ParryDirection = new Vector2(character.Input.horizontal, -character.Input.vertical);
+			character.Knockback.Parry.ParryDirection = new Vector2(character.Input.horizontal, character.Input.vertical);
 
-		debug.SetActive(true);
-		debug.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(character.Knockback.Parry.ParryDirection, Vector2.up) + 180f);
+		if (character.Knockback.Parry.ParryAngle < 360)
+		{
+			debug.SetActive(true);
+			debug.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(new Vector2(character.Knockback.Parry.ParryDirection.x, -character.Knockback.Parry.ParryDirection.y), Vector2.up) + 180f);
+		}
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -86,6 +89,9 @@ public class CharacterStateParry : CharacterState
 	{
 		character.Knockback.Parry.IsParry = false;
 		character.Knockback.Parry.IsGuard = false;
-		debug.SetActive(false);
+		if (character.Knockback.Parry.ParryAngle < 360)
+		{
+			debug.SetActive(false);
+		}
 	}
 }

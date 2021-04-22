@@ -5,6 +5,7 @@ using UnityEngine;
 using Rewired;
 using UnityEngine.UI;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class PlayerSelectionFrame : MonoBehaviour
 {
@@ -63,6 +64,23 @@ public class PlayerSelectionFrame : MonoBehaviour
     [HideInInspector]
     public int currentColorSkin = 0;
 
+    [Title("Team Infos UI")]
+    private Dictionary<int, string> teamColors = new Dictionary<int, string>() {
+        {0, "#C8C8C8"},
+        {1, "#800000"},
+        {2, "#000E80"},
+        {3, "#7E8000"},
+        {4, "#00801A"}
+    };
+// Teams
+[SerializeField]
+    private TextMeshProUGUI teamText;
+    [SerializeField]
+    private Image teamBackground;
+    [HideInInspector]
+    public TeamEnum currentTeam = 0;
+    private int teamEnumLength;
+
     public CharacterData currentChoosedCharacter = null;
 
     [HideInInspector]
@@ -106,6 +124,10 @@ public class PlayerSelectionFrame : MonoBehaviour
         choosableSkillsColor[3] = Color.blue;
         choosableSkillsColor[4] = Color.white;
         choosableSkillsColor[5] = Color.yellow;
+
+        teamEnumLength = System.Enum.GetValues(typeof(TeamEnum)).Length - 1;
+
+        UpdateTeamColor();
     }
 
     //public void UpdateDisplay()
@@ -139,14 +161,14 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void Connected()
+    public void Connected(CharacterData[] characterDatas)
     {
         isPlayerConnected = true;
         spotLights.SetActive(true);
         playerCursor.SetActive(true);
         currentCursorPosition = 0;
 
-        CreateCharacterModel();
+        CreateCharacterModel(characterDatas);
     }
 
     public void Disconnected()
@@ -168,16 +190,16 @@ public class PlayerSelectionFrame : MonoBehaviour
             Destroy(charModel.gameObject);
     }
 
-    public void CreateCharacterModel()
+    public void CreateCharacterModel(CharacterData[] characterDatas)
     {
         //if (characterModel.GetComponentInChildren<GameObject>() != CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterSelectionModel)
         //{
             if (charModel != null)
                 Destroy(charModel.gameObject);
 
-            if (CharacterSelectManager._instance.characterDatas[currentCursorPosition] != null)
+            if (characterDatas[currentCursorPosition] != null)
             {
-                charModel = Instantiate(CharacterSelectManager._instance.characterDatas[currentCursorPosition].looserModel, modelParent.transform);
+                charModel = Instantiate(characterDatas[currentCursorPosition].looserModel, modelParent.transform);
                 //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
                 charModel.SetColor(0, hologramMaterial);
             }
@@ -188,9 +210,9 @@ public class PlayerSelectionFrame : MonoBehaviour
         //}
     }
 
-    public void ChangeCharacterModelColor()
+    public void ChangeCharacterModelColor(CharacterData[] characterDatas)
     {
-        charModel.SetColor(0, CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
+        charModel.SetColor(0, characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
     }
 
     //public void UpdateCharacterColor(List<Material> characterMaterials)
@@ -211,7 +233,7 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void UpdateCursorPosition(bool goToRight)
+    public void UpdateCursorPosition(bool goToRight, CharacterData[] characterDatas)
     {
         if (goToRight)
         {
@@ -229,12 +251,12 @@ public class PlayerSelectionFrame : MonoBehaviour
         }
         playerCursor.transform.DOMove(characterCells[currentCursorPosition].transform.position, .2f);
         playerCursor.transform.DORotateQuaternion(characterCells[currentCursorPosition].transform.rotation, .2f);
-        CreateCharacterModel();
+        CreateCharacterModel(characterDatas);
     }
 
-    public void ChooseCharacter()
+    public void ChooseCharacter(CharacterData[] characterDatas)
     {
-        currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[currentCursorPosition];
+        currentChoosedCharacter = characterDatas[currentCursorPosition];
         isPlayerConnected = true;
         isCharacterChoosed = true;
 
@@ -242,7 +264,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
 
         UpdateParamsDisplay();
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
     }
 
     public void UnchooseCharacter()
@@ -275,7 +297,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         UpdateParamsDisplay();
     }
 
-    public void UpdateParam(bool goToRight)
+    public void UpdateParam(bool goToRight, CharacterData[] characterDatas)
     {
 
         //0 c'est les couleurs et 1 c'est les skills
@@ -331,7 +353,7 @@ public class PlayerSelectionFrame : MonoBehaviour
             }
         }
 
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
         UpdateParamsDisplay();
 
     }
@@ -354,21 +376,45 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
     }
 
-    public void RandomReady()
+    public void RandomReady(CharacterData[] characterDatas)
     {
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
 
-        currentChoosedCharacter = CharacterSelectManager._instance.characterDatas[0];
-        currentColorSkin = Random.Range(0, CharacterSelectManager._instance.characterDatas[0].characterMaterials.Count);
+        currentChoosedCharacter = characterDatas[0];
+        currentColorSkin = Random.Range(0, characterDatas[0].characterMaterials.Count);
         currentChoosableSkill = Random.Range(0, choosableSkills.Length);
-        ChangeCharacterModelColor();
+        ChangeCharacterModelColor(characterDatas);
 
         isPlayerConnected = true;
         isCharacterChoosed = true;
         paramsChoosed = true;
         isPlayerReady = true;
     }
+
+    public void CycleTeam()
+    {
+        if ((int)currentTeam < teamEnumLength)
+            currentTeam++;
+        else
+            currentTeam = 0;
+
+        teamText.SetText(currentTeam.ToString());
+
+        // UI Team Color
+        UpdateTeamColor();
+    }
+
+    private void UpdateTeamColor()
+    {
+        Color color = new Color();
+        ColorUtility.TryParseHtmlString(teamColors[(int)currentTeam], out color);
+
+        teamBackground.color = color;
+        teamBackground.color = new Color(color.r, color.g, color.b, 0.6f);
+    }
+
+
     //private void Awake()
     //{
     //    //rectTransform = GetComponent<RectTransform>();
@@ -408,6 +454,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(false);
         //HideHolograms();
     }
+
+
 
     //private void Update()
     //{

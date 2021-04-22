@@ -144,6 +144,7 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.Back.name);
 
 			Input_ActionUI(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Jump.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
@@ -219,6 +220,7 @@ public class InputController : SerializedMonoBehaviour
 				if (ic.action == ReInput.mapping.GetAction(action))
 				{
 					ic.timeValue = bufferLength;
+					playerInputs[ID].inputActionsHold.Remove(ReInput.mapping.GetAction(action));
 					return;
 				}
 			}
