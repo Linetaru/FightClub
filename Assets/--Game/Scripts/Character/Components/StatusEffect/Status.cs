@@ -34,7 +34,28 @@ public class Status
 		{
 			statusUpdates.Add(data.StatusUpdates[i].Copy());
 		}
+
+
+		statusEffects = new List<StatusEffect>(data.StatusEffects.Length);
+		for (int i = 0; i < data.StatusEffects.Length; i++)
+		{
+			statusEffects.Add(data.StatusEffects[i].Copy());
+		}
 	}
+
+
+	/// <summary>
+	/// Update le status
+	/// </summary>
+	public void ApplyStatus(CharacterBase character)
+	{
+		for (int i = 0; i < statusEffects.Count; i++)
+		{
+			statusEffects[i].ApplyEffect(character);
+		}
+	}
+
+
 
 	/// <summary>
 	/// Update le status
@@ -50,11 +71,23 @@ public class Status
 				return false;
 		}
 
-		/*for (int i = 0; i < statusEffects.Count; i++)
+		for (int i = 0; i < statusEffects.Count; i++)
 		{
-			statusEffects[i]
-		}*/
+			statusEffects[i].UpdateEffect(character);
+		}
 		return true;
+	}
+
+
+	/// <summary>
+	/// Update le status
+	/// </summary>
+	public void RemoveStatus(CharacterBase character)
+	{
+		for (int i = 0; i < statusEffects.Count; i++)
+		{
+			statusEffects[i].RemoveEffect(character);
+		}
 	}
 
 

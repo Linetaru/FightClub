@@ -24,10 +24,15 @@ public class CharacterStatusEffects : MonoBehaviour
 		return false;
 	}
 
-	public void AddStatus(Status newStatus)
+	public bool AddStatus(Status newStatus)
 	{
-		if(ContainsStatus(newStatus.StatusID) == false) // On ne peut pas ajouter 2x le meme status (pour l'instant)
+		if (ContainsStatus(newStatus.StatusID) == false) // On ne peut pas ajouter 2x le meme status (pour l'instant)
+		{
 			status.Add(newStatus);
+			newStatus.ApplyStatus(character);
+			return true;
+		}
+		return false;
 	}
 
 	public void UpdateStatus()
@@ -42,5 +47,6 @@ public class CharacterStatusEffects : MonoBehaviour
 	public void RemoveStatus(Status newStatus)
 	{
 		status.Remove(newStatus);
+		newStatus.RemoveStatus(character);
 	}
 }

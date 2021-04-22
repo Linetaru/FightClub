@@ -66,14 +66,14 @@ public class CharacterStateParrySuccess : CharacterState
 		if (inHitStop == true) // Première frame de fin de hitlag
 		{
 			inHitStop = false;
-			/*if (character.Input.CheckActionHold(InputConst.RightShoulder) == true)
+			if (character.Input.CheckActionHold(InputConst.RightShoulder) == true)
 			{
 				// Counter
 				if (moveset.ActionAttack(character, counterAction) == true)
 				{
 					return;
 				}
-			}*/
+			}
 			ParryInfluence(character);
 		}
 
