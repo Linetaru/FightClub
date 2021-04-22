@@ -174,9 +174,7 @@ public class CameraZoomController : MonoBehaviour
     #region Brackey_Camera_Controller
     public List<Transform> targets;
 
-    public GameObject focusLevel;
-
-    //public BlastZoneManager blastZoneManager;
+    //public GameObject focusLevel;
 
     [Title("Movement Parameter")]
     public Vector3 offset;
@@ -189,14 +187,6 @@ public class CameraZoomController : MonoBehaviour
     public float zoomLimiter = 50f;
 
     public float fovForStaticScrolling = 60f;
-
-    [Title("Blast Zone Parameter")]
-    public float max_X_DistanceWithFocusLevel = 20f;
-    public float max_Y_DistanceWithFocusLevel = 15f;
-
-    [Title("Moving Cam Blast Parameter")]
-    [ReadOnly] public float max_X_MoveCam = 10;
-    [ReadOnly] public float offsetModifier = 7;
 
     private Vector3 velocity;
     private float velocityRef;
@@ -227,7 +217,6 @@ public class CameraZoomController : MonoBehaviour
         else
         {
             UnZoomCamera();
-            GetNewBoundsEncapsulate();
         }
     }
 
@@ -257,18 +246,6 @@ public class CameraZoomController : MonoBehaviour
     //Move camera position smoothly by calculate position of all targets
     void MoveCamera()
     {
-        //---------- Try to change offset camera for moving in x to not show blast zone --------------
-
-        //if((focusLevel.transform.position.x - cam.transform.position.x) >= max_X_MoveCam - offset.x)
-        //    offset.x = offsetModifier;
-        //else if((focusLevel.transform.position.x - cam.transform.position.x) <= -max_X_MoveCam / 2 - offset.x)
-        //    offset.x = -offsetModifier - 2;
-        //else
-        //    offset.x = 0;
-
-        //---------------------- In working progress (Doesn't work perfectly ) ---------------------------------------
-
-
         //Calculate centerpoint between all targets to have a center for camera
         Vector3 centerPoint = GetCenterPoint();
 
@@ -283,10 +260,10 @@ public class CameraZoomController : MonoBehaviour
     Vector3 GetCenterPoint()
     {
         //if only one target return position of this target
-        //if(targets.Count == 1)
-        //{
-        //    return targets[0].position;
-        //}
+        if(targets.Count == 1)
+        {
+            return targets[0].position;
+        }
 
         //return bounds center of all targets encapsulate in the bounds.
         return GetNewBoundsEncapsulate().center;
@@ -295,58 +272,16 @@ public class CameraZoomController : MonoBehaviour
     //Get new bounds of the first target and encapsule all targets in the bounds
     Bounds GetNewBoundsEncapsulate()
     {
-        //Get position of first target or if target null get position of focus level
-        Vector3 pos;
-        if (targets.Count > 0)
-            pos = targets[0].position;
-        else
-            pos = focusLevel.transform.position;
-
-        //Get new bounds of the first target or FocusLevel
-        Bounds bounds = new Bounds(pos, Vector3.zero);
-
-        //Get Center of bounds from a target in the list if he isn't out of range 
-        switch(targets.Count)
-        {
-            default:
-                break;
-
-            case 1:
-                if (((focusLevel.transform.position.x - targets[0].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[0].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[0].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[0].position.y < -max_Y_DistanceWithFocusLevel / 2)))
-                    bounds.center = focusLevel.transform.position;
-                break;
-            case 2:
-                bounds = Checking(bounds, 0, 1);
-                break;
-            case 3:
-                bounds = Checking(bounds, 0, 1);
-                bounds = Checking(bounds, 1, 2);
-                break;
-            case 4:
-                bounds = Checking(bounds, 0, 1);
-                bounds = Checking(bounds, 1, 2);
-                bounds = Checking(bounds, 2, 3);
-                break;
-        }
+        //Get new bounds of the first target
+        Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
 
         //Encapsule all targets in the bounds
         for (int i = 0; i < targets.Count; i++)
         {
-            if (((focusLevel.transform.position.x - targets[i].position.x <= max_X_DistanceWithFocusLevel) && (focusLevel.transform.position.x - targets[i].position.x >= -max_X_DistanceWithFocusLevel)) && ((focusLevel.transform.position.y - targets[i].position.y <= max_Y_DistanceWithFocusLevel) && (focusLevel.transform.position.y - targets[i].position.y >= -max_Y_DistanceWithFocusLevel)))
-                bounds.Encapsulate(targets[i].position);
-            else if (targets[i] != null)
-                BlastZoneManager.Instance.OutOfCamera(targets[i].gameObject);
+            bounds.Encapsulate(targets[i].position);
         }
 
         //Return bounds with all targets encapsulte in
-        return bounds;
-    }
-
-    private Bounds Checking(Bounds bounds, int id, int nextPlayerId)
-    {
-        if (((focusLevel.transform.position.x - targets[id].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[id].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[id].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[id].position.y < -max_Y_DistanceWithFocusLevel / 2)))
-            bounds.center = targets[nextPlayerId].position;
-
         return bounds;
     }
 
@@ -364,12 +299,6 @@ public class CameraZoomController : MonoBehaviour
         maxZoom = cameraConfig.config_maxZoom;
         zoomLimiter = cameraConfig.config_zoomLimiter;
         fovForStaticScrolling = cameraConfig.config_fovForStaticScrolling;
-
-        max_X_DistanceWithFocusLevel = cameraConfig.config_max_X_DistanceWithFocusLevel;
-        max_Y_DistanceWithFocusLevel = cameraConfig.config_max_Y_DistanceWithFocusLevel;
-
-        max_X_MoveCam = cameraConfig.config_max_X_MoveCam;
-        offsetModifier = cameraConfig.config_offsetModifier;
     }
 
 #if UNITY_EDITOR
@@ -391,11 +320,6 @@ public class CameraZoomController : MonoBehaviour
             camConfig.config_maxZoom = maxZoom;
             camConfig.config_zoomLimiter = zoomLimiter;
             camConfig.config_fovForStaticScrolling = fovForStaticScrolling;
-            camConfig.config_max_X_DistanceWithFocusLevel = max_X_DistanceWithFocusLevel;
-            camConfig.config_max_Y_DistanceWithFocusLevel = max_Y_DistanceWithFocusLevel;
-
-            camConfig.config_max_X_MoveCam = max_X_MoveCam;
-            camConfig.config_offsetModifier = offsetModifier;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
@@ -415,11 +339,6 @@ public class CameraZoomController : MonoBehaviour
             maxZoom = camConfig.config_maxZoom;
             zoomLimiter = camConfig.config_zoomLimiter;
             fovForStaticScrolling = camConfig.config_fovForStaticScrolling;
-            max_X_DistanceWithFocusLevel = camConfig.config_max_X_DistanceWithFocusLevel;
-            max_Y_DistanceWithFocusLevel = camConfig.config_max_Y_DistanceWithFocusLevel;
-
-            max_X_MoveCam = camConfig.config_max_X_MoveCam;
-            offsetModifier = camConfig.config_offsetModifier;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
