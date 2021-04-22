@@ -64,7 +64,6 @@ public class BattleManager : MonoBehaviour
 			//inputController.controllable[i] = user;
 			inputController.controllable[gameData.CharacterInfos[i].ControllerID] = user;
 
-
 			characterAlive.Add(user);
 
 			user.PlayerID = i;
