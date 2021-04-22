@@ -60,7 +60,12 @@ public class BattleManager : MonoBehaviour
 			go.tag = "Player" + (i + 1);
 			CharacterBase user = go.GetComponent<CharacterBase>();
 			user.Model.tag = "Player" + (i + 1);
-			inputController.controllable[i] = user;
+
+			//inputController.controllable[i] = user;
+			inputController.controllable[gameData.CharacterInfos[i].ControllerID] = user;
+
+			user.TeamID = gameData.CharacterInfos[i].Team;
+
 			characterAlive.Add(user);
 
 			user.PlayerID = i;

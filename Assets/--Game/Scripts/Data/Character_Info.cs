@@ -6,11 +6,11 @@ using UnityEngine;
 public class Character_Info
 {
 	[SerializeField]
-	private int playerID;
-	public int PlayerID
+	private int controllerID;
+	public int ControllerID
 	{
-		get { return playerID; }
-		set { playerID = value; }
+		get { return controllerID; }
+		set { controllerID = value; }
 	}
 
 	[SerializeField]
