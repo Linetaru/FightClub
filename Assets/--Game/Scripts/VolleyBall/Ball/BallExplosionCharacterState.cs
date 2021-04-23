@@ -6,7 +6,7 @@ using Feedbacks;
 public class BallExplosionCharacterState : CharacterState
 {
     [SerializeField]
-    CharacterState ballIdle;
+    CharacterState ballKickOffState;
 
     [SerializeField]
     GameObject explosionParticlePrefab;
@@ -40,7 +40,8 @@ public class BallExplosionCharacterState : CharacterState
         explosionParticle = Instantiate(explosionParticlePrefab, transform.position, Quaternion.identity);
         character.Knockback.Launch(new Vector2(0, 0), 0);
         ballModel.SetActive(false);
-        character.transform.position = new Vector3(0f, 0f, 500f);
+        //character.transform.position = new Vector3(0f, 0f, 500f);
+        character.Knockback.IsInvulnerable = true;
         character.Movement.SetSpeed(0f, 0f);
         character.Movement.ResetAcceleration();
 
@@ -60,7 +61,7 @@ public class BallExplosionCharacterState : CharacterState
         }
         else
         {
-            character.SetState(ballIdle);
+            character.SetState(ballKickOffState);
         }
 
         if (Time.timeScale < limitTimescale)
@@ -84,6 +85,7 @@ public class BallExplosionCharacterState : CharacterState
 
     public override void EndState(CharacterBase character, CharacterState newState)
     {
+        character.Knockback.IsInvulnerable = false;
         Destroy(explosionParticle.gameObject);
         character.transform.position = ballRespawnPosition.position;
         ballModel.SetActive(true);
