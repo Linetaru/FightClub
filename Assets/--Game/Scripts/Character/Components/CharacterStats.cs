@@ -63,6 +63,25 @@ public class CharacterStats : MonoBehaviour
         set { killNumber = value; }
     }
 
+
+    [Title("Attack Stats")]
+    [SerializeField]
+    private Stats attackMultiplier;
+    public Stats AttackMultiplier
+    {
+        get { return attackMultiplier; }
+        set { attackMultiplier = value; }
+    }
+
+    [SerializeField]
+    private Stats defenseMultiplier;
+    public Stats DefenseMultiplier
+    {
+        get { return defenseMultiplier; }
+        set { defenseMultiplier = value; }
+    }
+
+
     [Title("Movement Stats")]
     [SerializeField]
     private Stats speed;
@@ -81,13 +100,16 @@ public class CharacterStats : MonoBehaviour
             LifeStocks = GameData.NumberOfLifes;
         LifePercentage = 0;
         Death = false;
+
+        AttackMultiplier.InitStats(1);
+        DefenseMultiplier.InitStats(1);
         Speed.InitStats(userBase.Movement.SpeedMax);
     }
 
     public void ChangeSpeed(float newValue)
     {
-        Speed.IncrementBonusStat(newValue);
-        userBase.Movement.SpeedMax = Speed.valueStat;
+        Speed.IncrementFlatBonusStat(newValue);
+        userBase.Movement.SpeedMax = Speed.Value;
     }
 
     public void TakeDamage(float damage)

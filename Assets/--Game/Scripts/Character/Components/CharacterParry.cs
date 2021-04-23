@@ -233,11 +233,11 @@ public class CharacterParry : MonoBehaviour
 
 	public virtual void Guard(CharacterBase characterRepelled)
 	{
-		characterRepelled.SetMotionSpeed(0.2f, 0.35f);
+		//characterRepelled.SetMotionSpeed(0.2f, 0.35f);
 
-		/*GameObject go = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
+		GameObject go = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
 		go.name = particleParry.name;
-		Destroy(go, 1f);*/
+		Destroy(go, 1f);
 	}
 
 }

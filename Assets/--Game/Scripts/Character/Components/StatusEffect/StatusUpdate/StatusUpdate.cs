@@ -14,6 +14,8 @@ public class StatusUpdate
         return new StatusUpdate();
     }
 
+
+    // Aussi utilisé comme update
     public virtual bool CanRemoveStatus(CharacterBase character)
     {
         return false;
