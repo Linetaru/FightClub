@@ -89,6 +89,8 @@ public class AttackC_CharaMovement : AttackComponent
     float timer = 0;
     float initialSpeedX = 0;
 
+    bool groundCancelNextFrame = false;
+
 
     public override void StartComponent(CharacterBase user)
     {
@@ -136,9 +138,11 @@ public class AttackC_CharaMovement : AttackComponent
         if (canAirControl == true)
             user.Movement.AirControl(user.Input.horizontal);
 
-        if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
+
+
+        if(groundCancelNextFrame == true)
         {
-            if(groundEndLag != null)
+            if (groundEndLag != null)
             {
                 user.Action.CancelAction();
                 user.Action.Action(groundEndLag);
@@ -148,6 +152,11 @@ public class AttackC_CharaMovement : AttackComponent
                 user.Action.EndAction();
                 user.ResetToLand();
             }
+        }
+
+        if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
+        {
+            groundCancelNextFrame = true;
         }
 
     }

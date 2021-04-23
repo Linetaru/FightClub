@@ -22,7 +22,7 @@ public class StatusUpdate_Time : StatusUpdate
 
     public override StatusUpdate Copy()
     {
-        return new StatusUpdate_Time();
+        return new StatusUpdate_Time(time);
     }
 
 
