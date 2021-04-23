@@ -33,7 +33,7 @@ public class CharacterPowerGauge : MonoBehaviour
     private bool isOnSpeedBoost;
 
     [ReadOnly]
-    public const int maxPower = 100;
+    public const int maxPower = 80;
 
     [Title("Segment Parameter")]
     private bool canGainPoint = false;//true;

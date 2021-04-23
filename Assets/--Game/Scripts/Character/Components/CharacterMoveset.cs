@@ -54,6 +54,12 @@ public class CharacterMoveset : MonoBehaviour
 	[Title("Acumods - (à bouger)")]
 	[SerializeField]
 	StatusData statusData;
+	public StatusData StatusData
+	{
+		get { return statusData; }
+		set { statusData = value; }
+	}
+
 
 	[Title("States")]
 	[SerializeField]
@@ -79,7 +85,7 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
 
-			if (character.Input.CheckAction(0, InputConst.LeftTrigger))// && character.PowerGauge.CurrentPower >= 99)
+			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
 				if (character.Action.Action(signatureMove) == true)
 				{
