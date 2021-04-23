@@ -1,18 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [System.Serializable]
 public class Stats
 {
-    public float baseStat;
-    public float multiplierValue = 1.0f;
-    public float incrementValue = 0.0f;
-    [ReadOnly] public float valueStat;
+    [SerializeField]
+    [OnValueChanged("CalculateFinalStat")]
+    private float baseStat;
+    public float BaseStat
+    {
+        get { return baseStat; }
+    }
+
+    [SerializeField]
+    [OnValueChanged("CalculateFinalStat")]
+    private float multiplierValue = 0.0f;
+    public float MultiplierValue
+    {
+        get { return multiplierValue; }
+    }
+
+    [SerializeField]
+    [OnValueChanged("CalculateFinalStat")]
+    private float incrementValue = 0.0f;
+    public float IncrementValue
+    {
+        get { return incrementValue; }
+    }
+
+    [ReadOnly][SerializeField]
+    private float valueStat;
+    public float Value
+    {
+        get { return valueStat; }
+    }
+
 
     public Stats()
     {
-        multiplierValue = 1.0f;
+        multiplierValue = 0.0f;
         incrementValue = 0.0f;
 
         valueStat = baseStat;
@@ -21,29 +49,27 @@ public class Stats
     public void InitStats(float stat)
     {
         baseStat = stat;
-        valueStat = baseStat;
+        multiplierValue = 0.0f;
+        incrementValue = 0.0f;
+
+        CalculateFinalStat();
     }
 
-    public void IncrementBonusStat(float bonusValue, bool isAddition = true)
+    public void IncrementFlatBonusStat(float bonusValue)
     {
-        if (isAddition)
-        {
-            valueStat += bonusValue;
-        }
-        else
-        {
-            valueStat += baseStat * (bonusValue/100);
-        }
+        incrementValue += bonusValue;
+        CalculateFinalStat();
     }
-    public void RemoveBonusStat(float bonusValue, bool isSubstraction = true)
+
+    public void IncrementMultiplierBonusStat(float bonusValue)
     {
-        if (isSubstraction)
-        {
-            valueStat -= bonusValue;
-        }
-        else
-        {
-            valueStat -= baseStat * (bonusValue / 100);
-        }
+        multiplierValue += bonusValue;
+        CalculateFinalStat();
+    }
+
+
+    private void CalculateFinalStat()
+    {
+        valueStat = (baseStat + incrementValue) + ((baseStat + incrementValue) * multiplierValue);
     }
 }
