@@ -21,9 +21,6 @@ namespace Menu
 		[SerializeField]
 		TextMeshProUGUI textCharacterName;
 
-		[SerializeField]
-		TextMeshProUGUI feedback;
-
 
 		public void DrawResult(int position, int controllerID)
 		{
@@ -49,13 +46,11 @@ namespace Menu
 
 		public void SetFeedback(string text)
 		{
-			feedback.text = text;
 			animator.SetTrigger("Feedback");
 		}
 		public void SetReverseFeedback()
 		{
-			animator.SetTrigger("ReverseFeedback");
+			animator.SetTrigger("Feedback");
 		}
-
 	}
 }

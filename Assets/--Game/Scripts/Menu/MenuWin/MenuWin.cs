@@ -128,6 +128,8 @@ namespace Menu
                 {
 					listPlayerChoice[id] = 2;
 					listResultDrawers[id].SetFeedback("Rematch"); // le rematch a virer et ne pas hardcodé
+					if (input.CheckAction(0, InputConst.Jump))
+						input.inputActions[0].timeValue = 0;
 					CheckEndScreen();
 				}
 			}
