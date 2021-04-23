@@ -142,6 +142,12 @@ public class AttackC_CharaMovement : AttackComponent
 
         if(groundCancelNextFrame == true)
         {
+            user.Action.EndAction();
+            user.ResetToLand();
+        }
+
+        if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
+        {
             if (groundEndLag != null)
             {
                 user.Action.CancelAction();
@@ -149,14 +155,8 @@ public class AttackC_CharaMovement : AttackComponent
             }
             else
             {
-                user.Action.EndAction();
-                user.ResetToLand();
+                groundCancelNextFrame = true;
             }
-        }
-
-        if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
-        {
-            groundCancelNextFrame = true;
         }
 
     }
