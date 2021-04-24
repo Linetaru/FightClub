@@ -120,7 +120,7 @@ MonoBehaviour:
   collider: {fileID: 294029340196676}
   explosionVFX: {fileID: 1222550491574178, guid: 90de1f5328d58fb4ab3e2e0be9b472cd, type: 3}
   timeBeforeDestroying: 1
-  explosionRadius: 15
+  explosionRadius: 5
   timeBeforeExplosion: 3
 --- !u!1 &5344653779332554608
 GameObject:
@@ -324,6 +324,89 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentDamage: 10
+--- !u!1 &7551808693516760271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7816270840829250877}
+  - component: {fileID: 6115339232451946873}
+  m_Layer: 0
+  m_Name: Knockback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7816270840829250877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551808693516760271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -4.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4671334668832169512}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6115339232451946873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551808693516760271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.2
+  removeHitStopAttacker: 1
+  bonusHitstun: 0
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 20
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 60
+  minCurvePercentage: 10
+  maxCurvePercentage: 100
+  linearKnockbackPower: 1
+  percentage: 200
+  ejectionPowerTheoric: 75
+  knockbackAngle: 0
+  dynamicAngle: 3
+  percentageSpawnParticle: 50
+  particleDirection: {fileID: 3721816288245871218, guid: 38b27c5702c895342be139ac091cc0c0, type: 3}
+  timeBeforeDestroying: 1
 --- !u!65 &4416274464049443595
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -450,89 +533,6 @@ MonoBehaviour:
   numberRaycastHorizontal: 3
   maxSlopeAngle: 80
   edgeDetection: 0.2
---- !u!1 &7551808693516760271
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7816270840829250877}
-  - component: {fileID: 6115339232451946873}
-  m_Layer: 0
-  m_Name: Knockback
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7816270840829250877
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7551808693516760271}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4671334668832169512}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6115339232451946873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7551808693516760271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitStop: 0.2
-  removeHitStopAttacker: 1
-  bonusHitstun: 0
-  knockbackAdvancedSettings: 1
-  minKnockbackPower: 20
-  knockbackCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxKnockbackPower: 60
-  minCurvePercentage: 10
-  maxCurvePercentage: 100
-  linearKnockbackPower: 1
-  percentage: 200
-  ejectionPowerTheoric: 75
-  knockbackAngle: 0
-  dynamicAngle: 3
-  percentageSpawnParticle: 50
-  particleDirection: {fileID: 3721816288245871218, guid: 38b27c5702c895342be139ac091cc0c0, type: 3}
-  timeBeforeDestroying: 1
 --- !u!1001 &7770094091241334819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -598,7 +598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5334bd0f3fdcd054daf987ee39e16f7a, type: 3}
       propertyPath: m_Name
-      value: Bernard_Enceinte
+      value: Bernard_Enceinte Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5334bd0f3fdcd054daf987ee39e16f7a, type: 3}
