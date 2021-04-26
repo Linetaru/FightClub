@@ -50,7 +50,7 @@ namespace Menu
 		}
 		public void SetReverseFeedback()
 		{
-			animator.SetTrigger("Feedback");
+			animator.SetTrigger("ReverseFeedback");
 		}
 	}
 }
