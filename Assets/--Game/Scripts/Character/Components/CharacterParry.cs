@@ -190,7 +190,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.1f);
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
-		characterParry.PowerGauge.ForceAddPower(20);
+		characterParry.PowerGauge.ForceAddPower(25);
 
 
 

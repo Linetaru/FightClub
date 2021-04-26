@@ -11,6 +11,7 @@ public class CharacterStatusEffects : MonoBehaviour
 	public void InitializeComponent(CharacterBase characterBase)
 	{
 		character = characterBase;
+		status = new List<Status>();
 	}
 
 
