@@ -28,6 +28,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		get { return centerPoint; }
 	}
+	[SerializeField]
+	private Transform centerPivot;
+	public Transform CenterPivot
+	{
+		get { return centerPivot; }
+	}
 
 	[SerializeField]
 	private CharacterModel model;
@@ -115,7 +121,12 @@ public class CharacterBase : MonoBehaviour, IControllable
 		set { playerID = value; }
 	}
 
-
+	private TeamEnum teamID;
+	public TeamEnum TeamID
+	{
+		get { return teamID; }
+		set { teamID = value; }
+	}
 
 
 	public delegate void ActionSetState(CharacterState oldState, CharacterState newState);
@@ -137,6 +148,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	// Start is called before the first frame update
 	void Start()
 	{
+		SetState(CurrentState);
 		Application.targetFrameRate = 60;
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
@@ -147,7 +159,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void SetState(CharacterState characterState)
 	{
-		//Debug.Log(characterState.gameObject.name);
+		Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 

@@ -6,11 +6,11 @@ using Sirenix.OdinInspector;
 public class CharacterStateParrySuccess : CharacterState
 {
 	[SerializeField]
-	float timeLag = 0.2f;
+	[SuffixLabel("en frames")]
+	float timeLag = 24;
 	[SerializeField]
-	float timeCancel = 0.2f;
-	[SerializeField]
-	float timeCancelAttack = 0.2f;
+	[SuffixLabel("en frames")]
+	float timeCancel = 12;
 
 	[SerializeField]
 	CharacterMoveset moveset;
@@ -30,6 +30,8 @@ public class CharacterStateParrySuccess : CharacterState
 	[Title("Parry")]
 	[SerializeField]
 	float parryInfluenceAngle = 30f;
+
+
 	[SerializeField]
 	AttackManager counterAction;
 
@@ -38,6 +40,15 @@ public class CharacterStateParrySuccess : CharacterState
 
 	float t = 0f;
 	bool inHitStop = true;
+
+
+	private void Start()
+	{
+		timeLag /= 60;
+		timeCancel /= 60;
+	}
+
+
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
@@ -55,7 +66,7 @@ public class CharacterStateParrySuccess : CharacterState
 		if (inHitStop == true) // Première frame de fin de hitlag
 		{
 			inHitStop = false;
-			/*if (character.Input.CheckActionHold(InputConst.RightShoulder) == true)
+			if (character.Input.CheckActionHold(InputConst.RightShoulder) == true)
 			{
 				// Counter
 				if (moveset.ActionAttack(character, counterAction) == true)
@@ -63,11 +74,6 @@ public class CharacterStateParrySuccess : CharacterState
 					return;
 				}
 			}
-			else
-			{
-				// Parry
-				ParryInfluence(character);
-			}*/
 			ParryInfluence(character);
 		}
 
@@ -100,22 +106,6 @@ public class CharacterStateParrySuccess : CharacterState
 				character.ResetToIdle();
 			}
 		}
-		/*if (t <= timeCancelAttack)
-		{
-			if (moveset.ActionAttack(character))
-			{
-				return;
-			}
-			/*else if (evasiveMoveset.Dodge(character))
-			{
-				return;
-			}
-
-			else if (character.Input.CheckAction(0, InputConst.Jump))
-			{
-				character.ResetToIdle();
-			}
-		}*/
 
 		if (t <= 0)
 		{
@@ -185,13 +175,25 @@ public class CharacterStateParrySuccess : CharacterState
 			return;
 		Vector2 ejectionAngle = character.Knockback.Parry.CharacterParried.Knockback.GetAngleKnockback();
 		Vector2 input = new Vector2(character.Input.horizontal, character.Input.vertical);
-
+		/*
 		//ejectionAngle = Vector2.Perpendicular(ejectionAngle);
 		float influence = Vector2.Dot(input, Vector2.Perpendicular(ejectionAngle));
 
 		Vector2 finalDirection = Quaternion.Euler(0, 0, parryInfluenceAngle * influence) * ejectionAngle;
 		Debug.Log(finalDirection.normalized);
-		character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, 1);
+		character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, 1);*/
+
+		float finalAngle = Vector2.Angle(ejectionAngle, input);
+		if (finalAngle <= parryInfluenceAngle)
+		{
+			character.Knockback.Parry.CharacterParried.Knockback.Launch(input.normalized, 1);
+		}
+		else
+		{
+			finalAngle = Vector2.SignedAngle(ejectionAngle, input);
+			Vector2 finalDirection = Quaternion.Euler(0, 0, parryInfluenceAngle * Mathf.Sign(finalAngle)) * ejectionAngle;
+			character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, 1);
+		}
 	}
 
 

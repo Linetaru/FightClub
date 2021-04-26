@@ -1,25 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterStateParryBlow : CharacterState
 {
+	[Title("Frame Data")]
+	[SerializeField]
+	[SuffixLabel("en frames")]
+	float timeBlow = 37;
+	[SerializeField]
+	[SuffixLabel("en frames")]
+	float timeStop = 6;
 
 	[SerializeField]
-	float timeBlow = 0.2f;
+	[SuffixLabel("en frames")]
+	float timeCancelParry = 6;
+
+
+	[Title("Ejection")]
 	[SerializeField]
-	float timeStop = 0.2f;
+	float ejectionPower = 10f;
+	[SerializeField]
+	AnimationCurve ejectionCurve;
+
+	[Title("Moveset")]
 	[SerializeField]
 	CharacterEvasiveMoveset evasiveMoveset;
+
 
 	float t = 0f;
 	float initialSpeedX = 0f;
 	float initialSpeedY = 0f;
 
-	[SerializeField]
-	float ejectionPower = 10f;
-	[SerializeField]
-	AnimationCurve ejectionCurve;
+
+	private void Start()
+	{
+		timeBlow /= 60f;
+		timeStop /= 60f;
+		timeCancelParry /= 60f;
+	}
 
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
@@ -37,7 +57,7 @@ public class CharacterStateParryBlow : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
-		float coef = ejectionCurve.Evaluate(1 - (t / (timeBlow - timeStop)));
+		float coef = ejectionCurve.Evaluate(1 - ((t - (timeBlow - timeStop)) / timeStop));
 
 		initialSpeedX = character.Knockback.GetAngleKnockback().x * ejectionPower * character.Movement.Direction;
 		initialSpeedY = character.Knockback.GetAngleKnockback().y * ejectionPower;
@@ -46,7 +66,7 @@ public class CharacterStateParryBlow : CharacterState
 
 
 		t -= Time.deltaTime * character.MotionSpeed;
-		if (t <= (timeBlow - timeStop))
+		if (t <= (timeBlow - timeCancelParry))
 		{
 			evasiveMoveset.Parry(character);
 			//evasiveMoveset.Dodge(character);

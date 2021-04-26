@@ -10,6 +10,9 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	[SerializeField]
 	CharacterState stateDodgeAerial;
 
+	[SerializeField]
+	int maxNbOfDodge = 2;
+
 	[Title("Cooldown")]
 	[SerializeField]
 	float dodgeCooldown = 1f;
@@ -32,7 +35,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	public bool Dodge(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true)
-			nbOfDodge = 2;
+			ResetDodge();
 
 		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
 		{
@@ -97,7 +100,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public void ResetDodge()
 	{
-		nbOfDodge = 2;
+		nbOfDodge = maxNbOfDodge;
 	}
 
 

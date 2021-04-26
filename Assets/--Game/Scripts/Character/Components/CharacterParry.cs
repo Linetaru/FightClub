@@ -94,7 +94,12 @@ public class CharacterParry : MonoBehaviour
 		get { return particleDirectionRepel; }
 	}
 
-
+	[SerializeField]
+	GameObject particleGuard;
+	public GameObject ParticleGuard
+	{
+		get { return particleGuard; }
+	}
 
 
 
@@ -185,7 +190,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.1f);
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
-		characterParry.PowerGauge.ForceAddPower(20);
+		characterParry.PowerGauge.ForceAddPower(25);
 
 
 
@@ -221,6 +226,16 @@ public class CharacterParry : MonoBehaviour
 
 
 		GameObject go = Instantiate(particleDirectionRepel, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+		go.name = particleParry.name;
+		Destroy(go, 1f);
+	}
+
+
+	public virtual void Guard(CharacterBase characterRepelled)
+	{
+		//characterRepelled.SetMotionSpeed(0.2f, 0.35f);
+
+		GameObject go = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
 		go.name = particleParry.name;
 		Destroy(go, 1f);
 	}

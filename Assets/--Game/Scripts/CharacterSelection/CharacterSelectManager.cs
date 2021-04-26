@@ -161,6 +161,14 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             //    holograms[ID].joystickPushed = false;
             //}
 
+
+            // Change Team
+            if (input_Info.inputUiAction == InputConst.Jump)
+            {
+                // Cycle team
+                holograms[ID].CycleTeam();
+            }
+
             if (input_Info.inputUiAction == InputConst.Interact)
             {
                 holograms[ID].Ready();
@@ -217,8 +225,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             gameLaunched = true;
             gameData.NumberOfLifes = playerStocks;
 
-
-
             int characterInfoNumber = 0;
 
             gameData.CharacterInfos.Clear();
@@ -248,11 +254,14 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
-                    if (gameData.CharacterInfos[i] != null)
+                    if (gameData.CharacterInfos.Count > i)
                     {
-                        if(holograms[i].currentChoosedCharacter != null)
-                            gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
                         gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
+
+                        //Assign Team
+                        gameData.CharacterInfos[i].Team = holograms[i].currentTeam;
+                        gameData.CharacterInfos[i].ControllerID = holograms[i].iD;
                     }
                 }
             }
