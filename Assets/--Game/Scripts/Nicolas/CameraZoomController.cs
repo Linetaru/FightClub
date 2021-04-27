@@ -174,7 +174,9 @@ public class CameraZoomController : MonoBehaviour
     #region Brackey_Camera_Controller
     public List<Transform> targets;
 
-    //public GameObject focusLevel;
+    public GameObject focusLevel;
+
+    //public BlastZoneManager blastZoneManager;
 
     [Title("Movement Parameter")]
     public Vector3 offset;
@@ -187,6 +189,14 @@ public class CameraZoomController : MonoBehaviour
     public float zoomLimiter = 50f;
 
     public float fovForStaticScrolling = 60f;
+
+    [Title("Blast Zone Parameter")]
+    public float max_X_DistanceWithFocusLevel = 20f;
+    public float max_Y_DistanceWithFocusLevel = 15f;
+
+    [Title("Moving Cam Blast Parameter")]
+    [ReadOnly] public float max_X_MoveCam = 10;
+    [ReadOnly] public float offsetModifier = 7;
 
     private Vector3 velocity;
     private float velocityRef;
@@ -212,11 +222,12 @@ public class CameraZoomController : MonoBehaviour
             //Launch Movement Camera Function
             MoveCamera();
             //Launch Zoom Camera Function
-            ZoomCamera();
+            //ZoomCamera();
         }
         else
         {
             UnZoomCamera();
+            GetNewBoundsEncapsulate();
         }
     }
 
@@ -227,7 +238,10 @@ public class CameraZoomController : MonoBehaviour
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
 
         //change fov of our cam with smooth lerp from last fov to new fov
-        cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
+        //cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
+        Vector3 aled = this.transform.position;
+        aled.z  = Mathf.SmoothDamp(this.transform.position.z, newZoom, ref velocityRef, smoothTime);
+        this.transform.position = aled;
     }
 
     //UnZoom camera by field of view for scrolling moment
@@ -240,17 +254,55 @@ public class CameraZoomController : MonoBehaviour
     //Get bounds of all targets and return width
     float GetGreatestDistance()
     {
-        return Mathf.Max(GetNewBoundsEncapsulate().size.x, GetNewBoundsEncapsulate().size.y);
+        Bounds b = GetNewBoundsEncapsulate();
+        return Mathf.Max(b.size.x, b.size.y);
     }
 
     //Move camera position smoothly by calculate position of all targets
     void MoveCamera()
     {
+        //---------- Try to change offset camera for moving in x to not show blast zone --------------
+
+        //if((focusLevel.transform.position.x - cam.transform.position.x) >= max_X_MoveCam - offset.x)
+        //    offset.x = offsetModifier;
+        //else if((focusLevel.transform.position.x - cam.transform.position.x) <= -max_X_MoveCam / 2 - offset.x)
+        //    offset.x = -offsetModifier - 2;
+        //else
+        //    offset.x = 0;
+
+        //---------------------- In working progress (Doesn't work perfectly ) ---------------------------------------
+
+
         //Calculate centerpoint between all targets to have a center for camera
         Vector3 centerPoint = GetCenterPoint();
 
+        float SizeZoomPasLeLogicielZoom = /*GetNewBoundsEncapsulate().size.magnitude * */5;
+
+        Bounds bluePlane = BoundsCameraView(SizeZoomPasLeLogicielZoom, centerPoint);
+
+        Bounds d = focusLevel.GetComponent<BoxCollider>().bounds;
+
+        float x = 0;
+        if (bluePlane.min.x < d.min.x)
+            x = d.min.x - bluePlane.min.x;
+        else if (bluePlane.max.x > d.max.x)
+            x = d.max.x - bluePlane.max.x;
+        else
+            Debug.Log("On fait rien c'ptain");
+
+        float y = 0;
+        if (bluePlane.min.y < d.min.y)
+            y = d.min.y - bluePlane.min.y;
+        else if (bluePlane.max.y > d.max.y)
+            y = d.max.y - bluePlane.max.y;
+        else
+            Debug.Log("On fait rien c'ptain");
+
         //Calculate new Position for the camera by calculating centerpoint with an offset
         Vector3 newPos = centerPoint + offset;
+        newPos.x += x;
+        newPos.y += y;
+        newPos.z -= SizeZoomPasLeLogicielZoom;
 
         //Change transform position smoothly without jitter from new Pos vector we got.
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
@@ -260,10 +312,10 @@ public class CameraZoomController : MonoBehaviour
     Vector3 GetCenterPoint()
     {
         //if only one target return position of this target
-        if(targets.Count == 1)
-        {
-            return targets[0].position;
-        }
+        //if(targets.Count == 1)
+        //{
+        //    return targets[0].position;
+        //}
 
         //return bounds center of all targets encapsulate in the bounds.
         return GetNewBoundsEncapsulate().center;
@@ -272,17 +324,79 @@ public class CameraZoomController : MonoBehaviour
     //Get new bounds of the first target and encapsule all targets in the bounds
     Bounds GetNewBoundsEncapsulate()
     {
-        //Get new bounds of the first target
-        Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
+        //Get position of first target or if target null get position of focus level
+        Vector3 pos;
+        if (targets.Count > 0)
+            pos = targets[0].position;
+        else
+            pos = focusLevel.transform.position;
+
+        //Get new bounds of the first target or FocusLevel
+        Bounds bounds = new Bounds(pos, Vector3.zero);
+
+        //Get Center of bounds from a target in the list if he isn't out of range 
+        switch(targets.Count)
+        {
+            default:
+                break;
+
+            case 1:
+                if (((focusLevel.transform.position.x - targets[0].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[0].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[0].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[0].position.y < -max_Y_DistanceWithFocusLevel / 2)))
+                    bounds.center = focusLevel.transform.position;
+                break;
+            case 2:
+                bounds = Checking(bounds, 0, 1);
+                break;
+            case 3:
+                bounds = Checking(bounds, 0, 1);
+                bounds = Checking(bounds, 1, 2);
+                break;
+            case 4:
+                bounds = Checking(bounds, 0, 1);
+                bounds = Checking(bounds, 1, 2);
+                bounds = Checking(bounds, 2, 3);
+                break;
+        }
 
         //Encapsule all targets in the bounds
         for (int i = 0; i < targets.Count; i++)
         {
-            bounds.Encapsulate(targets[i].position);
+            if (((focusLevel.transform.position.x - targets[i].position.x <= max_X_DistanceWithFocusLevel) && (focusLevel.transform.position.x - targets[i].position.x >= -max_X_DistanceWithFocusLevel)) && ((focusLevel.transform.position.y - targets[i].position.y <= max_Y_DistanceWithFocusLevel) && (focusLevel.transform.position.y - targets[i].position.y >= -max_Y_DistanceWithFocusLevel)))
+                bounds.Encapsulate(targets[i].position);
+            else if (targets[i] != null)
+                BlastZoneManager.Instance.OutOfCamera(targets[i].gameObject);
         }
 
         //Return bounds with all targets encapsulte in
         return bounds;
+    }
+
+    private Bounds Checking(Bounds bounds, int id, int nextPlayerId)
+    {
+        if (((focusLevel.transform.position.x - targets[id].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[id].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[id].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[id].position.y < -max_Y_DistanceWithFocusLevel / 2)))
+            bounds.center = targets[nextPlayerId].position;
+
+        return bounds;
+    }
+
+    private Bounds BoundsCameraView(float distanciationSociale, Vector3 center)
+    {
+        var frustumHeight = 2.0f * distanciationSociale * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        var frustumWidth = frustumHeight * cam.aspect;
+
+        return new Bounds(center, new Vector3(frustumWidth, frustumHeight));
+    }
+
+    public void OnDrawGizmos()
+    {
+        cam = GetComponent<Camera>();
+        Bounds bb = GetNewBoundsEncapsulate();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(bb.center, bb.size);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(BoundsCameraView(5, bb.center).center,BoundsCameraView(5, bb.center).size );
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(bb.center, 1);
     }
 
     public void ChangeFocusState()
@@ -299,6 +413,12 @@ public class CameraZoomController : MonoBehaviour
         maxZoom = cameraConfig.config_maxZoom;
         zoomLimiter = cameraConfig.config_zoomLimiter;
         fovForStaticScrolling = cameraConfig.config_fovForStaticScrolling;
+
+        max_X_DistanceWithFocusLevel = cameraConfig.config_max_X_DistanceWithFocusLevel;
+        max_Y_DistanceWithFocusLevel = cameraConfig.config_max_Y_DistanceWithFocusLevel;
+
+        max_X_MoveCam = cameraConfig.config_max_X_MoveCam;
+        offsetModifier = cameraConfig.config_offsetModifier;
     }
 
 #if UNITY_EDITOR
@@ -320,6 +440,11 @@ public class CameraZoomController : MonoBehaviour
             camConfig.config_maxZoom = maxZoom;
             camConfig.config_zoomLimiter = zoomLimiter;
             camConfig.config_fovForStaticScrolling = fovForStaticScrolling;
+            camConfig.config_max_X_DistanceWithFocusLevel = max_X_DistanceWithFocusLevel;
+            camConfig.config_max_Y_DistanceWithFocusLevel = max_Y_DistanceWithFocusLevel;
+
+            camConfig.config_max_X_MoveCam = max_X_MoveCam;
+            camConfig.config_offsetModifier = offsetModifier;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
@@ -339,6 +464,11 @@ public class CameraZoomController : MonoBehaviour
             maxZoom = camConfig.config_maxZoom;
             zoomLimiter = camConfig.config_zoomLimiter;
             fovForStaticScrolling = camConfig.config_fovForStaticScrolling;
+            max_X_DistanceWithFocusLevel = camConfig.config_max_X_DistanceWithFocusLevel;
+            max_Y_DistanceWithFocusLevel = camConfig.config_max_Y_DistanceWithFocusLevel;
+
+            max_X_MoveCam = camConfig.config_max_X_MoveCam;
+            offsetModifier = camConfig.config_offsetModifier;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;

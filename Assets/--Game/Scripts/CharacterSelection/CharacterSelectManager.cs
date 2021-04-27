@@ -40,35 +40,10 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     [SerializeField]
     PlayerSelectionFrame[] holograms;
 
-    //bool[] playersReadyStates = new bool[4];
-
-    public static CharacterSelectManager _instance;
 
     private bool isStarted = false;
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
 
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-
-            //Rest of your Awake code
-            UpdateStockText();
-
-        }
-        else
-        {
-            Destroy(this);
-        }
-
-    }
-
-    //private void Start()
-    //{
-
-    //}
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -100,7 +75,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             holograms[ID].isPlayerConnected = true;
             numberOfConnectedPlayers++;
-            holograms[ID].Connected();
+            holograms[ID].Connected(characterDatas);
             //playersReadyStates[ID] = true;
             input_Info.inputUiAction = null;
         }
@@ -122,12 +97,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateCursorPosition(true);
+                holograms[ID].UpdateCursorPosition(true, characterDatas);
             }
             else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateCursorPosition(false);
+                holograms[ID].UpdateCursorPosition(false, characterDatas);
             }
             else if (Mathf.Abs(input_Info.horizontal) < .5f)
             {
@@ -138,13 +113,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[ID].currentCursorPosition == 2)
                 {
-                    holograms[ID].RandomReady();
+                    holograms[ID].RandomReady(characterDatas);
                 }
                 else
                 {
                     if (characterDatas[holograms[ID].currentCursorPosition] != null)
                     {
-                        holograms[ID].ChooseCharacter();
+                        holograms[ID].ChooseCharacter(characterDatas);
                     }
                 }
                 input_Info.inputUiAction = null;
@@ -170,12 +145,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             else if (input_Info.horizontal > .5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateParam(true);
+                holograms[ID].UpdateParam(true, characterDatas);
             }
             else if (input_Info.horizontal < -.5f && !holograms[ID].joystickPushed)
             {
                 holograms[ID].joystickPushed = true;
-                holograms[ID].UpdateParam(false);
+                holograms[ID].UpdateParam(false, characterDatas);
             }
             else if (Mathf.Abs(input_Info.vertical) < .5f && (Mathf.Abs(input_Info.horizontal) < .5f))
             {
@@ -185,6 +160,14 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             //{
             //    holograms[ID].joystickPushed = false;
             //}
+
+
+            // Change Team
+            if (input_Info.inputUiAction == InputConst.Jump)
+            {
+                // Cycle team
+                holograms[ID].CycleTeam();
+            }
 
             if (input_Info.inputUiAction == InputConst.Interact)
             {
@@ -202,15 +185,16 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         // Quand le joueur est prêt
 
-        if ((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady))
+        if ((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady ))
         {
-            if (input_Info.inputUiAction == InputConst.Pause)
+            if (input_Info.inputUiAction == InputConst.Pause && PlayersDifferentTeam())
             {
                 PlayReadySlashAnimation();
             }
 
             if (input_Info.inputUiAction == InputConst.Return)
             {
+                numberOfReadyPlayers--;
                 HideReadyBands();
                 holograms[ID].NotReady();
             }
@@ -225,7 +209,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void DisplayReadyBands()
     {
-        if (numberOfConnectedPlayers > 1 && numberOfReadyPlayers == numberOfConnectedPlayers)
+        if (numberOfConnectedPlayers > 1 && numberOfReadyPlayers == numberOfConnectedPlayers && PlayersDifferentTeam())
             readyBands.SetActive(true);
     }
 
@@ -236,24 +220,22 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void PlayReadySlashAnimation()
     {
-        if (!gameLaunched && numberOfReadyPlayers == numberOfConnectedPlayers && numberOfConnectedPlayers > 1)
+        if (!gameLaunched && numberOfReadyPlayers == numberOfConnectedPlayers && numberOfConnectedPlayers > 1 && PlayersDifferentTeam())
         {
             isStarted = true;
             gameLaunched = true;
             gameData.NumberOfLifes = playerStocks;
 
-            cameraTransition.SetTrigger("Feedback");
-            readySlash.SetActive(true);
-
             int characterInfoNumber = 0;
 
             gameData.CharacterInfos.Clear();
+            gameData.CharacterInfos = new List<Character_Info>(numberOfReadyPlayers);
 
             for (int i = 0; i < numberOfReadyPlayers; i++)
             {
                 gameData.CharacterInfos.Add(new Character_Info());
             }
-
+            cameraTransition.SetTrigger("Feedback");
             //Debug.Log(players.Length);
 
             //for (int i = 0; i < players.Length; i++)
@@ -273,25 +255,47 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
-                    if (gameData.CharacterInfos[i] != null)
+                    if (gameData.CharacterInfos.Count > i)
                     {
-                        if(holograms[i].currentChoosedCharacter != null)
-                            gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
                         gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
+
+                        //Assign Team
+                        gameData.CharacterInfos[i].Team = holograms[i].currentTeam;
+                        gameData.CharacterInfos[i].ControllerID = holograms[i].iD;
                     }
-                    //gameData.CharacterInfos[characterInfoNumber].CharacterData.
                 }
             }
+            readySlash.SetActive(true);
 
-            //StartCoroutine(GoToStageMenu());
-            SceneManager.LoadScene("MenuSelection_Stage");
+            StartCoroutine(GoToStageMenu());
+            //SceneManager.LoadScene("MenuSelection_Stage");
         }
     }
 
-    //IEnumerator GoToStageMenu()
-    //{
-    //    yield return new WaitForSeconds(1.2f);
-    //}
+    // Vérifie qu'au moins 2 joueurs soit dans des teams différentes
+    private bool PlayersDifferentTeam()
+    {
+        int noTeamCounter = 0;
+        for (int i = 0; i < numberOfReadyPlayers - 1; i++)
+        {
+            if (holograms[i].currentTeam != holograms[i + 1].currentTeam)
+            {
+                return true;
+            }
+            else if (holograms[i].currentTeam == TeamEnum.No_Team)
+                noTeamCounter++;
+        }
+        if (noTeamCounter == numberOfReadyPlayers - 1)
+            return true;
+        return false;
+    }
+
+    private IEnumerator GoToStageMenu()
+    {
+        yield return new WaitForSeconds(1.2f);
+        SceneManager.LoadScene("MenuSelection_Stage");
+    }
 
     void ReturnToMainMenu()
     {

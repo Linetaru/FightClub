@@ -7,6 +7,8 @@ public class CharacterStateIdle : CharacterState
 {
 	[Title("States")]
 	[SerializeField]
+	CharacterState dashState;
+	[SerializeField]
 	CharacterState aerialState;
 	[SerializeField]
 	CharacterState wallRunState;
@@ -21,6 +23,10 @@ public class CharacterStateIdle : CharacterState
 	float stickWalkThreshold = 0.3f;
 	[SerializeField]
 	float stickRunThreshold = 0.7f;
+
+	[SerializeField]
+	[SuffixLabel("en frames")]
+	float timeForDash = 3f;
 
 
 
@@ -46,17 +52,22 @@ public class CharacterStateIdle : CharacterState
 
 
 	float inputDirection = 0;
-	public bool canWallRun = true;
+	bool canWallRun = true;
 	float gravityConst = 0.1f;
+
+	float dashTimer = 0f;
 
 	private void Start()
 	{
+		timeForDash /= 60;
+		dashTimer = timeForDash;
 		gravityConst = -0.1f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
 	}
 
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		dashTimer = 0;
 		character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
 	}
 
@@ -64,13 +75,25 @@ public class CharacterStateIdle : CharacterState
 	{
 		Movement(character);
 		character.Movement.SpeedY = gravityConst;
-		//character.Movement.ApplyGravity();
 
-		if (character.Input.CheckAction(0, InputConst.Jump)) 
+		if (character.Rigidbody.CollisionGroundInfo != null)
 		{
+			if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+			{
+				character.Rigidbody.PreventFall(false);
+			}
+			else
+			{
+				character.Rigidbody.PreventFall(true);
+			}
+		}
+
+
+		if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash)) 
+		{
+			character.Input.inputActions[0].timeValue = 0;
 			if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -stickWalkThreshold) // ----------------- On passe au travers de la plateforme
 			{
-				character.Input.inputActions[0].timeValue = 0;
 				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
 				{
 					character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
@@ -84,10 +107,9 @@ public class CharacterStateIdle : CharacterState
 					character.SetState(jumpStartState);
 				}
 			}
-			else if (character.Input.inputActions[0].action == InputConst.Jump) // ----------------- Jump
+			else  // ----------------- Jump
 			{
 				character.SetState(jumpStartState);
-				character.Input.inputActions[0].timeValue = 0;
 			}
 		}
 		else if (moveset.ActionAttack(character) == true)
@@ -98,6 +120,10 @@ public class CharacterStateIdle : CharacterState
 		{
 
 		}
+		else if (evasiveMoveset.Parry(character))
+        {
+
+        }
 	}
 
 
@@ -122,7 +148,7 @@ public class CharacterStateIdle : CharacterState
 	{
 		inputDirection = 0;
 		character.Movement.ResetAcceleration();
-
+		character.Rigidbody.PreventFall(true);
 	}
 
 
@@ -148,6 +174,7 @@ public class CharacterStateIdle : CharacterState
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
 			inputDirection = (int)Mathf.Sign(axisX);
 			character.Movement.Accelerate();
+			UpdateDash(character);
 		}
 		else if (Mathf.Abs(axisX) > stickWalkThreshold)         // W A L K
 		{
@@ -163,29 +190,48 @@ public class CharacterStateIdle : CharacterState
 			}
 
 			character.Movement.Direction = (int)Mathf.Sign(axisX);
+
 			// Walk vitesse constante
-			if (character.Movement.SpeedX <= (character.Movement.SpeedMax * speedMultiplierWalk) + 0.1f) // Le + 0.1f c'est un probleme de precision de float (et c'est ce probleme qui nous empeche de faire du rollback si on a des float)
+			// Le + 0.1f c'est un probleme de precision de float (et c'est ce probleme qui nous empeche de faire du rollback si on a des float)
+			if (character.Movement.SpeedX <= (character.Movement.SpeedMax * speedMultiplierWalk) + 0.1f) 
 			{
 				character.Movement.SpeedX = (character.Movement.SpeedMax * speedMultiplierWalk);
 			}
 			else
 			{
-				// Decceleration
 				character.Movement.Decelerate();
 			}
+			UpdateDash(character);
 		}
 		else                                                    // R I E N
 		{
 			if (character.Movement.SpeedX < (character.Movement.SpeedMax * speedMultiplierWalk))
 				inputDirection = 0;
-			// Decceleration
 			character.Movement.Decelerate();
+
+			dashTimer = timeForDash;
 		}
 	}
 
+	private void UpdateDash(CharacterBase character)
+	{
+		/*if (dashTimer > 0) 
+		{
+			dashTimer -= Time.deltaTime;
+			float axisX = character.Input.horizontal;
+			if (Mathf.Abs(axisX) > 0.95f)
+			{
+				Debug.Log("Dash");
+				dashTimer = 0;
+				character.SetState(dashState);
+			}
+		}*/
+	}
 
+	private void Jump()
+	{
 
-
+	}
 
 	private IEnumerator GoThroughGroundCoroutine(CharacterRigidbody rigidbody)
 	{

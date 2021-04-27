@@ -11,6 +11,7 @@ public class InputBuffer
 {
 	public float timeValue;
 	public InputAction action;
+	public bool hold;
 
 	public InputBuffer()
 	{
@@ -28,6 +29,9 @@ public class Input_Info
 
 	public List<InputBuffer> inputActions;
 	public List<InputBuffer> inputActionsUP;
+
+	public List<InputAction> inputActionsHold;
+
 	public Rewired.InputAction inputUiAction;
 
 	public Input_Info()
@@ -49,12 +53,27 @@ public class Input_Info
             {
 				return true;
             }
-			else
-				return false;
 		}
-		else
-			return false;
+		return false;
 	}
+
+	public bool CheckActionUP(int id, InputAction inputAction)
+	{
+		if (inputActionsUP.Count != 0)
+		{
+			if (inputActionsUP[id].action == inputAction)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public bool CheckActionHold(InputAction inputAction)
+	{
+		return inputActionsHold.Contains(inputAction);
+	}
+
 }
 
 //Main class for Input Management, Send input to all player attached to this controller And manage input buffer for each player.
@@ -70,6 +89,8 @@ public class InputController : SerializedMonoBehaviour
 
 	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
+
+	public PackageCreator.Event.GameEvent pauseEvent;
 
 	// Start will add all player Referenced by Rewired
 	void Start()
@@ -125,8 +146,13 @@ public class InputController : SerializedMonoBehaviour
 			Input_Action(i, InputConst.Back.name);
 
 			Input_ActionUI(i, InputConst.Pause.name);
+			Input_ActionUI(i, InputConst.Jump.name);
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
+
+			if (pauseEvent != null)
+				if (playerInputs[i].inputUiAction == InputConst.Pause)
+					pauseEvent.Raise();
 
 			//If we got at least one entity will send to each entity their linked list for input buffer
 			if (controllable[i] != null)
@@ -135,6 +161,7 @@ public class InputController : SerializedMonoBehaviour
 				if(playerInputs[i].inputUiAction != null)
 					playerInputs[i].inputUiAction = null;
 			}
+
 		}
 	}
 
@@ -188,6 +215,8 @@ public class InputController : SerializedMonoBehaviour
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;
+
+			playerInputs[ID].inputActionsHold.Add(ReInput.mapping.GetAction(action));
 		}
 		else if (players[ID].GetButtonUp(action))
 		{
@@ -198,14 +227,18 @@ public class InputController : SerializedMonoBehaviour
 				if (ic.action == ReInput.mapping.GetAction(action))
 				{
 					ic.timeValue = bufferLength;
+					playerInputs[ID].inputActionsHold.Remove(ReInput.mapping.GetAction(action));
 					return;
 				}
 			}
 			input.Add(tmp);
 			input[input.Count - 1].action = ReInput.mapping.GetAction(action);
 			input[input.Count - 1].timeValue = bufferLength;
+
+			playerInputs[ID].inputActionsHold.Remove(ReInput.mapping.GetAction(action));
 		}
 	}
+
 
 	//Check if a Action UI is using to reference in each buffer
 	void Input_ActionUI(int ID, string action)

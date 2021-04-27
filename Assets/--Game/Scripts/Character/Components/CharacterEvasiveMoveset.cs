@@ -10,6 +10,9 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	[SerializeField]
 	CharacterState stateDodgeAerial;
 
+	[SerializeField]
+	int maxNbOfDodge = 2;
+
 	[Title("Cooldown")]
 	[SerializeField]
 	float dodgeCooldown = 1f;
@@ -17,23 +20,47 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 	int nbOfDodge = 1;
 	float dodgeCooldownT = 0f;
 
+
+
+
+
+	[Title("Parry")]
+	[SerializeField]
+	CharacterState stateParry;
+	[SerializeField]
+	CharacterState stateAction;
+	[SerializeField]
+	AttackManager attackParry;
+
 	public bool Dodge(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true)
-			nbOfDodge = 1;
+			ResetDodge();
 
-		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge())
+		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
 		{
 			if (character.Rigidbody.IsGrounded == true)
 			{
-				character.SetState(stateDodge);
-				character.Input.inputActions[0].timeValue = 0;
-				StartCoroutine(DodgeCooldownCoroutine());
-				return true;
+				if (character.Input.vertical > 0.4f)
+				{
+					nbOfDodge -= 1;
+					character.Movement.SpeedY = 1;
+					character.SetState(stateDodgeAerial);
+					character.Input.inputActions[0].timeValue = 0;
+					StartCoroutine(DodgeCooldownCoroutine());
+					return true;
+				}
+				else
+				{
+					character.SetState(stateDodge);
+					character.Input.inputActions[0].timeValue = 0;
+					StartCoroutine(DodgeCooldownCoroutine());
+					return true;
+				}
 			}
 			else
 			{
-				nbOfDodge = 0;
+				nbOfDodge -= 1;
 				character.SetState(stateDodgeAerial);
 				character.Input.inputActions[0].timeValue = 0;
 				StartCoroutine(DodgeCooldownCoroutine());
@@ -41,12 +68,26 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 			}
 
 		}
-
-
-
-
 		return false;
 	}
+
+
+	public void ForceDodgeGround(CharacterBase character)
+	{
+		nbOfDodge -= 1;
+		character.SetState(stateDodge);
+		StartCoroutine(DodgeCooldownCoroutine());
+	}
+	public void ForceDodgeAerial(CharacterBase character)
+	{
+		if (!CanDodge())
+			return;
+		nbOfDodge -= 1;
+		character.SetState(stateDodgeAerial);
+		StartCoroutine(DodgeCooldownCoroutine());
+	}
+
+
 
 	private bool CanDodge()
 	{
@@ -55,6 +96,11 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		if (dodgeCooldownT > 0)
 			return false;
 		return true;
+	}
+
+	public void ResetDodge()
+	{
+		nbOfDodge = maxNbOfDodge;
 	}
 
 
@@ -66,5 +112,25 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 			dodgeCooldownT -= Time.deltaTime; 
 			yield return null; 
 		}
+	}
+
+
+
+
+
+	public bool Parry(CharacterBase character)
+	{
+		if (character.Input.CheckAction(0, InputConst.RightShoulder))
+		{
+			/*if(character.Action.Action(attackParry) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
+			}*/
+			character.SetState(stateParry);
+			character.Input.inputActions[0].timeValue = 0;
+		}
+		return false;
 	}
 }

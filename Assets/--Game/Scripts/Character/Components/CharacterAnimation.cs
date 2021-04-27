@@ -14,14 +14,15 @@ public class CharacterAnimation : MonoBehaviour
     Animator animator;
     [SerializeField]
     CharacterMovement movement;
-    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    float previousSpeedT = 0;
+    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
 
     public enum ActualState
     {
         Null,
         Idle,
         Knockback,
-        Wallrun,        StartJump
+        Wallrun,        StartJump,
+        ParryBlow
     }
     ActualState actualState;
 
@@ -37,6 +38,7 @@ public class CharacterAnimation : MonoBehaviour
 
         canDeccelerate = false;
         isDeccelerating = false;
+        parryBlow = false;
 
         animator.SetBool("Hanging", false);
         animator.ResetTrigger("Idle");
@@ -46,6 +48,9 @@ public class CharacterAnimation : MonoBehaviour
         animator.ResetTrigger("Crouch");
         animator.ResetTrigger("Deccelerate");
         animator.ResetTrigger("TurnAround");
+        animator.ResetTrigger("Parry");
+
+        characterBase.CenterPivot.localRotation = Quaternion.identity;
 
         if (newState is CharacterStateDeath)
         {
@@ -56,6 +61,12 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("Idle");
             actualState = ActualState.Idle;
+        }
+        if (newState is CharacterStateDash)
+        {
+            animator.SetFloat("Speed", 1);
+            //animator.SetTrigger("Idle");
+            //actualState = ActualState.Idle;
         }
         if (newState is CharacterStateAerial)
         {
@@ -96,6 +107,17 @@ public class CharacterAnimation : MonoBehaviour
         {
             animator.SetTrigger("TurnAround");
         }
+
+        if (newState is CharacterStateParry)
+        {
+            animator.SetTrigger("Parry");
+        }
+
+        if (newState is CharacterStateParryBlow)
+        {
+            actualState = ActualState.ParryBlow;
+            //animator.SetTrigger("Knockback");
+        }
     }
 
     // Update is called once per frame
@@ -112,6 +134,16 @@ public class CharacterAnimation : MonoBehaviour
         else if (actualState == ActualState.Wallrun)
         {
             AnimationWallrun();
+        }
+
+        else if (actualState == ActualState.Knockback)
+        {
+            AnimationKnockback();
+        }
+
+        else if (actualState == ActualState.ParryBlow)
+        {
+            AnimationParryBlow();
         }
     }
     void AnimationIdle()
@@ -152,26 +184,31 @@ public class CharacterAnimation : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {
-            //animatorPivot.transform.localPosition = Vector3.zero;
-            //animatorPivot.transform.rotation = Quaternion.Euler(0, 90, 0);
             animator.SetBool("Hanging", true);
         }
         else
         {
-            if (movement.Direction == 1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(-90, 90, 0);
-            }
-            else if (movement.Direction == -1)
-            {
-                //animatorPivot.transform.localPosition = new Vector3(-wallRunOffset, 0, 0);
-                //animatorPivot.transform.rotation = Quaternion.Euler(90, 90, 0);
-            }
             animator.SetBool("Hanging", false);
         }
-    }
-
+    }
+
+    void AnimationKnockback()
+    {
+        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(characterBase.Movement.SpeedX, characterBase.Movement.SpeedY), Vector2.left * characterBase.Movement.Direction));
+    }
+
+
+    void AnimationParryBlow()
+    {
+        if (characterBase.MotionSpeed == 0)
+            return;
+        if (parryBlow == false)
+        {
+            animator.SetTrigger("Knockback");
+            parryBlow = true;
+        }
+        AnimationKnockback();
+    }
     void OnDestroy()
     {
         characterBase.OnStateChanged -= CheckState;

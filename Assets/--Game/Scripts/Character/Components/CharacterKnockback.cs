@@ -13,15 +13,20 @@ public class CharacterKnockback : MonoBehaviour
         set { contactPoint = value; }
     }
 
-    [Title("FeedbackComponents")]
+    [Title("States")]
     [SerializeField]
-    private ShakeEffect shakeEffect;
-    public ShakeEffect ShakeEffect
+    CharacterState stateKnockback;
+
+
+    [Title("Parry")]
+    [SerializeField]
+    private CharacterParry parry;
+    public CharacterParry Parry
     {
-        get { return shakeEffect; }
+        get { return parry; }
     }
 
-    //================================================================================
+
 
     [Title("Parameter")]
     [SerializeField]
@@ -37,16 +42,6 @@ public class CharacterKnockback : MonoBehaviour
     {
         get { return timeKnockbackPerDistance; }
     }
-
-
-    /*[Title("Parameter - (Ptet a bouger)")]
-    [SerializeField]
-    private float damagePercentageRatio = 150f;
-    public float DamagePercentageRatio
-    {
-        get { return damagePercentageRatio; }
-    }*/
-
 
 
     private Vector2 angleKnockback;
@@ -81,20 +76,98 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-    // A mettre dans une interface
-    public bool CanHit()
+
+
+
+    [Title("FeedbackComponents")]
+    [SerializeField]
+    private ShakeEffect shakeEffect;
+    public ShakeEffect ShakeEffect
+    {
+        get { return shakeEffect; }
+    }
+
+
+
+    public bool CanKnockback()
     {
         if (knockbackDuration <= 0)
             return false;
         return true;
     }
 
-    // Fonction a appelé quand le personnage se fait touché
-    // A mettre dans une interface
+
     public void Hit()
     {
         // Event onHit
     }
+
+
+    List<AttackSubManager> atkRegistered = new List<AttackSubManager>();
+
+    public void RegisterHit(AttackSubManager attack)
+    {
+        if (!atkRegistered.Contains(attack))
+            atkRegistered.Add(attack);
+    }
+
+    public void UnregisterHit(AttackSubManager attack)
+    {
+        atkRegistered.Remove(attack);
+    }
+
+    public void CheckHit(CharacterBase character)
+    {
+        for (int i = atkRegistered.Count-1; i >= 0; i--)
+        {
+            if (Parry.CanParry(atkRegistered[i]) == true)   // On parry
+            {
+                Debug.Log("Parry");
+                Parry.Parry(character, atkRegistered[i].User);
+                atkRegistered[i].User.Knockback.Parry.ParryRepel(atkRegistered[i].User, character);
+                atkRegistered[i].AddPlayerHitList(character.tag);
+
+                // Pour tourner le joueur dans le sens de la garde
+                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+                    character.Movement.Direction *= -1;
+            }
+            else if (Parry.CanGuard(atkRegistered[i]) == true)   // On Garde
+            {
+                character.PowerGauge.ForceAddPower(25);
+                Debug.Log("On garde");
+                atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
+                atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
+               // Parry.ParryRepel(character, atkRegistered[i].User);
+                Parry.Guard(character, atkRegistered[i].User);
+                atkRegistered[i].AddPlayerHitList(character.tag);
+
+                // Pour tourner le joueur dans le sens de la garde
+                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+                    character.Movement.Direction *= -1;
+            }
+            else if(atkRegistered[i].AttackClashed != null) // On clash
+            {
+                Debug.Log("Clash");
+                Parry.Clash(character, atkRegistered[i]); // Le clash
+                atkRegistered[i].User.Knockback.UnregisterHit(atkRegistered[i].AttackClashed); // On retire l'attaque de l'adversaire pour ne pas lancer 2 fois le clash
+            }
+            else // On touche
+            {
+                atkRegistered[i].Hit(character);
+                if (CanKnockback() == true)
+                    character.SetState(stateKnockback); // Pardon
+
+                
+            }
+            atkRegistered.RemoveAt(i);
+        }
+ 
+    }
+
+
+
+
+
 
 
     public Vector2 GetAngleKnockback()
@@ -102,6 +175,12 @@ public class CharacterKnockback : MonoBehaviour
         return angleKnockback;
     }
 
+    /// <summary>
+    /// Launch utilisé par le knockback
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <param name="ejectionPower"></param>
+    /// <param name="bonusKnockback"></param>
     public void Launch(Vector2 angle, float ejectionPower, float bonusKnockback = 0)
     {
         if (isArmor == true)
@@ -111,6 +190,17 @@ public class CharacterKnockback : MonoBehaviour
 
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration += bonusKnockback;
+    }
+
+    /// <summary>
+    /// Launch arbitraire
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <param name="ejectionPower"></param>
+    public void Launch(Vector2 angle, float ejectionPower)
+    {
+        angleKnockback = angle * weight;
+        angleKnockback *= ejectionPower;
     }
 
     public void UpdateKnockback(float percentage)

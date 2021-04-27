@@ -6,11 +6,11 @@ using UnityEngine;
 public class Character_Info
 {
 	[SerializeField]
-	private int playerID;
-	public int PlayerID
+	private int controllerID;
+	public int ControllerID
 	{
-		get { return playerID; }
-		set { playerID = value; }
+		get { return controllerID; }
+		set { controllerID = value; }
 	}
 
 	[SerializeField]
@@ -36,5 +36,13 @@ public class Character_Info
 	{
 		get { return characterData; }
 		set { characterData = value; }
+	}
+
+	public Character_Info()
+	{
+		controllerID = 0;
+		team = TeamEnum.No_Team;
+		characterColorID = 0;
+		characterData = null;
 	}
 }
