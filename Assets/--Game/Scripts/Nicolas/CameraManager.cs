@@ -86,7 +86,7 @@ public class CameraManager : MonoBehaviour
 	public CameraZoomController zoomController;
 
 	//Get reference at blastZone object
-	public GameObject blastZone;
+	//public GameObject blastZone;
 
 	public List<UnityEngine.UI.Image> imagesUiRedScrolling;
 
@@ -223,7 +223,7 @@ public class CameraManager : MonoBehaviour
 					transform.position = newPos;
 
 					//Update position of the gameObject Focus 
-					//zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					//Update position of the blastzone to kill player when they are to slow on scrolling mode
 					BlastZoneManager.Instance.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
