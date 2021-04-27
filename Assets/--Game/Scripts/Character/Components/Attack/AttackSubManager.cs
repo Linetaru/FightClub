@@ -132,22 +132,27 @@ public class AttackSubManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
-        string targetTag = target.transform.root.tag;
-
-        if (!playerHitList.Contains(targetTag))
+        if(target.TeamID == TeamEnum.No_Team || target.TeamID != user.TeamID)
         {
-            playerHitList.Add(targetTag);
-            if (onHitColliderEvents != null && !eventReceived)
-            {
-                onHitColliderEvents.Invoke(targetTag);
-                eventReceived = true;
-            }
+            string targetTag = target.transform.root.tag;
 
-            foreach (AttackComponent atkC in atkCompList)
+            if (!playerHitList.Contains(targetTag))
             {
-                atkC.OnHit(user, target);
-            }
-            user.Action.HasHit(target);
+                playerHitList.Add(targetTag);
+                if (onHitColliderEvents != null && !eventReceived)
+                {
+
+                    onHitColliderEvents.Invoke(targetTag);
+                    eventReceived = true;
+                }
+
+                foreach (AttackComponent atkC in atkCompList)
+                {
+                    atkC.OnHit(user, target);
+                }
+
+                user.Action.HasHit(target);
+            }
         }
     }
 
