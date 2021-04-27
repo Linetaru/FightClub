@@ -533,12 +533,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
+  focusLevel: {fileID: 5284728092334524679}
   offset: {x: 0, y: 0, z: -45}
   smoothTime: 0.5
   minZoom: 60
   maxZoom: 10
   zoomLimiter: 50
   fovForStaticScrolling: 30
+  max_X_DistanceWithFocusLevel: 20
+  max_Y_DistanceWithFocusLevel: 15
+  max_X_MoveCam: 10
+  offsetModifier: 7
   camConfig: {fileID: 0}
 --- !u!114 &8538390229823526924
 MonoBehaviour:
@@ -554,7 +559,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateCamera: 0
   zoomController: {fileID: 5284728091476298513}
-  blastZone: {fileID: 0}
   imagesUiRedScrolling:
   - {fileID: 5164735329157553486}
   - {fileID: 5987998361343784185}
@@ -567,6 +571,9 @@ MonoBehaviour:
     railsCamTravelling:
     - {fileID: 7356702210667485821}
     - {fileID: 7356702209298322965}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
     railsBlastZoneTravelling:
     - {fileID: 7356702211077233033}
     - {fileID: 7356702210643295635}
@@ -580,6 +587,9 @@ MonoBehaviour:
     railsCamTravelling:
     - {fileID: 7356702209298322965}
     - {fileID: 7356702210237618555}
+    railsFocusTravelling:
+    - {fileID: 0}
+    - {fileID: 0}
     railsBlastZoneTravelling:
     - {fileID: 7356702210643295635}
     - {fileID: 7356702210315734991}
@@ -603,10 +613,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5284728092334524697}
+  - component: {fileID: 8874769673328564182}
   m_Layer: 0
   m_Name: Focus
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -618,12 +629,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728092334524679}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 6, y: 28.629997, z: 30}
+  m_LocalPosition: {x: 6, y: 21.82, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2432747193972192253}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!135 &8874769673328564182
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728092334524679}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5956535376212452092
 GameObject:
   m_ObjectHideFlags: 0
