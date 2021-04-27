@@ -12,6 +12,7 @@ public class CharacterModel : MonoBehaviour
 	[SerializeField]
 	TextMeshPro textPlayer;
 
+	private IEnumerator flashCoroutine = null;
 
 	[Button]
 	private void UpdateComponents()
@@ -48,6 +49,13 @@ public class CharacterModel : MonoBehaviour
 		StartCoroutine(FlashCoroutine(flashColor, time));
 	}
 
+	public void FlashModelCoroutine(Color flashColor, float time)
+	{
+		if (flashCoroutine != null)
+			return;// StopCoroutine(flashCoroutine);
+		flashCoroutine = FlashCoroutine(flashColor, time);
+		StartCoroutine(flashCoroutine);
+	}
 
 	private IEnumerator FlashCoroutine(Color flashColor, float time)
 	{
@@ -64,6 +72,7 @@ public class CharacterModel : MonoBehaviour
 			}
 			yield return null;
 		}
+		flashCoroutine = null;
 	}
 
 
