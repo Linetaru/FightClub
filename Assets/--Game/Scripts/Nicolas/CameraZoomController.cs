@@ -222,7 +222,7 @@ public class CameraZoomController : MonoBehaviour
             //Launch Movement Camera Function
             MoveCamera();
             //Launch Zoom Camera Function
-            ZoomCamera();
+            //ZoomCamera();
         }
         else
         {
@@ -238,7 +238,10 @@ public class CameraZoomController : MonoBehaviour
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
 
         //change fov of our cam with smooth lerp from last fov to new fov
-        cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
+        //cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
+        Vector3 aled = this.transform.position;
+        aled.z  = Mathf.SmoothDamp(this.transform.position.z, newZoom, ref velocityRef, smoothTime);
+        this.transform.position = aled;
     }
 
     //UnZoom camera by field of view for scrolling moment
@@ -251,7 +254,8 @@ public class CameraZoomController : MonoBehaviour
     //Get bounds of all targets and return width
     float GetGreatestDistance()
     {
-        return Mathf.Max(GetNewBoundsEncapsulate().size.x, GetNewBoundsEncapsulate().size.y);
+        Bounds b = GetNewBoundsEncapsulate();
+        return Mathf.Max(b.size.x, b.size.y);
     }
 
     //Move camera position smoothly by calculate position of all targets
@@ -272,8 +276,33 @@ public class CameraZoomController : MonoBehaviour
         //Calculate centerpoint between all targets to have a center for camera
         Vector3 centerPoint = GetCenterPoint();
 
+        float SizeZoomPasLeLogicielZoom = /*GetNewBoundsEncapsulate().size.magnitude * */5;
+
+        Bounds bluePlane = BoundsCameraView(SizeZoomPasLeLogicielZoom, centerPoint);
+
+        Bounds d = focusLevel.GetComponent<BoxCollider>().bounds;
+
+        float x = 0;
+        if (bluePlane.min.x < d.min.x)
+            x = d.min.x - bluePlane.min.x;
+        else if (bluePlane.max.x > d.max.x)
+            x = d.max.x - bluePlane.max.x;
+        else
+            Debug.Log("On fait rien c'ptain");
+
+        float y = 0;
+        if (bluePlane.min.y < d.min.y)
+            y = d.min.y - bluePlane.min.y;
+        else if (bluePlane.max.y > d.max.y)
+            y = d.max.y - bluePlane.max.y;
+        else
+            Debug.Log("On fait rien c'ptain");
+
         //Calculate new Position for the camera by calculating centerpoint with an offset
         Vector3 newPos = centerPoint + offset;
+        newPos.x += x;
+        newPos.y += y;
+        newPos.z -= SizeZoomPasLeLogicielZoom;
 
         //Change transform position smoothly without jitter from new Pos vector we got.
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
@@ -348,6 +377,26 @@ public class CameraZoomController : MonoBehaviour
             bounds.center = targets[nextPlayerId].position;
 
         return bounds;
+    }
+
+    private Bounds BoundsCameraView(float distanciationSociale, Vector3 center)
+    {
+        var frustumHeight = 2.0f * distanciationSociale * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        var frustumWidth = frustumHeight * cam.aspect;
+
+        return new Bounds(center, new Vector3(frustumWidth, frustumHeight));
+    }
+
+    public void OnDrawGizmos()
+    {
+        cam = GetComponent<Camera>();
+        Bounds bb = GetNewBoundsEncapsulate();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(bb.center, bb.size);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(BoundsCameraView(5, bb.center).center,BoundsCameraView(5, bb.center).size );
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(bb.center, 1);
     }
 
     public void ChangeFocusState()
