@@ -37,4 +37,12 @@ public class Character_Info
 		get { return characterData; }
 		set { characterData = value; }
 	}
+
+	public Character_Info()
+	{
+		controllerID = 0;
+		team = TeamEnum.No_Team;
+		characterColorID = 0;
+		characterData = null;
+	}
 }

@@ -148,6 +148,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 	// Start is called before the first frame update
 	void Start()
 	{
+		SetState(CurrentState);
 		Application.targetFrameRate = 60;
 		Movement.MotionSpeed = MotionSpeed;
 		Knockback.MotionSpeed = MotionSpeed;
@@ -158,7 +159,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void SetState(CharacterState characterState)
 	{
-		//Debug.Log(characterState.gameObject.name);
+		Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 

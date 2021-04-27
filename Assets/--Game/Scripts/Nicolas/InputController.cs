@@ -90,6 +90,8 @@ public class InputController : SerializedMonoBehaviour
 	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
 
+	public PackageCreator.Event.GameEvent pauseEvent;
+
 	// Start will add all player Referenced by Rewired
 	void Start()
 	{
@@ -148,6 +150,10 @@ public class InputController : SerializedMonoBehaviour
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
+			if (pauseEvent != null)
+				if (playerInputs[i].inputUiAction == InputConst.Pause)
+					pauseEvent.Raise();
+
 			//If we got at least one entity will send to each entity their linked list for input buffer
 			if (controllable[i] != null)
 			{
@@ -155,6 +161,7 @@ public class InputController : SerializedMonoBehaviour
 				if(playerInputs[i].inputUiAction != null)
 					playerInputs[i].inputUiAction = null;
 			}
+
 		}
 	}
 

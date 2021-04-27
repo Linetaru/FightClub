@@ -9,6 +9,9 @@ public class BallIdleCharacterState : CharacterState
     CharacterState ballBuntState;
 
     [SerializeField]
+    CharacterState ballKickOffState;
+
+    [SerializeField]
     CharacterState ballExplosionState;
 
     [SerializeField]
@@ -28,7 +31,10 @@ public class BallIdleCharacterState : CharacterState
     float minimalVerticalSpeed = -3f;
 
 
-    bool isKickOff = true;
+    private void Start()
+    {
+        
+    }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
@@ -41,18 +47,17 @@ public class BallIdleCharacterState : CharacterState
 
         character.Stats.LifePercentage = 80f;
 
-        if (oldState == this)
-        {
+        //if (oldState == this)
+        //{
             character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
             character.Movement.SpeedX *= character.Movement.Direction;
             character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
-            isKickOff = false;
-        }
-        else
-        {
-            //Si l'ancien état n'est pas lui même, c'est que l'état précédent est le respawn donc on réinitialise
-            isKickOff = true;
-        }
+        //}
+        //else
+        //{
+        //    //Si l'ancien état n'est pas lui même, c'est que l'état précédent est le respawn donc on réinitialise
+        //    isKickOff = true;
+        //}
 
     }
 
@@ -61,8 +66,8 @@ public class BallIdleCharacterState : CharacterState
         //if (character.Knockback.CanKnockback() && isKickOff)
         //    isKickOff = false;
 
-        if (!isKickOff)
-        {
+        //if (!isKickOff)
+        //{
             if (Mathf.Abs(character.Movement.SpeedX) > minimalHorizontalSpeed)
                 character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) * Time.deltaTime;
 
@@ -79,7 +84,7 @@ public class BallIdleCharacterState : CharacterState
                 character.Stats.LifePercentage = 80f;
             }
 
-        }
+        //}
         character.Knockback.UpdateKnockback(1);
 
         if (character.Knockback.KnockbackDuration > 0)
@@ -94,7 +99,7 @@ public class BallIdleCharacterState : CharacterState
         }
 
 
-        if (character.Rigidbody.CollisionGroundInfo != null && !isKickOff)
+        if (character.Rigidbody.CollisionGroundInfo != null)
             character.SetState(ballExplosionState);
     }
 
