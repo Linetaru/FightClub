@@ -342,6 +342,8 @@ GameObject:
   - component: {fileID: 5284728091476298512}
   - component: {fileID: 5284728091476298513}
   - component: {fileID: 8538390229823526924}
+  - component: {fileID: 2000678810}
+  - component: {fileID: 2000678811}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -357,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728091476298524}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.9, y: 14, z: 16}
+  m_LocalPosition: {x: 6.9, y: 15.3252, z: 10.691199}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5465881154624278073}
@@ -533,17 +535,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
-  focusLevel: {fileID: 5284728092334524679}
+  focusLevel: {fileID: 65988689}
+  blastZone: {fileID: 0}
+  cam: {fileID: 5284728091476298526}
   offset: {x: 0, y: 0, z: 0}
   smoothTime: 0.5
-  minZoom: 60
-  maxZoom: 10
-  zoomLimiter: 50
-  fovForStaticScrolling: 30
-  max_X_DistanceWithFocusLevel: 20
-  max_Y_DistanceWithFocusLevel: 15
-  max_X_MoveCam: 10
-  offsetModifier: 7
+  ZoomInLimiter: 5
+  ZoomOutLimiter: 0
+  focusLevelBoxCenter: {x: -0.2093773, y: 1.1, z: 0}
+  focusLevelBoxSize: {x: 32.6, y: 25, z: 0}
+  blastZoneBoxCenter: {x: 0.52355576, y: -3.4097404, z: 0}
+  blastZoneBoxSize: {x: 38.835213, y: 32.0124, z: 10}
+  DebugArea: 1
   camConfig: {fileID: 0}
 --- !u!114 &8538390229823526924
 MonoBehaviour:
@@ -595,15 +598,51 @@ MonoBehaviour:
     - {fileID: 7356702210315734991}
     timeBeforeMoving: 10
     durationTravelling: 10
-    movingInY: 0
-    canvasPanelArrowToActivate: {fileID: 7356702210126659203}
+    movingInY: 1
+    canvasPanelArrowToActivate: {fileID: 7356702209863148138}
     objectDisableOnFocusMode: []
     platform: []
   loopScrolling: 0
-  canScroll: 1
+  canScroll: 0
   disableGameObjectOnStart: []
   timer: 0
   positionID: 0
+--- !u!114 &2000678810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728091476298524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c103141c78a1a440ab1221695ed3cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &2000678811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728091476298524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0241f6d33764c564993f1f119e6f2687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &5284728092334524679
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +652,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5284728092334524697}
-  - component: {fileID: 8874769673328564182}
+  - component: {fileID: 65988689}
+  - component: {fileID: 65988687}
   m_Layer: 0
   m_Name: Focus
   m_TagString: Untagged
@@ -629,14 +669,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728092334524679}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 6, y: 21.82, z: 30}
+  m_LocalPosition: {x: 7.22, y: 13.61, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2432747193972192253}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!135 &8874769673328564182
-SphereCollider:
+--- !u!65 &65988689
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -644,10 +684,25 @@ SphereCollider:
   m_GameObject: {fileID: 5284728092334524679}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 32.6, y: 25, z: 0}
+  m_Center: {x: -0.2093773, y: 1.1, z: 0}
+--- !u!114 &65988687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728092334524679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d13a64a7a52b8408c3a7f7ca27a940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editComment: 0
+  comment: Change Value of this Box collider on Main Camera with CameraZoomController
+    Script, it will be updated here when u will change value !
 --- !u!1 &5956535376212452092
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +728,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5956535376212452092}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1749,7 +1804,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702210237618555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -36.1, y: 34.99, z: 16}
+  m_LocalPosition: {x: 6.9, y: 58.1, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209655956044}
@@ -1779,7 +1834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702210315734991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.74, y: 38.93, z: 30.25}
+  m_LocalPosition: {x: 8, y: 57.45, z: 30.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209906040682}
@@ -2094,7 +2149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702211056221378}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -36.56, y: 43.63, z: 30}
+  m_LocalPosition: {x: 6, y: 57.53, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702210220796348}

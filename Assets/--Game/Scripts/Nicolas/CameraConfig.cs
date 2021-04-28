@@ -16,23 +16,23 @@ public class CameraConfig : ScriptableObject
 
     [Title("-- Zoom Parameter")]
     [SerializeField]
-    public float config_minZoom = 30f;
-    [SerializeField]
-    public float config_maxZoom = 10f;
-    [SerializeField]
-    public float config_zoomLimiter = 50f;
+    public float config_ZoomInLimiter = 5f;
+    //[SerializeField]
+    //public float config_maxZoom = 10f;
+    //[SerializeField]
+    //public float config_zoomLimiter = 50f;
 
-    [SerializeField]
-    public float config_fovForStaticScrolling = 60f;
+    //[SerializeField]
+    //public float config_fovForStaticScrolling = 60f;
 
-    [Title("-- Blast Zone Parameter")]
-    [SerializeField]
-    public float config_max_X_DistanceWithFocusLevel = 20f;
+    //[Title("-- Blast Zone Parameter")]
+    //[SerializeField]
+    //public float config_max_X_DistanceWithFocusLevel = 20f;
 
-    [SerializeField]
-    public float config_max_Y_DistanceWithFocusLevel = 15f;
+    //[SerializeField]
+    //public float config_max_Y_DistanceWithFocusLevel = 15f;
 
-    [Title("-- Moving Cam Blast Parameter")]
-    public float config_max_X_MoveCam = 10;
-    public float config_offsetModifier = 7;
+    //[Title("-- Moving Cam Blast Parameter")]
+    //public float config_max_X_MoveCam = 10;
+    //public float config_offsetModifier = 7;
 }

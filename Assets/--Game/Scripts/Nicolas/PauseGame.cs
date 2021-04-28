@@ -99,13 +99,13 @@ public class PauseGame : MonoBehaviour
         if (state == 0)
         {
             state = 1;
-            textQuit.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+            textQuit.transform.DOScale(new Vector3(0.35f, 0.35f, 0.35f), 0.01f).SetUpdate(true);
             textReturn.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
         }
         else
         {
             state = 0;
-            textReturn.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+            textReturn.transform.DOScale(new Vector3(0.35f, 0.35f, 0.35f), 0.01f).SetUpdate(true);
             textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
         }
     }
@@ -116,7 +116,7 @@ public class PauseGame : MonoBehaviour
             tempScale = Time.timeScale;
 
         parentPauseUi.SetActive(isPause);
-        textReturn.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+        textReturn.transform.DOScale(new Vector3(0.35f, 0.35f, 0.35f), 0.01f).SetUpdate(true);
         textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
 
         if(isPause)
