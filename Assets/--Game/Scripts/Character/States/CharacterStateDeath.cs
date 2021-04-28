@@ -22,7 +22,7 @@ public class CharacterStateDeath : CharacterState
 
 		timer = 0f;
 		//Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
-		Camera.main.GetComponent<TestCamera>().Targets.Remove(character.gameObject.transform);
+		Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
 		character.Movement.SetSpeed(0f, 0f);
 
 	}
