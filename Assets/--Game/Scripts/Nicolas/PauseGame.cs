@@ -59,20 +59,35 @@ public class PauseGame : MonoBehaviour
                 {
                     GetPositionCursor(State.Up);
                 }
+
+                if (inputController.playerInputs[i].inputUiAction == InputConst.Interact)
+                {
+
+                    if (state == 0)
+                        UpdatePauseState();
+                    else
+                    {
+                        Time.timeScale = 1;
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    }
+                }
             }
         }
 
         if (isPause)
         {
             //Debug.Log("Encore un debug qui va finir par faire n'importe quoi ou pas c'est pas trop long j'espere comme debug");
-            if (Input.GetKeyDown(KeyCode.Space))
+            for (int i = 0; i < inputController.playerInputs.Length; i++)
             {
-                if (state == 0)
-                    UpdatePauseState();
-                else
+                if(inputController.playerInputs[i].inputUiAction == InputConst.Interact)
                 {
-                    Time.timeScale = 1;
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    if (state == 0)
+                        UpdatePauseState();
+                    else
+                    {
+                        Time.timeScale = 1;
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    }
                 }
             }
         }
