@@ -20,7 +20,8 @@ public class AttackC_Damage : AttackComponent
 
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
-        target.Stats.TakeDamage(percentDamage);
+        float damage = (percentDamage * user.Stats.AttackMultiplier.Value) * target.Stats.DefenseMultiplier.Value;
+        target.Stats.TakeDamage(damage);
         user.PowerGauge.AddPower(user.PowerGauge.powerGivenOnAttack);
         target.PowerGauge.AddPower(user.PowerGauge.powerGivenToHitTarget);
     }

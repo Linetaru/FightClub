@@ -100,7 +100,12 @@ public class CharacterParry : MonoBehaviour
 	{
 		get { return particleGuard; }
 	}
-
+	[SerializeField]
+	GameObject particleGuardDirectionRepel;
+	public GameObject ParticleGuardDirectionRepel
+	{
+		get { return particleGuardDirectionRepel; }
+	}
 
 
 	// Faire une interface ou une classe abstraire pour attackManager
@@ -190,7 +195,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.1f);
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
-		characterParry.PowerGauge.ForceAddPower(20);
+		characterParry.PowerGauge.ForceAddPower(25);
 
 
 
@@ -200,9 +205,9 @@ public class CharacterParry : MonoBehaviour
 		characterParried = characterRepelled;
 
 		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-		GameObject go = Instantiate(particleParry, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
-		go.name = particleParry.name;
-		Destroy(go, 1f);
+
+
+		Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 4, 0.15f);
 	}
 
 	/// <summary>
@@ -224,6 +229,10 @@ public class CharacterParry : MonoBehaviour
 
 		characterRepelled.SetState(parryRepelState);
 
+		//Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
+		GameObject go2 = Instantiate(particleParry, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+		go2.name = particleParry.name;
+		Destroy(go2, 1f);
 
 		GameObject go = Instantiate(particleDirectionRepel, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 		go.name = particleParry.name;
@@ -231,13 +240,28 @@ public class CharacterParry : MonoBehaviour
 	}
 
 
-	public virtual void Guard(CharacterBase characterRepelled)
+	public virtual void Guard(CharacterBase characterRepelled, CharacterBase characterParry)
 	{
-		characterRepelled.SetMotionSpeed(0.2f, 0.35f);
+		isParry = false;
+		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.5f);
+		characterRepelled.SetMotionSpeed(0f, 0.35f);
+		characterRepelled.Action.CancelAction();
 
-		/*GameObject go = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
+		characterRepelled.Model.FlashModel(Color.white, 0.7f);
+
+
+		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
+		characterRepelled.Knockback.Launch(angleEjection, 1);
+
+		characterRepelled.SetState(parryRepelState);
+
+		GameObject go2 = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
+		go2.name = particleParry.name;
+		Destroy(go2, 1f);
+
+		GameObject go = Instantiate(particleGuardDirectionRepel, characterRepelled.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 		go.name = particleParry.name;
-		Destroy(go, 1f);*/
+		Destroy(go, 1f);
 	}
 
 }

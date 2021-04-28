@@ -185,15 +185,16 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         // Quand le joueur est prêt
 
-        if ((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady))
+        if ((holograms[ID].isCharacterChoosed && holograms[ID].paramsChoosed && holograms[ID].isPlayerReady ))
         {
-            if (input_Info.inputUiAction == InputConst.Pause)
+            if (input_Info.inputUiAction == InputConst.Pause && PlayersDifferentTeam())
             {
                 PlayReadySlashAnimation();
             }
 
             if (input_Info.inputUiAction == InputConst.Return)
             {
+                numberOfReadyPlayers--;
                 HideReadyBands();
                 holograms[ID].NotReady();
             }
@@ -208,7 +209,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void DisplayReadyBands()
     {
-        if (numberOfConnectedPlayers > 1 && numberOfReadyPlayers == numberOfConnectedPlayers)
+        if (numberOfConnectedPlayers > 1 && numberOfReadyPlayers == numberOfConnectedPlayers && PlayersDifferentTeam())
             readyBands.SetActive(true);
     }
 
@@ -219,13 +220,11 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public void PlayReadySlashAnimation()
     {
-        if (!gameLaunched && numberOfReadyPlayers == numberOfConnectedPlayers && numberOfConnectedPlayers > 1)
+        if (!gameLaunched && numberOfReadyPlayers == numberOfConnectedPlayers && numberOfConnectedPlayers > 1 && PlayersDifferentTeam())
         {
             isStarted = true;
             gameLaunched = true;
             gameData.NumberOfLifes = playerStocks;
-
-
 
             int characterInfoNumber = 0;
 
@@ -256,15 +255,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
-                    if (gameData.CharacterInfos[i] != null)
+                    if (gameData.CharacterInfos.Count > i)
                     {
-                        if(holograms[i].currentChoosedCharacter != null)
-                            gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
                         gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
 
                         //Assign Team
                         gameData.CharacterInfos[i].Team = holograms[i].currentTeam;
-
                         gameData.CharacterInfos[i].ControllerID = holograms[i].iD;
                     }
                 }
@@ -274,6 +271,24 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             StartCoroutine(GoToStageMenu());
             //SceneManager.LoadScene("MenuSelection_Stage");
         }
+    }
+
+    // Vérifie qu'au moins 2 joueurs soit dans des teams différentes
+    private bool PlayersDifferentTeam()
+    {
+        int noTeamCounter = 0;
+        for (int i = 0; i < numberOfReadyPlayers - 1; i++)
+        {
+            if (holograms[i].currentTeam != holograms[i + 1].currentTeam)
+            {
+                return true;
+            }
+            else if (holograms[i].currentTeam == TeamEnum.No_Team)
+                noTeamCounter++;
+        }
+        if (noTeamCounter == numberOfReadyPlayers - 1)
+            return true;
+        return false;
     }
 
     private IEnumerator GoToStageMenu()

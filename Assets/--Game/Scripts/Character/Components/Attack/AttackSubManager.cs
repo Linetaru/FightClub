@@ -132,7 +132,7 @@ public class AttackSubManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
-        if(target.TeamID != user.TeamID)
+        if(target.TeamID == TeamEnum.No_Team || target.TeamID != user.TeamID)
         {
             string targetTag = target.transform.root.tag;
 
