@@ -9,8 +9,6 @@ public class CharacterStateRespawn : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-
-
 		Camera.main.GetComponent<CameraZoomController>().targets.Add(character.gameObject.transform);
 
 		character.transform.position = BlastZoneManager.Instance.spawnpoint.position;
