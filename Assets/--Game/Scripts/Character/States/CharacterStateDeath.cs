@@ -56,14 +56,14 @@ public class CharacterStateDeath : CharacterState
 
 	private void DisplayPlayer()
     {
-		playerObject.transform.localScale = new Vector3(1, 1, 1);
+		playerObject.transform.root.localScale = new Vector3(1, 1, 1);
 		//playerObject.SetActive(true);
     }
 
 	private void HidePlayer()
 	{
 
-		playerObject.transform.localScale = new Vector3(0, 0, 1);
+		playerObject.transform.root.localScale = new Vector3(0, 0, 1);
 		//playerObject.SetActive(false);
 	}
 }
