@@ -10,6 +10,9 @@ public class BattleManager : MonoBehaviour
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Game Mode Managers")]
+	public GameObject BombModeManager;
+
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
 
@@ -42,6 +45,11 @@ public class BattleManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		if(gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+        {
+			GameObject go = Instantiate(BombModeManager, transform.parent);
+			go.GetComponent<StickyBombManager>().BattleManager = this;
+        }
 		SpawnPlayer();
 	}
 
