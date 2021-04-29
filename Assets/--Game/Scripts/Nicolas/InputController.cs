@@ -152,13 +152,16 @@ public class InputController : SerializedMonoBehaviour
 
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
+				{
+					playerInputs[i].inputUiAction = null;
 					pauseEvent.Raise();
+				}
 
 			//If we got at least one entity will send to each entity their linked list for input buffer
 			if (controllable[i] != null)
 			{
 				controllable[i].UpdateControl(i, playerInputs[i]);
-				if(playerInputs[i].inputUiAction != null)
+				if(playerInputs[i].inputUiAction != null && Time.timeScale > 0)
 					playerInputs[i].inputUiAction = null;
 			}
 
