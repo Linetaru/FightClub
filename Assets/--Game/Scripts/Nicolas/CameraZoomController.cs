@@ -57,124 +57,314 @@ public class CameraZoomController : MonoBehaviour
     #endregion
 
     #region New_Camera_Controller
-//    [Expandable]
-//    public CameraFocusLevel focusLevel;
+    //    [Expandable]
+    //    public CameraFocusLevel focusLevel;
 
-//    public List<GameObject> playersTarget;
+    //    public List<GameObject> playersTarget;
 
-//    public float depthUpdateSpeed = 5f;
-//    public float angleUpdateSpeed = 7f;
-//    public float positionUpdateSpeed = 5f;
+    //    public float depthUpdateSpeed = 5f;
+    //    public float angleUpdateSpeed = 7f;
+    //    public float positionUpdateSpeed = 5f;
 
-//    public float depthMax = -10f;
-//    public float depthMin = -22f;
+    //    public float depthMax = -10f;
+    //    public float depthMin = -22f;
 
-//    public float angleMax = 11f;
-//    public float angleMin = 3f;
+    //    public float angleMax = 11f;
+    //    public float angleMin = 3f;
 
-//    private float cameraEulerX;
-//    private Vector3 CameraPosition;
+    //    private float cameraEulerX;
+    //    private Vector3 CameraPosition;
 
-//    private bool canFocus = true;
+    //    private bool canFocus = true;
 
-//    private void Start()
-//    {
-//        playersTarget.Add(focusLevel.gameObject);
-//    }
+    //    private void Start()
+    //    {
+    //        playersTarget.Add(focusLevel.gameObject);
+    //    }
 
-//    private void LateUpdate()
-//    {
-//        if (canFocus)
-//        {
-//            CalculateCameraLocation();
-//            MoveCamera();
-//        }
-//    }
+    //    private void LateUpdate()
+    //    {
+    //        if (canFocus)
+    //        {
+    //            CalculateCameraLocation();
+    //            MoveCamera();
+    //        }
+    //    }
 
-//    private void MoveCamera()
-//    {
-//        Vector3 pos = gameObject.transform.position;
-//        if(pos != CameraPosition)
-//        {
-//            Vector3 targetPos = Vector3.zero;
-//            targetPos.x = Mathf.MoveTowards(pos.x, CameraPosition.x, positionUpdateSpeed * Time.deltaTime);
-//            targetPos.y = Mathf.MoveTowards(pos.y, CameraPosition.y, positionUpdateSpeed * Time.deltaTime);
-//            targetPos.z = Mathf.MoveTowards(pos.z, CameraPosition.z, depthUpdateSpeed * Time.deltaTime);
-//            gameObject.transform.position = targetPos;
-//        }
+    //    private void MoveCamera()
+    //    {
+    //        Vector3 pos = gameObject.transform.position;
+    //        if(pos != CameraPosition)
+    //        {
+    //            Vector3 targetPos = Vector3.zero;
+    //            targetPos.x = Mathf.MoveTowards(pos.x, CameraPosition.x, positionUpdateSpeed * Time.deltaTime);
+    //            targetPos.y = Mathf.MoveTowards(pos.y, CameraPosition.y, positionUpdateSpeed * Time.deltaTime);
+    //            targetPos.z = Mathf.MoveTowards(pos.z, CameraPosition.z, depthUpdateSpeed * Time.deltaTime);
+    //            gameObject.transform.position = targetPos;
+    //        }
 
-//        Vector3 localEulerAngle = gameObject.transform.localEulerAngles;
-//        if(localEulerAngle.x != cameraEulerX)
-//        {
-//            Vector3 targetEulerAngle = new Vector3(cameraEulerX, localEulerAngle.y, localEulerAngle.z);
-//            gameObject.transform.localEulerAngles = Vector3.MoveTowards(localEulerAngle, targetEulerAngle, angleUpdateSpeed * Time.deltaTime);
-//        }
-//    }
+    //        Vector3 localEulerAngle = gameObject.transform.localEulerAngles;
+    //        if(localEulerAngle.x != cameraEulerX)
+    //        {
+    //            Vector3 targetEulerAngle = new Vector3(cameraEulerX, localEulerAngle.y, localEulerAngle.z);
+    //            gameObject.transform.localEulerAngles = Vector3.MoveTowards(localEulerAngle, targetEulerAngle, angleUpdateSpeed * Time.deltaTime);
+    //        }
+    //    }
 
-//    private void CalculateCameraLocation()
-//    {
-//        Vector3 averageCenter = Vector3.zero;
-//        Vector3 totalPosition = Vector3.zero;
-//        Bounds playerBounds = new Bounds();
+    //    private void CalculateCameraLocation()
+    //    {
+    //        Vector3 averageCenter = Vector3.zero;
+    //        Vector3 totalPosition = Vector3.zero;
+    //        Bounds playerBounds = new Bounds();
 
-//        for(int i = 0; i < playersTarget.Count; i++)
-//        {
-//            Vector3 playerPos = playersTarget[i].transform.position;
+    //        for(int i = 0; i < playersTarget.Count; i++)
+    //        {
+    //            Vector3 playerPos = playersTarget[i].transform.position;
 
-//            if(!focusLevel.focusBounds.Contains(playerPos))
-//            {
-//                float playerX = Mathf.Clamp(playerPos.x, focusLevel.focusBounds.min.x, focusLevel.focusBounds.max.x);
-//                float playerY = Mathf.Clamp(playerPos.y, focusLevel.focusBounds.min.y, focusLevel.focusBounds.max.y);
-//                float playerZ = Mathf.Clamp(playerPos.z, focusLevel.focusBounds.min.z, focusLevel.focusBounds.max.z);
-//                playerPos = new Vector3(playerX, playerY, playerZ);
-//            }
+    //            if(!focusLevel.focusBounds.Contains(playerPos))
+    //            {
+    //                float playerX = Mathf.Clamp(playerPos.x, focusLevel.focusBounds.min.x, focusLevel.focusBounds.max.x);
+    //                float playerY = Mathf.Clamp(playerPos.y, focusLevel.focusBounds.min.y, focusLevel.focusBounds.max.y);
+    //                float playerZ = Mathf.Clamp(playerPos.z, focusLevel.focusBounds.min.z, focusLevel.focusBounds.max.z);
+    //                playerPos = new Vector3(playerX, playerY, playerZ);
+    //            }
 
-//            totalPosition += playerPos;
-//            playerBounds.Encapsulate(playerPos);
-//        }
+    //            totalPosition += playerPos;
+    //            playerBounds.Encapsulate(playerPos);
+    //        }
 
-//        averageCenter = totalPosition / playersTarget.Count;
+    //        averageCenter = totalPosition / playersTarget.Count;
 
-//        float extents = playerBounds.extents.x + playerBounds.extents.y;
-//        float lerpPercent = Mathf.InverseLerp(0, (focusLevel.halfXBounds + focusLevel.halfYBounds) / 2, extents);
+    //        float extents = playerBounds.extents.x + playerBounds.extents.y;
+    //        float lerpPercent = Mathf.InverseLerp(0, (focusLevel.halfXBounds + focusLevel.halfYBounds) / 2, extents);
 
-//        float depth = Mathf.Lerp(depthMax, depthMin, lerpPercent);
-//        float angle = Mathf.Lerp(angleMax, angleMin, lerpPercent);
+    //        float depth = Mathf.Lerp(depthMax, depthMin, lerpPercent);
+    //        float angle = Mathf.Lerp(angleMax, angleMin, lerpPercent);
 
-//        cameraEulerX = angle;
-//        CameraPosition = new Vector3(averageCenter.x, averageCenter.y, depth);
-//    }
+    //        cameraEulerX = angle;
+    //        CameraPosition = new Vector3(averageCenter.x, averageCenter.y, depth);
+    //    }
 
-//    public void ChangeFocusState()
-//    {
-//        canFocus = !canFocus;
-//    }
+    //    public void ChangeFocusState()
+    //    {
+    //        canFocus = !canFocus;
+    //    }
 
-//    public void ChangeValueFocus(CameraConfig cameraConfig)
-//    {
-//        depthUpdateSpeed = cameraConfig.config_depthUpdateSpeed;
-//        angleUpdateSpeed = cameraConfig.config_angleUpdateSpeed;
-//        positionUpdateSpeed = cameraConfig.config_positionUpdateSpeed;
+    //    public void ChangeValueFocus(CameraConfig cameraConfig)
+    //    {
+    //        depthUpdateSpeed = cameraConfig.config_depthUpdateSpeed;
+    //        angleUpdateSpeed = cameraConfig.config_angleUpdateSpeed;
+    //        positionUpdateSpeed = cameraConfig.config_positionUpdateSpeed;
 
-//        depthMax = cameraConfig.config_depthMax;
-//        depthMin = cameraConfig.config_depthMin;
+    //        depthMax = cameraConfig.config_depthMax;
+    //        depthMin = cameraConfig.config_depthMin;
 
-//        angleMax = cameraConfig.config_angleMax;
-//        angleMin = cameraConfig.config_angleMin;
+    //        angleMax = cameraConfig.config_angleMax;
+    //        angleMin = cameraConfig.config_angleMin;
 
-//        focusLevel.halfXBounds = cameraConfig.halfXBounds;
-//        focusLevel.halfYBounds = cameraConfig.halfYBounds;
-//        focusLevel.halfZBounds = cameraConfig.halfZBounds;
-//    }
+    //        focusLevel.halfXBounds = cameraConfig.halfXBounds;
+    //        focusLevel.halfYBounds = cameraConfig.halfYBounds;
+    //        focusLevel.halfZBounds = cameraConfig.halfZBounds;
+    //    }
 
 
 
     #endregion
 
     #region Brackey_Camera_Controller
-    public List<Transform> targets;
+    //public List<Transform> targets;
 
     //public GameObject focusLevel;
+
+    ////public BlastZoneManager blastZoneManager;
+
+    //[Title("Movement Parameter")]
+    //public Vector3 offset;
+
+    //public float smoothTime = 0.5f;
+
+    //[Title("Zoom Parameter")]
+    //public float minZoom = 40f;
+    //public float maxZoom = 10f;
+    //public float zoomLimiter = 50f;
+
+    //public float fovForStaticScrolling = 60f;
+
+    //[Title("Blast Zone Parameter")]
+    //public float max_X_DistanceWithFocusLevel = 20f;
+    //public float max_Y_DistanceWithFocusLevel = 15f;
+
+    //[Title("Moving Cam Blast Parameter")]
+    //[ReadOnly] public float max_X_MoveCam = 10;
+    //[ReadOnly] public float offsetModifier = 7;
+
+    //private Vector3 velocity;
+    //private float velocityRef;
+    //private Camera cam;
+    //private bool canFocus = true;
+
+    //Start Function that take component cam and add Focus transform on list of targets
+    //private void Start()
+    //{
+    //    if (cam == null)
+    //        cam = GetComponent<Camera>();
+    //    //targets.Add(focusLevel.transform);
+    //}
+
+    //private void LateUpdate()
+    //{
+    //    //Return if no target is fund to not get errors
+    //    if (targets.Count == 0)
+    //        return;
+
+    //    //If camera don't scroll in the level so camera can focus on player and execute function.
+    //    if (canFocus)
+    //    {
+    //        //Launch Movement Camera Function
+    //        MoveCamera();
+    //        //Launch Zoom Camera Function
+    //        //ZoomCamera();
+    //    }
+    //    else
+    //    {
+    //        //UnZoomCamera();
+    //        GetNewBoundsEncapsulate();
+    //    }
+    //}
+
+    //Zoom camera by field of view between distance from all targets
+    //void ZoomCamera()
+    //{
+    //    //Get float for fov by distance from all targets on min and max zoom
+    //    float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
+
+    //    //change fov of our cam with smooth lerp from last fov to new fov
+    //    //cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
+    //    Vector3 aled = this.transform.position;
+    //    aled.z  = Mathf.SmoothDamp(this.transform.position.z, newZoom, ref velocityRef, smoothTime);
+    //    this.transform.position = aled;
+    //}
+
+    //UnZoom camera by field of view for scrolling moment
+    //void UnZoomCamera()
+    //{
+    //    //change fov of our cam with smooth lerp from last fov to new fov
+    //    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fovForStaticScrolling, Time.deltaTime);
+    //}
+
+    //Get bounds of all targets and return width
+    //float GetGreatestDistance()
+    //{
+    //    Bounds b = GetNewBoundsEncapsulate();
+    //    return Mathf.Max(b.size.x, b.size.y);
+    //}
+
+    //Move camera position smoothly by calculate position of all targets
+    //void MoveCamera()
+    //{
+    //    //Calculate centerpoint between all targets to have a center for camera
+    //    Vector3 centerPoint = GetCenterPoint();
+
+    //    float SizeZoomPasLeLogicielZoom = /*GetNewBoundsEncapsulate().size.magnitude * */5;
+
+    //    Bounds bluePlane = BoundsCameraView(SizeZoomPasLeLogicielZoom, centerPoint);
+
+    //    Bounds d = focusLevel.GetComponent<BoxCollider>().bounds;
+
+    //    float x = 0;
+    //    if (bluePlane.min.x < d.min.x)
+    //        x = d.min.x - bluePlane.min.x;
+    //    else if (bluePlane.max.x > d.max.x)
+    //        x = d.max.x - bluePlane.max.x;
+    //    else
+    //        Debug.Log("On fait rien en X c'ptain");
+
+    //    float y = 0;
+    //    if (bluePlane.min.y < d.min.y)
+    //        y = d.min.y - bluePlane.min.y;
+    //    else if (bluePlane.max.y > d.max.y)
+    //        y = d.max.y - bluePlane.max.y;
+    //    else
+    //        Debug.Log("On fait rien en Y c'ptain");
+
+    //    //Calculate new Position for the camera by calculating centerpoint with an offset
+    //    Vector3 newPos = centerPoint + offset;
+    //    newPos.x += x;
+    //    newPos.y += y;
+    //    newPos.z -= SizeZoomPasLeLogicielZoom;
+
+    //    //Change transform position smoothly without jitter from new Pos vector we got.
+    //    transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
+    //}
+
+    //Get new bounds of the first target and encapsule all targets in the bounds
+    //Bounds GetNewBoundsEncapsulate()
+    //{
+    //    //Get position of first target or if target null get position of focus level
+    //    Vector3 pos;
+    //    if (targets.Count > 0)
+    //        pos = targets[0].position;
+    //    else
+    //        pos = focusLevel.transform.position;
+
+    //    //Get new bounds of the first target or FocusLevel
+    //    Bounds bounds = new Bounds(pos, Vector3.zero);
+
+    //    //Get Center of bounds from a target in the list if he isn't out of range 
+    //    switch(targets.Count)
+    //    {
+    //        default:
+    //            break;
+
+    //        case 1:
+    //            if (((focusLevel.transform.position.x - targets[0].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[0].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[0].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[0].position.y < -max_Y_DistanceWithFocusLevel / 2)))
+    //                bounds.center = focusLevel.transform.position;
+    //            break;
+    //        case 2:
+    //            bounds = Checking(bounds, 0, 1);
+    //            break;
+    //        case 3:
+    //            bounds = Checking(bounds, 0, 1);
+    //            bounds = Checking(bounds, 1, 2);
+    //            break;
+    //        case 4:
+    //            bounds = Checking(bounds, 0, 1);
+    //            bounds = Checking(bounds, 1, 2);
+    //            bounds = Checking(bounds, 2, 3);
+    //            break;
+    //    }
+
+    //    //Encapsule all targets in the bounds
+    //    for (int i = 0; i < targets.Count; i++)
+    //    {
+    //        if (((focusLevel.transform.position.x - targets[i].position.x <= max_X_DistanceWithFocusLevel) && (focusLevel.transform.position.x - targets[i].position.x >= -max_X_DistanceWithFocusLevel)) && ((focusLevel.transform.position.y - targets[i].position.y <= max_Y_DistanceWithFocusLevel) && (focusLevel.transform.position.y - targets[i].position.y >= -max_Y_DistanceWithFocusLevel)))
+    //            bounds.Encapsulate(targets[i].position);
+    //        else if (targets[i] != null)
+    //            BlastZoneManager.Instance.OutOfCamera(targets[i].gameObject);
+    //    }
+
+    //    //Return bounds with all targets encapsulte in
+    //    return bounds;
+    //}
+
+    //private Bounds Checking(Bounds bounds, int id, int nextPlayerId)
+    //{
+    //    if (((focusLevel.transform.position.x - targets[id].position.x > max_X_DistanceWithFocusLevel) || (focusLevel.transform.position.x - targets[id].position.x < -max_X_DistanceWithFocusLevel / 2)) || ((focusLevel.transform.position.y - targets[id].position.y > max_Y_DistanceWithFocusLevel) || (focusLevel.transform.position.y - targets[id].position.y < -max_Y_DistanceWithFocusLevel / 2)))
+    //        bounds.center = targets[nextPlayerId].position;
+
+    //    return bounds;
+    //}
+
+    #endregion
+
+    #region Camera_Frustrum_Clamped
+
+    public List<Transform> targets;
+
+    [Title("Object Reference")]
+    public BoxCollider focusLevel;
+    public BoxCollider blastZone;
+    public Camera cam;
 
     [Title("Movement Parameter")]
     public Vector3 offset;
@@ -182,24 +372,96 @@ public class CameraZoomController : MonoBehaviour
     public float smoothTime = 0.5f;
 
     [Title("Zoom Parameter")]
-    public float minZoom = 40f;
-    public float maxZoom = 10f;
-    public float zoomLimiter = 50f;
+    public float ZoomInLimiter = 5f;
+    [ReadOnly] public float ZoomOutLimiter = 0f;
+    private float SizeZoom;
 
-    public float fovForStaticScrolling = 60f;
+    [Title("Focus Collider Parameter")]
+    [SerializeField]
+    [InfoBox("Change Directly Focus Collider Center", InfoMessageType.Info)]
+    [OnValueChanged("FocusLevelBoxCenter")]
+    [PropertyOrder(1)]
+    Vector3 focusLevelBoxCenter;
 
-    private Vector3 velocity;
-    private float velocityRef;
-    private Camera cam;
-    private bool canFocus = true;
-
-    //Start Function that take component cam and add Focus transform on list of targets
-    private void Start()
+    public void FocusLevelBoxCenter()
     {
-        cam = GetComponent<Camera>();
-        //targets.Add(focusLevel.transform);
+        if (focusLevel != null)
+            focusLevel.center = focusLevelBoxCenter;
     }
 
+    [SerializeField]
+    [InfoBox("Change Directly Focus Collider Size", InfoMessageType.Info)]
+    [OnValueChanged("FocusLevelBoxSize")]
+    [PropertyOrder(1)]
+    Vector3 focusLevelBoxSize;
+
+    public void FocusLevelBoxSize()
+    {
+        if (focusLevel != null)
+            focusLevel.size = focusLevelBoxSize;
+    }
+
+    [GUIColor(0, 1, 0)]
+    [PropertyOrder(1)]
+    [Button]
+    public void GetFocusBoxProperties()
+    {
+        if (focusLevel != null)
+        {
+            focusLevelBoxSize = focusLevel.size;
+            focusLevelBoxCenter = focusLevel.center;
+        }
+    }
+
+
+    
+    [Title("BlastZone Collider Parameter")]
+    [SerializeField]
+    [InfoBox("Change Directly Blastzone Collider Center", InfoMessageType.Info)]
+    [OnValueChanged("BlastZoneBoxCenter")]
+    [PropertyOrder(2)]
+    Vector3 blastZoneBoxCenter;
+
+    public void BlastZoneBoxCenter()
+    {
+        if (blastZone != null)
+            blastZone.center = blastZoneBoxCenter;
+    }
+
+    [SerializeField]
+    [InfoBox("Change Directly Blastzone Collider Size", InfoMessageType.Info)]
+    [OnValueChanged("BlastZoneBoxSize")]
+    [PropertyOrder(2)]
+    Vector3 blastZoneBoxSize;
+
+    public void BlastZoneBoxSize()
+    {
+        if (blastZone != null)
+            blastZone.size = blastZoneBoxSize;
+    }
+
+    [GUIColor(1, 0, 0.9f, 1f)]
+    [PropertyOrder(2)]
+    [Button]
+    public void GetBlastZoneBoxProperties()
+    {
+        if (blastZone != null)
+        {
+            blastZoneBoxSize = blastZone.size;
+            blastZoneBoxCenter = blastZone.center;
+        }
+    }
+
+
+    private Vector3 velocity;
+    private Vector3 newPos;
+    private bool canFocus = true;
+
+    [PropertyOrder(3)]
+    [Title("Debug Area Drawing Box in Scene Viewport")]
+    [DetailedInfoBox("Debug Box will Appear to see all Area...", "Debug Box will Appear to see all Area... \nRed Area = Player Encapsulate Bounds. \nBlack Circle = Center between players \nBlue Area = Camera Area \nGreen Area = Level Limit \nMagenta Area = BlastZone Limit", InfoMessageType.Info)]
+    public bool DebugArea = false;
+  
     private void LateUpdate()
     {
         //Return if no target is fund to not get errors
@@ -209,38 +471,22 @@ public class CameraZoomController : MonoBehaviour
         //If camera don't scroll in the level so camera can focus on player and execute function.
         if (canFocus)
         {
-            //Launch Movement Camera Function
-            MoveCamera();
-            //Launch Zoom Camera Function
             ZoomCamera();
+            MoveCamera();
         }
         else
         {
-            UnZoomCamera();
+            //UnZoomCamera();
+            GetNewBoundsEncapsulate();
         }
     }
 
-    //Zoom camera by field of view between distance from all targets
     void ZoomCamera()
     {
-        //Get float for fov by distance from all targets on min and max zoom
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
+        ZoomOutLimiter = focusLevel.bounds.size.magnitude;
 
-        //change fov of our cam with smooth lerp from last fov to new fov
-        cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, newZoom, ref velocityRef, smoothTime);
-    }
 
-    //UnZoom camera by field of view for scrolling moment
-    void UnZoomCamera()
-    {
-        //change fov of our cam with smooth lerp from last fov to new fov
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fovForStaticScrolling, Time.deltaTime);
-    }
-
-    //Get bounds of all targets and return width
-    float GetGreatestDistance()
-    {
-        return Mathf.Max(GetNewBoundsEncapsulate().size.x, GetNewBoundsEncapsulate().size.y);
+        SizeZoom = Mathf.Lerp(ZoomInLimiter, ZoomOutLimiter, GetGreatestDistance().magnitude / focusLevel.size.magnitude);
     }
 
     //Move camera position smoothly by calculate position of all targets
@@ -249,8 +495,33 @@ public class CameraZoomController : MonoBehaviour
         //Calculate centerpoint between all targets to have a center for camera
         Vector3 centerPoint = GetCenterPoint();
 
+        //float SizeZoom = /*GetNewBoundsEncapsulate().size.magnitude * */5;
+
+        Bounds bluePlane = BoundsCameraView(SizeZoom, centerPoint);
+
+        Bounds d = focusLevel.bounds;
+
+        float x = 0;
+        if (bluePlane.min.x < d.min.x)
+            x = d.min.x - bluePlane.min.x;
+        else if (bluePlane.max.x > d.max.x)
+            x = d.max.x - bluePlane.max.x;
+        else
+            Debug.Log("On fait rien en X c'ptain");
+
+        float y = 0;
+        if (bluePlane.min.y < d.min.y)
+            y = d.min.y - bluePlane.min.y;
+        else if (bluePlane.max.y > d.max.y)
+            y = d.max.y - bluePlane.max.y;
+        else
+            Debug.Log("On fait rien en Y c'ptain");
+
         //Calculate new Position for the camera by calculating centerpoint with an offset
-        Vector3 newPos = centerPoint + offset;
+        newPos = centerPoint + offset;
+        newPos.x += x;
+        newPos.y += y;
+        newPos.z -= SizeZoom;
 
         //Change transform position smoothly without jitter from new Pos vector we got.
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
@@ -259,21 +530,24 @@ public class CameraZoomController : MonoBehaviour
     //Get Vector 3 center point between all differents target
     Vector3 GetCenterPoint()
     {
-        //if only one target return position of this target
-        if(targets.Count == 1)
-        {
-            return targets[0].position;
-        }
-
-        //return bounds center of all targets encapsulate in the bounds.
         return GetNewBoundsEncapsulate().center;
     }
 
-    //Get new bounds of the first target and encapsule all targets in the bounds
+    //Get bounds of all targets and return width
+    Vector3 GetGreatestDistance()
+    {
+        Bounds b = GetNewBoundsEncapsulate();
+        return b.size;
+    }
+
     Bounds GetNewBoundsEncapsulate()
     {
-        //Get new bounds of the first target
-        Bounds bounds = new Bounds(targets[0].position, Vector3.zero);
+        Vector3 pos;
+        if (targets.Count > 0)
+            pos = targets[0].position;
+        else
+            pos = focusLevel.transform.position;
+        Bounds bounds = new Bounds(pos, Vector3.zero);
 
         //Encapsule all targets in the bounds
         for (int i = 0; i < targets.Count; i++)
@@ -281,9 +555,51 @@ public class CameraZoomController : MonoBehaviour
             bounds.Encapsulate(targets[i].position);
         }
 
-        //Return bounds with all targets encapsulte in
+        if (targets.Count == 1)
+            bounds.Encapsulate(focusLevel.transform.position);
+
         return bounds;
     }
+
+    private Bounds BoundsCameraView(float distanciationSociale, Vector3 center)
+    {
+        float frustumHeight = 2.0f * distanciationSociale * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+        if (frustumHeight >= focusLevel.size.y)
+        {
+            frustumHeight = focusLevel.size.y;
+            SizeZoom = frustumHeight * 0.5f / Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        }
+
+        float frustumWidth = frustumHeight * cam.aspect;
+
+        return new Bounds(center, new Vector3(frustumWidth, frustumHeight));
+    }
+
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        if (DebugArea)
+        {
+            if (cam == null)
+                cam = GetComponent<Camera>();
+
+            Bounds CameraWire = GetNewBoundsEncapsulate();
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(CameraWire.center, CameraWire.size);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(newPos, BoundsCameraView(SizeZoom, CameraWire.center).size);
+            Gizmos.color = Color.black;
+            Gizmos.DrawSphere(CameraWire.center, 0.3f);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(new Vector3(focusLevel.transform.position.x - focusLevel.center.x, focusLevel.transform.position.y + focusLevel.center.y), focusLevel.size);
+            Gizmos.color = Color.magenta;
+
+            if(blastZone != null)
+                Gizmos.DrawWireCube(new Vector3(blastZone.transform.position.x - blastZone.center.x, blastZone.transform.position.y + blastZone.center.y), blastZone.size);
+        }
+    }
+#endif
 
     public void ChangeFocusState()
     {
@@ -295,20 +611,19 @@ public class CameraZoomController : MonoBehaviour
         offset = cameraConfig.config_offset;
         smoothTime = cameraConfig.config_smoothTime;
 
-        minZoom = cameraConfig.config_minZoom;
-        maxZoom = cameraConfig.config_maxZoom;
-        zoomLimiter = cameraConfig.config_zoomLimiter;
-        fovForStaticScrolling = cameraConfig.config_fovForStaticScrolling;
+        ZoomInLimiter = cameraConfig.config_ZoomInLimiter;
     }
 
 #if UNITY_EDITOR
     //Add Parameter to change a scriptable object by saving config parameter
     [Title("Editor Save Config")]
     [Expandable]
+    [PropertyOrder(3)]
     public CameraConfig camConfig;
 
     //Save config parameter on scriptable object camConfig if it's not null, Got a button on inspector to use this function
     [Button]
+    [PropertyOrder(3)]
     public void CopyConfigOnScriptable()
     {
         if (camConfig != null)
@@ -316,10 +631,7 @@ public class CameraZoomController : MonoBehaviour
             camConfig.config_offset = offset;
             camConfig.config_smoothTime = smoothTime;
 
-            camConfig.config_minZoom = minZoom;
-            camConfig.config_maxZoom = maxZoom;
-            camConfig.config_zoomLimiter = zoomLimiter;
-            camConfig.config_fovForStaticScrolling = fovForStaticScrolling;
+            camConfig.config_ZoomInLimiter = ZoomInLimiter;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
@@ -328,6 +640,7 @@ public class CameraZoomController : MonoBehaviour
 
     //Change parameter base on scriptable object camConfig config parameter
     [Button]
+    [PropertyOrder(3)]
     public void AddParameterConfigOnThisScript()
     {
         if (camConfig != null)
@@ -335,16 +648,12 @@ public class CameraZoomController : MonoBehaviour
             offset = camConfig.config_offset;
             smoothTime = camConfig.config_smoothTime;
 
-            minZoom = camConfig.config_minZoom;
-            maxZoom = camConfig.config_maxZoom;
-            zoomLimiter = camConfig.config_zoomLimiter;
-            fovForStaticScrolling = camConfig.config_fovForStaticScrolling;
+            ZoomInLimiter = camConfig.config_ZoomInLimiter;
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
         }
     }
 #endif
-
     #endregion
 }

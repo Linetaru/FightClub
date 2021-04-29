@@ -130,7 +130,7 @@ public class BattleManager : MonoBehaviour
     }
 
 
-	private IEnumerator EndBattleCoroutine()
+	protected IEnumerator EndBattleCoroutine()
 	{
 		Time.timeScale = 0.2f;
 		yield return new WaitForSecondsRealtime(2f);

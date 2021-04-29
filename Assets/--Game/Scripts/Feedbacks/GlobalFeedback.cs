@@ -12,6 +12,13 @@ namespace Feedbacks
         ParticleSystem speedlines;
         [SerializeField]
         ScreenShake screenShake;
+        [SerializeField]
+        TestCamera camera;
+        [SerializeField]
+        Animator cameraAnimator;
+
+
+
 
         private static GlobalFeedback _instance;
         public static GlobalFeedback Instance { get { return _instance; } }
@@ -34,7 +41,14 @@ namespace Feedbacks
         {
             speedlines.Play();
             screenShake.StartScreenShake(0.1f, 0.1f);
-    }
+        }
+
+        public void CameraRotationImpulse(Vector2 impulse, float time)
+        {
+            camera.CameraRotationImpulse(impulse, time);
+            cameraAnimator.SetTrigger("ParryFeedback");
+        }
+
 
     }
 }

@@ -9,6 +9,9 @@ public class BallExplosionCharacterState : CharacterState
     CharacterState ballKickOffState;
 
     [SerializeField]
+    BallIdleCharacterState ballIdleState;
+
+    [SerializeField]
     GameObject explosionParticlePrefab;
 
     GameObject explosionParticle;
@@ -17,7 +20,12 @@ public class BallExplosionCharacterState : CharacterState
     GameObject ballModel;
 
     [SerializeField]
-    Transform ballRespawnPosition;
+    Transform ballWaitPosition;
+    [SerializeField]
+    Transform redRespawnPosition;
+    [SerializeField]
+    Transform blueRespawnPosition;
+
 
     [SerializeField]
     float respawnDuration = 3.0f;
@@ -25,6 +33,9 @@ public class BallExplosionCharacterState : CharacterState
     float timer = 0f;
 
     float limitTimescale;
+
+    [SerializeField]
+    GameObject ballShadowSprite;
     //bool explosionUnactive = false;
 
     private void Start()
@@ -34,6 +45,7 @@ public class BallExplosionCharacterState : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        ballShadowSprite.SetActive(false);
         Camera.main.GetComponentInParent<ScreenShake>().StartScreenShake(0.5f, .5f);
 
         timer = respawnDuration;
@@ -41,6 +53,7 @@ public class BallExplosionCharacterState : CharacterState
         character.Knockback.Launch(new Vector2(0, 0), 0);
         ballModel.SetActive(false);
         //character.transform.position = new Vector3(0f, 0f, 500f);
+        character.transform.position = ballWaitPosition.position;
         character.Knockback.IsInvulnerable = true;
         character.Movement.SetSpeed(0f, 0f);
         character.Movement.ResetAcceleration();
@@ -87,7 +100,15 @@ public class BallExplosionCharacterState : CharacterState
     {
         character.Knockback.IsInvulnerable = false;
         Destroy(explosionParticle.gameObject);
-        character.transform.position = ballRespawnPosition.position;
+        if (ballIdleState.hasRedTeamScored)
+        {
+            character.transform.position = blueRespawnPosition.position;
+        }
+        else
+        {
+            character.transform.position = redRespawnPosition.position;
+        }
+        //character.transform.position = ballRespawnPosition.position;
         ballModel.SetActive(true);
     }
 }

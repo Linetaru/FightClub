@@ -137,8 +137,8 @@ public class CharacterKnockback : MonoBehaviour
                 Debug.Log("On garde");
                 atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
                 atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
-                Parry.ParryRepel(character, atkRegistered[i].User);
-                Parry.Guard(character);
+               // Parry.ParryRepel(character, atkRegistered[i].User);
+                Parry.Guard(character, atkRegistered[i].User);
                 atkRegistered[i].AddPlayerHitList(character.tag);
 
                 // Pour tourner le joueur dans le sens de la garde
