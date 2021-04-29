@@ -20,7 +20,7 @@ public class Cam_Infos
 
 	[Title("Rails Array")]
 	//All array for scrolling movement get A and B point for each rails
-	public GameObject[] railsCamTravelling = new GameObject[2];
+	//public GameObject[] railsCamTravelling = new GameObject[2];
 	public GameObject[] railsFocusTravelling = new GameObject[2];
 	public GameObject[] railsBlastZoneTravelling = new GameObject[2];
 
@@ -52,7 +52,7 @@ public class Cam_Infos
 		if (movingInY)
 		{
 			//Check if position in axis Y is different form last rails position and return true or false
-			if (c.position.y != railsCamTravelling[1].transform.position.y)
+			if (c.position.y != railsFocusTravelling[1].transform.position.y)
 				return true;
 			else
 				return false;
@@ -60,7 +60,7 @@ public class Cam_Infos
 		else
 		{
 			//Check if position in axis X is different form last rails position and return true or false
-			if (c.position.x != railsCamTravelling[1].transform.position.x)
+			if (c.position.x != railsFocusTravelling[1].transform.position.x)
 				return true;
 			else
 				return false;
@@ -86,7 +86,7 @@ public class CameraManager : MonoBehaviour
 	public CameraZoomController zoomController;
 
 	//Get reference at blastZone object
-	public GameObject blastZone;
+	//public GameObject blastZone;
 
 	public List<UnityEngine.UI.Image> imagesUiRedScrolling;
 
@@ -167,10 +167,10 @@ public class CameraManager : MonoBehaviour
 						cam_Infos[positionID].canvasPanelArrowToActivate.SetActive(!cam_Infos[positionID].canvasPanelArrowToActivate.activeSelf);
 
 						//Update this position to be on same position at first point on camera rail array using actual timer to lerp on the position.
-						Vector3 newPos = transform.position;
-						newPos = Vector3.Lerp(cam_Infos[positionID].railsCamTravelling[0].transform.position, positionTaken, timer);
-						newPos.z = transform.position.z;
-						transform.position = newPos;
+						//Vector3 newPos = transform.position;
+						//newPos = Vector3.Lerp(cam_Infos[positionID].railsCamTravelling[0].transform.position, positionTaken, timer);
+						//newPos.z = transform.position.z;
+						//transform.position = newPos;
 					}
 				}
 				else if (timer <= 0)
@@ -213,17 +213,17 @@ public class CameraManager : MonoBehaviour
 			case StateCamera.InMovingMode:
 
 				//Check if position of this is at limit of the rail position
-				if (cam_Infos[positionID].isNotAtLimit(transform))
+				if (cam_Infos[positionID].isNotAtLimit(zoomController.focusLevel.transform))
 				{
 
 					//Update this position to be on same position at last point on camera rail array using a timer to lerp on the position divide by travelling time of the config.
-					Vector3 newPos = transform.position;
-					newPos = Vector3.Lerp(cam_Infos[positionID].railsCamTravelling[0].transform.position, cam_Infos[positionID].railsCamTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
-					newPos.z = transform.position.z;
-					transform.position = newPos;
+					//Vector3 newPos = transform.position;
+					//newPos = Vector3.Lerp(cam_Infos[positionID].railsCamTravelling[0].transform.position, cam_Infos[positionID].railsCamTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					//newPos.z = transform.position.z;
+					//transform.position = newPos;
 
 					//Update position of the gameObject Focus 
-					//zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
+					zoomController.focusLevel.transform.position = Vector3.Lerp(cam_Infos[positionID].railsFocusTravelling[0].transform.position, cam_Infos[positionID].railsFocusTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);
 					
 					//Update position of the blastzone to kill player when they are to slow on scrolling mode
 					BlastZoneManager.Instance.transform.position = Vector3.Lerp(cam_Infos[positionID].railsBlastZoneTravelling[0].transform.position, cam_Infos[positionID].railsBlastZoneTravelling[1].transform.position, timeLerp / cam_Infos[positionID].durationTravelling);

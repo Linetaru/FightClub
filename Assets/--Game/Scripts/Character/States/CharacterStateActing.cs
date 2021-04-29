@@ -13,16 +13,17 @@ public class CharacterStateActing : CharacterState
 	[SerializeField]
 	CharacterMoveset characterMoveset;
 
+	bool homingDashRegister = false;
+
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		//Debug.Log("Action");
+		homingDashRegister = false;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		//character.Action.CanEndAction();
-		// Mettre les inputs en dessous
-		if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
+		if (homingDashRegister == true && character.MotionSpeed != 0)
 		{
 			if (character.Action.CharacterHit != null && character.PowerGauge.CurrentPower > 20) // On a touché quelqu'un 
 			{
@@ -31,6 +32,11 @@ public class CharacterStateActing : CharacterState
 				character.PowerGauge.ForceAddPower(-20);
 				return;
 			}
+		}
+		else if (character.Input.CheckAction(0, InputConst.LeftShoulder))
+		{
+			homingDashRegister = true;
+
 		}
 		characterMoveset.ActionAttack(character);
 	}
