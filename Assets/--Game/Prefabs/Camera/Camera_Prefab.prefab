@@ -338,7 +338,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5284728091476298527}
   - component: {fileID: 5284728091476298526}
-  - component: {fileID: 5284728091476298525}
   - component: {fileID: 5284728091476298512}
   - component: {fileID: 5284728091476298513}
   - component: {fileID: 8538390229823526924}
@@ -358,8 +357,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728091476298524}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.9, y: 15.3252, z: 10.691199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.9, y: 14, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5465881154624278073}
@@ -409,14 +408,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5284728091476298525
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5284728091476298524}
-  m_Enabled: 1
 --- !u!114 &5284728091476298512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,10 +533,10 @@ MonoBehaviour:
   smoothTime: 0.5
   ZoomInLimiter: 5
   ZoomOutLimiter: 0
-  focusLevelBoxCenter: {x: -0.2093773, y: 1.1, z: 0}
-  focusLevelBoxSize: {x: 32.6, y: 25, z: 0}
-  blastZoneBoxCenter: {x: 0.52355576, y: -3.4097404, z: 0}
-  blastZoneBoxSize: {x: 38.835213, y: 32.0124, z: 10}
+  focusLevelBoxCenter: {x: -1.07, y: 1.1, z: 0}
+  focusLevelBoxSize: {x: 42.9, y: 25, z: 0}
+  blastZoneBoxCenter: {x: 0.8, y: -3.4097404, z: 0}
+  blastZoneBoxSize: {x: 52.67, y: 38, z: 10}
   DebugArea: 1
   camConfig: {fileID: 0}
 --- !u!114 &8538390229823526924
@@ -575,36 +566,129 @@ MonoBehaviour:
     - {fileID: 7356702210667485821}
     - {fileID: 7356702209298322965}
     railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 7356702209040543224}
+    - {fileID: 7356702209705631873}
     railsBlastZoneTravelling:
     - {fileID: 7356702211077233033}
     - {fileID: 7356702210643295635}
-    timeBeforeMoving: 10
-    durationTravelling: 10
-    movingInY: 1
-    canvasPanelArrowToActivate: {fileID: 7356702209863148138}
-    objectDisableOnFocusMode: []
+    timeBeforeMoving: 20
+    durationTravelling: 25
+    movingInY: 0
+    canvasPanelArrowToActivate: {fileID: 7356702210126659203}
+    objectDisableOnFocusMode:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     platform: []
-  - cameraConfig: {fileID: 11400000, guid: 2f96d1c77f5abe74b88f036a3ca37b9a, type: 2}
+  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
     railsCamTravelling:
     - {fileID: 7356702209298322965}
-    - {fileID: 7356702210237618555}
+    - {fileID: 7356702210667485821}
     railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 7356702209705631873}
+    - {fileID: 7356702209040543224}
     railsBlastZoneTravelling:
     - {fileID: 7356702210643295635}
+    - {fileID: 7356702211077233033}
+    timeBeforeMoving: 20
+    durationTravelling: 25
+    movingInY: 0
+    canvasPanelArrowToActivate: {fileID: 7356702209945360186}
+    objectDisableOnFocusMode:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    platform:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
+    railsCamTravelling:
+    - {fileID: 7356702210667485821}
+    - {fileID: 7356702210237618555}
+    railsFocusTravelling:
+    - {fileID: 7356702209040543224}
+    - {fileID: 7356702211056221378}
+    railsBlastZoneTravelling:
+    - {fileID: 7356702211077233033}
     - {fileID: 7356702210315734991}
-    timeBeforeMoving: 10
-    durationTravelling: 10
-    movingInY: 1
-    canvasPanelArrowToActivate: {fileID: 7356702209863148138}
-    objectDisableOnFocusMode: []
-    platform: []
-  loopScrolling: 0
-  canScroll: 0
-  disableGameObjectOnStart: []
+    timeBeforeMoving: 20
+    durationTravelling: 25
+    movingInY: 0
+    canvasPanelArrowToActivate: {fileID: 7356702209945360186}
+    objectDisableOnFocusMode:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    platform:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
+    railsCamTravelling:
+    - {fileID: 7356702210237618555}
+    - {fileID: 7356702210667485821}
+    railsFocusTravelling:
+    - {fileID: 7356702211056221378}
+    - {fileID: 7356702209040543224}
+    railsBlastZoneTravelling:
+    - {fileID: 7356702210315734991}
+    - {fileID: 7356702211077233033}
+    timeBeforeMoving: 20
+    durationTravelling: 25
+    movingInY: 0
+    canvasPanelArrowToActivate: {fileID: 7356702210126659203}
+    objectDisableOnFocusMode:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    platform:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  loopScrolling: 1
+  canScroll: 1
+  disableGameObjectOnStart:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   timer: 0
   positionID: 0
 --- !u!114 &2000678810
@@ -668,8 +752,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5284728092334524679}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 7.22, y: 13.61, z: 30}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 6, y: 14, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2432747193972192253}
@@ -686,8 +770,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 32.6, y: 25, z: 0}
-  m_Center: {x: -0.2093773, y: 1.1, z: 0}
+  m_Size: {x: 42.9, y: 25, z: 0}
+  m_Center: {x: -1.07, y: 1.1, z: 0}
 --- !u!114 &65988687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,6 +838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedlines: {fileID: 3681285870152167748}
   screenShake: {fileID: 1630401892431900178}
+  camera: {fileID: 0}
+  cameraAnimator: {fileID: 0}
 --- !u!114 &1630401892431900178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,7 +955,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702209040543224}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6, y: 28.63, z: 30}
+  m_LocalPosition: {x: 6.8, y: 18.1, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702210220796348}
@@ -1049,7 +1135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702209298322965}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.9, y: 34.99, z: 16}
+  m_LocalPosition: {x: -83, y: 14, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209655956044}
@@ -1159,7 +1245,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702209705631873}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6, y: 43.63, z: 30}
+  m_LocalPosition: {x: -83.1, y: 16.5, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702210220796348}
@@ -1804,7 +1890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702210237618555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.9, y: 58.1, z: 16}
+  m_LocalPosition: {x: 101.96, y: 14, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209655956044}
@@ -1834,7 +1920,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702210315734991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 57.45, z: 30.25}
+  m_LocalPosition: {x: 102.4, y: 18.15, z: 30.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209906040682}
@@ -2014,7 +2100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702210643295635}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 38.93, z: 30.25}
+  m_LocalPosition: {x: -82.5, y: 18.15, z: 30.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702209906040682}
@@ -2149,7 +2235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7356702211056221378}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6, y: 57.53, z: 30}
+  m_LocalPosition: {x: 102.1, y: 16.8, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7356702210220796348}
