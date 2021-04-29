@@ -9,7 +9,7 @@ public class BallKickOffCharacterState : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		character.Stats.LifePercentage = 80f;
+		character.Stats.LifePercentage = 50f;
 	}
 
 	public override void UpdateState(CharacterBase character)

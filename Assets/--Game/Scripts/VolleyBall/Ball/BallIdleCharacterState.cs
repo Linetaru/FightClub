@@ -17,6 +17,10 @@ public class BallIdleCharacterState : CharacterState
     [SerializeField]
     GameObject trail;
 
+    bool hasTouchedScoreZone = false;
+    [HideInInspector] public bool hasRedTeamScored = false;
+
+
     [Title("Parameter - Collision")]
     [SerializeField]
     float collisionFriction = 5f;
@@ -31,13 +35,22 @@ public class BallIdleCharacterState : CharacterState
     float minimalVerticalSpeed = -3f;
 
 
-    private void Start()
-    {
-        
-    }
+    [Title("Ball Shadow")]
+    [SerializeField]
+    LayerMask layerMask;
+
+    [SerializeField]
+    SpriteRenderer ballShadowSprite;
+
+    RaycastHit hit;
+
+    float maxShadowDistance = 8.0f;
+
+    Color alphaColor;
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        hasTouchedScoreZone = false;
         character.Action.CancelAction();
 
         //Quand on frappe le ballon on repasse dans le start en changeant d'état
@@ -49,9 +62,9 @@ public class BallIdleCharacterState : CharacterState
 
         //if (oldState == this)
         //{
-            character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
-            character.Movement.SpeedX *= character.Movement.Direction;
-            character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+        character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
+        character.Movement.SpeedX *= character.Movement.Direction;
+        character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
         //}
         //else
         //{
@@ -63,44 +76,79 @@ public class BallIdleCharacterState : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 50.0f, layerMask))
+        {
+            if (ballShadowSprite.gameObject.activeInHierarchy)
+            {
+                //float distance = (hit.point.y - transform.position.y) / 8;
+                float newAlpha = 1 - ((transform.position.y - hit.point.y) / maxShadowDistance) + .25f;
+                alphaColor = new Color(ballShadowSprite.color.r, ballShadowSprite.color.g, ballShadowSprite.color.b, newAlpha);
+                ballShadowSprite.color = alphaColor;
+                ballShadowSprite.transform.position = new Vector3(hit.point.x, hit.point.y + .15f, hit.point.z);
+            }
+            else
+            {
+                ballShadowSprite.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (ballShadowSprite.gameObject.activeInHierarchy)
+            {
+                //ballShadowSprite.gameObject.SetActive(false);
+            }
+        }
         //if (character.Knockback.CanKnockback() && isKickOff)
         //    isKickOff = false;
 
         //if (!isKickOff)
         //{
-            if (Mathf.Abs(character.Movement.SpeedX) > minimalHorizontalSpeed)
-                character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) * Time.deltaTime;
+        if (Mathf.Abs(character.Movement.SpeedX) > minimalHorizontalSpeed)
+            character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) * Time.deltaTime;
 
 
-            if (character.Movement.SpeedY > minimalVerticalSpeed)
-                character.Movement.ApplyGravity(.6f);
+        if (character.Movement.SpeedY > minimalVerticalSpeed)
+            character.Movement.ApplyGravity(.6f);
 
 
-            if (character.Movement.SpeedY < minimalVerticalSpeed)
-                character.Movement.SpeedY += ((character.Movement.Gravity * .6f) * character.Movement.MotionSpeed) * Time.deltaTime;
+        if (character.Movement.SpeedY < minimalVerticalSpeed)
+            character.Movement.SpeedY += ((character.Movement.Gravity * .6f) * character.Movement.MotionSpeed) * Time.deltaTime;
 
-            if (character.Stats.LifePercentage != 80f)
-            {
-                character.Stats.LifePercentage = 80f;
-            }
+        if (character.Stats.LifePercentage != 80f)
+        {
+            character.Stats.LifePercentage = 80f;
+        }
 
         //}
         character.Knockback.UpdateKnockback(1);
 
         if (character.Knockback.KnockbackDuration > 0)
         {
-            if(!trail.activeInHierarchy)
-            trail.SetActive(true);
+            if (!trail.activeInHierarchy)
+                trail.SetActive(true);
         }
         else
         {
-            if(trail.activeInHierarchy)
-            trail.SetActive(false);
+            if (trail.activeInHierarchy)
+                trail.SetActive(false);
         }
 
 
-        if (character.Rigidbody.CollisionGroundInfo != null)
+        if (hasTouchedScoreZone)
             character.SetState(ballExplosionState);
+    }
+
+    public void RedTeamScored()
+    {
+        hasRedTeamScored = true;
+        hasTouchedScoreZone = true;
+    }
+
+    public void BlueTeamScored()
+    {
+        hasRedTeamScored = false;
+        hasTouchedScoreZone = true;
     }
 
     public override void LateUpdateState(CharacterBase character)
