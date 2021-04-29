@@ -17,6 +17,8 @@ public class BombIcon : Icon
 
     private int bombTimerInSeconds;
 
+    private bool timeOut;
+
     private void Start()
     {
         bombTimer = StickyBombManager.Instance.bombTimer;
@@ -27,9 +29,10 @@ public class BombIcon : Icon
         bombTimerInSeconds = (int) bombTimer % 60;
         bombTimerText.text = bombTimerInSeconds.ToString();
 
-        if(bombTimer <= 0f)
+        if(bombTimer <= 0f && !timeOut)
         {
-            Debug.Log("Manage EndGame");
+            timeOut = true;
+            StickyBombManager.Instance.TimeOutManager();
         }
     }
     public override void SwitchIcon()

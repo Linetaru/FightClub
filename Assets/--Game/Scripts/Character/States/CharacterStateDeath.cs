@@ -34,6 +34,7 @@ public class CharacterStateDeath : CharacterState
 			timer += Time.deltaTime;
 			if (timer >= timebeforeRespawn)
 			{
+				Debug.Log("RESPAWNING");
 				DisplayPlayer();
 				character.SetState(respawnState);
 			}

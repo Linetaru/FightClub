@@ -14,6 +14,9 @@ public class StickyBombManager : MonoBehaviour
     
     public float bombTimer = 10f;
 
+    [SerializeField]
+    private float timeBetweenRounds;
+
     private BattleManager battleManager;
 	public BattleManager BattleManager
     {
@@ -22,6 +25,11 @@ public class StickyBombManager : MonoBehaviour
 
     private CharacterBase oldBombedPlayer;
     private CharacterBase currentBombedPlayer;
+
+    //Float Event
+    public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
+    //Chararcter Event
+    public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
     private void Awake()
     {
@@ -49,13 +57,12 @@ public class StickyBombManager : MonoBehaviour
     }
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
-        if(user.CharacterIcon.enabled)
+        if(user.CharacterIcon.Icon.IsEnabled)
         {
             oldBombedPlayer = user;
             currentBombedPlayer = target;
             UpdateBombIcons();
         }
-
     }
 
     public void InitStickyBomb()
@@ -76,6 +83,57 @@ public class StickyBombManager : MonoBehaviour
             oldBombedPlayer.CharacterIcon.SwitchIcon();
 
         currentBombedPlayer.CharacterIcon.SwitchIcon();
+    }
+
+    public void TimeOutManager()
+    {
+        // Destroy all bombs
+        for (int i = 0; i < battleManager.characterAlive.Count; i++)
+        {
+            battleManager.characterAlive[i].CharacterIcon.DestroyIcon();
+        }
+
+
+        float stocks = currentBombedPlayer.Stats.LifeStocks;
+        string tag = currentBombedPlayer.gameObject.tag;
+
+        Debug.Log("TAG = " + tag);
+
+        if (stocks - 1 > 0)
+        {
+            // Respawn Manager
+            currentBombedPlayer.SetState(currentBombedPlayer.GetComponentInChildren<CharacterStateDeath>());
+            currentBombedPlayer.Stats.RespawnStats();
+
+        }
+        else
+        {
+            currentBombedPlayer.Stats.Death = true;
+            currentBombedPlayer.SetState(currentBombedPlayer.GetComponentInChildren<CharacterStateDeath>());
+            gameEventCharacterFullDead.Raise(currentBombedPlayer);
+        }
+
+        //Float Event to update Stock UI
+        if (tag == "Player1")
+            gameEventStocks[0].Raise(currentBombedPlayer);
+        else if (tag == "Player2")
+            gameEventStocks[1].Raise(currentBombedPlayer);
+        else if (tag == "Player3")
+            gameEventStocks[2].Raise(currentBombedPlayer);
+        else if (tag == "Player4")
+            gameEventStocks[3].Raise(currentBombedPlayer);
+
+
+        currentBombedPlayer = null;
+        oldBombedPlayer = null;
+
+        StartCoroutine(WaitBeforeNextRound());
+    }
+
+    IEnumerator WaitBeforeNextRound()
+    {
+        yield return new WaitForSecondsRealtime(timeBetweenRounds);
+        InitStickyBomb();
     }
 
 }
