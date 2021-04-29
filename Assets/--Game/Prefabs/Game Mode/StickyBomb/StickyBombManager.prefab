@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3699682369519073332}
   - component: {fileID: 3869414066446696964}
+  - component: {fileID: -8073147905216070132}
   m_Layer: 0
   m_Name: StickyBombManager
   m_TagString: Untagged
@@ -43,3 +44,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf3a8894ecfcbf42a93808532e03b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bombIcon: {fileID: 4377542281595168478, guid: 1301d964431999549a4148e350ccaf50, type: 3}
+  bombTimer: 10
+--- !u!114 &-8073147905216070132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699682369519073333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bb7c7027f1eee4ea5a989997db4b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEventCharacter: {fileID: 11400000, guid: ab57c87d9ce5f31438c992fa4dac88a5, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3869414066446696964}
+        m_TargetAssemblyTypeName: StickyBombManager, Assembly-CSharp
+        m_MethodName: ManageHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

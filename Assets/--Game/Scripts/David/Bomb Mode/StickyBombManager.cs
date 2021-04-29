@@ -5,17 +5,37 @@ using UnityEngine;
 
 public class StickyBombManager : MonoBehaviour
 {
-    public BattleManager battleManager;
+    // Singleton
+    private static StickyBombManager _instance;
+    public static StickyBombManager Instance { get { return _instance; } }
+
+    [SerializeField]
+    private BombIcon bombIcon;
+    
+    public float bombTimer = 10f;
+
+    private BattleManager battleManager;
 	public BattleManager BattleManager
     {
-        get { return battleManager; }
         set { battleManager = value; }
     }
 
     private CharacterBase oldBombedPlayer;
     private CharacterBase currentBombedPlayer;
 
-    //private UnityEvent<string> onHitColliderEvents;
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
 
     void Start()
     {
@@ -27,19 +47,27 @@ public class StickyBombManager : MonoBehaviour
     {
         
     }
-    public void TestHit(string tag)
+    public void ManageHit(CharacterBase user, CharacterBase target)
     {
-        Debug.Log(tag + " s'est fait rekt");
+        if(user.CharacterIcon.enabled)
+        {
+            oldBombedPlayer = user;
+            currentBombedPlayer = target;
+            UpdateBombIcons();
+        }
+
     }
 
     public void InitStickyBomb()
     {
+        for(int i = 0; i < battleManager.characterAlive.Count; i++)
+        {
+            battleManager.characterAlive[i].CharacterIcon.CreateIcon(bombIcon);
+        }
+
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
-
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
-
         UpdateBombIcons();
-
     }
 
     public void UpdateBombIcons()

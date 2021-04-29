@@ -5,14 +5,20 @@ using UnityEngine;
 public class CharacterIcon : MonoBehaviour
 {
     [SerializeField]
-    private SpriteRenderer iconRenderer;
+    private GameObject iconPos;
+
+    private Icon icon;
+
+    public void CreateIcon(Icon iconGO)
+    {
+        icon = Instantiate(iconGO);
+        icon.transform.parent = transform.root;
+        icon.transform.position = iconPos.transform.position;
+    }
 
     public void SwitchIcon()
     {
-        if (iconRenderer.enabled)
-            iconRenderer.enabled = false;
-        else
-            iconRenderer.enabled = true;
+        icon.SwitchIcon();
     }
 
 }
