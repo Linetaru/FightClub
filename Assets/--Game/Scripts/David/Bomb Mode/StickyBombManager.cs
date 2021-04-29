@@ -11,7 +11,10 @@ public class StickyBombManager : MonoBehaviour
 
     [SerializeField]
     private BombIcon bombIcon;
-    
+
+    [SerializeField]
+    private GameObject explosionPrefab;
+
     public float bombTimer = 10f;
 
     [SerializeField]
@@ -87,6 +90,8 @@ public class StickyBombManager : MonoBehaviour
 
     public void TimeOutManager()
     {
+        ExplosionDeath();
+
         // Destroy all bombs
         for (int i = 0; i < battleManager.characterAlive.Count; i++)
         {
@@ -128,6 +133,12 @@ public class StickyBombManager : MonoBehaviour
         oldBombedPlayer = null;
 
         StartCoroutine(WaitBeforeNextRound());
+    }
+
+    private void ExplosionDeath()
+    {
+        GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
+        Destroy(explosion, 4f);
     }
 
     IEnumerator WaitBeforeNextRound()
