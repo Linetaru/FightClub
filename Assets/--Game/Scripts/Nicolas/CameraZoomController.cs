@@ -464,9 +464,6 @@ public class CameraZoomController : MonoBehaviour
   
     private void LateUpdate()
     {
-        //Return if no target is fund to not get errors
-        if (targets.Count == 0)
-            return;
 
         //If camera don't scroll in the level so camera can focus on player and execute function.
         if (canFocus)
@@ -476,8 +473,7 @@ public class CameraZoomController : MonoBehaviour
         }
         else
         {
-            //UnZoomCamera();
-            GetNewBoundsEncapsulate();
+            UnZoomCamera();
         }
     }
 
@@ -487,6 +483,40 @@ public class CameraZoomController : MonoBehaviour
 
 
         SizeZoom = Mathf.Lerp(ZoomInLimiter, ZoomOutLimiter, GetGreatestDistance().magnitude / focusLevel.size.magnitude);
+    }
+
+    void UnZoomCamera()
+    {
+        SizeZoom = ZoomOutLimiter;
+
+        Bounds bluePlane = BoundsCameraView(SizeZoom, focusLevel.transform.position);
+
+        Bounds d = focusLevel.bounds;
+
+        float x = 0;
+        if (bluePlane.min.x < d.min.x)
+            x = d.min.x - bluePlane.min.x;
+        else if (bluePlane.max.x > d.max.x)
+            x = d.max.x - bluePlane.max.x;
+        else
+            Debug.Log("On fait rien en X c'ptain");
+
+        float y = 0;
+        if (bluePlane.min.y < d.min.y)
+            y = d.min.y - bluePlane.min.y;
+        else if (bluePlane.max.y > d.max.y)
+            y = d.max.y - bluePlane.max.y;
+        else
+            Debug.Log("On fait rien en Y c'ptain");
+
+        //Calculate new Position for the camera by calculating centerpoint with an offset
+        newPos = focusLevel.transform.position + offset;
+        newPos.x += x;
+        newPos.y += y;
+        newPos.z -= SizeZoom;
+
+        //Change transform position smoothly without jitter from new Pos vector we got.
+        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
     }
 
     //Move camera position smoothly by calculate position of all targets
@@ -612,6 +642,17 @@ public class CameraZoomController : MonoBehaviour
         smoothTime = cameraConfig.config_smoothTime;
 
         ZoomInLimiter = cameraConfig.config_ZoomInLimiter;
+
+        focusLevelBoxCenter = cameraConfig.config_FocusBoxCenter;
+        focusLevelBoxSize = cameraConfig.config_FocusBoxSize;
+
+        blastZoneBoxCenter = cameraConfig.config_BlastZoneBoxCenter;
+        blastZoneBoxSize = cameraConfig.config_BlastZoneBoxSize;
+
+        FocusLevelBoxCenter();
+        FocusLevelBoxSize();
+        BlastZoneBoxCenter();
+        BlastZoneBoxSize();
     }
 
 #if UNITY_EDITOR
@@ -633,6 +674,12 @@ public class CameraZoomController : MonoBehaviour
 
             camConfig.config_ZoomInLimiter = ZoomInLimiter;
 
+            camConfig.config_FocusBoxCenter = focusLevelBoxCenter;
+            camConfig.config_FocusBoxSize = focusLevelBoxSize;
+
+            camConfig.config_BlastZoneBoxCenter = blastZoneBoxCenter;
+            camConfig.config_BlastZoneBoxSize = blastZoneBoxSize;
+
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
         }
@@ -649,6 +696,17 @@ public class CameraZoomController : MonoBehaviour
             smoothTime = camConfig.config_smoothTime;
 
             ZoomInLimiter = camConfig.config_ZoomInLimiter;
+
+            focusLevelBoxCenter = camConfig.config_FocusBoxCenter;
+            focusLevelBoxSize = camConfig.config_FocusBoxSize;
+
+            blastZoneBoxCenter = camConfig.config_BlastZoneBoxCenter;
+            blastZoneBoxSize = camConfig.config_BlastZoneBoxSize;
+
+            FocusLevelBoxCenter();
+            FocusLevelBoxSize();
+            BlastZoneBoxCenter();
+            BlastZoneBoxSize();
 
             UnityEditor.EditorUtility.SetDirty(camConfig);
             camConfig = null;
