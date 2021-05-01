@@ -178,8 +178,11 @@ public class AttackSubManager : MonoBehaviour
         AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
         if (atkMan != null)
         {
+            if (atkMan.User.TeamID == user.TeamID) // Pour empêcher les joueurs dans la même équipes de clash
+                return;
+
             attackClashed = atkMan;
-            user.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + user.CenterPoint.position) / 2f;
+            user.Knockback.ContactPoint = (atkMan.HitBox.bounds.center + user.CenterPoint.position) * 0.5f;
             atkMan.User.Knockback.RegisterHit(this);
         }
     }

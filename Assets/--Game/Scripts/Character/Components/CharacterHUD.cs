@@ -76,6 +76,7 @@ public class CharacterHUD : MonoBehaviour
 	public void InitPlayerPanel(CharacterBase user)
 	{
 		user.Stats.gameEvent.RegisterListener(listener);
+		user.Knockback.Parry.OnParry += CallbackParry;
 		this.gameObject.SetActive(true);
 
 		/*panelUI.SetActive(true);
@@ -142,5 +143,10 @@ public class CharacterHUD : MonoBehaviour
 
 		if(power > 0)
 			DrawGauge(power);
+	}
+
+	public void CallbackParry(CharacterBase c)
+	{
+		animatorParry.SetTrigger("Feedback");
 	}
 }
