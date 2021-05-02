@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 
 public class CharacterHUD : MonoBehaviour
@@ -102,8 +103,8 @@ public class CharacterHUD : MonoBehaviour
 	{
 		float coef = percent / maxPercent;
 		healthGaugeColor.color = gradient.Evaluate(coef);
-		//healthGauge.DOFillAmount((percentCalculate + 0.10f) + 1 - ((percentCalculate + 0.10f) * 2), 0.5f);
-		healthGauge.fillAmount = 1 - (coef);
+		healthGauge.DOFillAmount(1 - coef, 0.5f);
+		//healthGauge.fillAmount = 1 - (coef);
 
 		shake.Shake(shakePower.x + ((shakePower.y - shakePower.x ) * coef), shakeTime.x + ((shakeTime.y - shakeTime.x) * coef));
 		animatorHealthDanger.SetFloat("Health", coef);

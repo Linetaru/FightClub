@@ -36,8 +36,20 @@ public class AttackSubManager : MonoBehaviour
         get { return clashCancel; }
     }
 
-
-
+    [HorizontalGroup("Break")]
+    [SerializeField]
+    private bool breakParry = false;
+    public bool BreakParry
+    {
+        get { return breakParry; }
+    }
+    [HorizontalGroup("Break")]
+    [SerializeField]
+    private bool breakGuard = false;
+    public bool BreakGuard
+    {
+        get { return breakGuard; }
+    }
 
     CharacterBase user;
     public CharacterBase User
@@ -48,7 +60,7 @@ public class AttackSubManager : MonoBehaviour
 
 
     // Ces deux flags sont utilisés pour les collisions et gérer leur priorité (Clash prio sur Hit)
-    bool hasHit;
+    /*bool hasHit;
     public bool HasHit
     {
         get { return hasHit; }
@@ -57,9 +69,17 @@ public class AttackSubManager : MonoBehaviour
     public bool HasClash
     {
         get { return hasClash; }
-    }
+    }*/
 
     private List<string> playerHitList = new List<string>();
+
+    // Utilisé pour identifier l'attaque
+    string attackID = "";
+    public string AttackID
+    {
+        get { return attackID; }
+    }
+
 
 
     [Button]
@@ -85,11 +105,12 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
-    public void InitAttack(CharacterBase character)
+    public void InitAttack(CharacterBase character, string attackName)
     {
         tag = character.tag;
         user = character;
         hitBox.enabled = false;
+        attackID = attackName;
 
         for (int i = 0; i < atkCompList.Count; i++)
         {

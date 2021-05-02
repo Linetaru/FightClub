@@ -130,6 +130,8 @@ public class CharacterParry : MonoBehaviour
 	{
 		if (isParry == false)
 			return false;
+		else if (attackManager.BreakParry == true)
+			return false;
 		return CheckAngle(attackManager);
 	}
 
@@ -141,6 +143,8 @@ public class CharacterParry : MonoBehaviour
 	public virtual bool CanGuard(AttackSubManager attackManager)
 	{
 		if (isGuard == false)
+			return false;
+		else if (attackManager.BreakGuard == true)
 			return false;
 		return CheckAngle(attackManager);
 	}
