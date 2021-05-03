@@ -45,12 +45,12 @@ public class BattleManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		SpawnPlayer();
 		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
 		{
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
 		}
-		SpawnPlayer();
 	}
 
 	// Update is called once per frame

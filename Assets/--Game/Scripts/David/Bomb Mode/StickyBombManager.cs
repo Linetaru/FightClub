@@ -34,6 +34,9 @@ public class StickyBombManager : MonoBehaviour
     //Chararcter Event
     public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
+    [SerializeField]
+    private StatusData status;
+
     private void Awake()
     {
         if(_instance != null && _instance != this)
@@ -63,7 +66,9 @@ public class StickyBombManager : MonoBehaviour
         if(user.CharacterIcon.Icon.IsEnabled)
         {
             oldBombedPlayer = user;
+            oldBombedPlayer.Status.RemoveStatus("osef");
             currentBombedPlayer = target;
+            currentBombedPlayer.Status.AddStatus(new Status("osef", status));
             UpdateBombIcons();
         }
     }
@@ -77,6 +82,7 @@ public class StickyBombManager : MonoBehaviour
 
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
+        currentBombedPlayer.Status.AddStatus(new Status("osef", status));
         UpdateBombIcons();
     }
 
@@ -129,6 +135,7 @@ public class StickyBombManager : MonoBehaviour
             gameEventStocks[3].Raise(currentBombedPlayer);
 
 
+        currentBombedPlayer.Status.RemoveStatus("osef");
         currentBombedPlayer = null;
         oldBombedPlayer = null;
 
