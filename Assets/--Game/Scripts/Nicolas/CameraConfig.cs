@@ -7,7 +7,7 @@ using System;
 [CreateAssetMenu(fileName = "CameraConfig", menuName = "Camera/CameraConfig", order = 1)]
 public class CameraConfig : ScriptableObject
 {
-    [Title("-| Config Zoom Controller |-")]
+    [Title("-- Config Zoom Controller")]
     [SerializeField]
     public Vector3 config_offset;
 
@@ -17,6 +17,17 @@ public class CameraConfig : ScriptableObject
     [Title("-- Zoom Parameter")]
     [SerializeField]
     public float config_ZoomInLimiter = 5f;
+
+    [Title("-- Focus Parameter")]
+    public Vector3 config_FocusBoxCenter;
+    public Vector3 config_FocusBoxSize;
+
+    [Title("-- BlastZone Parameter")]
+    public Vector3 config_BlastZoneBoxCenter;
+    public Vector3 config_BlastZoneBoxSize;
+
+
+
     //[SerializeField]
     //public float config_maxZoom = 10f;
     //[SerializeField]
