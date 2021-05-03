@@ -18,7 +18,6 @@ public class AttackManager : MonoBehaviour
 
 
 
-
     [Title("Parameters")]
     [SerializeField]
     bool linkToCharacter = true;

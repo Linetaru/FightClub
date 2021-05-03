@@ -16,12 +16,14 @@ namespace PackageCreator.Event
 
         private void OnEnable()
         {
-            gameEventCharacter.RegisterListener(this);
+            if (gameEventCharacter != null)
+                gameEventCharacter.RegisterListener(this);
         }
 
         private void OnDisable()
         {
-            gameEventCharacter.UnregisterListener(this);
+            if(gameEventCharacter != null)
+                gameEventCharacter.UnregisterListener(this);
         }
 
         public void OnEventRaised(CharacterBase cb_Value, float f_value, int i_value)
