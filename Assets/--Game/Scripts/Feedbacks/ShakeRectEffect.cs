@@ -23,7 +23,10 @@ namespace Feedbacks
             origin = rectTransform.anchoredPosition;
         }
 
-
+        public void ShakeEvent()
+        {
+            Shake();
+        }
 
         public void Shake(float power, float time)
         {

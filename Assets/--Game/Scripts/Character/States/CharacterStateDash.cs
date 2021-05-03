@@ -69,6 +69,11 @@ public class CharacterStateDash : CharacterState
 		if (inDashStartup == true)
 		{
 			t += Time.deltaTime;
+			if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) != dashDirection)
+			{
+				character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+				character.SetState(this);
+			}
 			if (t < dashStartup)
 			{
 				character.Movement.SpeedX = 0;
@@ -77,12 +82,6 @@ public class CharacterStateDash : CharacterState
 			{
 				character.Movement.MaxAcceleration();
 				character.Movement.SpeedX = character.Movement.SpeedMax * dashMultiplier;
-				if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) != dashDirection) 
-				{
-					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-					character.SetState(this);
-				}
-
 			}
 			/*else if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) != dashDirection)
 			{
@@ -100,7 +99,12 @@ public class CharacterStateDash : CharacterState
 		}
 		else if (inDashStartup == false)
 		{
-			if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold)
+			if(!character.Input.CheckActionHold(InputConst.RightTrigger)) 
+			{
+				character.Movement.Decelerate();
+				character.SetState(idleState);
+			}
+			else if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold)
 			{
 				if (character.Movement.SpeedX < character.Movement.SpeedMax)
 					character.Movement.Accelerate();

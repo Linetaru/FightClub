@@ -116,6 +116,10 @@ public class CharacterStateIdle : CharacterState
 		{
 
 		}
+		else if (character.Input.CheckActionHold(InputConst.RightTrigger) && character.Input.horizontal > 0.7f)
+		{
+			character.SetState(dashState);
+		}
 		else if (evasiveMoveset.Dodge(character) == true)
 		{
 
@@ -124,6 +128,7 @@ public class CharacterStateIdle : CharacterState
         {
 
         }
+
 	}
 
 
