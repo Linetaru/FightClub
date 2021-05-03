@@ -153,7 +153,6 @@ public class InputController : SerializedMonoBehaviour
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
-					playerInputs[i].inputUiAction = null;
 					pauseEvent.Raise();
 				}
 
