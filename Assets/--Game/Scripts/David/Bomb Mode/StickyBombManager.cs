@@ -29,6 +29,8 @@ public class StickyBombManager : MonoBehaviour
     private CharacterBase oldBombedPlayer;
     private CharacterBase currentBombedPlayer;
 
+    private Vector3 playerOriginalScale;
+
     //Float Event
     public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
     //Chararcter Event
@@ -67,7 +69,9 @@ public class StickyBombManager : MonoBehaviour
         {
             oldBombedPlayer = user;
             oldBombedPlayer.Status.RemoveStatus("osef");
+            oldBombedPlayer.transform.localScale = playerOriginalScale;
             currentBombedPlayer = target;
+            playerOriginalScale = currentBombedPlayer.transform.localScale;
             currentBombedPlayer.Status.AddStatus(new Status("osef", status));
             UpdateBombIcons();
         }
@@ -82,7 +86,12 @@ public class StickyBombManager : MonoBehaviour
 
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
+
+        playerOriginalScale = currentBombedPlayer.transform.localScale;
+
         currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+
+        StartCoroutine(LerpScale());
         UpdateBombIcons();
     }
 
@@ -98,6 +107,7 @@ public class StickyBombManager : MonoBehaviour
     {
         ExplosionDeath();
         currentBombedPlayer.Status.RemoveStatus("osef");
+        currentBombedPlayer.transform.localScale = playerOriginalScale;
 
         // Destroy all bombs
         for (int i = 0; i < battleManager.characterAlive.Count; i++)
@@ -152,6 +162,20 @@ public class StickyBombManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
         InitStickyBomb();
+    }
+
+
+
+    IEnumerator LerpScale()
+    {
+        float time = 0f;
+
+        while (time < bombTimer)
+        {
+            currentBombedPlayer.transform.localScale = Vector3.Lerp(playerOriginalScale, new Vector3(2, 2, 2), time / bombTimer);
+            time += Time.deltaTime;
+            yield return null;
+        }
     }
 
 }
