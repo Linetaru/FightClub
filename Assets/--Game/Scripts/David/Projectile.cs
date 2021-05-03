@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         rb = GetComponent<CharacterRigidbodySlope>();
-        GetComponentInChildren<AttackSubManager>().InitAttack(User);
+        GetComponentInChildren<AttackSubManager>().InitAttack(User, this.gameObject.name);
         GetComponentInChildren<AttackSubManager>().ActionActive();
         speedX = speedMax;
     }

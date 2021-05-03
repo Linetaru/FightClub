@@ -77,7 +77,8 @@ public class CharacterKnockback : MonoBehaviour
 
 
 
-
+    public EventAttackSubManager OnKnockback;
+    List<AttackSubManager> atkRegistered = new List<AttackSubManager>();
 
     [Title("FeedbackComponents")]
     [SerializeField]
@@ -97,13 +98,11 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-    public void Hit()
+    /*public void Hit()
     {
         // Event onHit
-    }
+    }*/
 
-
-    List<AttackSubManager> atkRegistered = new List<AttackSubManager>();
 
     public void RegisterHit(AttackSubManager attack)
     {
@@ -156,8 +155,9 @@ public class CharacterKnockback : MonoBehaviour
                 atkRegistered[i].Hit(character);
                 if (CanKnockback() == true)
                     character.SetState(stateKnockback); // Pardon
+                OnKnockback?.Invoke(atkRegistered[i]);
 
-                
+
             }
             atkRegistered.RemoveAt(i);
         }

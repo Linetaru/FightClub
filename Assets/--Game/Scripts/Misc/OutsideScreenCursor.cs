@@ -9,12 +9,16 @@ public class OutsideScreenCursor : MonoBehaviour
 	[Title("Logic")]
 	[SerializeField]
 	Transform character;
+	[SerializeField]
+	BoxCollider blastZones;
 
 	[Title("UI")]
 	[SerializeField]
 	RectTransform cursorTransform;
 	[SerializeField]
 	RectTransform pivotArrow;
+	[SerializeField]
+	RectTransform blastZoneFill;
 
 	Camera cam;
 	Vector2 viewportPos;
@@ -73,6 +77,21 @@ public class OutsideScreenCursor : MonoBehaviour
 		//cursorTransform.anchoredPosition *= new Vector2(Mathf.Sign(viewportDirection.x), Mathf.Sign(viewportDirection.y));
 
 		pivotArrow.transform.localEulerAngles = new Vector3(0, 0, -Vector2.SignedAngle(viewportDirection, Vector2.down));
+		DrawBlastZoneFilled(viewportDirection);
+	}
 
+
+	private void DrawBlastZoneFilled(Vector2 viewportDir)
+	{
+		if (blastZones == null)
+			return;
+		Vector3 edgePosition = cam.ViewportToWorldPoint(new Vector3(viewportDir.x, viewportDir.y,blastZones.transform.position.z - cam.transform.position.z)); // Demander a nicolas de faire une fonction pour récupérer le carré bleu
+		Debug.Log(edgePosition);
+		//if (viewportDir.x == 1)
+
+		float distanceToBlastZone = (character.transform.position.x - edgePosition.x);
+		float distanceMax = (blastZones.bounds.max.x - edgePosition.x);
+		float ratio = distanceToBlastZone / distanceMax;
+		blastZoneFill.localScale = new Vector3(ratio, 1, 1);
 	}
 }

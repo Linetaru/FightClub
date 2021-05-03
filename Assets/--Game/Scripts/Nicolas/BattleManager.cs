@@ -10,6 +10,9 @@ public class BattleManager : MonoBehaviour
 	[Expandable]
 	public GameData gameData;
 
+	[Title("Game Mode Managers")]
+	public GameObject BombModeManager;
+
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
 
@@ -43,6 +46,11 @@ public class BattleManager : MonoBehaviour
 	void Start()
 	{
 		SpawnPlayer();
+		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+		{
+			GameObject go = Instantiate(BombModeManager, transform.parent);
+			go.GetComponent<StickyBombManager>().BattleManager = this;
+		}
 	}
 
 	// Update is called once per frame
