@@ -17,6 +17,7 @@ public class CharacterStateDeath : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		character.Stats.LifeStocks--;
+		character.Stats.LifePercentage = 0;
 		HidePlayer();
 		character.Action.CancelAction();
 		character.Knockback.IsInvulnerable = true;
