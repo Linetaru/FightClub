@@ -97,6 +97,7 @@ public class StickyBombManager : MonoBehaviour
     public void TimeOutManager()
     {
         ExplosionDeath();
+        currentBombedPlayer.Status.RemoveStatus("osef");
 
         // Destroy all bombs
         for (int i = 0; i < battleManager.characterAlive.Count; i++)
@@ -135,7 +136,6 @@ public class StickyBombManager : MonoBehaviour
             gameEventStocks[3].Raise(currentBombedPlayer);
 
 
-        currentBombedPlayer.Status.RemoveStatus("osef");
         currentBombedPlayer = null;
         oldBombedPlayer = null;
 
