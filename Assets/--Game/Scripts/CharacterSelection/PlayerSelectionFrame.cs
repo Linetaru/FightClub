@@ -106,8 +106,6 @@ public class PlayerSelectionFrame : MonoBehaviour
     [HideInInspector]
     public bool joystickPushed = false;
 
-    public string menuSceneName;
-
 
     private void Awake()
     {
