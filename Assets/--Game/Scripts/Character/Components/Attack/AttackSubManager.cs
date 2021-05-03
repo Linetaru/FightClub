@@ -38,17 +38,17 @@ public class AttackSubManager : MonoBehaviour
 
     [HorizontalGroup("Break")]
     [SerializeField]
-    private bool breakParry = false;
+    private bool parryBreak = false;
     public bool BreakParry
     {
-        get { return breakParry; }
+        get { return parryBreak; }
     }
     [HorizontalGroup("Break")]
     [SerializeField]
-    private bool breakGuard = false;
+    private bool guardBreak = false;
     public bool BreakGuard
     {
-        get { return breakGuard; }
+        get { return guardBreak; }
     }
 
     CharacterBase user;

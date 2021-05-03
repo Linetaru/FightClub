@@ -7,18 +7,27 @@ using Sirenix.OdinInspector;
 public class MissionInputLand : MissionInputCondition
 {
 
+	bool condition = false;
+
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
+		player.OnStateChanged += CallbackCondition;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
-		return (player.CurrentState is CharacterStateLanding);
+		return condition;
 	}
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
-		
+		player.OnStateChanged -= CallbackCondition;
+	}
+
+	public void CallbackCondition(CharacterState oldState, CharacterState newState)
+	{
+		if(newState is CharacterStateLanding)
+			condition = true;
 	}
 
 }

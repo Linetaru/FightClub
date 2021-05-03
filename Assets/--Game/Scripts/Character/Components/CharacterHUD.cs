@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TMPro;
 
 public class CharacterHUD : MonoBehaviour
 {
@@ -35,12 +36,20 @@ public class CharacterHUD : MonoBehaviour
 	[SerializeField]
 	Image healthGauge;
 
+	[Space]
 	[SerializeField]
 	Image[] powerGauge;
 	[SerializeField]
 	Sprite[] powerGaugeOn;
 	[SerializeField]
 	Sprite[] powerGaugeOff;
+
+
+	[Space]
+	[SerializeField]
+	Image[] livesImage;
+	[SerializeField]
+	TextMeshProUGUI textLivesNumber;
 
 	[Space]
 	[Title("Feedbacks")]
@@ -50,6 +59,12 @@ public class CharacterHUD : MonoBehaviour
 	Vector2 shakeTime;
 	[SerializeField]
 	Feedbacks.ShakeRectEffect shake;
+
+
+	[SerializeField]
+	Vector2 shakeHUDPower;
+	[SerializeField]
+	Feedbacks.ShakeRectEffect shakeHUD;
 
 	[Space]
 	[SerializeField]
@@ -80,18 +95,11 @@ public class CharacterHUD : MonoBehaviour
 		user.Knockback.Parry.OnParry += CallbackParry;
 		this.gameObject.SetActive(true);
 
-		/*panelUI.SetActive(true);
-		UpdatePercentUI(0);
+		DrawPercent(user.Stats.LifePercentage);
+		DrawGauge(user.PowerGauge.CurrentPower);
+		DrawLives(user.Stats.LifeStocks);
 
-		//percentText.text = user.Stats.LifePercentage.ToString() + " %";
-		if (!imagesLife[0].gameObject.activeSelf)
-			imagesLife[0].gameObject.SetActive(true);
-		UpdateStocksUI(user);
 
-		for (int i = 0; i < powerGaugeImages.Length; i++)
-		{
-			powerGaugeImages[i].fillAmount = 0;
-		}*/
 	}
 
 	public void SetColor(Color c)
@@ -107,6 +115,10 @@ public class CharacterHUD : MonoBehaviour
 		//healthGauge.fillAmount = 1 - (coef);
 
 		shake.Shake(shakePower.x + ((shakePower.y - shakePower.x ) * coef), shakeTime.x + ((shakeTime.y - shakeTime.x) * coef));
+		if (shakeHUDPower.x + ((shakeHUDPower.y - shakeHUDPower.x) * coef) > 0)
+			shakeHUD.Shake(shakeHUDPower.x + ((shakeHUDPower.y - shakeHUDPower.x) * coef), 999);
+		else
+			shakeHUD.Shake(0, 0);
 		animatorHealthDanger.SetFloat("Health", coef);
 
 		if (coef > 1)
@@ -136,15 +148,45 @@ public class CharacterHUD : MonoBehaviour
 		previousGauge = gauge;
 	}
 
+	public void DrawLives(int nbLives)
+	{
+		if(nbLives > livesImage.Length)
+		{
+			textLivesNumber.gameObject.SetActive(true);
+			textLivesNumber.text = "x" + nbLives;
+		}
+		else
+		{
+			textLivesNumber.gameObject.SetActive(false);
+			for (int i = 0; i < nbLives; i++)
+			{
+				livesImage[i].gameObject.SetActive(true);
+			}
+			for (int i = nbLives; i < livesImage.Length; i++)
+			{
+				livesImage[i].gameObject.SetActive(false);
+			}
+		}
+	}
+
 
 	public void UpdateHUD(CharacterBase user, float percent, int power)
 	{
-		if(percent > 0)
+		if(user != null)
+			DrawLives(user.Stats.LifeStocks);
+
+		if (percent > 0)
 			DrawPercent(percent);
 
 		if(power > 0)
 			DrawGauge(power);
 	}
+
+
+
+
+
+
 
 	public void CallbackParry(CharacterBase c)
 	{
