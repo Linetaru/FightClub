@@ -10,7 +10,7 @@ public class Icon : MonoBehaviour
         get { return isEnabled; }
         set { isEnabled = value; }
     }
-    public virtual void SwitchIcon()
+    public virtual void SwitchIcon(bool param)
     {
     }
 }

@@ -26,9 +26,9 @@ public class CharacterIcon : MonoBehaviour
         Destroy(icon.gameObject);
     }
 
-    public void SwitchIcon()
+    public void SwitchIcon(bool param)
     {
-        icon.SwitchIcon();
+        icon.SwitchIcon(param);
     }
 
 }
