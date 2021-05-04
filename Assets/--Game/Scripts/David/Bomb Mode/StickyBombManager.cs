@@ -10,6 +10,8 @@ public class StickyBombManager : MonoBehaviour
     private static StickyBombManager _instance;
     public static StickyBombManager Instance { get { return _instance; } }
 
+    enum RoundMode { Normal, FakeBomb, Invisible}
+
     [Title("Objects")]
     [SerializeField]
     private BombIcon bombIcon;
@@ -18,7 +20,11 @@ public class StickyBombManager : MonoBehaviour
     private GameObject explosionPrefab;
 
     [Title("Round Infos")]
+    private int currentRound = 0;
+    private RoundMode currentRoundMode;
+
     public float bombTimer = 10f;
+
     [SerializeField]
     private float timeBetweenRounds;
 
@@ -68,9 +74,6 @@ public class StickyBombManager : MonoBehaviour
     private StatusData status;
 
 
-    // Test Rounds
-    private int currentRound = 0;
-
     private void Awake()
     {
         if(_instance != null && _instance != this)
@@ -107,22 +110,18 @@ public class StickyBombManager : MonoBehaviour
             oldBombedPlayer.transform.localScale = playerOriginalScale;
             currentBombedPlayer = target;
 
-            playerOriginalScale = currentBombedPlayer.transform.localScale;
-            currentBombedPlayer.Status.AddStatus(new Status("osef", status));
-            UpdateBombIcons();
+            if(currentRoundMode != RoundMode.Invisible)
+                UpdateBombInfos();
         }
         else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
         {
             oldFakeBombedPlayer = user;
-
             currentFakeBombedPlayer.Status.RemoveStatus("osef");
             currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
-
             currentFakeBombedPlayer = target;
-            fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
-            currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-            UpdateFakeBombIcons();
+            if (currentRoundMode != RoundMode.Invisible)
+                UpdateFakeBombInfos();
         }
         else if(user != currentBombedPlayer && user != currentFakeBombedPlayer)
         {
@@ -133,26 +132,20 @@ public class StickyBombManager : MonoBehaviour
                 oldBombedPlayer.transform.localScale = playerOriginalScale;
                 currentBombedPlayer = user;
 
-                playerOriginalScale = currentBombedPlayer.transform.localScale;
-                currentBombedPlayer.Status.AddStatus(new Status("osef", status));
-                UpdateBombIcons();
+                if (currentRoundMode != RoundMode.Invisible)
+                    UpdateBombInfos();
             }
             else if(target == currentFakeBombedPlayer)
             {
                 oldFakeBombedPlayer = target;
-
                 currentFakeBombedPlayer.Status.RemoveStatus("osef");
                 currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
-
                 currentFakeBombedPlayer = user;
-                fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
-                currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-                UpdateFakeBombIcons();
+                if (currentRoundMode != RoundMode.Invisible)
+                    UpdateFakeBombInfos();
             }
         }
-        
-
 
         // Si on veut le transfert de bombe seulement par celui qui la possède
         /*
@@ -189,8 +182,10 @@ public class StickyBombManager : MonoBehaviour
 
     public void InitStickyBomb()
     {
-        timeOut = false;
         currentRound++;
+        UpdateRoundMode();
+
+        timeOut = false;
 
         if (battleManager.characterAlive.Count < 3)
             roundsWithFakeBomb.Clear();
@@ -202,21 +197,22 @@ public class StickyBombManager : MonoBehaviour
 
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
-        playerOriginalScale = currentBombedPlayer.transform.localScale;
-        currentBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-        StartCoroutine(LerpScale(currentBombedPlayer));
+        if(currentRoundMode != RoundMode.Invisible)
+        {
+            playerOriginalScale = currentBombedPlayer.transform.localScale;
+            currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+            StartCoroutine(LerpScale(currentBombedPlayer));
 
-        FakeBombManager();
+            FakeBombManager();
 
-        UpdateBombIcons();
-
-        UpdateFakeBombIcons();
+            UpdateBombInfos();
+        }
     }
 
     public void FakeBombManager()
     {
-        if(roundsWithFakeBomb.Contains(currentRound))
+        if(currentRoundMode == RoundMode.FakeBomb)
         {
             List<CharacterBase> tmpList = new List<CharacterBase>(battleManager.characterAlive);
             tmpList.Remove(currentBombedPlayer);
@@ -227,12 +223,17 @@ public class StickyBombManager : MonoBehaviour
 
             fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
 
+            UpdateFakeBombInfos();
+
             StartCoroutine(LerpScale(currentFakeBombedPlayer));
         }
     }
 
-    public void UpdateBombIcons()
+    public void UpdateBombInfos()
     {
+        playerOriginalScale = currentBombedPlayer.transform.localScale;
+        currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+
         if (oldBombedPlayer != null)
             oldBombedPlayer.CharacterIcon.SwitchIcon();
 
@@ -240,22 +241,27 @@ public class StickyBombManager : MonoBehaviour
             currentBombedPlayer.CharacterIcon.SwitchIcon();
     }
 
-    public void UpdateFakeBombIcons()
+    public void UpdateFakeBombInfos()
     {
-        if (oldFakeBombedPlayer != null)
+        if (currentRoundMode == RoundMode.FakeBomb)
         {
-            oldFakeBombedPlayer.CharacterIcon.SwitchIcon();
-        }
+            fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
+            currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-        if (currentFakeBombedPlayer != null)
-        {
-            currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
+            if (oldFakeBombedPlayer != null)
+            {
+                oldFakeBombedPlayer.CharacterIcon.SwitchIcon();
+            }
+
+            if (currentFakeBombedPlayer != null)
+            {
+                currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
+            }
         }
     }
 
     public void TimeOut()
     {
-
         ExplosionDeath();
 
         if (currentFakeBombedPlayer != null)
@@ -265,6 +271,7 @@ public class StickyBombManager : MonoBehaviour
             currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
             currentFakeBombedPlayer = null;
         }
+
         currentBombedPlayer.Status.RemoveStatus("osef");
         currentBombedPlayer.transform.localScale = playerOriginalScale;
 
@@ -307,6 +314,16 @@ public class StickyBombManager : MonoBehaviour
         StartCoroutine(WaitBeforeNextRound());
     }
 
+    private void UpdateRoundMode()
+    {
+        if (roundsWithFakeBomb.Contains(currentRound))
+            currentRoundMode = RoundMode.FakeBomb;
+        else if (roundsWithInvisibleBomb.Contains(currentRound))
+            currentRoundMode = RoundMode.Invisible;
+        else
+            currentRoundMode = RoundMode.Normal;
+    }
+
     private void TimerManager()
     {
         if(!timeOut)
@@ -340,7 +357,6 @@ public class StickyBombManager : MonoBehaviour
 
         while (bombTimer > 0)
         {
-            Debug.LogError("UP SCALE !!!!");
             if(currentBombedPlayer != null)
             {
                 // valeur arbitraire tmp pour le scale
