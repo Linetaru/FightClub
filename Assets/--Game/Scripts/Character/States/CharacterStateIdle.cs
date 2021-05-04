@@ -69,6 +69,7 @@ public class CharacterStateIdle : CharacterState
 	{
 		dashTimer = 0;
 		character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
+		character.Rigidbody.PreventFall(false);
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -76,7 +77,7 @@ public class CharacterStateIdle : CharacterState
 		Movement(character);
 		character.Movement.SpeedY = gravityConst;
 
-		if (character.Rigidbody.CollisionGroundInfo != null)
+		/*if (character.Rigidbody.CollisionGroundInfo != null)
 		{
 			if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
 			{
@@ -86,7 +87,7 @@ public class CharacterStateIdle : CharacterState
 			{
 				character.Rigidbody.PreventFall(true);
 			}
-		}
+		}*/
 
 
 		if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash)) 
@@ -136,9 +137,9 @@ public class CharacterStateIdle : CharacterState
 	{
 		if (character.Rigidbody.CollisionWallInfo.Collision != null && canWallRun == true) // ------------ Wall run
 		{
-			if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
-				character.SetState(wallRunState);
-			else if (character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
+			/*if (character.Movement.SpeedX > speedRequiredForWallRun && character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
+				character.SetState(wallRunState);*/
+			if (character.Rigidbody.CollisionWallInfo.Collision.gameObject.layer == 15)
 				character.Movement.ResetAcceleration(); // On reset l'acceleration pour ne pas avoir une vitesse de ouf quand le mur disparait
 		}	
 		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
