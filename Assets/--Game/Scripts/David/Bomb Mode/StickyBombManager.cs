@@ -16,12 +16,17 @@ public class StickyBombManager : MonoBehaviour
     private GameObject explosionPrefab;
 
     public float bombTimer = 10f;
+    private float originalBombTimer;
+
+    private bool timeOut = true;
 
     [SerializeField]
     private float timeBetweenRounds;
 
     [SerializeField]
     private List<int> roundsWithFakeBomb = new List<int> { 2, 6, 10 };
+    [SerializeField]
+    private List<int> roundsWithInvisibleBomb = new List<int> { 5, 8, 14 };
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -65,16 +70,75 @@ public class StickyBombManager : MonoBehaviour
 
     void Start()
     {
+        originalBombTimer = bombTimer;
         InitStickyBomb();
     }
 
-
     void Update()
     {
-        
+        TimerManager();
     }
+
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
+        // Si on veut le transfert de bombe dans tous les cas
+        
+        if (user == currentBombedPlayer && target != currentFakeBombedPlayer)
+        {
+            oldBombedPlayer = user;
+            oldBombedPlayer.Status.RemoveStatus("osef");
+            oldBombedPlayer.transform.localScale = playerOriginalScale;
+            currentBombedPlayer = target;
+
+            playerOriginalScale = currentBombedPlayer.transform.localScale;
+            currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+            UpdateBombIcons();
+        }
+        else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
+        {
+            oldFakeBombedPlayer = user;
+
+            currentFakeBombedPlayer.Status.RemoveStatus("osef");
+            currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+
+            currentFakeBombedPlayer = target;
+            fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
+            currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
+
+            UpdateFakeBombIcons();
+        }
+        else if(user != currentBombedPlayer && user != currentFakeBombedPlayer)
+        {
+            if(target == currentBombedPlayer)
+            {
+                oldBombedPlayer = target;
+                oldBombedPlayer.Status.RemoveStatus("osef");
+                oldBombedPlayer.transform.localScale = playerOriginalScale;
+                currentBombedPlayer = user;
+
+                playerOriginalScale = currentBombedPlayer.transform.localScale;
+                currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+                UpdateBombIcons();
+            }
+            else if(target == currentFakeBombedPlayer)
+            {
+                oldFakeBombedPlayer = target;
+
+                currentFakeBombedPlayer.Status.RemoveStatus("osef");
+                currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+
+                currentFakeBombedPlayer = user;
+                fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
+                currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
+
+                UpdateFakeBombIcons();
+            }
+        }
+        
+
+
+        // Si on veut le transfert de bombe seulement par celui qui la possède
+        /*
         if(user.CharacterIcon.Icon.IsEnabled && target != currentFakeBombedPlayer && target != currentBombedPlayer)
         {
             if(user == currentBombedPlayer)
@@ -101,16 +165,18 @@ public class StickyBombManager : MonoBehaviour
 
                 UpdateFakeBombIcons();
             }
-
         }
+        */
+
     }
 
     public void InitStickyBomb()
     {
+        timeOut = false;
         currentRound++;
 
         if (battleManager.characterAlive.Count < 3)
-            roundsWithFakeBomb = null;
+            roundsWithFakeBomb.Clear();
 
         for(int i = 0; i < battleManager.characterAlive.Count; i++)
         {
@@ -127,6 +193,7 @@ public class StickyBombManager : MonoBehaviour
         FakeBombManager();
 
         UpdateBombIcons();
+
         UpdateFakeBombIcons();
     }
 
@@ -134,7 +201,7 @@ public class StickyBombManager : MonoBehaviour
     {
         if(roundsWithFakeBomb.Contains(currentRound))
         {
-            List<CharacterBase> tmpList = battleManager.characterAlive;
+            List<CharacterBase> tmpList = new List<CharacterBase>(battleManager.characterAlive);
             tmpList.Remove(currentBombedPlayer);
 
             int playerFakeBomb = Random.Range(0, tmpList.Count);
@@ -150,50 +217,48 @@ public class StickyBombManager : MonoBehaviour
     public void UpdateBombIcons()
     {
         if (oldBombedPlayer != null)
-            oldBombedPlayer.CharacterIcon.SwitchIcon(false);
+            oldBombedPlayer.CharacterIcon.SwitchIcon();
 
         if (currentBombedPlayer != null)
-            currentBombedPlayer.CharacterIcon.SwitchIcon(false);
+            currentBombedPlayer.CharacterIcon.SwitchIcon();
     }
 
     public void UpdateFakeBombIcons()
     {
         if (oldFakeBombedPlayer != null)
         {
-            oldFakeBombedPlayer.CharacterIcon.SwitchIcon(true);
+            oldFakeBombedPlayer.CharacterIcon.SwitchIcon();
         }
 
         if (currentFakeBombedPlayer != null)
         {
-            currentFakeBombedPlayer.CharacterIcon.SwitchIcon(true);
+            currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
         }
     }
 
-    public void TimeOutManager()
+    public void TimeOut()
     {
+
         ExplosionDeath();
 
         if (currentFakeBombedPlayer != null)
         {
+            currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
             currentFakeBombedPlayer.Status.RemoveStatus("osef");
             currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
             currentFakeBombedPlayer = null;
         }
-
         currentBombedPlayer.Status.RemoveStatus("osef");
         currentBombedPlayer.transform.localScale = playerOriginalScale;
+
+        float stocks = currentBombedPlayer.Stats.LifeStocks;
+        string tag = currentBombedPlayer.gameObject.tag;
 
         // Destroy all bombs
         for (int i = 0; i < battleManager.characterAlive.Count; i++)
         {
             battleManager.characterAlive[i].CharacterIcon.DestroyIcon();
         }
-
-
-        float stocks = currentBombedPlayer.Stats.LifeStocks;
-        string tag = currentBombedPlayer.gameObject.tag;
-
-        Debug.Log("TAG = " + tag);
 
         if (stocks - 1 > 0)
         {
@@ -218,17 +283,29 @@ public class StickyBombManager : MonoBehaviour
             gameEventStocks[2].Raise(currentBombedPlayer);
         else if (tag == "Player4")
             gameEventStocks[3].Raise(currentBombedPlayer);
-
-
+        
         currentBombedPlayer = null;
         oldBombedPlayer = null;
 
         StartCoroutine(WaitBeforeNextRound());
     }
 
+    private void TimerManager()
+    {
+        if(!timeOut)
+        {
+            bombTimer -= Time.deltaTime;
+            if (bombTimer <= 0f)
+            {
+                timeOut = true;
+                bombTimer = originalBombTimer;
+                TimeOut();
+            }
+        }
+    }
+
     private void ExplosionDeath()
     {
-        Debug.LogError("Explosion de : " + currentBombedPlayer);
         GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
         Destroy(explosion, 4f);
     }
@@ -238,8 +315,6 @@ public class StickyBombManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
         InitStickyBomb();
     }
-
-
 
     IEnumerator LerpScale(CharacterBase player)
     {
@@ -251,6 +326,7 @@ public class StickyBombManager : MonoBehaviour
         {
             if(currentBombedPlayer != null)
             {
+                // valeur arbitraire tmp pour le scale
                 currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, new Vector3(2, 2, 2), time / (bombTimer * 0.75f));
 
                 if(currentFakeBombedPlayer != null)
