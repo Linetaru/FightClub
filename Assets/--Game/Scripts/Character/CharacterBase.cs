@@ -107,6 +107,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return projectile; }
 	}
 
+	[SerializeField]
+	private CharacterIcon characterIcon;
+	public CharacterIcon CharacterIcon
+	{
+		get { return characterIcon; }
+	}
+
 	private Input_Info input;
 	public Input_Info Input
 	{

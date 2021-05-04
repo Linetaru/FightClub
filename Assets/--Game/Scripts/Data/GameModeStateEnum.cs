@@ -7,4 +7,5 @@ public enum GameModeStateEnum
 	Classic_Mode,
 	Training,
 	Special_Mode,
+	Bomb_Mode,
 }

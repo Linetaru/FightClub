@@ -79,6 +79,13 @@ public class CharacterParry : MonoBehaviour
 
 
 
+
+	public event EventCharacterBase OnParry;
+	public event EventCharacterBase OnGuard;
+
+
+
+
 	[Title("Particle - A virer plus tard")]
 	[SerializeField]
 	GameObject particleParry;
@@ -123,6 +130,8 @@ public class CharacterParry : MonoBehaviour
 	{
 		if (isParry == false)
 			return false;
+		else if (attackManager.BreakParry == true)
+			return false;
 		return CheckAngle(attackManager);
 	}
 
@@ -134,6 +143,8 @@ public class CharacterParry : MonoBehaviour
 	public virtual bool CanGuard(AttackSubManager attackManager)
 	{
 		if (isGuard == false)
+			return false;
+		else if (attackManager.BreakGuard == true)
 			return false;
 		return CheckAngle(attackManager);
 	}
@@ -206,7 +217,7 @@ public class CharacterParry : MonoBehaviour
 
 		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
 
-
+		OnParry?.Invoke(characterParried);
 		Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 4, 0.15f);
 	}
 

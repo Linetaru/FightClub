@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 8538390229823526924}
   - component: {fileID: 2000678810}
   - component: {fileID: 2000678811}
+  - component: {fileID: 99327581800654819}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -538,6 +539,8 @@ MonoBehaviour:
   blastZoneBoxCenter: {x: 0.8, y: -3.4097404, z: 0}
   blastZoneBoxSize: {x: 52.67, y: 38, z: 10}
   DebugArea: 1
+  offsetRot: {x: 1, y: 0, z: 0}
+  rotationSmoothTime: 0.05
   camConfig: {fileID: 0}
 --- !u!114 &8538390229823526924
 MonoBehaviour:
@@ -562,9 +565,6 @@ MonoBehaviour:
   loopRedBorder: 2
   cam_Infos:
   - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsCamTravelling:
-    - {fileID: 7356702210667485821}
-    - {fileID: 7356702209298322965}
     railsFocusTravelling:
     - {fileID: 7356702209040543224}
     - {fileID: 7356702209705631873}
@@ -585,9 +585,6 @@ MonoBehaviour:
     - {fileID: 0}
     platform: []
   - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsCamTravelling:
-    - {fileID: 7356702209298322965}
-    - {fileID: 7356702210667485821}
     railsFocusTravelling:
     - {fileID: 7356702209705631873}
     - {fileID: 7356702209040543224}
@@ -618,9 +615,6 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsCamTravelling:
-    - {fileID: 7356702210667485821}
-    - {fileID: 7356702210237618555}
     railsFocusTravelling:
     - {fileID: 7356702209040543224}
     - {fileID: 7356702211056221378}
@@ -646,9 +640,6 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsCamTravelling:
-    - {fileID: 7356702210237618555}
-    - {fileID: 7356702210667485821}
     railsFocusTravelling:
     - {fileID: 7356702211056221378}
     - {fileID: 7356702209040543224}
@@ -727,6 +718,25 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!95 &99327581800654819
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284728091476298524}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7e7790363f286d42a70b831a989de4a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5284728092334524679
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,8 +848,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedlines: {fileID: 3681285870152167748}
   screenShake: {fileID: 1630401892431900178}
-  camera: {fileID: 0}
-  cameraAnimator: {fileID: 0}
+  camera: {fileID: 5284728091476298513}
+  cameraAnimator: {fileID: 99327581800654819}
 --- !u!114 &1630401892431900178
 MonoBehaviour:
   m_ObjectHideFlags: 0
