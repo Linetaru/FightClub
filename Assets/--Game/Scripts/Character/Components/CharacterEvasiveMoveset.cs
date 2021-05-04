@@ -37,7 +37,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 		if (character.Rigidbody.IsGrounded == true)
 			ResetDodge();
 
-		if (character.Input.CheckActionUP(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
+		if (character.Input.CheckAction(0, InputConst.RightTrigger) && CanDodge() && (Mathf.Abs(character.Input.horizontal) > 0.3f || Mathf.Abs(character.Input.vertical) > 0.3f))
 		{
 			if (character.Rigidbody.IsGrounded == true)
 			{

@@ -38,6 +38,7 @@ public class Input_Info
     {
 		inputActions = new List<InputBuffer>();
 		inputActionsUP = new List<InputBuffer>();
+		inputActionsHold = new List<InputAction>();
 		inputUiAction = null;
 
 		horizontal = 0;

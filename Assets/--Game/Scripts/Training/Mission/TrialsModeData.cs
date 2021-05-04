@@ -28,7 +28,19 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return dummyBehavior; }
 	}
 
+	[Space]
+	[Title("TextStart")]
+	[SerializeField]
+	List<string> textboxStart;
+	public List<string> TextboxStart
+	{
+		get { return textboxStart; }
+	}
 
+
+
+
+	[Space]
 	[Title("Trials")]
 	[SerializeField]
 	int enemyPercentage = 0;
@@ -55,6 +67,18 @@ public class TrialsModeData : SerializedScriptableObject
 	public List<string> ComboNotes
 	{
 		get { return comboNotes; }
+	}
+
+
+
+
+	[Space]
+	[Title("TextEnd")]
+	[SerializeField]
+	List<string> textboxEnd;
+	public List<string> TextboxEnd
+	{
+		get { return textboxEnd; }
 	}
 
 }
