@@ -32,6 +32,9 @@ public class AttackManager : MonoBehaviour
     [SerializeField]
     private CharacterConditionGameObject attackCondition;
 
+    [SerializeField]
+    private PackageCreator.Event.GameEventCharacters playerHitEvent;
+
     [Title("Multiple Hitbox")]
     [SerializeField]
     [ListDrawerSettings(Expanded = true)]
@@ -40,7 +43,6 @@ public class AttackManager : MonoBehaviour
 
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
-
 
 
 

@@ -16,6 +16,7 @@ public class CharacterStateDeath : CharacterState
 
     public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		character.Stats.LifeStocks--;
 		HidePlayer();
 		character.Action.CancelAction();
 		character.Knockback.IsInvulnerable = true;
@@ -34,6 +35,7 @@ public class CharacterStateDeath : CharacterState
 			timer += Time.deltaTime;
 			if (timer >= timebeforeRespawn)
 			{
+				Debug.Log("RESPAWNING");
 				DisplayPlayer();
 				character.SetState(respawnState);
 			}
@@ -54,14 +56,14 @@ public class CharacterStateDeath : CharacterState
 
 	private void DisplayPlayer()
     {
-		playerObject.transform.localScale = new Vector3(1, 1, 1);
+		playerObject.transform.root.localScale = new Vector3(1, 1, 1);
 		//playerObject.SetActive(true);
     }
 
 	private void HidePlayer()
 	{
 
-		playerObject.transform.localScale = new Vector3(0, 0, 1);
+		playerObject.transform.root.localScale = new Vector3(0, 0, 1);
 		//playerObject.SetActive(false);
 	}
 }

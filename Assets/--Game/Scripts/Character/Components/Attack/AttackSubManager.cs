@@ -19,7 +19,8 @@ public class AttackSubManager : MonoBehaviour
     [ListDrawerSettings(Expanded = true)]
     private List<AttackComponent> atkCompList;
 
-
+    [HideInInspector]
+    public PackageCreator.Event.GameEventCharacters playerHitEvent;
 
     [Title("Parry Settings")]
     [SerializeField]
@@ -162,8 +163,11 @@ public class AttackSubManager : MonoBehaviour
                 playerHitList.Add(targetTag);
                 if (onHitColliderEvents != null && !eventReceived)
                 {
-
+                    // Event pour eviter le multi hit
                     onHitColliderEvents.Invoke(targetTag);
+                    // Event qui envoie le user et la target quand hit
+                    if(playerHitEvent != null)
+                        playerHitEvent.Raise(user, target);
                     eventReceived = true;
                 }
 

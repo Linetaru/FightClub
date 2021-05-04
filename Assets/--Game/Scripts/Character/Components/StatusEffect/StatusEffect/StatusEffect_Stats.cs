@@ -32,7 +32,7 @@ public class StatusEffect_Stats : StatusEffect
 
     public override void ApplyEffect(CharacterBase character)
     {
-        if(attack == true)
+        if (attack == true)
             character.Stats.AttackMultiplier.IncrementFlatBonusStat(addStat);
         else
             character.Stats.DefenseMultiplier.IncrementFlatBonusStat(addStat);
@@ -41,7 +41,7 @@ public class StatusEffect_Stats : StatusEffect
     public override void UpdateEffect(CharacterBase character)
     {
         t -= Time.deltaTime * character.MotionSpeed;
-        if(t <= 0)
+        if (t <= 0)
         {
             character.Model.FlashModel(colorFlash, 0.2f);
             t = 0.3f;
@@ -57,3 +57,4 @@ public class StatusEffect_Stats : StatusEffect
             character.Stats.DefenseMultiplier.IncrementFlatBonusStat(-addStat);
     }
 }
+
