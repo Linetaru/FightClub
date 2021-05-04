@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class StickyBombManager : MonoBehaviour
 {
@@ -9,20 +10,34 @@ public class StickyBombManager : MonoBehaviour
     private static StickyBombManager _instance;
     public static StickyBombManager Instance { get { return _instance; } }
 
+    [Title("Objects")]
     [SerializeField]
     private BombIcon bombIcon;
 
     [SerializeField]
     private GameObject explosionPrefab;
 
+    [Title("Round Infos")]
     public float bombTimer = 10f;
+    [SerializeField]
+    private float timeBetweenRounds;
+
     private float originalBombTimer;
 
     private bool timeOut = true;
 
+    [Title("Player Scale Infos")]
+    // A partir de quel pourcentage de bombTimer la scale sera à son max
+    // Si coefScaleMax = 0.5 => Le joueur aura sa scale max à 50% de bombTimer
     [SerializeField]
-    private float timeBetweenRounds;
+    [Range(0f, 1f)]
+    private float coefScaleMax = 0.5f;
 
+    [SerializeField]
+    [Range(1f, 5f)]
+    private float scaleMaxMultiplier = 2f;
+
+    [Title("Special Rounds")]
     [SerializeField]
     private List<int> roundsWithFakeBomb = new List<int> { 2, 6, 10 };
     [SerializeField]
@@ -42,11 +57,13 @@ public class StickyBombManager : MonoBehaviour
     private Vector3 playerOriginalScale;
     private Vector3 fakeBombedOriginalScale;
 
+    [Title("Events")]
     //Float Event
     public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
     //Chararcter Event
     public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
+    [Title("Status")]
     [SerializeField]
     private StatusData status;
 
@@ -318,22 +335,20 @@ public class StickyBombManager : MonoBehaviour
 
     IEnumerator LerpScale(CharacterBase player)
     {
-        float time = 0f;
-
         Vector3 originalScale = playerOriginalScale;
+        Vector3 targetScale = originalScale * scaleMaxMultiplier;
 
-        while (time < bombTimer)
+        while (bombTimer > 0)
         {
+            Debug.LogError("UP SCALE !!!!");
             if(currentBombedPlayer != null)
             {
                 // valeur arbitraire tmp pour le scale
-                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, new Vector3(2, 2, 2), time / (bombTimer * 0.75f));
+                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
 
                 if(currentFakeBombedPlayer != null)
-                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, new Vector3(2, 2, 2), time / (bombTimer * 0.75f));
+                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
 
-
-                time += Time.deltaTime;
                 yield return null;
             }
             else
