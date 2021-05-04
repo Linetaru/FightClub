@@ -12,8 +12,9 @@ namespace Feedbacks
         ParticleSystem speedlines;
         [SerializeField]
         ScreenShake screenShake;
+
         [SerializeField]
-        TestCamera camera;
+        CameraZoomController camera;
         [SerializeField]
         Animator cameraAnimator;
 

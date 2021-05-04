@@ -41,12 +41,14 @@ public class CharacterModel : MonoBehaviour
 	[Button]
 	public void FlashModel()
 	{
-		StartCoroutine(FlashCoroutine(Color.white, 1f));
+		if(this.gameObject.activeInHierarchy == true)
+			StartCoroutine(FlashCoroutine(Color.white, 1f));
 	}
 
 	public void FlashModel(Color flashColor, float time)
 	{
-		StartCoroutine(FlashCoroutine(flashColor, time));
+		if (this.gameObject.activeInHierarchy == true)
+			StartCoroutine(FlashCoroutine(flashColor, time));
 	}
 
 	public void FlashModelCoroutine(Color flashColor, float time)

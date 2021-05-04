@@ -142,10 +142,10 @@ public class CharacterStateDash : CharacterState
 				{
 
 				}
-				else if (evasiveMoveset.Dodge(character) == true)
+				/*else if (evasiveMoveset.Dodge(character) == true)
 				{
 
-				}
+				}*/
 				else if (evasiveMoveset.Parry(character) == true)
 				{
 

@@ -43,7 +43,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private bool isStarted = false;
 
-
+    public string beforeMenuSceneName;
+    public string afterMenuSceneName;
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -294,11 +295,11 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene("MenuSelection_Stage");
+        SceneManager.LoadScene(afterMenuSceneName);
     }
 
     void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("GP_Menu");
+        SceneManager.LoadScene(beforeMenuSceneName);
     }
 }
