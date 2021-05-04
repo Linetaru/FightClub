@@ -21,10 +21,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public List<GameObject> modeButtons;
 
 	[Title("Parameter Variable")]
+	[ReadOnly] public int currentButtonSelected;
 	bool OnTransition = false;
 	float timeTransition = 0;
-	[ReadOnly] public int currentButtonSelected;
-	[HideInInspector] public bool canChangeScene;
 
 	[Title("Selected Button")]
 	[ReadOnly] public GameObject currentSelectButton;
@@ -34,7 +33,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public ControlMapper controlMapper;
 
 	[Title("Level Name")]
-	public string level;
+	public string sceneSelectionClassic;
+	public string sceneSelectionVolley;
+	public string sceneSelectionBomb;
+	private string sceneName;
 
 	[Title("Ak Wwise Sound Design")]
 	public AK.Wwise.Event clickIn;
@@ -46,6 +48,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		InStart,
 		InPrincipalMenu,
 		InModeMenu,
+		InTransition,
 	}
 
 	private MenuState menuState = MenuState.InStart;
@@ -70,14 +73,14 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 			OnTransition = false;
 		}
 
-		if (canChangeScene)
-		{
-			GoToOtherScene();
-		}
+		//if (canChangeScene)
+		//{
+		//	GoToOtherScene();
+		//}
 
 		if (!controlMapper.isOpen && timeTransition <= 0)
 		{
-			if (!OnTransition && menuState != MenuState.InStart)
+			if (!OnTransition && menuState != MenuState.InStart && menuState != MenuState.InTransition)
 			{
 				if (input_Info.vertical < -0.75)
 					ChangeSelectedButton(false);
@@ -127,6 +130,8 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 							case 1:
 								Camera.main.GetComponent<Animator>().SetBool("canTransiToMode", true);
 								menuState = MenuState.InModeMenu;
+								currentButtonSelected = 2; 
+								ChangeSelectedButton(true);
 								//timeTransition = 999;
 								//canChangeScene = true;
 								break;
@@ -143,17 +148,21 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 						{
 							case 1:
 								gameData.GameMode = GameModeStateEnum.Classic_Mode;
-								Camera.main.GetComponent<Animator>().SetBool("canTransiToMode", true);
-								timeTransition = 999;
-								canChangeScene = true;
+								sceneName = sceneSelectionClassic;
 								break;
 							case 2:
-								Options();
+								gameData.GameMode = GameModeStateEnum.Volley_Mode;
+								sceneName = sceneSelectionVolley;
 								break;
 							case 3:
-								Application.Quit();
+								gameData.GameMode = GameModeStateEnum.Bomb_Mode;
+								sceneName = sceneSelectionBomb;
 								break;
 						}
+						Camera.main.GetComponent<Animator>().SetBool("canTransiToSelect", true);
+						timeTransition = 999;
+						menuState = MenuState.InTransition;
+						StartCoroutine(GoToOtherScene(sceneName));
 						break;
 				}
 			}
@@ -176,23 +185,40 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 			switch (menuState)
 			{
 				case MenuState.InPrincipalMenu:
-			switch (currentButtonSelected)
-			{
-				case 1:
-					currentSelectButton = principalButtons[0];
-					lastSelectButton = principalButtons[1];
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = principalButtons[0];
+							lastSelectButton = principalButtons[1];
+							break;
+						case 2:
+							currentSelectButton = principalButtons[1];
+							lastSelectButton = principalButtons[2];
+							break;
+						case 3:
+							currentSelectButton = principalButtons[2];
+							lastSelectButton = principalButtons[0];
+							break;
+					}
 					break;
-				case 2:
-					currentSelectButton = principalButtons[1];
-					lastSelectButton = principalButtons[2];
-					break;
-				case 3:
-					currentSelectButton = principalButtons[2];
-					lastSelectButton = principalButtons[0];
+				case MenuState.InModeMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = modeButtons[0];
+							lastSelectButton = modeButtons[1];
+							break;
+						case 2:
+							currentSelectButton = modeButtons[1];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 3:
+							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[0];
+							break;
+					}
 					break;
 			}
-					break;
-		}
 		}
 		else
 		{
@@ -201,19 +227,42 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 			else
 				currentButtonSelected++;
 
-			switch (currentButtonSelected)
+			switch (menuState)
 			{
-				case 1:
-					currentSelectButton = principalButtons[0];
-					lastSelectButton = principalButtons[2];
+				case MenuState.InPrincipalMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = principalButtons[0];
+							lastSelectButton = principalButtons[2];
+							break;
+						case 2:
+							currentSelectButton = principalButtons[1];
+							lastSelectButton = principalButtons[0];
+							break;
+						case 3:
+							currentSelectButton = principalButtons[2];
+							lastSelectButton = principalButtons[1];
+							break;
+					}
 					break;
-				case 2:
-					currentSelectButton = principalButtons[1];
-					lastSelectButton = principalButtons[0];
-					break;
-				case 3:
-					currentSelectButton = principalButtons[2];
-					lastSelectButton = principalButtons[1];
+
+				case MenuState.InModeMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = modeButtons[0];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 2:
+							currentSelectButton = modeButtons[1];
+							lastSelectButton = modeButtons[0];
+							break;
+						case 3:
+							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[1];
+							break;
+					}
 					break;
 			}
 		}
@@ -223,7 +272,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
 	}
 
-	public void Options()
+    public void Options()
 	{
 		controlMapper.Open();
 
@@ -242,9 +291,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		timeTransition = 0.2f;
 	}
 
-	public void GoToOtherScene()
+	private IEnumerator GoToOtherScene(string level)
 	{
 		//Debug.Log("Ta mère l'anjanath");
+		yield return new WaitForSeconds(1.3f);
 		UnityEngine.SceneManagement.SceneManager.LoadScene(level);
 	}
 }
