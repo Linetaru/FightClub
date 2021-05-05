@@ -19,6 +19,11 @@ public class StickyBombManager : MonoBehaviour
     [SerializeField]
     private GameObject explosionPrefab;
 
+    [SerializeField]
+    private GameObject stickyBombUI;
+
+    private StickyBombUIManager uiManager;
+
     [Title("Round Infos")]
     private int currentRound = 0;
     private RoundMode currentRoundMode;
