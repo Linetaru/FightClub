@@ -13,4 +13,7 @@ public class Icon : MonoBehaviour
     public virtual void SwitchIcon()
     {
     }
+    public virtual void DestroySelf()
+    {
+    }
 }

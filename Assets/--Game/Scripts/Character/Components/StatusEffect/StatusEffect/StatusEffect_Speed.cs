@@ -27,6 +27,8 @@ public class StatusEffect_Speed : StatusEffect
         character.Stats.Speed.IncrementMultiplierBonusStat(speedMultiplier);
         character.Movement.SpeedMax = character.Stats.Speed.Value;
 
+        //character.Movement.MaxAerialSpeed = character.Stats.Speed.Value;
+
     }
 
     public override void UpdateEffect(CharacterBase character)
@@ -38,5 +40,6 @@ public class StatusEffect_Speed : StatusEffect
     {
         character.Stats.Speed.IncrementMultiplierBonusStat(-speedMultiplier);
         character.Movement.SpeedMax = character.Stats.Speed.Value;
+        //character.Movement.MaxAerialSpeed = character.Stats.Speed.Value;
     }
 }
