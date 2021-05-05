@@ -23,7 +23,6 @@ public class CharacterIcon : MonoBehaviour
 
     public void DestroyIcon()
     {
-        Debug.LogError(icon.name + " Destruction");
         icon.DestroySelf();
     }
 

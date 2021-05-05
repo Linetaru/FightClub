@@ -37,6 +37,7 @@ public class StickyBombManager : MonoBehaviour
     // Si coefScaleMax = 0.5 => Le joueur aura sa scale max à 50% de bombTimer
     [SerializeField]
     [Range(0f, 1f)]
+    [PropertyTooltip("Pourcentage de bombTimer auquel le player aura sa taille maximum (0.5 = 50%)")]
     private float coefScaleMax = 0.5f;
 
     [SerializeField]
@@ -45,9 +46,11 @@ public class StickyBombManager : MonoBehaviour
 
     [Title("Special Rounds")]
     [SerializeField]
-    private List<int> roundsWithFakeBomb = new List<int> { 2, 6, 10 };
+    private bool randomRounds;
     [SerializeField]
-    private List<int> roundsWithInvisibleBomb = new List<int> { 5, 8, 14 };
+    private List<int> roundsWithFakeBomb = new List<int>();
+    [SerializeField]
+    private List<int> roundsWithInvisibleBomb = new List<int>();
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -101,8 +104,6 @@ public class StickyBombManager : MonoBehaviour
 
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
-        // Si on veut le transfert de bombe dans tous les cas
-        
         if (user == currentBombedPlayer && target != currentFakeBombedPlayer)
         {
             oldBombedPlayer = user;
@@ -110,7 +111,7 @@ public class StickyBombManager : MonoBehaviour
             oldBombedPlayer.transform.localScale = playerOriginalScale;
             currentBombedPlayer = target;
 
-            if(currentRoundMode != RoundMode.Invisible)
+            if (currentRoundMode != RoundMode.Invisible)
                 UpdateBombInfos();
         }
         else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
@@ -123,9 +124,9 @@ public class StickyBombManager : MonoBehaviour
             if (currentRoundMode != RoundMode.Invisible)
                 UpdateFakeBombInfos();
         }
-        else if(user != currentBombedPlayer && user != currentFakeBombedPlayer)
+        else if (user != currentBombedPlayer && user != currentFakeBombedPlayer && currentRoundMode != RoundMode.Invisible)
         {
-            if(target == currentBombedPlayer)
+            if (target == currentBombedPlayer)
             {
                 oldBombedPlayer = target;
                 oldBombedPlayer.Status.RemoveStatus("osef");
@@ -135,7 +136,7 @@ public class StickyBombManager : MonoBehaviour
                 if (currentRoundMode != RoundMode.Invisible)
                     UpdateBombInfos();
             }
-            else if(target == currentFakeBombedPlayer)
+            else if (target == currentFakeBombedPlayer)
             {
                 oldFakeBombedPlayer = target;
                 oldFakeBombedPlayer.Status.RemoveStatus("osef");
@@ -207,6 +208,24 @@ public class StickyBombManager : MonoBehaviour
             FakeBombManager();
 
             UpdateBombInfos();
+        }
+    }
+
+    private void RandomRound()
+    {
+        int random = Random.Range(0, 12);
+
+        if (random < 2 && battleManager.characterAlive.Count > 2)
+        {
+            currentRoundMode = RoundMode.FakeBomb;
+        }
+        else if (random < 5)
+        {
+            currentRoundMode = RoundMode.Invisible;
+        }
+        else
+        {
+            currentRoundMode = RoundMode.Normal;
         }
     }
 
@@ -316,12 +335,22 @@ public class StickyBombManager : MonoBehaviour
 
     private void UpdateRoundMode()
     {
-        if (roundsWithFakeBomb.Contains(currentRound))
-            currentRoundMode = RoundMode.FakeBomb;
-        else if (roundsWithInvisibleBomb.Contains(currentRound))
-            currentRoundMode = RoundMode.Invisible;
+        if(!randomRounds)
+        {
+            if (roundsWithFakeBomb.Contains(currentRound))
+                currentRoundMode = RoundMode.FakeBomb;
+            else if (roundsWithInvisibleBomb.Contains(currentRound))
+                currentRoundMode = RoundMode.Invisible;
+            else
+                currentRoundMode = RoundMode.Normal;
+        }
         else
-            currentRoundMode = RoundMode.Normal;
+        {
+            if (currentRound > 3)
+                RandomRound();
+            else
+                currentRoundMode = RoundMode.Normal;
+        }
     }
 
     private void TimerManager()
