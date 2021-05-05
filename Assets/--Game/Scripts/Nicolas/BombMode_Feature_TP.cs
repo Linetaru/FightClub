@@ -37,13 +37,13 @@ public class BombMode_Feature_TP : MonoBehaviour
         {
 			for(int i = 0; i < players.Count; i++)
             {
-				if(players[0].timer > 0)
+				if(players[i].timer > 0)
                 {
-					players[0].timer -= Time.deltaTime;
+					players[i].timer -= Time.deltaTime;
 				}
 				else
                 {
-					players.Remove(players[0]);
+					players.Remove(players[i]);
 				}
             }
         }
@@ -60,7 +60,7 @@ public class BombMode_Feature_TP : MonoBehaviour
 			{
 				foreach (BombTPData bombtp in players)
 				{
-					if (bombtp.player = user)
+					if (bombtp.player.ControllerID == user.ControllerID)
 						return;
 				}
 			}
