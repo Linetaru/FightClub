@@ -116,8 +116,8 @@ public class StickyBombManager : MonoBehaviour
         else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
         {
             oldFakeBombedPlayer = user;
-            currentFakeBombedPlayer.Status.RemoveStatus("osef");
-            currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+            oldFakeBombedPlayer.Status.RemoveStatus("osef");
+            oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
             currentFakeBombedPlayer = target;
 
             if (currentRoundMode != RoundMode.Invisible)
@@ -138,8 +138,8 @@ public class StickyBombManager : MonoBehaviour
             else if(target == currentFakeBombedPlayer)
             {
                 oldFakeBombedPlayer = target;
-                currentFakeBombedPlayer.Status.RemoveStatus("osef");
-                currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+                oldFakeBombedPlayer.Status.RemoveStatus("osef");
+                oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
                 currentFakeBombedPlayer = user;
 
                 if (currentRoundMode != RoundMode.Invisible)
