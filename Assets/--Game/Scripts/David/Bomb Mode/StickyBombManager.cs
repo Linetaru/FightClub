@@ -128,81 +128,36 @@ public class StickyBombManager : MonoBehaviour
 
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
-        if (user == currentBombedPlayer && target != currentFakeBombedPlayer)
+        if(currentRoundMode == RoundMode.Normal || currentRoundMode == RoundMode.Invisible)
         {
-            oldBombedPlayer = user;
-            oldBombedPlayer.Status.RemoveStatus("osef");
-            oldBombedPlayer.transform.localScale = playerOriginalScale;
-            currentBombedPlayer = target;
-
-            if (currentRoundMode != RoundMode.Invisible)
-                UpdateBombInfos();
-        }
-        else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
-        {
-            oldFakeBombedPlayer = user;
-            oldFakeBombedPlayer.Status.RemoveStatus("osef");
-            oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
-            currentFakeBombedPlayer = target;
-
-            if (currentRoundMode != RoundMode.Invisible)
-                UpdateFakeBombInfos();
-        }
-        else if (user != currentBombedPlayer && user != currentFakeBombedPlayer && currentRoundMode != RoundMode.Invisible)
-        {
-            if (target == currentBombedPlayer)
+            if (user == currentBombedPlayer)
             {
-                oldBombedPlayer = target;
-                oldBombedPlayer.Status.RemoveStatus("osef");
-                oldBombedPlayer.transform.localScale = playerOriginalScale;
-                currentBombedPlayer = user;
-
-                if (currentRoundMode != RoundMode.Invisible)
-                    UpdateBombInfos();
+                SwitchBombPlayers(user, target);
             }
-            else if (target == currentFakeBombedPlayer)
+            else if (target == currentBombedPlayer && currentRoundMode != RoundMode.Invisible)
             {
-                oldFakeBombedPlayer = target;
-                oldFakeBombedPlayer.Status.RemoveStatus("osef");
-                oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
-                currentFakeBombedPlayer = user;
-
-                if (currentRoundMode != RoundMode.Invisible)
-                    UpdateFakeBombInfos();
+                SwitchBombPlayers(target, user);
             }
         }
-
-        // Si on veut le transfert de bombe seulement par celui qui la possède
-        /*
-        if(user.CharacterIcon.Icon.IsEnabled && target != currentFakeBombedPlayer && target != currentBombedPlayer)
+        else if(currentRoundMode == RoundMode.FakeBomb)
         {
-            if(user == currentBombedPlayer)
+            if(user == currentFakeBombedPlayer && target != currentBombedPlayer)
             {
-                oldBombedPlayer = user;
-                oldBombedPlayer.Status.RemoveStatus("osef");
-                oldBombedPlayer.transform.localScale = playerOriginalScale;
-                currentBombedPlayer = target;
-
-                playerOriginalScale = currentBombedPlayer.transform.localScale;
-                currentBombedPlayer.Status.AddStatus(new Status("osef", status));
-                UpdateBombIcons();
+                SwitchFakeBombPlayers(user, target);
             }
-            else if(user == currentFakeBombedPlayer)
+            else if(user == currentBombedPlayer && target != currentFakeBombedPlayer)
             {
-                oldFakeBombedPlayer = user;
-
-                currentFakeBombedPlayer.Status.RemoveStatus("osef");
-                currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
-
-                currentFakeBombedPlayer = target;
-                fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
-                currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
-
-                UpdateFakeBombIcons();
+                SwitchBombPlayers(user, target);
+            }
+            else if(target == currentBombedPlayer && user != currentFakeBombedPlayer)
+            {
+                SwitchBombPlayers(target, user);
+            }
+            else if(target == currentFakeBombedPlayer && user != currentBombedPlayer)
+            {
+                SwitchFakeBombPlayers(target, user);
             }
         }
-        */
-
     }
 
     public void InitStickyBomb()
@@ -245,9 +200,9 @@ public class StickyBombManager : MonoBehaviour
 
             fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
 
-            UpdateFakeBombInfos();
-
             StartCoroutine(LerpScale(currentFakeBombedPlayer));
+
+            UpdateFakeBombInfos();
         }
     }
 
@@ -271,27 +226,47 @@ public class StickyBombManager : MonoBehaviour
             currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
 
             if (oldFakeBombedPlayer != null)
-            {
                 oldFakeBombedPlayer.CharacterIcon.SwitchIcon();
-            }
 
             if (currentFakeBombedPlayer != null)
-            {
                 currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
-            }
         }
+    }
+
+    public void SwitchFakeBombPlayers(CharacterBase oldFakeBombed, CharacterBase newFakeBombed)
+    {
+        oldFakeBombedPlayer = oldFakeBombed;
+        currentFakeBombedPlayer = newFakeBombed;
+
+        oldFakeBombedPlayer.Status.RemoveStatus("osef");
+        oldFakeBombedPlayer.transform.localScale = playerOriginalScale;
+
+        UpdateFakeBombInfos();
+    }
+
+    public void SwitchBombPlayers(CharacterBase oldBombed, CharacterBase newBombed)
+    {
+        oldBombedPlayer = oldBombed;
+        currentBombedPlayer = newBombed;
+
+        oldBombedPlayer.Status.RemoveStatus("osef");
+        oldBombedPlayer.transform.localScale = playerOriginalScale;
+
+        if (currentRoundMode != RoundMode.Invisible)
+            UpdateBombInfos();
     }
 
     public void TimeOut()
     {
         ExplosionDeath();
 
-        if (currentFakeBombedPlayer != null)
+        if (currentRoundMode == RoundMode.FakeBomb)
         {
             currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
             currentFakeBombedPlayer.Status.RemoveStatus("osef");
             currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
             currentFakeBombedPlayer = null;
+            oldFakeBombedPlayer = null;
         }
 
         currentBombedPlayer.Status.RemoveStatus("osef");
