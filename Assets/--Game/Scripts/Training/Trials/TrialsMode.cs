@@ -36,11 +36,13 @@ public class TrialsMode : MonoBehaviour
 
 	int textIndex = 0;
 	int comboIndex = 0;
+	int nbOfTry = 0;
 	bool success = false;
 	List<MissionModePanel> missionModePanels;
 
 	CharacterBase player;
 	CharacterBase dummy;
+	AIBehavior aiBehavior;
 
 	public void InitializeCharacter(CharacterBase character)
 	{
@@ -51,8 +53,14 @@ public class TrialsMode : MonoBehaviour
 		else if (character.PlayerID == 1)
 		{
 			dummy = character;
-			dummy.OnStateChanged += StateChangedCallback;
+			if(trialsData.DummyBehavior != null)
+			{
+				aiBehavior = Instantiate(trialsData.DummyBehavior, dummy.transform);
+				aiBehavior.SetCharacter(dummy, inputController);
+			}
+
 			InitializeTrial();
+			InitializeFailConditions();
 		}
 	}
 
@@ -88,12 +96,31 @@ public class TrialsMode : MonoBehaviour
 
 
 
+	private void InitializeFailConditions()
+	{
+		for (int i = 0; i < trialsData.FailConditions.Count; i++)
+		{
+			trialsData.FailConditions[i].InitializeCondition(player, dummy);
+		}
+	}
+
+
+	private void EndFailConditions()
+	{
+		for (int i = 0; i < trialsData.FailConditions.Count; i++)
+		{
+			trialsData.FailConditions[i].EndCondition(player, dummy);
+		}
+	}
+
+
 	// Update is called once per frame
 	void Update()
 	{
 		if (success == true)
 			return;
 
+		// Missions
 		if(trialsData.Missions[comboIndex].UpdateCondition(player, dummy) == true)
 		{
 			missionModePanels[comboIndex].ValidateButton();
@@ -108,8 +135,40 @@ public class TrialsMode : MonoBehaviour
 				trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
 			}
 		}
+
+		// Fail
+		for (int i = 0; i < trialsData.FailConditions.Count; i++)
+		{
+			if (trialsData.FailConditions[i].UpdateCondition(player, dummy) == true)
+			{
+				ResetTrial();
+			}
+		}
+
 	}
 
+
+	public void ResetTrial()
+	{
+		if (success == true)
+			return;
+		trialsData.Missions[comboIndex].EndCondition(player, dummy);
+		EndFailConditions();
+		comboIndex = 0;
+		battleManager.ResetPlayer();
+		for (int i = 0; i < battleManager.characterAlive.Count; i++)
+		{
+			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+		}
+		trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
+		InitializeFailConditions();
+
+		// UI
+		for (int i = 0; i < missionModePanels.Count; i++)
+		{
+			missionModePanels[i].ResetButton();
+		}
+	}
 
 
 
@@ -118,10 +177,18 @@ public class TrialsMode : MonoBehaviour
 	{
 		success = true;
 		animatorSuccess.SetActive(true);
+		EndFailConditions();
 
 		// On échange le player et la textbox
 		inputControllerEmpty.controllable = player;
 		inputController.controllable[player.ControllerID] = textbox;
+		StartCoroutine(WaitSuccess());
+
+	}
+
+	private IEnumerator WaitSuccess()
+	{
+		yield return new WaitForSeconds(0.5f);
 
 		if (trialsData.TextboxEnd.Count != 0)
 		{
@@ -133,36 +200,6 @@ public class TrialsMode : MonoBehaviour
 			EndTrial();
 		}
 	}
-
-
-
-	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
-	{
-		if (oldState is CharacterStateKnockback && (newState is CharacterStateIdle || newState is CharacterStateAerial))
-		{
-			ResetTrial();
-		}
-	}
-
-	public void ResetTrial()
-	{
-		if (success == true)
-			return;
-		trialsData.Missions[comboIndex].EndCondition(player, dummy);
-		comboIndex = 0;
-		battleManager.ResetPlayer();
-		for (int i = 0; i < battleManager.characterAlive.Count; i++)
-		{
-			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
-		}
-		trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
-
-		for (int i = 0; i < missionModePanels.Count; i++)
-		{
-			missionModePanels[i].ResetButton();
-		}
-	}
-
 
 
 

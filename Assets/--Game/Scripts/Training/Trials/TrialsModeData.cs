@@ -69,7 +69,19 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return comboNotes; }
 	}
 
+	[Space]
+	[Title("Fail Conditions")]
+	[SerializeField]
+	private int numberOfTry = -1;
 
+
+	[SerializeField]
+	[ListDrawerSettings(Expanded = true)]
+	private List<MissionInputCondition> failConditions = new List<MissionInputCondition>();
+	public List<MissionInputCondition> FailConditions
+	{
+		get { return failConditions; }
+	}
 
 
 	[Space]
