@@ -10,7 +10,8 @@ public class StickyBombManager : MonoBehaviour
     private static StickyBombManager _instance;
     public static StickyBombManager Instance { get { return _instance; } }
 
-    enum RoundMode { Normal, FakeBomb, Invisible}
+    enum RoundMode { Normal = 0, FakeBomb = 1, Invisible = 2}
+    List<string> roundModeList = new List<string> { "Classic !", "Fake Bomb !", "Invisible Bomb !" };
 
     [Title("Objects")]
     [SerializeField]
@@ -29,6 +30,8 @@ public class StickyBombManager : MonoBehaviour
     private RoundMode currentRoundMode;
 
     public float bombTimer = 10f;
+
+    private bool startRound;
 
     [SerializeField]
     private float timeBetweenRounds;
@@ -99,12 +102,28 @@ public class StickyBombManager : MonoBehaviour
     void Start()
     {
         originalBombTimer = bombTimer;
-        InitStickyBomb();
+
+        GameObject stickyBombUIGO = Instantiate(stickyBombUI);
+
+        uiManager = stickyBombUIGO.GetComponent<StickyBombUIManager>();
+
+        StartCoroutine(WaitBeforeNextRound());
+
+        //InitStickyBomb();
     }
 
     void Update()
     {
-        TimerManager();
+        if(startRound)
+        {
+            if(uiManager.isCountdownOver)
+            {
+                uiManager.isCountdownOver = false;
+                startRound = false;
+                InitStickyBomb();
+            }
+        }
+        BombTimerManager();
     }
 
     public void ManageHit(CharacterBase user, CharacterBase target)
@@ -188,9 +207,6 @@ public class StickyBombManager : MonoBehaviour
 
     public void InitStickyBomb()
     {
-        currentRound++;
-        UpdateRoundMode();
-
         timeOut = false;
 
         if (battleManager.characterAlive.Count < 3)
@@ -213,24 +229,6 @@ public class StickyBombManager : MonoBehaviour
             FakeBombManager();
 
             UpdateBombInfos();
-        }
-    }
-
-    private void RandomRound()
-    {
-        int random = Random.Range(0, 12);
-
-        if (random < 2 && battleManager.characterAlive.Count > 2)
-        {
-            currentRoundMode = RoundMode.FakeBomb;
-        }
-        else if (random < 5)
-        {
-            currentRoundMode = RoundMode.Invisible;
-        }
-        else
-        {
-            currentRoundMode = RoundMode.Normal;
         }
     }
 
@@ -340,7 +338,9 @@ public class StickyBombManager : MonoBehaviour
 
     private void UpdateRoundMode()
     {
-        if(!randomRounds)
+        currentRound++;
+
+        if (!randomRounds)
         {
             if (roundsWithFakeBomb.Contains(currentRound))
                 currentRoundMode = RoundMode.FakeBomb;
@@ -356,9 +356,29 @@ public class StickyBombManager : MonoBehaviour
             else
                 currentRoundMode = RoundMode.Normal;
         }
+
+        uiManager.ChangeCurrentModeValue(roundModeList[(int)currentRoundMode]);
     }
 
-    private void TimerManager()
+    private void RandomRound()
+    {
+        int random = Random.Range(0, 12);
+
+        if (random < 2 && battleManager.characterAlive.Count > 2)
+        {
+            currentRoundMode = RoundMode.FakeBomb;
+        }
+        else if (random < 5)
+        {
+            currentRoundMode = RoundMode.Invisible;
+        }
+        else
+        {
+            currentRoundMode = RoundMode.Normal;
+        }
+    }
+
+    private void BombTimerManager()
     {
         if(!timeOut)
         {
@@ -380,8 +400,11 @@ public class StickyBombManager : MonoBehaviour
 
     IEnumerator WaitBeforeNextRound()
     {
+        UpdateRoundMode();
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
-        InitStickyBomb();
+        uiManager.LaunchCountDownAnim();
+        startRound = true;
+        //InitStickyBomb();
     }
 
     IEnumerator LerpScale(CharacterBase player)
@@ -393,7 +416,6 @@ public class StickyBombManager : MonoBehaviour
         {
             if(currentBombedPlayer != null)
             {
-                // valeur arbitraire tmp pour le scale
                 currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
 
                 if(currentFakeBombedPlayer != null)

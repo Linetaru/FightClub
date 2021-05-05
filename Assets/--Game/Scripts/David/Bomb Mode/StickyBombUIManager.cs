@@ -10,10 +10,35 @@ public class StickyBombUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currentModeText;
 
+    public bool isCountdownOver;
 
 
-    public void LaunchAnim(string currentMode)
+    private void Start()
     {
-
     }
+
+    public void LaunchCountDownAnim()
+    {
+        GetComponent<Animator>().Play("CountDownAnim");
+    }
+
+    public void LaunchCurrentModeAnim()
+    {
+        GetComponent<Animator>().Play("CurrentModeAnim");
+    }
+
+    public void ChangeCountdownValue(string value)
+    {
+        countDownText.text = value;
+    }
+    public void ChangeCurrentModeValue(string value)
+    {
+        currentModeText.text = value;
+    }
+
+    public void CountdownOver()
+    {
+        isCountdownOver = true;
+    }
+
 }
