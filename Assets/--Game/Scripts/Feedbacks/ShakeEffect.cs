@@ -74,6 +74,9 @@ namespace Feedbacks
             this.transform.localPosition = new Vector3(0, 0 , 0);
         }
 
+
+
+
         /*private IEnumerator ShakeSpriteCoroutine(float power, float time)
         {
             float t = 0f;

@@ -8,4 +8,5 @@ public enum GameModeStateEnum
 	Training,
 	Special_Mode,
 	Bomb_Mode,
+	Volley_Mode,
 }

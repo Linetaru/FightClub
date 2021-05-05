@@ -18,7 +18,6 @@ public class AttackManager : MonoBehaviour
 
 
 
-
     [Title("Parameters")]
     [SerializeField]
     bool linkToCharacter = true;
@@ -91,7 +90,7 @@ public class AttackManager : MonoBehaviour
         for (int i = 0; i < atkSubs.Count; i++)
         {
             atkSubs[i].playerHitEvent = playerHitEvent;
-            atkSubs[i].InitAttack(character);
+            atkSubs[i].InitAttack(character, this.gameObject.name + i);
         }
     }
 
