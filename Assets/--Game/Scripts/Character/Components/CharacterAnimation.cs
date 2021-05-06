@@ -55,6 +55,7 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateDeath)
         {
             animator.SetTrigger("Idle");
+            animator.SetFloat("Speed", 0);
         }
 
         if (newState is CharacterStateIdle)
@@ -64,9 +65,14 @@ public class CharacterAnimation : MonoBehaviour
         }
         if (newState is CharacterStateDash)
         {
+            animator.SetTrigger("Idle");
             animator.SetFloat("Speed", 1);
             //animator.SetTrigger("Idle");
             //actualState = ActualState.Idle;
+        }
+        if (newState is CharacterStateDashEnd)
+        {
+            animator.SetTrigger("Deccelerate");
         }
         if (newState is CharacterStateAerial)
         {

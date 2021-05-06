@@ -50,4 +50,15 @@ public class CharacterStatusEffects : MonoBehaviour
 		status.Remove(newStatus);
 		newStatus.RemoveStatus(character);
 	}
+	public void RemoveStatus(string statusName)
+	{
+		for (int i = status.Count - 1; i >= 0; i--)
+		{
+			if(status[i].StatusID == statusName)
+            {
+				status[i].RemoveStatus(character);
+				status.Remove(status[i]);
+            }
+		}
+	}
 }
