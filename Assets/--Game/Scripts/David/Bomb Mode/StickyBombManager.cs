@@ -416,6 +416,7 @@ public class StickyBombManager : MonoBehaviour
 
     IEnumerator WaitBeforeNextRound()
     {
+        uiManager.RoundIsOver();
         UpdateRoundMode();
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
         uiManager.LaunchCountDownAnim();
