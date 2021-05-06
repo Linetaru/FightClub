@@ -11,7 +11,6 @@ public class TutorialManager1 : MonoBehaviour
 	TrialsModeData trialsData;
 
 
-
 	[Title("Logic")]
 	[SerializeField]
 	InputController inputController;
@@ -32,6 +31,12 @@ public class TutorialManager1 : MonoBehaviour
 	[SerializeField]
 	GameObject animatorSuccess;
 
+	[Title("Debug Transition Scene")]
+	[SerializeField]
+	GameData gameData;
+	[SerializeField]
+	CharacterData bernard;
+
 	int textIndex = 0;
 	int comboIndex = 0;
 	bool success = false;
@@ -39,11 +44,17 @@ public class TutorialManager1 : MonoBehaviour
 
 	CharacterBase player;
 
+	bool once = false;
+
 	public void InitializeCharacter(CharacterBase character)
 	{
-		player = character;
-		InitializeTrial();
-		InitializeTrial(trialsData);
+		if (once == false)
+		{
+			player = character;
+			InitializeTrial();
+			InitializeTrial(trialsData);
+			once = true;
+		}
 	}
 
 
@@ -145,7 +156,13 @@ public class TutorialManager1 : MonoBehaviour
 
 	private void EndTrial()
 	{
+		Character_Info c = new Character_Info();
+		c.ControllerID = 1;
+		c.CharacterData = bernard;
+		c.CharacterColorID = 3;
+		gameData.CharacterInfos.Add(c);
 		UnityEngine.SceneManagement.SceneManager.LoadScene("TutorialStage2");
+
 	}
 
 
