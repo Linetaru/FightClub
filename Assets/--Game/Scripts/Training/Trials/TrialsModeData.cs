@@ -93,4 +93,12 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return textboxEnd; }
 	}
 
+	[Space]
+	[Space]
+	[SerializeField]
+	TrialsModeData nextTrial;
+	public TrialsModeData NextTrial
+	{
+		get { return nextTrial; }
+	}
 }

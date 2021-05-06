@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissionInputRespawn : MissionInputCondition
+public class MissionInputDodge : MissionInputCondition
 {
+	[SerializeField]
+	bool aerialDodge = false;
 
 	bool condition = false;
+
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
 		condition = false;
 		player.OnStateChanged += StateChangedCallback;
-		dummy.OnStateChanged += StateChangedCallback;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
@@ -21,13 +23,15 @@ public class MissionInputRespawn : MissionInputCondition
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
 		player.OnStateChanged -= StateChangedCallback;
-		dummy.OnStateChanged -= StateChangedCallback;
 	}
-
 
 	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
 	{
-		if (newState is CharacterStateRespawn)
+		if (newState is CharacterStateDodge && aerialDodge == false)
+		{
+			condition = true;
+		}
+		else if (newState is CharacterStateDodgeAerial && aerialDodge == true)
 		{
 			condition = true;
 		}

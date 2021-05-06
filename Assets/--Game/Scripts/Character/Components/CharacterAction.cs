@@ -27,6 +27,10 @@ public class CharacterAction : MonoBehaviour
     protected CharacterBase character;
     protected AttackManager attackID; // Les combo/target combo partage le meme attackID
     protected AttackManager currentAttackManager;
+    public AttackManager CurrentAttackManager
+    {
+        get { return currentAttackManager; }
+    }
 
     [SerializeField]
     Animator animator;

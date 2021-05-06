@@ -265,6 +265,7 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.Launch(angleEjection, 1);
 
 		characterRepelled.SetState(parryRepelState);
+		OnGuard?.Invoke(characterParry);
 
 		GameObject go2 = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
 		go2.name = particleParry.name;

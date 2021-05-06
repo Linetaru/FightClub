@@ -33,6 +33,8 @@ public class TrialsMode : MonoBehaviour
 
 	[SerializeField]
 	GameObject animatorSuccess;
+	[SerializeField]
+	Animator animatorRespawn;
 
 	int textIndex = 0;
 	int comboIndex = 0;
@@ -44,6 +46,11 @@ public class TrialsMode : MonoBehaviour
 	CharacterBase dummy;
 	AIBehavior aiBehavior;
 
+	private void Awake()
+	{
+		textbox.OnTextEnd += NextText;
+	}
+
 	public void InitializeCharacter(CharacterBase character)
 	{
 		if (character.PlayerID == 0)
@@ -53,11 +60,6 @@ public class TrialsMode : MonoBehaviour
 		else if (character.PlayerID == 1)
 		{
 			dummy = character;
-			if(trialsData.DummyBehavior != null)
-			{
-				aiBehavior = Instantiate(trialsData.DummyBehavior, dummy.transform);
-				aiBehavior.SetCharacter(dummy, inputController);
-			}
 
 			InitializeTrial();
 			InitializeFailConditions();
@@ -65,6 +67,31 @@ public class TrialsMode : MonoBehaviour
 	}
 
 
+	public void InitializeTrial(TrialsModeData newTrials)
+	{
+		success = false;
+		textIndex = 0;
+		comboIndex = 0;
+		nbOfTry = 0;
+		trialsData = newTrials;
+
+		for (int i = 0; i < missionModePanels.Count; i++)
+		{
+			Destroy(missionModePanels[i].gameObject);
+		}
+		missionModePanels.Clear();
+
+		// On reset le behavior pour que Initialize Trial fasse ce qu'il faut
+		if(aiBehavior != null)
+		{
+			inputController.controllable[dummy.ControllerID] = dummy;
+			Destroy(aiBehavior.gameObject);
+			aiBehavior = null;
+		}
+
+		InitializeTrial();
+		InitializeFailConditions();
+	}
 
 	public void InitializeTrial()
 	{
@@ -72,6 +99,13 @@ public class TrialsMode : MonoBehaviour
 		for (int i = 0; i < battleManager.characterAlive.Count; i++)
 		{
 			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+		}
+
+		// AI
+		if (trialsData.DummyBehavior != null)
+		{
+			aiBehavior = Instantiate(trialsData.DummyBehavior, dummy.transform);
+			aiBehavior.SetCharacter(dummy, inputController);
 		}
 
 		// UI
@@ -83,7 +117,7 @@ public class TrialsMode : MonoBehaviour
 			missionModePanels[i].DrawItem(trialsData.ComboNotes[i]);
 		}
 
-		textbox.OnTextEnd += NextText;
+		// Text
 		if (trialsData.TextboxStart.Count != 0)
 		{
 			textIndex = 0;
@@ -112,6 +146,13 @@ public class TrialsMode : MonoBehaviour
 			trialsData.FailConditions[i].EndCondition(player, dummy);
 		}
 	}
+
+
+
+
+
+
+
 
 
 	// Update is called once per frame
@@ -152,6 +193,7 @@ public class TrialsMode : MonoBehaviour
 	{
 		if (success == true)
 			return;
+		animatorRespawn.SetTrigger("Feedback");
 		trialsData.Missions[comboIndex].EndCondition(player, dummy);
 		EndFailConditions();
 		comboIndex = 0;
@@ -162,6 +204,9 @@ public class TrialsMode : MonoBehaviour
 		}
 		trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
 		InitializeFailConditions();
+
+		if (aiBehavior != null)
+			aiBehavior.ResetBehavior();
 
 		// UI
 		for (int i = 0; i < missionModePanels.Count; i++)
@@ -178,6 +223,9 @@ public class TrialsMode : MonoBehaviour
 		success = true;
 		animatorSuccess.SetActive(true);
 		EndFailConditions();
+
+		if (aiBehavior != null)
+			aiBehavior.StopBehavior();
 
 		// On échange le player et la textbox
 		inputControllerEmpty.controllable = player;
@@ -213,6 +261,8 @@ public class TrialsMode : MonoBehaviour
 			{
 				inputControllerEmpty.controllable = null;
 				inputController.controllable[player.ControllerID] = player;
+				if (aiBehavior != null)
+					aiBehavior.StartBehavior();
 			}
 			else
 			{
@@ -235,6 +285,17 @@ public class TrialsMode : MonoBehaviour
 
 	public void EndTrial()
 	{
+		if(trialsData.NextTrial != null)
+		{
+			animatorSuccess.gameObject.SetActive(false);
+			InitializeTrial(trialsData.NextTrial);
+			animatorRespawn.SetTrigger("Feedback");
+			battleManager.ResetPlayer();
+			for (int i = 0; i < battleManager.characterAlive.Count; i++)
+			{
+				battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+			}
+		}
 
 	}
 

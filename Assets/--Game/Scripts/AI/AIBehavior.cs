@@ -10,8 +10,11 @@ public class AIBehavior : MonoBehaviour
 	protected CharacterBase character;
 	[SerializeField]
 	protected InputController inputController;
+	[SerializeField]
+	protected bool isActive = false;
 
 	protected Input_Info inputs;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -30,5 +33,22 @@ public class AIBehavior : MonoBehaviour
 		character = c;
 		inputController = input;
 		inputController.controllable[character.ControllerID] = null;
+	}
+
+	public void ResetBehavior()
+	{
+		StopBehavior();
+		StartBehavior();
+	}
+
+	public virtual void StartBehavior()
+	{
+		isActive = true;
+	}
+
+	public virtual void StopBehavior()
+	{
+		inputs = new Input_Info();
+		isActive = false;
 	}
 }

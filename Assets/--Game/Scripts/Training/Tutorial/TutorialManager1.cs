@@ -145,7 +145,7 @@ public class TutorialManager1 : MonoBehaviour
 
 	private void EndTrial()
 	{
-
+		UnityEngine.SceneManagement.SceneManager.LoadScene("TutorialStage2");
 	}
 
 

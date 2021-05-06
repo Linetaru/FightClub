@@ -7,13 +7,13 @@ using Sirenix.OdinInspector;
 public class AIBehaviorJump : AIBehavior
 {
 
-	[SerializeField]
-	bool playAtStart = false;
-
 
 	void Update()
 	{
-		PlayInput();
+		if(isActive == true)
+			PlayInput();
+		else
+			character.UpdateControl(0, inputs);
 	}
 
 
