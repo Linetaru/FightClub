@@ -7,21 +7,23 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Rewired.UI.ControlMapper;
 using AK;
+
+
 public class MenuManagerUpdated : MonoBehaviour, IControllable
 {
-	[Title("Canvas Object")]
+	public GameData gameData;
+
+	[Title("Canvas Object Start")]
 	public List<TextMeshProUGUI> startTexts;
-	public GameObject playButton;
-	public GameObject optionButton;
-	public GameObject quitButton;
+	public List<GameObject> principalButtons;
+
+	[Title("Canvas Object Mode")]
+	public List<GameObject> modeButtons;
 
 	[Title("Parameter Variable")]
-	[ReadOnly] public bool isStartMenu = true;
+	[ReadOnly] public int currentButtonSelected;
 	bool OnTransition = false;
 	float timeTransition = 0;
-	bool CanPulse = true;
-	[ReadOnly] public int currentButtonSelected;
-	[HideInInspector] public bool canChangeScene;
 
 	[Title("Selected Button")]
 	[ReadOnly] public GameObject currentSelectButton;
@@ -31,43 +33,54 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public ControlMapper controlMapper;
 
 	[Title("Level Name")]
-	public string level;
+	public string sceneSelectionClassic;
+	public string sceneSelectionVolley;
+	public string sceneSelectionBomb;
+	private string sceneName;
+
+	[Title("Ak Wwise Sound Design")]
 	public AK.Wwise.Event clickIn;
 	public AK.Wwise.Event pressStart;
 	public AK.Wwise.Event mainWhoosh;
 
+	private enum MenuState
+	{
+		InStart,
+		InPrincipalMenu,
+		InModeMenu,
+		InTransition,
+	}
+
+	private MenuState menuState = MenuState.InStart;
+
 	private void Start()
-    {
-		Pulse();
+	{
 		controlMapper.Open();
 		controlMapper.onScreenClosed -= CloseOptions;
 		controlMapper.onScreenClosed += CloseOptions;
 		controlMapper.Close(true);
 	}
 
-	public void Pulse()
-    {
-        //if(CanPulse)
-        //	foreach (TextMeshProUGUI text in startTexts)
-        //		text.transform.DOScale(1f, 0.5f).OnComplete(() => text.transform.DOScale(0.8f, 0.5f).OnComplete(Pulse));
-    }
-
-    public void UpdateControl(int ID, Input_Info input_Info)
+	public void UpdateControl(int ID, Input_Info input_Info)
 	{
 
 		if (timeTransition > 0)
 		{
 			timeTransition -= Time.deltaTime;
 		}
-
-		if(canChangeScene)
+		else
         {
-			GoToOtherScene();
+			OnTransition = false;
 		}
+
+		//if (canChangeScene)
+		//{
+		//	GoToOtherScene();
+		//}
 
 		if (!controlMapper.isOpen && timeTransition <= 0)
 		{
-			if (!OnTransition && !isStartMenu)
+			if (!OnTransition && menuState != MenuState.InStart && menuState != MenuState.InTransition)
 			{
 				if (input_Info.vertical < -0.75)
 					ChangeSelectedButton(false);
@@ -91,37 +104,65 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 				}
 			}
 
-			if (input_Info.inputUiAction == InputConst.Pause && isStartMenu)
+			if (input_Info.inputUiAction == InputConst.Pause && menuState == MenuState.InStart)
 			{
 				AkSoundEngine.PostEvent(pressStart.Id, this.gameObject);
 				AkSoundEngine.PostEvent(mainWhoosh.Id, this.gameObject);
-				
-				isStartMenu = false;
+
+				menuState = MenuState.InPrincipalMenu;
 				Camera.main.transform.gameObject.GetComponent<Animator>().enabled = true;
 				foreach (TextMeshProUGUI text in startTexts)
 					text.transform.gameObject.SetActive(false);
 				//EventSystem.current.SetSelectedGameObject(playButton);
-				playButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.2f);
-				optionButton.transform.DOScale(new Vector3(1f, 1f, 0), 0.2f);
 				currentButtonSelected = 1;
-				currentSelectButton = playButton;
-				CanPulse = false;
+				currentSelectButton = principalButtons[0];
+				currentSelectButton.SetActive(true);
 			}
 
-			if (!isStartMenu && input_Info.inputUiAction == InputConst.Interact)
+			if (menuState != MenuState.InStart && input_Info.inputUiAction == InputConst.Interact)
 			{
-				switch (currentButtonSelected)
+
+				switch (menuState)
 				{
-					case 1:
-						Camera.main.GetComponent<Animator>().SetBool("canTransition", true);
+					case MenuState.InPrincipalMenu:
+						switch (currentButtonSelected)
+						{
+							case 1:
+								Camera.main.GetComponent<Animator>().SetBool("canTransiToMode", true);
+								menuState = MenuState.InModeMenu;
+								currentButtonSelected = 2; 
+								ChangeSelectedButton(true);
+								//timeTransition = 999;
+								//canChangeScene = true;
+								break;
+							case 2:
+								Options();
+								break;
+							case 3:
+								Application.Quit();
+								break;
+						}
+						break;
+					case MenuState.InModeMenu:
+						switch (currentButtonSelected)
+						{
+							case 1:
+								gameData.GameMode = GameModeStateEnum.Classic_Mode;
+								sceneName = sceneSelectionClassic;
+								break;
+							case 2:
+								gameData.GameMode = GameModeStateEnum.Volley_Mode;
+								sceneName = sceneSelectionVolley;
+								break;
+							case 3:
+								gameData.GameMode = GameModeStateEnum.Bomb_Mode;
+								sceneName = sceneSelectionBomb;
+								break;
+						}
+						Camera.main.GetComponent<Animator>().SetBool("canTransiToSelect", true);
 						timeTransition = 999;
-						canChangeScene = true;
-						break;
-					case 2:
-						Options();
-						break;
-					case 3:
-						Application.Quit();
+						menuState = MenuState.InTransition;
+						StartCoroutine(GoToOtherScene(sceneName));
 						break;
 				}
 			}
@@ -131,66 +172,111 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public void ChangeSelectedButton(bool isGoingUp)
 	{
 		AkSoundEngine.PostEvent(clickIn.Id, this.gameObject);
-		
-		
+
+
 		OnTransition = true;
 
 		if (isGoingUp)
-        {
+		{
 			if (currentButtonSelected == 1)
 				currentButtonSelected = 3;
 			else
 				currentButtonSelected--;
-
-			switch (currentButtonSelected)
-            {
-				case 1:
-					currentSelectButton = playButton;
-					lastSelectButton = optionButton;
+			switch (menuState)
+			{
+				case MenuState.InPrincipalMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = principalButtons[0];
+							lastSelectButton = principalButtons[1];
+							break;
+						case 2:
+							currentSelectButton = principalButtons[1];
+							lastSelectButton = principalButtons[2];
+							break;
+						case 3:
+							currentSelectButton = principalButtons[2];
+							lastSelectButton = principalButtons[0];
+							break;
+					}
 					break;
-				case 2:
-					currentSelectButton = optionButton;
-					lastSelectButton = quitButton;
+				case MenuState.InModeMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = modeButtons[0];
+							lastSelectButton = modeButtons[1];
+							break;
+						case 2:
+							currentSelectButton = modeButtons[1];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 3:
+							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[0];
+							break;
+					}
 					break;
-				case 3:
-					currentSelectButton = quitButton;
-					lastSelectButton = playButton;
-					break;
-            }
-        }
+			}
+		}
 		else
-        {
+		{
 			if (currentButtonSelected == 3)
 				currentButtonSelected = 1;
 			else
 				currentButtonSelected++;
 
-			switch (currentButtonSelected)
+			switch (menuState)
 			{
-				case 1:
-					currentSelectButton = playButton;
-					lastSelectButton = quitButton;
+				case MenuState.InPrincipalMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = principalButtons[0];
+							lastSelectButton = principalButtons[2];
+							break;
+						case 2:
+							currentSelectButton = principalButtons[1];
+							lastSelectButton = principalButtons[0];
+							break;
+						case 3:
+							currentSelectButton = principalButtons[2];
+							lastSelectButton = principalButtons[1];
+							break;
+					}
 					break;
-				case 2:
-					currentSelectButton = optionButton;
-					lastSelectButton = playButton;
-					break;
-				case 3:
-					currentSelectButton = quitButton;
-					lastSelectButton = optionButton;
+
+				case MenuState.InModeMenu:
+					switch (currentButtonSelected)
+					{
+						case 1:
+							currentSelectButton = modeButtons[0];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 2:
+							currentSelectButton = modeButtons[1];
+							lastSelectButton = modeButtons[0];
+							break;
+						case 3:
+							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[1];
+							break;
+					}
 					break;
 			}
 		}
-		currentSelectButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.5f).OnComplete(() => OnTransition = false);
-		lastSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.5f);
+		currentSelectButton.SetActive(true);
+		lastSelectButton.SetActive(false);
+		timeTransition = 0.5f;
 		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
 	}
 
-	public void Options()
+    public void Options()
 	{
 		controlMapper.Open();
 
-		currentSelectButton.transform.DOScale(new Vector3(1, 1, 0), 0.2f);
+		currentSelectButton.SetActive(false);
 		currentSelectButton = null;
 		//clear selected object
 		//EventSystem.current.SetSelectedGameObject(null);
@@ -199,16 +285,16 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public void CloseOptions()
 	{
 		OnTransition = true;
-		optionButton.transform.DOScale(new Vector3(1.5f, 1.5f, 0), 0.2f).OnComplete(() => OnTransition = false);
 		currentButtonSelected = 1;
-		currentSelectButton = optionButton;
+		currentSelectButton = principalButtons[principalButtons.Count - 2];
 		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
 		timeTransition = 0.2f;
 	}
 
-	public void GoToOtherScene()
-    {
-		Debug.Log("Ta mère l'anjanath");
+	private IEnumerator GoToOtherScene(string level)
+	{
+		//Debug.Log("Ta mère l'anjanath");
+		yield return new WaitForSeconds(1.3f);
 		UnityEngine.SceneManagement.SceneManager.LoadScene(level);
 	}
 }

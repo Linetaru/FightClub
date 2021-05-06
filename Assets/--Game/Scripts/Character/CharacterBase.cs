@@ -128,6 +128,13 @@ public class CharacterBase : MonoBehaviour, IControllable
 		set { playerID = value; }
 	}
 
+	private int controllerID;
+	public int ControllerID
+	{
+		get { return controllerID; }
+		set { controllerID = value; }
+	}
+
 	private TeamEnum teamID;
 	public TeamEnum TeamID
 	{

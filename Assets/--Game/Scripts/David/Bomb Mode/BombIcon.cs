@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class BombIcon : Icon
 {
-    private bool isFake;
-
     [SerializeField]
     private TextMeshPro bombTimerText;
 
@@ -17,30 +15,20 @@ public class BombIcon : Icon
 
     private float bombTimer;
 
-    private int bombTimerInSeconds;
-
-    private bool timeOut;
-
     private void Start()
     {
-        bombTimer = StickyBombManager.Instance.bombTimer;
+
     }
+
     void Update()
     {
-        bombTimer -= Time.deltaTime;
-        bombTimerInSeconds = (int) bombTimer % 60;
-        bombTimerText.text = bombTimerInSeconds.ToString();
-
-        if(bombTimer <= 0f && !timeOut)
-        {
-            timeOut = true;
-            if(!isFake)
-                StickyBombManager.Instance.TimeOutManager();
-        }
+        // Pas sûr de la performance 
+        bombTimer = (int)StickyBombManager.Instance.bombTimer % 60;
+        bombTimerText.text = bombTimer.ToString();
     }
-    public override void SwitchIcon(bool isFake)
-    {
 
+    public override void SwitchIcon()
+    {
         if(IsEnabled)
         {
             IsEnabled = false;
@@ -49,10 +37,13 @@ public class BombIcon : Icon
         }
         else
         {
-            this.isFake = isFake;
             IsEnabled = true;
             iconRenderer.enabled = true;
             textRenderer.enabled = true;
         }
+    }
+    public override void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

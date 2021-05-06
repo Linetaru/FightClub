@@ -77,6 +77,7 @@ public class BattleManager : MonoBehaviour
 			characterAlive.Add(user);
 
 			user.PlayerID = i;
+			user.ControllerID = gameData.CharacterInfos[i].ControllerID;
 			user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
 
 			user.Stats.GameData = gameData;

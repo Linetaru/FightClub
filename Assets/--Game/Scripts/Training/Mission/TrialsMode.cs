@@ -15,22 +15,29 @@ public class TrialsMode : MonoBehaviour
 	[Title("Logic")]
 	[SerializeField]
 	BattleManager battleManager;
+	[SerializeField]
+	InputController inputController;
+	[SerializeField]
+	InputControllerEmpty inputControllerEmpty;
+
+	[SerializeField]
+	Textbox textbox;
+
 
 
 	[Title("UI")]
 	[SerializeField]
 	MissionModePanel missionModePanel;
 	[SerializeField]
-	List<MissionModePanel> missionModePanels;
-	[SerializeField]
 	Transform parentMissionMode;
 
 	[SerializeField]
 	GameObject animatorSuccess;
 
-
+	int textIndex = 0;
 	int comboIndex = 0;
 	bool success = false;
+	List<MissionModePanel> missionModePanels;
 
 	CharacterBase player;
 	CharacterBase dummy;
@@ -46,6 +53,36 @@ public class TrialsMode : MonoBehaviour
 			dummy = character;
 			dummy.OnStateChanged += StateChangedCallback;
 			InitializeTrial();
+		}
+	}
+
+
+
+	public void InitializeTrial()
+	{
+		trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
+		for (int i = 0; i < battleManager.characterAlive.Count; i++)
+		{
+			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+		}
+
+		// UI
+		missionModePanels = new List<MissionModePanel>(trialsData.Missions.Count);
+		for (int i = 0; i < trialsData.Missions.Count; i++)
+		{
+			missionModePanels.Add(Instantiate(missionModePanel, parentMissionMode));
+			missionModePanels[i].gameObject.SetActive(true);
+			missionModePanels[i].DrawItem(trialsData.ComboNotes[i]);
+		}
+
+		textbox.OnTextEnd += NextText;
+		if (trialsData.TextboxStart.Count != 0)
+		{
+			textIndex = 0;
+			textbox.DrawTextbox(trialsData.TextboxStart[textIndex]);
+			// On échange le player et la textbox
+			inputControllerEmpty.controllable = player;
+			inputController.controllable[player.ControllerID] = textbox;
 		}
 	}
 
@@ -75,40 +112,36 @@ public class TrialsMode : MonoBehaviour
 
 
 
-	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
-	{
-		if(oldState is CharacterStateKnockback && (newState is CharacterStateIdle || newState is CharacterStateAerial))
-		{
-			ResetTrial();
-		}
-	}
-
-
-
-	public void InitializeTrial()
-	{
-		trialsData.Missions[comboIndex].InitializeCondition(player, dummy);
-		for (int i = 0; i < battleManager.characterAlive.Count; i++)
-		{
-			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
-		}
-
-		// UI
-		missionModePanels = new List<MissionModePanel>(trialsData.Missions.Count);
-		for (int i = 0; i < trialsData.Missions.Count; i++)
-		{
-			missionModePanels.Add(Instantiate(missionModePanel, parentMissionMode));
-			missionModePanels[i].gameObject.SetActive(true);
-			missionModePanels[i].DrawItem(trialsData.ComboNotes[i]);
-		}
-	}
 
 
 	public void SuccessTrial()
 	{
 		success = true;
 		animatorSuccess.SetActive(true);
-		Debug.Log("Success");
+
+		// On échange le player et la textbox
+		inputControllerEmpty.controllable = player;
+		inputController.controllable[player.ControllerID] = textbox;
+
+		if (trialsData.TextboxEnd.Count != 0)
+		{
+			textIndex = 0;
+			textbox.DrawTextbox(trialsData.TextboxEnd[textIndex]);
+		}
+		else
+		{
+			EndTrial();
+		}
+	}
+
+
+
+	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
+	{
+		if (oldState is CharacterStateKnockback && (newState is CharacterStateIdle || newState is CharacterStateAerial))
+		{
+			ResetTrial();
+		}
 	}
 
 	public void ResetTrial()
@@ -129,4 +162,51 @@ public class TrialsMode : MonoBehaviour
 			missionModePanels[i].ResetButton();
 		}
 	}
+
+
+
+
+
+	public void NextText()
+	{
+		textIndex += 1;
+		if (success == false) // C'est le texte du début 
+		{
+			if(textIndex >= trialsData.TextboxStart.Count)
+			{
+				inputControllerEmpty.controllable = null;
+				inputController.controllable[player.ControllerID] = player;
+			}
+			else
+			{
+				textbox.DrawTextbox(trialsData.TextboxStart[textIndex]);
+			}
+		}
+		else // C'est le texte de fin
+		{
+			if (textIndex >= trialsData.TextboxEnd.Count)
+			{
+				EndTrial();
+			}
+			else
+			{
+				textbox.DrawTextbox(trialsData.TextboxEnd[textIndex]);
+			}
+		}
+
+	}
+
+	public void EndTrial()
+	{
+
+	}
+
+
+	private void OnDestroy()
+	{
+		textbox.OnTextEnd -= NextText;
+	}
+
+
+
 }

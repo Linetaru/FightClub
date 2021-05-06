@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class StickyBombManager : MonoBehaviour
 {
@@ -9,19 +10,55 @@ public class StickyBombManager : MonoBehaviour
     private static StickyBombManager _instance;
     public static StickyBombManager Instance { get { return _instance; } }
 
+    enum RoundMode { Normal = 0, FakeBomb = 1, Invisible = 2}
+    List<string> roundModeList = new List<string> { "Classic !", "Fake Bomb !", "Invisible Bomb !" };
+
+    [Title("Objects")]
     [SerializeField]
     private BombIcon bombIcon;
 
     [SerializeField]
     private GameObject explosionPrefab;
 
+    [SerializeField]
+    private GameObject stickyBombUI;
+
+    private StickyBombUIManager uiManager;
+
+    [Title("Round Infos")]
+    private int currentRound = 0;
+    private RoundMode currentRoundMode;
+
     public float bombTimer = 10f;
+
+    private bool startRound;
 
     [SerializeField]
     private float timeBetweenRounds;
 
+    private float originalBombTimer;
+
+    private bool timeOut = true;
+
+    [Title("Player Scale Infos")]
+    // A partir de quel pourcentage de bombTimer la scale sera à son max
+    // Si coefScaleMax = 0.5 => Le joueur aura sa scale max à 50% de bombTimer
     [SerializeField]
-    private List<int> roundsWithFakeBomb = new List<int> { 2, 6, 10 };
+    [Range(0f, 1f)]
+    [PropertyTooltip("Pourcentage de bombTimer auquel le player aura sa taille maximum (0.5 = 50%)")]
+    private float coefScaleMax = 0.5f;
+
+    [SerializeField]
+    [Range(1f, 5f)]
+    private float scaleMaxMultiplier = 2f;
+
+    [Title("Special Rounds")]
+    [SerializeField]
+    private bool randomRounds;
+    [SerializeField]
+    private List<int> roundsWithFakeBomb = new List<int>();
+    [SerializeField]
+    private List<int> roundsWithInvisibleBomb = new List<int>();
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -37,17 +74,16 @@ public class StickyBombManager : MonoBehaviour
     private Vector3 playerOriginalScale;
     private Vector3 fakeBombedOriginalScale;
 
+    [Title("Events")]
     //Float Event
     public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
     //Chararcter Event
     public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
 
+    [Title("Status")]
     [SerializeField]
     private StatusData status;
 
-
-    // Test Rounds
-    private int currentRound = 0;
 
     private void Awake()
     {
@@ -65,16 +101,79 @@ public class StickyBombManager : MonoBehaviour
 
     void Start()
     {
-        InitStickyBomb();
-    }
+        originalBombTimer = bombTimer;
 
+        GameObject stickyBombUIGO = Instantiate(stickyBombUI);
+
+        uiManager = stickyBombUIGO.GetComponent<StickyBombUIManager>();
+
+        StartCoroutine(WaitBeforeNextRound());
+
+        //InitStickyBomb();
+    }
 
     void Update()
     {
-        
+        if(startRound)
+        {
+            if(uiManager.isCountdownOver)
+            {
+                uiManager.isCountdownOver = false;
+                startRound = false;
+                InitStickyBomb();
+            }
+        }
+        BombTimerManager();
     }
+
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
+        if (user == currentBombedPlayer && target != currentFakeBombedPlayer)
+        {
+            oldBombedPlayer = user;
+            oldBombedPlayer.Status.RemoveStatus("osef");
+            oldBombedPlayer.transform.localScale = playerOriginalScale;
+            currentBombedPlayer = target;
+
+            if (currentRoundMode != RoundMode.Invisible)
+                UpdateBombInfos();
+        }
+        else if (user == currentFakeBombedPlayer && target != currentBombedPlayer)
+        {
+            oldFakeBombedPlayer = user;
+            oldFakeBombedPlayer.Status.RemoveStatus("osef");
+            oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+            currentFakeBombedPlayer = target;
+
+            if (currentRoundMode != RoundMode.Invisible)
+                UpdateFakeBombInfos();
+        }
+        else if (user != currentBombedPlayer && user != currentFakeBombedPlayer && currentRoundMode != RoundMode.Invisible)
+        {
+            if (target == currentBombedPlayer)
+            {
+                oldBombedPlayer = target;
+                oldBombedPlayer.Status.RemoveStatus("osef");
+                oldBombedPlayer.transform.localScale = playerOriginalScale;
+                currentBombedPlayer = user;
+
+                if (currentRoundMode != RoundMode.Invisible)
+                    UpdateBombInfos();
+            }
+            else if (target == currentFakeBombedPlayer)
+            {
+                oldFakeBombedPlayer = target;
+                oldFakeBombedPlayer.Status.RemoveStatus("osef");
+                oldFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
+                currentFakeBombedPlayer = user;
+
+                if (currentRoundMode != RoundMode.Invisible)
+                    UpdateFakeBombInfos();
+            }
+        }
+
+        // Si on veut le transfert de bombe seulement par celui qui la possède
+        /*
         if(user.CharacterIcon.Icon.IsEnabled && target != currentFakeBombedPlayer && target != currentBombedPlayer)
         {
             if(user == currentBombedPlayer)
@@ -101,16 +200,17 @@ public class StickyBombManager : MonoBehaviour
 
                 UpdateFakeBombIcons();
             }
-
         }
+        */
+
     }
 
     public void InitStickyBomb()
     {
-        currentRound++;
+        timeOut = false;
 
         if (battleManager.characterAlive.Count < 3)
-            roundsWithFakeBomb = null;
+            roundsWithFakeBomb.Clear();
 
         for(int i = 0; i < battleManager.characterAlive.Count; i++)
         {
@@ -119,22 +219,24 @@ public class StickyBombManager : MonoBehaviour
 
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
-        playerOriginalScale = currentBombedPlayer.transform.localScale;
-        currentBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-        StartCoroutine(LerpScale(currentBombedPlayer));
+        if(currentRoundMode != RoundMode.Invisible)
+        {
+            playerOriginalScale = currentBombedPlayer.transform.localScale;
+            currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+            StartCoroutine(LerpScale(currentBombedPlayer));
 
-        FakeBombManager();
+            FakeBombManager();
 
-        UpdateBombIcons();
-        UpdateFakeBombIcons();
+            UpdateBombInfos();
+        }
     }
 
     public void FakeBombManager()
     {
-        if(roundsWithFakeBomb.Contains(currentRound))
+        if(currentRoundMode == RoundMode.FakeBomb)
         {
-            List<CharacterBase> tmpList = battleManager.characterAlive;
+            List<CharacterBase> tmpList = new List<CharacterBase>(battleManager.characterAlive);
             tmpList.Remove(currentBombedPlayer);
 
             int playerFakeBomb = Random.Range(0, tmpList.Count);
@@ -143,38 +245,50 @@ public class StickyBombManager : MonoBehaviour
 
             fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
 
+            UpdateFakeBombInfos();
+
             StartCoroutine(LerpScale(currentFakeBombedPlayer));
         }
     }
 
-    public void UpdateBombIcons()
+    public void UpdateBombInfos()
     {
+        playerOriginalScale = currentBombedPlayer.transform.localScale;
+        currentBombedPlayer.Status.AddStatus(new Status("osef", status));
+
         if (oldBombedPlayer != null)
-            oldBombedPlayer.CharacterIcon.SwitchIcon(false);
+            oldBombedPlayer.CharacterIcon.SwitchIcon();
 
         if (currentBombedPlayer != null)
-            currentBombedPlayer.CharacterIcon.SwitchIcon(false);
+            currentBombedPlayer.CharacterIcon.SwitchIcon();
     }
 
-    public void UpdateFakeBombIcons()
+    public void UpdateFakeBombInfos()
     {
-        if (oldFakeBombedPlayer != null)
+        if (currentRoundMode == RoundMode.FakeBomb)
         {
-            oldFakeBombedPlayer.CharacterIcon.SwitchIcon(true);
-        }
+            fakeBombedOriginalScale = currentFakeBombedPlayer.transform.localScale;
+            currentFakeBombedPlayer.Status.AddStatus(new Status("osef", status));
 
-        if (currentFakeBombedPlayer != null)
-        {
-            currentFakeBombedPlayer.CharacterIcon.SwitchIcon(true);
+            if (oldFakeBombedPlayer != null)
+            {
+                oldFakeBombedPlayer.CharacterIcon.SwitchIcon();
+            }
+
+            if (currentFakeBombedPlayer != null)
+            {
+                currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
+            }
         }
     }
 
-    public void TimeOutManager()
+    public void TimeOut()
     {
         ExplosionDeath();
 
         if (currentFakeBombedPlayer != null)
         {
+            currentFakeBombedPlayer.CharacterIcon.SwitchIcon();
             currentFakeBombedPlayer.Status.RemoveStatus("osef");
             currentFakeBombedPlayer.transform.localScale = fakeBombedOriginalScale;
             currentFakeBombedPlayer = null;
@@ -183,17 +297,14 @@ public class StickyBombManager : MonoBehaviour
         currentBombedPlayer.Status.RemoveStatus("osef");
         currentBombedPlayer.transform.localScale = playerOriginalScale;
 
+        float stocks = currentBombedPlayer.Stats.LifeStocks;
+        string tag = currentBombedPlayer.gameObject.tag;
+
         // Destroy all bombs
         for (int i = 0; i < battleManager.characterAlive.Count; i++)
         {
             battleManager.characterAlive[i].CharacterIcon.DestroyIcon();
         }
-
-
-        float stocks = currentBombedPlayer.Stats.LifeStocks;
-        string tag = currentBombedPlayer.gameObject.tag;
-
-        Debug.Log("TAG = " + tag);
 
         if (stocks - 1 > 0)
         {
@@ -218,46 +329,98 @@ public class StickyBombManager : MonoBehaviour
             gameEventStocks[2].Raise(currentBombedPlayer);
         else if (tag == "Player4")
             gameEventStocks[3].Raise(currentBombedPlayer);
-
-
+        
         currentBombedPlayer = null;
         oldBombedPlayer = null;
 
         StartCoroutine(WaitBeforeNextRound());
     }
 
+    private void UpdateRoundMode()
+    {
+        currentRound++;
+
+        if (!randomRounds)
+        {
+            if (roundsWithFakeBomb.Contains(currentRound))
+                currentRoundMode = RoundMode.FakeBomb;
+            else if (roundsWithInvisibleBomb.Contains(currentRound))
+                currentRoundMode = RoundMode.Invisible;
+            else
+                currentRoundMode = RoundMode.Normal;
+        }
+        else
+        {
+            if (currentRound > 3)
+                RandomRound();
+            else
+                currentRoundMode = RoundMode.Normal;
+        }
+
+        uiManager.ChangeCurrentModeValue(roundModeList[(int)currentRoundMode]);
+    }
+
+    private void RandomRound()
+    {
+        int random = Random.Range(0, 12);
+
+        if (random < 2 && battleManager.characterAlive.Count > 2)
+        {
+            currentRoundMode = RoundMode.FakeBomb;
+        }
+        else if (random < 5)
+        {
+            currentRoundMode = RoundMode.Invisible;
+        }
+        else
+        {
+            currentRoundMode = RoundMode.Normal;
+        }
+    }
+
+    private void BombTimerManager()
+    {
+        if(!timeOut)
+        {
+            bombTimer -= Time.deltaTime;
+            if (bombTimer <= 0f)
+            {
+                timeOut = true;
+                bombTimer = originalBombTimer;
+                TimeOut();
+            }
+        }
+    }
+
     private void ExplosionDeath()
     {
-        Debug.LogError("Explosion de : " + currentBombedPlayer);
         GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
         Destroy(explosion, 4f);
     }
 
     IEnumerator WaitBeforeNextRound()
     {
+        UpdateRoundMode();
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
-        InitStickyBomb();
+        uiManager.LaunchCountDownAnim();
+        startRound = true;
+        //InitStickyBomb();
     }
-
-
 
     IEnumerator LerpScale(CharacterBase player)
     {
-        float time = 0f;
-
         Vector3 originalScale = playerOriginalScale;
+        Vector3 targetScale = originalScale * scaleMaxMultiplier;
 
-        while (time < bombTimer)
+        while (bombTimer > 0)
         {
             if(currentBombedPlayer != null)
             {
-                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, new Vector3(2, 2, 2), time / (bombTimer * 0.75f));
+                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
 
                 if(currentFakeBombedPlayer != null)
-                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, new Vector3(2, 2, 2), time / (bombTimer * 0.75f));
+                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
 
-
-                time += Time.deltaTime;
                 yield return null;
             }
             else

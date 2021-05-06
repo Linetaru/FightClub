@@ -23,12 +23,12 @@ public class CharacterIcon : MonoBehaviour
 
     public void DestroyIcon()
     {
-        Destroy(icon.gameObject);
+        icon.DestroySelf();
     }
 
-    public void SwitchIcon(bool param)
+    public void SwitchIcon()
     {
-        icon.SwitchIcon(param);
+        icon.SwitchIcon();
     }
 
 }
