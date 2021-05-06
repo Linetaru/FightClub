@@ -117,6 +117,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 if (holograms[ID].currentCursorPosition == 2)
                 {
                     holograms[ID].RandomReady(characterDatas);
+                    numberOfReadyPlayers++;
                 }
                 else
                 {
@@ -258,15 +259,18 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
-                    if (gameData.CharacterInfos.Count > i)
-                    {
-                        gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
-                        gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
+                    //if (gameData.CharacterInfos.Count > i)
+                    //{
+                        gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
+
+                        Debug.Log(holograms[i].currentChoosedCharacter.name);
 
                         //Assign Team
-                        gameData.CharacterInfos[i].Team = holograms[i].currentTeam;
-                        gameData.CharacterInfos[i].ControllerID = holograms[i].iD;
-                    }
+                        gameData.CharacterInfos[characterInfoNumber].Team = holograms[i].currentTeam;
+                        gameData.CharacterInfos[characterInfoNumber].ControllerID = holograms[i].iD;
+                        characterInfoNumber++;
+                    //}
                 }
             }
             readySlash.SetActive(true);
