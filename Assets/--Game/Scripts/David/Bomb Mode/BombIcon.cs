@@ -39,7 +39,8 @@ public class BombIcon : Icon
         {
             IsEnabled = true;
             iconRenderer.enabled = true;
-            textRenderer.enabled = true;
+            if(StickyBombManager.Instance.CurrentRoundMode != StickyBombManager.RoundMode.Inv_Countdown)
+                textRenderer.enabled = true;
         }
     }
     public override void DestroySelf()
