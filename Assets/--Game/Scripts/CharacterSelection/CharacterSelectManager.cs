@@ -58,6 +58,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (playerStocks > 1)
             {
+                input_Info.inputActions[0].timeValue = 0;
                 playerStocks--;
                 UpdateStockText();
             }
@@ -66,6 +67,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (playerStocks < 99)
             {
+                input_Info.inputActions[0].timeValue = 0;
                 playerStocks++;
                 UpdateStockText();
             }
