@@ -44,7 +44,9 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private bool isStarted = false;
 
     public string beforeMenuSceneName;
-    public string afterMenuSceneName;
+    public string afterMenuSceneNameClassicMode;
+    public string afterMenuSceneNameBombMode;
+    public string afterMenuSceneNameVolleyMode;
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -295,7 +297,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene(afterMenuSceneName);
+        if(gameData.GameMode == GameModeStateEnum.Classic_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+        else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameBombMode);
+        else if(gameData.GameMode == GameModeStateEnum.Volley_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
+
     }
 
     void ReturnToMainMenu()
