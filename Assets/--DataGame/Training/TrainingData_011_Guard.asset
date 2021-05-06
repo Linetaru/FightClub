@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrainingData_Basics
+  m_Name: TrainingData_011_Guard
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 8045468721652775528, guid: 40e774808bf4b444e9db037393558d30, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -30,10 +31,41 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|MissionInputJump, Assembly-CSharp
+      Data: 1|MissionInputAttack, Assembly-CSharp
+    - Name: attack
+      Entry: 10
+      Data: 0
+    - Name: hitboxID
+      Entry: 7
+      Data: 2|System.Int32[], mscorlib
+    - Name: 
+      Entry: 14
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: failConditions
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -44,9 +76,11 @@ MonoBehaviour:
   dummy: {fileID: 0}
   dummyBehavior: {fileID: 0}
   textboxStart:
-  - "Bienvenue dans le programme d'entra\xEEnement M. Bernard."
-  - "Pour cette premi\xE8re session nous allons tester votre agilit\xE9."
+  - Essaye d'attaquer.
   enemyPercentage: 0
   comboNotes:
-  - "D\xE9placement - Joystick Gauche"
-  textboxEnd: []
+  - 'Neutral - <sprite=10> '
+  - Down - <sprite=10> + <sprite=11>
+  - Up  - <sprite=10> + <sprite=11>
+  textboxEnd:
+  - "Ces attaques sont appel\xE9es les Tilt et bla bla bla..."

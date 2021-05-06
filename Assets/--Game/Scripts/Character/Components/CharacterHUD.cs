@@ -95,11 +95,9 @@ public class CharacterHUD : MonoBehaviour
 		user.Knockback.Parry.OnParry += CallbackParry;
 		this.gameObject.SetActive(true);
 
-		/*DrawPercent(user.Stats.LifePercentage);
+		DrawPercent(user.Stats.LifePercentage);
 		DrawGauge(user.PowerGauge.CurrentPower);
-		DrawLives(user.Stats.LifeStocks);*/
-
-
+		DrawLives(user.Stats.LifeStocks);
 	}
 
 	public void SetColor(Color c)
