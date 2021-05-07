@@ -719,6 +719,21 @@
 										</Folder>
 									</ChildrenList>
 								</Folder>
+								<Folder Name="BRAND_Parry" ID="{49A1E8C7-8624-45DC-A2D6-3066C64D6369}" ShortID="78050640">
+									<ChildrenList>
+										<Event Name="Play_SFX_Attack_Hit_Parry" ID="{08332E0B-8077-407B-A893-14E4B176341B}">
+											<ChildrenList>
+												<Action Name="" ID="{23EED293-332E-4CDA-AC01-BD001E156041}" ShortID="45172098">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="SFX_Attack_Hit_Parry" ID="{9B478800-3569-4BD5-8B6F-2C0C6D265A73}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+									</ChildrenList>
+								</Folder>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>
@@ -1028,12 +1043,67 @@
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ChildrenList>
-						<Event Name="Play_SFX_Explosion" ID="{F29D20DE-1CCE-41C8-98AD-C32FBFBC2735}">
+						<Event Name="Play_SFX_Ball_Explosion" ID="{B2E4BDF1-0082-455F-8079-B787EDF43E23}">
 							<ChildrenList>
-								<Action Name="" ID="{DAC5BAD5-C11B-43D9-B315-4F51DA299DB1}" ShortID="347206429">
+								<Action Name="" ID="{D2E181F5-0B57-4BD5-AFDE-B8CC982E735E}" ShortID="1003246093">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="SFX_Explosion" ID="{A220760E-B20B-4CBE-A419-F1A6A7204B54}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+											<ObjectRef Name="SFX_Ball_Explosion_v2" ID="{615A49A6-62ED-4869-940A-7B7E1BA21BB1}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SFX_Ball_WallBound" ID="{8CF37B53-324F-4701-B17B-C510059E3A60}">
+							<ChildrenList>
+								<Action Name="" ID="{51899808-8619-4AA0-99C4-48438F36F885}" ShortID="517324325">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_Ball_WallBound" ID="{2368422B-BCC6-4022-B209-537FC325A909}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SFX_Player_Fall_Explosion" ID="{120C2FBF-33D2-445E-9562-AF91BD90F470}">
+							<ChildrenList>
+								<Action Name="" ID="{A7FC48E9-971E-4BB7-A5BE-19296F4A4D59}" ShortID="482841478">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_Player_Fall_Explosion" ID="{35E8D0E2-F8F2-4605-9BB6-9149C6FE2950}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SFX_ScoreGoal_AirHorn" ID="{C6F357D0-76D0-4FF3-A9C0-58523B0072D8}">
+							<ChildrenList>
+								<Action Name="" ID="{B0DF10EB-BC3E-4221-A276-4979249D0916}" ShortID="200062572">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_ScoreGoal_AirHorn" ID="{82A8F62A-890B-4497-BAB8-F786293BBE80}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SFX_Player_ScoreGoal_Crowd_React" ID="{9CCEDDA6-449C-45C9-8328-E3A85A5234C6}">
+							<ChildrenList>
+								<Action Name="" ID="{3F9F92AB-421B-482D-A4D4-A3D21EC33A7E}" ShortID="182625912">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_ScoreGoal_Crowd_Applause_v1" ID="{041B707B-AAD1-423B-BAA6-832B62C091B1}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_SFX_Player_Ejected_React" ID="{14C10304-92E8-43AD-B234-C53EB7A3A0BA}">
+							<ChildrenList>
+								<Action Name="" ID="{8B8B4BB0-EA03-4505-93A8-57E4104DDCF3}" ShortID="687388553">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_Player_Ejected_React" ID="{6686FFC5-EA16-49F7-9678-EB12A7B50077}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1047,12 +1117,50 @@
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ChildrenList>
-						<Event Name="Amb_IndustrialCity_01_Lp" ID="{44533A4E-7892-4965-BDE0-0EE149E13E46}">
+						<Event Name="Play_Amb_IndustrialCity_Lp" ID="{44533A4E-7892-4965-BDE0-0EE149E13E46}">
 							<ChildrenList>
 								<Action Name="" ID="{6360417A-6E4C-40D3-AEBE-93591D41490A}" ShortID="788044577">
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Amb_IndustrialCity_01_Lp" ID="{780E9A3F-B675-4B1A-B651-CD916DF8B0EC}" WorkUnitID="{FA46623D-901B-485A-BE88-B8897EF31AE2}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Amb_RoofTop_Bidonville_Lp" ID="{1CD3C48C-20DA-4D56-A986-B3066AFC1FF7}">
+							<ChildrenList>
+								<Action Name="" ID="{7A09A1CC-2789-4F2A-B5E8-733484BCF391}" ShortID="904811453">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Amb_RoofTop_Bidonville_Lp" ID="{CB1081CE-6389-4202-9083-72BCF476B850}" WorkUnitID="{FA46623D-901B-485A-BE88-B8897EF31AE2}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Amb_RoofTop_Level1_Lp" ID="{D16176D3-32E4-48C2-AE08-CA94748249C2}"/>
+						<Event Name="Play_Amb_RoofTop_VolleyBall_Lp" ID="{3D3D552C-3CA1-45C1-9054-BAE802005769}">
+							<ChildrenList>
+								<Action Name="" ID="{7D22CC3D-1D01-4697-BAB4-8882A45BA336}" ShortID="255698203">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Amb_RoofTop_VolleyBall_Lp" ID="{6AA6FA05-68CC-44DB-AF8B-8B0F2EF9EBF7}" WorkUnitID="{FA46623D-901B-485A-BE88-B8897EF31AE2}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Cinematic" ID="{87B42680-CBFF-4A88-B0BC-4FF35782BE9C}" ShortID="339306079">
+					<ChildrenList>
+						<Event Name="Play_SFX_CINE_Whoosh_Rematch" ID="{2A427A8B-1481-4DF2-B7AE-67B0EF683CE4}">
+							<ChildrenList>
+								<Action Name="" ID="{7E6D2F70-F488-43E4-A2AA-62932736C121}" ShortID="641571178">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SFX_CINE_Whoosh_Rematch" ID="{4B8C4677-05B7-4718-8D68-41B6C5431B65}" WorkUnitID="{4F4B1DFF-CCF8-43D1-9CA8-434CFCBEE74C}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
