@@ -7,7 +7,15 @@
 				<Property Name="OverrideColor" Type="bool" Value="True"/>
 			</PropertyList>
 			<ChildrenList>
-				<Folder Name="Feedback" ID="{FE74781F-7C43-4A2A-A96B-3E39FA03196A}" ShortID="339191501">
+				<ActorMixer Name="Feedback_AM" ID="{4A08F7D8-5DFE-457A-911D-3E174A5C8894}" ShortID="343137665">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
 					<ChildrenList>
 						<Sound Name="SFX_Explosion" ID="{A220760E-B20B-4CBE-A419-F1A6A7204B54}" ShortID="980157079">
 							<ReferenceList>
@@ -32,7 +40,7 @@
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-				</Folder>
+				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
