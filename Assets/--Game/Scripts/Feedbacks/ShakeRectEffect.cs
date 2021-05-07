@@ -17,7 +17,7 @@ namespace Feedbacks
         RectTransform rectTransform;
         private IEnumerator shakeCoroutine;
 
-        private void Start()
+        private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             origin = rectTransform.anchoredPosition;
@@ -30,6 +30,8 @@ namespace Feedbacks
 
         public void Shake(float power, float time)
         {
+            if (gameObject.activeInHierarchy == false)
+                return;
             if (shakeCoroutine != null)
                 StopCoroutine(shakeCoroutine);
             shakeCoroutine = ShakeSpriteCoroutine(power, time);
@@ -39,6 +41,8 @@ namespace Feedbacks
         [ContextMenu("Shake")]
         public void Shake()
         {
+            if (gameObject.activeInHierarchy == false)
+                return;
             if (shakeCoroutine != null)
                 StopCoroutine(shakeCoroutine);
             shakeCoroutine = ShakeSpriteCoroutine(defaultForce, defaultTime);

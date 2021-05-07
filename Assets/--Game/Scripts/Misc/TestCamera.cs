@@ -46,6 +46,11 @@ public class TestCamera : MonoBehaviour
 
 	Vector3 velocity;
 
+	public void SetStageBounds(BoxCollider newBounds)
+	{
+		stageBounds = newBounds;
+	}
+
 
 	public void AddCharacter(CharacterBase character)
 	{

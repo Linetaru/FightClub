@@ -29,6 +29,11 @@ public class PauseGame : MonoBehaviour
 
 	public void UpdatePauseState()
     {
+        for (int i = 0; i < inputController.playerInputs.Length; i++)
+        {
+            if(inputController.playerInputs[i].inputUiAction == InputConst.Pause)
+                inputController.playerInputs[i].inputUiAction = null;
+        }
         isPause = !isPause;
         PauseGameUI();
     }

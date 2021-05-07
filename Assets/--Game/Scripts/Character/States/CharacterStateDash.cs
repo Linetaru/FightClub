@@ -7,11 +7,9 @@ public class CharacterStateDash : CharacterState
 {
 	[Title("State")]
 	[SerializeField]
-	CharacterState idleState;
+	CharacterState dashEndState;
 	[SerializeField]
 	CharacterState aerialState;
-	[SerializeField]
-	CharacterState turnAroundState;
 	[SerializeField]
 	CharacterState jumpStartState;
 
@@ -23,6 +21,8 @@ public class CharacterStateDash : CharacterState
 	float dashStartup = 1f;
 	[SerializeField]
 	float dashTime = 6f;
+	[SerializeField]
+	float dashDanceTime = 8f;
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
@@ -47,11 +47,14 @@ public class CharacterStateDash : CharacterState
 	int dashDirection = 0;
 	bool inDashStartup = true;
 
+	int bufferDirection = 0;
+
 
 	private void Start()
 	{
 		dashStartup /= 60f;
 		dashTime /= 60f;
+		dashDanceTime /= 60f;
 	}
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
@@ -59,6 +62,7 @@ public class CharacterStateDash : CharacterState
 		t = 0f;
 		dashDirection = character.Movement.Direction;
 		inDashStartup = true;
+		bufferDirection = 0;
 
 		ParticleSystem particle = Instantiate(jumpParticleSystem, this.transform.position, Quaternion.Euler(0, 0, Mathf.Atan2(1 * character.Movement.Direction, 1) * Mathf.Rad2Deg));
 		Destroy(particle.gameObject, 0.5f);
@@ -66,14 +70,30 @@ public class CharacterStateDash : CharacterState
 
 	public override void UpdateState(CharacterBase character)
 	{
+		// DASH STARTUP
 		if (inDashStartup == true)
 		{
-			t += Time.deltaTime;
-			if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) != dashDirection)
+			if (!character.Input.CheckActionHold(InputConst.RightTrigger))
 			{
-				character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-				character.SetState(this);
+				evasiveMoveset.ForceDodgeGround(character);
+				return;
 			}
+
+			if (Mathf.Abs(character.Input.horizontal) > (stickDashThreshold * 0.5f) && Mathf.Sign(character.Input.horizontal) != dashDirection)
+			{
+				if (t < dashDanceTime)
+				{
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+					character.SetState(this);
+					return;
+				}
+				else
+				{
+					bufferDirection = (int)Mathf.Sign(character.Input.horizontal);
+				}
+			}
+
+
 			if (t < dashStartup)
 			{
 				character.Movement.SpeedX = 0;
@@ -83,28 +103,31 @@ public class CharacterStateDash : CharacterState
 				character.Movement.MaxAcceleration();
 				character.Movement.SpeedX = character.Movement.SpeedMax * dashMultiplier;
 			}
-			/*else if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) != dashDirection)
-			{
-				t = 0f;
-				dashDirection = (int)Mathf.Sign(character.Input.horizontal);
-				character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-
-				ParticleSystem particle = Instantiate(jumpParticleSystem, this.transform.position, Quaternion.Euler(0, 0, Mathf.Atan2(1 * character.Movement.Direction, 1) * Mathf.Rad2Deg));
-				Destroy(particle.gameObject, 0.5f);
-			}*/
 			else
 			{
 				inDashStartup = false;
 			}
+			t += Time.deltaTime;
 		}
+
+
+
+		// DASH 
 		else if (inDashStartup == false)
 		{
-			if(!character.Input.CheckActionHold(InputConst.RightTrigger)) 
+			if (bufferDirection != 0)
 			{
-				character.Movement.Decelerate();
-				character.SetState(idleState);
+				Debug.Log("Ah ?");
+				character.Movement.Direction = bufferDirection;
+				character.SetState(this);
+				return;
 			}
-			else if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold)
+
+			if (!character.Input.CheckActionHold(InputConst.RightTrigger)) 
+			{
+				character.SetState(dashEndState);
+			}
+			else if (Mathf.Abs(character.Input.horizontal) > stickDashThreshold && Mathf.Sign(character.Input.horizontal) == dashDirection)
 			{
 				if (character.Movement.SpeedX < character.Movement.SpeedMax)
 					character.Movement.Accelerate();
@@ -123,7 +146,7 @@ public class CharacterStateDash : CharacterState
 						if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
 						{
 							character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
-							StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));// Coroutine qui attend 1 frame pour reset le mask de collision du perso
+							StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));  // Coroutine qui attend 1 frame pour reset le mask de collision du perso
 
 							character.SetState(aerialState);
 							character.Movement.ApplyGravity();
@@ -153,8 +176,7 @@ public class CharacterStateDash : CharacterState
 			}
 			else // On arrête de courir
 			{
-				character.Movement.Decelerate();
-				character.SetState(idleState);
+				character.SetState(dashEndState);
 			}
 		}
 

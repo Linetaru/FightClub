@@ -75,6 +75,7 @@ public class CharacterMovement : MonoBehaviour
     public float MaxAerialSpeed
     {
         get { return maxAerialSpeed; }
+        //set { maxAerialSpeed = value; }
     }
 
 

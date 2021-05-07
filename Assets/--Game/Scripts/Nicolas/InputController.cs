@@ -38,6 +38,7 @@ public class Input_Info
     {
 		inputActions = new List<InputBuffer>();
 		inputActionsUP = new List<InputBuffer>();
+		inputActionsHold = new List<InputAction>();
 		inputUiAction = null;
 
 		horizontal = 0;
@@ -153,7 +154,6 @@ public class InputController : SerializedMonoBehaviour
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
-					playerInputs[i].inputUiAction = null;
 					pauseEvent.Raise();
 				}
 
