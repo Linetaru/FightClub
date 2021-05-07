@@ -29,6 +29,11 @@ public class PauseGame : MonoBehaviour
 
 	public void UpdatePauseState()
     {
+        for (int i = 0; i < inputController.playerInputs.Length; i++)
+        {
+            if(inputController.playerInputs[i].inputUiAction == InputConst.Pause)
+                inputController.playerInputs[i].inputUiAction = null;
+        }
         isPause = !isPause;
         PauseGameUI();
     }
@@ -59,20 +64,35 @@ public class PauseGame : MonoBehaviour
                 {
                     GetPositionCursor(State.Up);
                 }
+
+                if (inputController.playerInputs[i].inputUiAction == InputConst.Interact)
+                {
+
+                    if (state == 0)
+                        UpdatePauseState();
+                    else
+                    {
+                        Time.timeScale = 1;
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    }
+                }
             }
         }
 
         if (isPause)
         {
             //Debug.Log("Encore un debug qui va finir par faire n'importe quoi ou pas c'est pas trop long j'espere comme debug");
-            if (Input.GetKeyDown(KeyCode.Space))
+            for (int i = 0; i < inputController.playerInputs.Length; i++)
             {
-                if (state == 0)
-                    UpdatePauseState();
-                else
+                if(inputController.playerInputs[i].inputUiAction == InputConst.Interact)
                 {
-                    Time.timeScale = 1;
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    if (state == 0)
+                        UpdatePauseState();
+                    else
+                    {
+                        Time.timeScale = 1;
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
+                    }
                 }
             }
         }
@@ -99,13 +119,13 @@ public class PauseGame : MonoBehaviour
         if (state == 0)
         {
             state = 1;
-            textQuit.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+            textQuit.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
             textReturn.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
         }
         else
         {
             state = 0;
-            textReturn.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+            textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
             textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
         }
     }
@@ -116,7 +136,7 @@ public class PauseGame : MonoBehaviour
             tempScale = Time.timeScale;
 
         parentPauseUi.SetActive(isPause);
-        textReturn.transform.DOScale(new Vector3(2, 2, 2), 0.01f).SetUpdate(true);
+        textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
         textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
 
         if(isPause)

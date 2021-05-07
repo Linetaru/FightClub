@@ -44,6 +44,7 @@ namespace Menu
 
 		int winnerID = -1;
 		List<MenuWinResultDrawer> listResultDrawers;
+		List<int> listPlayerControllerID;
 		List<int> listPlayerChoice; // Choix de surrend ou rematch
 
 
@@ -54,11 +55,12 @@ namespace Menu
 
 			listResultDrawers = new List<MenuWinResultDrawer>(charactersPodium.Count);
 			listPlayerChoice = new List<int>(charactersPodium.Count);
-
+			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
 			// On instancie le winner
 			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 			listPlayerChoice.Add(0);
+			listPlayerControllerID.Add(charactersPodium[0].ControllerID);
 
 			int winnerID = charactersPodium[0].PlayerID;
 			VictoryScreen victoryScreen = Instantiate(gameData.CharacterInfos[winnerID].CharacterData.victoryScreen, winnerPosition);
@@ -72,6 +74,7 @@ namespace Menu
 
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 				listPlayerChoice.Add(0);
+				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
 				// Aled
 				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
@@ -91,11 +94,13 @@ namespace Menu
 			}
 		}
 
-
+		// Update
 		public void UpdateControl(int id, Input_Info input)
 		{
+
 			if (stateResult == StateResult.EndTransition)
 				return;
+
 			if (stateResult == StateResult.Skip)
 				UpdateControlSkip(id, input);
 			else
@@ -113,6 +118,15 @@ namespace Menu
 
 		private void UpdateControlResult(int id, Input_Info input)
 		{
+			for (int i = 0; i < listPlayerControllerID.Count; i++)
+			{
+				if (listPlayerControllerID[i] == id)
+				{
+					id = i;
+					break;
+				}
+			}
+
 			if (listPlayerChoice.Count <= id)
 				return;
 

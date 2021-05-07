@@ -206,6 +206,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.Knockback.ShakeEffect.Shake(0.05f, 0.1f);
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
+
 		characterParry.PowerGauge.ForceAddPower(25);
 
 
@@ -265,6 +266,7 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.Launch(angleEjection, 1);
 
 		characterRepelled.SetState(parryRepelState);
+		OnGuard?.Invoke(characterParry);
 
 		GameObject go2 = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
 		go2.name = particleParry.name;

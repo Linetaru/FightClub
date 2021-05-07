@@ -77,7 +77,8 @@ public class CharacterHUD : MonoBehaviour
 	[SerializeField]
 	Animator animatorBreak;
 
-
+	[SerializeField]
+	Image redCross;
 
 	[Title("Listener")]
 	[SerializeField]
@@ -98,8 +99,6 @@ public class CharacterHUD : MonoBehaviour
 		DrawPercent(user.Stats.LifePercentage);
 		DrawGauge(user.PowerGauge.CurrentPower);
 		DrawLives(user.Stats.LifeStocks);
-
-
 	}
 
 	public void SetColor(Color c)
@@ -165,6 +164,8 @@ public class CharacterHUD : MonoBehaviour
 			for (int i = nbLives; i < livesImage.Length; i++)
 			{
 				livesImage[i].gameObject.SetActive(false);
+				if (i == 0)
+					redCross.gameObject.SetActive(true);
 			}
 		}
 	}
@@ -175,10 +176,10 @@ public class CharacterHUD : MonoBehaviour
 		if(user != null)
 			DrawLives(user.Stats.LifeStocks);
 
-		if (percent > 0)
+		if (percent > -1)
 			DrawPercent(percent);
 
-		if(power > 0)
+		if(power > -1)
 			DrawGauge(power);
 	}
 

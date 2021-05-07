@@ -43,7 +43,10 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private bool isStarted = false;
 
-
+    public string beforeMenuSceneName;
+    public string afterMenuSceneNameClassicMode;
+    public string afterMenuSceneNameBombMode;
+    public string afterMenuSceneNameVolleyMode;
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -55,6 +58,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (playerStocks > 1)
             {
+                input_Info.inputActions[0].timeValue = 0;
                 playerStocks--;
                 UpdateStockText();
             }
@@ -63,6 +67,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (playerStocks < 99)
             {
+                input_Info.inputActions[0].timeValue = 0;
                 playerStocks++;
                 UpdateStockText();
             }
@@ -114,6 +119,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 if (holograms[ID].currentCursorPosition == 2)
                 {
                     holograms[ID].RandomReady(characterDatas);
+                    numberOfReadyPlayers++;
                 }
                 else
                 {
@@ -255,15 +261,18 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             {
                 if (holograms[i].isPlayerReady)
                 {
-                    if (gameData.CharacterInfos.Count > i)
-                    {
-                        gameData.CharacterInfos[i].CharacterData = holograms[i].currentChoosedCharacter;
-                        gameData.CharacterInfos[i].CharacterColorID = holograms[i].currentColorSkin;
+                    //if (gameData.CharacterInfos.Count > i)
+                    //{
+                        gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
+                        gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
+
+                        Debug.Log(holograms[i].currentChoosedCharacter.name);
 
                         //Assign Team
-                        gameData.CharacterInfos[i].Team = holograms[i].currentTeam;
-                        gameData.CharacterInfos[i].ControllerID = holograms[i].iD;
-                    }
+                        gameData.CharacterInfos[characterInfoNumber].Team = holograms[i].currentTeam;
+                        gameData.CharacterInfos[characterInfoNumber].ControllerID = holograms[i].iD;
+                        characterInfoNumber++;
+                    //}
                 }
             }
             readySlash.SetActive(true);
@@ -294,11 +303,17 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        SceneManager.LoadScene("MenuSelection_Stage");
+        if(gameData.GameMode == GameModeStateEnum.Classic_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+        else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameBombMode);
+        else if(gameData.GameMode == GameModeStateEnum.Volley_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
+
     }
 
     void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("GP_Menu");
+        SceneManager.LoadScene(beforeMenuSceneName);
     }
 }

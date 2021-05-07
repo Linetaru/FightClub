@@ -11,6 +11,7 @@ public enum EnumInput
 	B,
 	X,
 	Y,
+	R1
 }
 
 [System.Serializable]
@@ -36,7 +37,6 @@ public class DebugInput
 	List<int> inputs;
 
 	// Pour enregistrer les inputs
-
 	public DebugInput(float timestamp, Input_Info input_Info)
 	{
 		frame = timestamp;
@@ -51,7 +51,10 @@ public class DebugInput
 			inputs.Add(0);
 		else if (input_Info.CheckAction(0, InputConst.Attack))
 			inputs.Add(1);
+		else if (input_Info.CheckAction(0, InputConst.RightShoulder))
+			inputs.Add(4);
 	}
+
 
 
 	// Pour jouer les inputs
@@ -65,14 +68,12 @@ public class DebugInput
 				inputController.AddInput(InputConst.Jump.name, ref input);
 			if (inputs[i] == 1)
 				inputController.AddInput(InputConst.Attack.name, ref input);
+			if (inputs[i] == 4)
+				inputController.AddInput(InputConst.RightShoulder.name, ref input);
 		}
 	}
 
-	// Pour jouer les inputs
-	public void AssignInputAxis(InputController inputController, ref Input_Info input)
-	{
-		inputController.AddMovement(horizontal, vertical, ref input);
-	}
+
 
 }
 
@@ -105,6 +106,8 @@ public class DebugRegisterInput : MonoBehaviour
 	int indexPlay = 0;
 
 
+	// =========================================================
+	// R E C O R D
 	// =========================================================
 	[Button]
 	public void StartRegisterInput()
@@ -139,6 +142,8 @@ public class DebugRegisterInput : MonoBehaviour
 
 
 	// =========================================================
+	// P L A Y
+	// =========================================================
 	[Button]
 	public void StartPlayInput()
 	{
@@ -167,12 +172,11 @@ public class DebugRegisterInput : MonoBehaviour
 		if (inputs.inputActions.Count != 0)
 			inputController.UpdateTimeInBuffer(inputs.inputActionsUP);
 
-		//bool keepPrevious = true;
+
 		while (playTime > debugInputs[indexPlay].frame)
 		{
 			debugInputs[indexPlay].AssignInput(inputController, ref inputs);
 			indexPlay+=1;
-			//keepPrevious = false;
 			if (indexPlay >= debugInputs.Count - 1)
 			{
 				StopPlayInput();
@@ -180,10 +184,8 @@ public class DebugRegisterInput : MonoBehaviour
 			}
 
 		}
-		/*if(keepPrevious == true) // 
-			debugInputs[indexPlay].AssignInputAxis(inputController, ref inputs);*/
 
-		//Debug.Log("Allo");
+
 		character.UpdateControl(0, inputs);
 
 		if (indexPlay >= debugInputs.Count)
