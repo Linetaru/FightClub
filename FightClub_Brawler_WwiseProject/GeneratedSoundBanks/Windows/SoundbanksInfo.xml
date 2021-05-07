@@ -20,7 +20,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="958445973">
+		<SoundBank Id="152968626" Language="SFX" Hash="372583247">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -554,7 +554,15 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="903965757" Name="Play_MUS_InGame_01" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_InGame_01" DurationType="Infinite">
+				<Event Id="4173490732" Name="Play_MUS_Cinemtaic_Victory" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Cinemtaic_Victory" DurationType="OneShot" DurationMin="26.250000" DurationMax="26.250000">
+					<IncludedMemoryFiles>
+						<File Id="1034394430" Language="SFX">
+							<ShortName>Music\Van De Graph_MUS_Cinemtaic_Victory_V1.wav</ShortName>
+							<Path>SFX\Music\Van De Graph_MUS_Cinemtaic_Victory_V1_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3194633457" Name="Play_MUS_InGame" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_InGame" DurationType="Infinite">
 					<IncludedMemoryFiles>
 						<File Id="926138639" Language="SFX">
 							<ShortName>Music\Phonograph_BreakPunch_OST_Ingame_V1.wav</ShortName>
@@ -562,13 +570,21 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="903965758" Name="Play_MUS_InGame_02" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_InGame_02" DurationType="OneShot" DurationMin="149.760574" DurationMax="149.760574">
+				<Event Id="786984018" Name="Play_MUS_Menu_Character_Select" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Character_Select" DurationType="OneShot" DurationMin="149.760574" DurationMax="149.760574">
 					<ReferencedStreamedFiles>
 						<File Id="186133707" Language="SFX">
 							<ShortName>Music\Phonograph - BreakPunch_OST_level_02_V1.wav</ShortName>
 							<Path>SFX\Music\Phonograph - BreakPunch_OST_level_02_V1_3EA7750F.wem</Path>
 						</File>
 					</ReferencedStreamedFiles>
+				</Event>
+				<Event Id="723239315" Name="Play_MUS_Volley_Ball" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Volley_Ball" DurationType="Infinite">
+					<IncludedMemoryFiles>
+						<File Id="426419138" Language="SFX">
+							<ShortName>Music\Phonograph_MUS_Volley_Ball_V1_LP.wav</ShortName>
+							<Path>SFX\Music\Phonograph_MUS_Volley_Ball_V1_LP_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
 				</Event>
 				<Event Id="2514707895" Name="Play_SFX_Explosion" ObjectPath="\Events\Default Work Unit\Feedback\Play_SFX_Explosion" DurationType="OneShot" DurationMin="3.467875" DurationMax="3.467875">
 					<IncludedMemoryFiles>
@@ -586,21 +602,26 @@
 				<GameParameter Id="2392629736" Name="rtpc" ObjectPath="\Game Parameters\Default Work Unit\rtpc"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="289583631" Language="SFX" Hash="3763523191">
+		<SoundBank Id="289583631" Language="SFX" Hash="2582409621">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>
 			<ShortName>SB_UI</ShortName>
 			<Path>SB_UI.bnk</Path>
 			<IncludedEvents>
+				<Event Id="786984018" Name="Play_MUS_Menu_Character_Select" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Character_Select" DurationType="OneShot" DurationMin="149.760574" DurationMax="149.760574">
+					<ReferencedStreamedFiles>
+						<File Id="186133707" Language="SFX">
+							<ShortName>Music\Phonograph - BreakPunch_OST_level_02_V1.wav</ShortName>
+							<Path>SFX\Music\Phonograph - BreakPunch_OST_level_02_V1_3EA7750F.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+				</Event>
 				<Event Id="3473751993" Name="Play_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Main" DurationType="OneShot" DurationMin="180.000000" DurationMax="180.000000">
 					<IncludedMemoryFiles>
-						<File Id="263619541" Language="SFX">
-							<ShortName>Music\MUS_OST_Menu_V1.wav</ShortName>
-							<Path>SFX\Music\MUS_OST_Menu_V1_8CF317A8.wem</Path>
+						<File Id="736026560" Language="SFX">
+							<ShortName>Music\Van De Graph_MUS_OST_Menu_Main_V1_LP.wav</ShortName>
+							<Path>SFX\Music\Van De Graph_MUS_OST_Menu_Main_V1_LP_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Stop_MUS_Menu_Main"/>
-					</ActionPostEvent>
 				</Event>
 				<Event Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Stop_MUS_Menu_Main" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="236586094" Name="UI_Menu_Main_Click_In" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Main\UI_Menu_Main_Click_In" DurationType="OneShot" DurationMin="0.472292" DurationMax="0.472292">
