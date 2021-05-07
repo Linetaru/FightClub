@@ -23,7 +23,7 @@ public class Navmesh2D : MonoBehaviour
 
     //public NavmeshNode[] nodes;
 
-    NavmeshNode[,] nodes;
+    public NavmeshNode[,] nodes;
 
     // Pour opti plus tard
     public List<NavmeshNode> nodesNavmesh = new List<NavmeshNode>();
@@ -152,6 +152,8 @@ public class Navmesh2D : MonoBehaviour
                 }
             }
         }
+
+        // Calculate if node is a platform and if there is a node down
 
     }
     private void CalculateJumpNodes()

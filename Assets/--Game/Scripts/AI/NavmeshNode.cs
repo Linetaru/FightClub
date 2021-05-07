@@ -17,18 +17,21 @@ public class NavmeshNode : MonoBehaviour
 
 
 
+	[Title("Debug")]
+	[SerializeField]
+	float jumpHeight = 10;
+	[SerializeField]
+	float aerialSpeed = 10;
+	[SerializeField]
+	float gravity = 10;
 
 	[Button]
-	private void CalculateNodeJump()
+	private void CalculateJumpTrajectory()
 	{
 
 	}
 
-	[Button]
-	private void CalculateNodeFall()
-	{
 
-	}
 
 
 	private void OnDrawGizmos()
