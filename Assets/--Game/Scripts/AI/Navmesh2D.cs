@@ -157,10 +157,22 @@ public class Navmesh2D : MonoBehaviour
 
     private void CalculateRunNodes(NavmeshNode node, int nodeX, int nodeY)
     {
+        Vector2 direction;
+        RaycastHit hit;
         if (nodes[nodeX - 1, nodeY] != null)
-            node.navmeshNodesRun.Add(nodes[nodeX - 1, nodeY]);
+        {
+            direction = nodes[nodeX - 1, nodeY].transform.position - node.transform.position;
+            Physics.Raycast(node.transform.position + new Vector3(0, agentSize, 0), new Vector3(direction.x, 0, 0), out hit, Mathf.Abs(direction.x), wallLayerMask);
+            if(hit.collider == null)
+                node.navmeshNodesRun.Add(nodes[nodeX - 1, nodeY]);
+        }
         if (nodes[nodeX + 1, nodeY] != null)
-            node.navmeshNodesRun.Add(nodes[nodeX + 1, nodeY]);
+        {
+            direction = nodes[nodeX + 1, nodeY].transform.position - node.transform.position;
+            Physics.Raycast(node.transform.position + new Vector3(0, agentSize, 0), new Vector3(direction.x, 0, 0), out hit, Mathf.Abs(direction.x), wallLayerMask);
+            if (hit.collider == null)
+                node.navmeshNodesRun.Add(nodes[nodeX + 1, nodeY]);
+        }
         // On check qu'il n'y ait pas de murs entre le point de départ et le point final
     }
 

@@ -19,6 +19,9 @@ public class NavmeshNode : MonoBehaviour
 
 	[Title("Debug")]
 	[SerializeField]
+	public TMPro.TextMeshPro text;
+
+	[SerializeField]
 	public float debugJumpHeight = 14;
 	[SerializeField]
 	public float debugAerialSpeed = 8;

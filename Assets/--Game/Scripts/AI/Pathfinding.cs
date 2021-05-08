@@ -9,24 +9,28 @@ public enum PathMovement
 	Jump
 }
 
+[System.Serializable]
 public class PathNode
 {
 	public NavmeshNode Node;
-	public float Score;
+	public float FScore; // Distance entre le noeud 
+	public float GScore; //
 
 	public PathNode PreviousPath;
 	public PathMovement PreviousMovement;
 
-	public PathNode(NavmeshNode node, float score)
+	public PathNode(NavmeshNode node, float fscore, float gscore)
 	{
 		Node = node;
-		Score = score;
+		FScore = fscore;
+		GScore = gscore;
 	}
 
-	public PathNode(NavmeshNode node, float score, PathNode previousPath, PathMovement previousMovement)
+	public PathNode(NavmeshNode node, float score, float gscore, PathNode previousPath, PathMovement previousMovement)
 	{
 		Node = node;
-		Score = score;
+		FScore = score;
+		GScore = gscore;
 
 		PreviousPath = previousPath;
 		PreviousMovement = previousMovement;
@@ -49,6 +53,13 @@ public class Pathfinding : MonoBehaviour
 	List<PathNode> nodeExplored = new List<PathNode>();
 	List<PathNode> nodeToExplore = new List<PathNode>();
 
+	[SerializeField]
+	public List<PathNode> finalPath = new List<PathNode>();
+
+	/*[SerializeField]
+	public List<PathNode> finalPath = new List<PathNode>();*/
+
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -58,7 +69,7 @@ public class Pathfinding : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		CalculatePath(this.transform.position, debugEnd.transform.position);
+		//CalculatePath(this.transform.position, debugEnd.transform.position);
 	}
 
 	public void CalculatePath(Vector3 pos, Vector3 dest)
@@ -73,17 +84,18 @@ public class Pathfinding : MonoBehaviour
 		nodeToExplore.Clear();
 
 		NavmeshNode currentNode = position;
-		PathNode currentPath = new PathNode(currentNode, 0);
+		PathNode currentPath = new PathNode(currentNode, 0, 0);
 		int timeOut = 0;
 		int maxTimeOut = 200;
 		while (currentNode != destination)
 		{
-			CalculateNodeHeuristic(currentNode, pos, dest, currentPath);
+			CalculateNodeHeuristic(currentNode, position.transform.position, destination.transform.position, currentPath);
 			nodeExplored.Add(currentPath);
 			nodeToExplore.Remove(currentPath);
 			if (nodeToExplore.Count == 0)
 			{
 				// Oups aucun noeud a exploré on explose
+				Debug.Log("Aucun chemin trouvé oups");
 				return;
 			}
 			currentPath = FindSmallestHeuristic();
@@ -100,20 +112,22 @@ public class Pathfinding : MonoBehaviour
 		ReconstitutePath(currentPath, position);
 	}
 
-	public void ReconstitutePath(PathNode currentPath, NavmeshNode start)
+	private void ReconstitutePath(PathNode currentPath, NavmeshNode start)
 	{
+		finalPath.Clear();
 		for (int i = 0; i < Navmesh2D.Instance.nodesNavmesh.Count; i++)
 		{
-			Navmesh2D.Instance.nodesNavmesh[i].gameObject.SetActive(true);
+			//Navmesh2D.Instance.nodesNavmesh[i].gameObject.SetActive(true);
+			Navmesh2D.Instance.nodesNavmesh[i].text.text = " ";
 		}
 
 		int timeOut = 0;
 		int maxTimeOut = 200;
 		while (currentPath.Node != start)
 		{
-			currentPath.Node.gameObject.SetActive(false);
+			finalPath.Add(currentPath);
+			currentPath.Node.text.text = ".";
 			currentPath = currentPath.PreviousPath;
-
 
 			timeOut += 1;
 			if (timeOut == maxTimeOut)
@@ -123,10 +137,13 @@ public class Pathfinding : MonoBehaviour
 				return;
 			}
 		}
-		currentPath.Node.gameObject.SetActive(false);
+		/*finalPath.Add(currentPath);
+		currentPath.Node.text.text = ".";*/
+
+		finalPath.Reverse();
 	}
 
-	public void CalculateNodeHeuristic(NavmeshNode node, Vector3 pos, Vector3 dest, PathNode parentNode)
+	private void CalculateNodeHeuristic(NavmeshNode node, Vector3 pos, Vector3 dest, PathNode parentNode)
 	{
 		for (int i = 0; i < node.navmeshNodesRun.Count; i++)
 		{
@@ -144,7 +161,7 @@ public class Pathfinding : MonoBehaviour
 		}
 	}
 
-	public void Heuristic(NavmeshNode node, Vector3 pos, Vector3 dest, PathMovement pathMovement, PathNode parentNode)
+	/*public void Heuristic(NavmeshNode node, Vector3 pos, Vector3 dest, PathMovement pathMovement, PathNode parentNode)
 	{
 		if (ContainsNode(nodeToExplore, node))
 			return;
@@ -155,32 +172,60 @@ public class Pathfinding : MonoBehaviour
 		score += Vector3.SqrMagnitude(node.transform.position - dest);
 		nodeToExplore.Add(new PathNode(node, score, parentNode, pathMovement));
 
-		/*float score = 0;
-		switch(path)
+	}*/
+
+
+	private void Heuristic(NavmeshNode node, Vector3 pos, Vector3 dest, PathMovement pathMovement, PathNode parentNode)
+	{
+		float gscore = parentNode.GScore;
+		switch (pathMovement)
 		{
 			case PathMovement.Run:
-				score += runWeight;
+				gscore += runWeight;
 				break;
 			case PathMovement.Fall:
-				score += fallWeight;
+				gscore += fallWeight;
 				break;
 			case PathMovement.Jump:
-				score += jumpWeight;
+				gscore += jumpWeight;
 				break;
 		}
-		score += Vector3.SqrMagnitude(node.transform.position - pos);
-		score += Vector3.SqrMagnitude(node.transform.position - dest);
+		gscore += Vector3.SqrMagnitude(node.transform.position - parentNode.Node.transform.position);
+		float fscore = gscore + Vector3.SqrMagnitude(node.transform.position - dest);
 
-		if (dictPath.ContainsKey())*/
+		PathNode path = null;
+		path = ContainsNode(nodeToExplore, node);
+		if (path != null)
+		{
+			if(path.GScore > gscore)
+			{
+				path.GScore = gscore;
+				path.FScore = fscore;
+				path.PreviousPath = parentNode;
+				path.PreviousMovement = pathMovement;
+			}
+			return;
+		}
+		path = ContainsNode(nodeExplored, node);
+		if (path != null)
+		{
+			if (path.GScore > gscore)
+			{
+				path.GScore = gscore;
+				path.FScore = fscore;
+				path.PreviousPath = parentNode;
+				path.PreviousMovement = pathMovement;
+			}
+			return;
+		}
+
+		nodeToExplore.Add(new PathNode(node, fscore, gscore, parentNode, pathMovement));
 	}
 
 
 
 
-
-
-
-	public NavmeshNode FindNearest(Vector3 pos)
+	private NavmeshNode FindNearest(Vector3 pos)
 	{
 		float bestDistance = 999999;
 		int bestIndex = -1;
@@ -202,14 +247,14 @@ public class Pathfinding : MonoBehaviour
 		return Navmesh2D.Instance.nodesNavmesh[bestIndex];
 	}
 
-	public PathNode FindSmallestHeuristic()
+	private PathNode FindSmallestHeuristic()
 	{
 		float bestScore = 999999;
 		int bestIndex = -1;
 		float score = 0;
 		for (int i = 0; i < nodeToExplore.Count; i++)
 		{
-			score = nodeToExplore[i].Score;
+			score = nodeToExplore[i].FScore;
 			if (score < bestScore)
 			{
 				bestScore = score;
@@ -224,13 +269,13 @@ public class Pathfinding : MonoBehaviour
 		return nodeToExplore[bestIndex];
 	}
 
-	public bool ContainsNode(List<PathNode> pathNodes, NavmeshNode nodeToSearch)
+	private PathNode ContainsNode(List<PathNode> pathNodes, NavmeshNode nodeToSearch)
 	{
 		for (int i = 0; i < pathNodes.Count; i++)
 		{
 			if (pathNodes[i].Node == nodeToSearch)
-				return true;
+				return pathNodes[i];
 		}
-		return false;
+		return null;
 	}
 }
