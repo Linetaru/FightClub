@@ -10,14 +10,18 @@ public class MissionInputTimeOut : MissionInputCondition
 	float time = 0;
 
 	float t = 0f;
+	bool start = false;
 
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
 		t = 0f;
+		start = true;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
+		if (start == false)
+			return false;
 		t += Time.deltaTime;
 		return (t >= time);
 	}
@@ -25,6 +29,7 @@ public class MissionInputTimeOut : MissionInputCondition
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
 		t = 0f;
+		start = false;
 	}
 
 

@@ -203,7 +203,7 @@ public class AttackSubManager : MonoBehaviour
         AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
         if (atkMan != null)
         {
-            if (atkMan.User.TeamID == user.TeamID) // Pour empêcher les joueurs dans la même équipes de clash
+            if (atkMan.User.TeamID == user.TeamID && atkMan.User.TeamID != TeamEnum.No_Team) // Pour empêcher les joueurs dans la même équipes de clash
                 return;
 
             attackClashed = atkMan;

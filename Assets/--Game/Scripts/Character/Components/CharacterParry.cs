@@ -82,6 +82,7 @@ public class CharacterParry : MonoBehaviour
 
 	public event EventCharacterBase OnParry;
 	public event EventCharacterBase OnGuard;
+	public event EventAttackSubManager OnClash;
 
 
 
@@ -152,8 +153,6 @@ public class CharacterParry : MonoBehaviour
 	public bool CheckAngle(AttackSubManager attackManager)
 	{
 		float angle = Vector2.Angle((attackManager.transform.position - this.transform.position), parryDirection);
-		//Debug.Log("Angle : " + angle);
-		/*Debug.Log("Parry direction : " + parryDirection);*/
 		//return (parryDirection - (parryAngle *0.5f) < angle && angle < parryDirection + (parryAngle * 0.5f));
 		return angle < (parryAngle * 0.5f);
 	}
@@ -166,8 +165,6 @@ public class CharacterParry : MonoBehaviour
 		{
 			if(attackEnemy.ClashLevel > attackUser.ClashLevel) // User est repoussé
 			{
-				/*Parry(attackEnemy.User, user);
-				attackEnemy.User.Knockback.Parry.ParryRepel(user, attackEnemy.User);*/
 				attackEnemy.User.Knockback.Parry.Parry(attackEnemy.User, user);
 				ParryRepel(user, attackEnemy.User);
 			}
@@ -188,6 +185,8 @@ public class CharacterParry : MonoBehaviour
 
 				attackUser.ActionUnactive();
 				attackEnemy.ActionUnactive();
+
+				OnClash?.Invoke(attackEnemy);
 			}
 
 		}
