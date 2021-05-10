@@ -126,7 +126,7 @@ public class CharacterKnockback : MonoBehaviour
                 atkRegistered[i].User.Knockback.Parry.ParryRepel(atkRegistered[i].User, character);
                 atkRegistered[i].AddPlayerHitList(character.tag);
 
-                // Pour tourner le joueur dans le sens de la garde
+                // Pour tourner le joueur dans le sens de la parry
                 if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
                     character.Movement.Direction *= -1;
             }
@@ -136,7 +136,6 @@ public class CharacterKnockback : MonoBehaviour
                 atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
                 atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
                 atkRegistered[i].User.PowerGauge.ForceAddPower(-25);
-                // Parry.ParryRepel(character, atkRegistered[i].User);
                 Parry.Guard(character, atkRegistered[i].User);
                 atkRegistered[i].AddPlayerHitList(character.tag);
 
