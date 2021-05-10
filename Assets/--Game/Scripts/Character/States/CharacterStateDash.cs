@@ -60,6 +60,8 @@ public class CharacterStateDash : CharacterState
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		t = 0f;
+
+		character.Knockback.Parry.IsGuardDash = true;
 		dashDirection = character.Movement.Direction;
 		inDashStartup = true;
 		bufferDirection = 0;
@@ -194,7 +196,7 @@ public class CharacterStateDash : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-
+		character.Knockback.Parry.IsGuardDash = false;
 	}
 
 
