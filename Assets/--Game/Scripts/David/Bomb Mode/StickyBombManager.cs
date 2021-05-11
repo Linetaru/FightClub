@@ -80,10 +80,11 @@ public class StickyBombManager : MonoBehaviour
     private bool randomRounds;
     [SerializeField]
     private int canRoundSpecialAfter = 3;
+
+
     [SerializeField]
-    private List<int> roundsWithFakeBomb = new List<int>();
-    [SerializeField]
-    private List<int> roundsWithInvisibleBomb = new List<int>();
+    private List<int> specialRounds = new List<int>();
+
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -195,9 +196,6 @@ public class StickyBombManager : MonoBehaviour
     public void InitStickyBomb()
     {
         timeOut = false;
-
-        if (battleManager.characterAlive.Count < 3)
-            roundsWithFakeBomb.Clear();
 
         for(int i = 0; i < battleManager.characterAlive.Count; i++)
         {
@@ -349,12 +347,13 @@ public class StickyBombManager : MonoBehaviour
 
         if (!randomRounds)
         {
-            if (roundsWithFakeBomb.Contains(currentRound))
-                currentRoundMode = RoundMode.FakeBomb;
-            else if (roundsWithInvisibleBomb.Contains(currentRound))
-                currentRoundMode = RoundMode.Invisible;
-            else
-                currentRoundMode = RoundMode.Normal;
+            // Sécurité au cas ou pas assez de rounds prévus (pas sensé arriver)
+            if (currentRound >= specialRounds.Count)
+                currentRound = 1;
+
+            currentRoundMode = (RoundMode) specialRounds[currentRound - 1];
+            if (battleManager.characterAlive.Count < 3 && currentRoundMode == RoundMode.FakeBomb)
+                RandomRound();
         }
         else
         {
@@ -372,11 +371,10 @@ public class StickyBombManager : MonoBehaviour
     private void RandomRound()
     {
         int random = Random.Range(0, 3);
-        Debug.LogError("Random = " + random);
 
-        if (random == 1)
+        if (random == 0)
         {
-            if(battleManager.characterAlive.Count > 3)
+            if(battleManager.characterAlive.Count > 2)
                 currentRoundMode = (RoundMode) Random.Range(1, 5);
             else
                 currentRoundMode = (RoundMode) Random.Range(2, 5);
@@ -418,6 +416,7 @@ public class StickyBombManager : MonoBehaviour
 
     IEnumerator WaitBeforeNextRound()
     {
+        uiManager.RoundIsOver();
         UpdateRoundMode();
         yield return new WaitForSecondsRealtime(timeBetweenRounds);
         uiManager.LaunchCountDownAnim();

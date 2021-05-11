@@ -19,6 +19,7 @@ public class StickyBombUIManager : MonoBehaviour
 
     public void LaunchCountDownAnim()
     {
+        currentModeText.enabled = true;
         GetComponent<Animator>().Play("CountDownAnim");
     }
 
@@ -39,6 +40,11 @@ public class StickyBombUIManager : MonoBehaviour
     public void CountdownOver()
     {
         isCountdownOver = true;
+    }
+
+    public void RoundIsOver()
+    {
+        currentModeText.enabled = false;
     }
 
 }
