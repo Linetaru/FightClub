@@ -12,6 +12,9 @@ public class BlastZoneManager : MonoBehaviour
 
     [SerializeField]
     private GameObject deathVFXPrefab;
+    [SerializeField]
+    private BoxCollider boxCollider;
+
     private ParticleSystem deathVFX;
 
     private CharacterBase playerCB;
@@ -122,6 +125,14 @@ public class BlastZoneManager : MonoBehaviour
         go.transform.rotation = Quaternion.Euler(go.transform.eulerAngles.x, go.transform.eulerAngles.y, angleZ);
 
         Destroy(go, 3f);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(boxCollider != null)
+        {
+            Gizmos.DrawWireCube(boxCollider.center + this.transform.position, boxCollider.size);
+        }
     }
 
 }

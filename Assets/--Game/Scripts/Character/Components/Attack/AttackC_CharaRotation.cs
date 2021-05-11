@@ -38,9 +38,22 @@ public class AttackC_CharaRotation : AttackComponent
     {
 		
     }
-	
+
+	public override void OnParry(CharacterBase user, CharacterBase target)
+	{
+
+	}
+	public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+	{
+
+	}
+	public override void OnClash(CharacterBase user, CharacterBase target)
+	{
+
+	}
+
 	// Appelé au moment de la destruction de l'attaque
-    public override void EndComponent(CharacterBase user)
+	public override void EndComponent(CharacterBase user)
     {
 		user.Model.transform.parent.transform.eulerAngles = new Vector3(user.Model.transform.eulerAngles.x, user.Model.transform.eulerAngles.y, 0);
 	}

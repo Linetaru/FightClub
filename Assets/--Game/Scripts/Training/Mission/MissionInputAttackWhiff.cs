@@ -11,12 +11,23 @@ public class MissionInputAttackWhiff : MissionInputCondition
 	[HorizontalGroup]
 	AttackManager attack;
 
+	[SerializeField]
+	bool isDummy = false;
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
-		if (player.Action.CurrentAttackManager == null)
-			return false;
-		return (player.Action.CurrentAttackManager.name == (attack.name + "(Clone)"));
+		if (isDummy == false)
+		{
+			if (player.Action.CurrentAttackManager == null)
+				return false;
+			return (player.Action.CurrentAttackManager.name == (attack.name + "(Clone)"));
+		}
+		else
+		{
+			if (dummy.Action.CurrentAttackManager == null)
+				return false;
+			return (dummy.Action.CurrentAttackManager.name == (attack.name + "(Clone)"));
+		}
 	}
 
 
