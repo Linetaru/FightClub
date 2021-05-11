@@ -28,7 +28,19 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return dummyBehavior; }
 	}
 
+	[Space]
+	[Title("TextStart")]
+	[SerializeField]
+	List<string> textboxStart;
+	public List<string> TextboxStart
+	{
+		get { return textboxStart; }
+	}
 
+
+
+
+	[Space]
 	[Title("Trials")]
 	[SerializeField]
 	int enemyPercentage = 0;
@@ -57,4 +69,36 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return comboNotes; }
 	}
 
+	[Space]
+	[Title("Fail Conditions")]
+	[SerializeField]
+	private int numberOfTry = -1;
+
+
+	[SerializeField]
+	[ListDrawerSettings(Expanded = true)]
+	private List<MissionInputCondition> failConditions = new List<MissionInputCondition>();
+	public List<MissionInputCondition> FailConditions
+	{
+		get { return failConditions; }
+	}
+
+
+	[Space]
+	[Title("TextEnd")]
+	[SerializeField]
+	List<string> textboxEnd;
+	public List<string> TextboxEnd
+	{
+		get { return textboxEnd; }
+	}
+
+	[Space]
+	[Space]
+	[SerializeField]
+	TrialsModeData nextTrial;
+	public TrialsModeData NextTrial
+	{
+		get { return nextTrial; }
+	}
 }

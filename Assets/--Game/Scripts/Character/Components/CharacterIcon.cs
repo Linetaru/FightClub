@@ -23,7 +23,7 @@ public class CharacterIcon : MonoBehaviour
 
     public void DestroyIcon()
     {
-        Destroy(icon.gameObject);
+        icon.DestroySelf();
     }
 
     public void SwitchIcon()

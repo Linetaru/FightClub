@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrialsData_SpecialFAir
+  m_Name: TrainingData_008_DodgeAerial
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
-    - {fileID: 8045468721652775528, guid: 0d08b59e82c3d9c43abd7258a14d4bcb, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,61 +30,28 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 7
-      Data: 1|MissionInputAttack, Assembly-CSharp
-    - Name: attack
-      Entry: 10
-      Data: 0
-    - Name: hitboxID
-      Entry: 7
-      Data: 2|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 3
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 1|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|MissionInputJump, Assembly-CSharp
+      Data: 2|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputAttack, Assembly-CSharp
-    - Name: attack
-      Entry: 10
-      Data: 1
-    - Name: hitboxID
-      Entry: 7
-      Data: 5|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 3|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -96,11 +61,36 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  player: {fileID: 0}
-  dummy: {fileID: 0}
+    - Name: failConditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 5|MissionInputRespawn, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
+  dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   dummyBehavior: {fileID: 0}
-  enemyPercentage: 30
+  textboxStart:
+  - Essaye d'esquiver dans les airs.
+  enemyPercentage: 0
   comboNotes:
-  - Down Special
-  - Jump Cancel
-  - Forward Air
+  - Aerial Dodge - <sprite=10>
+  - Aerial Dodge - <sprite=10>
+  - Aerial Dodge - <sprite=10>
+  numberOfTry: -1
+  textboxEnd:
+  - "L'esquive dans les airs \xE0 du Air Control"
+  nextTrial: {fileID: 11400000, guid: 644ed704fe6fadb46bbb22800b3e6d62, type: 2}
