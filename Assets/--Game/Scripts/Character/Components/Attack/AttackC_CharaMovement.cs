@@ -142,7 +142,7 @@ public class AttackC_CharaMovement : AttackComponent
 
         if(groundCancelNextFrame == true)
         {
-            user.Action.EndAction();
+            user.Action.CancelAction();
             user.ResetToLand();
         }
 

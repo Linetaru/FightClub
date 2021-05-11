@@ -3,38 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class AttackC_GoThrough : AttackComponent
+public class AttackC_GuardDash : AttackComponent
 {
-	[SerializeField]
-	float delay;
-
-	[SerializeField]
-	LayerMask horizontalLayerMask;
-
-	float t;
-
 	// Appelé au moment où l'attaque est initialisé
-    public override void StartComponent(CharacterBase user)
-    {
-		if(delay <= 0)
-			user.Rigidbody.SetNewLayerMask(horizontalLayerMask);
-
+	public override void StartComponent(CharacterBase user)
+	{
+		user.Knockback.Parry.IsGuardDash = true;
 	}
 	
 	// Appelé tant que l'attaque existe 
-	//(Peut-être remplacé par l'Update d'Unity de base si l'ordre d'éxécution n'est pas important)
 	public override void UpdateComponent(CharacterBase user)
     {
-		if(delay >= 0)
-		{
-			t += Time.deltaTime;
-			if (t > delay)
-			{
-				user.Rigidbody.SetNewLayerMask(horizontalLayerMask);
-				t = -999999999;
-			}
-		}
-    }
+		user.Knockback.Parry.IsGuardDash = true;
+	}
 	
 	// Appelé au moment où l'attaque touche une target
     public override void OnHit(CharacterBase user, CharacterBase target)
@@ -60,6 +41,6 @@ public class AttackC_GoThrough : AttackComponent
 	// Appelé au moment de la destruction de l'attaque
 	public override void EndComponent(CharacterBase user)
     {
-		user.Rigidbody.ResetLayerMask();
+		user.Knockback.Parry.IsGuardDash = false;
 	}
 }
