@@ -77,7 +77,8 @@ public class CharacterHUD : MonoBehaviour
 	[SerializeField]
 	Animator animatorBreak;
 
-
+	[SerializeField]
+	Image redCross;
 
 	[Title("Listener")]
 	[SerializeField]
@@ -163,6 +164,8 @@ public class CharacterHUD : MonoBehaviour
 			for (int i = nbLives; i < livesImage.Length; i++)
 			{
 				livesImage[i].gameObject.SetActive(false);
+				if (i == 0)
+					redCross.gameObject.SetActive(true);
 			}
 		}
 	}

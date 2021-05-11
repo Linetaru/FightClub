@@ -9,6 +9,7 @@ public class MissionInputRespawn : MissionInputCondition
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
 		condition = false;
+		player.OnStateChanged += StateChangedCallback;
 		dummy.OnStateChanged += StateChangedCallback;
 	}
 
@@ -19,8 +20,10 @@ public class MissionInputRespawn : MissionInputCondition
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
+		player.OnStateChanged -= StateChangedCallback;
 		dummy.OnStateChanged -= StateChangedCallback;
 	}
+
 
 	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
 	{
