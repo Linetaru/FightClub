@@ -281,7 +281,7 @@ public class CharacterParry : MonoBehaviour
 			Destroy(go, 1f);
 		}
 
-		atkRegistered.Guard(atkRegistered.User);
+		atkRegistered.Guard(character);
 	}
 
 
