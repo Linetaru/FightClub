@@ -56,7 +56,9 @@ public class CharacterStateKnockback : CharacterState
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
-        character.Rigidbody.SetNewLayerMask(knockbackLayerMask, true);
+
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask, false, true);
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
 
         character.Knockback.Parry.ParryNumber = 0;
     }

@@ -60,6 +60,8 @@ public class CharacterStateDash : CharacterState
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		t = 0f;
+
+		character.Knockback.Parry.IsGuardDash = true;
 		dashDirection = character.Movement.Direction;
 		inDashStartup = true;
 		bufferDirection = 0;
@@ -93,7 +95,6 @@ public class CharacterStateDash : CharacterState
 				}
 			}
 
-
 			if (t < dashStartup)
 			{
 				character.Movement.SpeedX = 0;
@@ -102,12 +103,45 @@ public class CharacterStateDash : CharacterState
 			{
 				character.Movement.MaxAcceleration();
 				character.Movement.SpeedX = character.Movement.SpeedMax * dashMultiplier;
+
 			}
 			else
 			{
 				inDashStartup = false;
 			}
 			t += Time.deltaTime;
+
+			if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
+			{
+				character.Input.inputActions[0].timeValue = 0;
+				if (character.Rigidbody.CollisionGroundInfo != null && character.Input.vertical < -0.25f) // ----------------- On passe au travers de la plateforme
+				{
+					if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+					{
+						character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
+						StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));  // Coroutine qui attend 1 frame pour reset le mask de collision du perso
+
+						character.SetState(aerialState);
+						character.Movement.ApplyGravity();
+					}
+					else
+					{
+						character.SetState(jumpStartState);
+					}
+				}
+				else  // ----------------- Jump
+				{
+					character.SetState(jumpStartState);
+				}
+			}
+			else if (moveset.ActionAttack(character) == true)
+			{
+
+			}
+			else if (evasiveMoveset.Parry(character) == true)
+			{
+
+			}
 		}
 
 
@@ -133,9 +167,6 @@ public class CharacterStateDash : CharacterState
 					character.Movement.Accelerate();
 				else
 					character.Movement.SpeedX = character.Movement.SpeedMax;
-
-
-
 
 
 				if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
@@ -194,7 +225,7 @@ public class CharacterStateDash : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-
+		character.Knockback.Parry.IsGuardDash = false;
 	}
 
 

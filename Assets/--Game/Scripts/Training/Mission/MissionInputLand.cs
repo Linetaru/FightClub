@@ -8,6 +8,8 @@ public class MissionInputLand : MissionInputCondition
 {
 	[SerializeField]
 	int numberOfLand = 0;
+	[SerializeField]
+	bool isDummy = false;
 
 	int nbOfLand = 0;
 
@@ -17,7 +19,10 @@ public class MissionInputLand : MissionInputCondition
 	{
 		nbOfLand = 0;
 		condition = false;
-		player.OnStateChanged += CallbackCondition;
+		if(isDummy == true)
+			dummy.OnStateChanged += CallbackCondition;
+		else
+			player.OnStateChanged += CallbackCondition;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
@@ -29,7 +34,11 @@ public class MissionInputLand : MissionInputCondition
 	{
 		nbOfLand = 0;
 		condition = false;
-		player.OnStateChanged -= CallbackCondition;
+
+		if (isDummy == true)
+			dummy.OnStateChanged -= CallbackCondition;
+		else
+			player.OnStateChanged -= CallbackCondition;
 	}
 
 	public void CallbackCondition(CharacterState oldState, CharacterState newState)

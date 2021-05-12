@@ -54,6 +54,10 @@ public class CharacterAction : MonoBehaviour
     {
         if (currentAttackManager != null && canMoveCancel == false)
             return false;
+        if (currentAttackManager != null && canMoveCancel == true && characterHit == null)
+        {
+            return false;
+        }
         return true;
     }
 
