@@ -79,6 +79,7 @@ public class BattleManager : MonoBehaviour
 			user.PlayerID = i;
 			user.ControllerID = gameData.CharacterInfos[i].ControllerID;
 			user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
+			user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
 
 			user.Stats.GameData = gameData;
 			user.Stats.gameEvent = gameEventUICharacter[i];
