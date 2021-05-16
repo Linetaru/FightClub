@@ -57,6 +57,7 @@ public class CharacterStateDodgeAerial : CharacterState
 		directionDodge.Normalize();
 
 		character.Rigidbody.SetNewLayerMask(dodgeLayerMask);
+		character.Knockback.Parry.IsGuardDash = true;
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -111,6 +112,7 @@ public class CharacterStateDodgeAerial : CharacterState
 	{
 		character.Knockback.IsInvulnerable = false;
 		character.Rigidbody.ResetLayerMask();
+		character.Knockback.Parry.IsGuardDash = false;
 	}
 
 

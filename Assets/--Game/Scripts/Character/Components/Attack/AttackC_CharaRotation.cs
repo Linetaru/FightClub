@@ -11,8 +11,9 @@ public class AttackC_CharaRotation : AttackComponent
 	// Appelé au moment où l'attaque est initialisé
     public override void StartComponent(CharacterBase user)
     {
-		user.Model.transform.parent.transform.eulerAngles = new Vector3(user.Model.transform.parent.transform.eulerAngles.x, user.Model.transform.parent.transform.eulerAngles.y, 
-			Mathf.Atan2(user.Movement.SpeedX * user.Movement.Direction, user.Movement.SpeedY) * Mathf.Rad2Deg + (offset * user.Movement.Direction));
+		//Debug.Log(user.Model.transform.parent.parent.parent.localScale.x);
+		user.Model.transform.parent.transform.localEulerAngles = new Vector3(0, 0, 
+								Mathf.Atan2(Mathf.Abs(user.Movement.SpeedX), user.Movement.SpeedY) * Mathf.Rad2Deg + (offset));
 
 		parent.localScale = new Vector3(Mathf.Abs(parent.localScale.x) * user.transform.localScale.x * user.Movement.Direction,
 										   parent.localScale.y * user.transform.localScale.y,
@@ -55,6 +56,6 @@ public class AttackC_CharaRotation : AttackComponent
 	// Appelé au moment de la destruction de l'attaque
 	public override void EndComponent(CharacterBase user)
     {
-		user.Model.transform.parent.transform.eulerAngles = new Vector3(user.Model.transform.eulerAngles.x, user.Model.transform.eulerAngles.y, 0);
+		user.Model.transform.parent.transform.localEulerAngles = new Vector3(0, 0, 0);
 	}
 }

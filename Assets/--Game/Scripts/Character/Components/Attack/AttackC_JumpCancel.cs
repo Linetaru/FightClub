@@ -15,7 +15,7 @@ public class AttackC_JumpCancel : AttackComponent
 	//(Peut-être remplacé par l'Update d'Unity de base si l'ordre d'éxécution n'est pas important)
 	public override void UpdateComponent(CharacterBase user)
     {
-		if (user.Action.CanMoveCancel)
+		if (user.Action.CanAct())
 		{
 			if (user.Input.CheckAction(0, InputConst.Jump) || user.Input.CheckAction(0, InputConst.Smash))
 			{

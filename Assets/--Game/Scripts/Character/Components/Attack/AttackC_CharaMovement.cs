@@ -41,21 +41,7 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     float timeDecceleration = 10f;
 
-    /*
-    [SerializeField]
-    bool accelerate = false;
 
-    [HorizontalGroup("Acceleration")]
-    [ShowIf("accelerate")]
-    [SerializeField]
-    [HideLabel]
-    AnimationCurve AccelerationCurve;
-
-    [HorizontalGroup("Acceleration", LabelWidth = 120)]
-    [ShowIf("accelerate")]
-    [SuffixLabel("en frames")]
-    [SerializeField]
-    float timeAcceleration = 10f;*/
 
 
     [Title("Movement Y")]
@@ -142,7 +128,7 @@ public class AttackC_CharaMovement : AttackComponent
 
         if(groundCancelNextFrame == true)
         {
-            user.Action.EndAction();
+            user.Action.CancelAction();
             user.ResetToLand();
         }
 

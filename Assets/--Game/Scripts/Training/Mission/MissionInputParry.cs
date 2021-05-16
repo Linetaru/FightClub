@@ -69,4 +69,10 @@ public class MissionInputParry : MissionInputCondition
 		nbParry += 1;
 	}
 
+	public void CallbackCondition(CharacterBase user, CharacterBase characterParried)
+	{
+		condition = true;
+		nbParry += 1;
+	}
+
 }
