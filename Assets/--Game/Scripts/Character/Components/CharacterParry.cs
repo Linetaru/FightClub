@@ -240,13 +240,18 @@ public class CharacterParry : MonoBehaviour
 
 		if (atkRegistered.GuardWin == false)
 		{
-			if (character.PowerGauge.CurrentPower <= 20)
+			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
 			{
 				character.PowerGauge.ForceAddPower(-20);
 				character.Knockback.Hit(character, atkRegistered);
 
-				character.SetMotionSpeed(0, 0.7f);
-				atkRegistered.User.SetMotionSpeed(0, 0.7f);
+				character.SetMotionSpeed(0.1f, 0.8f);
+				atkRegistered.User.SetMotionSpeed(0.1f, 0.8f);
+
+
+				Vector2 angleEjection = character.Knockback.GetAngleKnockback().normalized;
+				Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 10, 0.8f);
+				Feedbacks.GlobalFeedback.Instance.ZoomDramatic(character, 0.8f);
 
 				// Feedback
 				GameObject go2 = Instantiate(particleGuardBreak, character.CenterPoint.position, Quaternion.identity);

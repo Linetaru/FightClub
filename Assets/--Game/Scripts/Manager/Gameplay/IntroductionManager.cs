@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
-public class IntroductionManager : MonoBehaviour
+public class IntroductionManager : MonoBehaviour, IControllable
 {
+	[Title("Logic")]
 	[SerializeField]
 	GameData gameData;
+	[SerializeField]
+	BattleManager battleManager;
 
+	[Title("UI")]
 	[SerializeField]
 	RectTransform[] cutInLayout;
 	[SerializeField]
@@ -17,10 +22,7 @@ public class IntroductionManager : MonoBehaviour
 	[SerializeField]
 	RenderTexture[] renderTextures;
 
-	/*[SerializeField]
-	IntroductionCharacter[] introductionCinematic;*/
-
-
+	[Title("Feedbacks")]
 	[SerializeField]
 	float timeCutInTotal = 3;
 	[SerializeField]
@@ -35,25 +37,32 @@ public class IntroductionManager : MonoBehaviour
 	bool active = false;
 	List<CharacterBase> characters = new List<CharacterBase>();
 
-	// Start is called before the first frame update
-	void Start()
-	{
-		CreateCutInLayout(gameData.CharacterInfos.Count);
-	}
+
 
 	// Update is called once per frame
-	void Update()
+	public void UpdateControl(int id, Input_Info input)
 	{
 		if(active == true)
 		{
-
+			if (input.CheckAction(0, InputConst.Attack))
+			{
+				SkipIntro();
+			}
 		}
 	}
+
+
 
 	// Appelé par l'event Battle Manager
 	public void StartIntroduction(CharacterBase character)
 	{
 		characters.Add(character);
+		if(characters.Count == gameData.CharacterInfos.Count)
+		{
+			CreateCutInLayout(gameData.CharacterInfos.Count);
+			battleManager.SetMenuControllable(this);
+			active = true;
+		}
 	}
 
 	public void CreateCutInLayout(int characterNumber)
@@ -73,6 +82,8 @@ public class IntroductionManager : MonoBehaviour
 
 	public void CutInAppear()
 	{
+		if (active == false)
+			return;
 		StartCoroutine(CutInAppearCoroutine(gameData.CharacterInfos.Count));
 	}
 
@@ -92,14 +103,27 @@ public class IntroductionManager : MonoBehaviour
 			intro.gameObject.SetActive(false);
 		}
 		yield return new WaitForSeconds(0.5f);
+		active = false;
+		StartCoroutine(SkipIntroductionCoroutine());
+	}
+
+	private IEnumerator SkipIntroductionCoroutine()
+	{
 		animatorTransitionToBattle.SetTrigger("Feedback");
 		yield return new WaitForSeconds(1f);
 		EndIntroduction();
 	}
 
+	public void SkipIntro()
+	{
+		active = false;
+		StopAllCoroutines();
+		StartCoroutine(SkipIntroductionCoroutine());
+	}
+
 
 	public void EndIntroduction()
 	{
-		
+		battleManager.SetBattleControllable();
 	}
 }

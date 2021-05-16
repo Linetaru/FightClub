@@ -6,12 +6,6 @@ using Sirenix.OdinInspector;
 
 public class OutsideScreenCursor : MonoBehaviour
 {
-	[Title("Logic")]
-	[SerializeField]
-	Transform character;
-	[SerializeField]
-	BoxCollider blastZones;
-
 	[Title("UI")]
 	[SerializeField]
 	RectTransform cursorTransform;
@@ -20,24 +14,32 @@ public class OutsideScreenCursor : MonoBehaviour
 	[SerializeField]
 	RectTransform blastZoneFill;
 
-	Camera cam;
+	CameraZoomController cam;
+	Transform focus;
+	Bounds blastZones;
+
 	Vector2 viewportPos;
 	Vector2 viewportDirection;
-	Vector2 center;
+	//Vector2 center;
 
-	// Start is called before the first frame update
-	void Start()
+
+
+	public void Initialize(Transform character, Bounds blastZoneBounds, CameraZoomController camera)
 	{
-		cam = Camera.main.GetComponent<Camera>();
-		center = Vector2.one * 0.5f;
+		focus = character;
+		blastZones = blastZoneBounds;
+		cam = camera;
+
+		//center = Vector2.one * 0.5f;
 	}
+
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (character == null)
+		if (focus == null)
 			return;
-		viewportPos = cam.WorldToViewportPoint(character.transform.position);
+		viewportPos = cam.Camera.WorldToViewportPoint(focus.transform.position);
 		if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1)
 		{
 			cursorTransform.localScale = Vector3.one;
@@ -85,13 +87,43 @@ public class OutsideScreenCursor : MonoBehaviour
 	{
 		if (blastZones == null)
 			return;
-		Vector3 edgePosition = cam.ViewportToWorldPoint(new Vector3(viewportDir.x, viewportDir.y,blastZones.transform.position.z - cam.transform.position.z)); // Demander a nicolas de faire une fonction pour récupérer le carré bleu
-		Debug.Log(edgePosition);
-		//if (viewportDir.x == 1)
 
-		float distanceToBlastZone = (character.transform.position.x - edgePosition.x);
-		float distanceMax = (blastZones.bounds.max.x - edgePosition.x);
-		float ratio = distanceToBlastZone / distanceMax;
-		blastZoneFill.localScale = new Vector3(ratio, 1, 1);
+		// Calcule la position en world space du edge
+		Vector3 edgePosition = cam.CameraView.center + new Vector3(cam.CameraView.extents.x * viewportDir.x, cam.CameraView.extents.y * viewportDir.y, 0);
+
+
+		float pivotX = 0.5f;
+		float pivotY = 0.5f;
+		if (viewportDir.y == 1)
+			pivotY = 0;
+		else if (viewportDir.y == -1)
+			pivotY = 1;
+
+		if (viewportDir.x == 1)
+			pivotX = 0;
+		else if (viewportDir.x == -1)
+			pivotX = 1;
+
+		blastZoneFill.anchorMin = new Vector2(pivotX, pivotY);
+		blastZoneFill.anchorMax = new Vector2(pivotX, pivotY);
+		blastZoneFill.pivot = new Vector2(pivotX, pivotY);
+
+		float ratioX = 1f;
+		float ratioY = 1f;
+		if (pivotX != 0.5f)
+		{
+			float distanceToBlastZoneX = Mathf.Abs(focus.transform.position.x - edgePosition.x);
+			float distanceMaxX = Mathf.Abs(blastZones.center.x + (blastZones.extents.x * viewportDir.x) - edgePosition.x);
+			ratioX = distanceToBlastZoneX / distanceMaxX;
+		}
+
+		if (pivotY != 0.5f)
+		{
+			float distanceToBlastZoneY = Mathf.Abs(focus.transform.position.y - edgePosition.y);
+			float distanceMaxY = Mathf.Abs(blastZones.center.y + (blastZones.extents.y * viewportDir.y) - edgePosition.y);
+			ratioY = distanceToBlastZoneY / distanceMaxY;
+		}
+
+		blastZoneFill.localScale = new Vector3(ratioX, ratioY, 1);
 	}
 }
