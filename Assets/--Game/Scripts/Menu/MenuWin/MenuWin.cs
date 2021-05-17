@@ -69,6 +69,10 @@ namespace Menu
 
 			CharacterBattleData characterBattleData = charactersPodium[0].GetComponentInChildren<CharacterBattleData>();
 			listResultDrawers[0].DrawParry(characterBattleData.NbOfParry);
+			listResultDrawers[0].DrawResult(1, charactersPodium[0].PlayerID+1);
+			listResultDrawers[0].DrawKilled(characterBattleData.Killed);
+			listResultDrawers[0].DrawKiller(characterBattleData.Killer);
+			listResultDrawers[0].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
@@ -86,6 +90,10 @@ namespace Menu
 				// Pardon
 				characterBattleData = charactersPodium[i].GetComponentInChildren<CharacterBattleData>();
 				listResultDrawers[i].DrawParry(characterBattleData.NbOfParry);
+				listResultDrawers[i].DrawResult(i+1, charactersPodium[i].PlayerID+1);
+				listResultDrawers[i].DrawKilled(characterBattleData.Killed);
+				listResultDrawers[i].DrawKiller(characterBattleData.Killer);
+				listResultDrawers[i].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 			}
 		}
 
@@ -94,10 +102,10 @@ namespace Menu
 		public void SetStateResult()
 		{
 			stateResult = StateResult.Result;
-			for (int i = 0; i < listResultDrawers.Count; i++)
+			/*for (int i = 0; i < listResultDrawers.Count; i++)
 			{
 				listResultDrawers[i].DrawResult(i+1, i+1);
-			}
+			}*/
 		}
 
 		// Update

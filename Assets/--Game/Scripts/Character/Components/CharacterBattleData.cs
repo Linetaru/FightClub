@@ -11,8 +11,20 @@ public class CharacterBattleData : MonoBehaviour
 
 
 	CharacterBase lastAttacker;
-	List<CharacterBase> killer = new List<CharacterBase>();
 
+
+
+	List<CharacterBase> killed = new List<CharacterBase>();
+	public List<CharacterBase> Killed
+	{
+		get { return killed; }
+	}
+
+	List<CharacterBase> killer = new List<CharacterBase>();
+	public List<CharacterBase> Killer
+	{
+		get { return killer; }
+	}
 
 	private int nbOfParry;
 	public int NbOfParry
@@ -20,13 +32,15 @@ public class CharacterBattleData : MonoBehaviour
 		get { return nbOfParry; }
 	}
 
-	public Dictionary<AttackManager, int> attackUsed = new Dictionary<AttackManager, int>();
+	public List<string> attackUsed = new List<string>();
+	public List<int> attackNbUsed = new List<int>();
 
 	private void Awake()
 	{
 		character.OnStateChanged += CallbackState;
 		character.Knockback.OnKnockback += CallbackKnockback;
 		character.Knockback.Parry.OnParry += CallbackParry;
+		character.Action.OnAttack += CallbackAttack;
 	}
 
 
@@ -44,8 +58,17 @@ public class CharacterBattleData : MonoBehaviour
 	{
 		if(newState is CharacterStateDeath)
 		{
-			killer.Add(lastAttacker);
-			lastAttacker = null;
+			// Pardon
+			if (lastAttacker != null)
+			{
+				lastAttacker.gameObject.GetComponentInChildren<CharacterBattleData>().Killed.Add(character);
+				killer.Add(lastAttacker);
+				lastAttacker = null;
+			}
+			else
+			{
+				killer.Add(character);
+			}
 		}
 		if (newState is CharacterStateIdle) 
 		{
@@ -53,16 +76,26 @@ public class CharacterBattleData : MonoBehaviour
 		}
 	}
 
-	public void CallbackAttack(AttackSubManager attack)
+	public void CallbackAttack(AttackManager attack)
 	{
-		nbOfParry += 1;
+		for (int i = 0; i < attackUsed.Count; i++)
+		{
+			if(attackUsed[i].Equals(attack.gameObject.name))
+			{
+				attackNbUsed[i] += 1;
+			}
+		}
+		attackUsed.Add(attack.gameObject.name);
+		attackNbUsed.Add(1);
 	}
-
 
 
 	private void OnDestroy()
 	{
+		character.OnStateChanged -= CallbackState;
+		character.Knockback.OnKnockback -= CallbackKnockback;
 		character.Knockback.Parry.OnParry -= CallbackParry;
+		character.Action.OnAttack -= CallbackAttack;
 	}
 
 }
