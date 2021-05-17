@@ -11,6 +11,8 @@ namespace Feedbacks
         [SerializeField]
         ParticleSystem speedlines;
         [SerializeField]
+        ParticleSystem guardBreak;
+        [SerializeField]
         ScreenShake screenShake;
 
         [SerializeField]
@@ -23,8 +25,6 @@ namespace Feedbacks
 
         private static GlobalFeedback _instance;
         public static GlobalFeedback Instance { get { return _instance; } }
-
-
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -50,6 +50,21 @@ namespace Feedbacks
             cameraAnimator.SetTrigger("ParryFeedback");
         }
 
+        public void ZoomDramatic(CharacterBase c, float time)
+        {
+            SuperFeedback();
+            guardBreak.Play();
+            cameraAnimator.SetTrigger("GuardBreakFeedback");
 
+            TargetsCamera target = new TargetsCamera(c.transform, 1);
+            camera.targets.Add(target);
+            StartCoroutine(FocusCoroutine(target, time));
+        }
+
+        private IEnumerator FocusCoroutine(TargetsCamera target, float time)
+        {
+            yield return new WaitForSeconds(time);
+            camera.targets.Remove(target);
+        }
     }
 }

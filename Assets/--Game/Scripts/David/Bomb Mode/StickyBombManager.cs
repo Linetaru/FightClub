@@ -120,7 +120,7 @@ public class StickyBombManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -137,6 +137,10 @@ public class StickyBombManager : MonoBehaviour
 
         StartCoroutine(WaitBeforeNextRound());
 
+        for (int i = 0; i < battleManager.characterAlive.Count; i++)
+        {
+            battleManager.characterAlive[i].Knockback.Parry.OnGuard += ManageHit;
+        }
         //InitStickyBomb();
     }
 
@@ -153,6 +157,11 @@ public class StickyBombManager : MonoBehaviour
         }
         BombTimerManager();
     }
+
+    /*public void Callback(CharacterBase target)
+    {
+        ManageHit( target);
+    }*/
 
     public void ManageHit(CharacterBase user, CharacterBase target)
     {

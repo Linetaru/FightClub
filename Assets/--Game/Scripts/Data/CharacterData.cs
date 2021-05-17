@@ -12,10 +12,14 @@ public class CharacterData : ScriptableObject
 
     public CharacterModel characterSelectionModel;
 
+    [Title("UI")]
     public Sprite characterSelectionSprite;
 
     [Title("Colors")]
     public List<Material> characterMaterials;
+
+    [Title("Intro")]
+    public IntroductionCharacter[] introductions;
 
     [Title("Victory")]
     public VictoryScreen victoryScreen;

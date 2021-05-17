@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentDamage: 10
+  percentDamageOnGuard: 2
 --- !u!1 &2130186020538094675
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,8 +313,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0.3, y: 1.7, z: 0}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
+  m_Center: {x: 0.4, y: 1.6, z: 0}
 --- !u!114 &8956581050446832465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +339,11 @@ MonoBehaviour:
   - {fileID: 1982152180070120350}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
-  clashCancel: 1
+  disjoint: 0
+  guardOnDash: 0
+  guardWin: 0
+  parryBreak: 0
+  guardBreak: 0
   onHitColliderEvents:
     m_PersistentCalls:
       m_Calls: []

@@ -160,7 +160,18 @@ public class AttackC_Knockback : AttackComponent
 
     }
 
+    public override void OnParry(CharacterBase user, CharacterBase target)
+    {
 
+    }
+    public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+    {
+
+    }
+    public override void OnClash(CharacterBase user, CharacterBase target)
+    {
+
+    }
 
     public override void EndComponent(CharacterBase user)
     {

@@ -4,9 +4,36 @@ using UnityEngine;
 using Sirenix.Serialization;
 using Sirenix.OdinInspector;
 
+public enum TrialsSpawnPoint
+{
+	BasePlayer,
+	BaseEnemy,
+	ClosePlayer,
+	CloseEnemy,
+	RangePlayer,
+	RangeEnemy
+}
+
 [CreateAssetMenu(fileName = "TrialsData_", menuName = "Data/Training/TrialsData", order = 1)]
 public class TrialsModeData : SerializedScriptableObject
 {
+	[SerializeField]
+	string trialsName;
+	public string TrialsName
+	{
+		get { return trialsName; }
+	}
+
+
+	[Title("Setup")]
+	[SerializeField]
+	string stageName;
+	public string StageName
+	{
+		get { return stageName; }
+	}
+
+	[HorizontalGroup("Player")]
 	[SerializeField]
 	CharacterData player;
 	public CharacterData Player
@@ -14,11 +41,31 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return player; }
 	}
 
+	[HorizontalGroup("Player", Width = 100)]
+	[SerializeField]
+	[HideLabel]
+	TrialsSpawnPoint spawnPlayer;
+	public TrialsSpawnPoint SpawnPlayer
+	{
+		get { return spawnPlayer; }
+	}
+
+
+	[HorizontalGroup("Enemy")]
 	[SerializeField]
 	CharacterData dummy;
 	public CharacterData Dummy
 	{
 		get { return dummy; }
+	}
+
+	[HorizontalGroup("Enemy", Width = 100)]
+	[SerializeField]
+	[HideLabel]
+	TrialsSpawnPoint spawnEnemy;
+	public TrialsSpawnPoint SpawnEnemy
+	{
+		get { return spawnEnemy; }
 	}
 
 	[SerializeField]
@@ -29,15 +76,30 @@ public class TrialsModeData : SerializedScriptableObject
 	}
 
 	[Space]
-	[Title("TextStart")]
+	[Title("Texts")]
 	[SerializeField]
+	[HideLabel]
+	private string osef;
+
+	[TabGroup("Texts", "TextStart")]
+	[SerializeField]
+	[ListDrawerSettings(Expanded = true)]
+	[TextArea(1,1)]
 	List<string> textboxStart;
 	public List<string> TextboxStart
 	{
 		get { return textboxStart; }
 	}
 
-
+	[TabGroup("Texts", "TextEnd")]
+	[SerializeField]
+	[ListDrawerSettings(Expanded = true)]
+	[TextArea(1, 1)]
+	List<string> textboxEnd;
+	public List<string> TextboxEnd
+	{
+		get { return textboxEnd; }
+	}
 
 
 	[Space]
@@ -48,12 +110,16 @@ public class TrialsModeData : SerializedScriptableObject
 	{
 		get { return enemyPercentage; }
 	}
-
+	[SerializeField]
+	int numberToSuccess = 1;
+	public int NumberToSuccess
+	{
+		get { return numberToSuccess; }
+	}
 
 
 	[OdinSerialize]
 	[SerializeField]
-	[ListDrawerSettings(Expanded = true)]
 	private List<MissionInputCondition> missions = new List<MissionInputCondition>();
 	public List<MissionInputCondition> Missions
 	{
@@ -62,7 +128,6 @@ public class TrialsModeData : SerializedScriptableObject
 
 
 	[SerializeField]
-	[ListDrawerSettings(Expanded = true)]
 	List<string> comboNotes;
 	public List<string> ComboNotes
 	{
@@ -71,12 +136,8 @@ public class TrialsModeData : SerializedScriptableObject
 
 	[Space]
 	[Title("Fail Conditions")]
-	[SerializeField]
-	private int numberOfTry = -1;
-
 
 	[SerializeField]
-	[ListDrawerSettings(Expanded = true)]
 	private List<MissionInputCondition> failConditions = new List<MissionInputCondition>();
 	public List<MissionInputCondition> FailConditions
 	{
@@ -86,11 +147,16 @@ public class TrialsModeData : SerializedScriptableObject
 
 	[Space]
 	[Title("TextEnd")]
+
+
+	[Space]
+	[Space]
 	[SerializeField]
-	List<string> textboxEnd;
-	public List<string> TextboxEnd
+	TrialsModeData nextTrial;
+	public TrialsModeData NextTrial
 	{
-		get { return textboxEnd; }
+		get { return nextTrial; }
 	}
+
 
 }

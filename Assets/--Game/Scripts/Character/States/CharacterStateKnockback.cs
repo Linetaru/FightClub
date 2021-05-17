@@ -5,12 +5,9 @@ using Sirenix.OdinInspector;
 
 public class CharacterStateKnockback : CharacterState
 {
+
     [SerializeField]
-    CharacterState idleState;
-    [SerializeField]
-    CharacterState landState;
-    [SerializeField]
-    CharacterState aerialState;
+    CharacterState groundTechState;
 
 
     [Title("Parameter - Collision")]
@@ -42,6 +39,8 @@ public class CharacterStateKnockback : CharacterState
     float DIAngle = 10;
 
     bool inHitStop = true;
+    float tech = 0;
+    float techCooldown = 0;
 
     private void Start()
     {
@@ -56,9 +55,13 @@ public class CharacterStateKnockback : CharacterState
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
-        character.Rigidbody.SetNewLayerMask(knockbackLayerMask, true);
+
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask, false, true);
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
 
         character.Knockback.Parry.ParryNumber = 0;
+        tech = 0f;
+        techCooldown = 0f;
     }
 
     public override void UpdateState(CharacterBase character)
@@ -84,6 +87,14 @@ public class CharacterStateKnockback : CharacterState
         {
             character.ResetToIdle();
         }
+        else if (character.Input.CheckAction(0, InputConst.RightTrigger) && techCooldown <= 0)
+        {
+            tech = 6 / 60f;
+            techCooldown = 20 / 60f;
+        }
+
+        tech -= Time.deltaTime;
+        techCooldown -= Time.deltaTime;
 
     }
 
@@ -91,12 +102,12 @@ public class CharacterStateKnockback : CharacterState
     {
         if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null) && Mathf.Abs(character.Movement.SpeedY) > reboundSpeedNeeded)
         {
-            character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            if (tech >= 0 && character.Movement.SpeedY < 0)
+                character.SetState(groundTechState);
+            else
+                character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
-            /*if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
-            {
-                character.SetState(landState);
-            }*/
+
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)

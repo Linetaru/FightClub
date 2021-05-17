@@ -113,13 +113,11 @@ namespace Menu
         {
             if (input.vertical > stickThreshold)
             {
-                SelectUp();
-                return true;
+                return SelectUp();
             }
             else if (input.vertical < -stickThreshold)
             {
-                SelectDown();
-                return true;
+                return SelectDown();
             }
             else if (Mathf.Abs(input.vertical) <= 0.2f)
             {
@@ -133,13 +131,11 @@ namespace Menu
         {
             if (input.horizontal > stickThreshold)
             {
-                SelectDown();
-                return true;
+                return SelectDown();
             }
             else if (input.horizontal < -stickThreshold)
             {
-                SelectUp();
-                return true;
+                return SelectUp();
             }
             else if (Mathf.Abs(input.horizontal) <= 0.2f)
             {
@@ -149,11 +145,11 @@ namespace Menu
             return false;
         }
 
-        public void SelectUp()
+        public bool SelectUp()
         {
             if (listIndexCount == 0)
             {
-                return;
+                return false;
             }
             if (lastDirection != 8)
             {
@@ -162,7 +158,7 @@ namespace Menu
             }
 
             if (CheckRepeat() == false)
-                return;
+                return false;
 
             listItem[indexSelection].UnselectButton();
             indexSelection -= 1;
@@ -172,15 +168,16 @@ namespace Menu
             }
             listItem[indexSelection].SelectButton();
             MoveScrollRect();
+            return true;
         }
 
 
 
-        public void SelectDown()
+        public bool SelectDown()
         {
             if (listIndexCount == 0)
             {
-                return;
+                return false;
             }
             if (lastDirection != 2)
             {
@@ -188,7 +185,7 @@ namespace Menu
                 lastDirection = 2;
             }
             if (CheckRepeat() == false)
-                return;
+                return false;
 
             listItem[indexSelection].UnselectButton();
             indexSelection += 1;
@@ -198,6 +195,7 @@ namespace Menu
             }
             listItem[indexSelection].SelectButton();
             MoveScrollRect();
+            return true;
         }
 
 

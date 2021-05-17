@@ -30,11 +30,38 @@ public class AttackSubManager : MonoBehaviour
         get { return clashLevel; }
     }
 
+    /* [SerializeField]
+     private bool clashCancel = true;
+     public bool ClashCancel
+     {
+         get { return clashCancel; }
+     }*/
+
+    // Si l'attack est disjoint on ne peut pas se faire repousser
     [SerializeField]
-    private bool clashCancel = true;
-    public bool ClashCancel
+    [SuffixLabel("Si il y a Parade/Garde, l'utilisateur de cette attaque n'est pas impliqué")]
+    private bool disjoint = false;
+    public bool Disjoint
     {
-        get { return clashCancel; }
+        get { return disjoint; }
+    }
+
+    // On peut Garder l'attaque juste en courant
+    [SerializeField]
+    [SuffixLabel("L'attaque peut etre gardé si on Dash")]
+    private bool guardOnDash = false;
+    public bool GuardOnDash
+    {
+        get { return guardOnDash; }
+    }
+
+    // Si guardWin est On l'attaque ne repousse pas le joueur
+    [SerializeField]
+    [SuffixLabel("La garde gagne sur cette attaque")]
+    private bool guardWin = false;
+    public bool GuardWin
+    {
+        get { return guardWin; }
     }
 
     [HorizontalGroup("Break")]
@@ -119,6 +146,19 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reinitialise une attack mais n'appelle pas les Start Components, utilisé principalement par le renvoi de projectile
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="attackName"></param>
+    public void ReInitAttack(CharacterBase character, string attackName)
+    {
+        tag = character.tag;
+        user = character;
+        attackID = attackName;
+        playerHitList.Clear();
+    }
+
     public void ActionActive()
     {
         playerHitList.Clear();
@@ -181,9 +221,30 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
+    public void Guard(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            // Si la garde ne repousse pas on doit le signaler pour les composants
+            atkC.OnGuard(user, target, !guardWin);
+        }
+    }
 
+    public void Parry(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.OnParry(user, target);
+        }
+    }
 
-
+    public void Clash(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.OnClash(user, target);
+        }
+    }
 
 
 
@@ -203,7 +264,7 @@ public class AttackSubManager : MonoBehaviour
         AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
         if (atkMan != null)
         {
-            if (atkMan.User.TeamID == user.TeamID) // Pour empêcher les joueurs dans la même équipes de clash
+            if (atkMan.User.TeamID == user.TeamID && atkMan.User.TeamID != TeamEnum.No_Team) // Pour empêcher les joueurs dans la même équipes de clash
                 return;
 
             attackClashed = atkMan;

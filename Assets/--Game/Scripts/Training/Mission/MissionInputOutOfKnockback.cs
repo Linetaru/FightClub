@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class MissionInputOutOfKnockback : MissionInputCondition
 {
+	[SerializeField]
+	bool isDummy = true;
 
 	bool condition = false;
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
 		condition = false;
-		dummy.OnStateChanged += StateChangedCallback;
+		if(isDummy == true)
+			dummy.OnStateChanged += StateChangedCallback;
+		else
+			player.OnStateChanged += StateChangedCallback;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
@@ -19,7 +24,10 @@ public class MissionInputOutOfKnockback : MissionInputCondition
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
-		dummy.OnStateChanged -= StateChangedCallback;
+		if (isDummy == true)
+			dummy.OnStateChanged -= StateChangedCallback;
+		else
+			player.OnStateChanged -= StateChangedCallback;
 	}
 
 	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
