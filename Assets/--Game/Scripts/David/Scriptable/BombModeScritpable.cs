@@ -37,6 +37,13 @@ public class BombModeScritpable : ScriptableObject
     public int canRoundSpecialAfter = 3;
 
     [HideIf("randomRounds")]
+    [Title("Special Mode List")]
+    [DetailedInfoBox("Special Mode Codes (click to show)",
+        "0 : Normal \n" +
+        "1 : Fake Bomb \n" +
+        "2 : Invisible Bomb \n" +
+        "3 : No Countdown \n" +
+        "4 : Bomb Reset \n", InfoMessageType.Info)]
     public List<int> specialRounds = new List<int>();
 
 }
