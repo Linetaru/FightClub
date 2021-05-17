@@ -381,6 +381,7 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 
+
 		characterRepelled.PowerGauge.ForceAddPower(-20);
 
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
