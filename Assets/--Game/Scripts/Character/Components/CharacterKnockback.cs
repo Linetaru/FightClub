@@ -152,10 +152,11 @@ public class CharacterKnockback : MonoBehaviour
             }
             else // On touche
             {
-                atkRegistered[i].Hit(character);
+                Hit(character, atkRegistered[i]);
+                /*atkRegistered[i].Hit(character);
                 if (CanKnockback() == true)
-                    character.SetState(stateKnockback); // Pardon
-                OnKnockback?.Invoke(atkRegistered[i]);
+                    character.SetState(stateKnockback);
+                OnKnockback?.Invoke(atkRegistered[i]);*/
             }
             atkRegistered.RemoveAt(i);
         }
@@ -163,7 +164,13 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
-
+    public void Hit(CharacterBase character, AttackSubManager attack)
+    {
+        attack.Hit(character);
+        if (CanKnockback() == true)
+            character.SetState(stateKnockback);
+        OnKnockback?.Invoke(attack);
+    }
 
 
 

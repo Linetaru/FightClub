@@ -24,6 +24,8 @@ public class SignatureMoveManager : MonoBehaviour
 	[SerializeField]
 	Animator feedback;
 
+	TargetsCamera target;
+
 
 	private static SignatureMoveManager _instance;
 	public static SignatureMoveManager Instance { get { return _instance; } }
@@ -52,21 +54,17 @@ public class SignatureMoveManager : MonoBehaviour
 		for (int i = 0; i < battleManager.characterAlive.Count; i++)
 		{
 			battleManager.characterAlive[i].SetMotionSpeed(0, 1);
-			cameraManager.zoomController.targets.Remove(battleManager.characterAlive[i].transform);
 		}
-		cameraManager.zoomController.targets.Add(user.transform);
+		target = new TargetsCamera(user.transform, 2);
+		cameraManager.zoomController.targets.Add(target);
 
-		StartCoroutine(SignatureMoveFeedback(user));
+		StartCoroutine(SignatureMoveFeedback());
 	}
 
-	private IEnumerator SignatureMoveFeedback(CharacterBase user)
+	private IEnumerator SignatureMoveFeedback()
 	{
 		yield return new WaitForSeconds(1f);
-		for (int i = 0; i < battleManager.characterAlive.Count; i++)
-		{
-			if(battleManager.characterAlive[i] != user)
-				cameraManager.zoomController.targets.Add(battleManager.characterAlive[i].transform);
-		}
+		cameraManager.zoomController.targets.Remove(target);
 		feedback.gameObject.SetActive(false);
 	}
 

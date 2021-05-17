@@ -37,21 +37,10 @@ public class CharacterStateWallRun : CharacterState
     [SerializeField]
     LayerMask wallLayer;
 
-    // Start is called before the first frame update
-    /*void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }*/
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
 
         wallrunSpeed = Mathf.Clamp(character.Movement.SpeedX, wallrunSpeedMin, wallrunSpeedMax);
@@ -77,10 +66,9 @@ public class CharacterStateWallRun : CharacterState
         else
         {
             character.Movement.SpeedY = wallrunSpeedMin;
-            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction) //|| character.Input.vertical < -joystickDeadzone)
+            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction)
             {
                 character.SetState(aerialState);
-                //character.Input.inputActions[0].timeValue = 0;
             }
         }
 
@@ -90,18 +78,13 @@ public class CharacterStateWallRun : CharacterState
             {
                 character.Movement.Direction *= -1;
 
-                /*if (character.Movement.SpeedY > 0)
-                    character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
-                else*/
                 character.Movement.SpeedX = wallJumpSpeedX;
 
                 wallCollision = false;
 
                 character.Movement.Jump();
-                character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
 
                 //Play Walljump animation
-
                 character.SetState(aerialState);
                 character.Input.inputActions[0].timeValue = 0;
             }

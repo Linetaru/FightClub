@@ -9,17 +9,10 @@ public class CharacterParry : MonoBehaviour
 	[Title("States")]
 	[SerializeField]
 	CharacterState parrySuccesState;
-	public CharacterState ParrySuccesState
-	{
-		get { return parrySuccesState; }
-	}
 
 	[SerializeField]
 	CharacterState parryRepelState;
-	public CharacterState ParryRepelState
-	{
-		get { return parryRepelState; }
-	}
+
 
 	[Title("Parameter")]
 	[SerializeField]
@@ -88,7 +81,7 @@ public class CharacterParry : MonoBehaviour
 
 
 	public event EventCharacterBase OnParry;
-	public event EventCharacterBase OnGuard;
+	public event EventCharacterBaseDouble OnGuard;
 	public event EventAttackSubManager OnClash;
 
 
@@ -111,16 +104,16 @@ public class CharacterParry : MonoBehaviour
 
 	[SerializeField]
 	GameObject particleGuard;
-	public GameObject ParticleGuard
-	{
-		get { return particleGuard; }
-	}
+	[SerializeField]
+	GameObject particleGuardMedium;
+	[SerializeField]
+	GameObject particleGuardCritical;
+
+	[SerializeField]
+	GameObject particleGuardBreak;
+
 	[SerializeField]
 	GameObject particleGuardDirectionRepel;
-	public GameObject ParticleGuardDirectionRepel
-	{
-		get { return particleGuardDirectionRepel; }
-	}
 
 
 	// Faire une interface ou une classe abstraire pour attackManager
@@ -241,18 +234,44 @@ public class CharacterParry : MonoBehaviour
 
 	public virtual void GuardResolution(CharacterBase character, AttackSubManager atkRegistered)
 	{
-		atkRegistered.AddPlayerHitList(character.tag);
 		//	atkRegistered.User.Knockback.ContactPoint = character.Knockback.ContactPoint;
+
+
 
 		if (atkRegistered.GuardWin == false)
 		{
-			Guard(character, atkRegistered.User);
+			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
+			{
+				character.PowerGauge.ForceAddPower(-20);
+				character.PowerGauge.ForceAddPower(80);
+				character.Knockback.Hit(character, atkRegistered);
+
+				character.SetMotionSpeed(0.1f, 0.8f);
+				atkRegistered.User.SetMotionSpeed(0.1f, 0.8f);
+
+
+				Vector2 angleEjection = character.Knockback.GetAngleKnockback().normalized;
+				Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 10, 0.8f);
+				Feedbacks.GlobalFeedback.Instance.ZoomDramatic(character, 0.8f);
+
+				// Feedback
+				GameObject go2 = Instantiate(particleGuardBreak, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+
+				return;
+			}
+			else 
+			{
+				Guard(character, atkRegistered.User);
+			}
 		}
 		if (atkRegistered.Disjoint == false)
 		{
 			atkRegistered.User.Knockback.Parry.Parry(atkRegistered.User, character);
-			atkRegistered.User.PowerGauge.ForceAddPower(-25);
+			//atkRegistered.User.PowerGauge.ForceAddPower(-20);
 		}
+		atkRegistered.AddPlayerHitList(character.tag);
 
 		// Pour tourner le joueur dans le sens de la garde
 		if (Mathf.Sign(atkRegistered.User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
@@ -272,9 +291,25 @@ public class CharacterParry : MonoBehaviour
 		else
 		{
 			Vector2 angleEjection = (character.transform.position - atkRegistered.User.transform.position).normalized;
-			GameObject go2 = Instantiate(particleGuard, character.CenterPoint.position, Quaternion.identity);
-			go2.name = particleParry.name;
-			Destroy(go2, 1f);
+
+			if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower * 0.33f)
+			{
+				GameObject go2 = Instantiate(particleGuardCritical, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
+			else if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower * 0.66f)
+			{
+				GameObject go2 = Instantiate(particleGuardMedium, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
+			else if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower)
+			{
+				GameObject go2 = Instantiate(particleGuard, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
 
 			GameObject go = Instantiate(particleGuardDirectionRepel, character.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 			go.name = particleParry.name;
@@ -303,8 +338,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
 
-		characterParry.PowerGauge.ForceAddPower(25);
-
+		characterParry.PowerGauge.ForceAddPower(20);
 
 
 		characterParry.SetState(parrySuccesState);
@@ -347,6 +381,9 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 
+
+		characterRepelled.PowerGauge.ForceAddPower(-20);
+
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
 
@@ -354,7 +391,7 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.Launch(angleEjection, 1);
 
 		characterRepelled.SetState(parryRepelState);
-		OnGuard?.Invoke(characterParry);
+		OnGuard?.Invoke(characterRepelled, characterParry);
 
 	}
 

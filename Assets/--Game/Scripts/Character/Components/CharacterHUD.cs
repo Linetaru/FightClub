@@ -140,7 +140,18 @@ public class CharacterHUD : MonoBehaviour
 		}
 
 		if (previousGaugeID < id)
-			animatorGauge[id-1].SetTrigger("Feedback");
+		{
+			if ((id - 2) > -1)
+				animatorGauge[id - 2].SetTrigger("Default");
+			animatorGauge[id - 1].SetFloat("Gain", (float) id / powerGauge.Length);
+			animatorGauge[id - 1].SetTrigger("Feedback");
+		}
+		if (previousGaugeID > id)
+		{
+			if((id-1) != -1)
+				animatorGauge[id-1].SetTrigger("Default2");
+			animatorGauge[id].SetTrigger("Loose");
+		}
 
 
 		previousGaugeID = id;
