@@ -422,10 +422,7 @@ public class StickyBombManager : MonoBehaviour
     {
         GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
 
-        AttackSubManager atk = explosion.GetComponentInChildren<AttackSubManager>();
-        //Attack
-        atk.InitAttack(currentBombedPlayer, "explosion");
-        atk.ActionActive();
+        explosion.GetComponent<BombExplosionAtk>().TriggerExplosion(currentBombedPlayer);
 
         Destroy(explosion, 4f);
     }

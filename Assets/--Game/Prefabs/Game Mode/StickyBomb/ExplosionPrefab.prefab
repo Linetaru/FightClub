@@ -47,7 +47,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5.5
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4769606857771940619
 MonoBehaviour:
@@ -19566,7 +19566,7 @@ MonoBehaviour:
   removeHitStopAttacker: 1
   bonusHitstun: 0
   knockbackAdvancedSettings: 1
-  minKnockbackPower: 70
+  minKnockbackPower: 50
   knockbackCurve:
     serializedVersion: 2
     m_Curve:
@@ -19591,7 +19591,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxKnockbackPower: 100
+  maxKnockbackPower: 60
   minCurvePercentage: 10
   maxCurvePercentage: 20
   linearKnockbackPower: 1
@@ -19785,6 +19785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8830750382649913375}
+  - component: {fileID: 2292994916389511133}
   m_Layer: 0
   m_Name: ExplosionPrefab
   m_TagString: Untagged
@@ -19813,6 +19814,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2292994916389511133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830750382649913374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5985a20865b6f654cbb04ab4d36809e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkSub: {fileID: 4769606857771940619}
+  timeExplosionActive: 0.5
 --- !u!1 &8830750382871067430
 GameObject:
   m_ObjectHideFlags: 0
