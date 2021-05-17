@@ -10,6 +10,7 @@ public class CharacterData : ScriptableObject
     [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 160)]
     public GameObject playerPrefab;
 
+    public string characterName;
     public CharacterModel characterSelectionModel;
 
     [Title("UI")]

@@ -231,46 +231,46 @@ public class CameraZoomController : MonoBehaviour
     public Vector2 minZoomDistance = new Vector2(3,2);
 
 
-    /* [Title("Focus Collider Parameter")]
-     [SerializeField]
-     [InfoBox("Change Directly Focus Collider Center", InfoMessageType.Info)]
-     [OnValueChanged("FocusLevelBoxCenter")]
-     [PropertyOrder(1)]
-     Vector3 focusLevelBoxCenter;
+    /*[Title("Focus Collider Parameter")]
+    [SerializeField]
+    [InfoBox("Change Directly Focus Collider Center", InfoMessageType.Info)]
+    [OnValueChanged("FocusLevelBoxCenter")]
+    [PropertyOrder(1)]
+    Vector3 focusLevelBoxCenter;
 
-     public void FocusLevelBoxCenter()
-     {
-         if (focusLevel != null)
-             focusLevel.center = focusLevelBoxCenter;
-     }
+    public void FocusLevelBoxCenter()
+    {
+        if (focusLevel != null)
+            focusLevel.center = focusLevelBoxCenter;
+    }
 
-     [SerializeField]
-     [InfoBox("Change Directly Focus Collider Size", InfoMessageType.Info)]
-     [OnValueChanged("FocusLevelBoxSize")]
-     [PropertyOrder(1)]
-     Vector3 focusLevelBoxSize;
+    [SerializeField]
+    [InfoBox("Change Directly Focus Collider Size", InfoMessageType.Info)]
+    [OnValueChanged("FocusLevelBoxSize")]
+    [PropertyOrder(1)]
+    Vector3 focusLevelBoxSize;
 
-     public void FocusLevelBoxSize()
-     {
-         if (focusLevel != null)
-             focusLevel.size = focusLevelBoxSize;
-     }
+    public void FocusLevelBoxSize()
+    {
+        if (focusLevel != null)
+            focusLevel.size = focusLevelBoxSize;
+    }
 
-     [GUIColor(0, 1, 0)]
-     [PropertyOrder(1)]
-     [Button]
-     public void GetFocusBoxProperties()
-     {
-         if (focusLevel != null)
-         {
-             focusLevelBoxSize = focusLevel.size;
-             focusLevelBoxCenter = focusLevel.center;
-         }
-     }*/
+    [GUIColor(0, 1, 0)]
+    [PropertyOrder(1)]
+    [Button]
+    public void GetFocusBoxProperties()
+    {
+        if (focusLevel != null)
+        {
+            focusLevelBoxSize = focusLevel.size;
+            focusLevelBoxCenter = focusLevel.center;
+        }
+    }
 
 
 
-    /*[Title("BlastZone Collider Parameter")]
+    [Title("BlastZone Collider Parameter")]
     [SerializeField]
     [InfoBox("Change Directly Blastzone Collider Center", InfoMessageType.Info)]
     [OnValueChanged("BlastZoneBoxCenter")]
@@ -353,18 +353,7 @@ public class CameraZoomController : MonoBehaviour
 
     private void LateUpdate()
     {
-
-        //If camera don't scroll in the level so camera can focus on player and execute function.
-        if (canFocus)
-        {
-            //ZoomCamera();
-            MoveCamera();
-        }
-        else
-        {
-            //UnZoomCamera();
-            MoveCamera();
-        }
+        MoveCamera();
         this.transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(offsetRot), rotationSmoothTime);
     }
 
@@ -420,13 +409,20 @@ public class CameraZoomController : MonoBehaviour
 
 
         // Zoom
-        float maxZoom = focusLevel.bounds.size.magnitude * 0.5f;
+        if (canFocus == true)
+        {
+            float maxZoom = focusLevel.bounds.size.magnitude * 0.5f;
 
-        float ratioY = (targetsBounds.size.y - minZoomDistance.y) / (focusLevel.bounds.size.y - minZoomDistance.y);
-        float ratioX = (targetsBounds.size.x - minZoomDistance.x) / (focusLevel.bounds.size.x - minZoomDistance.x);
-        float bestRatio = Mathf.Clamp(Mathf.Max(ratioX, ratioY), 0, 1);
+            float ratioY = (targetsBounds.size.y - minZoomDistance.y) / (focusLevel.bounds.size.y - minZoomDistance.y);
+            float ratioX = (targetsBounds.size.x - minZoomDistance.x) / (focusLevel.bounds.size.x - minZoomDistance.x);
+            float bestRatio = Mathf.Clamp(Mathf.Max(ratioX, ratioY), 0, 1);
 
-        sizeZoom = Mathf.Lerp(ZoomInLimiter, maxZoom, bestRatio);
+            sizeZoom = Mathf.Lerp(ZoomInLimiter, maxZoom, bestRatio);
+        }
+        else
+        {
+            sizeZoom = focusLevel.bounds.size.magnitude;
+        }
 
 
         //Calculate camera view and resize zoom to fit the bound of camera view

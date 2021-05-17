@@ -8,7 +8,8 @@ public class CharacterStateKnockback : CharacterState
 
     [SerializeField]
     CharacterState groundTechState;
-
+    [SerializeField]
+    CharacterState airTechState;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -112,6 +113,11 @@ public class CharacterStateKnockback : CharacterState
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
+            if (tech >= 0)
+            {
+                character.SetState(airTechState);
+                return;
+            }
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }
