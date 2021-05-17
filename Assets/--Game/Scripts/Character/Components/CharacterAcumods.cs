@@ -20,10 +20,19 @@ public class CharacterAcumods : MonoBehaviour
         get { return statusAttack; }
     }
 
+    [SerializeField]
+    CharacterState stateAttack;
+    public CharacterState StateAttack
+    {
+        get { return stateAttack; }
+    }
+
+
 
     [Space]
     [SerializeField]
     int acumodDefenseCost = 20;
+
     [SerializeField]
     StatusData statusDefense;
     public StatusData StatusDefense
@@ -31,14 +40,31 @@ public class CharacterAcumods : MonoBehaviour
         get { return statusDefense; }
     }
 
+    [SerializeField]
+    CharacterState stateDefense;
+    public CharacterState StateDefense
+    {
+        get { return stateDefense; }
+    }
+
+
+
     [Space]
     [SerializeField]
     int acumodJumpCost = 20;
+
     [SerializeField]
     StatusData statusInfiniteJump;
     public StatusData StatusInfiniteJump
     {
         get { return statusInfiniteJump; }
+    }
+
+    [SerializeField]
+    CharacterState stateInfiniteJump;
+    public CharacterState StateInfiniteJump
+    {
+        get { return stateInfiniteJump; }
     }
 
 
@@ -76,10 +102,13 @@ public class CharacterAcumods : MonoBehaviour
 
     private bool AcumodBuffAttack(CharacterBase character)
     {
+        if (character.CurrentState is CharacterStateKnockback)
+            return false;
         if (character.PowerGauge.CurrentPower >= acumodAttackCost)
         {
             character.PowerGauge.CurrentPower -= acumodAttackCost;
             character.Status.AddStatus(new Status("Acumod_Attack", statusAttack));
+            character.SetState(stateAttack);
             return true;
         }
         return false;
@@ -87,10 +116,13 @@ public class CharacterAcumods : MonoBehaviour
 
     private bool AcumodBuffDefense(CharacterBase character)
     {
+        if (character.CurrentState is CharacterStateKnockback)
+            return false;
         if (character.PowerGauge.CurrentPower >= acumodDefenseCost)
         {
             character.PowerGauge.CurrentPower -= acumodDefenseCost;
             character.Status.AddStatus(new Status("Acumod_Defense", statusDefense));
+            character.SetState(stateDefense);
             return true;
         }
         return false;
@@ -98,10 +130,13 @@ public class CharacterAcumods : MonoBehaviour
 
     private bool AcumodInfiniteJump(CharacterBase character)
     {
+        if (character.CurrentState is CharacterStateKnockback)
+            return false;
         if (character.PowerGauge.CurrentPower >= acumodJumpCost)
         {
             character.PowerGauge.CurrentPower -= acumodJumpCost;
             character.Status.AddStatus(new Status("Acumod_InfiniteJump", statusInfiniteJump));
+            character.SetState(stateInfiniteJump);
             return true;
         }
         return false;
@@ -112,8 +147,8 @@ public class CharacterAcumods : MonoBehaviour
     {
         if (character.PowerGauge.CurrentPower >= acumodBurstCost)
         {
-            character.SetState(stateBurst);
             character.PowerGauge.CurrentPower -= acumodBurstCost;
+            character.SetState(stateBurst);
             return true;
         }
         return false;

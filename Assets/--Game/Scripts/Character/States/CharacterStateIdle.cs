@@ -34,8 +34,12 @@ public class CharacterStateIdle : CharacterState
 	[Title("Parameter - Speed")]
 	[SerializeField]
 	float speedMultiplierWalk = 0.2f;
+	/*[SerializeField]
+	float speedRequiredForWallRun = 8f;*/
+
+	[Title("Parameter - Platform")]
 	[SerializeField]
-	float speedRequiredForWallRun = 8f;
+	LayerMask goThroughGroundMask;
 
 
 	[Title("Parameter - Actions")]
@@ -43,10 +47,9 @@ public class CharacterStateIdle : CharacterState
 	CharacterMoveset moveset;
 	[SerializeField]
 	CharacterEvasiveMoveset evasiveMoveset;
-
-	[Title("Parameter - Platform")]
 	[SerializeField]
-	LayerMask goThroughGroundMask;
+	CharacterAcumods acumods;
+
 
 
 
@@ -129,6 +132,10 @@ public class CharacterStateIdle : CharacterState
         {
 
         }
+		else if(acumods.Acumod(character))
+		{
+
+		}
 
 	}
 

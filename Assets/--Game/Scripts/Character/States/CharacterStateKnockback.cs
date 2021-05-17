@@ -39,6 +39,10 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float DIAngle = 10;
 
+    [Title("Parameter - Actions")]
+    [SerializeField]
+    CharacterAcumods acumods;
+
     bool inHitStop = true;
     float tech = 0;
     float techCooldown = 0;
@@ -92,6 +96,10 @@ public class CharacterStateKnockback : CharacterState
         {
             tech = 6 / 60f;
             techCooldown = 20 / 60f;
+        }
+        else if (acumods.Acumod(character))
+        {
+
         }
 
         tech -= Time.deltaTime;
