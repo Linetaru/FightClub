@@ -33,13 +33,19 @@ public class StickyBombManager : MonoBehaviour
         get { return currentRoundMode; }
     }
 
+    /*
     [Title("Round Infos")]
     [SerializeField]
     private float timeBetweenRounds;
+    */
 
     [HideInInspector]
     public float bombTimer = 10f;
 
+    [SerializeField]
+    BombModeScritpable bombModeData;
+
+    /*
     [Title("Timers")]
     [SerializeField]
     [Range(1f, 120f)]
@@ -56,6 +62,7 @@ public class StickyBombManager : MonoBehaviour
     [SerializeField]
     [Range(1f, 120f)]
     private float resetModeTimer = 10f;
+    */
 
     private bool startRound;
 
@@ -63,6 +70,7 @@ public class StickyBombManager : MonoBehaviour
 
     private bool timeOut = true;
 
+    /*
     [Title("Player Scale Infos")]
     // A partir de quel pourcentage de bombTimer la scale sera à son max
     // Si coefScaleMax = 0.5 => Le joueur aura sa scale max à 50% de bombTimer
@@ -74,7 +82,9 @@ public class StickyBombManager : MonoBehaviour
     [SerializeField]
     [Range(1f, 5f)]
     private float scaleMaxMultiplier = 2f;
+    */
 
+    /*
     [Title("Special Rounds")]
     [SerializeField]
     private bool randomRounds;
@@ -84,7 +94,7 @@ public class StickyBombManager : MonoBehaviour
 
     [SerializeField]
     private List<int> specialRounds = new List<int>();
-
+    */
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -354,19 +364,19 @@ public class StickyBombManager : MonoBehaviour
     {
         currentRound++;
 
-        if (!randomRounds)
+        if (!bombModeData.randomRounds)
         {
             // Sécurité au cas ou pas assez de rounds prévus (pas sensé arriver) => Revient au début
-            if (currentRound >= specialRounds.Count)
+            if (currentRound >= bombModeData.specialRounds.Count)
                 currentRound = 1;
 
-            currentRoundMode = (RoundMode) specialRounds[currentRound - 1];
+            currentRoundMode = (RoundMode)bombModeData.specialRounds[currentRound - 1];
             if (battleManager.characterAlive.Count < 3 && currentRoundMode == RoundMode.FakeBomb)
                 RandomRound();
         }
         else
         {
-            if (currentRound > canRoundSpecialAfter)
+            if (currentRound > bombModeData.canRoundSpecialAfter)
                 RandomRound();
             else
                 currentRoundMode = RoundMode.Normal;
@@ -411,11 +421,11 @@ public class StickyBombManager : MonoBehaviour
 
     private void InitTimerList()
     {
-        timerList.Add(normalModeTimer);
-        timerList.Add(fakeModeTimer);
-        timerList.Add(invisibleModeTimer);
-        timerList.Add(noCountModeTimer);
-        timerList.Add(resetModeTimer);
+        timerList.Add(bombModeData.normalModeTimer);
+        timerList.Add(bombModeData.fakeModeTimer);
+        timerList.Add(bombModeData.invisibleModeTimer);
+        timerList.Add(bombModeData.noCountModeTimer);
+        timerList.Add(bombModeData.resetModeTimer);
     }
 
     private void ExplosionDeath()
@@ -431,7 +441,7 @@ public class StickyBombManager : MonoBehaviour
     {
         uiManager.RoundIsOver();
         UpdateRoundMode();
-        yield return new WaitForSecondsRealtime(timeBetweenRounds);
+        yield return new WaitForSecondsRealtime(bombModeData.timeBetweenRounds);
         uiManager.LaunchCountDownAnim();
         startRound = true;
         //InitStickyBomb();
@@ -440,16 +450,16 @@ public class StickyBombManager : MonoBehaviour
     IEnumerator LerpScale(CharacterBase player)
     {
         Vector3 originalScale = playerOriginalScale;
-        Vector3 targetScale = originalScale * scaleMaxMultiplier;
+        Vector3 targetScale = originalScale * bombModeData.scaleMaxMultiplier;
 
         while (bombTimer > 0)
         {
             if(currentBombedPlayer != null)
             {
-                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
+                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * bombModeData.coefScaleMax));
 
                 if(currentFakeBombedPlayer != null)
-                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
+                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * bombModeData.coefScaleMax));
 
                 yield return null;
             }
