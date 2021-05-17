@@ -33,6 +33,12 @@ public class CharacterModel : MonoBehaviour
 
 	}
 
+	public void SetTextColor(Color color)
+	{
+		if (textPlayer != null)
+			textPlayer.color = color;
+	}
+
 	public Material GetColor()
 	{
 		return skinnedMeshRenderers[0].material;

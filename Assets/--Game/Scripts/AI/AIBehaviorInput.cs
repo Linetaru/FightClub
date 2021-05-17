@@ -7,8 +7,11 @@ using Sirenix.OdinInspector;
 public class AIBehaviorInput : AIBehavior
 {
 
+
 	[Title("Inputs")]
 	[SerializeField]
+	InputRecordingData[] inputDatas;
+
 	InputRecordingData inputData;
 
 	[SerializeField]
@@ -38,6 +41,7 @@ public class AIBehaviorInput : AIBehavior
 		base.StartBehavior();
 		indexPlay = 0;
 		playTime = 0f;
+		inputData = inputDatas[Random.Range(0, inputDatas.Length)];
 	}
 
 	private void PlayInput()

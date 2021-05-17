@@ -67,6 +67,8 @@ namespace Menu
 			victoryScreen.characterModel.SetColor(winnerID, gameData.CharacterInfos[winnerID].CharacterData.characterMaterials[gameData.CharacterInfos[winnerID].CharacterColorID]);
 			victoryScreen.circularReference = this;
 
+			CharacterBattleData characterBattleData = charactersPodium[0].GetComponentInChildren<CharacterBattleData>();
+			listResultDrawers[0].DrawParry(characterBattleData.NbOfParry);
 
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
@@ -76,10 +78,14 @@ namespace Menu
 				listPlayerChoice.Add(0);
 				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
-				// Aled
 				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
 				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
 				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
+
+
+				// Pardon
+				characterBattleData = charactersPodium[i].GetComponentInChildren<CharacterBattleData>();
+				listResultDrawers[i].DrawParry(characterBattleData.NbOfParry);
 			}
 		}
 

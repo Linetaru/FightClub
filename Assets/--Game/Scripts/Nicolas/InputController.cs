@@ -280,8 +280,8 @@ public class InputController : SerializedMonoBehaviour
 
 	public void AddMovement(float horizontal, float vertical, ref Input_Info inputInfo)
 	{
-		InputBuffer tmp = new InputBuffer();
-		var input = inputInfo.inputActions;
+		/*InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;*/
 		inputInfo.horizontal = horizontal;
 		inputInfo.vertical = vertical;
 	}

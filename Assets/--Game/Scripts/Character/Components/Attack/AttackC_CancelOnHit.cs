@@ -24,8 +24,21 @@ public class AttackC_CancelOnHit : AttackComponent
     {
 		user.Action.MoveCancelable();
     }
-	
-	// Appelé au moment de la destruction de l'attaque
+
+    public override void OnParry(CharacterBase user, CharacterBase target)
+    {
+
+    }
+    public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+    {
+
+    }
+    public override void OnClash(CharacterBase user, CharacterBase target)
+    {
+
+    }
+
+    // Appelé au moment de la destruction de l'attaque
     public override void EndComponent(CharacterBase user)
     {
 		

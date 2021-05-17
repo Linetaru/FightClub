@@ -29,7 +29,7 @@ public class CharacterRigidbody : MonoBehaviour
     /// </summary>
     /// <param name="newLayerMask"></param>
     /// <param name="groundLayerMask"></param>
-    public virtual void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false)
+    public virtual void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false, bool aerialLayerMask = false)
     {
 
     }

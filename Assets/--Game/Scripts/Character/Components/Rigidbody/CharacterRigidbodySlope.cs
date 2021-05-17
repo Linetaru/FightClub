@@ -57,7 +57,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     Transform collisionInfo;
 
-
+    [SerializeField]
     private CollisionRigidbody collisionWallInfo;
     public override CollisionRigidbody CollisionWallInfo
     {
@@ -87,15 +87,16 @@ public class CharacterRigidbodySlope : CharacterRigidbody
     }
 
 
-
     private LayerMask currentLayerMask;
     private LayerMask currentAerialLayerMask;
     private LayerMask currentCheckGroundLayerMask;
 
 
-    public override void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false)
+    public override void SetNewLayerMask(LayerMask newLayerMask, bool groundLayerMask = false, bool aerialLayerMask = false)
     {
-        if(groundLayerMask == true)
+        if (aerialLayerMask == true)
+            currentAerialLayerMask = newLayerMask;
+        else if (groundLayerMask == true)
             currentCheckGroundLayerMask = newLayerMask;
         else
             currentLayerMask = newLayerMask;
@@ -229,6 +230,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         Vector3 originRaycast = (directionX == -1) ? bottomLeft : bottomRight;
         Vector3 originOffset = (upperRight - bottomRight) / (numberRaycastHorizontal - 1);
 
+        //!\
+        float originSpeedX = actualSpeedX;
+        //!\
+
         for (int i = 0; i < numberRaycastHorizontal; i++)
         {
             Physics.Raycast(originRaycast, new Vector2(actualSpeedX, 0), out raycastX, Mathf.Abs(actualSpeedX) + offsetRaycastX, GetHorizontalLayerMask());
@@ -240,7 +245,9 @@ public class CharacterRigidbodySlope : CharacterRigidbody
                 if(!(climbingSlope == true && i == 0))
                     collisionWallInfo.Collision = raycastX.collider.transform;
             }
-            collisionWallInfo.Contacts[i] = (raycastX.collider != null);
+            //!\ Peut faire mal aux perfs
+            collisionWallInfo.Contacts[i] = Physics.Raycast(originRaycast, new Vector2(originSpeedX, 0), Mathf.Abs(originSpeedX) + offsetRaycastX, GetHorizontalLayerMask());
+            //!\
             originRaycast += originOffset;
         }
     }

@@ -11,8 +11,6 @@ public class CharacterStateAerial : CharacterState
     CharacterState idleState;
     [SerializeField]
     CharacterState wallRunState;
-    //[SerializeField]
-    //CharacterState recoveryChargeState;
 
     [Title("WallRun")]
     [SerializeField]
