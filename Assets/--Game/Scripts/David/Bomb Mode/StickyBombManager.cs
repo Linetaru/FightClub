@@ -33,6 +33,9 @@ public class StickyBombManager : MonoBehaviour
         get { return currentRoundMode; }
     }
 
+    private int normalModeCount = 0;
+    private RoundMode oldSpecialMode;
+
     /*
     [Title("Round Infos")]
     [SerializeField]
@@ -392,16 +395,20 @@ public class StickyBombManager : MonoBehaviour
     {
         int random = Random.Range(0, 3);
 
-        if (random == 0)
+        // Si on a fait 3 fois le mode normal à la suite => Special Mode
+        if (random == 0 || normalModeCount > 2)
         {
-            if(battleManager.characterAlive.Count > 2)
-                currentRoundMode = (RoundMode) Random.Range(1, 5);
+            normalModeCount = 0;
+            // On empêche le mode "Fake Bomb" si 2 joueurs restants
+            if (battleManager.characterAlive.Count > 2)
+                currentRoundMode = (RoundMode)Random.Range(1, 5);
             else
-                currentRoundMode = (RoundMode) Random.Range(2, 5);
+                currentRoundMode = (RoundMode)Random.Range(2, 5);
         }
         else
         {
             currentRoundMode = RoundMode.Normal;
+            normalModeCount++;
         }
     }
 
