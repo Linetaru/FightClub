@@ -90,8 +90,11 @@ public class AttackC_Explosion : AttackComponent
 
     public void ExplosionVFX()
     {
-        GameObject go = Instantiate(explosionVFX, transform.position, Quaternion.identity);
-        Destroy(go, timeBeforeDestroying);
+        if(explosionVFX != null)
+        {
+            GameObject go = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+            Destroy(go, timeBeforeDestroying);
+        }
     }
 
     public void TriggerExplosion()

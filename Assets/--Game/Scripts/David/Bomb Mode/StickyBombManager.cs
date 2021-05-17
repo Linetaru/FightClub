@@ -356,7 +356,7 @@ public class StickyBombManager : MonoBehaviour
 
         if (!randomRounds)
         {
-            // Sécurité au cas ou pas assez de rounds prévus (pas sensé arriver)
+            // Sécurité au cas ou pas assez de rounds prévus (pas sensé arriver) => Revient au début
             if (currentRound >= specialRounds.Count)
                 currentRound = 1;
 
@@ -377,6 +377,7 @@ public class StickyBombManager : MonoBehaviour
         uiManager.ChangeCurrentModeValue(roundModeList[(int)currentRoundMode]);
     }
 
+    // Select a random Round Mode (Special Round = 33%, Classic Round = 77%)
     private void RandomRound()
     {
         int random = Random.Range(0, 3);
@@ -420,6 +421,12 @@ public class StickyBombManager : MonoBehaviour
     private void ExplosionDeath()
     {
         GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
+
+        AttackSubManager atk = explosion.GetComponentInChildren<AttackSubManager>();
+        //Attack
+        atk.InitAttack(currentBombedPlayer, "explosion");
+        atk.ActionActive();
+
         Destroy(explosion, 4f);
     }
 
