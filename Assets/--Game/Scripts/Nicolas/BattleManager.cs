@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
 
 	[Title("Game Mode Managers")]
 	public GameObject BombModeManager;
+	public FlappyModeManager FlappyModeManager;
 
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
@@ -52,6 +53,11 @@ public class BattleManager : MonoBehaviour
 		{
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
+		}
+		else if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		{
+			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
+			go.BattleManager = this;
 		}
 	}
 
@@ -139,6 +145,23 @@ public class BattleManager : MonoBehaviour
 		if(characterAlive.Count == 1 && isGameStarted)
 		{
 			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
+
+			if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+            {
+				foreach(SpawnerObstacle spO in FlappyModeManager.spawnerObstacles)
+                {
+					if(spO.pipes.Count != 0)
+						foreach(GameObject go in spO.pipes)
+						{
+							if(go != null)
+							{
+								Destroy(go);
+							}
+						}
+
+					spO.enabled = false;
+				}
+            }
 
 			StartCoroutine(EndBattleCoroutine());
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
