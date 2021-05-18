@@ -20,6 +20,10 @@ namespace Menu
 
 		[SerializeField]
 		TextMeshProUGUI textCharacterName;
+		[SerializeField]
+		TextMeshProUGUI textDeath;
+		[SerializeField]
+		TextMeshProUGUI textParry;
 
 		[SerializeField]
 		TextMeshProUGUI feedback;
@@ -46,6 +50,23 @@ namespace Menu
 			textControllerID.text = controllerID + "P";
 			this.gameObject.SetActive(true);
 		}
+
+
+		public void DrawParry(int nbParry)
+		{
+			textParry.text = nbParry.ToString();
+		}
+
+		public void DrawKilled(List<CharacterBase> characterKilled)
+		{
+			
+		}
+
+		public void DrawKiller(List<CharacterBase> killer)
+		{
+			
+		}
+
 
 		public void SetFeedback(string text)
 		{

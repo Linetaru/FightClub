@@ -243,6 +243,7 @@ public class CharacterParry : MonoBehaviour
 			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
 			{
 				character.PowerGauge.ForceAddPower(-20);
+				character.PowerGauge.ForceAddPower(80);
 				character.Knockback.Hit(character, atkRegistered);
 
 				character.SetMotionSpeed(0.1f, 0.8f);
@@ -340,7 +341,6 @@ public class CharacterParry : MonoBehaviour
 		characterParry.PowerGauge.ForceAddPower(20);
 
 
-
 		characterParry.SetState(parrySuccesState);
 		characterParry.Action.HasHit(characterRepelled);
 
@@ -380,6 +380,8 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.5f);
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
+
+
 		characterRepelled.PowerGauge.ForceAddPower(-20);
 
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
