@@ -56,41 +56,44 @@ public class ObstacleEntity : MonoBehaviour
 
         if (playerCB != null)
         {
-            if (playerTouched.Count > 0)
-            foreach (PlayerData cB in playerTouched)
+            if (!playerCB.Knockback.IsInvulnerable)
             {
-                if(cB != null)
-                    if (cB.player.ControllerID == playerCB.ControllerID && cB.timer > 0)
-                        return;
-            }
-        
-            BlastZoneManager.Instance.ExplosionDeath(collision);
-            float stocks = playerCB.Stats.LifeStocks;
-            if (stocks - 1 > 0)
-            {
-                // Respawn Manager
-                playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
-                playerCB.Stats.RespawnStats();
+                if (playerTouched.Count > 0)
+                    foreach (PlayerData cB in playerTouched)
+                    {
+                        if (cB != null)
+                            if (cB.player.ControllerID == playerCB.ControllerID && cB.timer > 0)
+                                return;
+                    }
 
-            }
-            else
-            {
-                playerCB.Stats.Death = true;
-                playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
-                BlastZoneManager.Instance.gameEventCharacterFullDead.Raise(playerCB);
-            }
+                BlastZoneManager.Instance.ExplosionDeath(collision);
+                float stocks = playerCB.Stats.LifeStocks;
+                if (stocks - 1 > 0)
+                {
+                    // Respawn Manager
+                    playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
+                    playerCB.Stats.RespawnStats();
 
-            //Float Event to update Stock UI
-            if (tag == "Player1")
-                BlastZoneManager.Instance.gameEventStocks[0].Raise(playerCB);
-            else if (tag == "Player2")
-                BlastZoneManager.Instance.gameEventStocks[1].Raise(playerCB);
-            else if (tag == "Player3")
-                BlastZoneManager.Instance.gameEventStocks[2].Raise(playerCB);
-            else if (tag == "Player4")
-                BlastZoneManager.Instance.gameEventStocks[3].Raise(playerCB);
+                }
+                else
+                {
+                    playerCB.Stats.Death = true;
+                    playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
+                    BlastZoneManager.Instance.gameEventCharacterFullDead.Raise(playerCB);
+                }
 
-            playerTouched.Add(new PlayerData(3, playerCB));
+                //Float Event to update Stock UI
+                if (tag == "Player1")
+                    BlastZoneManager.Instance.gameEventStocks[0].Raise(playerCB);
+                else if (tag == "Player2")
+                    BlastZoneManager.Instance.gameEventStocks[1].Raise(playerCB);
+                else if (tag == "Player3")
+                    BlastZoneManager.Instance.gameEventStocks[2].Raise(playerCB);
+                else if (tag == "Player4")
+                    BlastZoneManager.Instance.gameEventStocks[3].Raise(playerCB);
+
+                playerTouched.Add(new PlayerData(3, playerCB));
+            }
         }
     }
 }
