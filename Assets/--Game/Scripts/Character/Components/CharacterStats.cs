@@ -91,7 +91,15 @@ public class CharacterStats : MonoBehaviour
         set { speed = value; }
     }
 
-//=======================================================================================
+    [SerializeField]
+    private Stats jump;
+    public Stats Jump
+    {
+        get { return jump; }
+        set { jump = value; }
+    }
+
+    //=======================================================================================
 
     public void InitStats()
     {
@@ -104,6 +112,7 @@ public class CharacterStats : MonoBehaviour
         AttackMultiplier.InitStats(1);
         DefenseMultiplier.InitStats(1);
         Speed.InitStats(userBase.Movement.SpeedMax);
+        Jump.InitStats(userBase.Movement.JumpNumber);
     }
 
     public void ChangeSpeed(float newValue)
