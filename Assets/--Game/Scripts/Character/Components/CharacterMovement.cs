@@ -49,6 +49,7 @@ public class CharacterMovement : MonoBehaviour
     public int JumpNumber
     {
         get { return jumpNumber; }
+        set { jumpNumber = value; }
     }
 
     [SerializeField]
