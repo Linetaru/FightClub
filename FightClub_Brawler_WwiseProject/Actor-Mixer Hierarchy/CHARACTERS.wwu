@@ -9,8 +9,10 @@
 			<ChildrenList>
 				<ActorMixer Name="Bernard_Mixer" ID="{425BA89D-4B2E-4E72-85F0-D4C6CBCEBC3E}" ShortID="919272167">
 					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 						<Property Name="Color" Type="int16" Value="11"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1209,6 +1211,11 @@
 													<ChildrenList>
 														<Sound Name="BRND_Attack_Hit_UpTilt" ID="{62A78330-8656-4899-906C-66475AF9833E}" ShortID="473770214">
 															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="Pitch" Type="int32">
 																	<ModifierList>
 																		<ModifierInfo>
@@ -1667,12 +1674,75 @@
 																				</Sound>
 																			</ChildrenList>
 																		</RandomSequenceContainer>
+																		<Sound Name="BRND_Attack_Hit_RecoverHit&amp;EL_Med_Kick_V2" ID="{81C8C1E8-D269-4727-8038-0A6C8C68AFD6}" ShortID="382051693">
+																			<PropertyList>
+																				<Property Name="Volume" Type="Real64">
+																					<ValueList>
+																						<Value>2</Value>
+																					</ValueList>
+																				</Property>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Conversion">
+																					<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																				</Reference>
+																				<Reference Name="OutputBus">
+																					<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																				</Reference>
+																			</ReferenceList>
+																			<ChildrenList>
+																				<AudioFileSource Name="BRND_Attack_Hit_RecoverHit&amp;EL_Med_Kick_V2" ID="{47CBA183-B0A2-49C0-89A7-3E13460EA888}">
+																					<Language>SFX</Language>
+																					<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Attack_Hit_RecoverHit&amp;EL_Med_Kick_V2.wav</AudioFile>
+																					<MediaIDList>
+																						<MediaID ID="169168495"/>
+																					</MediaIDList>
+																				</AudioFileSource>
+																			</ChildrenList>
+																			<ActiveSourceList>
+																				<ActiveSource Name="BRND_Attack_Hit_RecoverHit&amp;EL_Med_Kick_V2" ID="{47CBA183-B0A2-49C0-89A7-3E13460EA888}" Platform="Linked"/>
+																			</ActiveSourceList>
+																		</Sound>
+																		<Sound Name="BRND_Attack_Hit_RecoverHit&amp;EL_BigKick_V2" ID="{96327493-56D2-4DC8-9CF8-3A13121633DD}" ShortID="437892252">
+																			<PropertyList>
+																				<Property Name="Volume" Type="Real64">
+																					<ValueList>
+																						<Value>2</Value>
+																					</ValueList>
+																				</Property>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Conversion">
+																					<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																				</Reference>
+																				<Reference Name="OutputBus">
+																					<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																				</Reference>
+																			</ReferenceList>
+																			<ChildrenList>
+																				<AudioFileSource Name="BRND_Attack_Hit_RecoverHit&amp;EL_BigKick_V2" ID="{8A6E6440-E121-41D3-A898-67696A64A816}">
+																					<Language>SFX</Language>
+																					<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Attack_Hit_RecoverHit&amp;EL_BigKick_V2.wav</AudioFile>
+																					<MediaIDList>
+																						<MediaID ID="166995006"/>
+																					</MediaIDList>
+																				</AudioFileSource>
+																			</ChildrenList>
+																			<ActiveSourceList>
+																				<ActiveSource Name="BRND_Attack_Hit_RecoverHit&amp;EL_BigKick_V2" ID="{8A6E6440-E121-41D3-A898-67696A64A816}" Platform="Linked"/>
+																			</ActiveSourceList>
+																		</Sound>
 																	</ChildrenList>
 																</ActorMixer>
 															</ChildrenList>
 														</Folder>
 														<Sound Name="BRND_Attack_Hit_UpTilt_v2" ID="{04E4A164-97E6-4288-914C-D149172CE2E9}" ShortID="721755206">
 															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="Pitch" Type="int32">
 																	<ModifierList>
 																		<ModifierInfo>
@@ -1825,6 +1895,35 @@
 																	</ChildrenList>
 																	<ActiveSourceList>
 																		<ActiveSource Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{77F56A7F-6D7E-4640-B5EE-8902A5C6DB9C}" Platform="Linked"/>
+																	</ActiveSourceList>
+																</Sound>
+																<Sound Name="BRND_Attack_Hit_Dash_Attack_V2" ID="{A63C6F46-E972-49C3-8691-13D81A390DAB}" ShortID="398795837">
+																	<PropertyList>
+																		<Property Name="Volume" Type="Real64">
+																			<ValueList>
+																				<Value>-3</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Conversion">
+																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																		</Reference>
+																		<Reference Name="OutputBus">
+																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<ChildrenList>
+																		<AudioFileSource Name="BRND_Attack_Hit_Dash_Attack_V2" ID="{230952C0-9849-449E-A0CB-6189DAEB3B38}">
+																			<Language>SFX</Language>
+																			<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Attack_Hit_Dash_Attack_V2.wav</AudioFile>
+																			<MediaIDList>
+																				<MediaID ID="870545153"/>
+																			</MediaIDList>
+																		</AudioFileSource>
+																	</ChildrenList>
+																	<ActiveSourceList>
+																		<ActiveSource Name="BRND_Attack_Hit_Dash_Attack_V2" ID="{230952C0-9849-449E-A0CB-6189DAEB3B38}" Platform="Linked"/>
 																	</ActiveSourceList>
 																</Sound>
 															</ChildrenList>
@@ -2210,7 +2309,7 @@
 																<ActiveSource Name="SFX_BRND_Attack_Hit_AerialDown_02" ID="{9DA516EB-9E9B-459A-91FD-7DCB8EFC8F33}" Platform="Linked"/>
 															</ActiveSourceList>
 														</Sound>
-														<Sound Name="BRND_Kick_DownTilt_Stage_4" ID="{F6A68232-9A0D-41EE-815A-3332887A620C}" ShortID="953165412">
+														<Sound Name="BRND_Attack_Hit_DownTilt_v2" ID="{F6A68232-9A0D-41EE-815A-3332887A620C}" ShortID="953165412">
 															<PropertyList>
 																<Property Name="Pitch" Type="int32">
 																	<ModifierList>
@@ -2246,6 +2345,33 @@
 																<ActiveSource Name="BRND_Kick_DownTilt_Stage_4" ID="{2D4FC6D7-CF17-4015-BAD2-AE26EBD42F74}" Platform="Linked"/>
 															</ActiveSourceList>
 														</Sound>
+														<Sound Name="BRND_Attack_Hit_UpTilt_v3" ID="{D2595879-ECC7-4AB7-BE49-2B7D2A294731}" ShortID="77792212">
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="BRND_Attack_Hit_UpTilt_v3" ID="{9BFB0513-91E7-403E-976A-742881788E41}">
+																	<PropertyList>
+																		<Property Name="FadeOutDuration" Type="Real64" Value="0.179217440974867"/>
+																		<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																		<Property Name="TrimEnd" Type="Real64" Value="0.210634044173648"/>
+																	</PropertyList>
+																	<Language>SFX</Language>
+																	<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Attack_Hit_UpTilt_v3.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="769302902"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ActiveSourceList>
+																<ActiveSource Name="BRND_Attack_Hit_UpTilt_v3" ID="{9BFB0513-91E7-403E-976A-742881788E41}" Platform="Linked"/>
+															</ActiveSourceList>
+														</Sound>
 													</ChildrenList>
 												</Folder>
 											</ChildrenList>
@@ -2270,7 +2396,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>7</Value>
+														<Value>-9</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -4115,7 +4241,185 @@
 								</Folder>
 							</ChildrenList>
 						</ActorMixer>
+						<ActorMixer Name="BRND_Parry" ID="{AA7EDD0D-9854-4E7B-BC6F-F2355EBBE0C4}" ShortID="218844699">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="SFX_Attack_Hit_Parry" ID="{9B478800-3569-4BD5-8B6F-2C0C6D265A73}" ShortID="63829117">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="SFX_Attack_Hit_Parry_01" ID="{DD79DAC1-5456-4865-AC51-7D6BAA16D862}" ShortID="984260722">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="SFX_Attack_Hit_Parry_01" ID="{199C5996-22E8-4CF9-9E51-D85C56048CBB}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Bernard\BRND_Attack\BRND_Parry\SFX_Attack_Hit_Parry_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="358305263"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<PositioningInfo>
+												<Panner Name="" ID="{5D9AD066-A1CD-4965-86DF-DD55ABD730EE}">
+													<PropertyList>
+														<Property Name="PanX" Type="Real64">
+															<RTPCList>
+																<RTPC Name="" ID="{99A0468C-B6D0-4DE8-8E33-60CCA857CE25}" ShortID="1061517066">
+																	<ReferenceList>
+																		<Reference Name="ControlInput">
+																			<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<Curve Name="" ID="{A94125E5-36A0-43FD-8E43-9189910E81FB}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="1"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>-180</XPos>
+																				<YPos>0</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>180</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</RTPC>
+															</RTPCList>
+														</Property>
+													</PropertyList>
+												</Panner>
+											</PositioningInfo>
+											<ActiveSourceList>
+												<ActiveSource Name="SFX_Attack_Hit_Parry_01" ID="{199C5996-22E8-4CF9-9E51-D85C56048CBB}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="SFX_Attack_Hit_Parry_02" ID="{788A02AA-1FA3-4CFF-BBC8-121467CF6158}" ShortID="275153826">
+											<PropertyList>
+												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="SFX_Attack_Hit_Parry_02" ID="{F902ACE9-9A69-4A5E-99CD-B3BEF4253556}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Bernard\BRND_Attack\BRND_Parry\SFX_Attack_Hit_Parry_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="979479649"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<PositioningInfo>
+												<Panner Name="" ID="{61B97E69-674E-422E-821A-D3185445441F}">
+													<PropertyList>
+														<Property Name="PanX" Type="Real64">
+															<RTPCList>
+																<RTPC Name="" ID="{8CD52F18-D5D0-4DF6-97EE-E1A1F2670D5E}" ShortID="76519514">
+																	<ReferenceList>
+																		<Reference Name="ControlInput">
+																			<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<Curve Name="" ID="{E9AB76E3-05FF-4156-BC74-BC072A5F6666}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="1"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>-180</XPos>
+																				<YPos>0</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>180</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</RTPC>
+															</RTPCList>
+														</Property>
+													</PropertyList>
+												</Panner>
+											</PositioningInfo>
+											<ActiveSourceList>
+												<ActiveSource Name="SFX_Attack_Hit_Parry_02" ID="{F902ACE9-9A69-4A5E-99CD-B3BEF4253556}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</ActorMixer>
 					</ChildrenList>
+					<PositioningInfo>
+						<Panner Name="" ID="{786DA04E-60E5-444E-8DB5-82BCD3050C34}">
+							<PropertyList>
+								<Property Name="PanX" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{56956115-29F9-468A-9A5E-B3203FEBD9B1}" ShortID="364733052">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{71645BF6-03B0-4747-A930-4D8D8E70704E}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="1"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>-180</XPos>
+														<YPos>0</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>180</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+						</Panner>
+					</PositioningInfo>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>
