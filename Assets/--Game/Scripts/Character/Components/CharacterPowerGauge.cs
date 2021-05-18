@@ -7,7 +7,7 @@ public class CharacterPowerGauge : MonoBehaviour
 {
     [Title("Powers Parameter")]
     [SerializeField]
-    [ReadOnly]
+    //[ReadOnly]
     private int currentPower = 0;
     public int CurrentPower
     {
@@ -32,8 +32,9 @@ public class CharacterPowerGauge : MonoBehaviour
     private float speedTime;
     private bool isOnSpeedBoost;
 
-    [ReadOnly]
-    public const int maxPower = 80;
+    //[ReadOnly]
+    [SerializeField]
+    public int maxPower = 80;
 
     [Title("Segment Parameter")]
     private bool canGainPoint = false;//true;
@@ -58,10 +59,10 @@ public class CharacterPowerGauge : MonoBehaviour
     [ReadOnly]
     public PackageCreator.Event.GameEventUICharacter gameEvent;
 
-    public void Start()
+  /*public void Start()
     {
         CurrentPower = 0;
-    }
+    }*/
 
     public void UpdateTimer(CharacterBase user)
     {
@@ -151,7 +152,7 @@ public class CharacterPowerGauge : MonoBehaviour
     public void ForceAddPower(int i_value)
     {
         currentPower += i_value;
-        currentPower = Mathf.Clamp(currentPower, 0, 100);
+        currentPower = Mathf.Clamp(currentPower, 0, maxPower);
 
         if (gameEvent != null)
             gameEvent.Raise(currentPower);

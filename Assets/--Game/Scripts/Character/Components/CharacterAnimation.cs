@@ -116,6 +116,7 @@ public class CharacterAnimation : MonoBehaviour
 
         if (newState is CharacterStateParry)
         {
+            animator.Play("Anim_Bernard_Parry");
             animator.SetTrigger("Parry");
         }
 

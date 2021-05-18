@@ -5,25 +5,24 @@ using Sirenix.OdinInspector;
 
 public class CharacterStateActing : CharacterState
 {
-	[Title("States")]
+	/*[Title("States")]
 	[SerializeField]
-	CharacterState homingDashState;
+	CharacterState homingDashState;*/
 
 	[Title("Parameter - Actions")]
 	[SerializeField]
 	CharacterMoveset characterMoveset;
 
-	bool homingDashRegister = false;
+	//bool homingDashRegister = false;
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		//Debug.Log("Action");
-		homingDashRegister = false;
+
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		if (homingDashRegister == true && character.MotionSpeed != 0)
+		/*if (homingDashRegister == true && character.MotionSpeed != 0)
 		{
 			if (character.Action.CharacterHit != null && character.PowerGauge.CurrentPower > 20) // On a touché quelqu'un 
 			{
@@ -37,7 +36,7 @@ public class CharacterStateActing : CharacterState
 		{
 			homingDashRegister = true;
 
-		}
+		}*/
 		characterMoveset.ActionAttack(character);
 	}
 

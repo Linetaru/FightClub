@@ -6,12 +6,23 @@ using Sirenix.OdinInspector;
 // Pour valider la condition il faut que l'attaque touche
 public class MissionInputLand : MissionInputCondition
 {
+	[SerializeField]
+	int numberOfLand = 0;
+	[SerializeField]
+	bool isDummy = false;
+
+	int nbOfLand = 0;
 
 	bool condition = false;
 
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
-		player.OnStateChanged += CallbackCondition;
+		nbOfLand = 0;
+		condition = false;
+		if(isDummy == true)
+			dummy.OnStateChanged += CallbackCondition;
+		else
+			player.OnStateChanged += CallbackCondition;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
@@ -21,13 +32,23 @@ public class MissionInputLand : MissionInputCondition
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
-		player.OnStateChanged -= CallbackCondition;
+		nbOfLand = 0;
+		condition = false;
+
+		if (isDummy == true)
+			dummy.OnStateChanged -= CallbackCondition;
+		else
+			player.OnStateChanged -= CallbackCondition;
 	}
 
 	public void CallbackCondition(CharacterState oldState, CharacterState newState)
 	{
 		if(newState is CharacterStateLanding)
-			condition = true;
+		{
+			nbOfLand += 1;
+			if(nbOfLand >= numberOfLand)
+				condition = true;
+		}
 	}
 
 }

@@ -17,7 +17,8 @@ public class CharacterIcon : MonoBehaviour
     public void CreateIcon(Icon iconGO)
     {
         icon = Instantiate(iconGO);
-        icon.transform.parent = transform.root;
+        //icon.transform.parent = transform.root;
+        icon.transform.SetParent(transform.root, false);
         icon.transform.position = iconPos.transform.position;
     }
 

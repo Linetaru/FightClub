@@ -15,8 +15,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: 40e774808bf4b444e9db037393558d30, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -28,28 +27,31 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 1|MissionInputAttack, Assembly-CSharp
-    - Name: attack
-      Entry: 10
-      Data: 0
-    - Name: hitboxID
-      Entry: 7
-      Data: 2|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
+      Data: 1|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -61,11 +63,17 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 5|MissionInputRespawn, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -73,14 +81,16 @@ MonoBehaviour:
       Entry: 8
       Data: 
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  dummy: {fileID: 0}
+  dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   dummyBehavior: {fileID: 0}
   textboxStart:
-  - Essaye d'attaquer.
+  - Essaye d'esquiver dans les airs.
   enemyPercentage: 0
   comboNotes:
-  - 'Neutral - <sprite=10> '
-  - Down - <sprite=10> + <sprite=11>
-  - Up  - <sprite=10> + <sprite=11>
+  - Aerial Dodge - <sprite=10>
+  - Aerial Dodge - <sprite=10>
+  - Aerial Dodge - <sprite=10>
+  numberOfTry: -1
   textboxEnd:
-  - "Ces attaques sont appel\xE9es les Tilt et bla bla bla..."
+  - "L'esquive dans les airs \xE0 du Air Control"
+  nextTrial: {fileID: 11400000, guid: 644ed704fe6fadb46bbb22800b3e6d62, type: 2}

@@ -11,6 +11,8 @@ public enum EnumInput
 	B,
 	X,
 	Y,
+	R1,
+	R2
 }
 
 [System.Serializable]
@@ -50,6 +52,12 @@ public class DebugInput
 			inputs.Add(0);
 		else if (input_Info.CheckAction(0, InputConst.Attack))
 			inputs.Add(1);
+		else if (input_Info.CheckAction(0, InputConst.Special))
+			inputs.Add(2);
+		else if (input_Info.CheckAction(0, InputConst.RightShoulder))
+			inputs.Add(4);
+		else if (input_Info.CheckAction(0, InputConst.RightTrigger))
+			inputs.Add(5);
 	}
 
 
@@ -65,6 +73,12 @@ public class DebugInput
 				inputController.AddInput(InputConst.Jump.name, ref input);
 			if (inputs[i] == 1)
 				inputController.AddInput(InputConst.Attack.name, ref input);
+			if (inputs[i] == 2)
+				inputController.AddInput(InputConst.Special.name, ref input);
+			if (inputs[i] == 4)
+				inputController.AddInput(InputConst.RightShoulder.name, ref input);
+			if (inputs[i] == 5)
+				inputController.AddInput(InputConst.RightTrigger.name, ref input);
 		}
 	}
 

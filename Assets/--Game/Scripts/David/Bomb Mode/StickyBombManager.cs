@@ -10,8 +10,9 @@ public class StickyBombManager : MonoBehaviour
     private static StickyBombManager _instance;
     public static StickyBombManager Instance { get { return _instance; } }
 
-    enum RoundMode { Normal = 0, FakeBomb = 1, Invisible = 2}
-    List<string> roundModeList = new List<string> { "Classic !", "Fake Bomb !", "Invisible Bomb !" };
+    public enum RoundMode { Normal = 0, FakeBomb = 1, Invisible = 2, Inv_Countdown = 3, BombReset = 4}
+    List<string> roundModeList = new List<string> { "Classic !", "Fake Bomb !", "Invisible Bomb !", "No Countdown !", "Bomb Reset !" };
+    List<float> timerList = new List<float>();
 
     [Title("Objects")]
     [SerializeField]
@@ -25,21 +26,54 @@ public class StickyBombManager : MonoBehaviour
 
     private StickyBombUIManager uiManager;
 
-    [Title("Round Infos")]
     private int currentRound = 0;
     private RoundMode currentRoundMode;
+    public RoundMode CurrentRoundMode
+    {
+        get { return currentRoundMode; }
+    }
 
-    public float bombTimer = 10f;
+    private int normalModeCount = 0;
+    private RoundMode oldSpecialMode;
 
-    private bool startRound;
-
+    /*
+    [Title("Round Infos")]
     [SerializeField]
     private float timeBetweenRounds;
+    */
+
+    [HideInInspector]
+    public float bombTimer = 10f;
+
+    [SerializeField]
+    BombModeScritpable bombModeData;
+
+    /*
+    [Title("Timers")]
+    [SerializeField]
+    [Range(1f, 120f)]
+    private float normalModeTimer = 10f;
+    [SerializeField]
+    [Range(1f, 120f)]
+    private float fakeModeTimer = 10f;
+    [SerializeField]
+    [Range(1f, 120f)]
+    private float invisibleModeTimer = 10f;
+    [SerializeField]
+    [Range(1f, 120f)]
+    private float noCountModeTimer = 10f;
+    [SerializeField]
+    [Range(1f, 120f)]
+    private float resetModeTimer = 10f;
+    */
+
+    private bool startRound;
 
     private float originalBombTimer;
 
     private bool timeOut = true;
 
+    /*
     [Title("Player Scale Infos")]
     // A partir de quel pourcentage de bombTimer la scale sera à son max
     // Si coefScaleMax = 0.5 => Le joueur aura sa scale max à 50% de bombTimer
@@ -51,14 +85,19 @@ public class StickyBombManager : MonoBehaviour
     [SerializeField]
     [Range(1f, 5f)]
     private float scaleMaxMultiplier = 2f;
+    */
 
+    /*
     [Title("Special Rounds")]
     [SerializeField]
     private bool randomRounds;
     [SerializeField]
-    private List<int> roundsWithFakeBomb = new List<int>();
+    private int canRoundSpecialAfter = 3;
+
+
     [SerializeField]
-    private List<int> roundsWithInvisibleBomb = new List<int>();
+    private List<int> specialRounds = new List<int>();
+    */
 
     private BattleManager battleManager;
 	public BattleManager BattleManager
@@ -94,13 +133,15 @@ public class StickyBombManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
     }
 
 
     void Start()
     {
+        InitTimerList();
+
         originalBombTimer = bombTimer;
 
         GameObject stickyBombUIGO = Instantiate(stickyBombUI);
@@ -109,6 +150,10 @@ public class StickyBombManager : MonoBehaviour
 
         StartCoroutine(WaitBeforeNextRound());
 
+        for (int i = 0; i < battleManager.characterAlive.Count; i++)
+        {
+            battleManager.characterAlive[i].Knockback.Parry.OnGuard += ManageHit;
+        }
         //InitStickyBomb();
     }
 
@@ -126,9 +171,14 @@ public class StickyBombManager : MonoBehaviour
         BombTimerManager();
     }
 
+    /*public void Callback(CharacterBase target)
+    {
+        ManageHit( target);
+    }*/
+
     public void ManageHit(CharacterBase user, CharacterBase target)
     {
-        if(currentRoundMode == RoundMode.Normal || currentRoundMode == RoundMode.Invisible)
+        if(currentRoundMode != RoundMode.FakeBomb)
         {
             if (user == currentBombedPlayer)
             {
@@ -138,8 +188,13 @@ public class StickyBombManager : MonoBehaviour
             {
                 SwitchBombPlayers(target, user);
             }
+
+            if(currentRoundMode == RoundMode.BombReset)
+            {
+                bombTimer = timerList[(int)currentRoundMode];
+            }
         }
-        else if(currentRoundMode == RoundMode.FakeBomb)
+        else
         {
             if(user == currentFakeBombedPlayer && target != currentBombedPlayer)
             {
@@ -163,9 +218,6 @@ public class StickyBombManager : MonoBehaviour
     public void InitStickyBomb()
     {
         timeOut = false;
-
-        if (battleManager.characterAlive.Count < 3)
-            roundsWithFakeBomb.Clear();
 
         for(int i = 0; i < battleManager.characterAlive.Count; i++)
         {
@@ -315,41 +367,48 @@ public class StickyBombManager : MonoBehaviour
     {
         currentRound++;
 
-        if (!randomRounds)
+        if (!bombModeData.randomRounds)
         {
-            if (roundsWithFakeBomb.Contains(currentRound))
-                currentRoundMode = RoundMode.FakeBomb;
-            else if (roundsWithInvisibleBomb.Contains(currentRound))
-                currentRoundMode = RoundMode.Invisible;
-            else
-                currentRoundMode = RoundMode.Normal;
+            // Sécurité au cas ou pas assez de rounds prévus (pas sensé arriver) => Revient au début
+            if (currentRound >= bombModeData.specialRounds.Count)
+                currentRound = 1;
+
+            currentRoundMode = (RoundMode)bombModeData.specialRounds[currentRound - 1];
+            if (battleManager.characterAlive.Count < 3 && currentRoundMode == RoundMode.FakeBomb)
+                RandomRound();
         }
         else
         {
-            if (currentRound > 3)
+            if (currentRound > bombModeData.canRoundSpecialAfter)
                 RandomRound();
             else
                 currentRoundMode = RoundMode.Normal;
         }
 
+        bombTimer = timerList[(int)currentRoundMode];
+        originalBombTimer = timerList[(int)currentRoundMode];
         uiManager.ChangeCurrentModeValue(roundModeList[(int)currentRoundMode]);
     }
 
+    // Select a random Round Mode (Special Round = 33%, Classic Round = 77%)
     private void RandomRound()
     {
-        int random = Random.Range(0, 12);
+        int random = Random.Range(0, 3);
 
-        if (random < 2 && battleManager.characterAlive.Count > 2)
+        // Si on a fait 3 fois le mode normal à la suite => Special Mode
+        if (random == 0 || normalModeCount > 2)
         {
-            currentRoundMode = RoundMode.FakeBomb;
-        }
-        else if (random < 5)
-        {
-            currentRoundMode = RoundMode.Invisible;
+            normalModeCount = 0;
+            // On empêche le mode "Fake Bomb" si 2 joueurs restants
+            if (battleManager.characterAlive.Count > 2)
+                currentRoundMode = (RoundMode)Random.Range(1, 5);
+            else
+                currentRoundMode = (RoundMode)Random.Range(2, 5);
         }
         else
         {
             currentRoundMode = RoundMode.Normal;
+            normalModeCount++;
         }
     }
 
@@ -367,16 +426,29 @@ public class StickyBombManager : MonoBehaviour
         }
     }
 
+    private void InitTimerList()
+    {
+        timerList.Add(bombModeData.normalModeTimer);
+        timerList.Add(bombModeData.fakeModeTimer);
+        timerList.Add(bombModeData.invisibleModeTimer);
+        timerList.Add(bombModeData.noCountModeTimer);
+        timerList.Add(bombModeData.resetModeTimer);
+    }
+
     private void ExplosionDeath()
     {
         GameObject explosion = Instantiate(explosionPrefab, currentBombedPlayer.transform.position, Quaternion.identity);
+
+        explosion.GetComponent<BombExplosionAtk>().TriggerExplosion(currentBombedPlayer);
+
         Destroy(explosion, 4f);
     }
 
     IEnumerator WaitBeforeNextRound()
     {
+        uiManager.RoundIsOver();
         UpdateRoundMode();
-        yield return new WaitForSecondsRealtime(timeBetweenRounds);
+        yield return new WaitForSecondsRealtime(bombModeData.timeBetweenRounds);
         uiManager.LaunchCountDownAnim();
         startRound = true;
         //InitStickyBomb();
@@ -385,16 +457,16 @@ public class StickyBombManager : MonoBehaviour
     IEnumerator LerpScale(CharacterBase player)
     {
         Vector3 originalScale = playerOriginalScale;
-        Vector3 targetScale = originalScale * scaleMaxMultiplier;
+        Vector3 targetScale = originalScale * bombModeData.scaleMaxMultiplier;
 
         while (bombTimer > 0)
         {
             if(currentBombedPlayer != null)
             {
-                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
+                currentBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * bombModeData.coefScaleMax));
 
                 if(currentFakeBombedPlayer != null)
-                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * coefScaleMax));
+                    currentFakeBombedPlayer.transform.localScale = Vector3.Lerp(originalScale, targetScale, (originalBombTimer - bombTimer) / (originalBombTimer * bombModeData.coefScaleMax));
 
                 yield return null;
             }

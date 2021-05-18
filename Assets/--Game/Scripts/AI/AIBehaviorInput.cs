@@ -7,35 +7,41 @@ using Sirenix.OdinInspector;
 public class AIBehaviorInput : AIBehavior
 {
 
+
 	[Title("Inputs")]
 	[SerializeField]
+	InputRecordingData[] inputDatas;
+
 	InputRecordingData inputData;
 
-	bool playAtStart = false;
+	[SerializeField]
 	bool playRepeat = false;
 
-	bool isPlaying = false;
 	int indexPlay = 0;
 	float playTime = 0f;
 
-	private void Awake()
-	{
-		if (playAtStart == true)
-			StartPlayInput();
-	}
 
 	void Update()
 	{
-		if (isPlaying == false)
-			return;
-		PlayInput();
+		if (isActive == true)
+		{
+			playTime += 1;
+			PlayInput();
+		}
+		else
+		{
+			character.UpdateControl(0, inputs);
+		}
 	}
 
-	public void StartPlayInput()
+
+
+	public override void StartBehavior()
 	{
+		base.StartBehavior();
 		indexPlay = 0;
 		playTime = 0f;
-		isPlaying = false;
+		inputData = inputDatas[Random.Range(0, inputDatas.Length)];
 	}
 
 	private void PlayInput()
@@ -52,7 +58,9 @@ public class AIBehaviorInput : AIBehavior
 			indexPlay += 1;
 			if (indexPlay >= inputData.InputsRecorded.Count - 1)
 			{
-				StopPlayInput();
+				StopBehavior();
+				if (playRepeat == true)
+					StartBehavior();
 				return;
 			}
 		}
@@ -61,16 +69,17 @@ public class AIBehaviorInput : AIBehavior
 		character.UpdateControl(0, inputs);
 
 		if (indexPlay >= inputData.InputsRecorded.Count)
-			StopPlayInput();
+		{
+			StopBehavior();
+			if (playRepeat == true)
+				StartBehavior();
+		}
 	}
 
-	public void StopPlayInput()
+	public override void StopBehavior()
 	{
+		base.StopBehavior();
 		indexPlay = 0;
 		playTime = 0f;
-		isPlaying = false;
-
-		if (playRepeat == true)
-			StartPlayInput();
 	}
 }
