@@ -125,6 +125,16 @@ public class CharacterAnimation : MonoBehaviour
             actualState = ActualState.ParryBlow;
             //animator.SetTrigger("Knockback");
         }
+
+        if (newState is CharacterStateAcumod)
+        {
+            animator.Play("Acumod");
+        }
+
+        if (newState is CharacterStateBurst)
+        {
+            animator.Play("Acumod");
+        }
     }
 
     // Update is called once per frame
