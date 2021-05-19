@@ -24,10 +24,6 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
 
     private float masterVolume, musicVolume, voiceVolume, sfxVolume;
 
-    private void Start()
-    {
-    }
-
     public void OnSelect(BaseEventData eventData)
     {
         isSelected = true;
@@ -40,6 +36,22 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
         handleImage.color = handleDeselected;
     }
 
+    public void ChangeNavMode()
+    {
+        if(isUpdating)
+        {
+            Navigation nav = slider.navigation;
+            nav.mode = Navigation.Mode.None;
+            slider.navigation = nav;
+        }
+        else
+        {
+            Navigation nav = slider.navigation;
+            nav.mode = Navigation.Mode.Explicit;
+            slider.navigation = nav;
+        }
+    }
+
     public void OnSubmit(BaseEventData eventData)
     {
         if(!isUpdating)
@@ -47,10 +59,7 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
             isUpdating = true;
             handleImage.color = onFocus;
             slider.interactable = true;
-
-            Navigation nav = slider.navigation;
-            nav.mode = Navigation.Mode.None;
-            slider.navigation = nav;
+            ChangeNavMode();
         }
         else
         {
@@ -58,11 +67,7 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
             handleImage.color = handleSelected;
             slider.interactable = false;
             slider.Select();
-
-            Navigation nav = slider.navigation;
-            nav.mode = Navigation.Mode.Explicit;
-            slider.navigation = nav;
-
+            ChangeNavMode();
         }
     }
 
