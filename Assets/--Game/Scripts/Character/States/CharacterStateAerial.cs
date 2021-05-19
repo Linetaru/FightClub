@@ -22,6 +22,8 @@ public class CharacterStateAerial : CharacterState
     CharacterMoveset characterMoveset;
     [SerializeField]
     CharacterEvasiveMoveset evasiveMoveset;
+    [SerializeField]
+    CharacterAcumods acumods;
 
     [SerializeField]
     GameObject doubleJumpParticle;
@@ -61,6 +63,10 @@ public class CharacterStateAerial : CharacterState
 
         }
         else if (evasiveMoveset.Parry(character))
+        {
+
+        }
+        else if (acumods.Acumod(character))
         {
 
         }

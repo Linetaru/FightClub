@@ -77,7 +77,7 @@ public class BlastZoneManager : MonoBehaviour
         }
     }
 
-    private void ExplosionDeath(Collider other)
+    public void ExplosionDeath(Collider other)
     {
         GameObject go = Instantiate(deathVFXPrefab, other.transform.position, Quaternion.identity);
         float angleZ = Mathf.Atan2(transform.position.y - go.transform.position.y, transform.position.x - go.transform.position.x) * Mathf.Rad2Deg;

@@ -56,6 +56,7 @@ public class CharacterStateParrySuccess : CharacterState
 		t = timeLag;
 		character.Movement.CurrentNumberOfJump += 1;
 		evasiveMoveset.ResetDodge();
+		character.Knockback.Parry.IsGuard = true;
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -87,17 +88,17 @@ public class CharacterStateParrySuccess : CharacterState
 				return;
 			}
 		}*/
-
+		if (evasiveMoveset.Parry(character))
+		{
+			return;
+		}
 
 
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= timeCancel)
 		{
-			if (evasiveMoveset.Parry(character))
-			{
-				return;
-			}
-			else if (moveset.ActionAttack(character))
+			character.Knockback.Parry.IsGuard = false;
+			if (moveset.ActionAttack(character))
 			{
 				return;
 			}
@@ -129,7 +130,7 @@ public class CharacterStateParrySuccess : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-
+		character.Knockback.Parry.IsGuard = false;
 	}
 
 

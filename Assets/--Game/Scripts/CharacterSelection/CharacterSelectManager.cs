@@ -47,6 +47,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     public string afterMenuSceneNameClassicMode;
     public string afterMenuSceneNameBombMode;
     public string afterMenuSceneNameVolleyMode;
+    public string afterMenuSceneNameFlappyMode;
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -309,6 +310,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             SceneManager.LoadScene(afterMenuSceneNameBombMode);
         else if(gameData.GameMode == GameModeStateEnum.Volley_Mode)
             SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
+        else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+            SceneManager.LoadScene(afterMenuSceneNameFlappyMode);
 
     }
 
