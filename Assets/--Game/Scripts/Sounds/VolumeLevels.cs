@@ -12,6 +12,14 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
     [SerializeField]
     private Image handleImage;
 
+    [SerializeField]
+    private Color handleSelected;
+    [SerializeField]
+    private Color handleDeselected;
+    [SerializeField]
+    private Color onFocus;
+
+
     private Selectable selectLeft;
 
     bool isSelected;
@@ -22,12 +30,13 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
     public void OnSelect(BaseEventData eventData)
     {
         isSelected = true;
-        handleImage.color = new Color(0.53f, 0.53f, 0.53f, 1f);
+        handleImage.color = handleSelected;
     }
+
     public void OnDeselect(BaseEventData eventData)
     {
         isSelected = false;
-        handleImage.color = new Color(1f, 1f, 1f, 1f);
+        handleImage.color = handleDeselected;
     }
 
     public void OnSubmit(BaseEventData eventData)
@@ -35,13 +44,13 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
         if(!isUpdating)
         {
             isUpdating = true;
-            handleImage.color = new Color(0.43f, 0.43f, 0.43f, 1f);
+            handleImage.color = onFocus;
             slider.interactable = true;
         }
         else
         {
             isUpdating = false;
-            handleImage.color = new Color(0.53f, 0.53f, 0.53f, 1f);
+            handleImage.color = handleSelected;
             slider.interactable = false;
             slider.Select();
         }
