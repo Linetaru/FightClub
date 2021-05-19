@@ -24,8 +24,9 @@ namespace Menu
 			{
 				SelectEntry(listEntry.IndexSelection);
 			}
-			else if (input.CheckAction(id, InputConst.Interact) == true)
+			else if (input.inputUiAction == InputConst.Interact)
 			{
+				input.inputUiAction = null;
 				ValidateEntry(listEntry.IndexSelection);
 			}
 			else if (input.CheckAction(id, InputConst.Return) == true)

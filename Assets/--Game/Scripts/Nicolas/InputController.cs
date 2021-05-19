@@ -58,6 +58,16 @@ public class Input_Info
 		return false;
 	}
 
+	public bool CheckActionUI(InputAction inputAction)
+	{
+		if (inputUiAction == inputAction)
+		{
+			inputUiAction = null;
+			return true;
+		}
+		return false;
+	}
+
 	public bool CheckActionUP(int id, InputAction inputAction)
 	{
 		if (inputActionsUP.Count != 0)

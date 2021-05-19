@@ -16,7 +16,8 @@ namespace Menu
 		[Title("UI")]
 		[SerializeField]
 		TextMeshProUGUI textDescription;
-
+		[SerializeField]
+		Sprite unlockedSprite;
 
 		private void Start()
 		{
@@ -28,7 +29,10 @@ namespace Menu
 		{
 			for (int i = 0; i < databaseMission.Database.Count; i++)
 			{
-				listEntry.DrawItemList(i, null, databaseMission.Database[i].TrialsName);
+				if(databaseMission.GetUnlocked(i) == true)
+					listEntry.DrawItemList(i, unlockedSprite, databaseMission.Database[i].TrialsName);
+				else
+					listEntry.DrawItemList(i, null, databaseMission.Database[i].TrialsName);
 			}
 			SelectEntry(0);
 			listEntry.SelectIndex(0);
@@ -46,6 +50,11 @@ namespace Menu
 		protected override void ValidateEntry(int id)
 		{
 			base.ValidateEntry(id);
+
+			// Debug test save
+			databaseMission.SetUnlocked(id, true);
+			SaveManager.Instance.SaveFile();
+			InitializeMenu();
 		}
 
 	}
