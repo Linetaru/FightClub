@@ -19,13 +19,14 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
     [SerializeField]
     private Color onFocus;
 
-
-    private Selectable selectLeft;
-
     bool isSelected;
     bool isUpdating;
 
     private float masterVolume, musicVolume, voiceVolume, sfxVolume;
+
+    private void Start()
+    {
+    }
 
     public void OnSelect(BaseEventData eventData)
     {
@@ -46,6 +47,10 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
             isUpdating = true;
             handleImage.color = onFocus;
             slider.interactable = true;
+
+            Navigation nav = slider.navigation;
+            nav.mode = Navigation.Mode.None;
+            slider.navigation = nav;
         }
         else
         {
@@ -53,6 +58,11 @@ public class VolumeLevels : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
             handleImage.color = handleSelected;
             slider.interactable = false;
             slider.Select();
+
+            Navigation nav = slider.navigation;
+            nav.mode = Navigation.Mode.Explicit;
+            slider.navigation = nav;
+
         }
     }
 
