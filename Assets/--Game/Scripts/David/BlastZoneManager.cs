@@ -43,8 +43,6 @@ public class BlastZoneManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        string tag = other.gameObject.tag;
-
         playerCB = other.transform.root.gameObject.GetComponent<CharacterBase>();
     
         if (playerCB != null)
@@ -66,13 +64,13 @@ public class BlastZoneManager : MonoBehaviour
             }
     
             //Float Event to update Stock UI
-            if (tag == "Player1")
+            if (playerCB.tag == "Player1")
                 gameEventStocks[0].Raise(playerCB);
-            else if (tag == "Player2")
+            else if (playerCB.tag == "Player2")
                 gameEventStocks[1].Raise(playerCB);
-            else if (tag == "Player3")
+            else if (playerCB.tag == "Player3")
                 gameEventStocks[2].Raise(playerCB);
-            else if (tag == "Player4")
+            else if (playerCB.tag == "Player4")
                 gameEventStocks[3].Raise(playerCB);
         }
     }
