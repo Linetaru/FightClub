@@ -304,7 +304,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        if(gameData.GameMode == GameModeStateEnum.Classic_Mode)
+        if(gameData.GameMode == GameModeStateEnum.Classic_Mode || gameData.GameMode == GameModeStateEnum.Training)
             SceneManager.LoadScene(afterMenuSceneNameClassicMode);
         else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
             SceneManager.LoadScene(afterMenuSceneNameBombMode);
@@ -312,7 +312,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
         else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
             SceneManager.LoadScene(afterMenuSceneNameFlappyMode);
-
     }
 
     void ReturnToMainMenu()
