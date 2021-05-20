@@ -43,10 +43,15 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private bool isStarted = false;
 
+    [Scene]
     public string beforeMenuSceneName;
+    [Scene]
     public string afterMenuSceneNameClassicMode;
+    [Scene]
     public string afterMenuSceneNameBombMode;
+    [Scene]
     public string afterMenuSceneNameVolleyMode;
+    [Scene]
     public string afterMenuSceneNameFlappyMode;
 
     public void UpdateControl(int ID, Input_Info input_Info)
