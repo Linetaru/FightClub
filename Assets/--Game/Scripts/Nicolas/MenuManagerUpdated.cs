@@ -155,6 +155,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 								ChangeSelectedButton(true);
 								return;
 							case 2:
+								return;
 								gameData.GameMode = GameModeStateEnum.Special_Mode;
 								sceneName = sceneSelectionGrandSlam;
 								break;
