@@ -13,16 +13,23 @@ namespace Menu
 		SODatabase_Mission databaseMission;
 
 
-		[Title("UI")]
+		[Title("Data")]
 		[SerializeField]
-		Animator animatorMenu;
+		GameData gameData;
 
+
+		[Title("UI")]
 		[SerializeField]
 		TextMeshProUGUI textDescription;
 		[SerializeField]
 		Sprite unlockedSprite;
 
 
+		[Title("Feedbacks")]
+		[SerializeField]
+		Animator animatorMenu;
+		[SerializeField]
+		Animator animatorDescription;
 
 		public override void InitializeMenu()
 		{
@@ -47,6 +54,8 @@ namespace Menu
 		protected override void SelectEntry(int id)
 		{
 			base.SelectEntry(id);
+			animatorDescription.SetTrigger("Feedback");
+			textDescription.text = databaseMission.Database[id].TrialsDescription;
 		}
 
 		protected override void ValidateEntry(int id)
@@ -54,9 +63,34 @@ namespace Menu
 			base.ValidateEntry(id);
 
 			// Debug test save
-			databaseMission.SetUnlocked(id, true);
+			/*databaseMission.SetUnlocked(id, true);
 			SaveManager.Instance.SaveFile();
-			InitializeMenu();
+			InitializeMenu();*/
+
+			gameData.GameMode = GameModeStateEnum.Classic_Mode;
+			gameData.NumberOfLifes = 3;
+			gameData.CharacterInfos.Clear();
+
+			if(databaseMission.Database[id].Player != null)
+			{
+				gameData.CharacterInfos.Add(new Character_Info());
+				gameData.CharacterInfos[0].CharacterData = databaseMission.Database[id].Player;
+				gameData.CharacterInfos[0].ControllerID = 0;
+				gameData.CharacterInfos[0].CharacterColorID = 0;
+				gameData.CharacterInfos[0].Team = TeamEnum.First_Team;
+			}
+
+			if (databaseMission.Database[id].Dummy != null)
+			{
+				gameData.CharacterInfos.Add(new Character_Info());
+				gameData.CharacterInfos[1].CharacterData = databaseMission.Database[id].Dummy;
+				gameData.CharacterInfos[1].ControllerID = 0;
+				gameData.CharacterInfos[1].CharacterColorID = 3;
+				gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
+			}
+
+			UnityEngine.SceneManagement.SceneManager.LoadScene(databaseMission.Database[id].StageName);
+
 		}
 
 		protected override void QuitMenu()

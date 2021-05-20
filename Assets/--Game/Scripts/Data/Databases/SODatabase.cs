@@ -29,7 +29,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
     }
 
 
-    List<bool> unlocked;
+    List<bool> unlocked = new List<bool>();
     /*public List<bool> Unlocked
     {
         get { return unlocked; }
