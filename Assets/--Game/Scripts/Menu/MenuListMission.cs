@@ -15,18 +15,20 @@ namespace Menu
 
 		[Title("UI")]
 		[SerializeField]
+		Animator animatorMenu;
+
+		[SerializeField]
 		TextMeshProUGUI textDescription;
 		[SerializeField]
 		Sprite unlockedSprite;
 
-		private void Start()
-		{
-			InitializeMenu();
-		}
 
 
-		protected override void InitializeMenu()
+		public override void InitializeMenu()
 		{
+			animatorMenu.gameObject.SetActive(true);
+			animatorMenu.SetBool("Appear", true);
+
 			for (int i = 0; i < databaseMission.Database.Count; i++)
 			{
 				if(databaseMission.GetUnlocked(i) == true)
@@ -55,6 +57,13 @@ namespace Menu
 			databaseMission.SetUnlocked(id, true);
 			SaveManager.Instance.SaveFile();
 			InitializeMenu();
+		}
+
+		protected override void QuitMenu()
+		{
+			base.QuitMenu();
+
+			animatorMenu.SetBool("Appear", false);
 		}
 
 	}
