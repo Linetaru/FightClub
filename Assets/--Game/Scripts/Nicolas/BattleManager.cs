@@ -53,7 +53,7 @@ public class BattleManager : MonoBehaviour
 
 	private void Awake()
 	{
-		if (_instance != null && _instance != this)
+		if (_instance != null)
 		{
 			Destroy(this.gameObject);
 		}
@@ -63,18 +63,22 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-	//END SINGLETON
+    public void ResetInstance()
+    {
+		_instance = null;
+    }
+
+    //END SINGLETON
 
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
 	{
 		if(autoStart)
 			StartBattleManager();
 	}
 
-
-	public void StartBattleManager()
+    public void StartBattleManager()
 	{
 		standbyList = new List<IControllable>();
 		input = new Input_Info();

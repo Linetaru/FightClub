@@ -8,7 +8,12 @@ public class GrandSlamManager : MonoBehaviour
     GameModeStateEnum gameMode;
 
     [SerializeField]
-    private Camera camSlam;
+    private GameObject cameraObj;
+    [SerializeField]
+    private CameraSlam camSlam;
+
+    [SerializeField]
+    private Camera currentCam;
     
     [SerializeField]
     List<string> scenesBomb = new List<string>();
@@ -17,7 +22,12 @@ public class GrandSlamManager : MonoBehaviour
 
     List<string> listToPickFrom = new List<string>();
 
+    bool firstRound = true;
+
     bool isUnloaded;
+    bool isLoaded;
+
+
 
     private void Awake()
     {
@@ -79,8 +89,21 @@ public class GrandSlamManager : MonoBehaviour
 
     IEnumerator ManageEndMode()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
 
+        currentCam = BattleManager.Instance.cameraController.Camera;
+        cameraObj.transform.position = currentCam.transform.position;
+        currentCam.enabled = false;
+
+        camSlam.RotToScore();
+
+        while(!camSlam.watchingScore)
+        {
+            yield return null;
+        }
+
+        BattleManager.Instance.ResetInstance();
+        yield return new WaitForSeconds(4f);
 
         StartCoroutine(UnloadSceneAsync());
 
@@ -90,10 +113,30 @@ public class GrandSlamManager : MonoBehaviour
         }
         isUnloaded = false;
 
-        yield return new WaitForSeconds(0f);
-
         StartCoroutine(LoadSceneAsync());
 
+        while(!isLoaded)
+        {
+            yield return null;
+        }
+        isLoaded = false;
+
+        yield return new WaitForSeconds(2f);
+
+
+        currentCam = BattleManager.Instance.cameraController.Camera;
+        cameraObj.transform.position = currentCam.transform.position;
+
+        yield return new WaitForSeconds(2f);
+
+        camSlam.RotToGame();
+
+        while(!camSlam.watchingGame)
+        {
+            yield return null;
+        }
+
+        SetGame();
     }
 
     void SetGame()
@@ -104,6 +147,11 @@ public class GrandSlamManager : MonoBehaviour
 
     void StartGame()
     {
+        currentCam = null;
+        currentCam = BattleManager.Instance.cameraController.Camera;
+        cameraObj.transform.position = currentCam.transform.position;
+        currentCam.enabled = true;
+
         BattleManager.Instance.StartBattleManager();
         StartCoroutine(ManageEndMode());
     }
@@ -123,9 +171,14 @@ public class GrandSlamManager : MonoBehaviour
         {
             yield return null;
         }
+        isLoaded = true;
 
-        SetGame();
-        
+        if (firstRound)
+        {
+            firstRound = false;
+            SetGame();
+        }
+
     }
     IEnumerator UnloadSceneAsync()
     {
