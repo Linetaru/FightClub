@@ -33,13 +33,21 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public ControlMapper controlMapper;
 
 	[Title("Level Name")]
+	[Scene]
 	public string sceneSelectionClassic;
+	[Scene]
 	public string sceneSelectionGrandSlam;
+	[Scene]
 	public string sceneSelectionVolley;
+	[Scene]
 	public string sceneSelectionBomb;
+	[Scene]
 	public string sceneSelectionFlappy;
+	[Scene]
 	public string sceneSelectionTraining;
+	[Scene]
 	public string sceneSelectionTutorial;
+
 	private string sceneName;
 
 	[Title("Ak Wwise Sound Design")]
