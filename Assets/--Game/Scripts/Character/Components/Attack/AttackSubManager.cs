@@ -22,6 +22,11 @@ public class AttackSubManager : MonoBehaviour
     [HideInInspector]
     public PackageCreator.Event.GameEventCharacters playerHitEvent;
 
+
+
+
+
+
     [Title("Parry Settings")]
     [SerializeField]
     private int clashLevel = 1;
@@ -30,12 +35,20 @@ public class AttackSubManager : MonoBehaviour
         get { return clashLevel; }
     }
 
-    /* [SerializeField]
-     private bool clashCancel = true;
-     public bool ClashCancel
-     {
-         get { return clashCancel; }
-     }*/
+    [SerializeField]
+    [SuffixLabel("L'attaque ne proc jamais de clash")]
+    private bool noClash = false;
+    public bool NoClash
+    {
+        get { return noClash; }
+    }
+    [SerializeField]
+    [SuffixLabel("L'attaque provoque une parade mais ne repousse pas")]
+    private bool noParryCancel = false;
+    public bool NoParryCancel
+    {
+        get { return noParryCancel; }
+    }
 
     // Si l'attack est disjoint on ne peut pas se faire repousser
     [SerializeField]
@@ -78,6 +91,12 @@ public class AttackSubManager : MonoBehaviour
     {
         get { return guardBreak; }
     }
+
+
+
+
+
+
 
     CharacterBase user;
     public CharacterBase User
@@ -255,16 +274,21 @@ public class AttackSubManager : MonoBehaviour
     }
 
 
-
+    // Clash
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(this.tag))
+            return;
+        if (noClash == true)
             return;
 
         AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
         if (atkMan != null)
         {
             if (atkMan.User.TeamID == user.TeamID && atkMan.User.TeamID != TeamEnum.No_Team) // Pour empêcher les joueurs dans la même équipes de clash
+                return;
+
+            if (atkMan.noClash == true)
                 return;
 
             attackClashed = atkMan;

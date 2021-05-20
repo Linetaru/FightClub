@@ -211,7 +211,7 @@ public class CharacterParry : MonoBehaviour
 		Parry(character, atkRegistered.User);
 		if (atkRegistered.Disjoint == false)
 		{
-			atkRegistered.User.Knockback.Parry.ParryRepel(atkRegistered.User, character);
+			atkRegistered.User.Knockback.Parry.ParryRepel(atkRegistered.User, character, !atkRegistered.NoParryCancel);
 		}
 
 
@@ -220,17 +220,22 @@ public class CharacterParry : MonoBehaviour
 			character.Movement.Direction *= -1;
 
 		// Feedback
+
 		Vector2 angleEjection = (atkRegistered.User.transform.position - character.transform.position).normalized;
 		GameObject go2 = Instantiate(particleParry, character.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
 		go2.name = particleParry.name;
 		Destroy(go2, 1f);
 
-		GameObject go = Instantiate(particleDirectionRepel, character.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
-		go.name = particleParry.name;
-		Destroy(go, 1f);
+		if (atkRegistered.NoParryCancel == false)
+		{
+			GameObject go = Instantiate(particleDirectionRepel, character.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+			go.name = particleParry.name;
+			Destroy(go, 1f);
+		}
 
 		atkRegistered.Parry(character);
 	}
+
 
 	public virtual void GuardResolution(CharacterBase character, AttackSubManager atkRegistered)
 	{
@@ -240,13 +245,19 @@ public class CharacterParry : MonoBehaviour
 
 		if (atkRegistered.GuardWin == false)
 		{
-			if (character.PowerGauge.CurrentPower <= 20)
+			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
 			{
 				character.PowerGauge.ForceAddPower(-20);
+				character.PowerGauge.ForceAddPower(80);
 				character.Knockback.Hit(character, atkRegistered);
 
-				character.SetMotionSpeed(0, 0.7f);
-				atkRegistered.User.SetMotionSpeed(0, 0.7f);
+				character.SetMotionSpeed(0.1f, 0.8f);
+				atkRegistered.User.SetMotionSpeed(0.1f, 0.8f);
+
+
+				Vector2 angleEjection = character.Knockback.GetAngleKnockback().normalized;
+				Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 10, 0.8f);
+				Feedbacks.GlobalFeedback.Instance.ZoomDramatic(character, 0.8f);
 
 				// Feedback
 				GameObject go2 = Instantiate(particleGuardBreak, character.CenterPoint.position, Quaternion.identity);
@@ -335,7 +346,6 @@ public class CharacterParry : MonoBehaviour
 		characterParry.PowerGauge.ForceAddPower(20);
 
 
-
 		characterParry.SetState(parrySuccesState);
 		characterParry.Action.HasHit(characterRepelled);
 
@@ -351,20 +361,27 @@ public class CharacterParry : MonoBehaviour
 	/// Fonction à utiliser sur celui qui se fait parry
 	/// </summary>
 	/// <param name="user"></param>
-	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry)
+	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry, bool repel = true)
 	{
 		isParry = false;
 		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.3f);
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
-		characterRepelled.Action.CancelAction();
+		//characterRepelled.Action.CancelAction();
 
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
+		if (repel == true)
+		{
+			Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
+			characterRepelled.Knockback.Launch(angleEjection, 1);
 
-		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-		characterRepelled.Knockback.Launch(angleEjection, 1);
-
-		characterRepelled.SetState(parryRepelState);
+			characterRepelled.Action.CancelAction();
+			characterRepelled.SetState(parryRepelState);
+		}
+		else
+		{
+			characterRepelled.Action.ActionAllUnactive();
+		}
 
 	}
 
@@ -375,7 +392,10 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.5f);
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
+
+
 		characterRepelled.PowerGauge.ForceAddPower(-20);
+		characterParry.PowerGauge.ForceAddPower(-20);
 
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 

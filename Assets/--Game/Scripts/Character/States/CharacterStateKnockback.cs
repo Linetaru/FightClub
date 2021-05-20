@@ -5,13 +5,11 @@ using Sirenix.OdinInspector;
 
 public class CharacterStateKnockback : CharacterState
 {
-    [SerializeField]
-    CharacterState idleState;
-    [SerializeField]
-    CharacterState landState;
-    [SerializeField]
-    CharacterState aerialState;
 
+    [SerializeField]
+    CharacterState groundTechState;
+    [SerializeField]
+    CharacterState airTechState;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -35,17 +33,32 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     ParticleSystem particleTrail;
 
+
+    [Title("Parameter - Tech")]
+    [SerializeField]
+    float techTime = 10;
+    [SerializeField]
+    float techAntiSpam = 30;
+
     [Title("Parameter - DI")]
     [SerializeField]
     float joystickThreshold = 0.3f;
     [SerializeField]
     float DIAngle = 10;
 
+    [Title("Parameter - Actions")]
+    [SerializeField]
+    CharacterAcumods acumods;
+
     bool inHitStop = true;
+    float tech = 0;
+    float techCooldown = 0;
 
     private void Start()
     {
         landingTime /= 60f;
+        techTime /= 60f;
+        techAntiSpam /= 60f;
     }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
@@ -61,6 +74,8 @@ public class CharacterStateKnockback : CharacterState
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
 
         character.Knockback.Parry.ParryNumber = 0;
+        tech = 0f;
+        techCooldown = 0f;
     }
 
     public override void UpdateState(CharacterBase character)
@@ -86,6 +101,19 @@ public class CharacterStateKnockback : CharacterState
         {
             character.ResetToIdle();
         }
+        else if (character.Input.CheckAction(0, InputConst.RightTrigger))
+        {
+            if(techCooldown <= 0)
+                tech = techTime;
+            techCooldown = techAntiSpam;
+        }
+        else if (acumods.Acumod(character))
+        {
+
+        }
+
+        tech -= Time.deltaTime;
+        techCooldown -= Time.deltaTime;
 
     }
 
@@ -93,16 +121,21 @@ public class CharacterStateKnockback : CharacterState
     {
         if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null) && Mathf.Abs(character.Movement.SpeedY) > reboundSpeedNeeded)
         {
-            character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            if (tech >= 0 && character.Movement.SpeedY < 0)
+                character.SetState(groundTechState);
+            else
+                character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
-            /*if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
-            {
-                character.SetState(landState);
-            }*/
+
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
+            if (tech >= 0)
+            {
+                character.SetState(airTechState);
+                return;
+            }
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }

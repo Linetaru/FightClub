@@ -48,6 +48,8 @@ public class CharacterStateDodge : CharacterState
 
 		if (Mathf.Abs(character.Input.horizontal) > joystickThreshold)
 			directionDodge.x = Mathf.Sign(character.Input.horizontal);
+		else
+			directionDodge.x = character.Movement.Direction;
 
 		character.Rigidbody.SetNewLayerMask(dodgeLayerMask);
 		//character.Rigidbody.PreventFall(true);

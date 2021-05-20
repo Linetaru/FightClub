@@ -8,11 +8,14 @@ public class ActiveWithHitbox : MonoBehaviour
 	Collider collider;
 	[SerializeField]
 	ParticleSystem particle;
+	[SerializeField]
+	GameObject a;
 
 	bool stop = false;
 	void Start()
 	{
-		particle.gameObject.SetActive(false);
+		if (particle != null)
+			particle.gameObject.SetActive(false);
 	}
 
 	// Update is called once per frame
@@ -20,8 +23,20 @@ public class ActiveWithHitbox : MonoBehaviour
 	{
 		if (collider.enabled == true && stop == false)
 		{
-			particle.gameObject.SetActive(true);
+			if(particle != null)
+				particle.gameObject.SetActive(true);
 			stop = true;
+		}
+
+		if (collider.enabled == true)
+		{
+			if(a!= null)
+				a.gameObject.SetActive(true);
+		}
+		else if (collider.enabled == false)
+		{
+			if (a != null)
+				a.gameObject.SetActive(false);
 		}
 
 	}

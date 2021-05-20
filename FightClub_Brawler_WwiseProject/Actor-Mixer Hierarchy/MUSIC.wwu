@@ -12,7 +12,7 @@
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-11</Value>
+								<Value>-13</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -26,6 +26,10 @@
 					</ReferenceList>
 					<ChildrenList>
 						<AudioFileSource Name="Phonograph_BreakPunch_OST_Ingame_V1" ID="{016C1C66-E1E4-4020-ADBA-CDACA42D5880}">
+							<PropertyList>
+								<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+								<Property Name="TrimBegin" Type="Real64" Value="37.8429774417499"/>
+							</PropertyList>
 							<Language>SFX</Language>
 							<AudioFile>Music\Phonograph_BreakPunch_OST_Ingame_V1.wav</AudioFile>
 							<MediaIDList>
@@ -37,11 +41,17 @@
 						<ActiveSource Name="Phonograph_BreakPunch_OST_Ingame_V1" ID="{016C1C66-E1E4-4020-ADBA-CDACA42D5880}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="Phonograph - BreakPunch_OST_level_02_V1" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" ShortID="840838630">
+				<Sound Name="Phonograph_MUS_BreakPunch_OST_Chara_Select_V1" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" ShortID="840838630">
 					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="IsStreamingEnabled" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-12</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -68,6 +78,95 @@
 					</ChildrenList>
 					<ActiveSourceList>
 						<ActiveSource Name="Phonograph - BreakPunch_OST_level_02_V1" ID="{E2F05D85-F982-4E93-A219-9A2791675D72}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Phonograph_MUS_Volley_Ball_V1_LP" ID="{142D84C1-D54C-4784-BDB4-EABE4566620D}" ShortID="326885471">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Phonograph_MUS_Volley_Ball_V1_LP" ID="{A0F35E31-6FCE-4268-ACD6-1E234D98D887}">
+							<Language>SFX</Language>
+							<AudioFile>Music\Phonograph_MUS_Volley_Ball_V1_LP.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="426419138"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Phonograph_MUS_Volley_Ball_V1_LP" ID="{A0F35E31-6FCE-4268-ACD6-1E234D98D887}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" ShortID="413723630">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}">
+							<Language>SFX</Language>
+							<AudioFile>Music\Van De Graph_MUS_Cinemtaic_Victory_V1.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="1034394430"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="Van De Graph_MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" ShortID="419084592">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-11</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Van De Graph_MUS_OST_Menu_Main_V1_LP" ID="{539EA0E6-5FF5-4EDE-8A08-72E5A9A71D28}">
+							<Language>SFX</Language>
+							<AudioFile>Music\Van De Graph_MUS_OST_Menu_Main_V1_LP.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="736026560"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="Van De Graph_MUS_OST_Menu_Main_V1_LP" ID="{539EA0E6-5FF5-4EDE-8A08-72E5A9A71D28}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>
