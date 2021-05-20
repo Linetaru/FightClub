@@ -54,7 +54,9 @@ public class BlastZoneManager : MonoBehaviour
                 // Respawn Manager
                 playerCB.SetState(playerCB.GetComponentInChildren<CharacterStateDeath>());
                 playerCB.Stats.RespawnStats();
-    
+                playerCB.transform.position = spawnpoint.transform.position;
+
+
             }
             else
             {

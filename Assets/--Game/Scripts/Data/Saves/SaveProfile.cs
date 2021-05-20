@@ -26,6 +26,9 @@ public class SaveProfile : ScriptableObject
 		set { savesProfile = value; }
 	}
 
+
+
+#if UNITY_EDITOR
 	[Button]
 	private void GenerateID()
 	{
@@ -97,7 +100,7 @@ public class SaveProfile : ScriptableObject
 		return res;
 	}
 
-
+#endif
 
 }
 

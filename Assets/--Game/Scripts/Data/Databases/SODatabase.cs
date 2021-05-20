@@ -37,7 +37,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
     }*/
 
 
-
+#if UNITY_EDITOR
     private bool Filter(T obj)
     {
         if (autoPopulate)
@@ -56,7 +56,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
         }
         return false;
     }
-
+#endif
 
 
 
