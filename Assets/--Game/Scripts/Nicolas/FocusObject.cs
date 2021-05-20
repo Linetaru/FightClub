@@ -8,6 +8,9 @@ public class FocusObject : MonoBehaviour
 {
     BoxCollider boxCollider;
 
+    [Scene]
+    public string scene;
+
     private void Reset()
     {
         boxCollider = GetComponent<BoxCollider>();
