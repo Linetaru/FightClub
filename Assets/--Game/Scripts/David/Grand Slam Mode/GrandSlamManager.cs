@@ -17,9 +17,7 @@ public class GrandSlamManager : MonoBehaviour
 
     List<string> listToPickFrom = new List<string>();
 
-    bool transition;
-
-    int round = 0;
+    bool isUnloaded;
 
     private void Awake()
     {
@@ -53,8 +51,8 @@ public class GrandSlamManager : MonoBehaviour
 
     List<string> GetRandomModeList()
     {
-        //int test = Random.Range(0, 2);
-        /*
+        int test = Random.Range(0, 2);
+
         if (test == 0 && gameMode != GameModeStateEnum.Bomb_Mode)
         {
             gameMode = GameModeStateEnum.Bomb_Mode;
@@ -67,33 +65,6 @@ public class GrandSlamManager : MonoBehaviour
 
             return scenesFlappy;
         }
-        */
-        round++;
-
-        if(round == 1)
-        {
-            gameMode = GameModeStateEnum.Bomb_Mode;
-
-            return scenesBomb;
-        }
-        else if(round == 2)
-        {
-            gameMode = GameModeStateEnum.Flappy_Mode;
-
-            round = 0;
-
-            return scenesFlappy;
-        }
-        else if (round == 3)
-        {
-
-        }
-        else if (round == 4)
-        {
-
-        }
-
-        return scenesFlappy;
     }
 
     public void CameraTransitionScore()
@@ -108,8 +79,17 @@ public class GrandSlamManager : MonoBehaviour
 
     IEnumerator ManageEndMode()
     {
-        yield return new WaitForSeconds(10f);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        yield return new WaitForSeconds(5f);
+
+
+        StartCoroutine(UnloadSceneAsync());
+
+        while(!isUnloaded)
+        {
+            yield return null;
+        }
+        isUnloaded = false;
+
         yield return new WaitForSeconds(0f);
         StartCoroutine(LoadSceneAsync());
 
@@ -138,12 +118,22 @@ public class GrandSlamManager : MonoBehaviour
         };
 
         async.allowSceneActivation = true;
-        while(!async.isDone)
+        while (!async.isDone)
         {
             yield return null;
         }
 
         SetGame();
+        
+    }
+    IEnumerator UnloadSceneAsync()
+    {
+        AsyncOperation async = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        while (!async.isDone)
+        {
+            yield return null;
+        }
+        isUnloaded = true;
     }
 
 
