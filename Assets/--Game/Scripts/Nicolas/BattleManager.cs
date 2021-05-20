@@ -6,6 +6,9 @@ using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
+	[SerializeField]
+	private bool autoStart = true;
+
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
@@ -42,8 +45,36 @@ public class BattleManager : MonoBehaviour
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
 
+
+	//SINGLETON
+
+	private static BattleManager _instance;
+	public static BattleManager Instance { get { return _instance; } }
+
+	private void Awake()
+	{
+		if (_instance != null && _instance != this)
+		{
+			Destroy(this.gameObject);
+		}
+		else
+		{
+			_instance = this;
+		}
+	}
+
+	//END SINGLETON
+
+
 	// Start is called before the first frame update
 	void Start()
+	{
+		if(autoStart)
+			StartBattleManager();
+	}
+
+
+	public void StartBattleManager()
 	{
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
@@ -54,7 +85,7 @@ public class BattleManager : MonoBehaviour
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
 		}
-		else if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
 		{
 			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
 			go.BattleManager = this;
