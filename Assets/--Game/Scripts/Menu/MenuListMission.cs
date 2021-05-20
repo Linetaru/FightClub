@@ -84,7 +84,7 @@ namespace Menu
 			{
 				gameData.CharacterInfos.Add(new Character_Info());
 				gameData.CharacterInfos[1].CharacterData = databaseMission.Database[id].Dummy;
-				gameData.CharacterInfos[1].ControllerID = 0;
+				gameData.CharacterInfos[1].ControllerID = 1;
 				gameData.CharacterInfos[1].CharacterColorID = 3;
 				gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
 			}

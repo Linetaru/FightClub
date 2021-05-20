@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+[CanEditMultipleObjects]
 [CustomPropertyDrawer(typeof(SceneAttribute))]
 public class SceneDrawer : PropertyDrawer
 {

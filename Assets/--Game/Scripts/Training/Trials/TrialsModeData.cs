@@ -35,11 +35,11 @@ public class TrialsModeData : SerializedScriptableObject
 
 	[Title("Setup")]
 	[SerializeField]
-	Object scene;
-
+	[Scene]
+	string scene;
 	public string StageName
 	{
-		get { return scene.name; }
+		get { return scene; }
 	}
 
 	[HorizontalGroup("Player")]
