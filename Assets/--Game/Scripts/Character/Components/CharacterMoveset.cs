@@ -68,6 +68,8 @@ public class CharacterMoveset : MonoBehaviour
 
 			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
+				if (signatureMove == null)
+					return false;
 				if (character.Action.Action(signatureMove) == true)
 				{
 					character.PowerGauge.CurrentPower = 0;
@@ -137,6 +139,8 @@ public class CharacterMoveset : MonoBehaviour
 
 	public bool ActionAttack(CharacterBase character, AttackManager attack)
 	{
+		if (attack == null)
+			return false;
 		if (character.Action.Action(attack) == true)
 		{
 			character.SetState(stateAction);
