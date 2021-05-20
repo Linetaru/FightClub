@@ -5,15 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class GrandSlamManager : MonoBehaviour
 {
-    [SerializeField]
-    private Camera camSlam;
+    GameModeStateEnum gameMode;
 
     [SerializeField]
+    private Camera camSlam;
+    
+    [SerializeField]
     List<string> scenesBomb = new List<string>();
+    [SerializeField]
+    List<string> scenesFlappy = new List<string>();
 
     List<string> listToPickFrom = new List<string>();
 
     bool transition;
+
+    int round = 0;
 
     private void Awake()
     {
@@ -47,10 +53,55 @@ public class GrandSlamManager : MonoBehaviour
 
     List<string> GetRandomModeList()
     {
-        return scenesBomb;
+        //int test = Random.Range(0, 2);
+        /*
+        if (test == 0 && gameMode != GameModeStateEnum.Bomb_Mode)
+        {
+            gameMode = GameModeStateEnum.Bomb_Mode;
+
+            return scenesBomb;
+        }
+        else
+        {
+            gameMode = GameModeStateEnum.Flappy_Mode;
+
+            return scenesFlappy;
+        }
+        */
+        round++;
+
+        if(round == 1)
+        {
+            gameMode = GameModeStateEnum.Bomb_Mode;
+
+            return scenesBomb;
+        }
+        else if(round == 2)
+        {
+            gameMode = GameModeStateEnum.Flappy_Mode;
+
+            round = 0;
+
+            return scenesFlappy;
+        }
+        else if (round == 3)
+        {
+
+        }
+        else if (round == 4)
+        {
+
+        }
+
+        return scenesFlappy;
     }
 
-    public void CameraTransition()
+    public void CameraTransitionScore()
+    {
+
+    }
+
+    public void CameraTransitionGame()
     {
 
     }
@@ -58,10 +109,24 @@ public class GrandSlamManager : MonoBehaviour
     IEnumerator ManageEndMode()
     {
         yield return new WaitForSeconds(10f);
-        camSlam.enabled = true;
-        Camera.main.enabled = false;
-        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        yield return new WaitForSeconds(0f);
+        StartCoroutine(LoadSceneAsync());
+
     }
+
+    void SetGame()
+    {
+        BattleManager.Instance.gameData.GameMode = gameMode;
+        StartGame();
+    }
+
+    void StartGame()
+    {
+        BattleManager.Instance.StartBattleManager();
+        StartCoroutine(ManageEndMode());
+    }
+
     IEnumerator LoadSceneAsync()
     {
         string sceneName = GetRandomSceneFromList(scenesBomb);
@@ -77,9 +142,8 @@ public class GrandSlamManager : MonoBehaviour
         {
             yield return null;
         }
-        camSlam.enabled = false;
 
-        StartCoroutine(ManageEndMode());
+        SetGame();
     }
 
 
