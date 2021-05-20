@@ -91,6 +91,7 @@ public class GrandSlamManager : MonoBehaviour
         isUnloaded = false;
 
         yield return new WaitForSeconds(0f);
+
         StartCoroutine(LoadSceneAsync());
 
     }
