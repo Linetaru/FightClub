@@ -133,14 +133,12 @@ GameObject:
   m_Component:
   - component: {fileID: 453845563}
   - component: {fileID: 453845562}
-  - component: {fileID: 453845561}
-  - component: {fileID: 453845560}
+  - component: {fileID: 453845556}
   - component: {fileID: 453845559}
   - component: {fileID: 453845558}
   - component: {fileID: 453845557}
-  - component: {fileID: 453845556}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: CameraSlam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,7 +170,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453845555}
-  m_Enabled: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c103141c78a1a440ab1221695ed3cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &453845558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453845555}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0241f6d33764c564993f1f119e6f2687, type: 3}
   m_Name: 
@@ -187,20 +199,6 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
---- !u!114 &453845558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453845555}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c103141c78a1a440ab1221695ed3cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDefaultListener: 1
-  listenerId: 0
 --- !u!114 &453845559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,136 +206,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453845555}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a03dadc5345c36343aff79863035b60c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stateCamera: 0
-  zoomController: {fileID: 453845560}
-  imagesUiRedScrolling:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  timeRedBorder: 0.8
-  loopRedBorder: 2
-  cam_Infos:
-  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    railsBlastZoneTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    timeBeforeMoving: 100
-    durationTravelling: 100
-    movingInY: 0
-    canvasPanelArrowToActivate: {fileID: 0}
-    objectDisableOnFocusMode: []
-    platform: []
-  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    railsBlastZoneTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    timeBeforeMoving: 100
-    durationTravelling: 100
-    movingInY: 0
-    canvasPanelArrowToActivate: {fileID: 0}
-    objectDisableOnFocusMode: []
-    platform:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    railsBlastZoneTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    timeBeforeMoving: 20
-    durationTravelling: 25
-    movingInY: 0
-    canvasPanelArrowToActivate: {fileID: 0}
-    objectDisableOnFocusMode: []
-    platform:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - cameraConfig: {fileID: 11400000, guid: e2a9ce28f78fe3d4da9455be6748f4b4, type: 2}
-    railsFocusTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    railsBlastZoneTravelling:
-    - {fileID: 0}
-    - {fileID: 0}
-    timeBeforeMoving: 20
-    durationTravelling: 25
-    movingInY: 0
-    canvasPanelArrowToActivate: {fileID: 0}
-    objectDisableOnFocusMode: []
-    platform:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  loopScrolling: 0
-  canScroll: 0
-  disableGameObjectOnStart: []
-  timer: 0
-  positionID: 0
---- !u!114 &453845560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453845555}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bc466695ff65b4c9226f449cf22509, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets: []
-  focusLevel: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
-  offsetRot: {x: 1, y: 0, z: 0}
-  smoothTime: 0.5
-  dezoomSmoothTime: 0.2
-  rotationSmoothTime: 0.05
-  ZoomInLimiter: 5
-  minZoomDistance: {x: 3, y: 2}
-  DebugArea: 1
-  camConfig: {fileID: 0}
---- !u!114 &453845561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453845555}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
@@ -486,10 +355,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453845555}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.9, y: 14, z: 16}
+  m_LocalPosition: {x: -385.9593, y: -148.54901, z: 15.673584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1536632643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1536632641
@@ -521,7 +390,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4754ab22a3d088542a2d290d070194be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenesBomb: []
+  camSlam: {fileID: 453845562}
+  scenesBomb:
+  - BombModeScene
+  - BombModeScene1
 --- !u!4 &1536632643
 Transform:
   m_ObjectHideFlags: 0
@@ -532,9 +404,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 392.85928, y: 162.54901, z: 0.32641602}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 453845563}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1793470609
 GameObject:
@@ -591,5 +464,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -6,12 +6,22 @@ using UnityEngine.SceneManagement;
 public class GrandSlamManager : MonoBehaviour
 {
     [SerializeField]
-    List<string> scenesBomb = new List<string> { "BombModeScene", "BombModeScene1"};
+    private Camera camSlam;
+
+    [SerializeField]
+    List<string> scenesBomb = new List<string>();
 
     List<string> listToPickFrom = new List<string>();
 
+    bool transition;
+
     private void Awake()
     {
+    }
+
+    private void Update()
+    {
+
     }
 
     void Start()
@@ -21,8 +31,7 @@ public class GrandSlamManager : MonoBehaviour
 
     string GetRandomSceneFromList(List<string> list)
     {
-        listToPickFrom = GetRandomListToPickFrom();
-
+        listToPickFrom = GetRandomModeList();
         string sceneName = listToPickFrom[Random.Range(0, listToPickFrom.Count)];
         Debug.Log("Next scene to load = " + sceneName);
 
@@ -36,17 +45,23 @@ public class GrandSlamManager : MonoBehaviour
         // Une fois la cam set sur le score
     }
 
-    IEnumerator ManageEndMode()
-    {
-        yield return null;
-        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-    }
-
-    List<string> GetRandomListToPickFrom()
+    List<string> GetRandomModeList()
     {
         return scenesBomb;
     }
 
+    public void CameraTransition()
+    {
+
+    }
+
+    IEnumerator ManageEndMode()
+    {
+        yield return new WaitForSeconds(10f);
+        camSlam.enabled = true;
+        Camera.main.enabled = false;
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+    }
     IEnumerator LoadSceneAsync()
     {
         string sceneName = GetRandomSceneFromList(scenesBomb);
@@ -62,6 +77,9 @@ public class GrandSlamManager : MonoBehaviour
         {
             yield return null;
         }
+        camSlam.enabled = false;
+
+        StartCoroutine(ManageEndMode());
     }
 
 
