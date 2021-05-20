@@ -34,8 +34,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	[Title("Level Name")]
 	public string sceneSelectionClassic;
+	public string sceneSelectionGrandSlam;
 	public string sceneSelectionVolley;
 	public string sceneSelectionBomb;
+	public string sceneSelectionFlappy;
 	private string sceneName;
 
 	[Title("Ak Wwise Sound Design")]
@@ -147,16 +149,30 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 						switch (currentButtonSelected)
 						{
 							case 1:
+								Camera.main.GetComponent<Animator>().SetBool("canTransiToMode", false);
+								menuState = MenuState.InPrincipalMenu;
+								currentButtonSelected = 1;
+								ChangeSelectedButton(true);
+								return;
+							case 2:
+								gameData.GameMode = GameModeStateEnum.Special_Mode;
+								sceneName = sceneSelectionGrandSlam;
+								break;
+							case 3:
 								gameData.GameMode = GameModeStateEnum.Classic_Mode;
 								sceneName = sceneSelectionClassic;
 								break;
-							case 2:
+							case 4:
 								gameData.GameMode = GameModeStateEnum.Volley_Mode;
 								sceneName = sceneSelectionVolley;
 								break;
-							case 3:
+							case 5:
 								gameData.GameMode = GameModeStateEnum.Bomb_Mode;
 								sceneName = sceneSelectionBomb;
+								break;
+							case 6:
+								gameData.GameMode = GameModeStateEnum.Flappy_Mode;
+								sceneName = sceneSelectionFlappy;
 								break;
 						}
 						Camera.main.GetComponent<Animator>().SetBool("canTransiToSelect", true);
@@ -178,13 +194,15 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 		if (isGoingUp)
 		{
-			if (currentButtonSelected == 1)
-				currentButtonSelected = 3;
-			else
-				currentButtonSelected--;
 			switch (menuState)
 			{
 				case MenuState.InPrincipalMenu:
+
+					if (currentButtonSelected == 1)
+						currentButtonSelected = 3;
+					else
+						currentButtonSelected--;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -202,6 +220,12 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					}
 					break;
 				case MenuState.InModeMenu:
+
+					if (currentButtonSelected == 1)
+						currentButtonSelected = 6;
+					else
+						currentButtonSelected--;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -214,6 +238,18 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 							break;
 						case 3:
 							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[3];
+							break;
+						case 4:
+							currentSelectButton = modeButtons[3];
+							lastSelectButton = modeButtons[4];
+							break;
+						case 5:
+							currentSelectButton = modeButtons[4];
+							lastSelectButton = modeButtons[5];
+							break;
+						case 6:
+							currentSelectButton = modeButtons[5];
 							lastSelectButton = modeButtons[0];
 							break;
 					}
@@ -222,14 +258,16 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		}
 		else
 		{
-			if (currentButtonSelected == 3)
-				currentButtonSelected = 1;
-			else
-				currentButtonSelected++;
 
 			switch (menuState)
 			{
 				case MenuState.InPrincipalMenu:
+
+					if (currentButtonSelected == 3)
+						currentButtonSelected = 1;
+					else
+						currentButtonSelected++;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -248,11 +286,17 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					break;
 
 				case MenuState.InModeMenu:
+
+					if (currentButtonSelected == 6)
+						currentButtonSelected = 1;
+					else
+						currentButtonSelected++;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
 							currentSelectButton = modeButtons[0];
-							lastSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[5];
 							break;
 						case 2:
 							currentSelectButton = modeButtons[1];
@@ -261,6 +305,18 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 						case 3:
 							currentSelectButton = modeButtons[2];
 							lastSelectButton = modeButtons[1];
+							break;
+						case 4:
+							currentSelectButton = modeButtons[3];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 5:
+							currentSelectButton = modeButtons[4];
+							lastSelectButton = modeButtons[3];
+							break;
+						case 6:
+							currentSelectButton = modeButtons[5];
+							lastSelectButton = modeButtons[4];
 							break;
 					}
 					break;
