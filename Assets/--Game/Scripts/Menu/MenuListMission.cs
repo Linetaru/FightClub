@@ -16,7 +16,8 @@ namespace Menu
 		[Title("Data")]
 		[SerializeField]
 		GameData gameData;
-
+		[SerializeField]
+		GameModeSettingsMission missionSettings;
 
 		[Title("UI")]
 		[SerializeField]
@@ -88,6 +89,9 @@ namespace Menu
 				gameData.CharacterInfos[1].CharacterColorID = 3;
 				gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
 			}
+
+			missionSettings.TrialsData = databaseMission.Database[id];
+			missionSettings.TrialsDatabase = databaseMission;
 
 			UnityEngine.SceneManagement.SceneManager.LoadScene(databaseMission.Database[id].StageName);
 

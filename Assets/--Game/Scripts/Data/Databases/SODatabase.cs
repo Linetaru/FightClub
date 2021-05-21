@@ -93,7 +93,24 @@ public class SODatabase<T> : ScriptableObject, ISavable
         unlocked[i] = b;
     }
 
+    public void SetUnlocked(T item, bool b)
+    {
+        if (unlocked.Count == 0)
+        {
+            CreateUnlockableList();
+        }
 
+        for (int i = 0; i < database.Count; i++)
+        {
+            Debug.Log(database[i].Equals(item));
+            if(database[i].Equals(item))
+            {
+                unlocked[i] = b;
+                Debug.Log(unlocked[i]);
+                return;
+            }
+        }
+    }
 
 
 

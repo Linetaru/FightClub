@@ -9,7 +9,8 @@ public class TutorialManager1 : MonoBehaviour
 	[Title("Data")]
 	[SerializeField]
 	TrialsModeData trialsData;
-
+	[SerializeField]
+	GameModeSettingsMission settingsMission;
 
 	[Title("Logic")]
 	[SerializeField]
@@ -161,6 +162,18 @@ public class TutorialManager1 : MonoBehaviour
 		c.CharacterData = bernard;
 		c.CharacterColorID = 3;
 		gameData.CharacterInfos.Add(c);
+
+		if (settingsMission.TrialsDatabase != null)
+		{
+			settingsMission.TrialsDatabase.SetUnlocked(trialsData, true);
+			if (SaveManager.Instance != null)
+				SaveManager.Instance.SaveFile(settingsMission.TrialsDatabase);
+		}
+
+		settingsMission.TrialsData = trialsData.NextTrial;
+		Debug.Log(trialsData.NextTrial);
+		Debug.Log(settingsMission.TrialsData);
+
 		UnityEngine.SceneManagement.SceneManager.LoadScene("TutorialStage2");
 
 	}
