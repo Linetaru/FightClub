@@ -378,9 +378,21 @@ public class PlayerSelectionFrame : MonoBehaviour
     {
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
-
-        currentChoosedCharacter = characterDatas[0];
-        currentColorSkin = Random.Range(0, characterDatas[0].characterMaterials.Count);
+        int random = Random.Range(0, 2);
+        switch (random)
+        {
+            case 0:
+                characterDatas[2] = characterDatas[0];
+                CreateCharacterModel(characterDatas);
+                break;
+            case 1:
+                characterDatas[2] = characterDatas[1];
+                CreateCharacterModel(characterDatas);
+                break;
+        }
+        currentChoosedCharacter = characterDatas[2];
+        
+        currentColorSkin = Random.Range(0, characterDatas[2].characterMaterials.Count);
         currentChoosableSkill = Random.Range(0, choosableSkills.Length);
         ChangeCharacterModelColor(characterDatas);
 
