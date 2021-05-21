@@ -208,9 +208,27 @@ public class PlayerSelectionFrame : MonoBehaviour
         //}
     }
 
+    public void CreateCharacterModelRandom(CharacterData characterDatas)
+    {
+        if (charModel != null)
+            Destroy(charModel.gameObject);
+
+        if (characterDatas != null)
+        {
+            charModel = Instantiate(characterDatas.looserModel, modelParent.transform);
+            //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
+            charModel.SetColor(0, hologramMaterial);
+        }
+    }
+
     public void ChangeCharacterModelColor(CharacterData[] characterDatas)
     {
         charModel.SetColor(0, characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
+    }
+
+    public void ChangeCharacterModelColorRandom(CharacterData characterDatas)
+    {
+        charModel.SetColor(0, characterDatas.characterMaterials[currentColorSkin]);
     }
 
     //public void UpdateCharacterColor(List<Material> characterMaterials)
@@ -379,22 +397,23 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
         int random = Random.Range(0, 2);
+        CharacterData characterDatasRandom = new CharacterData();
         switch (random)
         {
             case 0:
-                characterDatas[2] = characterDatas[0];
-                CreateCharacterModel(characterDatas);
+                characterDatasRandom = characterDatas[0];
+                CreateCharacterModelRandom(characterDatasRandom);
                 break;
             case 1:
-                characterDatas[2] = characterDatas[1];
-                CreateCharacterModel(characterDatas);
+                characterDatasRandom = characterDatas[1];
+                CreateCharacterModelRandom(characterDatasRandom);
                 break;
         }
-        currentChoosedCharacter = characterDatas[2];
+        currentChoosedCharacter = characterDatasRandom;
         
-        currentColorSkin = Random.Range(0, characterDatas[2].characterMaterials.Count);
+        currentColorSkin = Random.Range(0, characterDatasRandom.characterMaterials.Count);
         currentChoosableSkill = Random.Range(0, choosableSkills.Length);
-        ChangeCharacterModelColor(characterDatas);
+        ChangeCharacterModelColorRandom(characterDatasRandom);
 
         isPlayerConnected = true;
         isCharacterChoosed = true;
