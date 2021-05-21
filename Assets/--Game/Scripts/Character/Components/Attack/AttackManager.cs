@@ -5,13 +5,6 @@ using Sirenix.OdinInspector;
 
 public class AttackManager : MonoBehaviour
 {
-    /*[SerializeField]
-    private CharacterState attackState;
-    public CharacterState AttackState
-    {
-        get { return attackState; }
-    }*/
-
 
     [SerializeField]
     private AnimationClip attackAnim;
@@ -21,16 +14,11 @@ public class AttackManager : MonoBehaviour
     }
 
 
-    /*[SerializeField]
-    private BoxCollider hitBox;
-    public BoxCollider HitBox
-    {
-        get { return hitBox; }
-    }*/
+
+
+
 
     [Title("Parameters")]
-    /*[SerializeField]
-    bool activeAtStart = true;*/
     [SerializeField]
     bool linkToCharacter = true;
 
@@ -41,22 +29,23 @@ public class AttackManager : MonoBehaviour
         get { return atkCombo; }
     }
 
+    [SerializeField]
+    private CharacterConditionGameObject attackCondition;
+
+    [SerializeField]
+    private PackageCreator.Event.GameEventCharacters playerHitEvent;
+
     [Title("Multiple Hitbox")]
     [SerializeField]
     [ListDrawerSettings(Expanded = true)]
     private List<AttackSubManager> atkSubs;
 
-
-   /* [Title("Components")]
+    [Title("Animators")]
     [SerializeField]
-    [ListDrawerSettings(Expanded = true)]
-    private List<AttackComponent> atkCompList;*/
-
+    private List<Animator> subAnimators;
 
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
-    //bool firstTime = false;
-
 
 
 
@@ -84,6 +73,13 @@ public class AttackManager : MonoBehaviour
         }
     }*/
 
+    public bool CanUseAttack(CharacterBase character)
+    {
+        if (attackCondition == null)
+            return true;
+        return attackCondition.CheckConditions(character);
+    }
+
     public void CreateAttack(CharacterBase character)
     {
         tag = character.tag;
@@ -96,8 +92,13 @@ public class AttackManager : MonoBehaviour
 
         for (int i = 0; i < atkSubs.Count; i++)
         {
-            atkSubs[i].InitAttack(character);
+            atkSubs[i].InitAttack(character, this.gameObject.name + i);
         }
+
+        /*for (int i = 0; i < atkSubs.Count; i++)
+        {
+            subAnimators[0].Play(attackAnim.name);
+        }*/
     }
 
     public void ActionActive(int subAttack = 0)
@@ -145,6 +146,14 @@ public class AttackManager : MonoBehaviour
         }
     }
     */
+
+    public void SetMotionSpeed(float motionSpeed)
+    {
+        for (int i = 0; i < subAnimators.Count; i++)
+        {
+            subAnimators[i].speed = motionSpeed;
+        }
+    }
 
     public void CancelAction()
     {

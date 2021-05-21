@@ -5,13 +5,11 @@ using Sirenix.OdinInspector;
 
 public class CharacterStateKnockback : CharacterState
 {
-    [SerializeField]
-    CharacterState idleState;
-    [SerializeField]
-    CharacterState landState;
-    [SerializeField]
-    CharacterState aerialState;
 
+    [SerializeField]
+    CharacterState groundTechState;
+    [SerializeField]
+    CharacterState airTechState;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -36,25 +34,58 @@ public class CharacterStateKnockback : CharacterState
     ParticleSystem particleTrail;
 
 
+    [Title("Parameter - Tech")]
+    [SerializeField]
+    float techTime = 10;
+    [SerializeField]
+    float techAntiSpam = 30;
+
+    [Title("Parameter - DI")]
+    [SerializeField]
+    float joystickThreshold = 0.3f;
+    [SerializeField]
+    float DIAngle = 10;
+
+    [Title("Parameter - Actions")]
+    [SerializeField]
+    CharacterAcumods acumods;
+
+    bool inHitStop = true;
+    float tech = 0;
+    float techCooldown = 0;
+
     private void Start()
     {
         landingTime /= 60f;
+        techTime /= 60f;
+        techAntiSpam /= 60f;
     }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
+        inHitStop = true;
         particleTrail.Play();
         character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+
+        character.Rigidbody.SetNewLayerMask(knockbackLayerMask, false, true);
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
 
-        character.Parry.ParryNumber = 0;
+        character.Knockback.Parry.ParryNumber = 0;
+        tech = 0f;
+        techCooldown = 0f;
     }
 
     public override void UpdateState(CharacterBase character)
     {
+        if(inHitStop == true && character.MotionSpeed != 0)
+        {
+            DirectionalInfluence(character);
+            inHitStop = false;
+        }
+
         if (Mathf.Abs(character.Movement.SpeedX) < (collisionFriction * Time.deltaTime * 2))
             character.Movement.SpeedX = 0;
         else
@@ -69,15 +100,20 @@ public class CharacterStateKnockback : CharacterState
         if (character.Knockback.KnockbackDuration <= 0)
         {
             character.ResetToIdle();
-            /*if (character.Rigidbody.IsGrounded)
-            {
-                character.SetState(idleState);
-            }
-            else
-            {
-                character.SetState(aerialState);
-            }*/
         }
+        else if (character.Input.CheckAction(0, InputConst.RightTrigger))
+        {
+            if(techCooldown <= 0)
+                tech = techTime;
+            techCooldown = techAntiSpam;
+        }
+        else if (acumods.Acumod(character))
+        {
+
+        }
+
+        tech -= Time.deltaTime;
+        techCooldown -= Time.deltaTime;
 
     }
 
@@ -85,20 +121,46 @@ public class CharacterStateKnockback : CharacterState
     {
         if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null) && Mathf.Abs(character.Movement.SpeedY) > reboundSpeedNeeded)
         {
-            character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            if (tech >= 0 && character.Movement.SpeedY < 0)
+                character.SetState(groundTechState);
+            else
+                character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
-            /*if (character.Rigidbody.CollisionGroundInfo != null && character.Knockback.KnockbackDuration <= landingTime)
-            {
-                character.SetState(landState);
-            }*/
+
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
+            if (tech >= 0)
+            {
+                character.SetState(airTechState);
+                return;
+            }
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
             //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }
     }
+
+
+    private void DirectionalInfluence(CharacterBase character)
+    {
+        if (Mathf.Abs(character.Input.horizontal) < joystickThreshold && Mathf.Abs(character.Input.vertical) < joystickThreshold)
+            return;
+
+        float power = character.Knockback.GetAngleKnockback().magnitude;
+        Vector2 ejectionAngle = character.Knockback.GetAngleKnockback().normalized;
+        Vector2 input = new Vector2(character.Input.horizontal, character.Input.vertical);
+
+        float influence = Vector2.Dot(input, Vector2.Perpendicular(ejectionAngle));
+
+        Vector2 finalDirection = Quaternion.Euler(0, 0, DIAngle * influence) * ejectionAngle;
+        character.Knockback.Launch(finalDirection.normalized, power);
+
+        character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
+        character.Movement.SpeedX *= character.Movement.Direction;
+        character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+    }
+
 
     public override void EndState(CharacterBase character, CharacterState oldState)
     {

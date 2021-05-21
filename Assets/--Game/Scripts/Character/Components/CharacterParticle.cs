@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterParticle : MonoBehaviour
 {
 	public GameObject jumpParticle;
-	public ParticleSystem startJumpParticle;
 	//public GameObject wParticules;
 	//public GameObject xParticules;
 	//public GameObject cParticules;

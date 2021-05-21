@@ -49,6 +49,7 @@ public class CharacterMovement : MonoBehaviour
     public int JumpNumber
     {
         get { return jumpNumber; }
+        set { jumpNumber = value; }
     }
 
     [SerializeField]
@@ -75,6 +76,7 @@ public class CharacterMovement : MonoBehaviour
     public float MaxAerialSpeed
     {
         get { return maxAerialSpeed; }
+        //set { maxAerialSpeed = value; }
     }
 
 
@@ -123,7 +125,7 @@ public class CharacterMovement : MonoBehaviour
     public int CurrentNumberOfJump
     {
         get { return currentNumberOfJump; }
-        set { currentNumberOfJump = value; }
+        set { currentNumberOfJump = Mathf.Clamp(value, 0, JumpNumber); }
     }
 
 
@@ -161,7 +163,11 @@ public class CharacterMovement : MonoBehaviour
         timeAcceleration = 0;
         timeDecceleration = 0;
     }
-
+    public void MaxAcceleration()
+    {
+        timeAcceleration = 1;
+        timeDecceleration = 0;
+    }
 
 
 

@@ -44,6 +44,7 @@ namespace Menu
 
 		int winnerID = -1;
 		List<MenuWinResultDrawer> listResultDrawers;
+		List<int> listPlayerControllerID;
 		List<int> listPlayerChoice; // Choix de surrend ou rematch
 
 
@@ -54,17 +55,24 @@ namespace Menu
 
 			listResultDrawers = new List<MenuWinResultDrawer>(charactersPodium.Count);
 			listPlayerChoice = new List<int>(charactersPodium.Count);
-
+			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
 			// On instancie le winner
 			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 			listPlayerChoice.Add(0);
+			listPlayerControllerID.Add(charactersPodium[0].ControllerID);
 
 			int winnerID = charactersPodium[0].PlayerID;
 			VictoryScreen victoryScreen = Instantiate(gameData.CharacterInfos[winnerID].CharacterData.victoryScreen, winnerPosition);
 			victoryScreen.characterModel.SetColor(winnerID, gameData.CharacterInfos[winnerID].CharacterData.characterMaterials[gameData.CharacterInfos[winnerID].CharacterColorID]);
 			victoryScreen.circularReference = this;
 
+			CharacterBattleData characterBattleData = charactersPodium[0].GetComponentInChildren<CharacterBattleData>();
+			listResultDrawers[0].DrawParry(characterBattleData.NbOfParry);
+			listResultDrawers[0].DrawResult(1, charactersPodium[0].PlayerID+1);
+			listResultDrawers[0].DrawKilled(characterBattleData.Killed);
+			listResultDrawers[0].DrawKiller(characterBattleData.Killer);
+			listResultDrawers[0].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
@@ -72,11 +80,20 @@ namespace Menu
 
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 				listPlayerChoice.Add(0);
+				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
-				// Aled
 				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
 				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
 				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
+
+
+				// Pardon
+				characterBattleData = charactersPodium[i].GetComponentInChildren<CharacterBattleData>();
+				listResultDrawers[i].DrawParry(characterBattleData.NbOfParry);
+				listResultDrawers[i].DrawResult(i+1, charactersPodium[i].PlayerID+1);
+				listResultDrawers[i].DrawKilled(characterBattleData.Killed);
+				listResultDrawers[i].DrawKiller(characterBattleData.Killer);
+				listResultDrawers[i].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 			}
 		}
 
@@ -85,17 +102,19 @@ namespace Menu
 		public void SetStateResult()
 		{
 			stateResult = StateResult.Result;
-			for (int i = 0; i < listResultDrawers.Count; i++)
+			/*for (int i = 0; i < listResultDrawers.Count; i++)
 			{
 				listResultDrawers[i].DrawResult(i+1, i+1);
-			}
+			}*/
 		}
 
-
+		// Update
 		public void UpdateControl(int id, Input_Info input)
 		{
+
 			if (stateResult == StateResult.EndTransition)
 				return;
+
 			if (stateResult == StateResult.Skip)
 				UpdateControlSkip(id, input);
 			else
@@ -113,6 +132,15 @@ namespace Menu
 
 		private void UpdateControlResult(int id, Input_Info input)
 		{
+			for (int i = 0; i < listPlayerControllerID.Count; i++)
+			{
+				if (listPlayerControllerID[i] == id)
+				{
+					id = i;
+					break;
+				}
+			}
+
 			if (listPlayerChoice.Count <= id)
 				return;
 

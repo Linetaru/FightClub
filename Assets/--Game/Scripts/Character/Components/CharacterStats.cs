@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class CharacterStats : MonoBehaviour
+
+
+public class CharacterStats : MonoBehaviour, IStats
 {
     public CharacterBase userBase;
 
@@ -35,7 +37,6 @@ public class CharacterStats : MonoBehaviour
     }
 
     [SerializeField]
-    [ReadOnly]
     private int lifeStocks;
     public int LifeStocks
     {
@@ -64,6 +65,33 @@ public class CharacterStats : MonoBehaviour
         set { killNumber = value; }
     }
 
+
+    [Title("Attack Stats")]
+    [SerializeField]
+    private Stats attackMultiplier;
+    public Stats AttackMultiplier
+    {
+        get { return attackMultiplier; }
+        set { attackMultiplier = value; }
+    }
+
+    [SerializeField]
+    private Stats defenseMultiplier;
+    public Stats DefenseMultiplier
+    {
+        get { return defenseMultiplier; }
+        set { defenseMultiplier = value; }
+    }
+
+    [SerializeField]
+    private Stats weight;
+    public Stats Weight
+    {
+        get { return weight; }
+        set { weight = value; }
+    }
+
+
     [Title("Movement Stats")]
     [SerializeField]
     private Stats speed;
@@ -73,7 +101,23 @@ public class CharacterStats : MonoBehaviour
         set { speed = value; }
     }
 
-//=======================================================================================
+    [SerializeField]
+    private Stats aerialSpeed;
+    public Stats AerialSpeed
+    {
+        get { return aerialSpeed; }
+        set { aerialSpeed = value; }
+    }
+
+    [SerializeField]
+    private Stats jump;
+    public Stats Jump
+    {
+        get { return jump; }
+        set { jump = value; }
+    }
+
+    //=======================================================================================
 
     public void InitStats()
     {
@@ -82,13 +126,22 @@ public class CharacterStats : MonoBehaviour
             LifeStocks = GameData.NumberOfLifes;
         LifePercentage = 0;
         Death = false;
+
+        AttackMultiplier.InitStats(1);
+        DefenseMultiplier.InitStats(1);
+
         Speed.InitStats(userBase.Movement.SpeedMax);
+        AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
+
+        Jump.InitStats(userBase.Movement.JumpNumber);
+        Weight.InitStats(userBase.Knockback.Weight);
+
     }
 
     public void ChangeSpeed(float newValue)
     {
-        Speed.IncrementBonusStat(newValue);
-        userBase.Movement.SpeedMax = Speed.valueStat;
+        Speed.IncrementFlatBonusStat(newValue);
+        userBase.Movement.SpeedMax = Speed.Value;
     }
 
     public void TakeDamage(float damage)
@@ -107,4 +160,45 @@ public class CharacterStats : MonoBehaviour
         if (gameEvent != null)
             gameEvent.Raise(LifePercentage);
     }
+
+
+    public Stats GetStat(MainStat mainStat)
+    {
+        switch (mainStat)
+        {
+            case MainStat.AttackMultiplier:
+                return AttackMultiplier;
+            case MainStat.DefenseMultiplier:
+                return DefenseMultiplier;
+            case MainStat.Speed:
+                return Speed;
+            case MainStat.AerialSpeed:
+                return AerialSpeed;
+            case MainStat.NbJump:
+                return Jump;
+            case MainStat.Weight:
+                return Weight;
+        }
+        return null;
+    }
+    public void ApplyStatModifs(MainStat mainStat)
+    {
+        switch(mainStat)
+        {
+            case MainStat.Speed:
+                userBase.Movement.SpeedMax = Speed.Value;
+                break;
+            case MainStat.AerialSpeed:
+                //userBase.Movement.MaxAerialSpeed = AerialSpeed.Value;
+                break;
+            case MainStat.NbJump:
+                userBase.Movement.JumpNumber = (int)Jump.Value;
+                userBase.Movement.CurrentNumberOfJump = 0;
+                break;
+            case MainStat.Weight:
+                userBase.Knockback.Weight = Weight.Value;
+                break;
+        }
+    }
+
 }

@@ -37,21 +37,10 @@ public class CharacterStateWallRun : CharacterState
     [SerializeField]
     LayerMask wallLayer;
 
-    // Start is called before the first frame update
-    /*void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }*/
 
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
-
         character.Movement.Direction = (int)Mathf.Sign(character.Movement.SpeedX * character.Movement.Direction);
 
         wallrunSpeed = Mathf.Clamp(character.Movement.SpeedX, wallrunSpeedMin, wallrunSpeedMax);
@@ -77,33 +66,25 @@ public class CharacterStateWallRun : CharacterState
         else
         {
             character.Movement.SpeedY = wallrunSpeedMin;
-            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction) //|| character.Input.vertical < -joystickDeadzone)
+            if (Mathf.Abs(character.Input.horizontal) > joystickDeadzone && Mathf.Sign(character.Input.horizontal) != character.Movement.Direction)
             {
                 character.SetState(aerialState);
-                //character.Input.inputActions[0].timeValue = 0;
             }
         }
 
         if (character.Input.inputActions.Count != 0 && wallCollision)
         {
-            if (character.Input.inputActions[0].action == InputConst.Jump)
+            if (character.Input.inputActions[0].action == InputConst.Jump || character.Input.CheckAction(0, InputConst.Smash))
             {
                 character.Movement.Direction *= -1;
 
-                /*if (character.Movement.SpeedY > 0)
-                    character.Movement.SpeedX = wallJumpSpeedX + character.Movement.SpeedY;
-                else*/
                 character.Movement.SpeedX = wallJumpSpeedX;
 
                 wallCollision = false;
 
-                character.Movement.Jump(); 
-                ParticleSystem particle = Instantiate(character.Particle.startJumpParticle, this.transform.position, Quaternion.Euler(0, 0, Mathf.Atan2(character.Movement.SpeedX * character.Movement.Direction, character.Movement.SpeedY) * Mathf.Rad2Deg));
-                Destroy(particle.gameObject, 0.5f);
-                character.PowerGauge.AddPower(character.PowerGauge.powerGivenOnWallJump);
+                character.Movement.Jump();
 
                 //Play Walljump animation
-
                 character.SetState(aerialState);
                 character.Input.inputActions[0].timeValue = 0;
             }

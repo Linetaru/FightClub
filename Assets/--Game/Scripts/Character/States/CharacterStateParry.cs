@@ -7,42 +7,68 @@ public class CharacterStateParry : CharacterState
 	float timeState = 0f;
 	float timeParry = 0f;
 
-
+	[SerializeField]
+	float timeInParry = 10;
+	[SerializeField]
+	float timeInGuard = 20;
 
 	[SerializeField]
 	GameObject debug;
 
+
+	float t = 0f;
+	bool flash = false;
+	bool spamParry = false;
+
+	private void Start()
+	{
+		timeInParry /= 60f;
+		timeInGuard /= 60f;
+
+	}
+
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		character.Movement.SpeedX = 0;
-		character.Movement.SpeedY = 0;// character.Movement.SpeedY * 0.1f;
-		//character.Movement.SpeedX = 0;
-		character.Parry.IsParry = true;
-		timeState = character.Parry.TimingParry[0] / 60f;
-		timeParry = character.Parry.TimingParry[character.Parry.ParryNumber] / 60f;
+		character.Knockback.Parry.IsParry = true;
 
-		/*character.Parry.ParryNumber += 1;
-		if (character.Parry.ParryNumber >= character.Parry.TimingParry.Length)
-			character.Parry.ParryNumber = 0;*/
+		t = 0f;
+		flash = false;
 
-		debug.SetActive(true);
+		if (Mathf.Abs(character.Input.horizontal) < 0.3f && Mathf.Abs(character.Input.vertical) < 0.3f)
+			character.Knockback.Parry.ParryDirection = new Vector2(character.Movement.Direction, 0);
+		else
+			character.Knockback.Parry.ParryDirection = new Vector2(character.Input.horizontal, character.Input.vertical);
+
+		if (character.Knockback.Parry.ParryAngle < 360)
+		{
+			debug.SetActive(true);
+			debug.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(new Vector2(character.Knockback.Parry.ParryDirection.x, -character.Knockback.Parry.ParryDirection.y), Vector2.up) + 180f);
+		}
+		if (spamParry == false)
+		{
+			character.Model.FlashModel(Color.white, timeInParry);
+			character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
+		}
+		else
+		{
+			t = timeInParry;
+		}
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
-		//character.Movement.ApplyGravity(0.1f);
-		timeState -= Time.deltaTime * character.MotionSpeed;
-		timeParry -= Time.deltaTime * character.MotionSpeed;
+		character.Movement.SpeedX = character.Movement.SpeedX * 0.9f;
+		character.Movement.ApplyGravity(0.05f);
+		t += Time.deltaTime * character.MotionSpeed;
 
-		if (timeParry <= 0)
+		if (t >= timeInParry && t <= timeInParry + timeInGuard)
 		{
-			character.Parry.IsParry = false;
-			debug.SetActive(false);
+			character.Knockback.Parry.IsParry = false;
+			character.Knockback.Parry.IsGuard = true;
 		}
-		if (timeState <= 0)
+		else if (t >= timeInParry + timeInGuard)
 		{
-			/*character.Parry.ParryNumber -= 1;
-			character.Parry.ParryNumber = Mathf.Max(character.Parry.ParryNumber, 0);*/
+			StartCoroutine(PreventSpamParry());
 			character.ResetToIdle();
 		}
 
@@ -55,7 +81,18 @@ public class CharacterStateParry : CharacterState
 
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
-		character.Parry.IsParry = false;
-		debug.SetActive(false);
+		character.Knockback.Parry.IsParry = false;
+		character.Knockback.Parry.IsGuard = false;
+		if (character.Knockback.Parry.ParryAngle < 360)
+		{
+			debug.SetActive(false);
+		}
+	}
+
+	private IEnumerator PreventSpamParry()
+	{
+		spamParry = true;
+		yield return new WaitForSeconds(0.2f);
+		spamParry = false;
 	}
 }

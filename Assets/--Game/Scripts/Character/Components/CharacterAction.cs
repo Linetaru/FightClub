@@ -27,9 +27,15 @@ public class CharacterAction : MonoBehaviour
     protected CharacterBase character;
     protected AttackManager attackID; // Les combo/target combo partage le meme attackID
     protected AttackManager currentAttackManager;
+    public AttackManager CurrentAttackManager
+    {
+        get { return currentAttackManager; }
+    }
 
     [SerializeField]
     Animator animator;
+
+    public EventAttackManager OnAttack;
 
     // à virer 
     public Animator Animator
@@ -44,10 +50,16 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    private bool CanAct()
+
+    // A patcher pour prendre en compte les attack conditions
+    public bool CanAct()
     {
         if (currentAttackManager != null && canMoveCancel == false)
             return false;
+        if (currentAttackManager != null && canMoveCancel == true && characterHit == null)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -75,6 +87,8 @@ public class CharacterAction : MonoBehaviour
     {
         if (CanAct() == false)
             return false;
+        if (attack.CanUseAttack(character) == false)
+            return false;
 
         endAction = false;
         canEndAction = false;
@@ -86,7 +100,6 @@ public class CharacterAction : MonoBehaviour
         attackID = attack;
 
         // Animation de l'attaque
-        //animator.ResetTrigger("Idle");
         animator.Play(attackToInstantiate.AttackAnim.name, 0, 0f);
 
         // On créer l'attaque et ça setup différent paramètres
@@ -95,14 +108,14 @@ public class CharacterAction : MonoBehaviour
         currentAttackManager = Instantiate(attackToInstantiate, this.transform.position, Quaternion.identity);
         currentAttackManager.CreateAttack(character);
 
-        //character.SetState(stateAction);
+        OnAttack?.Invoke(currentAttackManager);
+
         return true;
     }
 
 
-    /// <summary>
-    /// Cancel l'action mais ne reset pas le state
-    /// </summary>
+
+    // Cancel l'action mais ne reset pas le state
     public void CancelAction()
     {
         if (currentAttackManager != null)
@@ -116,9 +129,8 @@ public class CharacterAction : MonoBehaviour
     }
 
 
-    /// <summary>
+
     // Termine l'action et retourne en état idle
-    /// </summary>
     public void FinishAction()
     {
         CancelAction();
@@ -228,6 +240,8 @@ public class CharacterAction : MonoBehaviour
     public void SetAttackMotionSpeed(float newValue)
     {
         animator.speed = newValue;
+        if(currentAttackManager != null)
+            currentAttackManager.SetMotionSpeed(newValue);
     }
 
 }

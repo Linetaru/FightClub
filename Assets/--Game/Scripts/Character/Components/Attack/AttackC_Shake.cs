@@ -22,8 +22,20 @@ public class AttackC_Shake : AttackComponent
     public override void OnHit(CharacterBase user, CharacterBase target)
     {
         target.Knockback.ShakeEffect.Shake(shakePower, shakeTime);
+        target.Model.FlashModel(new Color(1, 1, 1, 0.4f), shakeTime);
     }
+    public override void OnParry(CharacterBase user, CharacterBase target)
+    {
 
+    }
+    public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+    {
+
+    }
+    public override void OnClash(CharacterBase user, CharacterBase target)
+    {
+
+    }
     public override void EndComponent(CharacterBase user)
     {
 

@@ -9,27 +9,27 @@ public class BattleManager : MonoBehaviour
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
+	public Color[] teamTextColors;
+
+	[Title("Game Mode Managers")]
+	public GameObject BombModeManager;
+	public FlappyModeManager FlappyModeManager;
 
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
 
 	[Title("Interractions")]
 	public InputController inputController;
-
 	public CameraZoomController cameraController;
 
 	[Title("Composants")]
 	public GameObject[] spawningPoint;
-
 	public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
 	[Title("Players List")]
 	public List<CharacterBase> characterAlive;
-
 	public List<CharacterBase> characterFullDead;
 
-	//public List<GameObject> canvasPanelPlayer;
-	//public List<TextMeshProUGUI> canvasPercentPlayer;
 
 	[Title("Victory")]
 	[SerializeField]
@@ -39,16 +39,35 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
+	Input_Info input;
+	List<IControllable> standbyList = new List<IControllable>();
+
 	// Start is called before the first frame update
 	void Start()
 	{
+		standbyList = new List<IControllable>();
+		input = new Input_Info();
+
 		SpawnPlayer();
+		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+		{
+			GameObject go = Instantiate(BombModeManager, transform.parent);
+			go.GetComponent<StickyBombManager>().BattleManager = this;
+		}
+		else if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		{
+			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
+			go.BattleManager = this;
+		}
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		//isFinish();
+		for (int i = 0; i < standbyList.Count; i++)
+		{
+			standbyList[i].UpdateControl(0, input);
+		}
 	}
 
 	public void SpawnPlayer()
@@ -60,11 +79,19 @@ public class BattleManager : MonoBehaviour
 			go.tag = "Player" + (i + 1);
 			CharacterBase user = go.GetComponent<CharacterBase>();
 			user.Model.tag = "Player" + (i + 1);
-			inputController.controllable[i] = user;
+
+			//inputController.controllable[i] = user;
+			inputController.controllable[gameData.CharacterInfos[i].ControllerID] = user;
+
+			user.TeamID = gameData.CharacterInfos[i].Team;
+
 			characterAlive.Add(user);
 
 			user.PlayerID = i;
+			user.ControllerID = gameData.CharacterInfos[i].ControllerID;
 			user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
+			user.Model.SetTextColor(teamTextColors[(int) gameData.CharacterInfos[i].Team]);
+			user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
 
 			user.Stats.GameData = gameData;
 			user.Stats.gameEvent = gameEventUICharacter[i];
@@ -78,7 +105,7 @@ public class BattleManager : MonoBehaviour
 			if (uiEvent != null)
 				uiEvent.Raise(user);
 
-			cameraController.targets.Add(go.transform);
+			cameraController.targets.Add(new TargetsCamera(go.transform, 0));
 		}
 		isGameStarted = true;
 	}
@@ -119,13 +146,30 @@ public class BattleManager : MonoBehaviour
 		{
 			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
 
+			if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+            {
+				foreach(SpawnerObstacle spO in FlappyModeManager.spawnerObstacles)
+                {
+					if(spO.pipes.Count != 0)
+						foreach(GameObject go in spO.pipes)
+						{
+							if(go != null)
+							{
+								Destroy(go);
+							}
+						}
+
+					spO.enabled = false;
+				}
+            }
+
 			StartCoroutine(EndBattleCoroutine());
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
         }
     }
 
 
-	private IEnumerator EndBattleCoroutine()
+	protected IEnumerator EndBattleCoroutine()
 	{
 		Time.timeScale = 0.2f;
 		yield return new WaitForSecondsRealtime(2f);
@@ -145,5 +189,40 @@ public class BattleManager : MonoBehaviour
 		}
 		characterFullDead.Reverse();
 		menuWin.InitializeWin(characterFullDead);
+	}
+
+
+
+	// JSP si là c'est le mieux
+	public void SetMenuControllable(IControllable controllable)
+	{
+		for (int i = 0; i < inputController.controllable.Length; i++)
+		{
+			if (inputController.controllable[i] != null)
+			{
+				standbyList.Add(inputController.controllable[i]);
+			}
+			inputController.controllable[i] = controllable;
+		}
+		// Enlevé les IA
+	}
+
+	public void SetBattleControllable()
+	{
+		standbyList.Clear();
+		for (int i = 0; i < inputController.controllable.Length; i++)
+		{
+			inputController.controllable[i] = null;
+		}
+
+
+		for (int i = 0; i < characterAlive.Count; i++)
+		{
+			inputController.controllable[characterAlive[i].ControllerID] = characterAlive[i];
+		}
+		for (int i = 0; i < characterFullDead.Count; i++)
+		{
+			inputController.controllable[characterFullDead[i].ControllerID] = characterFullDead[i];
+		}
 	}
 }

@@ -41,21 +41,7 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     float timeDecceleration = 10f;
 
-    /*
-    [SerializeField]
-    bool accelerate = false;
 
-    [HorizontalGroup("Acceleration")]
-    [ShowIf("accelerate")]
-    [SerializeField]
-    [HideLabel]
-    AnimationCurve AccelerationCurve;
-
-    [HorizontalGroup("Acceleration", LabelWidth = 120)]
-    [ShowIf("accelerate")]
-    [SuffixLabel("en frames")]
-    [SerializeField]
-    float timeAcceleration = 10f;*/
 
 
     [Title("Movement Y")]
@@ -88,6 +74,8 @@ public class AttackC_CharaMovement : AttackComponent
 
     float timer = 0;
     float initialSpeedX = 0;
+
+    bool groundCancelNextFrame = false;
 
 
     public override void StartComponent(CharacterBase user)
@@ -136,16 +124,24 @@ public class AttackC_CharaMovement : AttackComponent
         if (canAirControl == true)
             user.Movement.AirControl(user.Input.horizontal);
 
+
+
+        if(groundCancelNextFrame == true)
+        {
+            user.Action.CancelAction();
+            user.ResetToLand();
+        }
+
         if (groundCancel == true && user.Rigidbody.CollisionGroundInfo != null)
         {
-            if(groundEndLag != null)
+            if (groundEndLag != null)
             {
                 user.Action.CancelAction();
                 user.Action.Action(groundEndLag);
             }
             else
             {
-                user.Action.EndAction();
+                groundCancelNextFrame = true;
             }
         }
 
@@ -153,6 +149,19 @@ public class AttackC_CharaMovement : AttackComponent
 
 
     public override void OnHit(CharacterBase user, CharacterBase target)
+    {
+
+    }
+
+    public override void OnParry(CharacterBase user, CharacterBase target)
+    {
+
+    }
+    public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+    {
+
+    }
+    public override void OnClash(CharacterBase user, CharacterBase target)
     {
 
     }

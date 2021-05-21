@@ -44,11 +44,13 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	AttackManager forwardSpecial;
 	[SerializeField]
-	AttackManager simpleSpecial;
+	AttackManager neutralSpecial;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
 	AttackManager signatureMove;
+
+
 
 	[Title("States")]
 	[SerializeField]
@@ -62,9 +64,12 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ActionAttack(CharacterBase character)
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
-		{
-			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 100)
+		{
+
+			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
+				if (signatureMove == null)
+					return false;
 				if (character.Action.Action(signatureMove) == true)
 				{
 					character.PowerGauge.CurrentPower = 0;
@@ -72,158 +77,109 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downTilt) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
 			}
+
+			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
+				return ActionAttack(character, downTilt);
+
+
 			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upTilt) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Attack) 
+				return ActionAttack(character, upTilt);
+
+
+			else if (character.Input.CheckAction(0, InputConst.Attack) 
 				&& (character.Movement.SpeedX < -(fractionOfSpeedMaxToDash * character.Movement.SpeedMax) || character.Movement.SpeedX > (fractionOfSpeedMaxToDash * character.Movement.SpeedMax)))
 			{
-				if (character.Action.Action(dashAttack) == true)
-				{
-					Debug.Log("Dash attack");
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
+				return ActionAttack(character, dashAttack);
             }
 			else if (character.Input.CheckAction(0, InputConst.Attack))
 			{
-				if (character.Action.Action(jab) == true)
+				if (character.Action.CanAct()) // A patcher pour prendre en compte les attack conditions
 				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
+					if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+						character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+					return ActionAttack(character, jab);
 				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upSpecial) == true)
-                {
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
-			{
-				if (character.Action.Action(forwardSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special))
-			{
-				if (character.Action.Action(simpleSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
 			}
+
+
+			return ActionSpecial(character);
 		}
 		else // Attaque dans les airs
 		{
 			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upAir) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
+				return ActionAttack(character, upAir);
+
+
 			else if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downAir) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
+				return ActionAttack(character, downAir);
+
+
 			else if (character.Input.CheckAction(0, InputConst.Attack) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
 			{
-				if (character.Action.Action(forwardAir) == true)
+				if (character.Action.CanAct()) // C'est redondant mais bon 
 				{
+					if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal))
+						character.Movement.SpeedX *= -1;
 					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
+					return ActionAttack(character, forwardAir);
 				}
 			}
+
+
 			else if (character.Input.CheckAction(0, InputConst.Attack))
+				return ActionAttack(character, neutralAir);
+
+			return ActionSpecial(character);
+		}
+
+		return false;
+	}
+
+
+	public bool ActionAttack(CharacterBase character, AttackManager attack)
+	{
+		if (attack == null)
+			return false;
+		if (character.Action.Action(attack) == true)
+		{
+			character.SetState(stateAction);
+			if(character.Input.inputActions.Count != 0)
+				character.Input.inputActions[0].timeValue = 0;
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+	public bool ActionSpecial(CharacterBase character)
+	{
+		if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+			return ActionAttack(character, upSpecial);
+
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			return ActionAttack(character, downSpecial);
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
+		{
+			if (character.Action.CanAct())
 			{
-				if (character.Action.Action(neutralAir) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
-			{
-				if (character.Action.Action(upSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
-			{
-				if (character.Action.Action(downSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
-			{
-				if (character.Action.Action(forwardSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
-			}
-			else if (character.Input.CheckAction(0, InputConst.Special))
-			{
-				if (character.Action.Action(simpleSpecial) == true)
-				{
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
-				}
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
+			if (character.Action.Action(forwardSpecial) == true)
+			{
+				character.SetState(stateAction);
+				character.Input.inputActions[0].timeValue = 0;
+				return true;
 			}
 		}
+		else if (character.Input.CheckAction(0, InputConst.Special))
+			return ActionAttack(character, neutralSpecial);
+
 
 		return false;
 	}

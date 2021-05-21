@@ -129,13 +129,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b157a57a37c9d4d43aeddcf369f8e116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleState: {fileID: 3108033801216834096}
-  aerialState: {fileID: 3108033800291188821}
+  groundTechState: {fileID: 0}
+  airTechState: {fileID: 0}
   collisionFriction: 0.8
   reboundReduction: 0.75
+  reboundSpeedNeeded: 2
+  landingTime: 10
   knockbackLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  particleTrail: {fileID: 0}
+  techTime: 10
+  techAntiSpam: 30
+  joystickThreshold: 0.3
+  DIAngle: 10
+  acumods: {fileID: 0}
 --- !u!135 &3108033799647418925
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -213,8 +221,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   timeDeccelerationMax: 1
   jumpForce: 10
+  jumpNumber: 0
   gravity: 30
   gravityMax: -10
+  airControl: 20
+  airFriction: 0.9
+  maxAerialSpeed: 10
   direction: 1
   speedX: 0
   speedY: 0
@@ -245,9 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3108033800274683738}
-  stateAction: {fileID: 3803026217766530276}
-  stateIdle: {fileID: 3108033801216834096}
-  stateAerial: {fileID: 0}
 --- !u!114 &6367033036557897340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3108033801048430978}
-  stateKnockback: {fileID: 3682173233245735967}
 --- !u!136 &3108033799778434511
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -419,6 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 3108033801216834096}
   timeTurnAround: 0.05
+  stickWalkThreshold: 0.3
+  timeForDash: 3
 --- !u!1 &3108033800188005551
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,9 +492,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterBase: {fileID: 3108033801048430978}
+  animatorPivot: {fileID: 0}
   animator: {fileID: 3108033800274683738}
-  movement: {fileID: 636584863381703042}
-  speedDelta: 35
+  animationParry: {fileID: 0}
+  animationParryAerial: {fileID: 0}
+  animationAcumod: {fileID: 0}
 --- !u!114 &629662718669683265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,10 +509,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a85501734eef941810c3e57edd8a88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeEffect: {fileID: 1139850951628235326}
+  stateKnockback: {fileID: 0}
+  parry: {fileID: 0}
   weight: 1
   timeKnockbackPerDistance: 0
-  damagePercentageRatio: 150
+  maxTimeKnockback: 1.5
+  shakeEffect: {fileID: 1139850951628235326}
 --- !u!114 &1788721786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,12 +527,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299299a68d31dd84690cba60557c872e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userBase: {fileID: 0}
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
   gameEvent: {fileID: 0}
   lifePercentage: 0
   lifeStocks: 0
   death: 0
   killNumber: 0
+  attackMultiplier:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  defenseMultiplier:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  weight:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  speed:
+    baseStat: 0
+    multiplierValue: 1
+    incrementValue: 0
+    valueStat: 0
+  aerialSpeed:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  jump:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
 --- !u!114 &1788721788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,14 +622,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleState: {fileID: 3108033801216834096}
   wallRunState: {fileID: 3108033799377190874}
-  minimalSpeedToWallRun: -2
-  numberOfAerialJump: 1
-  currentNumberOfAerialJump: 1
-  jumpForce: 10
-  airControl: 1
-  airFriction: 0.95
-  maxAerialSpeed: 10
-  attack: {fileID: 0}
+  wallRunLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  characterMoveset: {fileID: 0}
+  evasiveMoveset: {fileID: 0}
+  acumods: {fileID: 0}
   doubleJumpParticle: {fileID: 0}
 --- !u!1 &3108033800395437829
 GameObject:
@@ -921,13 +964,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 3108033801216834096}
+  idleState: {fileID: 0}
+  aerialState: {fileID: 0}
+  landingState: {fileID: 0}
+  centerPoint: {fileID: 0}
+  centerPivot: {fileID: 0}
+  model: {fileID: 0}
   rigidbody: {fileID: 3108033801048431007}
   movement: {fileID: 636584863381703042}
   action: {fileID: 3803026218908425775}
   knockback: {fileID: 629662718669683265}
+  status: {fileID: 0}
   stats: {fileID: 1788721786}
-  ui: {fileID: 0}
   particle: {fileID: 1788721788}
+  powerGauge: {fileID: 0}
+  projectile: {fileID: 0}
+  characterIcon: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &3108033801048431004
 BoxCollider:
@@ -955,10 +1007,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterCollider: {fileID: 3108033801048431004}
+  weight: 62
   collision: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 33792
+  aerialLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -967,6 +1023,7 @@ MonoBehaviour:
   numberRaycastVertical: 2
   numberRaycastHorizontal: 2
   maxSlopeAngle: 80
+  edgeDetection: 0.2
 --- !u!1 &3108033801216834099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,23 +1067,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b653ee969f02533478e1de64e5a203bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashState: {fileID: 0}
   aerialState: {fileID: 3108033800291188821}
   wallRunState: {fileID: 3108033799377190874}
   jumpStartState: {fileID: 0}
   turnAroundState: {fileID: 3108033799759946716}
-  smashPressedState: {fileID: 0}
   stickWalkThreshold: 0.3
   stickRunThreshold: 0.7
+  timeForDash: 3
   speedMultiplierWalk: 0.1
-  speedRequiredForWallRun: 8
-  platformLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   goThroughGroundMask:
     serializedVersion: 2
     m_Bits: 0
-  attackKick: {fileID: 4877326219920859224, guid: 1999f051021fae841bf15fbefdf4e2a1, type: 3}
-  canWallRun: 1
+  moveset: {fileID: 0}
+  evasiveMoveset: {fileID: 0}
+  acumods: {fileID: 0}
 --- !u!1 &3803026217766530277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e484f6574b64634e82d962929d89ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackKick: {fileID: 4877326219920859224, guid: 1999f051021fae841bf15fbefdf4e2a1, type: 3}
+  characterMoveset: {fileID: 0}
 --- !u!135 &3108033800572283391
 SphereCollider:
   m_ObjectHideFlags: 0
