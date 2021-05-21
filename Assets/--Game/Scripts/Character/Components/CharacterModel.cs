@@ -67,6 +67,8 @@ public class CharacterModel : MonoBehaviour
 
 	private IEnumerator FlashCoroutine(Color flashColor, float time)
 	{
+		if (skinnedMeshRenderers[0].materials.Length < 2)
+			yield break;
 		float t = 0f;
 		Color c = new Color(flashColor.r, flashColor.g, flashColor.b, 1);
 		Color transparent = new Color(flashColor.r, flashColor.g, flashColor.b, 0);

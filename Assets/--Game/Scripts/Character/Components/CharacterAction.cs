@@ -240,6 +240,8 @@ public class CharacterAction : MonoBehaviour
     public void SetAttackMotionSpeed(float newValue)
     {
         animator.speed = newValue;
+        if(currentAttackManager != null)
+            currentAttackManager.SetMotionSpeed(newValue);
     }
 
 }

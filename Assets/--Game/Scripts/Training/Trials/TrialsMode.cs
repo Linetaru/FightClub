@@ -8,9 +8,9 @@ public class TrialsMode : MonoBehaviour
 
 	[Title("Data")]
 	[SerializeField]
+	GameModeSettingsMission settingsMission;
+
 	TrialsModeData trialsData;
-
-
 
 	[Title("Logic")]
 	[SerializeField]
@@ -54,6 +54,7 @@ public class TrialsMode : MonoBehaviour
 
 	private void Awake()
 	{
+		trialsData = settingsMission.TrialsData;
 		textbox.OnTextEnd += NextText;
 	}
 
@@ -353,7 +354,15 @@ public class TrialsMode : MonoBehaviour
 
 	public void EndTrial()
 	{
-		if(trialsData.NextTrial != null)
+		// normalement c'est uniquement null si on spawn direct sur la scene trials Mode
+		if (settingsMission.TrialsDatabase != null)
+		{
+			settingsMission.TrialsDatabase.SetUnlocked(trialsData, true);
+			if (SaveManager.Instance != null)
+				SaveManager.Instance.SaveFile(settingsMission.TrialsDatabase);
+		}
+
+		if (trialsData.NextTrial != null)
 		{
 			animatorSuccess.gameObject.SetActive(false);
 			animatorRespawn.SetTrigger("Feedback");

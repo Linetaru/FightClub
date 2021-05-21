@@ -8,13 +8,21 @@ namespace Menu
 {
     public class MenuList : MonoBehaviour, IControllable
     {
-        [SerializeField]
+		[SerializeField]
+		protected bool initializeOnStart = true;
+		[SerializeField]
         protected MenuButtonListController listEntry;
 
 		public event Event OnStart;
 		public event EventInt OnSelected;
 		public event EventInt OnValidate;
 		public event Event OnEnd;
+
+		private void Start()
+		{
+			if(initializeOnStart == true)
+				InitializeMenu();
+		}
 
 
 
@@ -29,14 +37,14 @@ namespace Menu
 				input.inputUiAction = null;
 				ValidateEntry(listEntry.IndexSelection);
 			}
-			else if (input.CheckAction(id, InputConst.Return) == true)
+			else if (input.inputUiAction == InputConst.Return)
 			{
 				QuitMenu();
 			}
 		}
 
 
-		protected virtual void InitializeMenu()
+		public virtual void InitializeMenu()
 		{
 			OnStart?.Invoke();
 		}

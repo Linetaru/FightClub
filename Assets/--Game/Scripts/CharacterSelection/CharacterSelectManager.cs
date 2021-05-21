@@ -43,10 +43,15 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private bool isStarted = false;
 
+    [Scene]
     public string beforeMenuSceneName;
+    [Scene]
     public string afterMenuSceneNameClassicMode;
+    [Scene]
     public string afterMenuSceneNameBombMode;
+    [Scene]
     public string afterMenuSceneNameVolleyMode;
+    [Scene]
     public string afterMenuSceneNameFlappyMode;
 
     public void UpdateControl(int ID, Input_Info input_Info)
@@ -304,7 +309,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        if(gameData.GameMode == GameModeStateEnum.Classic_Mode)
+        if(gameData.GameMode == GameModeStateEnum.Classic_Mode || gameData.GameMode == GameModeStateEnum.Training)
             SceneManager.LoadScene(afterMenuSceneNameClassicMode);
         else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
             SceneManager.LoadScene(afterMenuSceneNameBombMode);
@@ -312,7 +317,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
         else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
             SceneManager.LoadScene(afterMenuSceneNameFlappyMode);
-
     }
 
     void ReturnToMainMenu()

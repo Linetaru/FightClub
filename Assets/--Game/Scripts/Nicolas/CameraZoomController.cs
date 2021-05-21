@@ -214,6 +214,7 @@ public class CameraZoomController : MonoBehaviour
 
     [Title("Object Reference")]
     public BoxCollider focusLevel;
+    //public BoxCollider blastZone;
 
 
     [Title("Camera Offset")]
@@ -231,81 +232,81 @@ public class CameraZoomController : MonoBehaviour
     public Vector2 minZoomDistance = new Vector2(3,2);
 
 
-    /*[Title("Focus Collider Parameter")]
-    [SerializeField]
-    [InfoBox("Change Directly Focus Collider Center", InfoMessageType.Info)]
-    [OnValueChanged("FocusLevelBoxCenter")]
-    [PropertyOrder(1)]
-    Vector3 focusLevelBoxCenter;
+    //[Title("Focus Collider Parameter")]
+    //[SerializeField]
+    //[InfoBox("Change Directly Focus Collider Center", InfoMessageType.Info)]
+    //[OnValueChanged("FocusLevelBoxCenter")]
+    //[PropertyOrder(1)]
+    //Vector3 focusLevelBoxCenter;
 
-    public void FocusLevelBoxCenter()
-    {
-        if (focusLevel != null)
-            focusLevel.center = focusLevelBoxCenter;
-    }
+    //public void FocusLevelBoxCenter()
+    //{
+    //    if (focusLevel != null)
+    //        focusLevel.center = focusLevelBoxCenter;
+    //}
 
-    [SerializeField]
-    [InfoBox("Change Directly Focus Collider Size", InfoMessageType.Info)]
-    [OnValueChanged("FocusLevelBoxSize")]
-    [PropertyOrder(1)]
-    Vector3 focusLevelBoxSize;
+    //[SerializeField]
+    //[InfoBox("Change Directly Focus Collider Size", InfoMessageType.Info)]
+    //[OnValueChanged("FocusLevelBoxSize")]
+    //[PropertyOrder(1)]
+    //Vector3 focusLevelBoxSize;
 
-    public void FocusLevelBoxSize()
-    {
-        if (focusLevel != null)
-            focusLevel.size = focusLevelBoxSize;
-    }
+    //public void FocusLevelBoxSize()
+    //{
+    //    if (focusLevel != null)
+    //        focusLevel.size = focusLevelBoxSize;
+    //}
 
-    [GUIColor(0, 1, 0)]
-    [PropertyOrder(1)]
-    [Button]
-    public void GetFocusBoxProperties()
-    {
-        if (focusLevel != null)
-        {
-            focusLevelBoxSize = focusLevel.size;
-            focusLevelBoxCenter = focusLevel.center;
-        }
-    }
+    //[GUIColor(0, 1, 0)]
+    //[PropertyOrder(1)]
+    //[Button]
+    //public void GetFocusBoxProperties()
+    //{
+    //    if (focusLevel != null)
+    //    {
+    //        focusLevelBoxSize = focusLevel.size;
+    //        focusLevelBoxCenter = focusLevel.center;
+    //    }
+    //}
 
 
 
-    [Title("BlastZone Collider Parameter")]
-    [SerializeField]
-    [InfoBox("Change Directly Blastzone Collider Center", InfoMessageType.Info)]
-    [OnValueChanged("BlastZoneBoxCenter")]
-    [PropertyOrder(2)]
-    Vector3 blastZoneBoxCenter;
+    //[Title("BlastZone Collider Parameter")]
+    //[SerializeField]
+    //[InfoBox("Change Directly Blastzone Collider Center", InfoMessageType.Info)]
+    //[OnValueChanged("BlastZoneBoxCenter")]
+    //[PropertyOrder(2)]
+    //Vector3 blastZoneBoxCenter;
 
-    public void BlastZoneBoxCenter()
-    {
-        if (blastZone != null)
-            blastZone.center = blastZoneBoxCenter;
-    }
+    //public void BlastZoneBoxCenter()
+    //{
+    //    if (blastZone != null)
+    //        blastZone.center = blastZoneBoxCenter;
+    //}
 
-    [SerializeField]
-    [InfoBox("Change Directly Blastzone Collider Size", InfoMessageType.Info)]
-    [OnValueChanged("BlastZoneBoxSize")]
-    [PropertyOrder(2)]
-    Vector3 blastZoneBoxSize;
+    //[SerializeField]
+    //[InfoBox("Change Directly Blastzone Collider Size", InfoMessageType.Info)]
+    //[OnValueChanged("BlastZoneBoxSize")]
+    //[PropertyOrder(2)]
+    //Vector3 blastZoneBoxSize;
 
-    public void BlastZoneBoxSize()
-    {
-        if (blastZone != null)
-            blastZone.size = blastZoneBoxSize;
-    }
+    //public void BlastZoneBoxSize()
+    //{
+    //    if (blastZone != null)
+    //        blastZone.size = blastZoneBoxSize;
+    //}
 
-    [GUIColor(1, 0, 0.9f, 1f)]
-    [PropertyOrder(2)]
-    [Button]
-    public void GetBlastZoneBoxProperties()
-    {
-        if (blastZone != null)
-        {
-            blastZoneBoxSize = blastZone.size;
-            blastZoneBoxCenter = blastZone.center;
-        }
-    }*/
+    //[GUIColor(1, 0, 0.9f, 1f)]
+    //[PropertyOrder(2)]
+    //[Button]
+    //public void GetBlastZoneBoxProperties()
+    //{
+    //    if (blastZone != null)
+    //    {
+    //        blastZoneBoxSize = blastZone.size;
+    //        blastZoneBoxCenter = blastZone.center;
+    //    }
+    //}
 
 
 
@@ -317,7 +318,7 @@ public class CameraZoomController : MonoBehaviour
         "Red Area = Player Encapsulate Bounds. \n" +
         "Black Circle = Center between players \n" +
         "Blue Area = Camera Area \nG" +
-        "reen Area = Level Limit \n" +
+        "Green Area = Level Limit \n" +
         "Magenta Area = BlastZone Limit", InfoMessageType.Info)]
     public bool DebugArea = false;
 

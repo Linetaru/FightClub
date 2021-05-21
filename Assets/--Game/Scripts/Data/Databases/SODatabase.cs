@@ -29,7 +29,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
     }
 
 
-    List<bool> unlocked;
+    List<bool> unlocked = new List<bool>();
     /*public List<bool> Unlocked
     {
         get { return unlocked; }
@@ -37,7 +37,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
     }*/
 
 
-
+#if UNITY_EDITOR
     private bool Filter(T obj)
     {
         if (autoPopulate)
@@ -56,7 +56,7 @@ public class SODatabase<T> : ScriptableObject, ISavable
         }
         return false;
     }
-
+#endif
 
 
 
@@ -93,7 +93,24 @@ public class SODatabase<T> : ScriptableObject, ISavable
         unlocked[i] = b;
     }
 
+    public void SetUnlocked(T item, bool b)
+    {
+        if (unlocked.Count == 0)
+        {
+            CreateUnlockableList();
+        }
 
+        for (int i = 0; i < database.Count; i++)
+        {
+            Debug.Log(database[i].Equals(item));
+            if(database[i].Equals(item))
+            {
+                unlocked[i] = b;
+                Debug.Log(unlocked[i]);
+                return;
+            }
+        }
+    }
 
 
 
