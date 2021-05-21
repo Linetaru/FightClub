@@ -155,7 +155,14 @@ public class TrialsModeData : SerializedScriptableObject
 
 
 	[Space]
-	[Title("TextEnd")]
+	[Title("Reward")]
+
+	[SerializeField]
+	int moneyReward;
+	public int MoneyReward
+	{
+		get { return moneyReward; }
+	}
 
 
 	[Space]

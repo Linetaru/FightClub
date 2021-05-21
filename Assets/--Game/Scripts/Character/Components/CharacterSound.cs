@@ -18,9 +18,20 @@ public class CharacterSound : MonoBehaviour
     [SerializeField]
     AK.Wwise.Event landEvent;
 
-    [Title("Voice")]
+    [Space]
     [SerializeField]
-    AK.Wwise.Event damageVoiceEvent;
+    AK.Wwise.Event parrySuccessEvent;
+    [SerializeField]
+    AK.Wwise.Event parryFailedEvent;
+
+
+    [Space]
+    [SerializeField]
+    AK.Wwise.Event deathEvent;
+
+    /*[Title("Voice")]
+    [SerializeField]
+    AK.Wwise.Event damageVoiceEvent;*/
 
     void Start()
     {
@@ -38,6 +49,22 @@ public class CharacterSound : MonoBehaviour
         if (newState is CharacterStateLanding)
         {
             AkSoundEngine.PostEvent(landEvent.Id, this.gameObject);
+        }
+
+        if (newState is CharacterStateParrySuccess)
+        {
+            if(parrySuccessEvent != null)
+                AkSoundEngine.PostEvent(parrySuccessEvent.Id, this.gameObject);
+        }
+        if (newState is CharacterStateParryBlow)
+        {
+            if (parryFailedEvent != null)
+                AkSoundEngine.PostEvent(parryFailedEvent.Id, this.gameObject);
+        }
+        if (newState is CharacterStateDeath)
+        {
+            if (parryFailedEvent != null)
+                AkSoundEngine.PostEvent(deathEvent.Id, this.gameObject);
         }
     }
 

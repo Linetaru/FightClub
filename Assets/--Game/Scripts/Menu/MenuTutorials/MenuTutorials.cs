@@ -97,5 +97,34 @@ namespace Menu
 
 
 
+
+		// Limite ça peut rentrer dans un autre script
+		[Title("Percentage")]
+		[SerializeField]
+		TextMeshProUGUI[] textPercentage;
+		[SerializeField]
+		SODatabase_Mission[] databaseMissions;
+
+		private void Awake()
+		{
+			for (int i = 0; i < databaseMissions.Length; i++)
+			{
+				textPercentage[i].text = GetPercentageUnlocked(databaseMissions[i]) + "%";
+			}
+			
+		}
+
+		private int GetPercentageUnlocked(SODatabase<TrialsModeData> database)
+		{
+			int max = database.Database.Count;
+			int got = 0;
+			for (int i = 0; i < database.Database.Count; i++)
+			{
+				if (database.GetUnlocked(i))
+					got++;
+			}
+			return (int)((got / (float)max) * 100);
+		}
+
 	}
 }
