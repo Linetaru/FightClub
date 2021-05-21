@@ -18,6 +18,7 @@ public class CharacterStateParry : CharacterState
 
 	float t = 0f;
 	bool flash = false;
+	bool spamParry = false;
 
 	private void Start()
 	{
@@ -28,7 +29,6 @@ public class CharacterStateParry : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
 		character.Knockback.Parry.IsParry = true;
 
 		t = 0f;
@@ -44,7 +44,15 @@ public class CharacterStateParry : CharacterState
 			debug.SetActive(true);
 			debug.transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(new Vector2(character.Knockback.Parry.ParryDirection.x, -character.Knockback.Parry.ParryDirection.y), Vector2.up) + 180f);
 		}
-		character.Model.FlashModel(Color.white, timeInParry);
+		if (spamParry == false)
+		{
+			character.Model.FlashModel(Color.white, timeInParry);
+			character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
+		}
+		else
+		{
+			t = timeInParry;
+		}
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -60,6 +68,7 @@ public class CharacterStateParry : CharacterState
 		}
 		else if (t >= timeInParry + timeInGuard)
 		{
+			StartCoroutine(PreventSpamParry());
 			character.ResetToIdle();
 		}
 
@@ -78,5 +87,12 @@ public class CharacterStateParry : CharacterState
 		{
 			debug.SetActive(false);
 		}
+	}
+
+	private IEnumerator PreventSpamParry()
+	{
+		spamParry = true;
+		yield return new WaitForSeconds(0.2f);
+		spamParry = false;
 	}
 }

@@ -40,6 +40,9 @@ public class AttackManager : MonoBehaviour
     [ListDrawerSettings(Expanded = true)]
     private List<AttackSubManager> atkSubs;
 
+    [Title("Animators")]
+    [SerializeField]
+    private List<Animator> subAnimators;
 
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
@@ -89,9 +92,13 @@ public class AttackManager : MonoBehaviour
 
         for (int i = 0; i < atkSubs.Count; i++)
         {
-            atkSubs[i].playerHitEvent = playerHitEvent;
             atkSubs[i].InitAttack(character, this.gameObject.name + i);
         }
+
+        /*for (int i = 0; i < atkSubs.Count; i++)
+        {
+            subAnimators[0].Play(attackAnim.name);
+        }*/
     }
 
     public void ActionActive(int subAttack = 0)
@@ -139,6 +146,14 @@ public class AttackManager : MonoBehaviour
         }
     }
     */
+
+    public void SetMotionSpeed(float motionSpeed)
+    {
+        for (int i = 0; i < subAnimators.Count; i++)
+        {
+            subAnimators[i].speed = motionSpeed;
+        }
+    }
 
     public void CancelAction()
     {

@@ -129,9 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b157a57a37c9d4d43aeddcf369f8e116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleState: {fileID: 3108033801216834096}
-  landState: {fileID: 0}
-  aerialState: {fileID: 3108033800291188821}
+  groundTechState: {fileID: 0}
+  airTechState: {fileID: 0}
   collisionFriction: 0.8
   reboundReduction: 0.75
   reboundSpeedNeeded: 2
@@ -140,8 +139,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   particleTrail: {fileID: 0}
+  techTime: 10
+  techAntiSpam: 30
   joystickThreshold: 0.3
   DIAngle: 10
+  acumods: {fileID: 0}
 --- !u!135 &3108033799647418925
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -492,7 +494,9 @@ MonoBehaviour:
   characterBase: {fileID: 3108033801048430978}
   animatorPivot: {fileID: 0}
   animator: {fileID: 3108033800274683738}
-  movement: {fileID: 636584863381703042}
+  animationParry: {fileID: 0}
+  animationParryAerial: {fileID: 0}
+  animationAcumod: {fileID: 0}
 --- !u!114 &629662718669683265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,6 +513,7 @@ MonoBehaviour:
   parry: {fileID: 0}
   weight: 1
   timeKnockbackPerDistance: 0
+  maxTimeKnockback: 1.5
   shakeEffect: {fileID: 1139850951628235326}
 --- !u!114 &1788721786
 MonoBehaviour:
@@ -529,9 +534,34 @@ MonoBehaviour:
   lifeStocks: 0
   death: 0
   killNumber: 0
+  attackMultiplier:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  defenseMultiplier:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  weight:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
   speed:
     baseStat: 0
     multiplierValue: 1
+    incrementValue: 0
+    valueStat: 0
+  aerialSpeed:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  jump:
+    baseStat: 0
+    multiplierValue: 0
     incrementValue: 0
     valueStat: 0
 --- !u!114 &1788721788
@@ -597,6 +627,7 @@ MonoBehaviour:
     m_Bits: 0
   characterMoveset: {fileID: 0}
   evasiveMoveset: {fileID: 0}
+  acumods: {fileID: 0}
   doubleJumpParticle: {fileID: 0}
 --- !u!1 &3108033800395437829
 GameObject:
@@ -937,6 +968,7 @@ MonoBehaviour:
   aerialState: {fileID: 0}
   landingState: {fileID: 0}
   centerPoint: {fileID: 0}
+  centerPivot: {fileID: 0}
   model: {fileID: 0}
   rigidbody: {fileID: 3108033801048431007}
   movement: {fileID: 636584863381703042}
@@ -947,6 +979,7 @@ MonoBehaviour:
   particle: {fileID: 1788721788}
   powerGauge: {fileID: 0}
   projectile: {fileID: 0}
+  characterIcon: {fileID: 0}
   motionSpeed: 1
 --- !u!65 &3108033801048431004
 BoxCollider:
@@ -1043,12 +1076,12 @@ MonoBehaviour:
   stickRunThreshold: 0.7
   timeForDash: 3
   speedMultiplierWalk: 0.1
-  speedRequiredForWallRun: 8
-  moveset: {fileID: 0}
-  evasiveMoveset: {fileID: 0}
   goThroughGroundMask:
     serializedVersion: 2
     m_Bits: 0
+  moveset: {fileID: 0}
+  evasiveMoveset: {fileID: 0}
+  acumods: {fileID: 0}
 --- !u!1 &3803026217766530277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,7 +1125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e484f6574b64634e82d962929d89ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  homingDashState: {fileID: 0}
   characterMoveset: {fileID: 0}
 --- !u!135 &3108033800572283391
 SphereCollider:

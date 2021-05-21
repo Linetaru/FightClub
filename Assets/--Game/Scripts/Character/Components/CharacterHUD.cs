@@ -88,10 +88,11 @@ public class CharacterHUD : MonoBehaviour
 
 
 	int previousGauge = 0;
-	int previousGaugeID = 0;
+	int previousGaugeID = -1;
 
 	public void InitPlayerPanel(CharacterBase user)
 	{
+		previousGaugeID = -1;
 		user.Stats.gameEvent.RegisterListener(listener);
 		user.Knockback.Parry.OnParry += CallbackParry;
 		this.gameObject.SetActive(true);
@@ -140,7 +141,23 @@ public class CharacterHUD : MonoBehaviour
 		}
 
 		if (previousGaugeID < id)
-			animatorGauge[id-1].SetTrigger("Feedback");
+		{
+			/*if ((id - 2) > -1)
+				animatorGauge[id - 2].SetTrigger("Default");*/
+			if (previousGaugeID-1 > -1)
+				animatorGauge[previousGaugeID-1].SetTrigger("Default");
+			animatorGauge[id - 1].SetFloat("Gain", (float) id / powerGauge.Length);
+			animatorGauge[id - 1].SetTrigger("Feedback");
+		}
+		else if (previousGaugeID > id)
+		{
+			/*if((id-1) != -1)
+				animatorGauge[id-1].SetTrigger("Default2");*/
+			if(previousGaugeID-1 > -1)
+				animatorGauge[previousGaugeID-1].SetTrigger("Loose");
+			if(id-1 > -1)
+				animatorGauge[id-1].SetTrigger("Default2");
+		}
 
 
 		previousGaugeID = id;

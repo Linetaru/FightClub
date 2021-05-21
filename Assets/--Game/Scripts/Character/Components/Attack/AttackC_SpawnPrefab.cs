@@ -9,7 +9,8 @@ public class AttackC_SpawnPrefab : AttackComponent
 	[Title("General")]
 	[SerializeField]
 	private GameObject prefabToSpawn;
-
+	[SerializeField]
+	private Transform projectileParent;
 	[SerializeField]
 	private bool destroyWithAttack;
 
@@ -18,11 +19,16 @@ public class AttackC_SpawnPrefab : AttackComponent
 	[Title("Projectile")]
 	[SerializeField]
 	private bool isProjectile;
-
-
-
 	[SerializeField]
 	private float timeStartup = 0f;
+
+
+	[Title("Attack")]
+	[SerializeField]
+	private AttackSubManager attackSubManager;
+
+
+
 
 	float t = 0f;
 
@@ -90,6 +96,11 @@ public class AttackC_SpawnPrefab : AttackComponent
 					}
 				}
 			}
+			if(attackSubManager != null)
+			{
+				AttackSubManager attack = Instantiate(attackSubManager, projectileParent.position, projectileParent.rotation);
+				attack.InitAttack(user, attack.gameObject.name);
+			}
 			t = -999999999;
 		}
 	}
@@ -99,9 +110,22 @@ public class AttackC_SpawnPrefab : AttackComponent
     {
 		
     }
-	
+
+	public override void OnParry(CharacterBase user, CharacterBase target)
+	{
+
+	}
+	public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+	{
+
+	}
+	public override void OnClash(CharacterBase user, CharacterBase target)
+	{
+
+	}
+
 	// Appelé au moment de la destruction de l'attaque
-    public override void EndComponent(CharacterBase user)
+	public override void EndComponent(CharacterBase user)
     {
 		if(destroyWithAttack)
 			Destroy(go);

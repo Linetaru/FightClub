@@ -9,4 +9,6 @@ public enum GameModeStateEnum
 	Special_Mode,
 	Bomb_Mode,
 	Volley_Mode,
+	Flappy_Mode,
+	Tutorial,
 }

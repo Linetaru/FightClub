@@ -8,8 +8,6 @@ public class CharacterCollisionDetection : MonoBehaviour
 {
     [SerializeField]
     CharacterBase character;
-    /*[SerializeField]
-    CharacterState stateKnockback;*/
 
 
     public void OnTriggerEnter(Collider other)

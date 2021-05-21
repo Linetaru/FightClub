@@ -22,6 +22,11 @@ public class AttackSubManager : MonoBehaviour
     [HideInInspector]
     public PackageCreator.Event.GameEventCharacters playerHitEvent;
 
+
+
+
+
+
     [Title("Parry Settings")]
     [SerializeField]
     private int clashLevel = 1;
@@ -31,10 +36,45 @@ public class AttackSubManager : MonoBehaviour
     }
 
     [SerializeField]
-    private bool clashCancel = true;
-    public bool ClashCancel
+    [SuffixLabel("L'attaque ne proc jamais de clash")]
+    private bool noClash = false;
+    public bool NoClash
     {
-        get { return clashCancel; }
+        get { return noClash; }
+    }
+    [SerializeField]
+    [SuffixLabel("L'attaque provoque une parade mais ne repousse pas")]
+    private bool noParryCancel = false;
+    public bool NoParryCancel
+    {
+        get { return noParryCancel; }
+    }
+
+    // Si l'attack est disjoint on ne peut pas se faire repousser
+    [SerializeField]
+    [SuffixLabel("Si il y a Parade/Garde, l'utilisateur de cette attaque n'est pas impliqué")]
+    private bool disjoint = false;
+    public bool Disjoint
+    {
+        get { return disjoint; }
+    }
+
+    // On peut Garder l'attaque juste en courant
+    [SerializeField]
+    [SuffixLabel("L'attaque peut etre gardé si on Dash")]
+    private bool guardOnDash = false;
+    public bool GuardOnDash
+    {
+        get { return guardOnDash; }
+    }
+
+    // Si guardWin est On l'attaque ne repousse pas le joueur
+    [SerializeField]
+    [SuffixLabel("La garde gagne sur cette attaque")]
+    private bool guardWin = false;
+    public bool GuardWin
+    {
+        get { return guardWin; }
     }
 
     [HorizontalGroup("Break")]
@@ -51,6 +91,12 @@ public class AttackSubManager : MonoBehaviour
     {
         get { return guardBreak; }
     }
+
+
+
+
+
+
 
     CharacterBase user;
     public CharacterBase User
@@ -119,6 +165,19 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reinitialise une attack mais n'appelle pas les Start Components, utilisé principalement par le renvoi de projectile
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="attackName"></param>
+    public void ReInitAttack(CharacterBase character, string attackName)
+    {
+        tag = character.tag;
+        user = character;
+        attackID = attackName;
+        playerHitList.Clear();
+    }
+
     public void ActionActive()
     {
         playerHitList.Clear();
@@ -181,9 +240,30 @@ public class AttackSubManager : MonoBehaviour
         }
     }
 
+    public void Guard(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            // Si la garde ne repousse pas on doit le signaler pour les composants
+            atkC.OnGuard(user, target, !guardWin);
+        }
+    }
 
+    public void Parry(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.OnParry(user, target);
+        }
+    }
 
-
+    public void Clash(CharacterBase target)
+    {
+        foreach (AttackComponent atkC in atkCompList)
+        {
+            atkC.OnClash(user, target);
+        }
+    }
 
 
 
@@ -194,16 +274,21 @@ public class AttackSubManager : MonoBehaviour
     }
 
 
-
+    // Clash
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(this.tag))
+            return;
+        if (noClash == true)
             return;
 
         AttackSubManager atkMan = other.GetComponent<AttackSubManager>();
         if (atkMan != null)
         {
-            if (atkMan.User.TeamID == user.TeamID) // Pour empêcher les joueurs dans la même équipes de clash
+            if (atkMan.User.TeamID == user.TeamID && atkMan.User.TeamID != TeamEnum.No_Team) // Pour empêcher les joueurs dans la même équipes de clash
+                return;
+
+            if (atkMan.noClash == true)
                 return;
 
             attackClashed = atkMan;

@@ -58,6 +58,16 @@ public class Input_Info
 		return false;
 	}
 
+	public bool CheckActionUI(InputAction inputAction)
+	{
+		if (inputUiAction == inputAction)
+		{
+			inputUiAction = null;
+			return true;
+		}
+		return false;
+	}
+
 	public bool CheckActionUP(int id, InputAction inputAction)
 	{
 		if (inputActionsUP.Count != 0)
@@ -280,8 +290,8 @@ public class InputController : SerializedMonoBehaviour
 
 	public void AddMovement(float horizontal, float vertical, ref Input_Info inputInfo)
 	{
-		InputBuffer tmp = new InputBuffer();
-		var input = inputInfo.inputActions;
+		/*InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;*/
 		inputInfo.horizontal = horizontal;
 		inputInfo.vertical = vertical;
 	}

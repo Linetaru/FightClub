@@ -11,8 +11,6 @@ public class CharacterStateAerial : CharacterState
     CharacterState idleState;
     [SerializeField]
     CharacterState wallRunState;
-    //[SerializeField]
-    //CharacterState recoveryChargeState;
 
     [Title("WallRun")]
     [SerializeField]
@@ -24,6 +22,8 @@ public class CharacterStateAerial : CharacterState
     CharacterMoveset characterMoveset;
     [SerializeField]
     CharacterEvasiveMoveset evasiveMoveset;
+    [SerializeField]
+    CharacterAcumods acumods;
 
     [SerializeField]
     GameObject doubleJumpParticle;
@@ -63,6 +63,10 @@ public class CharacterStateAerial : CharacterState
 
         }
         else if (evasiveMoveset.Parry(character))
+        {
+
+        }
+        else if (acumods.Acumod(character))
         {
 
         }

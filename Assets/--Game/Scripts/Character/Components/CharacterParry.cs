@@ -9,17 +9,10 @@ public class CharacterParry : MonoBehaviour
 	[Title("States")]
 	[SerializeField]
 	CharacterState parrySuccesState;
-	public CharacterState ParrySuccesState
-	{
-		get { return parrySuccesState; }
-	}
 
 	[SerializeField]
 	CharacterState parryRepelState;
-	public CharacterState ParryRepelState
-	{
-		get { return parryRepelState; }
-	}
+
 
 	[Title("Parameter")]
 	[SerializeField]
@@ -69,6 +62,13 @@ public class CharacterParry : MonoBehaviour
 		set { isGuard = value; }
 	}
 
+	private bool isGuardDash;
+	public bool IsGuardDash
+	{
+		get { return isGuardDash; }
+		set { isGuardDash = value; }
+	}
+
 
 	CharacterBase characterParried;
 	public CharacterBase CharacterParried
@@ -81,7 +81,8 @@ public class CharacterParry : MonoBehaviour
 
 
 	public event EventCharacterBase OnParry;
-	public event EventCharacterBase OnGuard;
+	public event EventCharacterBaseDouble OnGuard;
+	public event EventAttackSubManager OnClash;
 
 
 
@@ -103,16 +104,16 @@ public class CharacterParry : MonoBehaviour
 
 	[SerializeField]
 	GameObject particleGuard;
-	public GameObject ParticleGuard
-	{
-		get { return particleGuard; }
-	}
+	[SerializeField]
+	GameObject particleGuardMedium;
+	[SerializeField]
+	GameObject particleGuardCritical;
+
+	[SerializeField]
+	GameObject particleGuardBreak;
+
 	[SerializeField]
 	GameObject particleGuardDirectionRepel;
-	public GameObject ParticleGuardDirectionRepel
-	{
-		get { return particleGuardDirectionRepel; }
-	}
 
 
 	// Faire une interface ou une classe abstraire pour attackManager
@@ -142,6 +143,8 @@ public class CharacterParry : MonoBehaviour
 
 	public virtual bool CanGuard(AttackSubManager attackManager)
 	{
+		if (isGuardDash == true && attackManager.GuardOnDash == true)
+			return true;
 		if (isGuard == false)
 			return false;
 		else if (attackManager.BreakGuard == true)
@@ -152,8 +155,6 @@ public class CharacterParry : MonoBehaviour
 	public bool CheckAngle(AttackSubManager attackManager)
 	{
 		float angle = Vector2.Angle((attackManager.transform.position - this.transform.position), parryDirection);
-		//Debug.Log("Angle : " + angle);
-		/*Debug.Log("Parry direction : " + parryDirection);*/
 		//return (parryDirection - (parryAngle *0.5f) < angle && angle < parryDirection + (parryAngle * 0.5f));
 		return angle < (parryAngle * 0.5f);
 	}
@@ -166,20 +167,23 @@ public class CharacterParry : MonoBehaviour
 		{
 			if(attackEnemy.ClashLevel > attackUser.ClashLevel) // User est repoussé
 			{
-				/*Parry(attackEnemy.User, user);
-				attackEnemy.User.Knockback.Parry.ParryRepel(user, attackEnemy.User);*/
-				attackEnemy.User.Knockback.Parry.Parry(attackEnemy.User, user);
-				ParryRepel(user, attackEnemy.User);
+				attackEnemy.User.Knockback.Parry.ParryResolution(attackEnemy.User, attackUser);
+				/*attackEnemy.User.Knockback.Parry.Parry(attackEnemy.User, user);
+				ParryRepel(user, attackEnemy.User);*/
 			}
 			else if (attackUser.ClashLevel > attackEnemy.ClashLevel) // Enemy est repoussé
 			{
-				Parry(user, attackEnemy.User);
-				attackEnemy.User.Knockback.Parry.ParryRepel(attackEnemy.User, user);
+				ParryResolution(user, attackEnemy);
+				/*Parry(user, attackEnemy.User);
+				attackEnemy.User.Knockback.Parry.ParryRepel(attackEnemy.User, user);*/
 			}
 			else // Match nul
 			{
-				user.SetMotionSpeed(0, 0.2f);
-				attackEnemy.User.SetMotionSpeed(0f, 0.2f);
+				if(attackUser.Disjoint == false)
+					user.SetMotionSpeed(0, 0.2f);
+
+				if(attackEnemy.Disjoint == false)
+					attackEnemy.User.SetMotionSpeed(0f, 0.2f);
 
 				Vector2 angleEjection = (user.transform.position - this.transform.position).normalized;
 				GameObject go = Instantiate(particleParry, (user.Knockback.ContactPoint + attackEnemy.User.Knockback.ContactPoint) * 0.5f, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
@@ -188,10 +192,142 @@ public class CharacterParry : MonoBehaviour
 
 				attackUser.ActionUnactive();
 				attackEnemy.ActionUnactive();
+
+				attackUser.Clash(attackEnemy.User);
+				attackEnemy.Clash(attackUser.User);
+
+				OnClash?.Invoke(attackEnemy);
+
 			}
 
 		}
 	}
+
+
+	public virtual void ParryResolution(CharacterBase character, AttackSubManager atkRegistered)
+	{
+		atkRegistered.AddPlayerHitList(character.tag);
+
+		Parry(character, atkRegistered.User);
+		if (atkRegistered.Disjoint == false)
+		{
+			atkRegistered.User.Knockback.Parry.ParryRepel(atkRegistered.User, character, !atkRegistered.NoParryCancel);
+		}
+
+
+		// Pour tourner le joueur dans le sens de la parry
+		if (Mathf.Sign(atkRegistered.User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+			character.Movement.Direction *= -1;
+
+		// Feedback
+
+		Vector2 angleEjection = (atkRegistered.User.transform.position - character.transform.position).normalized;
+		GameObject go2 = Instantiate(particleParry, character.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+		go2.name = particleParry.name;
+		Destroy(go2, 1f);
+
+		if (atkRegistered.NoParryCancel == false)
+		{
+			GameObject go = Instantiate(particleDirectionRepel, character.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+			go.name = particleParry.name;
+			Destroy(go, 1f);
+		}
+
+		atkRegistered.Parry(character);
+	}
+
+
+	public virtual void GuardResolution(CharacterBase character, AttackSubManager atkRegistered)
+	{
+		//	atkRegistered.User.Knockback.ContactPoint = character.Knockback.ContactPoint;
+
+
+
+		if (atkRegistered.GuardWin == false)
+		{
+			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
+			{
+				character.PowerGauge.ForceAddPower(-20);
+				character.PowerGauge.ForceAddPower(80);
+				character.Knockback.Hit(character, atkRegistered);
+
+				character.SetMotionSpeed(0.1f, 0.8f);
+				atkRegistered.User.SetMotionSpeed(0.1f, 0.8f);
+
+
+				Vector2 angleEjection = character.Knockback.GetAngleKnockback().normalized;
+				Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 10, 0.8f);
+				Feedbacks.GlobalFeedback.Instance.ZoomDramatic(character, 0.8f);
+
+				// Feedback
+				GameObject go2 = Instantiate(particleGuardBreak, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+
+				return;
+			}
+			else 
+			{
+				Guard(character, atkRegistered.User);
+			}
+		}
+		if (atkRegistered.Disjoint == false)
+		{
+			atkRegistered.User.Knockback.Parry.Parry(atkRegistered.User, character);
+			//atkRegistered.User.PowerGauge.ForceAddPower(-20);
+		}
+		atkRegistered.AddPlayerHitList(character.tag);
+
+		// Pour tourner le joueur dans le sens de la garde
+		if (Mathf.Sign(atkRegistered.User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
+			character.Movement.Direction *= -1;
+
+		// Feedback
+		if (atkRegistered.GuardWin == true)
+		{
+			character.Knockback.ShakeEffect.Shake(0.1f, 0.3f);
+			character.Model.FlashModel(Color.white, 0.5f);
+
+			Vector2 angleEjection = (character.transform.position - atkRegistered.User.transform.position).normalized;
+			GameObject go = Instantiate(particleParry, character.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+			go.name = particleParry.name;
+			Destroy(go, 1f);
+		}
+		else
+		{
+			Vector2 angleEjection = (character.transform.position - atkRegistered.User.transform.position).normalized;
+
+			if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower * 0.33f)
+			{
+				GameObject go2 = Instantiate(particleGuardCritical, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
+			else if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower * 0.66f)
+			{
+				GameObject go2 = Instantiate(particleGuardMedium, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
+			else if (character.PowerGauge.CurrentPower <= character.PowerGauge.maxPower)
+			{
+				GameObject go2 = Instantiate(particleGuard, character.CenterPoint.position, Quaternion.identity);
+				go2.name = particleParry.name;
+				Destroy(go2, 1f);
+			}
+
+			GameObject go = Instantiate(particleGuardDirectionRepel, character.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
+			go.name = particleParry.name;
+			Destroy(go, 1f);
+		}
+
+		atkRegistered.Guard(character);
+	}
+
+
+
+
+
 
 
 
@@ -207,8 +343,7 @@ public class CharacterParry : MonoBehaviour
 		characterParry.SetMotionSpeed(0, 0.35f);
 		characterParry.Action.CancelAction();
 
-		characterParry.PowerGauge.ForceAddPower(25);
-
+		characterParry.PowerGauge.ForceAddPower(20);
 
 
 		characterParry.SetState(parrySuccesState);
@@ -226,29 +361,28 @@ public class CharacterParry : MonoBehaviour
 	/// Fonction à utiliser sur celui qui se fait parry
 	/// </summary>
 	/// <param name="user"></param>
-	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry)
+	public virtual void ParryRepel(CharacterBase characterRepelled, CharacterBase characterParry, bool repel = true)
 	{
 		isParry = false;
 		characterRepelled.Knockback.ShakeEffect.Shake(0.12f, 0.3f);
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
-		characterRepelled.Action.CancelAction();
+		//characterRepelled.Action.CancelAction();
 
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
+		if (repel == true)
+		{
+			Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
+			characterRepelled.Knockback.Launch(angleEjection, 1);
 
-		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-		characterRepelled.Knockback.Launch(angleEjection, 1);
+			characterRepelled.Action.CancelAction();
+			characterRepelled.SetState(parryRepelState);
+		}
+		else
+		{
+			characterRepelled.Action.ActionAllUnactive();
+		}
 
-		characterRepelled.SetState(parryRepelState);
-
-		//Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-		GameObject go2 = Instantiate(particleParry, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
-		go2.name = particleParry.name;
-		Destroy(go2, 1f);
-
-		GameObject go = Instantiate(particleDirectionRepel, characterParry.Knockback.ContactPoint, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
-		go.name = particleParry.name;
-		Destroy(go, 1f);
 	}
 
 
@@ -259,6 +393,10 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.SetMotionSpeed(0f, 0.35f);
 		characterRepelled.Action.CancelAction();
 
+
+		characterRepelled.PowerGauge.ForceAddPower(-20);
+		characterParry.PowerGauge.ForceAddPower(-20);
+
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
 
@@ -266,15 +404,8 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Knockback.Launch(angleEjection, 1);
 
 		characterRepelled.SetState(parryRepelState);
-		OnGuard?.Invoke(characterParry);
+		OnGuard?.Invoke(characterRepelled, characterParry);
 
-		GameObject go2 = Instantiate(particleGuard, characterRepelled.CenterPoint.position, Quaternion.identity);
-		go2.name = particleParry.name;
-		Destroy(go2, 1f);
-
-		GameObject go = Instantiate(particleGuardDirectionRepel, characterRepelled.CenterPoint.position, Quaternion.Euler(0, 0, -Mathf.Atan2(angleEjection.x, angleEjection.y) * Mathf.Rad2Deg));
-		go.name = particleParry.name;
-		Destroy(go, 1f);
 	}
 
 }

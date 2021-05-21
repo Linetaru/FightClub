@@ -15,7 +15,7 @@ public class AttackC_JumpCancel : AttackComponent
 	//(Peut-être remplacé par l'Update d'Unity de base si l'ordre d'éxécution n'est pas important)
 	public override void UpdateComponent(CharacterBase user)
     {
-		if (user.Action.CanMoveCancel)
+		if (user.Action.CanAct())
 		{
 			if (user.Input.CheckAction(0, InputConst.Jump) || user.Input.CheckAction(0, InputConst.Smash))
 			{
@@ -31,9 +31,22 @@ public class AttackC_JumpCancel : AttackComponent
     {
 		
     }
-	
+
+	public override void OnParry(CharacterBase user, CharacterBase target)
+	{
+
+	}
+	public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+	{
+
+	}
+	public override void OnClash(CharacterBase user, CharacterBase target)
+	{
+
+	}
+
 	// Appelé au moment de la destruction de l'attaque
-    public override void EndComponent(CharacterBase user)
+	public override void EndComponent(CharacterBase user)
     {
 		
     }

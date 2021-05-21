@@ -11,10 +11,16 @@ public class MissionInputParry : MissionInputCondition
 	[SerializeField]
 	bool isDummy = false;
 
+	[SerializeField]
+	int nbOfParry = 1;
+
+	int nbParry;
+
 	bool condition = false;
 
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
+		nbParry = 0;
 		condition = false;
 		if (isDummy == false)
 		{
@@ -34,11 +40,12 @@ public class MissionInputParry : MissionInputCondition
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
-		return condition;
+		return nbParry >= nbOfParry;
 	}
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
+		nbParry = 0;
 		condition = false;
 		if (isDummy == false)
 		{
@@ -59,6 +66,13 @@ public class MissionInputParry : MissionInputCondition
 	public void CallbackCondition(CharacterBase characterParried)
 	{
 		condition = true;
+		nbParry += 1;
+	}
+
+	public void CallbackCondition(CharacterBase user, CharacterBase characterParried)
+	{
+		condition = true;
+		nbParry += 1;
 	}
 
 }
