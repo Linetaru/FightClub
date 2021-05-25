@@ -38,6 +38,7 @@ public class SmearsControllerSword : MonoBehaviour
 		//meshRenderer.material = mat;
 		GetComponent<MeshFilter>().mesh = mesh;
 		this.transform.SetParent(null);
+		this.transform.localScale = Vector3.one;
 	}
 
 	private void LateUpdate()
