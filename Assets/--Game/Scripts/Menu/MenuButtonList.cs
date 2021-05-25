@@ -27,9 +27,14 @@ namespace Menu
 
 		public virtual void DrawButton(Sprite icon, string text, string text2)
 		{
+			if (icon == null)
+				imageButton.enabled = false;
+			else
+				imageButton.enabled = true;
 			imageButton.sprite = icon;
 			mainText.text = text;
-			subText.text = text2;
+			if(subText != null)
+				subText.text = text2;
 		}
 
 		public virtual void DrawSubText(string text2)

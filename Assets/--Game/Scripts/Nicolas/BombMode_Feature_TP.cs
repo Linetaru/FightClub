@@ -22,6 +22,8 @@ public class BombMode_Feature_TP : MonoBehaviour
 
 	public float timerMax = 2f;
 
+	public bool dontKeepCooldownBetweenEachPortal = false;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -65,7 +67,10 @@ public class BombMode_Feature_TP : MonoBehaviour
 				}
 			}
 
-			otherTP.players.Add(new BombTPData(timerMax, user));
+			if(!dontKeepCooldownBetweenEachPortal)
+				otherTP.players.Add(new BombTPData(timerMax, user));
+			else
+				otherTP.players.Add(new BombTPData(0.1f, user));
 			players.Add(new BombTPData(timerMax, user));
 
 			user.transform.position = otherTP.transform.position;

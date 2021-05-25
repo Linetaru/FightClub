@@ -24,13 +24,22 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return trialsName; }
 	}
 
+	[SerializeField]
+	[TextArea]
+	string trialsDescription;
+	public string TrialsDescription
+	{
+		get { return trialsDescription; }
+	}
+
 
 	[Title("Setup")]
 	[SerializeField]
-	string stageName;
+	[Scene]
+	string scene;
 	public string StageName
 	{
-		get { return stageName; }
+		get { return scene; }
 	}
 
 	[HorizontalGroup("Player")]
@@ -146,7 +155,14 @@ public class TrialsModeData : SerializedScriptableObject
 
 
 	[Space]
-	[Title("TextEnd")]
+	[Title("Reward")]
+
+	[SerializeField]
+	int moneyReward;
+	public int MoneyReward
+	{
+		get { return moneyReward; }
+	}
 
 
 	[Space]

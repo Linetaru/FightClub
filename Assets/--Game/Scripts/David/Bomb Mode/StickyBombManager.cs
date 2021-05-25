@@ -7,8 +7,8 @@ using Sirenix.OdinInspector;
 public class StickyBombManager : MonoBehaviour
 {
     // Singleton
-    private static StickyBombManager _instance;
-    public static StickyBombManager Instance { get { return _instance; } }
+    //private static StickyBombManager _instance;
+    //public static StickyBombManager Instance { get { return _instance; } }
 
     public enum RoundMode { Normal = 0, FakeBomb = 1, Invisible = 2, Inv_Countdown = 3, BombReset = 4}
     List<string> roundModeList = new List<string> { "Classic !", "Fake Bomb !", "Invisible Bomb !", "No Countdown !", "Bomb Reset !" };
@@ -126,20 +126,22 @@ public class StickyBombManager : MonoBehaviour
 
     private void Awake()
     {
-        if(_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-            //DontDestroyOnLoad(this.gameObject);
-        }
+        //if(_instance != null && _instance != this)
+        //{
+        //    Destroy(this.gameObject);
+        //}
+        //else
+        //{
+        //    _instance = this;
+        //    //DontDestroyOnLoad(this.gameObject);
+        //}
     }
 
 
     void Start()
     {
+        bombIcon.StickyBombManager = this;
+
         InitTimerList();
 
         originalBombTimer = bombTimer;

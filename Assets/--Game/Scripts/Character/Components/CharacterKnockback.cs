@@ -34,6 +34,7 @@ public class CharacterKnockback : MonoBehaviour
     public float Weight
     {
         get { return weight; }
+        set { weight = value; }
     }
 
     [SerializeField]
@@ -41,6 +42,13 @@ public class CharacterKnockback : MonoBehaviour
     public float TimeKnockbackPerDistance
     {
         get { return timeKnockbackPerDistance; }
+    }
+
+    [SerializeField]
+    private float maxTimeKnockback = 1.5f;
+    public float MaxTimeKnockback
+    {
+        get { return maxTimeKnockback; }
     }
 
 
@@ -194,6 +202,7 @@ public class CharacterKnockback : MonoBehaviour
         angleKnockback *= ejectionPower; // (damagePercentage / damagePercentageRatio);
 
         knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
+        knockbackDuration = Mathf.Clamp(knockbackDuration, 0, maxTimeKnockback);
         knockbackDuration += bonusKnockback;
     }
 

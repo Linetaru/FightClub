@@ -8,9 +8,11 @@ public class TrialsMode : MonoBehaviour
 
 	[Title("Data")]
 	[SerializeField]
+	GameModeSettingsMission settingsMission;
+	[SerializeField]
+	CurrencyData currency;
+
 	TrialsModeData trialsData;
-
-
 
 	[Title("Logic")]
 	[SerializeField]
@@ -54,6 +56,7 @@ public class TrialsMode : MonoBehaviour
 
 	private void Awake()
 	{
+		trialsData = settingsMission.TrialsData;
 		textbox.OnTextEnd += NextText;
 	}
 
@@ -353,7 +356,28 @@ public class TrialsMode : MonoBehaviour
 
 	public void EndTrial()
 	{
-		if(trialsData.NextTrial != null)
+		// Unlock & get money
+
+		// normalement c'est uniquement null si on spawn direct sur la scene trials Mode
+		if (settingsMission.TrialsDatabase != null)
+		{
+			if (settingsMission.TrialsDatabase.GetUnlocked(trialsData.ToString()) == false)
+			{
+				currency.AddMoney(trialsData.MoneyReward);
+				settingsMission.TrialsDatabase.SetUnlocked(trialsData, true);
+				if (SaveManager.Instance != null)
+				{
+					SaveManager.Instance.SaveFile(settingsMission.TrialsDatabase);
+					SaveManager.Instance.SaveFile(currency);
+				}
+			}
+		}
+
+
+
+
+
+		if (trialsData.NextTrial != null)
 		{
 			animatorSuccess.gameObject.SetActive(false);
 			animatorRespawn.SetTrigger("Feedback");
@@ -370,7 +394,10 @@ public class TrialsMode : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		/*if (success == false)
+			InitializeFailConditions();*/
 		textbox.OnTextEnd -= NextText;
+
 	}
 
 

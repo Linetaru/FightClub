@@ -33,9 +33,21 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	public ControlMapper controlMapper;
 
 	[Title("Level Name")]
+	[Scene]
 	public string sceneSelectionClassic;
+	[Scene]
+	public string sceneSelectionGrandSlam;
+	[Scene]
 	public string sceneSelectionVolley;
+	[Scene]
 	public string sceneSelectionBomb;
+	[Scene]
+	public string sceneSelectionFlappy;
+	[Scene]
+	public string sceneSelectionTraining;
+	[Scene]
+	public string sceneSelectionTutorial;
+
 	private string sceneName;
 
 	[Title("Ak Wwise Sound Design")]
@@ -147,16 +159,39 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 						switch (currentButtonSelected)
 						{
 							case 1:
+								gameData.GameMode = GameModeStateEnum.Tutorial;
+								sceneName = sceneSelectionTutorial;
+								break;
+							case 2:
+								Camera.main.GetComponent<Animator>().SetBool("canTransiToMode", false);
+								menuState = MenuState.InPrincipalMenu;
+								currentButtonSelected = 1;
+								ChangeSelectedButton(true);
+								return;
+							case 3:
+								return;
+								gameData.GameMode = GameModeStateEnum.Special_Mode;
+								sceneName = sceneSelectionGrandSlam;
+								break;
+							case 4:
 								gameData.GameMode = GameModeStateEnum.Classic_Mode;
 								sceneName = sceneSelectionClassic;
 								break;
-							case 2:
+							case 5:
 								gameData.GameMode = GameModeStateEnum.Volley_Mode;
 								sceneName = sceneSelectionVolley;
 								break;
-							case 3:
+							case 6:
 								gameData.GameMode = GameModeStateEnum.Bomb_Mode;
 								sceneName = sceneSelectionBomb;
+								break;
+							case 7:
+								gameData.GameMode = GameModeStateEnum.Flappy_Mode;
+								sceneName = sceneSelectionFlappy;
+								break;
+							case 8:
+								gameData.GameMode = GameModeStateEnum.Training;
+								sceneName = sceneSelectionTraining;
 								break;
 						}
 						Camera.main.GetComponent<Animator>().SetBool("canTransiToSelect", true);
@@ -178,13 +213,15 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 		if (isGoingUp)
 		{
-			if (currentButtonSelected == 1)
-				currentButtonSelected = 3;
-			else
-				currentButtonSelected--;
 			switch (menuState)
 			{
 				case MenuState.InPrincipalMenu:
+
+					if (currentButtonSelected == 1)
+						currentButtonSelected = 3;
+					else
+						currentButtonSelected--;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -202,6 +239,12 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					}
 					break;
 				case MenuState.InModeMenu:
+
+					if (currentButtonSelected == 1)
+						currentButtonSelected = 8;
+					else
+						currentButtonSelected--;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -214,6 +257,26 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 							break;
 						case 3:
 							currentSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[3];
+							break;
+						case 4:
+							currentSelectButton = modeButtons[3];
+							lastSelectButton = modeButtons[4];
+							break;
+						case 5:
+							currentSelectButton = modeButtons[4];
+							lastSelectButton = modeButtons[5];
+							break;
+						case 6:
+							currentSelectButton = modeButtons[5];
+							lastSelectButton = modeButtons[6];
+							break;
+						case 7:
+							currentSelectButton = modeButtons[6];
+							lastSelectButton = modeButtons[7];
+							break;
+						case 8:
+							currentSelectButton = modeButtons[7];
 							lastSelectButton = modeButtons[0];
 							break;
 					}
@@ -222,14 +285,16 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		}
 		else
 		{
-			if (currentButtonSelected == 3)
-				currentButtonSelected = 1;
-			else
-				currentButtonSelected++;
 
 			switch (menuState)
 			{
 				case MenuState.InPrincipalMenu:
+
+					if (currentButtonSelected == 3)
+						currentButtonSelected = 1;
+					else
+						currentButtonSelected++;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
@@ -248,11 +313,17 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 					break;
 
 				case MenuState.InModeMenu:
+
+					if (currentButtonSelected == 8)
+						currentButtonSelected = 1;
+					else
+						currentButtonSelected++;
+
 					switch (currentButtonSelected)
 					{
 						case 1:
 							currentSelectButton = modeButtons[0];
-							lastSelectButton = modeButtons[2];
+							lastSelectButton = modeButtons[7];
 							break;
 						case 2:
 							currentSelectButton = modeButtons[1];
@@ -261,6 +332,26 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 						case 3:
 							currentSelectButton = modeButtons[2];
 							lastSelectButton = modeButtons[1];
+							break;
+						case 4:
+							currentSelectButton = modeButtons[3];
+							lastSelectButton = modeButtons[2];
+							break;
+						case 5:
+							currentSelectButton = modeButtons[4];
+							lastSelectButton = modeButtons[3];
+							break;
+						case 6:
+							currentSelectButton = modeButtons[5];
+							lastSelectButton = modeButtons[4];
+							break;
+						case 7:
+							currentSelectButton = modeButtons[6];
+							lastSelectButton = modeButtons[5];
+							break;
+						case 8:
+							currentSelectButton = modeButtons[7];
+							lastSelectButton = modeButtons[6];
 							break;
 					}
 					break;

@@ -58,6 +58,16 @@ public class Input_Info
 		return false;
 	}
 
+	public bool CheckActionUI(InputAction inputAction)
+	{
+		if (inputUiAction == inputAction)
+		{
+			inputUiAction = null;
+			return true;
+		}
+		return false;
+	}
+
 	public bool CheckActionUP(int id, InputAction inputAction)
 	{
 		if (inputActionsUP.Count != 0)
@@ -284,6 +294,31 @@ public class InputController : SerializedMonoBehaviour
 		var input = inputInfo.inputActions;*/
 		inputInfo.horizontal = horizontal;
 		inputInfo.vertical = vertical;
+	}
+
+	public void AddHoldInput(string action, ref Input_Info inputInfo, bool hold = true)
+	{
+		if(hold == false)
+		{
+			inputInfo.inputActionsHold.Remove(ReInput.mapping.GetAction(action));
+			return;
+		}
+		if(!inputInfo.inputActionsHold.Contains(ReInput.mapping.GetAction(action)))
+			inputInfo.inputActionsHold.Add(ReInput.mapping.GetAction(action));
+
+		/*InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;
+		foreach (InputBuffer ic in input)
+		{
+			if (ic.action == ReInput.mapping.GetAction(action))
+			{
+				ic.timeValue = bufferLength;
+				return;
+			}
+		}
+		input.Add(tmp);
+		input[input.Count - 1].action = ReInput.mapping.GetAction(action);
+		input[input.Count - 1].timeValue = bufferLength;*/
 	}
 
 }

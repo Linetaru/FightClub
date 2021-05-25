@@ -7,10 +7,16 @@ using TMPro;
 namespace Menu
 {
 
-	public class MenuTutorials : MonoBehaviour, IControllable
+	public class MenuTutorials : MenuList, IControllable
 	{
+
 		[SerializeField]
-		MenuButtonListController listEntry;
+		InputController inputController;
+
+		[Title("SubMenu")]
+		[SerializeField]
+		MenuList[] menu;
+
 
 		[Title("UI")]
 		[SerializeField]
@@ -18,7 +24,10 @@ namespace Menu
 
 		[Title("Feedbacks")]
 		[SerializeField]
+		Animator animatorMenu;
+		[SerializeField]
 		Animator animatorBackground;
+
 		[SerializeField]
 		Animator animatorPanelButtonBackground;
 		[SerializeField]
@@ -26,27 +35,27 @@ namespace Menu
 
 		int previousID = 0;
 
-		private void Start()
+
+		public override void InitializeMenu()
 		{
+			for (int i = 0; i < menu.Length; i++)
+			{
+				menu[i].OnEnd += BackToMenu;
+			}
 			SelectEntry(0);
+			ShowMenu();
 		}
 
-		public void UpdateControl(int id, Input_Info input)
+
+		protected override void ValidateEntry(int id)
 		{
-			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
-			{
-				SelectEntry(listEntry.IndexSelection);
-
-			}
-			else if (input.CheckAction(id, InputConst.Return) == true)
-			{
-				QuitMenu();
-			}
+			inputController.controllable[0] = menu[id];
+			menu[id].InitializeMenu();
+			animatorBackground.SetBool("Transition", true);
+			HideMenu();
 		}
 
-
-
-		public void SelectEntry(int id)
+		protected override void SelectEntry(int id)
 		{
 			textDescriptions[previousID].gameObject.SetActive(false);
 			textDescriptions[id].gameObject.SetActive(true);
@@ -57,9 +66,65 @@ namespace Menu
 		}
 
 
-		public void QuitMenu()
+		protected override void QuitMenu()
 		{
-
+			base.QuitMenu();
+			HideMenu();
+			inputController.controllable[0] = null;
+			UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
 		}
+
+
+
+		private void BackToMenu()
+		{
+			inputController.controllable[0] = this;
+			animatorBackground.SetBool("Transition", false);
+			ShowMenu();
+		}
+
+
+		private void ShowMenu()
+		{
+			animatorMenu.SetBool("Appear", true);
+		}
+
+		private void HideMenu()
+		{
+			animatorMenu.SetBool("Appear", false);
+		}
+
+
+
+
+
+		// Limite ça peut rentrer dans un autre script
+		[Title("Percentage")]
+		[SerializeField]
+		TextMeshProUGUI[] textPercentage;
+		[SerializeField]
+		SODatabase_Mission[] databaseMissions;
+
+		private void Awake()
+		{
+			for (int i = 0; i < databaseMissions.Length; i++)
+			{
+				textPercentage[i].text = GetPercentageUnlocked(databaseMissions[i]) + "%";
+			}
+			
+		}
+
+		private int GetPercentageUnlocked(SODatabase<TrialsModeData> database)
+		{
+			int max = database.Database.Count;
+			int got = 0;
+			for (int i = 0; i < database.Database.Count; i++)
+			{
+				if (database.GetUnlocked(i))
+					got++;
+			}
+			return (int)((got / (float)max) * 100);
+		}
+
 	}
 }
