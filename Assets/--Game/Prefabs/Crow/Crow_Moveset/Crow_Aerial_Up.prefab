@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 850544075689051394}
   - component: {fileID: 4390333993065719160}
   - component: {fileID: 2519590097880065468}
+  - component: {fileID: 7680718582816058345}
   m_Layer: 0
   m_Name: Feedbacks
   m_TagString: Untagged
@@ -203,6 +204,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentage: 60
+--- !u!114 &7680718582816058345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744858086276578507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aadc2ac9f120f1c42a6b8d03b5174dfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 1112037186076321491}
 --- !u!54 &5403654921169700186
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -471,6 +486,8 @@ MonoBehaviour:
   keepMomentumY: 1
   applyGravity: 1
   gravityMultiplier: 1
+  applyGravityDescend: 0
+  gravityMultiplierDescend: 1
   canAirControl: 0
   groundCancel: 1
   groundEndLag: {fileID: 0}
@@ -603,6 +620,7 @@ MonoBehaviour:
   - {fileID: 850544075689051394}
   - {fileID: 4390333993065719160}
   - {fileID: 2519590097880065468}
+  - {fileID: 7680718582816058345}
   - {fileID: 6016817123676397778}
   playerHitEvent: {fileID: 0}
   clashLevel: 0
@@ -1606,14 +1624,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f5a1ddbde0b0134185e40492b10f6d5, type: 3}
---- !u!4 &1668815542739603772 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4f5a1ddbde0b0134185e40492b10f6d5, type: 3}
-  m_PrefabInstance: {fileID: 1198638758025000663}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2045481165864127366 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4f5a1ddbde0b0134185e40492b10f6d5, type: 3}
+  m_PrefabInstance: {fileID: 1198638758025000663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1668815542739603772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4f5a1ddbde0b0134185e40492b10f6d5, type: 3}
   m_PrefabInstance: {fileID: 1198638758025000663}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1511892917657882103

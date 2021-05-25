@@ -22,7 +22,7 @@ public class AttackC_ProjectileTP : AttackComponent
 
 
 	float t = 0;
-	public AttackManager projectile;
+    AttackManager projectile;
 	bool projectileAppear = true;
 
 

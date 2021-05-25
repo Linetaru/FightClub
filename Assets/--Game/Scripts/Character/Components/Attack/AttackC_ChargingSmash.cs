@@ -16,10 +16,11 @@ public class AttackC_ChargingSmash : AttackComponent
     float autoRelease = 3f;
 
     [SerializeField]
-    GameObject VFX;
+    ParticleSystem[] particleCharged;
 
     float timer = 0f;
     bool release = false;
+    int index = 1;
 
 
     // Appelé au moment où l'attaque est initialisé
@@ -27,6 +28,8 @@ public class AttackC_ChargingSmash : AttackComponent
     {
         timer = 0f;
         release = false;
+        particleCharged[0].Play();
+        index = 0;
     }
 
     // Appelé tant que l'attaque existe 
@@ -43,7 +46,6 @@ public class AttackC_ChargingSmash : AttackComponent
         {
             release = true;
         }
-
 
 
         if (release == true && timer < initialDuration)
@@ -64,6 +66,18 @@ public class AttackC_ChargingSmash : AttackComponent
             user.Action.Action(attackCharged[attackCharged.Length-1]);
             return;
         }
+
+
+        //Feedbacks
+        if (index < attackCharged.Length)
+        {
+            if (timer >= duration[index])
+            {
+                particleCharged[index].Play();
+                index++;
+            }
+        }
+
 
     }
 

@@ -147,7 +147,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &906690179923345741
 MonoBehaviour:
@@ -1080,7 +1080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2355651021234337686
 Transform:
   m_ObjectHideFlags: 0
@@ -1122,7 +1122,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ddfe0bd5e6655d4f96366896a2f0938, type: 2}
+  - {fileID: 2100000, guid: e72a64ed794fe1b4fae501a339504964, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1156,9 +1156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f09375de5493014a89650c6197a0f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5264274699566487641}
+  active: 1
   startPoint: {fileID: 3441999919536870279}
   endPoint: {fileID: 2706827556082352502}
-  time: 0.3
+  time: 0.1
   smoothPoint: 4
 --- !u!1 &3178966321064764839
 GameObject:
@@ -1358,7 +1360,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5108620915587026369
 MonoBehaviour:
@@ -2002,7 +2004,6 @@ Transform:
   - {fileID: 6472392994468313347}
   - {fileID: 9018898331002837539}
   - {fileID: 5182540510246415333}
-  - {fileID: 5045802619417859277}
   - {fileID: 8346527389441998078}
   - {fileID: 395157778548464970}
   m_Father: {fileID: 5264274699566487640}
@@ -2108,6 +2109,7 @@ MonoBehaviour:
   powerGauge: {fileID: 5296816373584105577}
   projectile: {fileID: 906690179923345741}
   characterIcon: {fileID: 5108620915587026369}
+  SmearsControllerSword: {fileID: 0}
   motionSpeed: 1
 --- !u!114 &5264274699566487643
 MonoBehaviour:
@@ -3029,64 +3031,6 @@ MonoBehaviour:
   stateParry: {fileID: 5571493767746106257}
   stateAction: {fileID: 6363157009227727862}
   attackParry: {fileID: 8045468721652775528, guid: ff138b2648778614a91fa89b169a4949, type: 3}
---- !u!1 &7501158462512633219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5045802619417859277}
-  - component: {fileID: 3746776608136146251}
-  m_Layer: 0
-  m_Name: CharacterPowerGaugeSave
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5045802619417859277
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501158462512633219}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3746776608136146251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501158462512633219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f4f6b06829dbf429f3eb85313e7ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPower: 0
-  speedPower: 0
-  speedTimeMax: 3
-  maxPower: 80
-  timerSegmentPowerMax: 1.5
-  canSignatureMoveUseOneSegmentPerUse: 1
-  powerGivenOnAttack: 5
-  powerGivenToHitTarget: 7
-  powerGivenOnWallJump: 5
-  powerGivenOnWallRun: 5
-  timePowerGivenOnWallRunMax: 1
-  canGainPointByWallRun: 0
-  powerGivenByBoost: 33
-  powerGivenByMegaBoost: 99
-  gameEvent: {fileID: 0}
 --- !u!1 &7703424688228140998
 GameObject:
   m_ObjectHideFlags: 0
