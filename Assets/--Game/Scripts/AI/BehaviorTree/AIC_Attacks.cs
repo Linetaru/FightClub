@@ -45,21 +45,24 @@ public class AIC_Attacks : MonoBehaviour
 	{
 		List<int> probaTable = new List<int>();
 		int maxProba = 0;
+		int proba = 0;
 		for (int i = 0; i < attackDatabase.Length; i++)
 		{
-			maxProba += attackDatabase[i].CheckAttackPriority(target);
-			probaTable.Add(maxProba);
+			proba = attackDatabase[i].CheckAttackPriority(target);
+			maxProba += proba;
+			probaTable.Add(proba);
 		}
 		if (maxProba == 0)
 			return false;
 
-		int proba = Random.Range(0, maxProba);
+		proba = Random.Range(0, maxProba);
 		int index = 0;
 		for (int i = 0; i < probaTable.Count; i++)
 		{
 			if(probaTable[i] < proba)
 			{
 				index += 1;
+				proba -= probaTable[i];
 			}
 			else
 			{
@@ -76,7 +79,7 @@ public class AIC_Attacks : MonoBehaviour
 	[Button]
 	private void UpdateComponents()
 	{
-		attackDatabase = FindObjectsOfType<AIC_AttacksDetector>();
+		attackDatabase = GetComponentsInChildren<AIC_AttacksDetector>();
 	}
 
 	private void OnDrawGizmos()

@@ -16,6 +16,8 @@ public class AIBehaviorTree : AIBehavior
 	[SerializeField]
 	public List<AIC_Attacks> AttacksSystem;
 
+
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -54,7 +56,7 @@ public class AIBehaviorTree : AIBehavior
 		{
 			AttacksSystem[i].InitializeComponent(character, inputController, inputs);
 		}
-
+		TargetsSystem.InitializeComponent(character, inputController, inputs);
 
 		this.transform.SetParent(character.transform);
 		this.transform.localPosition = Vector3.zero;
@@ -67,4 +69,13 @@ public class AIBehaviorTree : AIBehavior
 		base.StopBehavior();
 		behaviorTree.enabled = false;
 	}
+
+
+	public void AssignInput(DebugInput input)
+	{
+		input.AssignInput(inputController, ref inputs);
+	}
+
+
 }
+

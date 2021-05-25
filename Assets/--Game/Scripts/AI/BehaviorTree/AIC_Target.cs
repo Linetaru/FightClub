@@ -8,6 +8,15 @@ public class AIC_Target : MonoBehaviour
 	[SerializeField]
 	List<CharacterBase> targets = new List<CharacterBase>();
 
+	CharacterBase self;
+
+	public void InitializeComponent(CharacterBase c, InputController input, Input_Info inputInfo)
+	{
+		self = c;
+		targets.Remove(self);
+
+	}
+
 	public CharacterBase GetRandomTarget()
 	{
 		if (targets == null)
@@ -22,6 +31,8 @@ public class AIC_Target : MonoBehaviour
 		CharacterBase c = other.GetComponent<CharacterBase>();
 		if (c != null)
 		{
+			if (c == self)
+				return;
 			if (!targets.Contains(c))
 				targets.Add(c);
 		}
