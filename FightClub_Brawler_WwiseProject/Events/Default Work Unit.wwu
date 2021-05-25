@@ -671,13 +671,6 @@
 												<Event Name="Play_BRND_Attack_Hit_DashAttack" ID="{9E0D7BEA-37B6-463E-8CF3-FDAADDE40E66}">
 													<ChildrenList>
 														<Action Name="" ID="{63349B57-58F6-45D1-8C17-A46686C31436}" ShortID="818760296">
-															<PropertyList>
-																<Property Name="Inclusion" Type="bool">
-																	<ValueList>
-																		<Value>False</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{0ABA2E25-D3B7-4788-9F2B-ABEA2EE22459}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
@@ -699,6 +692,13 @@
 															</ReferenceList>
 														</Action>
 														<Action Name="" ID="{1DB62312-F3DB-4D83-A35D-1CC5FF3A2DDD}" ShortID="940221163">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="SFX_BRND_Attack_Hit_DashAttack_02" ID="{EAAD718A-89D4-4BEB-AB14-B505D83E2E57}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
@@ -763,7 +763,7 @@
 								<Action Name="" ID="{A3E34607-2562-4EA8-A299-94307253BE7B}" ShortID="454228906">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Van De Graph_MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+											<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -771,14 +771,14 @@
 						</Event>
 						<Event Name="Stop_MUS_Menu_Main" ID="{6204E3C8-9565-49F1-A92A-86DFBEF70BF7}">
 							<ChildrenList>
-								<Action Name="" ID="{E2564964-5442-4FDA-B5E5-231B975416ED}" ShortID="413610865">
+								<Action Name="" ID="{71FA7FB1-28B1-426D-A874-A023DDF39D68}" ShortID="833099540">
 									<PropertyList>
-										<Property Name="ActionType" Type="int16" Value="4"/>
-										<Property Name="FadeTime" Type="Real64" Value="2"/>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="MUS_OST_Menu_V1" ID="{54DB0C07-A3F9-4A28-AC4B-44E252525511}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
+											<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -789,7 +789,7 @@
 								<Action Name="" ID="{25851898-B6E6-4719-A335-0DB933E85805}" ShortID="1018411855">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Phonograph_BreakPunch_OST_Ingame_V1" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+											<ObjectRef Name="MUS_Ingame_LP" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -800,7 +800,7 @@
 								<Action Name="" ID="{04172321-20E4-41A8-A68A-2D2A41181EAB}" ShortID="135949620">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Phonograph_MUS_BreakPunch_OST_Chara_Select_V1" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+											<ObjectRef Name="MUS_Chara_Select_LP" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -811,7 +811,7 @@
 								<Action Name="" ID="{2651F28B-13BF-4E07-BA02-0AFA82D298FD}" ShortID="799932748">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Phonograph_MUS_Volley_Ball_V1_LP" ID="{142D84C1-D54C-4784-BDB4-EABE4566620D}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+											<ObjectRef Name="MUS_Volley_Ball_V1_LP" ID="{142D84C1-D54C-4784-BDB4-EABE4566620D}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -822,7 +822,7 @@
 								<Action Name="" ID="{EA87DACE-AF41-44AF-BD2B-24269D1AD69E}" ShortID="551314579">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+											<ObjectRef Name="MUS_Cinemtaic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

@@ -12347,7 +12347,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
+  teamTextColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.11764706, b: 0, a: 1}
+  - {r: 0, g: 0.78431374, b: 1, a: 1}
+  - {r: 0, g: 0.5882353, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
   BombModeManager: {fileID: 0}
+  FlappyModeManager: {fileID: 0}
   uiEvent: {fileID: 11400000, guid: f1ec76ee325b2fe4ea94206e0a9e7710, type: 2}
   inputController: {fileID: 7854600161218405514}
   cameraController: {fileID: 770927624}
@@ -16431,6 +16438,10 @@ PrefabInstance:
       propertyPath: offsetRot.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3409050773024403814, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
+      propertyPath: targets.Array.data[0].transform
+      value: 
+      objectReference: {fileID: 3447755754802869554}
     - target: {fileID: 3409050773024403816, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.9
@@ -19489,6 +19500,7 @@ MonoBehaviour:
   currentPower: 0
   speedPower: 0
   speedTimeMax: 3
+  maxPower: 80
   timerSegmentPowerMax: 1.5
   canSignatureMoveUseOneSegmentPerUse: 1
   powerGivenOnAttack: 0
@@ -20059,9 +20071,24 @@ MonoBehaviour:
     multiplierValue: 0
     incrementValue: 0
     valueStat: 0
+  weight:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
   speed:
     baseStat: 0
     multiplierValue: 1
+    incrementValue: 0
+    valueStat: 0
+  aerialSpeed:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  jump:
+    baseStat: 0
+    multiplierValue: 0
     incrementValue: 0
     valueStat: 0
 --- !u!1 &4647763098556915291
@@ -20098,6 +20125,7 @@ MonoBehaviour:
   parry: {fileID: 6864626355072660091}
   weight: 1
   timeKnockbackPerDistance: 0.025
+  maxTimeKnockback: 1.5
   shakeEffect: {fileID: 1142840604895668928}
 --- !u!23 &4909902686433367828
 MeshRenderer:
@@ -20389,7 +20417,6 @@ MonoBehaviour:
   forwardSpecial: {fileID: 8045468721652775528, guid: 5ff2e8a8e98fde6448cac282781e4e30, type: 3}
   neutralSpecial: {fileID: 0}
   signatureMove: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
-  statusData: {fileID: 0}
   stateAction: {fileID: 0}
 --- !u!1 &5452461204120119016
 GameObject:
@@ -20728,6 +20755,7 @@ MonoBehaviour:
   currentPower: 0
   speedPower: 0
   speedTimeMax: 3
+  maxPower: 80
   timerSegmentPowerMax: 1.5
   canSignatureMoveUseOneSegmentPerUse: 1
   powerGivenOnAttack: 5
@@ -20866,7 +20894,15 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
-  damageVoiceEvent:
+  parrySuccessEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  parryFailedEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  deathEvent:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
@@ -21978,6 +22014,9 @@ MonoBehaviour:
   particleParry: {fileID: 1477291588837210726, guid: 14ccb119978fb114f832bfa3a5e734eb, type: 3}
   particleDirectionRepel: {fileID: 3721816288245871218, guid: e05ba4b2133efab43a37deb493c36445, type: 3}
   particleGuard: {fileID: 0}
+  particleGuardMedium: {fileID: 0}
+  particleGuardCritical: {fileID: 0}
+  particleGuardBreak: {fileID: 0}
   particleGuardDirectionRepel: {fileID: 0}
 --- !u!4 &6873875888767677889
 Transform:
@@ -22510,7 +22549,9 @@ MonoBehaviour:
   characterBase: {fileID: 3447755754802869555}
   animatorPivot: {fileID: 1850672127173173302}
   animator: {fileID: 5243454230025245507}
-  movement: {fileID: 544836763149009872}
+  animationParry: {fileID: 0}
+  animationParryAerial: {fileID: 0}
+  animationAcumod: {fileID: 0}
 --- !u!4 &9088658563921295646
 Transform:
   m_ObjectHideFlags: 0

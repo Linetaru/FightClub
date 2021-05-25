@@ -35,18 +35,40 @@ public class DebugInput
 	[VerticalGroup("Debug/Right")]
 	[SerializeField]
 	[HideLabel]
-	List<int> inputs;
+	public List<int> inputs;
+
+	public DebugInput(float horizontal, float vertical)
+	{
+		frame = 0;
+		inputs = new List<int>();
+
+		this.horizontal = horizontal;
+		this.vertical = vertical;
+
+	}
+	public DebugInput(float horizontal, float vertical, int input)
+	{
+		frame = 0;
+		inputs = new List<int>();
+
+		this.horizontal = horizontal;
+		this.vertical = vertical;
+		inputs.Add(input);
+
+	}
 
 	// Pour enregistrer les inputs
 	public DebugInput(float timestamp, Input_Info input_Info)
 	{
 		frame = timestamp;
+		inputs = new List<int>();
+
+		if (input_Info == null)
+			return;
+
 		horizontal = input_Info.horizontal;
 		vertical = input_Info.vertical;
 
-
-
-		inputs = new List<int>();
 
 		if (input_Info.CheckAction(0, InputConst.Jump))
 			inputs.Add(0);
