@@ -13,10 +13,10 @@ namespace Menu
 		[SerializeField]
         protected MenuButtonListController listEntry;
 
-		public event Event OnStart;
+		public event EventVoid OnStart;
 		public event EventInt OnSelected;
 		public event EventInt OnValidate;
-		public event Event OnEnd;
+		public event EventVoid OnEnd;
 
 		private void Start()
 		{
