@@ -93,9 +93,9 @@ public class BattleManager : MonoBehaviour
 			user.Model.SetTextColor(teamTextColors[(int) gameData.CharacterInfos[i].Team]);
 			user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
 
-			user.Stats.GameData = gameData;
 			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
+			user.Stats.LifeStocks = gameData.NumberOfLifes;
 
             user.PowerGauge.gameEvent = gameEventUICharacter[i];
 
