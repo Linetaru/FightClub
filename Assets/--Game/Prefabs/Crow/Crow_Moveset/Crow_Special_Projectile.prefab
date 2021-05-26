@@ -268,8 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b48c330b55e4192419463a7cdda29f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakePower: 0.2
-  shakeTime: 0.2
+  shakePower: 0.1
+  shakeTime: 0.1
 --- !u!54 &5403654921169700186
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2750e39954d45b4f894f86fff3336df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  percentDamage: 1
+  percentDamage: 4
   percentDamageOnGuard: 1
 --- !u!135 &6278527573032510356
 SphereCollider:
@@ -552,10 +552,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterRigidbody: {fileID: 737726467798517189}
-  baseSpeedX: 13
+  baseSpeedX: 24
+  curveSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0000005904585
+      value: 1
+      inSlope: -0.022670316
+      outSlope: -0.022670316
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10393874
+    - serializedVersion: 3
+      time: 1.0009212
+      value: 0.0054405816
+      inSlope: -3.2822306
+      outSlope: -3.2822306
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.028495805
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  timeCurve: 12
   baseSpeedY: 0
   baseDirection: 1
   collider: {fileID: 8438359812861734692}
+  startupFrame: 10
 --- !u!114 &2403904874074621940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,11 +683,11 @@ MonoBehaviour:
   - {fileID: 2403904874074621940}
   - {fileID: 6016817123676397778}
   playerHitEvent: {fileID: 0}
-  clashLevel: 0
+  clashLevel: -1
   noClash: 0
-  noParryCancel: 0
+  noParryCancel: 1
   disjoint: 0
-  guardOnDash: 0
+  guardOnDash: 1
   guardWin: 0
   parryBreak: 0
   guardBreak: 0
@@ -768,11 +794,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitStop: 0.2
+  hitStop: 0.1
   removeHitStopAttacker: 0
-  bonusHitstun: 0
+  bonusHitstun: 14
   knockbackAdvancedSettings: 1
-  minKnockbackPower: 20
+  minKnockbackPower: 35
   knockbackCurve:
     serializedVersion: 2
     m_Curve:
@@ -797,10 +823,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxKnockbackPower: 20
-  minCurvePercentage: 10
+  maxKnockbackPower: 50
+  minCurvePercentage: 50
   maxCurvePercentage: 100
-  linearKnockbackPower: 1
+  linearKnockbackPower: 0.2
   percentage: 40
   ejectionPowerTheoric: 30
   knockbackAngle: 90

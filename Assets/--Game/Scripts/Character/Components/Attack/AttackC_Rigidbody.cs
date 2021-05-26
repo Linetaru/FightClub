@@ -14,6 +14,12 @@ public class AttackC_Rigidbody : AttackComponent
 	[SerializeField]
 	float baseSpeedX = 120;
 	[SerializeField]
+	AnimationCurve curveSpeed;
+	[SerializeField]
+	[SuffixLabel("en frames")]
+	float timeCurve = 0.6f;
+
+	[SerializeField]
 	float baseSpeedY = 120;
 
 	[InfoBox("1 = la direcition du joueur, -1 l'opposé, 0 osef")]
@@ -36,34 +42,48 @@ public class AttackC_Rigidbody : AttackComponent
 	[SerializeField]
 	Collider collider;
 
+	[SerializeField]
+	[SuffixLabel("en frames")]
+	float startupFrame = 20f;
 
 	//float life = 0;
 	AttackSubManager attackSubManager;
 	int direction;
 	float speedX;
 	float speedY;
+	float t = 0;
+	bool hitbox = false;
 	//float speedZ;
 
 	public override void StartComponent(CharacterBase user)
 	{
-		collider.enabled = true;
+		//collider.enabled = false;
 
 		attackSubManager = this.transform.parent.GetComponent<AttackSubManager>();
 		direction = baseDirection * user.Movement.Direction;
 		speedX = baseSpeedX;
 		speedY = baseSpeedY;
-		//speedZ = 0;
+		t = 0f;
+		timeCurve /= 60;
+		startupFrame /= 60;
+		hitbox = false;
 	}
 
 	public override void UpdateComponent(CharacterBase user)
 	{
 		characterRigidbody.UpdateCollision(speedX * direction * user.MotionSpeed, speedY * user.MotionSpeed);
 
-		/*attackSubManager.transform.position += new Vector3(speed * direction, speedY, speedZ) * Time.deltaTime;
+		if (t > startupFrame && hitbox == false)
+		{
+			collider.enabled = true;
+			hitbox = true;
+		}
 
-		life += Time.deltaTime;
-		if (life >= lifetime)
-			Destroy(attackSubManager.gameObject);*/
+		if (t < timeCurve || t < startupFrame)
+		{
+			t += Time.deltaTime * user.MotionSpeed;
+		}
+		speedX = baseSpeedX * curveSpeed.Evaluate(t / timeCurve);
 	}
 
 	public override void EndComponent(CharacterBase user)
