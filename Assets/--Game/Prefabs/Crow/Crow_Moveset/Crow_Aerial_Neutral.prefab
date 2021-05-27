@@ -210,7 +210,6 @@ GameObject:
   - component: {fileID: 2927820717423449465}
   - component: {fileID: 850544075689051394}
   - component: {fileID: 4390333993065719160}
-  - component: {fileID: 2519590097880065468}
   - component: {fileID: 1150759611403563799}
   m_Layer: 0
   m_Name: Feedbacks
@@ -261,19 +260,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakePower: 0.2
   shakeTime: 0.2
---- !u!114 &2519590097880065468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1744858086276578507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3cbb26d2712694f8bb11f59932a610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  percentage: 60
 --- !u!114 &1150759611403563799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2750e39954d45b4f894f86fff3336df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  percentDamage: 2
+  percentDamage: 1
   percentDamageOnGuard: 1
 --- !u!135 &6278527573032510356
 SphereCollider:
@@ -552,6 +538,7 @@ MonoBehaviour:
   - {fileID: 7753983595170897516}
   - {fileID: 8391391187570797471}
   - {fileID: 7807722670172095743}
+  - {fileID: 1245857437672293509}
   - {fileID: 7884779777460124120}
   playerHitEvent: {fileID: 0}
   clashLevel: 0
@@ -785,11 +772,10 @@ MonoBehaviour:
   hitBox: {fileID: 1732793799963199980}
   atkCompList:
   - {fileID: 5175837950988128888}
-  - {fileID: 8174270232960109874}
+  - {fileID: 8176419302839228217}
   - {fileID: 2318344880254824108}
   - {fileID: 850544075689051394}
   - {fileID: 4390333993065719160}
-  - {fileID: 2519590097880065468}
   - {fileID: 1150759611403563799}
   - {fileID: 6016817123676397778}
   playerHitEvent: {fileID: 0}
@@ -870,7 +856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3654358300260308607}
-  - component: {fileID: 8174270232960109874}
+  - component: {fileID: 8176419302839228217}
   m_Layer: 0
   m_Name: Knockback
   m_TagString: Untagged
@@ -886,13 +872,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4692425404993952138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.2, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4270557653288672985}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8174270232960109874
+--- !u!114 &8176419302839228217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -901,14 +887,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 4692425404993952138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272f2de3562449141a4ceaf0ebb6f91f, type: 3}
+  m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitStop: 0.1
-  bonusHitstun: 0
-  knockbackSpeedMultiplier: 1
+  removeHitStopAttacker: 0
+  bonusHitstun: 1
+  knockbackAdvancedSettings: 1
+  minKnockbackPower: 11
+  knockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxKnockbackPower: 11
+  minCurvePercentage: 10
+  maxCurvePercentage: 100
+  linearKnockbackPower: 0
+  percentage: 0
+  ejectionPowerTheoric: 0
   knockbackAngle: 0
-  dynamicAngle: 2
+  dynamicAngle: 3
   percentageSpawnParticle: 0
   particleDirection: {fileID: 0}
   timeBeforeDestroying: 0
@@ -1088,7 +1106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3453360770903855595
 Transform:
   m_ObjectHideFlags: 0
@@ -1194,6 +1212,7 @@ GameObject:
   - component: {fileID: 7753983595170897516}
   - component: {fileID: 8391391187570797471}
   - component: {fileID: 7807722670172095743}
+  - component: {fileID: 1245857437672293509}
   m_Layer: 0
   m_Name: Feedbacks
   m_TagString: Untagged
@@ -1256,6 +1275,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentage: 60
+--- !u!114 &1245857437672293509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6312009341774791483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086cbc1dc15c06242a649a357b1a5c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particuleObject: {fileID: 1222550491574178, guid: 90de1f5328d58fb4ab3e2e0be9b472cd, type: 3}
+  timeBeforeDestroying: 1
 --- !u!135 &1473902747734048108
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1357,8 +1390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2750e39954d45b4f894f86fff3336df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  percentDamage: 1
-  percentDamageOnGuard: 1
+  percentDamage: 7
+  percentDamageOnGuard: 2
 --- !u!1 &7004588137176425742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,11 +1435,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e0a90bcdf83e047be0bb801d5d871b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitStop: 0.2
+  hitStop: 0.3
   removeHitStopAttacker: 0
-  bonusHitstun: 0
+  bonusHitstun: 20
   knockbackAdvancedSettings: 1
-  minKnockbackPower: 10
+  minKnockbackPower: 20
   knockbackCurve:
     serializedVersion: 2
     m_Curve:
@@ -1431,14 +1464,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxKnockbackPower: 35
+  maxKnockbackPower: 40
   minCurvePercentage: 10
-  maxCurvePercentage: 100
-  linearKnockbackPower: 1
+  maxCurvePercentage: 50
+  linearKnockbackPower: 0.2
   percentage: 40
   ejectionPowerTheoric: 30
-  knockbackAngle: 45
-  dynamicAngle: 1
+  knockbackAngle: 300
+  dynamicAngle: 0
   percentageSpawnParticle: 50
   particleDirection: {fileID: 3721816288245871218, guid: 38b27c5702c895342be139ac091cc0c0, type: 3}
   timeBeforeDestroying: 1
@@ -3174,21 +3207,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1082271958561512970, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 1511892917657882103}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1401160325080820252 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
-  m_PrefabInstance: {fileID: 1511892917657882103}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4575188169111979994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3135921509060577837, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
-  m_PrefabInstance: {fileID: 1511892917657882103}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1745772989261050022 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
-  m_PrefabInstance: {fileID: 1511892917657882103}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4514537163242983415 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6170625038081293824, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
@@ -3204,9 +3222,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3086436065929644917, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 1511892917657882103}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1401160325080820252 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
+  m_PrefabInstance: {fileID: 1511892917657882103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6279267582597734591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4332706925441422008, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
+  m_PrefabInstance: {fileID: 1511892917657882103}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1745772989261050022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 1511892917657882103}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6498261144250856234 stripped
@@ -3237,6 +3265,11 @@ GameObject:
 --- !u!1 &3554734118885089526 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2715566404302941441, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
+  m_PrefabInstance: {fileID: 1511892917657882103}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4575188169111979994 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3135921509060577837, guid: 853703c82d30c05488c1db49ef6e3ba2, type: 3}
   m_PrefabInstance: {fileID: 1511892917657882103}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1873679609294890761

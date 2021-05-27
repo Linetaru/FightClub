@@ -157,7 +157,15 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ActionSpecial(CharacterBase character)
 	{
 		if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
 			return ActionAttack(character, upSpecial);
+		}
+
 
 
 		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)

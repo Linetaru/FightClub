@@ -7,6 +7,9 @@ public class AttackC_JumpCancel : AttackComponent
 {
 	[SerializeField]
 	bool instantMomentum = false;
+	[ShowIf("instantMomentum")]
+	[SerializeField]
+	float multiplier = 1f;
 	[SerializeField]
 	bool jumpCancelOnHit = false;
 
@@ -29,7 +32,7 @@ public class AttackC_JumpCancel : AttackComponent
 				Debug.Log("Jump Cancel");
 				user.Action.FinishAction();
 				if (instantMomentum == true)
-					user.Movement.SpeedX = user.Movement.SpeedMax * user.Input.horizontal;
+					user.Movement.SpeedX = (user.Movement.MaxAerialSpeed * user.Input.horizontal) * multiplier;
 				//user.Movement.Jump();
 			}
 		}
