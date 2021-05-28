@@ -19,8 +19,8 @@ public class CharacterStateParryBlow : CharacterState
 
 
 	[Title("Ejection")]
-	[SerializeField]
-	float ejectionPower = 10f;
+	/*[SerializeField]
+	float ejectionPower = 10f;*/
 	[SerializeField]
 	AnimationCurve ejectionCurve;
 
@@ -47,11 +47,15 @@ public class CharacterStateParryBlow : CharacterState
 		evasiveMoveset.ResetDodge();
 		t = timeBlow;
 
-		initialSpeedX = character.Knockback.GetAngleKnockback().x * ejectionPower * character.Movement.Direction;
-		initialSpeedY = character.Knockback.GetAngleKnockback().y * ejectionPower;
+
+		initialSpeedX = character.Knockback.GetAngleKnockback().x * character.Movement.Direction;
+		initialSpeedY = character.Knockback.GetAngleKnockback().y;
 
 		character.Movement.SpeedX = initialSpeedX;
 		character.Movement.SpeedY = initialSpeedY;
+
+		Debug.Log(character.Movement.SpeedX);
+
 		character.Rigidbody.PreventFall(false);
 	}
 
@@ -59,11 +63,14 @@ public class CharacterStateParryBlow : CharacterState
 	{
 		float coef = ejectionCurve.Evaluate(1 - ((t - (timeBlow - timeStop)) / timeStop));
 
-		initialSpeedX = character.Knockback.GetAngleKnockback().x * ejectionPower * character.Movement.Direction;
-		initialSpeedY = character.Knockback.GetAngleKnockback().y * ejectionPower;
+		initialSpeedX = character.Knockback.GetAngleKnockback().x * character.Movement.Direction;
+		initialSpeedY = character.Knockback.GetAngleKnockback().y;
 		character.Movement.SpeedX = Mathf.Lerp(initialSpeedX, 0, coef); //character.Knockback.GetAngleKnockback().x * character.Movement.Direction;
 		character.Movement.SpeedY = Mathf.Lerp(initialSpeedY, 0, coef); //character.Knockback.GetAngleKnockback().y;
 
+		/*Debug.Log(initialSpeedX);
+		Debug.Log(coef);
+		Debug.Log(character.Movement.SpeedX);*/
 
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= (timeBlow - timeCancelParry))

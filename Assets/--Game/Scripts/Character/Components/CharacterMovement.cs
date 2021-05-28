@@ -179,7 +179,6 @@ public class CharacterMovement : MonoBehaviour
 
     public void SetSpeed(float newSpeedX, float newSpeedY)
     {
-        Debug.Log(newSpeedX);
         speedX = newSpeedX;
         speedY = newSpeedY;
     }

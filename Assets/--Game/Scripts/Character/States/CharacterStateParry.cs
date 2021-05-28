@@ -29,6 +29,9 @@ public class CharacterStateParry : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
+		//Debug.Log(spamParry);
+		/*if (oldState is CharacterStateParryBlow)
+			spamParry = false;*/
 		character.Knockback.Parry.IsParry = true;
 
 		t = 0f;

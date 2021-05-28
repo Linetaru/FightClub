@@ -62,9 +62,14 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
+
+	bool shnell = false;
 	// Update is called once per frame
 	void Update()
 	{
+		if (standbyList.Count == 0 && shnell == false)
+			aIController.StartBehaviors();
+		shnell = true;
 		for (int i = 0; i < standbyList.Count; i++)
 		{
 			standbyList[i].UpdateControl(0, input);
@@ -113,6 +118,8 @@ public class BattleManager : MonoBehaviour
 
 			//if (characterUi.Length != 0)
 			//	characterUi[i].InitPlayerPanel(user);
+
+
 
 			if (uiEvent != null)
 				uiEvent.Raise(user);
