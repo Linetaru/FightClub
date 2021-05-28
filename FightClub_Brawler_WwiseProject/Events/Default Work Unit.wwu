@@ -585,13 +585,6 @@
 												<Event Name="Play_BRND_Attack_Hit_UpTilt" ID="{3FA84085-F23A-41A8-861B-95C9E13622FA}">
 													<ChildrenList>
 														<Action Name="" ID="{E4582FF1-0A01-43C9-9A07-E69A1B76B796}" ShortID="503940017">
-															<PropertyList>
-																<Property Name="Inclusion" Type="bool">
-																	<ValueList>
-																		<Value>False</Value>
-																	</ValueList>
-																</Property>
-															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="BRND_Attack_Hit_UpTilt_v2" ID="{04E4A164-97E6-4288-914C-D149172CE2E9}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
@@ -599,6 +592,13 @@
 															</ReferenceList>
 														</Action>
 														<Action Name="" ID="{97E8A6CD-3853-4924-9DC5-5C54681666A0}" ShortID="673944422">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="BRND_Attack_Hit_UpTilt_v3" ID="{D2595879-ECC7-4AB7-BE49-2B7D2A294731}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
@@ -735,12 +735,23 @@
 								</Folder>
 								<Folder Name="BRAND_Parry" ID="{49A1E8C7-8624-45DC-A2D6-3066C64D6369}" ShortID="78050640">
 									<ChildrenList>
-										<Event Name="Play_SFX_Attack_Hit_Parry" ID="{08332E0B-8077-407B-A893-14E4B176341B}">
+										<Event Name="Play_Parry_Failed" ID="{08332E0B-8077-407B-A893-14E4B176341B}">
 											<ChildrenList>
-												<Action Name="" ID="{23EED293-332E-4CDA-AC01-BD001E156041}" ShortID="45172098">
+												<Action Name="" ID="{3F922C05-D873-45DE-BA7D-5ECBB3E4A782}" ShortID="498907590">
 													<ReferenceList>
 														<Reference Name="Target">
-															<ObjectRef Name="SFX_Attack_Hit_Parry" ID="{9B478800-3569-4BD5-8B6F-2C0C6D265A73}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+															<ObjectRef Name="SFX_Parry_Failed" ID="{CC601AE5-FADF-4BBA-9DCA-246BF0E121C6}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Play_Parry_Success" ID="{172BE24D-9550-4348-BBE7-926ACE5B53E9}">
+											<ChildrenList>
+												<Action Name="" ID="{350EA088-5378-4D48-9B60-AAD3A1B40099}" ShortID="421265117">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="SFX_Parry_Success" ID="{946A67CB-BD6E-4BEB-8BA2-38E3EB0B9D80}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 														</Reference>
 													</ReferenceList>
 												</Action>

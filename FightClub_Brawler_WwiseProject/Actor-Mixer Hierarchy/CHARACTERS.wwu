@@ -23,7 +23,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<ActorMixer Name="BRND_Attack" ID="{82446A90-69F4-47EB-B421-B5D45D357804}" ShortID="262469456">
+						<ActorMixer Name="Pulse_Attack" ID="{82446A90-69F4-47EB-B421-B5D45D357804}" ShortID="262469456">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -33,7 +33,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<ActorMixer Name="BRND_Attack_Hit_Mixer" ID="{75C2AE14-3CF7-433E-A5DD-02C2D02A5B05}" ShortID="1012983660">
+								<ActorMixer Name="Pulse_Attack_Hit_Mixer" ID="{75C2AE14-3CF7-433E-A5DD-02C2D02A5B05}" ShortID="1012983660">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="1"/>
 										<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
@@ -1207,11 +1207,6 @@
 										<Sound Name="BRND_Attack_Hit_UpTilt_v2" ID="{04E4A164-97E6-4288-914C-D149172CE2E9}" ShortID="721755206">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-												<Property Name="Inclusion" Type="bool">
-													<ValueList>
-														<Value>False</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ModifierList>
 														<ModifierInfo>
@@ -1666,6 +1661,11 @@
 										<Sound Name="BRND_Attack_Hit_UpTilt_v3" ID="{D2595879-ECC7-4AB7-BE49-2B7D2A294731}" ShortID="77792212">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
 												<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1868,6 +1868,68 @@
 												<ActiveSource Name="SFX_BRND_Attack_Hit_SpecialForward" ID="{12716FFE-0DBD-4F89-8428-F838244FF139}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<Folder Name="BRND_Parry" ID="{1BE5D902-0067-4644-932B-722E8038B0EA}" ShortID="137955865">
+											<ChildrenList>
+												<Sound Name="SFX_Parry_Failed" ID="{CC601AE5-FADF-4BBA-9DCA-246BF0E121C6}" ShortID="444365121">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="SFX_Parry_Failed" ID="{DFA31CAA-0FDC-4BF1-A934-B84F7C5B55CA}">
+															<Language>SFX</Language>
+															<AudioFile>Characters\Bernard\BRND_Attack\BRND_Parry\SFX_Parry_Failed.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="892738294"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="SFX_Parry_Failed" ID="{DFA31CAA-0FDC-4BF1-A934-B84F7C5B55CA}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="SFX_Parry_Success" ID="{946A67CB-BD6E-4BEB-8BA2-38E3EB0B9D80}" ShortID="769865504">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-4</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="SFX_Parry_Success" ID="{38E96D84-0ED0-4B7A-A5AE-72A1E6D1B0E1}">
+															<Language>SFX</Language>
+															<AudioFile>Characters\Bernard\BRND_Attack\BRND_Parry\SFX_Parry_Success.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="959516848"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="SFX_Parry_Success" ID="{38E96D84-0ED0-4B7A-A5AE-72A1E6D1B0E1}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</Folder>
 									</ChildrenList>
 									<PositioningInfo>
 										<Panner Name="" ID="{F862FDA2-7530-4B02-8AA2-AE1AAA1706AB}">
@@ -1904,7 +1966,7 @@
 										</Panner>
 									</PositioningInfo>
 								</ActorMixer>
-								<ActorMixer Name="BRND_Attack_Whoosh_Mixer" ID="{A81E13C9-3453-4D1E-A3C0-E771AF26E4D4}" ShortID="133799836">
+								<ActorMixer Name="Pulse_Attack_Whoosh_Mixer" ID="{A81E13C9-3453-4D1E-A3C0-E771AF26E4D4}" ShortID="133799836">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="1"/>
 										<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
@@ -3444,7 +3506,7 @@
 								</ActorMixer>
 							</ChildrenList>
 						</ActorMixer>
-						<ActorMixer Name="BRND_Movement" ID="{A24BBE1B-1692-43A3-B970-383E577051A8}" ShortID="512658303">
+						<ActorMixer Name="Pulse_Movement" ID="{A24BBE1B-1692-43A3-B970-383E577051A8}" ShortID="512658303">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -3454,7 +3516,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Folder Name="BRND_Footsteps" ID="{EBC854E1-7F7B-4403-B4D5-1BF39F87EB88}" ShortID="770136595">
+								<Folder Name="Pulse_Footsteps" ID="{EBC854E1-7F7B-4403-B4D5-1BF39F87EB88}" ShortID="770136595">
 									<ChildrenList>
 										<ActorMixer Name="BRND_Footsteps_Mixer" ID="{9EE41D9E-B12E-435C-B144-B62C433BDB90}" ShortID="327779240">
 											<PropertyList>
@@ -4383,7 +4445,7 @@
 										</ActorMixer>
 									</ChildrenList>
 								</Folder>
-								<Folder Name="BRND_Foley" ID="{B6F00E36-560C-429A-8E68-437C527E9964}" ShortID="568033124">
+								<Folder Name="Pulse_Foley" ID="{B6F00E36-560C-429A-8E68-437C527E9964}" ShortID="568033124">
 									<ChildrenList>
 										<ActorMixer Name="BRND_Foley_Mixer" ID="{CC0743BE-AF55-4C8F-9BD9-C168B1F5D008}" ShortID="689122449">
 											<ReferenceList>
