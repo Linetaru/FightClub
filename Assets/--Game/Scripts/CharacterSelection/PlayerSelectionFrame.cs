@@ -37,6 +37,7 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public int iD = 0;
 
+
     [HideInInspector]
     public bool isPlayerConnected = false;
 

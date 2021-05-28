@@ -1,16 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [System.Serializable]
 public class Character_Info
 {
+	[HorizontalGroup]
 	[SerializeField]
 	private int controllerID;
 	public int ControllerID
 	{
 		get { return controllerID; }
 		set { controllerID = value; }
+	}
+
+	[HorizontalGroup]
+	[HideLabel]
+	[SerializeField]
+	private InputMappingData inputMapping;
+	public InputMappingData InputMapping
+	{
+		get { return inputMapping; }
+		set { inputMapping = value; }
 	}
 
 	[SerializeField]
