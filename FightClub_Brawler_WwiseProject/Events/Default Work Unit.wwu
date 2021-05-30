@@ -68,7 +68,7 @@
 														<Action Name="" ID="{07D0953B-FCFE-453C-B44C-A70BC21F6E8F}" ShortID="535673756">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_FT_Metal_Run" ID="{EE81A425-0382-4882-A693-A2F6E87AD06B}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="CROW_FT_Metal_Run" ID="{EE81A425-0382-4882-A693-A2F6E87AD06B}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -79,7 +79,7 @@
 														<Action Name="" ID="{725549B3-AA46-49BC-B6A4-346F8381C28F}" ShortID="903564426">
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="BRND_FT_Metal_Walk" ID="{EA954AB8-EDBE-4379-A31B-CDC452F88EAF}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="CROW_FT_Metal_Walk" ID="{EA954AB8-EDBE-4379-A31B-CDC452F88EAF}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -93,34 +93,12 @@
 									<ChildrenList>
 										<Folder Name="BRND_FLY_Jump" ID="{E808B3F6-B402-4CD4-9B74-8760AE5826D8}" ShortID="15574976">
 											<ChildrenList>
-												<Event Name="Play_BRND_Metal_Jump" ID="{971D0133-C379-4A5A-9630-E38A9FC9D42B}">
-													<ChildrenList>
-														<Action Name="" ID="{418E7B23-8BD1-4FAD-AC9D-7D866EFBDCA0}" ShortID="418216328">
-															<ReferenceList>
-																<Reference Name="Target">
-																	<ObjectRef Name="SFX_BRND_FLY_Metal_Jump_01" ID="{E23B978C-0F0D-49DD-8DF0-DA64DA99213A}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
-																</Reference>
-															</ReferenceList>
-														</Action>
-													</ChildrenList>
-												</Event>
 												<Event Name="Play_BRND_Concrete_Jump" ID="{75E2539C-B285-4E19-9867-153A52D68B8C}">
 													<ChildrenList>
 														<Action Name="" ID="{35BE950B-A875-42F9-B3B6-B010E766344A}" ShortID="976947595">
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="SFX_BRND_FLY_Concrete_Jump_02" ID="{4CF03E5A-343F-441F-B3A6-F5089C6D2EE0}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
-																</Reference>
-															</ReferenceList>
-														</Action>
-													</ChildrenList>
-												</Event>
-												<Event Name="Play_BRND_Metal_Wall_Jump" ID="{F932E8BE-609B-44B4-9FCA-1CF261545EFC}">
-													<ChildrenList>
-														<Action Name="" ID="{0716F0AB-CF2A-4B3F-8E9A-FBF98CC926BC}" ShortID="505966536">
-															<ReferenceList>
-																<Reference Name="Target">
-																	<ObjectRef Name="SFX_BRND_FT_Metal_Wall_Jump_02" ID="{A38DF6A6-4099-4741-A7F2-27FB6B5BA395}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -136,17 +114,6 @@
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="BRND_FLY_Concrete_Land" ID="{CF44CFFE-DE48-4C6E-9544-AAF141D8A5E9}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
-																</Reference>
-															</ReferenceList>
-														</Action>
-													</ChildrenList>
-												</Event>
-												<Event Name="Play_BRND_Metal_Land" ID="{B72EA145-F157-48FA-B784-E637FB4C8853}">
-													<ChildrenList>
-														<Action Name="" ID="{6973A85C-C7E5-4FC8-A818-F1667E755D04}" ShortID="368795232">
-															<ReferenceList>
-																<Reference Name="Target">
-																	<ObjectRef Name="BRND_FLY_Metal_Land" ID="{51CD16D0-E6E4-46C2-88B5-C3E0552AAFAC}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -757,6 +724,398 @@
 												</Action>
 											</ChildrenList>
 										</Event>
+									</ChildrenList>
+								</Folder>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="CROW" ID="{E46580BE-8638-4B27-AAA9-534B42A97717}" ShortID="299939250">
+							<ChildrenList>
+								<Folder Name="CROW_FLY" ID="{5AD3F73E-C8DF-4523-AE51-D9D4B3B6403F}" ShortID="1018071171">
+									<ChildrenList>
+										<Event Name="Play_CROW_FT_Walk" ID="{CECDCD6C-4572-4C1D-A7CB-C704529F62B5}">
+											<ChildrenList>
+												<Action Name="" ID="{97E1E719-FBBB-419F-B343-90F83C58DB8E}" ShortID="1034321025">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CROW_FT_Metal_Walk" ID="{EA954AB8-EDBE-4379-A31B-CDC452F88EAF}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Play_CROW_FT_Run" ID="{B40C443A-850A-40DE-B68F-0BC41585BA41}">
+											<ChildrenList>
+												<Action Name="" ID="{1A815215-96C1-4BEA-8A8E-802E5CA9CAC5}" ShortID="807033007">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CROW_FT_Metal_Run" ID="{EE81A425-0382-4882-A693-A2F6E87AD06B}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Play_CROW_Metal_Wall_Jump" ID="{F932E8BE-609B-44B4-9FCA-1CF261545EFC}">
+											<ChildrenList>
+												<Action Name="" ID="{0716F0AB-CF2A-4B3F-8E9A-FBF98CC926BC}" ShortID="505966536">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CROW_FLY_Metal_Wall_Jump_02" ID="{A38DF6A6-4099-4741-A7F2-27FB6B5BA395}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Play_CROW_Metal_Land" ID="{B72EA145-F157-48FA-B784-E637FB4C8853}">
+											<ChildrenList>
+												<Action Name="" ID="{6973A85C-C7E5-4FC8-A818-F1667E755D04}" ShortID="368795232">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CROW_FLY_Metal_Land" ID="{51CD16D0-E6E4-46C2-88B5-C3E0552AAFAC}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="Play_CROW_Metal_Jump" ID="{971D0133-C379-4A5A-9630-E38A9FC9D42B}">
+											<ChildrenList>
+												<Action Name="" ID="{418E7B23-8BD1-4FAD-AC9D-7D866EFBDCA0}" ShortID="418216328">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CROW_FLY_Metal_Jump_01" ID="{E23B978C-0F0D-49DD-8DF0-DA64DA99213A}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="CROW_Attack" ID="{4CF75837-1C91-4B54-8713-3B6DE8ED5849}" ShortID="923004950">
+									<ChildrenList>
+										<Folder Name="CROW_Attack_Whoosh" ID="{CADD8C49-532B-4034-A755-1CB66F12B680}" ShortID="216273252">
+											<ChildrenList>
+												<Event Name="Play_CROW_Whoosh_Aerial_Up" ID="{E4D6BDD0-570A-4CD5-B625-C8E50393E44C}">
+													<ChildrenList>
+														<Action Name="" ID="{8FE2B5CF-3A6E-4D08-AA7A-3CEC6E0A4212}" ShortID="519899585">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Aerial_up_V1" ID="{861D115D-01CD-48C7-95E7-BEE7C7B5E6A4}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Dodge_Aerial" ID="{90C4D47F-E26C-448E-BF50-D9AB20C60129}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Special_Up_Raising" ID="{B587990A-547E-40AC-9D36-DEC36EDC3B11}"/>
+												<Event Name="Play_CROW_Whoosh_Dash_Attack" ID="{019AA97E-4D9C-419E-9E0C-C9FBCE8F7946}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Tilt_Up" ID="{C3C831DF-20CF-4578-A551-5A29E48896D2}">
+													<ChildrenList>
+														<Action Name="" ID="{F31F58BC-297D-44D3-A801-1527BFABFB05}" ShortID="887917860">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Tilt_Up" ID="{2771AEF6-19D9-4907-A756-2AA6E6698E62}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Tilt_Forward" ID="{F35E694A-8958-445C-AF92-9618D5060B66}">
+													<ChildrenList>
+														<Action Name="" ID="{0CE3D594-EBA7-423E-B468-FC685E7F4732}" ShortID="899222562">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Tilt_Forward" ID="{3D06AC96-C3F3-4E3A-9AB3-499949EA9A3F}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Neutral" ID="{9A0A4AF2-C072-48E5-A5EC-571FEBEAC67B}"/>
+												<Event Name="Play_CROW_Whoosh_Tilt_Down" ID="{0A074903-C6FE-4845-94DB-2A8CFCAC79E6}"/>
+												<Event Name="Play_CROW_Whoosh_Special_Down_Charging" ID="{DD392564-6CFC-46AD-BCCB-D4B74A16B03C}">
+													<ChildrenList>
+														<Action Name="" ID="{75FA4448-8DA1-4503-98B3-24C68715147E}" ShortID="480757769">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge" ID="{8DC8ECFF-E526-4DBD-A3B7-64DBBFFB3784}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Parry" ID="{EBA91965-563F-4A28-A0FF-B7C6FE3B0924}"/>
+												<Event Name="Play_CROW_Whoosh_Special_Up_Failling" ID="{BBD0C709-54BF-4B03-BB73-6871B828CB55}">
+													<ChildrenList>
+														<Action Name="" ID="{3A813E23-80A8-4561-90CC-D199D8DE2126}" ShortID="281846733">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Up_Falling_01" ID="{EC0289AC-C480-43BD-AE9A-EE21CF64E3AC}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Dodge_Ground" ID="{DAB42782-93CA-46C5-9FDE-F6AF98443DA4}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Forward" ID="{ECF08C50-978C-4875-965A-2C222AEDFC0B}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Special_Down_Hit" ID="{61A2ED7B-99BC-4FD0-9348-318E6A395AF9}"/>
+												<Event Name="Play_CROW_Whoosh_Special_Forward_Throw" ID="{AD57D162-5DB4-4182-ABBC-950DCD649DBB}">
+													<ChildrenList>
+														<Action Name="" ID="{E82C50EF-46EB-4193-8390-B651CF32304C}" ShortID="648684570">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Forward_Throw" ID="{0608DB02-DBAF-419E-A19B-994C117E9A8F}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Hit" ID="{398ADD6C-AD9F-4C60-A4AE-06EF11DFCCAD}"/>
+												<Event Name="Play_CROW_Whoosh_Aerial_Down" ID="{03DB3462-EF10-458D-9198-F8B0DAE8B2C0}">
+													<ChildrenList>
+														<Action Name="" ID="{98D2C24D-A918-43AC-8B08-C1F32DE23912}" ShortID="1035259145">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Aerial_Down" ID="{3394F5E2-ADC0-4337-A406-461E8C6A68C8}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+											</ChildrenList>
+										</Folder>
+										<Folder Name="CROW_Attack_Hit" ID="{7D2FC390-8F33-4FA5-B6BC-512A26B68284}" ShortID="208658134">
+											<ChildrenList>
+												<Event Name="Play_CROW_Hit_Aerial_Up" ID="{B843A9CC-8356-4F43-AE5B-D96B5C90E558}">
+													<ChildrenList>
+														<Action Name="" ID="{083BFD0B-3E14-4222-B310-6BBCE1D8A78E}" ShortID="729616237">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Aerial_up" ID="{9E658F08-86C4-4E8E-B38D-0E1C7DE4859C}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Up_Raising" ID="{38ED8E68-E561-4360-878E-8FD499AC646B}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Dash_Attack" ID="{CC8ED999-BA10-4A9A-8CE6-7FC9DA0C4C0F}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Tilt_Up_02" ID="{1D9083F0-BA7C-48F1-AD7A-5588F7167C10}">
+													<ChildrenList>
+														<Action Name="" ID="{CF128BFB-9CF7-4440-A270-0E8570784BAD}" ShortID="475357882">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Tilt_Up_02" ID="{A9DAB142-D4F0-417D-8734-04CFA3CAAB81}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Forward_Hit" ID="{28B03EC2-8E7D-4CD2-B99B-CE0CA91025D9}">
+													<ChildrenList>
+														<Action Name="" ID="{54D3A302-6939-4F91-B516-F03B812DB274}" ShortID="636326909">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Spe_Up_Falling_01" ID="{301CFB40-7F23-4C3E-ACBA-59F4161A38AD}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Tilt_Forward" ID="{5636E540-2FD4-48C3-B483-664C6CF46C85}">
+													<ChildrenList>
+														<Action Name="" ID="{D21B4CCF-A950-4FCF-959E-F37A2E875CE2}" ShortID="430290538">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Tilt_Forward" ID="{494A3A75-1915-48F0-9197-4DABAD46CAD0}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Neutral_1" ID="{2F6FB71F-0F86-4945-81D1-24AC51F2A47A}">
+													<ChildrenList>
+														<Action Name="" ID="{7E4CA2EE-5015-4ED1-BF99-9269D6893586}" ShortID="463106339">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Arerial_Neutral_Rdm" ID="{5584433D-E3D7-452A-B8A7-E39BCE88833F}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Tilt_Down" ID="{F945E5E3-49CC-4B8E-857D-6725FB7FBBB3}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Parry_Failed" ID="{43D6A417-C70D-49D7-8257-0018E581AECD}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<Action Name="" ID="{FE90918E-9DA4-49E5-9D3D-CF93BA263F21}" ShortID="147351742">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="SFX_Parry_Failed" ID="{CC601AE5-FADF-4BBA-9DCA-246BF0E121C6}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Up_Failling" ID="{A759333E-5E6D-401A-8E16-D2C838AF28AC}">
+													<ChildrenList>
+														<Action Name="" ID="{0AA5890E-68F8-4D90-A0E7-7119F6E6A0A3}" ShortID="182731662">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Spe_Up_Falling_02" ID="{A2C90726-C70C-41E5-BA19-A7C163EF40FC}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Forward" ID="{5D9C4C9F-D426-41E4-AECF-BCD8C3614E8E}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Down_Hit" ID="{3CD423AD-C5EC-4048-A7B6-B97DBFBB98E1}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<Action Name="" ID="{5AA18618-9374-45D6-BDE3-E0EB133F8D08}" ShortID="86381045">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Spe_Down_Hit" ID="{D7F82142-C8CF-4CB5-8453-CA512EB5949F}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Hit" ID="{9207C9F2-01BD-4645-8057-0CBC81590E89}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Aerial_Down" ID="{DF30EA48-27C5-4F48-94C0-5C3DEA7C9441}">
+													<ChildrenList>
+														<Action Name="" ID="{7B63AF08-F4AD-41CE-876B-D579899946AB}" ShortID="333585580">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Aerial_Down" ID="{44DECE75-E4DB-40BE-9342-5770A9E60F68}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Tilt_Forward_Spam" ID="{B012D7FD-4633-4CBD-8EF1-6AB2EBC7FE4F}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Down_Hit_2" ID="{B58A9501-AD25-4FD0-9744-8460DE61F492}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<Action Name="" ID="{A360921B-C8DA-49D3-BF22-C6291E92696D}" ShortID="125713953">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Spe_Down_Hit_02" ID="{DA3A7DD7-4DF0-4EC8-ACA4-68C6CF2F86CF}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Special_Down_Hit_3" ID="{62904F8D-EB7B-4033-8BFD-682F1C223BA4}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<Action Name="" ID="{1D6F325F-D92C-4E5F-9BCA-A738FF2F7ADE}" ShortID="199603345">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Spe_Down_Hit_03" ID="{120D3878-B2E1-4DFA-B95E-18A505E0DBBB}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Neutral_3" ID="{D7C40A17-942D-48B1-8E42-4F1F8B07F16D}">
+													<ChildrenList>
+														<Action Name="" ID="{E2251F56-1F2E-482F-A081-469CAA2C7AD8}" ShortID="913719413">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Arerial_Neutral_Last_V2" ID="{F505819E-CDEC-442C-97F0-06EAA0A39E54}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Hit_Tilt_Up_01" ID="{0E06C0BF-B208-4F5E-B32F-844A5C57B313}">
+													<ChildrenList>
+														<Action Name="" ID="{B7C62218-CE05-4469-B820-F971D9A02A68}" ShortID="150859072">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Hit_Tilt_Up" ID="{7F2EB10C-DA5D-4A47-AA32-963751F0BCA7}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Parry_Success" ID="{6F2EE283-449D-40CF-B75C-DA4A53243691}">
+													<PropertyList>
+														<Property Name="Color" Type="int16" Value="1"/>
+														<Property Name="OverrideColor" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<Action Name="" ID="{F789C914-BB77-4AFF-9C10-2EF7BB16DC9D}" ShortID="721990161">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="SFX_Parry_Success" ID="{946A67CB-BD6E-4BEB-8BA2-38E3EB0B9D80}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+											</ChildrenList>
+										</Folder>
 									</ChildrenList>
 								</Folder>
 							</ChildrenList>
