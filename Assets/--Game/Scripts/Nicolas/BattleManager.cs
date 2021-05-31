@@ -6,8 +6,8 @@ using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
-	[SerializeField]
-	private bool autoStart = true;
+	//[SerializeField]
+	public bool autoStart = true;
 
 	[Title("Data")]
 	[Expandable]
@@ -204,6 +204,8 @@ public class BattleManager : MonoBehaviour
     }
 
 
+
+	// CHANGER COROUTINE POUR LE SINGLETON ?
 	protected IEnumerator EndBattleCoroutine()
 	{
 		Time.timeScale = 0.2f;
@@ -217,13 +219,13 @@ public class BattleManager : MonoBehaviour
 		}
 
 
-
 		for (int i = 0; i < characterAlive.Count; i++)
 		{
 			characterFullDead.Add(characterAlive[i]);
 		}
 		characterFullDead.Reverse();
 		menuWin.InitializeWin(characterFullDead);
+		// Event to next game
 	}
 
 

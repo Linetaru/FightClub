@@ -27,6 +27,9 @@ public class GrandSlamManager : MonoBehaviour
     bool isUnloaded;
     bool isLoaded;
 
+    bool moveCamera = false;
+    [SerializeField]
+    private float cameraResetSpeed = 1.0f;
 
 
     private void Awake()
@@ -35,7 +38,17 @@ public class GrandSlamManager : MonoBehaviour
 
     private void Update()
     {
+        if(moveCamera)
+        {
+            float step = cameraResetSpeed * Time.deltaTime;
+            cameraObj.transform.position = Vector3.MoveTowards(cameraObj.transform.position, currentCam.transform.position, step);
 
+            if(Vector3.Distance(cameraObj.transform.position, currentCam.transform.position) < 0.001f)
+            {
+                cameraObj.transform.position = currentCam.transform.position;
+                moveCamera = false;
+            }
+        }
     }
 
     void Start()
@@ -121,11 +134,15 @@ public class GrandSlamManager : MonoBehaviour
         }
         isLoaded = false;
 
+        camSlam.RemoveBackgroundBlur();
+
         yield return new WaitForSeconds(2f);
 
-
         currentCam = BattleManager.Instance.cameraController.Camera;
+        moveCamera = true;
+        /*
         cameraObj.transform.position = currentCam.transform.position;
+        */
 
         yield return new WaitForSeconds(2f);
 
@@ -173,6 +190,7 @@ public class GrandSlamManager : MonoBehaviour
         }
         isLoaded = true;
 
+
         if (firstRound)
         {
             firstRound = false;
@@ -190,5 +208,8 @@ public class GrandSlamManager : MonoBehaviour
         isUnloaded = true;
     }
 
+    private void LerpCamera(Camera start, Camera target)
+    {
 
+    }
 }

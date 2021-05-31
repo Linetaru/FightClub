@@ -7,7 +7,25 @@ using UnityEngine.UI;
 public class CameraSlam : MonoBehaviour
 {
     [SerializeField]
-    private RawImage image;
+    private MeshRenderer background;
+
+    [SerializeField]
+    private Material blurMat;
+
+    [SerializeField]
+    private float smoothnessForBlur = 0.45f;
+
+    private float currentBlurValue = 1.0f, startValue;
+
+    [SerializeField]
+    private float timeToBlur = 1.0f;
+    [SerializeField]
+    private float timeToClear = 1.0f;
+
+    private float timer;
+
+    private bool setBlur, removeBlur;
+
 
     Animator anim;
 
@@ -17,6 +35,35 @@ public class CameraSlam : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if(setBlur)
+        {
+            if(timer < timeToBlur)
+            {
+                LerpBlur(startValue, smoothnessForBlur, timeToBlur);
+            }
+            else
+            {
+                setBlur = false;
+            }
+        }
+
+        if(removeBlur)
+        {
+            if (timer < timeToClear)
+            {
+                LerpBlur(startValue, 1.0f, timeToClear);
+            }
+            else
+            {
+                removeBlur = false;
+                blurMat.SetFloat("_Smoothness", 1.0f);
+                background.enabled = false;
+            }
+        }
     }
 
     public void RotToScore()
@@ -36,10 +83,43 @@ public class CameraSlam : MonoBehaviour
     public void WatchScore()
     {
         watchingScore = true;
+        ActivateBackgroundBlur();
     }
 
     public void WatchGame()
     {
         watchingGame = true;
+    }
+
+    public void DrawScore()
+    {
+
+    }
+
+    public void RemoveScore()
+    {
+
+    }
+
+    public void ActivateBackgroundBlur()
+    {
+        timer = 0f;
+        background.enabled = true;
+        startValue = currentBlurValue;
+        setBlur = true;
+    }
+
+    public void RemoveBackgroundBlur()
+    {
+        timer = 0f;
+        startValue = currentBlurValue;
+        removeBlur = true;
+    }
+
+    public void LerpBlur(float start, float target, float timerLerp)
+    {
+        currentBlurValue = Mathf.Lerp(start, target, timer / timerLerp);
+        blurMat.SetFloat("_Smoothness", currentBlurValue);
+        timer += Time.deltaTime;
     }
 }
