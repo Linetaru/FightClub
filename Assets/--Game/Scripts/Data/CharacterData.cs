@@ -28,6 +28,13 @@ public class CharacterData : ScriptableObject
     [Title("Colors")]
     public List<Material> characterMaterials;
 
+    /*public List<Material> characterMaterials
+    {
+        get { return myVar; }
+        set { myVar = value; }
+    }*/
+
+
     [Title("Intro")]
     public IntroductionCharacter[] introductions;
 

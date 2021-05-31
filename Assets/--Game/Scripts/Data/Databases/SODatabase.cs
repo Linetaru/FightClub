@@ -9,7 +9,7 @@ using System.IO;
 
 // Comme on peut pas générer des SO generic, y'a une dizaine de classe database qui hérite de cette clase
 // Chaque enfant de SODatabase doit être son propre fichier sinon Unity ne reconnait pas le SO comme valide
-public class SODatabase<T> : ScriptableObject, ISavable
+public class SODatabase<T> : ScriptableObject, ISavable, IUnlockable
 {
     [SerializeField]
     bool autoPopulate = true;
@@ -102,16 +102,30 @@ public class SODatabase<T> : ScriptableObject, ISavable
 
         for (int i = 0; i < database.Count; i++)
         {
-            Debug.Log(database[i].Equals(item));
             if(database[i].Equals(item))
             {
                 unlocked[i] = b;
-                Debug.Log(unlocked[i]);
                 return;
             }
         }
     }
 
+    public void SetUnlocked(string itemName, bool b)
+    {
+        if (unlocked.Count == 0)
+        {
+            CreateUnlockableList();
+        }
+
+        for (int i = 0; i < database.Count; i++)
+        {
+            if (database[i].ToString().Equals(itemName))
+            {
+                unlocked[i] = b;
+                return;
+            }
+        }
+    }
 
 
 
@@ -168,7 +182,6 @@ public class SODatabase<T> : ScriptableObject, ISavable
                 {
                     if (gameVariables[i].variableValue >= 1)
                     {
-                        Debug.Log(gameVariables[i].variableValue);
                         unlocked[j] = true;
                     }
                     break;
