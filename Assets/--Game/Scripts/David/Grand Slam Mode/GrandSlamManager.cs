@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GrandSlamManager : MonoBehaviour
@@ -30,6 +31,8 @@ public class GrandSlamManager : MonoBehaviour
     bool moveCamera = false;
     [SerializeField]
     private float cameraResetSpeed = 1.0f;
+
+    UnityEvent gameEndedEvent;
 
 
     private void Awake()
@@ -102,7 +105,9 @@ public class GrandSlamManager : MonoBehaviour
 
     IEnumerator ManageEndMode()
     {
-        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0.2f;
+        yield return new WaitForSecondsRealtime(2f);
+        Time.timeScale = 1.0f;
 
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
@@ -170,6 +175,15 @@ public class GrandSlamManager : MonoBehaviour
         currentCam.enabled = true;
 
         BattleManager.Instance.StartBattleManager();
+
+        gameEndedEvent = BattleManager.Instance.gameEndedEvent;
+        gameEndedEvent.AddListener(EndGame);
+
+    }
+
+    void EndGame()
+    {
+        Debug.Log("END GAME GRAND SLAM");
         StartCoroutine(ManageEndMode());
     }
 

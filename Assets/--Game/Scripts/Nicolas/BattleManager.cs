@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using Sirenix.OdinInspector;
 
@@ -42,11 +43,13 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
-	private bool gameEnded;
+	private bool slowMowEnd;
 	private float timer;
 
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
+
+	public UnityEvent gameEndedEvent = new UnityEvent();
 
 
 	//SINGLETON
@@ -86,6 +89,13 @@ public class BattleManager : MonoBehaviour
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
 
+		/*
+		if (gameEndedEvent == null)
+			gameEndedEvent = new UnityEvent();
+		*/
+
+		gameEndedEvent.AddListener(ManageEndBattle);
+
 		SpawnPlayer();
 		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
 		{
@@ -107,7 +117,7 @@ public class BattleManager : MonoBehaviour
 			standbyList[i].UpdateControl(0, input);
 		}
 
-		if(gameEnded)
+		if(slowMowEnd)
         {
 			if(timer < 2f)
 			{
@@ -117,7 +127,7 @@ public class BattleManager : MonoBehaviour
             else
             {
 				timer = 0f;
-				gameEnded = false;
+				slowMowEnd = false;
 				EndBattle();
             }
         }
@@ -216,17 +226,23 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			ManageEndBattle();
+			if(autoStart) // TMP CONDITION POUR TEST
+				SlowMotionEnd();
+			else
+			{
+				enabled = false;
+				EndBattle();
+			}
 
 			//StartCoroutine(EndBattleCoroutine());
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
-        }
+		}
     }
 
-	public void ManageEndBattle()
+	public void SlowMotionEnd()
 	{
 		Time.timeScale = 0.2f;
-		gameEnded = true;
+		slowMowEnd = true;
 	}
 
 
@@ -246,8 +262,18 @@ public class BattleManager : MonoBehaviour
 			characterFullDead.Add(characterAlive[i]);
 		}
 		characterFullDead.Reverse();
-		menuWin.InitializeWin(characterFullDead);
-		// Event to next game
+
+		// Event end game
+		gameEndedEvent.Invoke();
+	}
+
+	public void ManageEndBattle()
+    {
+		if (autoStart) // TMP CONDITION POUR TEST
+			menuWin.InitializeWin(characterFullDead);
+		else
+			Debug.Log("END BATTLE GRAND SLAM");
+
 	}
 
 
