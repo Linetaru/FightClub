@@ -17,23 +17,37 @@ namespace Menu
 	public class MenuShopUnityChan : MonoBehaviour
 	{
 		[SerializeField]
-		MenuList menuList;
+		MenuList menuList = null;
 
 		[Title("Unity chan")]
 		[SerializeField]
-		Animator animatorUnityChan;
+		Animator animatorUnityChan = null;
 		[SerializeField]
-		Textbox textboxUnityChan;
+		Textbox textboxUnityChan = null;
 
 		[Title("Unity chan dialog")]
 		[SerializeField]
+		[HideLabel]
+		string osef = "";
+
+		[TabGroup("UnityChan", "Greetings")]
+		[SerializeField]
 		UnityChanBehavior[] greetings;
+
+		[TabGroup("UnityChan", "Waiting")]
 		[SerializeField]
 		Vector2 waitTime;
+		[TabGroup("UnityChan", "Waiting")]
 		[SerializeField]
 		UnityChanBehavior[] waiting;
+
+		[TabGroup("UnityChan", "Quiting")]
 		[SerializeField]
 		UnityChanBehavior[] quiting;
+
+		[TabGroup("UnityChan", "Buying")]
+		[SerializeField]
+		UnityChanBehavior[] buying;
 
 		private void Start()
 		{
@@ -128,7 +142,7 @@ namespace Menu
 					}
 					yield return null;
 				}
-				animatorUnityChan.CrossFadeInFixedTime("MTH_Close", 0.2f, 2);
+				animatorUnityChan.CrossFadeInFixedTime("MTH_Close", timeBlend, 2);
 				yield return null;
 			}
 		}

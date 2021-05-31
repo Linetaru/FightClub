@@ -7,4 +7,5 @@ using UnityEngine;
 public class ColorData : ScriptableObject
 {
     public Material material;
+    public Sprite characterFace;
 }

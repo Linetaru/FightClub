@@ -29,6 +29,9 @@ namespace Menu
 		[SerializeField]
 		Animator animatorBackground;
 
+		[SerializeField]
+		Animator animatorPanelUnityChan2;
+
 		void Awake()
 		{
 			for (int i = 0; i < menuShops.Length; i++)
@@ -59,6 +62,7 @@ namespace Menu
 		{
 			base.SelectEntry(id);
 			textDescription.DrawTextbox(textOptions[id]);
+			animatorPanelUnityChan2.SetTrigger("Feedback");
 			//animatorDescription.SetTrigger("Feedback");
 		}
 
