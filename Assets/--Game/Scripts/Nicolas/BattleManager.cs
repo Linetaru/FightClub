@@ -42,6 +42,9 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
+	private bool gameEnded;
+	private float timer;
+
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
 
@@ -103,6 +106,21 @@ public class BattleManager : MonoBehaviour
 		{
 			standbyList[i].UpdateControl(0, input);
 		}
+
+		if(gameEnded)
+        {
+			if(timer < 2f)
+			{
+				timer += Time.unscaledDeltaTime;
+				Debug.Log(timer);
+            }
+            else
+            {
+				timer = 0f;
+				gameEnded = false;
+				EndBattle();
+            }
+        }
 	}
 
 	public void SpawnPlayer()
@@ -198,18 +216,22 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			StartCoroutine(EndBattleCoroutine());
+			ManageEndBattle();
+
+			//StartCoroutine(EndBattleCoroutine());
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
         }
     }
 
-
-
-	// CHANGER COROUTINE POUR LE SINGLETON ?
-	protected IEnumerator EndBattleCoroutine()
+	public void ManageEndBattle()
 	{
 		Time.timeScale = 0.2f;
-		yield return new WaitForSecondsRealtime(2f);
+		gameEnded = true;
+	}
+
+
+	public void EndBattle()
+	{
 		Time.timeScale = 1f;
 
 		cameraController.gameObject.SetActive(false);
@@ -227,7 +249,6 @@ public class BattleManager : MonoBehaviour
 		menuWin.InitializeWin(characterFullDead);
 		// Event to next game
 	}
-
 
 
 	// JSP si là c'est le mieux
