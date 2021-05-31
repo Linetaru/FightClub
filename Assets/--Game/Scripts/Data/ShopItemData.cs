@@ -51,6 +51,20 @@ public class ShopItemData : ScriptableObject
         get { return itemToUnlock; }
     }
 
+    [SerializeField]
+    private ScriptableObject databaseToLook;
+    public ScriptableObject DatabaseToLook
+    {
+        get { return databaseToLook; }
+    }
+
+    public string GetUnlockID()
+    {
+        if (ItemToUnlock != null)
+            return itemToUnlock.name;
+        return "";
+    }
+
 }
 
 

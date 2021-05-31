@@ -15,4 +15,12 @@ public class AIController : MonoBehaviour
 			AIBehaviors[i].StartBehavior();
 		}
 	}
+
+	public void StopBehaviors()
+	{
+		for (int i = 0; i < AIBehaviors.Count; i++)
+		{
+			AIBehaviors[i].StopBehavior();
+		}
+	}
 }

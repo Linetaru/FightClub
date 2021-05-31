@@ -60,6 +60,8 @@ public class Pathfinding : MonoBehaviour
 	[SerializeField]
 	public List<PathNode> finalPath = new List<PathNode>();
 
+	public bool debug = true;
+
 	NavmeshNode position;
 	public NavmeshNode Position
 	{
@@ -132,7 +134,8 @@ public class Pathfinding : MonoBehaviour
 		for (int i = 0; i < Navmesh2D.Instance.nodesNavmesh.Count; i++)
 		{
 			//Navmesh2D.Instance.nodesNavmesh[i].gameObject.SetActive(true);
-			Navmesh2D.Instance.nodesNavmesh[i].text.text = " ";
+			if(debug)
+				Navmesh2D.Instance.nodesNavmesh[i].text.text = " ";
 		}
 
 		int timeOut = 0;
@@ -140,7 +143,8 @@ public class Pathfinding : MonoBehaviour
 		while (currentPath.Node != start)
 		{
 			finalPath.Add(currentPath);
-			currentPath.Node.text.text = ".";
+			if (debug)
+				currentPath.Node.text.text = ".";
 			currentPath = currentPath.PreviousPath;
 
 			timeOut += 1;

@@ -2,15 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackComponent : MonoBehaviour
+public class AttackComponent : MonoBehaviour
 {
-    public abstract void StartComponent(CharacterBase user);
-    public abstract void UpdateComponent(CharacterBase user);
-    public abstract void OnHit(CharacterBase user, CharacterBase target);
+    public virtual void StartComponent(CharacterBase user)
+    {
 
-    public abstract void OnParry(CharacterBase user, CharacterBase target);
-    public abstract void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel);
-    public abstract void OnClash(CharacterBase user, CharacterBase target);
+    }
+    public virtual void UpdateComponent(CharacterBase user)
+    {
 
-    public abstract void EndComponent(CharacterBase user);
+    }
+    public virtual void OnHit(CharacterBase user, CharacterBase target)
+    {
+
+    }
+
+    public virtual void OnParry(CharacterBase user, CharacterBase target)
+    {
+
+    }
+    public virtual void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
+    {
+
+    }
+    public virtual void OnClash(CharacterBase user, CharacterBase target)
+    {
+
+    }
+
+    public virtual void EndComponent(CharacterBase user)
+    {
+
+    }
 }

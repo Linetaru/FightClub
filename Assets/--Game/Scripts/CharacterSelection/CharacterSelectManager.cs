@@ -91,6 +91,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             input_Info.inputUiAction = null;
         }
 
+
         if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Return)
         {
             foreach (PlayerSelectionFrame hologram in holograms)
@@ -135,8 +136,27 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                     }
                 }
                 input_Info.inputUiAction = null;
+                holograms[ID].iD = ID;
             }
-
+            // ================================================================== Pour l'IA
+            else if (input_Info.inputUiAction == InputConst.Jump)
+            {
+                if (holograms[ID].currentCursorPosition == 2)
+                {
+                    holograms[ID].RandomReady(characterDatas);
+                    numberOfReadyPlayers++;
+                }
+                else
+                {
+                    if (characterDatas[holograms[ID].currentCursorPosition] != null)
+                    {
+                        holograms[ID].ChooseCharacter(characterDatas);
+                    }
+                }
+                input_Info.inputUiAction = null;
+                holograms[ID].iD = -1;
+            }
+            // ==================================================================
             if (input_Info.inputUiAction == InputConst.Return)
             {
                 holograms[ID].Disconnected();

@@ -11,6 +11,8 @@ public class AttackC_CharaMovementForce : AttackComponent
 
 	[SerializeField]
 	float initialSpeedY;
+	[SerializeField]
+	bool speedOnce = false;
 	/*[SerializeField]
 	AnimationCurve curveSpeedY;
 	[SerializeField]
@@ -18,6 +20,7 @@ public class AttackC_CharaMovementForce : AttackComponent
 
 
 	float t = 0f;
+	bool once = false;
 
 
 	// Appelé au moment où l'attaque est initialisé
@@ -33,7 +36,10 @@ public class AttackC_CharaMovementForce : AttackComponent
 		t += Time.deltaTime;
 		if(t>=startForceTime)
 		{
+			if (speedOnce && once)
+				return;
 			user.Movement.SpeedY = initialSpeedY;
+			once = true;
 		}
     }
 	

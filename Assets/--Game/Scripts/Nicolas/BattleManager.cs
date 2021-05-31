@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
 
 	[Title("Interractions")]
 	public InputController inputController;
+	public AIController aIController;
 	public CameraZoomController cameraController;
 
 	[Title("Composants")]
@@ -61,9 +62,14 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
+
+	bool shnell = false;
 	// Update is called once per frame
 	void Update()
 	{
+		if (standbyList.Count == 0 && shnell == false)
+			aIController.StartBehaviors();
+		shnell = true;
 		for (int i = 0; i < standbyList.Count; i++)
 		{
 			standbyList[i].UpdateControl(0, input);
@@ -80,8 +86,19 @@ public class BattleManager : MonoBehaviour
 			CharacterBase user = go.GetComponent<CharacterBase>();
 			user.Model.tag = "Player" + (i + 1);
 
-			//inputController.controllable[i] = user;
-			inputController.controllable[gameData.CharacterInfos[i].ControllerID] = user;
+			if (gameData.CharacterInfos[i].ControllerID >= 0)
+			{
+				inputController.controllable[gameData.CharacterInfos[i].ControllerID] = user;
+				inputController.SetInputMapping(gameData.CharacterInfos[i].ControllerID, gameData.CharacterInfos[i].InputMapping);
+			}
+			else
+			{
+				int aiDifficulty = Mathf.Abs(gameData.CharacterInfos[i].ControllerID) - 1;
+				AIBehavior aIBehavior = Instantiate(gameData.CharacterInfos[i].CharacterData.aiBehavior[aiDifficulty], user.transform);
+				aIBehavior.SetCharacter(user, inputController);
+				aIBehavior.StartBehavior();
+				aIController.AIBehaviors.Add(aIBehavior);
+			}
 
 			user.TeamID = gameData.CharacterInfos[i].Team;
 
@@ -93,14 +110,16 @@ public class BattleManager : MonoBehaviour
 			user.Model.SetTextColor(teamTextColors[(int) gameData.CharacterInfos[i].Team]);
 			user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
 
-			user.Stats.GameData = gameData;
 			user.Stats.gameEvent = gameEventUICharacter[i];
 			user.Stats.InitStats();
+			user.Stats.LifeStocks = gameData.NumberOfLifes;
 
             user.PowerGauge.gameEvent = gameEventUICharacter[i];
 
 			//if (characterUi.Length != 0)
 			//	characterUi[i].InitPlayerPanel(user);
+
+
 
 			if (uiEvent != null)
 				uiEvent.Raise(user);
@@ -108,6 +127,7 @@ public class BattleManager : MonoBehaviour
 			cameraController.targets.Add(new TargetsCamera(go.transform, 0));
 		}
 		isGameStarted = true;
+
 	}
 
 
@@ -196,15 +216,27 @@ public class BattleManager : MonoBehaviour
 	// JSP si là c'est le mieux
 	public void SetMenuControllable(IControllable controllable)
 	{
+		for (int i = 0; i < characterAlive.Count; i++)
+		{
+			if (characterAlive[i].ControllerID >= 0)
+				standbyList.Add(characterAlive[i]);
+		}
+		for (int i = 0; i < characterFullDead.Count; i++)
+		{
+			if (characterFullDead[i].ControllerID >= 0)
+				standbyList.Add(characterFullDead[i]);
+		}
+
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{
-			if (inputController.controllable[i] != null)
+			/*if (inputController.controllable[i] != null)
 			{
 				standbyList.Add(inputController.controllable[i]);
-			}
+			}*/
 			inputController.controllable[i] = controllable;
 		}
 		// Enlevé les IA
+		aIController.StopBehaviors();
 	}
 
 	public void SetBattleControllable()
@@ -218,11 +250,15 @@ public class BattleManager : MonoBehaviour
 
 		for (int i = 0; i < characterAlive.Count; i++)
 		{
-			inputController.controllable[characterAlive[i].ControllerID] = characterAlive[i];
+			if(characterAlive[i].ControllerID >= 0)
+				inputController.controllable[characterAlive[i].ControllerID] = characterAlive[i];
 		}
 		for (int i = 0; i < characterFullDead.Count; i++)
 		{
-			inputController.controllable[characterFullDead[i].ControllerID] = characterFullDead[i];
+			if (characterFullDead[i].ControllerID >= 0)
+				inputController.controllable[characterFullDead[i].ControllerID] = characterFullDead[i];
 		}
+
+		aIController.StartBehaviors();
 	}
 }

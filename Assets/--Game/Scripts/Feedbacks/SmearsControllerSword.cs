@@ -13,6 +13,11 @@ public class LineSmear
 public class SmearsControllerSword : MonoBehaviour
 {
 	[SerializeField]
+	CharacterBase character;
+
+	[SerializeField]
+	bool active = true;
+	[SerializeField]
 	Transform startPoint;
 	[SerializeField]
 	Transform endPoint;
@@ -27,10 +32,11 @@ public class SmearsControllerSword : MonoBehaviour
 	//Material mat;
 
 	Mesh mesh;
-
 	List<LineSmear> lineSmears = new List<LineSmear>();
 
 	float t = 0f;
+	bool pause = false;
+
 
 	private void Start()
 	{
@@ -38,23 +44,69 @@ public class SmearsControllerSword : MonoBehaviour
 		//meshRenderer.material = mat;
 		GetComponent<MeshFilter>().mesh = mesh;
 		this.transform.SetParent(null);
+		this.transform.localScale = Vector3.one;
+		this.transform.position = Vector3.zero;
+		this.transform.eulerAngles = Vector3.zero;
+
+		if (character != null)
+		{
+			character.SmearsControllerSword = this;
+			character.OnMotionSpeed += PauseSmears;
+		}
+
 	}
+
+	public void SmearsActive(bool b)
+	{
+		if (!active && b)
+			t = 0f;
+		active = b;
+	}
+
+	public void PauseSmears(float newValue)
+	{
+		if (newValue == 0)
+			pause = true;
+		else
+			pause = false;
+		t = time;
+	}
+
 
 	private void LateUpdate()
 	{
-
-		this.transform.position = Vector3.zero;
-		this.transform.eulerAngles = Vector3.zero;
 		if (startPoint == null)
 			return;
+		if (pause == true)
+			return;
 
-		lineSmears.Add(new LineSmear());
-		lineSmears[lineSmears.Count-1].verticeBase = startPoint.position;
-		lineSmears[lineSmears.Count - 1].verticeTip = endPoint.position;
 
-		t += Time.deltaTime;
-		if (t > time)
-			lineSmears.RemoveAt(0);
+		if (active)
+		{
+			lineSmears.Add(new LineSmear());
+			lineSmears[lineSmears.Count - 1].verticeBase = startPoint.position;
+			lineSmears[lineSmears.Count - 1].verticeTip = endPoint.position;
+			if (t > time)
+			{
+				lineSmears.RemoveAt(0);
+			}
+			else if (t < time)
+			{
+				t += Time.deltaTime;
+			}
+		}
+		else
+		{
+			if(lineSmears.Count != 0)
+			{
+				lineSmears.Add(new LineSmear());
+				lineSmears[lineSmears.Count - 1].verticeBase = startPoint.position;
+				lineSmears[lineSmears.Count - 1].verticeTip = endPoint.position;
+				lineSmears.RemoveAt(0);
+				lineSmears.RemoveAt(0);
+			}
+		}
+
 
 		if (lineSmears.Count > 1)
 		{
@@ -67,8 +119,8 @@ public class SmearsControllerSword : MonoBehaviour
 
 			for (int i = 0; i < lineSmears.Count; i++)
 			{
-				//colors[i * 2] = Color.clear; // Color.Lerp(Color.white, Color.clear, i / lineSmears.Count);
-				//colors[(i * 2) + 1] = Color.Lerp(Color.white, Color.clear, i / lineSmears.Count);
+				colors[i * 2] = Color.clear; // Color.Lerp(Color.white, Color.clear, i / lineSmears.Count);
+				colors[(i * 2) + 1] = Color.Lerp(Color.clear, Color.white, i / lineSmears.Count);
 
 				vertices[i * 2] = lineSmears[i].verticeBase;
 				vertices[(i * 2) + 1] = lineSmears[i].verticeTip;
@@ -115,9 +167,13 @@ public class SmearsControllerSword : MonoBehaviour
 			}
 			mesh.Clear();
 			mesh.vertices = vertices;
-			//mesh.colors = colors;
+			mesh.colors = colors;
 			mesh.uv = uv;
 			mesh.triangles = triangles;
+		}
+		else
+		{
+			mesh.Clear();
 		}
 
 		/*float uvRatio = (float)n / pointsToUse.Count;
@@ -125,6 +181,12 @@ public class SmearsControllerSword : MonoBehaviour
 		newUV[(n * 2) + 1] = new Vector2(uvRatio, 1);*/
 
 
+	}
+
+	private void OnDestroy()
+	{
+		if (character != null)
+			character.OnMotionSpeed -= PauseSmears;
 	}
 
 }
