@@ -17,6 +17,14 @@ public class SaveManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this.gameObject);
 
+            if(forceLoadDefault)
+            {
+                Debug.LogError("Attention, cette scène reset la save, à désactiver avant de faire une build");
+                saveData.LoadProfile(saveNewGameProfile);
+                LoadData();
+                return;
+            }
+
             // Load la save la première fois que le Save Manager est appelé (donc idéalement dès qu'on lance une session du jeu)
             if(LoadFile() == false)
             {
@@ -37,6 +45,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+
+
+    [SerializeField]
+    bool forceLoadDefault = false;
 
 
     [SerializeField]

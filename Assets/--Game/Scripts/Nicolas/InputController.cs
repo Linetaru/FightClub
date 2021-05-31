@@ -87,6 +87,9 @@ public class Input_Info
 		return inputActionsHold.Contains(CheckMapping(inputAction));
 	}
 
+
+
+
 	// A opti en dictionnaire mais fuat faire des shenanigan dans le SO du coup
 	public InputAction CheckMapping(InputAction inputAction)
 	{

@@ -18,15 +18,13 @@ namespace Menu
 
 	}
 
-	public class MenuEncyclopedia : MonoBehaviour, IControllable
+	public class MenuEncyclopedia : MenuList, IControllable
 	{
-		[SerializeField]
-		MenuButtonListController listEntry;
 		[SerializeField]
 		MenuButtonListController categoryEntry;
 
 		[SerializeField]
-		Encyclopedia[] encyclopediaDatabase;
+		SODatabase_Encyclopedia[] encyclopediaDatabase;
 
 
 		[Title("UI")]
@@ -34,25 +32,46 @@ namespace Menu
 		TextMeshProUGUI textDescription;
 
 
-		private void Start()
+		List<int> idItems = new List<int>();
+		bool firstTime = false;
+
+
+		/*private void Start()
 		{
 			DrawEncyclopedia(encyclopediaDatabase[0]);
+		}*/
+
+		public override void InitializeMenu()
+		{
+			base.InitializeMenu();
+			if (!firstTime)
+			{
+				DrawEncyclopedia(encyclopediaDatabase[0]);
+				firstTime = true;
+			}
 		}
 
-		public void DrawEncyclopedia(Encyclopedia encyclopedia)
+		public void DrawEncyclopedia(SODatabase_Encyclopedia encyclopedia)
 		{
-			for (int i = 0; i < encyclopedia.Lexiques.Length; i++)
+			idItems.Clear();
+			for (int i = 0; i < encyclopedia.Database.Count; i++)
 			{
-				listEntry.DrawItemList(i, null, encyclopedia.Lexiques[i].EntryTitle);
+				if (encyclopedia.GetUnlocked(i))
+				{
+					listEntry.DrawItemList(i, null, encyclopedia.Database[i].EntryTitle);
+					idItems.Add(i);
+				}
 			}
+			if (idItems.Count == 0)
+				return;
 			SelectEntry(0);
 			listEntry.SelectIndex(0);
-			listEntry.SetItemCount(encyclopedia.Lexiques.Length);
+			listEntry.SetItemCount(idItems.Count);
 		}
 
 
 
-		public void UpdateControl(int id, Input_Info input)
+		public override void UpdateControl(int id, Input_Info input)
 		{
 			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
 			{
@@ -62,7 +81,7 @@ namespace Menu
 			{
 				NextEncyclopedia();
 			}
-			else if (input.CheckAction(id, InputConst.Return) == true)
+			else if (input.inputUiAction == InputConst.Return)
 			{
 				QuitMenu();
 			}
@@ -70,23 +89,30 @@ namespace Menu
 
 
 
+		protected override void SelectEntry(int id)
+		{
+			if (idItems.Count == 0)
+				return;
+			base.SelectEntry(id);
+			textDescription.text = encyclopediaDatabase[categoryEntry.IndexSelection].Database[idItems[id]].EntryText;
+		}
+
+
+
+		/*protected override void QuitMenu()
+		{
+
+		}*/
+
+
+
+
 
 		public void NextEncyclopedia()
 		{
-			SelectEntry(0);
-			listEntry.SelectIndex(0);
+			/*SelectEntry(0);
+			listEntry.SelectIndex(0);*/
 			DrawEncyclopedia(encyclopediaDatabase[categoryEntry.IndexSelection]);
-		}
-
-		public void SelectEntry(int id)
-		{
-			textDescription.text = encyclopediaDatabase[categoryEntry.IndexSelection].Lexiques[id].EntryText;
-		}
-
-
-		public void QuitMenu()
-		{
-
 		}
 	}
 }
