@@ -35,6 +35,8 @@ public class CharacterAction : MonoBehaviour
     [SerializeField]
     Animator animator;
 
+    public EventAttackManager OnAttack;
+
     // à virer 
     public Animator Animator
     {
@@ -105,6 +107,8 @@ public class CharacterAction : MonoBehaviour
              currentAttackManager.CancelAction();
         currentAttackManager = Instantiate(attackToInstantiate, this.transform.position, Quaternion.identity);
         currentAttackManager.CreateAttack(character);
+
+        OnAttack?.Invoke(currentAttackManager);
 
         return true;
     }
@@ -236,6 +240,8 @@ public class CharacterAction : MonoBehaviour
     public void SetAttackMotionSpeed(float newValue)
     {
         animator.speed = newValue;
+        if(currentAttackManager != null)
+            currentAttackManager.SetMotionSpeed(newValue);
     }
 
 }

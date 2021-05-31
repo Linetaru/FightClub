@@ -7,6 +7,8 @@ using TMPro;
 public class CharacterModel : MonoBehaviour
 {
 	[SerializeField]
+	Material flashMaterial;
+	[SerializeField]
 	SkinnedMeshRenderer[] skinnedMeshRenderers;
 
 	[SerializeField]
@@ -25,9 +27,23 @@ public class CharacterModel : MonoBehaviour
 		if (textPlayer != null)
 			textPlayer.text = (characterID + 1) + "P";
 
+		Material[] materials;
+		if (flashMaterial != null)
+		{
+			materials = new Material[2];
+			materials[0] = color;
+			materials[1] = flashMaterial;
+		}
+		else
+		{
+			materials = new Material[1];
+			materials[0] = color;
+		}
+
 		for (int i = 0; i < skinnedMeshRenderers.Length; i++)
 		{
-			skinnedMeshRenderers[i].material = color;
+			//skinnedMeshRenderers[i].material = color;
+			skinnedMeshRenderers[i].materials = materials;
 		}
 
 
@@ -67,6 +83,8 @@ public class CharacterModel : MonoBehaviour
 
 	private IEnumerator FlashCoroutine(Color flashColor, float time)
 	{
+		if (skinnedMeshRenderers[0].materials.Length < 2)
+			yield break;
 		float t = 0f;
 		Color c = new Color(flashColor.r, flashColor.g, flashColor.b, 1);
 		Color transparent = new Color(flashColor.r, flashColor.g, flashColor.b, 0);

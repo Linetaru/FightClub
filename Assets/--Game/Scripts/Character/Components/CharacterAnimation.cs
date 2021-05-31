@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterAnimation : MonoBehaviour
 {
     [SerializeField]
     CharacterBase characterBase;
-
     [SerializeField]
     GameObject animatorPivot;
-
     [SerializeField]
-    Animator animator;
+    Animator animator;    [Title("Animations")]
     [SerializeField]
-    CharacterMovement movement;
-    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
+    AnimationClip animationParry;
+    [SerializeField]
+    AnimationClip animationParryAerial;
+    [SerializeField]
+    AnimationClip animationAcumod;    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
 
     public enum ActualState
     {
@@ -48,7 +50,7 @@ public class CharacterAnimation : MonoBehaviour
         animator.ResetTrigger("Crouch");
         animator.ResetTrigger("Deccelerate");
         animator.ResetTrigger("TurnAround");
-        animator.ResetTrigger("Parry");
+        //animator.ResetTrigger("Parry");
 
         characterBase.CenterPivot.localRotation = Quaternion.identity;
 
@@ -103,11 +105,11 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("DodgeAerial");
         }
 
-        if (newState is CharacterStateHomingDash)
+        /*if (newState is CharacterStateHomingDash)
         {
             animator.SetTrigger("Idle");
-            animator.SetTrigger("HomingDash");
-        }
+            //animator.SetTrigger("HomingDash");
+        }*/
 
         if (newState is CharacterStateTurnAround)
         {
@@ -116,23 +118,34 @@ public class CharacterAnimation : MonoBehaviour
 
         if (newState is CharacterStateParry)
         {
-            animator.Play("Anim_Bernard_Parry");
-            animator.SetTrigger("Parry");
+            if(characterBase.Rigidbody.IsGrounded)
+                animator.Play(animationParry.name);
+            else
+                animator.Play(animationParryAerial.name);
         }
 
         if (newState is CharacterStateParryBlow)
         {
             actualState = ActualState.ParryBlow;
-            //animator.SetTrigger("Knockback");
+        }
+
+        if (newState is CharacterStateAcumod)
+        {
+            animator.Play(animationAcumod.name);
+        }
+
+        if (newState is CharacterStateBurst)
+        {
+            animator.Play(animationAcumod.name);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (movement.Direction == 1)
+        if (characterBase.Movement.Direction == 1)
             animatorPivot.transform.localScale = Vector3.one;
-        else if (movement.Direction == -1)
+        else if (characterBase.Movement.Direction == -1)
             animatorPivot.transform.localScale = new Vector3(-1, 1, 1);
         if (actualState == ActualState.Idle)
         {
@@ -155,7 +168,7 @@ public class CharacterAnimation : MonoBehaviour
     }
     void AnimationIdle()
     {
-        float speedT = movement.SpeedX / movement.SpeedMax;
+        float speedT = characterBase.Movement.SpeedX / characterBase.Movement.SpeedMax;
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if (speedT >= 1)
         {
@@ -187,7 +200,7 @@ public class CharacterAnimation : MonoBehaviour
     }
     void AnimationWallrun()
     {
-        float speedT = movement.SpeedY / movement.SpeedMax;
+        float speedT = characterBase.Movement.SpeedY / characterBase.Movement.SpeedMax;
         animator.SetFloat("Speed", Mathf.Clamp(speedT, 0, 1));
         if(speedT < 0)
         {

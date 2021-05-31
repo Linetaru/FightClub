@@ -66,8 +66,10 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
 
-			if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
+			/*if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
 			{
+				if (signatureMove == null)
+					return false;
 				if (character.Action.Action(signatureMove) == true)
 				{
 					character.PowerGauge.CurrentPower = 0;
@@ -75,7 +77,7 @@ public class CharacterMoveset : MonoBehaviour
 					character.Input.inputActions[0].timeValue = 0;
 					return true;
 				}
-			}
+			}*/
 
 			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 				return ActionAttack(character, downTilt);
@@ -137,6 +139,8 @@ public class CharacterMoveset : MonoBehaviour
 
 	public bool ActionAttack(CharacterBase character, AttackManager attack)
 	{
+		if (attack == null)
+			return false;
 		if (character.Action.Action(attack) == true)
 		{
 			character.SetState(stateAction);
@@ -153,7 +157,15 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ActionSpecial(CharacterBase character)
 	{
 		if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
 			return ActionAttack(character, upSpecial);
+		}
+
 
 
 		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)

@@ -521,6 +521,8 @@ MonoBehaviour:
   - {fileID: 925863775431213594}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
+  noClash: 0
+  noParryCancel: 0
   disjoint: 0
   guardOnDash: 0
   guardWin: 0
@@ -573,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7178443788163638827
 Transform:
   m_ObjectHideFlags: 0
@@ -661,6 +663,8 @@ MonoBehaviour:
   - {fileID: 2951258785364323315}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
+  noClash: 0
+  noParryCancel: 0
   disjoint: 0
   guardOnDash: 0
   guardWin: 0
@@ -806,6 +810,8 @@ MonoBehaviour:
   keepMomentumY: 0
   applyGravity: 0
   gravityMultiplier: 1
+  applyGravityDescend: 0
+  gravityMultiplierDescend: 1
   canAirControl: 0
   groundCancel: 0
   groundEndLag: {fileID: 0}
@@ -821,6 +827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300033e4a33fb75428f535cbe5eb2d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantMomentum: 0
+  multiplier: 1
+  jumpCancelOnHit: 0
 --- !u!1 &5515741992126654513
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +899,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 468e33f8c9505b44a8bae815cad0b6e9, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 73722a2b1b0a39644b60213c69ced560, type: 2}
 --- !u!1 &6198582354547068033
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +969,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 468e33f8c9505b44a8bae815cad0b6e9, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 73722a2b1b0a39644b60213c69ced560, type: 2}
 --- !u!136 &2956285609945843464
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6133,6 +6142,7 @@ MonoBehaviour:
   atkSubs:
   - {fileID: 442088151442528116}
   - {fileID: 5600695622123304168}
+  subAnimators: []
 --- !u!1 &8294828344154470428
 GameObject:
   m_ObjectHideFlags: 0

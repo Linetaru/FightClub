@@ -33,11 +33,22 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     ParticleSystem particleTrail;
 
+
+    [Title("Parameter - Tech")]
+    [SerializeField]
+    float techTime = 10;
+    [SerializeField]
+    float techAntiSpam = 30;
+
     [Title("Parameter - DI")]
     [SerializeField]
     float joystickThreshold = 0.3f;
     [SerializeField]
     float DIAngle = 10;
+
+    [Title("Parameter - Actions")]
+    [SerializeField]
+    CharacterAcumods acumods;
 
     bool inHitStop = true;
     float tech = 0;
@@ -46,6 +57,8 @@ public class CharacterStateKnockback : CharacterState
     private void Start()
     {
         landingTime /= 60f;
+        techTime /= 60f;
+        techAntiSpam /= 60f;
     }
 
     public override void StartState(CharacterBase character, CharacterState oldState)
@@ -88,10 +101,15 @@ public class CharacterStateKnockback : CharacterState
         {
             character.ResetToIdle();
         }
-        else if (character.Input.CheckAction(0, InputConst.RightTrigger) && techCooldown <= 0)
+        else if (character.Input.CheckAction(0, InputConst.RightTrigger))
         {
-            tech = 6 / 60f;
-            techCooldown = 20 / 60f;
+            if(techCooldown <= 0)
+                tech = techTime;
+            techCooldown = techAntiSpam;
+        }
+        else if (acumods.Acumod(character))
+        {
+
         }
 
         tech -= Time.deltaTime;

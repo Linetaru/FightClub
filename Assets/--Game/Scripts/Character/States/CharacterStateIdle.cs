@@ -34,8 +34,12 @@ public class CharacterStateIdle : CharacterState
 	[Title("Parameter - Speed")]
 	[SerializeField]
 	float speedMultiplierWalk = 0.2f;
+	/*[SerializeField]
+	float speedRequiredForWallRun = 8f;*/
+
+	[Title("Parameter - Platform")]
 	[SerializeField]
-	float speedRequiredForWallRun = 8f;
+	LayerMask goThroughGroundMask;
 
 
 	[Title("Parameter - Actions")]
@@ -43,10 +47,9 @@ public class CharacterStateIdle : CharacterState
 	CharacterMoveset moveset;
 	[SerializeField]
 	CharacterEvasiveMoveset evasiveMoveset;
-
-	[Title("Parameter - Platform")]
 	[SerializeField]
-	LayerMask goThroughGroundMask;
+	CharacterAcumods acumods;
+
 
 
 
@@ -56,6 +59,7 @@ public class CharacterStateIdle : CharacterState
 	float gravityConst = 0.1f;
 
 	float dashTimer = 0f;
+	float goThroughTimer = 0f;
 
 	private void Start()
 	{
@@ -68,8 +72,10 @@ public class CharacterStateIdle : CharacterState
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		dashTimer = 0;
+		goThroughTimer = 0;
 		character.Movement.CurrentNumberOfJump = character.Movement.JumpNumber;
 		character.Rigidbody.PreventFall(false);
+
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -113,22 +119,53 @@ public class CharacterStateIdle : CharacterState
 				character.SetState(jumpStartState);
 			}
 		}
+
+
+
+		/*if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
+		{
+			character.Input.inputActions[0].timeValue = 0;
+			character.SetState(jumpStartState);
+			return;
+		}*/
 		else if (moveset.ActionAttack(character) == true)
 		{
-
+			return;
 		}
 		else if (character.Input.CheckActionHold(InputConst.RightTrigger) && Mathf.Abs(character.Input.horizontal) > 0.7f)
 		{
 			character.SetState(dashState);
+			return;
 		}
-		/*else if (evasiveMoveset.Dodge(character) == true)
-		{
-		
-		}*/
 		else if (evasiveMoveset.Parry(character))
         {
+			return;
+		}
+		else if(acumods.Acumod(character))
+		{
+			return;
+		}
 
-        }
+
+		/*if (character.Input.vertical < -0.25f)
+		{
+			goThroughTimer += Time.deltaTime * character.MotionSpeed;
+			if (character.Input.vertical < -0.8f && goThroughTimer <= 0.05f)
+			{
+				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+				{
+					character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true); // Modifie le mask de collision du sol pour passer au travers de la plateforme
+					StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));// Coroutine qui attend 1 frame pour reset le mask de collision du perso
+
+					character.SetState(aerialState);
+					character.Movement.ApplyGravity();
+				}
+			}
+		}
+		else
+		{
+			goThroughTimer = 0f;
+		}*/
 
 	}
 
