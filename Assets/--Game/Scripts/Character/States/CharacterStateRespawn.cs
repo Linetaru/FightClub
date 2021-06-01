@@ -29,7 +29,9 @@ public class CharacterStateRespawn : CharacterState
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 		t = 0f;
-		Camera.main.GetComponent<CameraZoomController>().ModifyTargetPriority(character.transform, 0);
+
+		BattleManager.Instance.cameraController.ModifyTargetPriority(character.transform, 0);
+		//Camera.main.GetComponent<CameraZoomController>().ModifyTargetPriority(character.transform, 0);
 		//Camera.main.GetComponent<CameraZoomController>().targets.Add(character.gameObject.transform);
 
 		character.transform.position = BlastZoneManager.Instance.spawnpoint.position;

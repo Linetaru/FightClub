@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
+	//[SerializeField]
+	public bool autoStart = true;
+
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
@@ -40,14 +44,58 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
+	private bool slowMowEnd;
+	private float timer;
+
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
 
-	// Start is called before the first frame update
-	void Start()
+	public UnityEvent gameEndedEvent = new UnityEvent();
+
+
+	//SINGLETON
+
+	private static BattleManager _instance;
+	public static BattleManager Instance { get { return _instance; } }
+
+	private void Awake()
+	{
+		if (_instance != null)
+		{
+			Destroy(this.gameObject);
+		}
+		else
+		{
+			_instance = this;
+		}
+	}
+
+    public void ResetInstance()
+    {
+		_instance = null;
+    }
+
+    //END SINGLETON
+
+
+    // Start is called before the first frame update
+    void Start()
+	{
+		if(autoStart)
+			StartBattleManager();
+	}
+
+    public void StartBattleManager()
 	{
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
+
+		/*
+		if (gameEndedEvent == null)
+			gameEndedEvent = new UnityEvent();
+		*/
+
+		gameEndedEvent.AddListener(ManageEndBattle);
 
 		SpawnPlayer();
 		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
@@ -55,7 +103,7 @@ public class BattleManager : MonoBehaviour
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
 		}
-		else if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
 		{
 			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
 			go.BattleManager = this;
@@ -74,6 +122,21 @@ public class BattleManager : MonoBehaviour
 		{
 			standbyList[i].UpdateControl(0, input);
 		}
+
+		if(slowMowEnd)
+        {
+			if(timer < 2f)
+			{
+				timer += Time.unscaledDeltaTime;
+				Debug.Log(timer);
+            }
+            else
+            {
+				timer = 0f;
+				slowMowEnd = false;
+				EndBattle();
+            }
+        }
 	}
 
 	public void SpawnPlayer()
@@ -164,8 +227,6 @@ public class BattleManager : MonoBehaviour
     {
 		if(characterAlive.Count == 1 && isGameStarted)
 		{
-			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
-
 			if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
             {
 				foreach(SpawnerObstacle spO in FlappyModeManager.spawnerObstacles)
@@ -183,24 +244,37 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			StartCoroutine(EndBattleCoroutine());
+			if(autoStart)  // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+				SlowMotionEnd();
+			else
+			{
+				enabled = false;
+				EndBattle();
+			}
+
+			//StartCoroutine(EndBattleCoroutine());
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
-        }
+		}
     }
 
-
-	protected IEnumerator EndBattleCoroutine()
+	public void SlowMotionEnd()
 	{
 		Time.timeScale = 0.2f;
-		yield return new WaitForSecondsRealtime(2f);
+		slowMowEnd = true;
+	}
+
+
+	public void EndBattle()
+	{
 		Time.timeScale = 1f;
 
-		cameraController.gameObject.SetActive(false);
+		if(autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			cameraController.gameObject.SetActive(false);
+
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{
 			inputController.controllable[i] = menuWin;
 		}
-
 
 
 		for (int i = 0; i < characterAlive.Count; i++)
@@ -208,9 +282,19 @@ public class BattleManager : MonoBehaviour
 			characterFullDead.Add(characterAlive[i]);
 		}
 		characterFullDead.Reverse();
-		menuWin.InitializeWin(characterFullDead);
+
+		// Event end game
+		gameEndedEvent.Invoke();
 	}
 
+	public void ManageEndBattle()
+    {
+		if (autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			menuWin.InitializeWin(characterFullDead);
+		else
+			Debug.Log("END BATTLE GRAND SLAM");
+
+	}
 
 
 	// JSP si là c'est le mieux
