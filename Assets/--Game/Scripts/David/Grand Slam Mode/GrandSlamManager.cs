@@ -183,7 +183,6 @@ public class GrandSlamManager : MonoBehaviour
 
     void EndGame()
     {
-        Debug.Log("END GAME GRAND SLAM");
         StartCoroutine(ManageEndMode());
     }
 

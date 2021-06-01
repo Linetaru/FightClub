@@ -207,8 +207,6 @@ public class BattleManager : MonoBehaviour
     {
 		if(characterAlive.Count == 1 && isGameStarted)
 		{
-			Debug.Log("The Game is Over, EVERYONE IS FULL DEAD EXCEPT THE ALMIGHTY BERNARD");
-
 			if(gameData.GameMode == GameModeStateEnum.Flappy_Mode)
             {
 				foreach(SpawnerObstacle spO in FlappyModeManager.spawnerObstacles)
@@ -226,7 +224,7 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			if(autoStart) // TMP CONDITION POUR TEST
+			if(autoStart)  // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
 				SlowMotionEnd();
 			else
 			{
@@ -250,7 +248,9 @@ public class BattleManager : MonoBehaviour
 	{
 		Time.timeScale = 1f;
 
-		cameraController.gameObject.SetActive(false);
+		if(autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			cameraController.gameObject.SetActive(false);
+
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{
 			inputController.controllable[i] = menuWin;
@@ -269,7 +269,7 @@ public class BattleManager : MonoBehaviour
 
 	public void ManageEndBattle()
     {
-		if (autoStart) // TMP CONDITION POUR TEST
+		if (autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
 			menuWin.InitializeWin(characterFullDead);
 		else
 			Debug.Log("END BATTLE GRAND SLAM");
