@@ -15,6 +15,9 @@ public class GrandSlamManager : MonoBehaviour
 
     [SerializeField]
     private Camera currentCam;
+
+    [SerializeField]
+    private GrandSlamUi canvasScore;
     
     [SerializeField]
     List<string> scenesBomb = new List<string>();
@@ -120,6 +123,8 @@ public class GrandSlamManager : MonoBehaviour
             yield return null;
         }
 
+        canvasScore.ActivePanelScore();
+
         BattleManager.Instance.ResetInstance();
         yield return new WaitForSeconds(4f);
 
@@ -142,6 +147,8 @@ public class GrandSlamManager : MonoBehaviour
         camSlam.RemoveBackgroundBlur();
 
         yield return new WaitForSeconds(2f);
+
+        canvasScore.DeactivePanelScore();
 
         currentCam = BattleManager.Instance.cameraController.Camera;
         moveCamera = true;
