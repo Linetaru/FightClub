@@ -80,6 +80,7 @@ public class AttackManager : MonoBehaviour
         for (int i = 0; i < atkSubs.Count; i++)
         {
             atkSubs[i].InitAttack(character, this.gameObject.name + i);
+            atkSubs[i].playerHitEvent = playerHitEvent;
         }
     }
 
