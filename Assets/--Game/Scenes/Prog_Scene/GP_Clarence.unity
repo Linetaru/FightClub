@@ -4350,7 +4350,7 @@ Transform:
   m_GameObject: {fileID: 533115821}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.51679, y: 1.51679, z: 1.51679}
   m_Children: []
   m_Father: {fileID: 1850672127173173303}
   m_RootOrder: 0
@@ -9423,7 +9423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 417cd6d3212ab7f41bf023a6354e8754, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.11
+      value: -12.81
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 417cd6d3212ab7f41bf023a6354e8754, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12347,9 +12347,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
+  teamTextColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.11764706, b: 0, a: 1}
+  - {r: 0, g: 0.78431374, b: 1, a: 1}
+  - {r: 0, g: 0.5882353, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
   BombModeManager: {fileID: 0}
+  FlappyModeManager: {fileID: 0}
   uiEvent: {fileID: 11400000, guid: f1ec76ee325b2fe4ea94206e0a9e7710, type: 2}
   inputController: {fileID: 7854600161218405514}
+  aIController: {fileID: 0}
   cameraController: {fileID: 770927624}
   spawningPoint:
   - {fileID: 3409050773963213533}
@@ -16431,6 +16439,10 @@ PrefabInstance:
       propertyPath: offsetRot.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3409050773024403814, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
+      propertyPath: targets.Array.data[0].transform
+      value: 
+      objectReference: {fileID: 3447755754802869554}
     - target: {fileID: 3409050773024403816, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.9
@@ -16554,6 +16566,10 @@ PrefabInstance:
     - target: {fileID: 3409050773329793888, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_ReferenceResolution.y
       value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409050773329793890, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3409050773902488430, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16777,19 +16793,19 @@ PrefabInstance:
       objectReference: {fileID: 7854600161939016466, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
     - target: {fileID: 8332586602861199378, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8332586602861199378, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8332586602861199378, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 8332586602861199378, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 8395458861233303785, guid: 63042b6de4cde5540a1d08d526acb37a, type: 3}
       propertyPath: battleManager
@@ -18019,8 +18035,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148612717593}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5.86, z: 0}
-  m_LocalScale: {x: 0.2, y: 8, z: 5.4}
+  m_LocalPosition: {x: 0, y: -7.39, z: 0}
+  m_LocalScale: {x: 0.2, y: 11.058909, z: 5.400005}
   m_Children: []
   m_Father: {fileID: 455706299}
   m_RootOrder: 1
@@ -19489,6 +19505,7 @@ MonoBehaviour:
   currentPower: 0
   speedPower: 0
   speedTimeMax: 3
+  maxPower: 80
   timerSegmentPowerMax: 1.5
   canSignatureMoveUseOneSegmentPerUse: 1
   powerGivenOnAttack: 0
@@ -19595,6 +19612,7 @@ MonoBehaviour:
   powerGauge: {fileID: 3410495990759554307}
   projectile: {fileID: 7657143626191039527}
   characterIcon: {fileID: 0}
+  SmearsControllerSword: {fileID: 0}
   motionSpeed: 1
 --- !u!1 &3447755754802869566
 GameObject:
@@ -20043,12 +20061,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userBase: {fileID: 0}
-  gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
   gameEvent: {fileID: 0}
   lifePercentage: 0
   lifeStocks: 0
   death: 0
-  killNumber: 0
   attackMultiplier:
     baseStat: 0
     multiplierValue: 0
@@ -20059,9 +20075,24 @@ MonoBehaviour:
     multiplierValue: 0
     incrementValue: 0
     valueStat: 0
+  weight:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
   speed:
     baseStat: 0
     multiplierValue: 1
+    incrementValue: 0
+    valueStat: 0
+  aerialSpeed:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  jump:
+    baseStat: 0
+    multiplierValue: 0
     incrementValue: 0
     valueStat: 0
 --- !u!1 &4647763098556915291
@@ -20098,6 +20129,7 @@ MonoBehaviour:
   parry: {fileID: 6864626355072660091}
   weight: 1
   timeKnockbackPerDistance: 0.025
+  maxTimeKnockback: 1.5
   shakeEffect: {fileID: 1142840604895668928}
 --- !u!23 &4909902686433367828
 MeshRenderer:
@@ -20389,7 +20421,6 @@ MonoBehaviour:
   forwardSpecial: {fileID: 8045468721652775528, guid: 5ff2e8a8e98fde6448cac282781e4e30, type: 3}
   neutralSpecial: {fileID: 0}
   signatureMove: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
-  statusData: {fileID: 0}
   stateAction: {fileID: 0}
 --- !u!1 &5452461204120119016
 GameObject:
@@ -20728,6 +20759,7 @@ MonoBehaviour:
   currentPower: 0
   speedPower: 0
   speedTimeMax: 3
+  maxPower: 80
   timerSegmentPowerMax: 1.5
   canSignatureMoveUseOneSegmentPerUse: 1
   powerGivenOnAttack: 5
@@ -20866,7 +20898,15 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
-  damageVoiceEvent:
+  parrySuccessEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  parryFailedEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  deathEvent:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
@@ -21974,10 +22014,14 @@ MonoBehaviour:
   parrySuccesState: {fileID: 0}
   parryRepelState: {fileID: 0}
   timingParry: 1e000000140000000a0000000500000001000000
+  ejectionPower: 0
   parryAngle: 200
   particleParry: {fileID: 1477291588837210726, guid: 14ccb119978fb114f832bfa3a5e734eb, type: 3}
   particleDirectionRepel: {fileID: 3721816288245871218, guid: e05ba4b2133efab43a37deb493c36445, type: 3}
   particleGuard: {fileID: 0}
+  particleGuardMedium: {fileID: 0}
+  particleGuardCritical: {fileID: 0}
+  particleGuardBreak: {fileID: 0}
   particleGuardDirectionRepel: {fileID: 0}
 --- !u!4 &6873875888767677889
 Transform:
@@ -22057,6 +22101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f540f9cfedec542b43d367d239a668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 0}
   skinnedMeshRenderers:
   - {fileID: 0}
   - {fileID: 0}
@@ -22510,7 +22555,9 @@ MonoBehaviour:
   characterBase: {fileID: 3447755754802869555}
   animatorPivot: {fileID: 1850672127173173302}
   animator: {fileID: 5243454230025245507}
-  movement: {fileID: 544836763149009872}
+  animationParry: {fileID: 0}
+  animationParryAerial: {fileID: 0}
+  animationAcumod: {fileID: 0}
 --- !u!4 &9088658563921295646
 Transform:
   m_ObjectHideFlags: 0

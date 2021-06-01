@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void Event();
+public delegate void EventVoid();
 public delegate void EventInt(int id);
 public delegate void EventCharacterBase(CharacterBase character);
 public delegate void EventCharacterBaseDouble(CharacterBase character, CharacterBase character2);

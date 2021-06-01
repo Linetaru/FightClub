@@ -22,8 +22,15 @@ public class ObstacleEntity : MonoBehaviour
 
     public List<PlayerData> playerTouched = new List<PlayerData>();
 
-	// Update is called once per frame
-	void Update()
+    private PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
+
+    private void Start()
+    {
+        gameEventStocks = BlastZoneManager.Instance.gameEventStocks;
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
 		transform.position += Vector3.left * _speed * Time.deltaTime;
 		_deathTimer -= Time.deltaTime;
@@ -50,8 +57,6 @@ public class ObstacleEntity : MonoBehaviour
 
 	private void OnTriggerEnter(Collider collision)
 	{
-        string tag = collision.gameObject.tag;
-
         CharacterBase playerCB = collision.transform.root.gameObject.GetComponent<CharacterBase>();
 
         if (playerCB != null)
@@ -83,14 +88,14 @@ public class ObstacleEntity : MonoBehaviour
                 }
 
                 //Float Event to update Stock UI
-                if (tag == "Player1")
-                    BlastZoneManager.Instance.gameEventStocks[0].Raise(playerCB);
-                else if (tag == "Player2")
-                    BlastZoneManager.Instance.gameEventStocks[1].Raise(playerCB);
-                else if (tag == "Player3")
-                    BlastZoneManager.Instance.gameEventStocks[2].Raise(playerCB);
-                else if (tag == "Player4")
-                    BlastZoneManager.Instance.gameEventStocks[3].Raise(playerCB);
+                if (playerCB.tag == "Player1")
+                    gameEventStocks[0].Raise(playerCB);
+                else if (playerCB.tag == "Player2")
+                    gameEventStocks[1].Raise(playerCB);
+                else if (playerCB.tag == "Player3")
+                    gameEventStocks[2].Raise(playerCB);
+                else if (playerCB.tag == "Player4")
+                    gameEventStocks[3].Raise(playerCB);
 
                 playerTouched.Add(new PlayerData(3, playerCB));
             }

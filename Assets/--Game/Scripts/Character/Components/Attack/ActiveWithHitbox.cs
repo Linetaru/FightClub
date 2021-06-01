@@ -30,11 +30,13 @@ public class ActiveWithHitbox : MonoBehaviour
 
 		if (collider.enabled == true)
 		{
-			a.gameObject.SetActive(true);
+			if(a!= null)
+				a.gameObject.SetActive(true);
 		}
 		else if (collider.enabled == false)
 		{
-			a.gameObject.SetActive(false);
+			if (a != null)
+				a.gameObject.SetActive(false);
 		}
 
 	}

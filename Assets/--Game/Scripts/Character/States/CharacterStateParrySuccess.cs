@@ -57,6 +57,7 @@ public class CharacterStateParrySuccess : CharacterState
 		character.Movement.CurrentNumberOfJump += 1;
 		evasiveMoveset.ResetDodge();
 		character.Knockback.Parry.IsGuard = true;
+		character.Movement.SetSpeed(0, 0);
 	}
 
 	public override void UpdateState(CharacterBase character)
@@ -118,13 +119,17 @@ public class CharacterStateParrySuccess : CharacterState
 	{
 		/*if (character.Rigidbody.IsGrounded == true && character.MotionSpeed != 0)
 			character.ResetToIdle();*/
+		if (inHitStop == false && InstantDodge(character))
+		{
+			return;
+		}
 		if (t <= timeCancel)
 		{
-			if (InstantDodge(character))
+			if (character.Rigidbody.IsGrounded && Mathf.Abs(character.Input.horizontal) > joystickThreshold)
 			{
+				character.ResetToIdle();
 				return;
 			}
-
 		}
 	}
 
@@ -151,11 +156,7 @@ public class CharacterStateParrySuccess : CharacterState
 				StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));
 				return true;
 			}
-			else if (Mathf.Abs(character.Input.horizontal) > joystickThreshold)
-			{
-				character.ResetToIdle();
-				return true;
-			}
+			//else
 		}
 		else
 		{
@@ -187,13 +188,13 @@ public class CharacterStateParrySuccess : CharacterState
 		float finalAngle = Vector2.Angle(ejectionAngle, input);
 		if (finalAngle <= parryInfluenceAngle)
 		{
-			character.Knockback.Parry.CharacterParried.Knockback.Launch(input.normalized, 1);
+			character.Knockback.Parry.CharacterParried.Knockback.Launch(input.normalized, character.Knockback.Parry.EjectionPower);
 		}
 		else
 		{
 			finalAngle = Vector2.SignedAngle(ejectionAngle, input);
 			Vector2 finalDirection = Quaternion.Euler(0, 0, parryInfluenceAngle * Mathf.Sign(finalAngle)) * ejectionAngle;
-			character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, 1);
+			character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, character.Knockback.Parry.EjectionPower);
 		}
 	}
 

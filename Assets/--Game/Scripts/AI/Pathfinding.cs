@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public enum PathMovement
 {
 	Run,
 	Fall,
-	Jump
+	Jump,
+	DoubleJump,
+	WallJump,
+	Wait
 }
 
 [System.Serializable]
@@ -41,9 +45,6 @@ public class Pathfinding : MonoBehaviour
 {
 
 	[SerializeField]
-	Transform debugEnd;
-
-	[SerializeField]
 	float runWeight = 2;
 	[SerializeField]
 	float fallWeight = 3;
@@ -53,11 +54,26 @@ public class Pathfinding : MonoBehaviour
 	List<PathNode> nodeExplored = new List<PathNode>();
 	List<PathNode> nodeToExplore = new List<PathNode>();
 
+	[Title("Debug")]
+	[SerializeField]
+	Transform debugEnd;
 	[SerializeField]
 	public List<PathNode> finalPath = new List<PathNode>();
 
-	/*[SerializeField]
-	public List<PathNode> finalPath = new List<PathNode>();*/
+	public bool debug = true;
+
+	NavmeshNode position;
+	public NavmeshNode Position
+	{
+		get { return position; }
+	}
+
+	NavmeshNode destination;
+	public NavmeshNode Destination
+	{
+		get { return destination; }
+	}
+
 
 
 	// Start is called before the first frame update
@@ -74,8 +90,8 @@ public class Pathfinding : MonoBehaviour
 
 	public void CalculatePath(Vector3 pos, Vector3 dest)
 	{
-		NavmeshNode position = FindNearest(pos);
-		NavmeshNode destination = FindNearest(dest);
+		position = FindNearest(pos);
+		destination = FindNearest(dest);
 
 		if (position == destination)
 			return;
@@ -118,7 +134,8 @@ public class Pathfinding : MonoBehaviour
 		for (int i = 0; i < Navmesh2D.Instance.nodesNavmesh.Count; i++)
 		{
 			//Navmesh2D.Instance.nodesNavmesh[i].gameObject.SetActive(true);
-			Navmesh2D.Instance.nodesNavmesh[i].text.text = " ";
+			if(debug)
+				Navmesh2D.Instance.nodesNavmesh[i].text.text = " ";
 		}
 
 		int timeOut = 0;
@@ -126,7 +143,8 @@ public class Pathfinding : MonoBehaviour
 		while (currentPath.Node != start)
 		{
 			finalPath.Add(currentPath);
-			currentPath.Node.text.text = ".";
+			if (debug)
+				currentPath.Node.text.text = ".";
 			currentPath = currentPath.PreviousPath;
 
 			timeOut += 1;
@@ -225,7 +243,7 @@ public class Pathfinding : MonoBehaviour
 
 
 
-	private NavmeshNode FindNearest(Vector3 pos)
+	public NavmeshNode FindNearest(Vector3 pos)
 	{
 		float bestDistance = 999999;
 		int bestIndex = -1;

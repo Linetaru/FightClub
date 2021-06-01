@@ -40,6 +40,9 @@ public class AttackManager : MonoBehaviour
     [ListDrawerSettings(Expanded = true)]
     private List<AttackSubManager> atkSubs;
 
+    [Title("Animators")]
+    [SerializeField]
+    private List<Animator> subAnimators;
 
     CharacterBase user;
     private List<string> playerHitList = new List<string>();
@@ -56,19 +59,6 @@ public class AttackManager : MonoBehaviour
 
 
     // ===============================================================================
-
-    /*public void Start()
-    {
-        ActionActive();
-    }*/
-
-   /* public void Update()
-    {
-        foreach (AttackComponent atkC in atkCompList)
-        {
-            atkC.UpdateComponent(user);
-        }
-    }*/
 
     public bool CanUseAttack(CharacterBase character)
     {
@@ -89,8 +79,8 @@ public class AttackManager : MonoBehaviour
 
         for (int i = 0; i < atkSubs.Count; i++)
         {
-            atkSubs[i].playerHitEvent = playerHitEvent;
             atkSubs[i].InitAttack(character, this.gameObject.name + i);
+            atkSubs[i].playerHitEvent = playerHitEvent;
         }
     }
 
@@ -106,26 +96,28 @@ public class AttackManager : MonoBehaviour
 
     public void ActionAllActive()
     {
-        foreach (AttackSubManager atkSub in atkSubs)
+        foreach (AttackSubManager atkSub in atkSubs)
         {
-            atkSub.ActionActive();
+            atkSub.ActionActive();
         }
     }
 
     public void ActionAllUnactive()
     {
-        foreach (AttackSubManager atkSub in atkSubs)
-        {
-            atkSub.ActionUnactive();
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.ActionUnactive();
         }
     }
-    public void AddPlayerHitList(string targetTag)
-    {
-        foreach (AttackSubManager atkSub in atkSubs)
-        {
-            atkSub.AddPlayerHitList(targetTag);
+    public void AddPlayerHitList(string targetTag)
+    {
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.AddPlayerHitList(targetTag);
         }
     }
+
+
 
     /*
     public void ActionAllUnactiveExceptOne(AttackSubManager atkStayActive)
@@ -139,6 +131,14 @@ public class AttackManager : MonoBehaviour
         }
     }
     */
+
+    public void SetMotionSpeed(float motionSpeed)
+    {
+        for (int i = 0; i < subAnimators.Count; i++)
+        {
+            subAnimators[i].speed = motionSpeed;
+        }
+    }
 
     public void CancelAction()
     {

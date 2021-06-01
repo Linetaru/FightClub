@@ -15,6 +15,8 @@ public class BombIcon : Icon
 
     private float bombTimer;
 
+    [HideInInspector] public StickyBombManager StickyBombManager;
+
     private void Start()
     {
 
@@ -23,7 +25,7 @@ public class BombIcon : Icon
     void Update()
     {
         // Pas sûr de la performance 
-        bombTimer = (int)StickyBombManager.Instance.bombTimer % 60;
+        bombTimer = (int)StickyBombManager.bombTimer % 60;
         bombTimerText.text = bombTimer.ToString();
     }
 
@@ -39,7 +41,7 @@ public class BombIcon : Icon
         {
             IsEnabled = true;
             iconRenderer.enabled = true;
-            if(StickyBombManager.Instance.CurrentRoundMode != StickyBombManager.RoundMode.Inv_Countdown)
+            if(StickyBombManager.CurrentRoundMode != StickyBombManager.RoundMode.Inv_Countdown)
                 textRenderer.enabled = true;
         }
     }

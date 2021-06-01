@@ -34,6 +34,8 @@ public class Input_Info
 
 	public Rewired.InputAction inputUiAction;
 
+	public InputMappingData inputMapping = null;
+
 	public Input_Info()
     {
 		inputActions = new List<InputBuffer>();
@@ -50,10 +52,20 @@ public class Input_Info
 	{
 		if (inputActions.Count != 0)
 		{
-			if(inputActions[id].action == inputAction)
+			if(inputActions[id].action == CheckMapping(inputAction))
             {
 				return true;
             }
+		}
+		return false;
+	}
+
+	/*public bool CheckActionUI(InputAction inputAction)
+	{
+		if (inputUiAction == inputAction)
+		{
+			inputUiAction = null;
+			return true;
 		}
 		return false;
 	}
@@ -62,18 +74,63 @@ public class Input_Info
 	{
 		if (inputActionsUP.Count != 0)
 		{
-			if (inputActionsUP[id].action == inputAction)
+			if (inputActionsUP[id].action == CheckMapping(inputAction))
 			{
 				return true;
 			}
 		}
 		return false;
-	}
+	}*/
 
 	public bool CheckActionHold(InputAction inputAction)
 	{
-		return inputActionsHold.Contains(inputAction);
+		return inputActionsHold.Contains(CheckMapping(inputAction));
 	}
+
+
+
+
+	// A opti en dictionnaire mais fuat faire des shenanigan dans le SO du coup
+	public InputAction CheckMapping(InputAction inputAction)
+	{
+		if (inputMapping == null)
+			return inputAction;
+
+		EnumInput input = EnumInput.A;
+
+		if (inputAction == InputConst.Attack)
+			input = inputMapping.inputAttack;
+		else if (inputAction == InputConst.Jump)
+			input = inputMapping.inputJump;
+		else if (inputAction == InputConst.Smash)
+			input = inputMapping.inputShortHop;
+		else if (inputAction == InputConst.Special)
+			input = inputMapping.inputSpecial;
+		else if (inputAction == InputConst.RightShoulder)
+			input = inputMapping.inputParry;
+		else if (inputAction == InputConst.RightTrigger)
+			input = inputMapping.inputDash;
+		else
+			return inputAction;
+
+		switch (input)
+		{
+			case EnumInput.A:
+				return InputConst.Attack;
+			case EnumInput.B:
+				return InputConst.Smash;
+			case EnumInput.X:
+				return InputConst.Special;
+			case EnumInput.Y:
+				return InputConst.Jump;
+			case EnumInput.R1:
+				return InputConst.RightShoulder;
+			case EnumInput.R2:
+				return InputConst.RightTrigger;
+		}
+		return inputAction;
+	}
+
 
 }
 
@@ -92,6 +149,11 @@ public class InputController : SerializedMonoBehaviour
 	public float bufferLength = 6;
 
 	public PackageCreator.Event.GameEvent pauseEvent;
+
+	public void SetInputMapping(int id, InputMappingData inputData)
+	{
+		playerInputs[id].inputMapping = inputData;
+	}
 
 	// Start will add all player Referenced by Rewired
 	void Start()
@@ -284,6 +346,31 @@ public class InputController : SerializedMonoBehaviour
 		var input = inputInfo.inputActions;*/
 		inputInfo.horizontal = horizontal;
 		inputInfo.vertical = vertical;
+	}
+
+	public void AddHoldInput(string action, ref Input_Info inputInfo, bool hold = true)
+	{
+		if(hold == false)
+		{
+			inputInfo.inputActionsHold.Remove(ReInput.mapping.GetAction(action));
+			return;
+		}
+		if(!inputInfo.inputActionsHold.Contains(ReInput.mapping.GetAction(action)))
+			inputInfo.inputActionsHold.Add(ReInput.mapping.GetAction(action));
+
+		/*InputBuffer tmp = new InputBuffer();
+		var input = inputInfo.inputActions;
+		foreach (InputBuffer ic in input)
+		{
+			if (ic.action == ReInput.mapping.GetAction(action))
+			{
+				ic.timeValue = bufferLength;
+				return;
+			}
+		}
+		input.Add(tmp);
+		input[input.Count - 1].action = ReInput.mapping.GetAction(action);
+		input[input.Count - 1].timeValue = bufferLength;*/
 	}
 
 }

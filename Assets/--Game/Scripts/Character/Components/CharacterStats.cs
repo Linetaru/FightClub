@@ -10,14 +10,23 @@ public class CharacterStats : MonoBehaviour, IStats
     public CharacterBase userBase;
 
     [Title("Data")]
-    [SerializeField]
+    /*[SerializeField]
     [ReadOnly] // A mettre dans battle manager
     private GameData gameData;
     public GameData GameData
     {
         get { return gameData; }
         set { gameData = value; }
-    }
+    }*/
+
+    /*[SerializeField]
+    [ReadOnly]
+    private CharacterData characterData;
+    public CharacterData CharacterData
+    {
+        get { return characterData; }
+    }*/
+
 
     [SerializeField]
     [ReadOnly]
@@ -55,7 +64,7 @@ public class CharacterStats : MonoBehaviour, IStats
         set { death = value; }
     }
 
-    [Title("Kill")]
+    /*[Title("Kill")]
     [SerializeField]
     [ReadOnly]
     private int killNumber;
@@ -63,7 +72,7 @@ public class CharacterStats : MonoBehaviour, IStats
     {
         get { return killNumber; }
         set { killNumber = value; }
-    }
+    }*/
 
 
     [Title("Attack Stats")]
@@ -121,9 +130,8 @@ public class CharacterStats : MonoBehaviour, IStats
 
     public void InitStats()
     {
+        //characterData = data;
         userBase = this.transform.parent.transform.parent.GetComponent<CharacterBase>();
-        if (GameData.VictoryCondition == VictoryCondition.Health)
-            LifeStocks = GameData.NumberOfLifes;
         LifePercentage = 0;
         Death = false;
 

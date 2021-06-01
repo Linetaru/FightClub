@@ -120,15 +120,13 @@ public class CharacterStateIdle : CharacterState
 			}
 		}
 
-
-
 		/*if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
 		{
 			character.Input.inputActions[0].timeValue = 0;
 			character.SetState(jumpStartState);
 			return;
 		}*/
-		else if (moveset.ActionAttack(character) == true)
+		else if (moveset.ActionAttack(character))
 		{
 			return;
 		}
@@ -137,6 +135,14 @@ public class CharacterStateIdle : CharacterState
 			character.SetState(dashState);
 			return;
 		}
+		/*else if (moveset.ActionEx(character))
+		{
+			return;
+		}
+		else if (moveset.ActionSpecialEx(character))
+		{
+			return;
+		}*/
 		else if (evasiveMoveset.Parry(character))
         {
 			return;

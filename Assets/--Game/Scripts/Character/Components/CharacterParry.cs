@@ -22,6 +22,15 @@ public class CharacterParry : MonoBehaviour
 		get { return timingParry; }
 	}
 
+
+	[SerializeField]
+	private float ejectionPower;
+	public float EjectionPower
+	{
+		get { return ejectionPower; }
+	}
+
+
 	[SerializeField]
 	private float parryAngle;
 	public float ParryAngle
@@ -29,6 +38,8 @@ public class CharacterParry : MonoBehaviour
 		get { return parryAngle; }
 		set { parryAngle = value; } // Pour les tests, ne pas mettre en write sinon
 	}
+
+
 
 
 
@@ -372,8 +383,10 @@ public class CharacterParry : MonoBehaviour
 
 		if (repel == true)
 		{
+			float ejectionPower = characterParry.Knockback.Parry.EjectionPower;
+
 			Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-			characterRepelled.Knockback.Launch(angleEjection, 1);
+			characterRepelled.Knockback.Launch(angleEjection, ejectionPower);
 
 			characterRepelled.Action.CancelAction();
 			characterRepelled.SetState(parryRepelState);
@@ -400,8 +413,10 @@ public class CharacterParry : MonoBehaviour
 		characterRepelled.Model.FlashModel(Color.white, 0.7f);
 
 
+		float ejectionPower = characterParry.Knockback.Parry.EjectionPower;
+
 		Vector2 angleEjection = (characterRepelled.transform.position - characterParry.transform.position).normalized;
-		characterRepelled.Knockback.Launch(angleEjection, 1);
+		characterRepelled.Knockback.Launch(angleEjection, ejectionPower);
 
 		characterRepelled.SetState(parryRepelState);
 		OnGuard?.Invoke(characterRepelled, characterParry);

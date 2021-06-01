@@ -18,24 +18,33 @@ public enum TrialsSpawnPoint
 public class TrialsModeData : SerializedScriptableObject
 {
 	[SerializeField]
-	string trialsName;
+	string trialsName = "";
 	public string TrialsName
 	{
 		get { return trialsName; }
 	}
 
+	[SerializeField]
+	[TextArea]
+	string trialsDescription = "";
+	public string TrialsDescription
+	{
+		get { return trialsDescription; }
+	}
+
 
 	[Title("Setup")]
 	[SerializeField]
-	string stageName;
+	[Scene]
+	string scene = "";
 	public string StageName
 	{
-		get { return stageName; }
+		get { return scene; }
 	}
 
 	[HorizontalGroup("Player")]
 	[SerializeField]
-	CharacterData player;
+	CharacterData player = null;
 	public CharacterData Player
 	{
 		get { return player; }
@@ -53,7 +62,7 @@ public class TrialsModeData : SerializedScriptableObject
 
 	[HorizontalGroup("Enemy")]
 	[SerializeField]
-	CharacterData dummy;
+	CharacterData dummy = null;
 	public CharacterData Dummy
 	{
 		get { return dummy; }
@@ -69,7 +78,7 @@ public class TrialsModeData : SerializedScriptableObject
 	}
 
 	[SerializeField]
-	AIBehavior dummyBehavior;
+	AIBehavior dummyBehavior = null;
 	public AIBehavior DummyBehavior
 	{
 		get { return dummyBehavior; }
@@ -79,13 +88,13 @@ public class TrialsModeData : SerializedScriptableObject
 	[Title("Texts")]
 	[SerializeField]
 	[HideLabel]
-	private string osef;
+	private string osef = "";
 
 	[TabGroup("Texts", "TextStart")]
 	[SerializeField]
 	[ListDrawerSettings(Expanded = true)]
-	[TextArea(1,1)]
-	List<string> textboxStart;
+	[TextArea(1, 1)]
+	List<string> textboxStart = new List<string>();
 	public List<string> TextboxStart
 	{
 		get { return textboxStart; }
@@ -95,7 +104,7 @@ public class TrialsModeData : SerializedScriptableObject
 	[SerializeField]
 	[ListDrawerSettings(Expanded = true)]
 	[TextArea(1, 1)]
-	List<string> textboxEnd;
+	List<string> textboxEnd = new List<string>();
 	public List<string> TextboxEnd
 	{
 		get { return textboxEnd; }
@@ -128,7 +137,7 @@ public class TrialsModeData : SerializedScriptableObject
 
 
 	[SerializeField]
-	List<string> comboNotes;
+	List<string> comboNotes = new List<string>();
 	public List<string> ComboNotes
 	{
 		get { return comboNotes; }
@@ -146,13 +155,20 @@ public class TrialsModeData : SerializedScriptableObject
 
 
 	[Space]
-	[Title("TextEnd")]
+	[Title("Reward")]
+
+	[SerializeField]
+	int moneyReward = 0;
+	public int MoneyReward
+	{
+		get { return moneyReward; }
+	}
 
 
 	[Space]
 	[Space]
 	[SerializeField]
-	TrialsModeData nextTrial;
+	TrialsModeData nextTrial = null;
 	public TrialsModeData NextTrial
 	{
 		get { return nextTrial; }

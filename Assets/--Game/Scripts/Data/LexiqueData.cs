@@ -8,7 +8,7 @@ public class LexiqueData : ScriptableObject
 {
 
 	[SerializeField]
-	string entryTitle;
+	string entryTitle = "";
 	public string EntryTitle
 	{
 		get { return entryTitle; }
@@ -16,17 +16,29 @@ public class LexiqueData : ScriptableObject
 
 	[SerializeField]
 	[TextArea(4, 10)]
-	private string entryText;
+	private string entryText = "";
 	public string EntryText
 	{
 		get { return entryText; }
 	}
 
 	[SerializeField]
-	private Sprite entrySprite;
+	private Sprite entrySprite = null;
 	public Sprite EntrySprite
 	{
 		get { return entrySprite; }
+	}
+
+	[Space]
+	[SerializeField]
+	private bool music = false;
+
+	[SerializeField]
+	[ShowIf("music")]
+	private AK.Wwise.Event eventSound = null;
+	public AK.Wwise.Event EventSound
+	{
+		get { return eventSound; }
 	}
 
 }
