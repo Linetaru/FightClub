@@ -15,10 +15,10 @@ public class CharacterStateActing : CharacterState
 
 	//bool homingDashRegister = false;
 
-	public override void StartState(CharacterBase character, CharacterState oldState)
+	/*public override void StartState(CharacterBase character, CharacterState oldState)
 	{
 
-	}
+	}*/
 
 	public override void UpdateState(CharacterBase character)
 	{
@@ -37,16 +37,29 @@ public class CharacterStateActing : CharacterState
 			homingDashRegister = true;
 
 		}*/
-		characterMoveset.ActionAttack(character);
+
+		if (characterMoveset.ActionExSpecial(character))
+		{
+			return;
+		}
+		else if (characterMoveset.ActionEx(character))
+		{
+			return;
+		}
+		else if (characterMoveset.ActionAttack(character))
+		{
+			return;
+		}
 	}
 
-	public override void LateUpdateState(CharacterBase character)
+	/*public override void LateUpdateState(CharacterBase character)
 	{
 		//character.Action.EndActionState();
-	}
+	}*/
 
 	public override void EndState(CharacterBase character, CharacterState oldState)
 	{
-		//Debug.Log("End Action");
+		if (characterMoveset.ExTilt)
+			character.Knockback.Parry.IsParry = false;
 	}
 }

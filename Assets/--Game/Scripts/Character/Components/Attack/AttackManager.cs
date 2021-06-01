@@ -60,19 +60,6 @@ public class AttackManager : MonoBehaviour
 
     // ===============================================================================
 
-    /*public void Start()
-    {
-        ActionActive();
-    }*/
-
-   /* public void Update()
-    {
-        foreach (AttackComponent atkC in atkCompList)
-        {
-            atkC.UpdateComponent(user);
-        }
-    }*/
-
     public bool CanUseAttack(CharacterBase character)
     {
         if (attackCondition == null)
@@ -94,11 +81,6 @@ public class AttackManager : MonoBehaviour
         {
             atkSubs[i].InitAttack(character, this.gameObject.name + i);
         }
-
-        /*for (int i = 0; i < atkSubs.Count; i++)
-        {
-            subAnimators[0].Play(attackAnim.name);
-        }*/
     }
 
     public void ActionActive(int subAttack = 0)
@@ -113,26 +95,28 @@ public class AttackManager : MonoBehaviour
 
     public void ActionAllActive()
     {
-        foreach (AttackSubManager atkSub in atkSubs)
+        foreach (AttackSubManager atkSub in atkSubs)
         {
-            atkSub.ActionActive();
+            atkSub.ActionActive();
         }
     }
 
     public void ActionAllUnactive()
     {
-        foreach (AttackSubManager atkSub in atkSubs)
-        {
-            atkSub.ActionUnactive();
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.ActionUnactive();
         }
     }
-    public void AddPlayerHitList(string targetTag)
-    {
-        foreach (AttackSubManager atkSub in atkSubs)
-        {
-            atkSub.AddPlayerHitList(targetTag);
+    public void AddPlayerHitList(string targetTag)
+    {
+        foreach (AttackSubManager atkSub in atkSubs)
+        {
+            atkSub.AddPlayerHitList(targetTag);
         }
     }
+
+
 
     /*
     public void ActionAllUnactiveExceptOne(AttackSubManager atkStayActive)
