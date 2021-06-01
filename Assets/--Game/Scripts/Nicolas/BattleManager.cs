@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Sirenix.OdinInspector;
@@ -21,6 +22,8 @@ public class BattleManager : MonoBehaviour
 
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
+	[HideInInspector]
+	public UnityEvent gameEndedEvent = new UnityEvent();
 
 	[Title("Interractions")]
 	public InputController inputController;
@@ -47,10 +50,11 @@ public class BattleManager : MonoBehaviour
 	private bool slowMowEnd;
 	private float timer;
 
+	[SerializeField]
+	private Image fadeImage;
+
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
-
-	public UnityEvent gameEndedEvent = new UnityEvent();
 
 
 	//SINGLETON
@@ -77,12 +81,14 @@ public class BattleManager : MonoBehaviour
 
     //END SINGLETON
 
-
     // Start is called before the first frame update
     void Start()
 	{
 		if(autoStart)
+		{
+			fadeImage.enabled = true;
 			StartBattleManager();
+		}
 	}
 
     public void StartBattleManager()
@@ -90,10 +96,7 @@ public class BattleManager : MonoBehaviour
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
 
-		/*
-		if (gameEndedEvent == null)
-			gameEndedEvent = new UnityEvent();
-		*/
+
 
 		gameEndedEvent.AddListener(ManageEndBattle);
 

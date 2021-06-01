@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df66098039010844192f332602fa25d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoStart: 1
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
   teamTextColors:
   - {r: 1, g: 1, b: 1, a: 1}
@@ -342,9 +343,12 @@ MonoBehaviour:
   - {r: 0, g: 0.78431374, b: 1, a: 1}
   - {r: 0, g: 0.5882353, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
-  BombModeManager: {fileID: 0}
+  BombModeManager: {fileID: 3699682369519073333, guid: a11de24c05478cb44968210cdc17cf9f, type: 3}
   FlappyModeManager: {fileID: 0}
   uiEvent: {fileID: 11400000, guid: f1ec76ee325b2fe4ea94206e0a9e7710, type: 2}
+  gameEndedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   inputController: {fileID: 7854600161939016466}
   aIController: {fileID: 7201684719196558990}
   cameraController: {fileID: 3409050773024403814}
@@ -362,6 +366,7 @@ MonoBehaviour:
   characterFullDead: []
   menuWin: {fileID: 0}
   isGameStarted: 0
+  fadeImage: {fileID: 2258782797889467128}
 --- !u!114 &205298903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +478,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7650599132845002796}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 

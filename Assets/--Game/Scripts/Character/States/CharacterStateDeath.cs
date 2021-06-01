@@ -24,7 +24,7 @@ public class CharacterStateDeath : CharacterState
 
 		timer = 0f;
 		//Camera.main.GetComponent<CameraZoomController>().targets.Remove(character.gameObject.transform);
-		if(BattleManager.Instance.cameraController != null)
+		if(BattleManager.Instance != null)
 		{
 			BattleManager.Instance.cameraController.ModifyTargetPriority(character.transform, -1);
 		}
