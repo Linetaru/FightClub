@@ -10036,7 +10036,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 32730b24f625a934193ff0999afa05a3, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: ff66e1545df6c5f48887ebd288a9a5e1, type: 2}
 --- !u!136 &2806516819138747567
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10328,6 +10328,8 @@ MonoBehaviour:
   - {fileID: 2680306073293870938}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
+  noClash: 0
+  noParryCancel: 0
   disjoint: 0
   guardOnDash: 0
   guardWin: 0
@@ -10424,6 +10426,8 @@ MonoBehaviour:
   keepMomentumY: 1
   applyGravity: 1
   gravityMultiplier: 1
+  applyGravityDescend: 0
+  gravityMultiplierDescend: 1
   canAirControl: 0
   groundCancel: 0
   groundEndLag: {fileID: 0}
@@ -10439,6 +10443,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300033e4a33fb75428f535cbe5eb2d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantMomentum: 0
+  multiplier: 1
+  jumpCancelOnHit: 0
 --- !u!1 &3588712126159723670
 GameObject:
   m_ObjectHideFlags: 0
@@ -10637,7 +10644,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 32730b24f625a934193ff0999afa05a3, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: ff66e1545df6c5f48887ebd288a9a5e1, type: 2}
 --- !u!1 &4071685772708671021
 GameObject:
   m_ObjectHideFlags: 0
@@ -20769,7 +20776,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 32730b24f625a934193ff0999afa05a3, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: ff66e1545df6c5f48887ebd288a9a5e1, type: 2}
 --- !u!1 &6936374988303413759
 GameObject:
   m_ObjectHideFlags: 0
@@ -20841,6 +20848,8 @@ MonoBehaviour:
   - {fileID: 7226812123014542316}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
+  noClash: 0
+  noParryCancel: 0
   disjoint: 0
   guardOnDash: 0
   guardWin: 0
@@ -20995,6 +21004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 4583833679204093238}
   particle: {fileID: 6556717571440201997}
+  a: {fileID: 0}
 --- !u!1 &7993251255925609243
 GameObject:
   m_ObjectHideFlags: 0
@@ -21089,6 +21099,7 @@ MonoBehaviour:
   - {fileID: 8666131067734514664}
   - {fileID: 3119630913284927734}
   - {fileID: 4654727328593765825}
+  subAnimators: []
 --- !u!135 &2021313759042297179
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21173,6 +21184,8 @@ MonoBehaviour:
   - {fileID: 7295507053320004678}
   playerHitEvent: {fileID: 0}
   clashLevel: 1
+  noClash: 0
+  noParryCancel: 0
   disjoint: 0
   guardOnDash: 0
   guardWin: 0

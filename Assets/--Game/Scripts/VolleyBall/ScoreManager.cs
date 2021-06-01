@@ -29,7 +29,7 @@ public class ScoreManager : BattleManager
         redTeamScore++;
         scoreUI.UpdateRedScoreText(redTeamScore);
         if(redTeamScore >= scoreLimit)
-            StartCoroutine(EndBattleCoroutine());
+            ManageEndBattle();
     }
 
     public void UpdateBlueScore()
@@ -37,7 +37,7 @@ public class ScoreManager : BattleManager
         blueTeamScore++;
         scoreUI.UpdateBlueScoreText(blueTeamScore);
         if(blueTeamScore >= scoreLimit)
-            StartCoroutine(EndBattleCoroutine());
+            ManageEndBattle();
     }
 
     // Update is called once per frame

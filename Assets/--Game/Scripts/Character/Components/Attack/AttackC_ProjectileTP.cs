@@ -60,7 +60,6 @@ public class AttackC_ProjectileTP : AttackComponent
 
 	public override void EndComponent(CharacterBase user)
 	{
-		Debug.Log("Allo");
 		if(projectile != null)
 			projectile.CancelAction();
 	}

@@ -53,7 +53,8 @@ public class CharacterStateWallRun : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
-        wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
+        wallCollision = CheckFullWallCollision(character);
+       // wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
         //groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
 
         if (character.Movement.SpeedY > wallrunSpeedMin)
@@ -91,6 +92,20 @@ public class CharacterStateWallRun : CharacterState
         }
 
     }
+
+
+    private bool CheckFullWallCollision(CharacterBase character)
+    {
+        for (int i = 0; i < character.Rigidbody.CollisionWallInfo.Contacts.Length; i++)
+        {
+            if (character.Rigidbody.CollisionWallInfo.Contacts[i] == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public override void LateUpdateState(CharacterBase character)
     {

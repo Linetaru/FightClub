@@ -33,6 +33,15 @@ public class Textbox : MonoBehaviour, IControllable
 
 	public event UnityAction OnTextEnd;
 
+	public bool isTextFinished()
+	{
+		return textBox.maxVisibleCharacters >= text.Length;
+	}
+
+	public char CharacterDrawed()
+	{
+		return text[textBox.maxVisibleCharacters];
+	}
 
 	private void Start()
 	{
@@ -102,7 +111,11 @@ public class Textbox : MonoBehaviour, IControllable
 	}
 	private void DrawAnimator()
 	{
-		textboxAnimator.gameObject.SetActive(true);
-		textboxAnimator.SetBool("Appear", show);
+		if (textboxAnimator != null)
+		{
+			textboxAnimator.gameObject.SetActive(true);
+
+			textboxAnimator.SetBool("Appear", show);
+		}
 	}
 }

@@ -10,14 +10,14 @@ public class CharacterStateAttack : CharacterState
 	[Title("Cancels")]
 	[SerializeField]
 	bool canCancel = false;
-	[SerializeField]
+	/*[SerializeField]
 	bool canCancelOnlyOnHit = false;
 	[SerializeField]
 	bool canJumpCancel = false;
 	[SerializeField]
 	bool canDashCancel = false;
 	[SerializeField]
-	bool canDodgeCancel = false;
+	bool canDodgeCancel = false;*/
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{

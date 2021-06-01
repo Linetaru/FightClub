@@ -10,7 +10,22 @@ using System.Linq;
 [CreateAssetMenu(fileName = "InputProfile_", menuName = "Data/InputProfileData", order = 1)]
 public class InputMappingData : ScriptableObject
 {
+    [SerializeField]
+    string profileName;
 
+    [SerializeField]
+    public EnumInput inputJump;
+    [SerializeField]
+    public EnumInput inputShortHop;
+    [SerializeField]
+    public EnumInput inputAttack;
+    [SerializeField]
+    public EnumInput inputSpecial;
+
+    [SerializeField]
+    public EnumInput inputParry;
+    [SerializeField]
+    public EnumInput inputDash;
 
     /*
      * Get the Player for which you are changing element mappings.
@@ -22,8 +37,8 @@ public class InputMappingData : ScriptableObject
     */
 
 
-    [ActionIdProperty(typeof(int))]
-    public int actionId;
+    /*[ActionIdProperty(typeof(int))]
+    public int actionId;*/
 
    /* [ValueDropdown("GetMapAction")]//, IsUniqueList = true)]
     [SerializeField]
