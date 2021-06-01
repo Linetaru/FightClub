@@ -61,7 +61,7 @@ public class ShopItemData : ScriptableObject
     public string GetUnlockID()
     {
         if (ItemToUnlock != null)
-            return itemToUnlock.name;
+            return itemToUnlock.ToString();
         return "";
     }
 

@@ -10,34 +10,28 @@ namespace Menu
 	public class MenuShop : MenuList, IControllable
 	{
 		[Space]
+		[Title("Database")]
 		[SerializeField]
 		CurrencyData currencyData = null;
-
-
-		[Title("Database")]
-		[InfoBox("Mettre que des IUnlockable (des databases normalement)")]
-		[SerializeField]
-		List<ScriptableObject> database = new List<ScriptableObject>();
-		List<IUnlockable> databaseUnlock = new List<IUnlockable>();
-
 		[SerializeField]
 		SODatabase_Shop databaseShop = null;
 
 		[Title("UI")]
 		[SerializeField]
-		string menuTitle;
+		string menuTitle = "";
 		[SerializeField]
-		TextMeshProUGUI textMenuTitle;
+		TextMeshProUGUI textMenuTitle = null;
 
 		[SerializeField]
-		Textbox textDescription;
+		Textbox textDescription = null;
 
 		[Title("Animators")]
 		[SerializeField]
-		Animator animatorMenu;
+		Animator animatorMenu = null;
+		[SerializeField]
+		Animator animatorUnityChan = null;
 
-
-		private void Start()
+		/*private void Start()
 		{
 			for (int i = 0; i < database.Count; i++)
 			{
@@ -45,7 +39,7 @@ namespace Menu
 				if (interfac != null)
 					databaseUnlock.Add(interfac);
 			}
-		}
+		}*/
 
 		public override void InitializeMenu()
 		{
@@ -54,7 +48,7 @@ namespace Menu
 
 			for (int i = 0; i < databaseShop.Database.Count; i++)
 			{
-				if (GetUnlocked(databaseShop.Database[i].GetUnlockID()))
+				if (GetUnlocked(databaseShop.Database[i].GetUnlockID(), databaseShop.Database[i].DatabaseToLook))
 					listEntry.DrawItemList(i, null, databaseShop.Database[i].ItemName, "SOLD OUT");
 				else
 					listEntry.DrawItemList(i, null, databaseShop.Database[i].ItemName, databaseShop.Database[i].ItemPrice + " BP");
@@ -78,23 +72,25 @@ namespace Menu
 		{
 			base.SelectEntry(id);
 
-			//animatorDescription.SetTrigger("Feedback");
+			animatorUnityChan.SetTrigger("Feedback");
 			textDescription.DrawTextbox(databaseShop.Database[id].ItemDescription);
 		}
 
 		protected override void ValidateEntry(int id)
 		{
-			base.ValidateEntry(id);
+			//base.ValidateEntry(id);
 
-			if (!GetUnlocked(databaseShop.Database[id].GetUnlockID()))
+			if (!GetUnlocked(databaseShop.Database[id].GetUnlockID(), databaseShop.Database[id].DatabaseToLook))
 			{
-
 				if (currencyData.Money >= databaseShop.Database[id].ItemPrice)
 				{
+					base.ValidateEntry(id);
 					currencyData.AddMoney(-databaseShop.Database[id].ItemPrice);
 					listEntry.DrawItemList(id, null, databaseShop.Database[id].ItemName, "SOLD OUT");
+					SetUnlocked(databaseShop.Database[id].GetUnlockID(), databaseShop.Database[id].DatabaseToLook);
+					animatorUnityChan.SetTrigger("Buy");
 				}
-				SetUnlocked(databaseShop.Database[id].GetUnlockID());
+
 			}
 
 		}
@@ -107,22 +103,36 @@ namespace Menu
 
 
 
-		public void SetUnlocked(string itemName)
+
+
+		public void SetUnlocked(string itemName, ScriptableObject so)
 		{
-			// Faire gaffe faut que les databaseUnlock ne contienne pas de database avec une référence partagé
-			for (int i = 0; i < databaseUnlock.Count; i++)
-			{
-				databaseUnlock[i].SetUnlocked(itemName, true);
-			}
+			IUnlockable unlockable = so as IUnlockable;
+			if (so != null)
+				SetUnlocked(itemName, unlockable);
+			else
+				Debug.LogWarning("The database to look in order to buy this item is wrong");
 		}
-		public bool GetUnlocked(string itemName)
+
+		public void SetUnlocked(string itemName, IUnlockable databaseToLook)
 		{
-			for (int i = 0; i < databaseUnlock.Count; i++)
-			{
-				if (databaseUnlock[i].GetUnlocked(itemName))
-					return true;
-			}
+			databaseToLook.SetUnlocked(itemName, true);
+		}
+
+
+		public bool GetUnlocked(string itemName, ScriptableObject so)
+		{
+			IUnlockable unlockable = so as IUnlockable;
+			if(so != null)
+				return GetUnlocked(itemName, unlockable);
+			else
+				Debug.LogWarning("The database to look in order to buy this item is wrong");
 			return false;
+		}
+
+		public bool GetUnlocked(string itemName, IUnlockable databaseToLook)
+		{
+			return databaseToLook.GetUnlocked(itemName);
 		}
 
 
