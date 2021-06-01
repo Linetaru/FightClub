@@ -42,6 +42,7 @@ public class CharacterKnockback : MonoBehaviour
     public float TimeKnockbackPerDistance
     {
         get { return timeKnockbackPerDistance; }
+        set { timeKnockbackPerDistance = value; }
     }
 
     [SerializeField]
@@ -50,9 +51,6 @@ public class CharacterKnockback : MonoBehaviour
     {
         get { return maxTimeKnockback; }
     }
-
-
-    private Vector2 angleKnockback;
 
     private float knockbackDuration = 0;
     public float KnockbackDuration
@@ -75,6 +73,12 @@ public class CharacterKnockback : MonoBehaviour
         set { isInvulnerable = value; }
     }
 
+    private bool isHardKnockback = false;
+    public bool IsHardKnockback
+    {
+        get { return isHardKnockback; }
+        set { isHardKnockback = value; }
+    }
 
     protected float motionSpeed = 1;
     public float MotionSpeed
@@ -84,6 +88,8 @@ public class CharacterKnockback : MonoBehaviour
     }
 
 
+
+    private Vector2 angleKnockback;
 
     public EventAttackSubManager OnKnockback;
     List<AttackSubManager> atkRegistered = new List<AttackSubManager>();
@@ -130,41 +136,19 @@ public class CharacterKnockback : MonoBehaviour
             if (Parry.CanParry(atkRegistered[i]) == true)   // On parry
             {
                 Parry.ParryResolution(character, atkRegistered[i]);
-                /*Parry.Parry(character, atkRegistered[i].User);
-                atkRegistered[i].User.Knockback.Parry.ParryRepel(atkRegistered[i].User, character);
-                atkRegistered[i].AddPlayerHitList(character.tag);
-
-                // Pour tourner le joueur dans le sens de la parry
-                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
-                    character.Movement.Direction *= -1;*/
             }
             else if (Parry.CanGuard(atkRegistered[i]) == true)   // On Garde
             {
                 Parry.GuardResolution(character, atkRegistered[i]);
-               /* atkRegistered[i].User.Knockback.ContactPoint = character.Knockback.ContactPoint;
-
-                Parry.Guard(character, atkRegistered[i].User);
-                atkRegistered[i].User.Knockback.Parry.Parry(atkRegistered[i].User, character);
-                atkRegistered[i].User.PowerGauge.ForceAddPower(-25);
-                atkRegistered[i].AddPlayerHitList(character.tag);
-
-                // Pour tourner le joueur dans le sens de la garde
-                if (Mathf.Sign(atkRegistered[i].User.transform.position.x - character.transform.position.x) != character.Movement.Direction)
-                    character.Movement.Direction *= -1;*/
             }
             else if(atkRegistered[i].AttackClashed != null) // On clash
             {
                 Parry.Clash(character, atkRegistered[i]); // Le clash
-
                 atkRegistered[i].User.Knockback.UnregisterHit(atkRegistered[i].AttackClashed); // On retire l'attaque de l'adversaire pour ne pas lancer 2 fois le clash
             }
             else // On touche
             {
                 Hit(character, atkRegistered[i]);
-                /*atkRegistered[i].Hit(character);
-                if (CanKnockback() == true)
-                    character.SetState(stateKnockback);
-                OnKnockback?.Invoke(atkRegistered[i]);*/
             }
             atkRegistered.RemoveAt(i);
         }
@@ -219,6 +203,7 @@ public class CharacterKnockback : MonoBehaviour
 
     public void UpdateKnockback(float percentage)
     {
-        knockbackDuration -= Time.deltaTime * motionSpeed;
+        knockbackDuration -= (Time.deltaTime * percentage) * motionSpeed;
     }
+
 }

@@ -139,8 +139,10 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         actualSpeedX *= Time.deltaTime;
         actualSpeedY *= Time.deltaTime;
 
-        if (actualSpeedY > 0) // On fait ce check avant le update X pour passer au travers des Character à la première frame d'un saut
+        if (actualSpeedY > 0.0001f) // On fait ce check avant le update X pour passer au travers des Character à la première frame d'un saut
+        {
             isGrounded = false;
+        }
 
         if (collision == true)
         {
@@ -255,7 +257,7 @@ public class CharacterRigidbodySlope : CharacterRigidbody
 
     private void UpdatePositionY()
     {
-        if (actualSpeedY == 0)
+        if (-0.0001f < actualSpeedY && actualSpeedY < 0.0001f)
             return;
 
         RaycastHit raycastY;

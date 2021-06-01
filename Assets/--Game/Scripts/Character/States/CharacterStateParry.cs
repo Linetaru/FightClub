@@ -31,9 +31,6 @@ public class CharacterStateParry : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		//Debug.Log(spamParry);
-		/*if (oldState is CharacterStateParryBlow)
-			spamParry = false;*/
 		character.Knockback.Parry.IsParry = true;
 
 		t = 0f;
@@ -54,6 +51,7 @@ public class CharacterStateParry : CharacterState
 		{
 			character.Model.FlashModel(Color.white, timeInParry);
 			character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
+			//Debug.Log(character.Rigidbody.CollisionGroundInfo);
 		}
 		else
 		{
@@ -82,7 +80,6 @@ public class CharacterStateParry : CharacterState
 		/*if (t >= timeInParry && t <= timeInParry + timeInGuard && !firstFrame)
 		{
 			firstFrame = true;
-
 		}*/
 		// ==========
 
