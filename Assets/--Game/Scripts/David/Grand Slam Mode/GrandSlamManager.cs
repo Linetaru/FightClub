@@ -114,7 +114,7 @@ public class GrandSlamManager : MonoBehaviour
 
         foreach(SlamMode slam in copySlamMode)
         {
-            if (gameData.CharacterInfos.Count == 3 || slam.gameMode == GameModeStateEnum.Volley_Mode) // TMP CONDITION CAR VOLLEY PAS DISPO ::: A CHANGER AVEC && 
+            if ((gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode) || gameMode == GameModeStateEnum.Volley_Mode) // TMP CONDITION CAR VOLLEY PAS DISPO
                 listGameModesValid.Remove(slam);
             else if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
                 listGameModesValid.Remove(slam);
@@ -156,7 +156,7 @@ public class GrandSlamManager : MonoBehaviour
             i++;
         }
 
-        canvasScore.DrawScores(scores);
+        canvasScore.DrawScores(scores, i);
     }
 
 

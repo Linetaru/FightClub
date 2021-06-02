@@ -27,9 +27,9 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
-    public void DrawScores(int[] playersScore)
+    public void DrawScores(int[] playersScore, int realLength)
     {
-        for(int i = 0; i < playersScore.Length; i++)
+        for(int i = 0; i < realLength; i++)
         {
             playersScoreObj[i].SetActive(true);
             playerScoreTxt[i].text = playersScore[i] + "";
