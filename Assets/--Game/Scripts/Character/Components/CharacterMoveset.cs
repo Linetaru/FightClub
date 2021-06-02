@@ -227,7 +227,8 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.PowerGauge.CurrentPower < tiltExCost)
 			return false;
 
-		if(ActionAttack(character, false))
+		character.Rigidbody.CheckGround(character.Movement.Gravity);
+		if (ActionAttack(character, false))
 		{
 			ParticleSystem par = Instantiate(particleExTilt, character.CenterPoint.transform.position, Quaternion.identity, character.CenterPoint.transform);
 			Destroy(par.gameObject, 1f);

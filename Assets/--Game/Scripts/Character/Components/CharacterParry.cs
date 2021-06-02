@@ -260,9 +260,9 @@ public class CharacterParry : MonoBehaviour
 		//	atkRegistered.User.Knockback.ContactPoint = character.Knockback.ContactPoint;
 		if (atkRegistered.GuardWin == false)
 		{
-			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
+			if (character.PowerGauge.CurrentPower <= 1) // Guard Break
 			{
-				character.PowerGauge.ForceAddPower(-20);
+				//character.PowerGauge.ForceAddPower(-20);
 				character.PowerGauge.ForceAddPower(80);
 				atkRegistered.User.PowerGauge.ForceAddPower(20);
 

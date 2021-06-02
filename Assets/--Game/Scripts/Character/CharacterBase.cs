@@ -217,7 +217,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	// Aveux de faiblesse pardon les amis
 	public void ResetToIdle()
     {
-        if (rigidbody.IsGrounded)
+		rigidbody.CheckGround(movement.Gravity);
+		if (rigidbody.IsGrounded)
         {
 			SetState(idleState);
         }

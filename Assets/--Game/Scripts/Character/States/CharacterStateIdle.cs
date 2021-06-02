@@ -187,6 +187,7 @@ public class CharacterStateIdle : CharacterState
 		}	
 		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
 		{
+			character.Movement.SpeedY = 0;
 			character.SetState(aerialState);
 		}
 	}
