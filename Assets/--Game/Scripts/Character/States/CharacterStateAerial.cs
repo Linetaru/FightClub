@@ -62,6 +62,14 @@ public class CharacterStateAerial : CharacterState
         {
 
         }
+        /*else if (characterMoveset.ActionEx(character))
+        {
+            return;
+        }
+        else if (characterMoveset.ActionSpecialEx(character))
+        {
+            return;
+        }*/
         else if (evasiveMoveset.Parry(character))
         {
 

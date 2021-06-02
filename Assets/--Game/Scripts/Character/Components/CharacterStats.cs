@@ -126,6 +126,14 @@ public class CharacterStats : MonoBehaviour, IStats
         set { jump = value; }
     }
 
+    [SerializeField]
+    private Stats knockbackPerDistance;
+    public Stats KnockbackPerDistance
+    {
+        get { return knockbackPerDistance; }
+        set { knockbackPerDistance = value; }
+    }
+
     //=======================================================================================
 
     public void InitStats()
@@ -140,9 +148,10 @@ public class CharacterStats : MonoBehaviour, IStats
 
         Speed.InitStats(userBase.Movement.SpeedMax);
         AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
-
         Jump.InitStats(userBase.Movement.JumpNumber);
+
         Weight.InitStats(userBase.Knockback.Weight);
+        KnockbackPerDistance.InitStats(userBase.Knockback.TimeKnockbackPerDistance);
 
     }
 
@@ -186,6 +195,8 @@ public class CharacterStats : MonoBehaviour, IStats
                 return Jump;
             case MainStat.Weight:
                 return Weight;
+            case MainStat.KnockbackPerDistance:
+                return KnockbackPerDistance;
         }
         return null;
     }
@@ -205,6 +216,9 @@ public class CharacterStats : MonoBehaviour, IStats
                 break;
             case MainStat.Weight:
                 userBase.Knockback.Weight = Weight.Value;
+                break;
+            case MainStat.KnockbackPerDistance:
+                userBase.Knockback.TimeKnockbackPerDistance = KnockbackPerDistance.Value;
                 break;
         }
     }

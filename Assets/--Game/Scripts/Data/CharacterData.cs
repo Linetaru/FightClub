@@ -28,6 +28,17 @@ public class CharacterData : ScriptableObject
     [Title("Colors")]
     public List<Material> characterMaterials;
 
+    // utilisé pour les sauvegardes, je laisse la liste characterMaterials parce que c'est sans doute plus ergo pour le moment, mais si on doit changer d'autres
+    // paramètres que le Material quand on change de couleur, on migrera sur les Database color
+    public SODatabase_Color characterColors; 
+
+    /*public List<Material> characterMaterials
+    {
+        get { return myVar; }
+        set { myVar = value; }
+    }*/
+
+
     [Title("Intro")]
     public IntroductionCharacter[] introductions;
 

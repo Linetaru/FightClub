@@ -7,9 +7,9 @@ public class CharacterStateKnockback : CharacterState
 {
 
     [SerializeField]
-    CharacterState groundTechState;
+    CharacterState groundTechState = null;
     [SerializeField]
-    CharacterState airTechState;
+    CharacterState airTechState = null;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -21,9 +21,9 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float reboundSpeedNeeded = 2f;
 
-    [SerializeField]
+    /*[SerializeField]
     [SuffixLabel("en frames")]
-    float landingTime = 10;
+    float landingTime = 10;*/
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -31,7 +31,7 @@ public class CharacterStateKnockback : CharacterState
 
     [Title("Parameter - Collision")]
     [SerializeField]
-    ParticleSystem particleTrail;
+    ParticleSystem particleTrail = null;
 
 
     [Title("Parameter - Tech")]
@@ -46,9 +46,9 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float DIAngle = 10;
 
-    [Title("Parameter - Actions")]
+   /* [Title("Parameter - Actions")]
     [SerializeField]
-    CharacterAcumods acumods;
+    CharacterAcumods acumods;*/
 
     bool inHitStop = true;
     float tech = 0;
@@ -56,7 +56,7 @@ public class CharacterStateKnockback : CharacterState
 
     private void Start()
     {
-        landingTime /= 60f;
+        //landingTime /= 60f;
         techTime /= 60f;
         techAntiSpam /= 60f;
     }
@@ -103,13 +103,11 @@ public class CharacterStateKnockback : CharacterState
         }
         else if (character.Input.CheckAction(0, InputConst.RightTrigger))
         {
-            if(techCooldown <= 0)
+            if (character.Knockback.IsHardKnockback) // On ne peut pas tech en hard knockback
+                return;
+            if (techCooldown <= 0)
                 tech = techTime;
             techCooldown = techAntiSpam;
-        }
-        else if (acumods.Acumod(character))
-        {
-
         }
 
         tech -= Time.deltaTime;
@@ -125,8 +123,6 @@ public class CharacterStateKnockback : CharacterState
                 character.SetState(groundTechState);
             else
                 character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
-            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
-
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
@@ -137,13 +133,15 @@ public class CharacterStateKnockback : CharacterState
                 return;
             }
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
-            //Feedbacks.GlobalFeedback.Instance.SuperFeedback(); // A degager peut etre
         }
     }
 
 
     private void DirectionalInfluence(CharacterBase character)
     {
+        if (character.Knockback.IsHardKnockback)
+            return;
+
         if (Mathf.Abs(character.Input.horizontal) < joystickThreshold && Mathf.Abs(character.Input.vertical) < joystickThreshold)
             return;
 

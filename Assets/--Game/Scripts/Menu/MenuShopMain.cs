@@ -10,97 +10,114 @@ namespace Menu
 
 		[Title("Menu")]
 		[SerializeField]
-		MenuShop[] menuShops;
-
-		[Title("Unity chan")]
+		InputController inputController;
 		[SerializeField]
-		Animator animator;
+		MenuShop[] menuShops;
+		[SerializeField]
+		string[] textOptions;
+		[SerializeField]
+		Textbox textDescription;
 
 
-		// Start is called before the first frame update
-		void Start()
+		[Title("Animators")]
+		[SerializeField]
+		Animator animatorMenu;
+		[SerializeField]
+		Animator animatorDescription;
+		[SerializeField]
+		Animator animatorPanelUnityChan;
+		[SerializeField]
+		Animator animatorBackground;
+
+		[SerializeField]
+		Animator animatorPanelUnityChan2;
+
+		void Awake()
 		{
-
+			for (int i = 0; i < menuShops.Length; i++)
+			{
+				menuShops[i].OnEnd += BackToMenu;
+			}
 		}
 
-		// Update is called once per frame
-		void Update()
+		void OnDestroy()
 		{
-
+			for (int i = 0; i < menuShops.Length; i++)
+			{
+				menuShops[i].OnEnd -= BackToMenu;
+			}
 		}
+
 
 
 
 		public override void InitializeMenu()
 		{
-			/*animatorMenu.gameObject.SetActive(true);
-			animatorMenu.SetBool("Appear", true);
-
-			for (int i = 0; i < databaseMission.Database.Count; i++)
-			{
-				if (databaseMission.GetUnlocked(i) == true)
-					listEntry.DrawItemList(i, unlockedSprite, databaseMission.Database[i].TrialsName);
-				else
-					listEntry.DrawItemList(i, null, databaseMission.Database[i].TrialsName);
-			}*/
 			SelectEntry(0);
 			listEntry.SelectIndex(0);
-			//listEntry.SetItemCount(databaseMission.Database.Count);
 			base.InitializeMenu();
 		}
-
-
 
 		protected override void SelectEntry(int id)
 		{
 			base.SelectEntry(id);
+			textDescription.DrawTextbox(textOptions[id]);
+			animatorPanelUnityChan2.SetTrigger("Feedback");
 			//animatorDescription.SetTrigger("Feedback");
-			//textDescription.text = databaseMission.Database[id].TrialsDescription;
 		}
 
 		protected override void ValidateEntry(int id)
 		{
 			base.ValidateEntry(id);
 
-			// Debug test save
-			/*databaseMission.SetUnlocked(id, true);
-			SaveManager.Instance.SaveFile();
-			InitializeMenu();*/
-
-			/*gameData.GameMode = GameModeStateEnum.Classic_Mode;
-			gameData.NumberOfLifes = 3;
-			gameData.CharacterInfos.Clear();
-
-			if (databaseMission.Database[id].Player != null)
-			{
-				gameData.CharacterInfos.Add(new Character_Info());
-				gameData.CharacterInfos[0].CharacterData = databaseMission.Database[id].Player;
-				gameData.CharacterInfos[0].ControllerID = 0;
-				gameData.CharacterInfos[0].CharacterColorID = 0;
-				gameData.CharacterInfos[0].Team = TeamEnum.First_Team;
-			}
-
-			if (databaseMission.Database[id].Dummy != null)
-			{
-				gameData.CharacterInfos.Add(new Character_Info());
-				gameData.CharacterInfos[1].CharacterData = databaseMission.Database[id].Dummy;
-				gameData.CharacterInfos[1].ControllerID = 1;
-				gameData.CharacterInfos[1].CharacterColorID = 3;
-				gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
-			}
-
-			missionSettings.TrialsData = databaseMission.Database[id];
-			missionSettings.TrialsDatabase = databaseMission;
-
-			UnityEngine.SceneManagement.SceneManager.LoadScene(databaseMission.Database[id].StageName);*/
-
+			inputController.controllable[0] = menuShops[id];
+			menuShops[id].InitializeMenu();
+			HideMenu();
 		}
 
 		protected override void QuitMenu()
 		{
+			SaveManager.Instance.SaveFile();
 			base.QuitMenu();
-
-			//animatorMenu.SetBool("Appear", false);
 		}
+
+
+
+
+
+
+		private void BackToMenu()
+		{
+			inputController.controllable[0] = this;
+			ShowMenu();
+		}
+
+
+
+
+
+		private void ShowMenu()
+		{
+			animatorMenu.SetBool("Appear", true);
+			animatorBackground.SetBool("Right", false);
+			animatorPanelUnityChan.SetBool("Right", false);
+			animatorDescription.SetBool("Right", false);
+		}
+
+		private void HideMenu()
+		{
+			animatorMenu.SetBool("Appear", false);
+			animatorBackground.SetBool("Right", true);
+			animatorPanelUnityChan.SetBool("Right", true);
+			animatorDescription.SetBool("Right", true);
+		}
+
+
+
+
+
+
+
+
 	}
 }
