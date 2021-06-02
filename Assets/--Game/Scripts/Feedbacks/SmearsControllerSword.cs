@@ -58,7 +58,6 @@ public class SmearsControllerSword : MonoBehaviour
 
 	public void SmearsActive(bool b)
 	{
-		return;
 		if (!active && b)
 			t = 0f;
 		active = b;
