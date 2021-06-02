@@ -7,11 +7,14 @@ using Sirenix.OdinInspector;
 
 public class GrandSlamManager : MonoBehaviour
 {
+    [Title("Data")]
     [Expandable]
     public GameData gameData;
 
+    [Title("Lists")]
     [SerializeField]
     List<SlamMode> listGameModesValid;
+    List<string> listToPickFrom = new List<string>();
 
     [Button]
     public void UpdateGameModeList()
@@ -21,29 +24,16 @@ public class GrandSlamManager : MonoBehaviour
 
     GameModeStateEnum gameMode;
 
+    [Title("Objects")]
     [SerializeField]
     private GameObject cameraObj;
     [SerializeField]
     private CameraSlam camSlam;
-
-    [SerializeField]
-    private Camera currentCam;
-
     [SerializeField]
     private GrandSlamUi canvasScore;
 
-    /*
-    [SerializeField]
-    List<string> scenesClassic = new List<string>();
-    [SerializeField]
-    List<string> scenesBomb = new List<string>();
-    [SerializeField]
-    List<string> scenesFlappy = new List<string>();
-    [SerializeField]
-    List<string> scenesVolley = new List<string>();
-    */
+    private Camera currentCam;
 
-    List<string> listToPickFrom = new List<string>();
 
     bool firstRound = true;
 
@@ -51,6 +41,8 @@ public class GrandSlamManager : MonoBehaviour
     bool isLoaded;
 
     bool moveCamera = false;
+
+    [Title("Values")]
     [SerializeField]
     private float cameraResetSpeed = 1.0f;
 
@@ -77,14 +69,14 @@ public class GrandSlamManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         gameData.slamMode = true;
         AdjustModeList();
         StartCoroutine(LoadSceneAsync());
     }
 
-    string GetRandomSceneFromList()
+    private string GetRandomSceneFromList()
     {
         listToPickFrom = GetRandomModeList();
         string sceneName = listToPickFrom[Random.Range(0, listToPickFrom.Count)];
@@ -93,31 +85,20 @@ public class GrandSlamManager : MonoBehaviour
         return sceneName;
     }
 
-    void GoToScore()
-    {
-        // Camera rotate and draw score
-
-        // Une fois la cam set sur le score
-    }
-
 
     // Cette fonction sélectionne le mode et retourne la liste de scènes associée
-    List<string> GetRandomModeList()
+    private List<string> GetRandomModeList()
     {
         int randomKey = Random.Range(0, listGameModesValid.Count);
 
         gameMode = listGameModesValid[randomKey].gameMode;
 
-        List<string> scenes = new List<string>(listGameModesValid[randomKey].scenes);
-
-        listGameModesValid.RemoveAt(randomKey);
-
-        return scenes;
+        return listGameModesValid[randomKey].scenes;
     }
 
 
     // Cette fonction retire des modes de la liste en fonction du nombre de joueurs
-    public void AdjustModeList()
+    private void AdjustModeList()
     {
         List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
 
@@ -131,8 +112,23 @@ public class GrandSlamManager : MonoBehaviour
     }
 
 
-    IEnumerator ManageEndMode()
+    /// Cette fonction retire le mode actuel de la list des modes valides
+    private void RemoveCurrentGameModeFromList()
     {
+        List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
+
+        foreach (SlamMode slam in copySlamMode)
+        {
+            if(slam.gameMode == gameMode)
+                listGameModesValid.Remove(slam);
+        }
+    }
+
+
+    private IEnumerator ManageEndMode()
+    {
+        RemoveCurrentGameModeFromList();
+
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1.0f;
@@ -159,9 +155,9 @@ public class GrandSlamManager : MonoBehaviour
         {
             yield return null;
         }
-        isUnloaded = false;
+        isUnloaded = false; 
 
-        if(!IsGameOver())
+        if (!IsGameOver())
         {
             StartCoroutine(LoadSceneAsync());
 
@@ -200,14 +196,14 @@ public class GrandSlamManager : MonoBehaviour
         }
     }
 
-    void SetGame()
+    private void SetGame()
     {
         gameData.GameMode = gameMode;
 
         StartGame();
     }
 
-    void StartGame()
+    private void StartGame()
     {
         currentCam = null;
         currentCam = BattleManager.Instance.cameraController.Camera;
@@ -221,26 +217,26 @@ public class GrandSlamManager : MonoBehaviour
 
     }
 
-    void EndGame()
+    private void EndGame()
     {
         StartCoroutine(ManageEndMode());
     }
 
 
     // Gestion de la fin du mode Grand Slam
-    void ManageEndSlam()
+    private void ManageEndSlam()
     {
 
     }
 
-    bool IsGameOver()
+    private bool IsGameOver()
     {
         if (listGameModesValid.Count > 0)
             return false;
         return true;
     }
 
-    IEnumerator LoadSceneAsync()
+    private IEnumerator LoadSceneAsync()
     {
         string sceneName = GetRandomSceneFromList();
 
@@ -267,7 +263,7 @@ public class GrandSlamManager : MonoBehaviour
         }
 
     }
-    IEnumerator UnloadSceneAsync()
+    private IEnumerator UnloadSceneAsync()
     {
         AsyncOperation async = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         while (!async.isDone)

@@ -50,5 +50,6 @@ public class GameData : ScriptableObject
 		set { gameMode = value; }
 	}
 
+	[HideInInspector]
 	public bool slamMode = false;
 }
