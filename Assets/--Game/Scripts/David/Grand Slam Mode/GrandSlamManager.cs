@@ -16,6 +16,11 @@ public class GrandSlamManager : MonoBehaviour
     List<SlamMode> listGameModesValid;
     List<string> listToPickFrom = new List<string>();
 
+    // Dictionary<ControllerID, Score>
+    Dictionary<int, int> playersScore = new Dictionary<int, int>();
+
+    private int[] currentScoreArr = new int[4];
+
     [Button]
     public void UpdateGameModeList()
     {
@@ -72,6 +77,7 @@ public class GrandSlamManager : MonoBehaviour
     private void Start()
     {
         gameData.slamMode = true;
+        InitScoreDictionary();
         AdjustModeList();
         StartCoroutine(LoadSceneAsync());
     }
@@ -94,6 +100,8 @@ public class GrandSlamManager : MonoBehaviour
         gameMode = listGameModesValid[randomKey].gameMode;
 
         gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
+        currentScoreArr = listGameModesValid[randomKey].scoreArr;
 
         return listGameModesValid[randomKey].scenes;
     }
@@ -125,11 +133,37 @@ public class GrandSlamManager : MonoBehaviour
                 listGameModesValid.Remove(slam);
         }
     }
+    private void InitScoreDictionary()
+    {
+        foreach(Character_Info character in gameData.CharacterInfos)
+        {
+            playersScore.Add(character.ControllerID, 0);
+        }
+    }
+
+    private void CalculateScore()
+    {
+        int[] scores = new int[4];
+
+        int i = 0;
+
+        foreach (CharacterBase character in BattleManager.Instance.characterFullDead)
+        {
+            playersScore[character.ControllerID] += currentScoreArr[i];
+
+            scores[character.PlayerID] = playersScore[character.ControllerID];
+
+            i++;
+        }
+
+        canvasScore.DrawScores(scores);
+    }
 
 
     private IEnumerator ManageEndMode()
     {
         RemoveCurrentGameModeFromList();
+        CalculateScore();
 
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(2f);
