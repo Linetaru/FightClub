@@ -8,9 +8,6 @@ using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
-	//[SerializeField]
-	public bool autoStart = true;
-
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
@@ -51,6 +48,8 @@ public class BattleManager : MonoBehaviour
 	private float timer;
 
 	[SerializeField]
+	private Canvas canvasUI;
+	[SerializeField]
 	private Image fadeImage;
 
 	Input_Info input;
@@ -84,7 +83,7 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
 	{
-		if(autoStart)
+		if(!gameData.slamMode)
 		{
 			fadeImage.enabled = true;
 			StartBattleManager();
@@ -247,7 +246,7 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			if(autoStart)  // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			if(!gameData.slamMode)
 				SlowMotionEnd();
 			else
 			{
@@ -271,7 +270,7 @@ public class BattleManager : MonoBehaviour
 	{
 		Time.timeScale = 1f;
 
-		if(autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if(!gameData.slamMode)
 			cameraController.gameObject.SetActive(false);
 
 		for (int i = 0; i < inputController.controllable.Length; i++)
@@ -288,11 +287,13 @@ public class BattleManager : MonoBehaviour
 
 		// Event end game
 		gameEndedEvent.Invoke();
+
+		canvasUI.enabled = false;
 	}
 
 	public void ManageEndBattle()
     {
-		if (autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if (!gameData.slamMode)
 			menuWin.InitializeWin(characterFullDead);
 		else
 			Debug.Log("END BATTLE GRAND SLAM");

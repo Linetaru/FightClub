@@ -49,4 +49,6 @@ public class GameData : ScriptableObject
 		get { return gameMode; }
 		set { gameMode = value; }
 	}
+
+	public bool slamMode = false;
 }
