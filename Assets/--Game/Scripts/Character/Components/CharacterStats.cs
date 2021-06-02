@@ -10,14 +10,23 @@ public class CharacterStats : MonoBehaviour, IStats
     public CharacterBase userBase;
 
     [Title("Data")]
-    [SerializeField]
+    /*[SerializeField]
     [ReadOnly] // A mettre dans battle manager
     private GameData gameData;
     public GameData GameData
     {
         get { return gameData; }
         set { gameData = value; }
-    }
+    }*/
+
+    /*[SerializeField]
+    [ReadOnly]
+    private CharacterData characterData;
+    public CharacterData CharacterData
+    {
+        get { return characterData; }
+    }*/
+
 
     [SerializeField]
     [ReadOnly]
@@ -55,7 +64,7 @@ public class CharacterStats : MonoBehaviour, IStats
         set { death = value; }
     }
 
-    [Title("Kill")]
+    /*[Title("Kill")]
     [SerializeField]
     [ReadOnly]
     private int killNumber;
@@ -63,7 +72,7 @@ public class CharacterStats : MonoBehaviour, IStats
     {
         get { return killNumber; }
         set { killNumber = value; }
-    }
+    }*/
 
 
     [Title("Attack Stats")]
@@ -117,13 +126,20 @@ public class CharacterStats : MonoBehaviour, IStats
         set { jump = value; }
     }
 
+    [SerializeField]
+    private Stats knockbackPerDistance;
+    public Stats KnockbackPerDistance
+    {
+        get { return knockbackPerDistance; }
+        set { knockbackPerDistance = value; }
+    }
+
     //=======================================================================================
 
     public void InitStats()
     {
+        //characterData = data;
         userBase = this.transform.parent.transform.parent.GetComponent<CharacterBase>();
-        if (GameData.VictoryCondition == VictoryCondition.Health)
-            LifeStocks = GameData.NumberOfLifes;
         LifePercentage = 0;
         Death = false;
 
@@ -132,9 +148,10 @@ public class CharacterStats : MonoBehaviour, IStats
 
         Speed.InitStats(userBase.Movement.SpeedMax);
         AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
-
         Jump.InitStats(userBase.Movement.JumpNumber);
+
         Weight.InitStats(userBase.Knockback.Weight);
+        KnockbackPerDistance.InitStats(userBase.Knockback.TimeKnockbackPerDistance);
 
     }
 
@@ -178,6 +195,8 @@ public class CharacterStats : MonoBehaviour, IStats
                 return Jump;
             case MainStat.Weight:
                 return Weight;
+            case MainStat.KnockbackPerDistance:
+                return KnockbackPerDistance;
         }
         return null;
     }
@@ -197,6 +216,9 @@ public class CharacterStats : MonoBehaviour, IStats
                 break;
             case MainStat.Weight:
                 userBase.Knockback.Weight = Weight.Value;
+                break;
+            case MainStat.KnockbackPerDistance:
+                userBase.Knockback.TimeKnockbackPerDistance = KnockbackPerDistance.Value;
                 break;
         }
     }

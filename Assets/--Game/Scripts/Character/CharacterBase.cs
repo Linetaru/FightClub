@@ -86,6 +86,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 		get { return stats; }
 	}
 
+	// Composants un peu moins essentiels
 	[SerializeField]
 	private CharacterParticle particle;
 	public CharacterParticle Particle
@@ -113,6 +114,10 @@ public class CharacterBase : MonoBehaviour, IControllable
 	{
 		get { return characterIcon; }
 	}
+
+	// A tej
+	public SmearsControllerSword SmearsControllerSword;
+	// Composants un peu moins essentiels
 
 	private Input_Info input;
 	public Input_Info Input
@@ -212,7 +217,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	// Aveux de faiblesse pardon les amis
 	public void ResetToIdle()
     {
-        if (rigidbody.IsGrounded)
+		rigidbody.CheckGround(movement.Gravity);
+		if (rigidbody.IsGrounded)
         {
 			SetState(idleState);
         }

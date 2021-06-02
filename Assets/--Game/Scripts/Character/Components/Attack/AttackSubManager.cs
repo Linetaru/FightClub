@@ -226,7 +226,9 @@ public class AttackSubManager : MonoBehaviour
                     onHitColliderEvents.Invoke(targetTag);
                     // Event qui envoie le user et la target quand hit
                     if(playerHitEvent != null)
+                    {
                         playerHitEvent.Raise(user, target);
+                    }
                     eventReceived = true;
                 }
 

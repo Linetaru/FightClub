@@ -19,7 +19,7 @@ public class AIBehaviorTree : AIBehavior
 
 
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		behaviorTree = GetComponent<BehaviorTree>();
 		behaviorTree.SetVariableValue("AI", this.gameObject);
@@ -30,8 +30,8 @@ public class AIBehaviorTree : AIBehavior
 	// Update is called once per frame
 	void Update()
 	{
-		if (isActive == false)
-			return;
+		/*if (isActive == false)
+			return;*/
 
 		this.transform.localScale = new Vector3(character.Movement.Direction, 1, 1);
 

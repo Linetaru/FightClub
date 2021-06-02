@@ -17,6 +17,9 @@ public class SpawnerObstacle : MonoBehaviour
 
     public List<GameObject> pipes = new List<GameObject>();
 
+    public float maxSpeedWall = 14;
+    public float minSpeedSpawn = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,9 +53,9 @@ public class SpawnerObstacle : MonoBehaviour
 
         pipes.Add(go);
         go.GetComponent<ObstacleEntity>()._speed += multiplieurBase * spawnPass;
-        go.GetComponent<ObstacleEntity>()._speed = Mathf.Clamp(go.GetComponent<ObstacleEntity>()._speed, 5, 14);
+        go.GetComponent<ObstacleEntity>()._speed = Mathf.Clamp(go.GetComponent<ObstacleEntity>()._speed, 5, maxSpeedWall); //14);
         _timeSpawnResetValue -= multiplieurBase * spawnPass;
-        _timeSpawnResetValue = Mathf.Clamp(_timeSpawnResetValue, 3, 10);
+        _timeSpawnResetValue = Mathf.Clamp(_timeSpawnResetValue, minSpeedSpawn, 10);
     }
 
     private void OnDrawGizmosSelected()

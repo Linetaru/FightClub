@@ -57,6 +57,15 @@ public class AttackC_CharaMovement : AttackComponent
     [SerializeField]
     float gravityMultiplier = 1f;
 
+    [HorizontalGroup("GravityDescend")]
+    [SerializeField]
+    bool applyGravityDescend = false;
+
+    [HorizontalGroup("GravityDescend")]
+    [ShowIf("applyGravityDescend")]
+    [SerializeField]
+    float gravityMultiplierDescend = 1f;
+
     [SerializeField]
     bool canAirControl = false;
 
@@ -102,7 +111,10 @@ public class AttackC_CharaMovement : AttackComponent
 
         if (applyGravity == true)
         {
-            user.Movement.ApplyGravity(gravityMultiplier);
+            if(applyGravityDescend && user.Movement.SpeedY < 0)
+                user.Movement.ApplyGravity(gravityMultiplierDescend);
+            else
+                user.Movement.ApplyGravity(gravityMultiplier);
         }
 
         if (deccelerate == true && timer < timeDecceleration)

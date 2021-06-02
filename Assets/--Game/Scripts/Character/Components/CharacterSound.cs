@@ -44,11 +44,13 @@ public class CharacterSound : MonoBehaviour
     {
         if(newState is CharacterStateStartJump)
         {
-            AkSoundEngine.PostEvent(jumpEvent.Id, this.gameObject);
+            if (jumpEvent != null)
+                AkSoundEngine.PostEvent(jumpEvent.Id, this.gameObject);
         }
         if (newState is CharacterStateLanding)
         {
-            AkSoundEngine.PostEvent(landEvent.Id, this.gameObject);
+            if (landEvent != null)
+                AkSoundEngine.PostEvent(landEvent.Id, this.gameObject);
         }
 
         if (newState is CharacterStateParrySuccess)

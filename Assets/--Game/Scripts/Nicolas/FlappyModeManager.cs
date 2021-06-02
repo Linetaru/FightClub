@@ -26,13 +26,16 @@ public class FlappyModeManager : MonoBehaviour
 
 	public float timeToStart;
 
+	[Range(1, 9999)]
+	public int JumpNumberMax = 9999;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		foreach(CharacterBase cbase in battleManager.characterAlive)
         {
-			cbase.Movement.JumpNumber = 9999;
-			cbase.Movement.CurrentNumberOfJump = 9998;
+			cbase.Movement.JumpNumber = JumpNumberMax;
+			cbase.Movement.CurrentNumberOfJump = JumpNumberMax;
         }
 
 		//battleManager.cameraController.ChangeFocusState();

@@ -17,6 +17,9 @@ public class CharacterAnimatorEvent : MonoBehaviour
 
 	public void MoveForward(float multiplier)
 	{
+		// Pour le forward tilt de crow pour empêcher de reset la speed a zero dans un jump cancel
+		if (characterAction.CurrentAttackManager == null)
+			return;
 		characterMovement.MoveForward(multiplier);
 	}
 	public void Jump(float multiplier)

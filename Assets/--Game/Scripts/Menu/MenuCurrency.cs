@@ -15,6 +15,12 @@ public class MenuCurrency : MonoBehaviour, IListener<int>
 	[SerializeField]
 	bool disappear = false;
 
+	[Space]
+	[SerializeField]
+	Color colorGain;
+	[SerializeField]
+	Color colorLoose;
+
 	[Title("UI")]
 	[SerializeField]
 	TextMeshProUGUI textMoney;
@@ -53,7 +59,16 @@ public class MenuCurrency : MonoBehaviour, IListener<int>
 		{
 			StartCoroutine(MoneyGainCoroutine());
 
-			textMoneyAdd.text = "+" + currency.MoneyToUpdate;
+			if (currency.MoneyToUpdate > 0)
+			{
+				textMoneyAdd.text = "+" + currency.MoneyToUpdate;
+				textMoneyAdd.color = colorGain;
+			}
+			else
+			{
+				textMoneyAdd.text = currency.MoneyToUpdate.ToString();
+				textMoneyAdd.color = colorLoose;
+			}
 			textMoney.text = (currency.Money - currency.MoneyToUpdate).ToString();
 
 			currency.ResetMoneyToUpdate();

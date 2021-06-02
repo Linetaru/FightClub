@@ -28,6 +28,8 @@ public class CharacterHUD : MonoBehaviour
 	[Space]
 	[Title("UI")]
 	[SerializeField]
+	TextMeshProUGUI textName;
+	[SerializeField]
 	Image backgroundColor;
 
 	[Space]
@@ -76,6 +78,8 @@ public class CharacterHUD : MonoBehaviour
 
 	[SerializeField]
 	Animator animatorBreak;
+	[SerializeField]
+	Animator animatorFade;
 
 	[SerializeField]
 	Image redCross;
@@ -97,9 +101,15 @@ public class CharacterHUD : MonoBehaviour
 		user.Knockback.Parry.OnParry += CallbackParry;
 		this.gameObject.SetActive(true);
 
+		//textName.text = user.Stats.data
 		DrawPercent(user.Stats.LifePercentage);
 		DrawGauge(user.PowerGauge.CurrentPower);
 		DrawLives(user.Stats.LifeStocks);
+	}
+
+	public void DrawName(string name)
+	{
+		textName.text = name;
 	}
 
 	public void SetColor(Color c)
@@ -202,7 +212,10 @@ public class CharacterHUD : MonoBehaviour
 
 
 
-
+	public void Fade(bool b)
+	{
+		animatorFade.SetBool("Fade", b);
+	}
 
 
 

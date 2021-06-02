@@ -8,6 +8,7 @@ public class TrialsMode : MonoBehaviour
 
 	[Title("Data")]
 	[SerializeField]
+	[Expandable]
 	GameModeSettingsMission settingsMission;
 	[SerializeField]
 	CurrencyData currency;
@@ -138,6 +139,7 @@ public class TrialsMode : MonoBehaviour
 		}
 
 		// Text
+		Debug.Log(trialsData.TextboxStart.Count);
 		if (trialsData.TextboxStart.Count != 0)
 		{
 			textIndex = 0;
@@ -386,6 +388,8 @@ public class TrialsMode : MonoBehaviour
 			{
 				battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
 			}
+			inputControllerEmpty.controllable = null;
+			inputController.controllable[player.ControllerID] = player;
 			InitializeTrial(trialsData.NextTrial);
 		}
 

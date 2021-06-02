@@ -13,6 +13,7 @@ public class GameModeSettingsMission : GameModeSettings
 		set { trialsData = value; }
 	}
 
+	[SerializeField]
 	private SODatabase_Mission trialsDatabase;
 	public SODatabase_Mission TrialsDatabase
 	{

@@ -93,7 +93,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &388830068099025914
 MonoBehaviour:
@@ -147,7 +147,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &906690179923345741
 MonoBehaviour:
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterParticle: {fileID: 1318301440350241157}
-  speedMax: 13
+  speedMax: 16
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -257,12 +257,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   timeDeccelerationMax: 0.2
-  jumpForce: 16
+  jumpForce: 15
   jumpNumber: 1
   gravity: 40
   gravityMax: -15
-  airControl: 30
-  airFriction: 0.8
+  airControl: 32
+  airFriction: 0.9
   maxAerialSpeed: 8
   direction: 1
   speedX: 0
@@ -490,7 +490,7 @@ Transform:
   - {fileID: 4018447685360859797}
   - {fileID: 6023085040950325463}
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5571493767746106257
 MonoBehaviour:
@@ -504,9 +504,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d20f17b3eba2c41ae9915469307c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeInParry: 10
-  timeInGuard: 30
+  timeInParry: 12
+  timeInGuard: 24
   debug: {fileID: 754997964272683511}
+  characterMoveset: {fileID: 3189682458712499438}
 --- !u!1 &2320939365238153849
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +537,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4108826564835667981
 MonoBehaviour:
@@ -707,6 +708,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpParticle: {fileID: 6363157010357624709}
+--- !u!1 &2479251831504264079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4283083466396955914}
+  - component: {fileID: 3416453081472097208}
+  m_Layer: 0
+  m_Name: GuardBreak
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4283083466396955914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2479251831504264079}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 1.04, y: 0.58, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5264274699112707654}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3416453081472097208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2479251831504264079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b157a57a37c9d4d43aeddcf369f8e116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundTechState: {fileID: 4108826564835667981}
+  airTechState: {fileID: 5264274699112666139}
+  collisionFriction: 5
+  reboundReduction: 0.75
+  reboundSpeedNeeded: 2
+  knockbackLayerMask:
+    serializedVersion: 2
+    m_Bits: 49152
+  particleTrail: {fileID: 4652062651713685942}
+  techTime: 10
+  techAntiSpam: 30
+  joystickThreshold: 0.3
+  DIAngle: 10
 --- !u!1 &2557556171631792322
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f540f9cfedec542b43d367d239a668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 219154b28e310e04097e3770fe3c2c30, type: 2}
   skinnedMeshRenderers:
   - {fileID: 3458013603209482166}
   - {fileID: 9019679552482596136}
@@ -1122,7 +1180,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ddfe0bd5e6655d4f96366896a2f0938, type: 2}
+  - {fileID: 2100000, guid: e72a64ed794fe1b4fae501a339504964, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1156,10 +1214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f09375de5493014a89650c6197a0f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5264274699566487641}
+  active: 1
   startPoint: {fileID: 3441999919536870279}
   endPoint: {fileID: 2706827556082352502}
-  time: 0.3
-  smoothPoint: 4
+  time: 0.2
+  smoothPoint: 3
+  smoothRatio: 0.25
 --- !u!1 &3178966321064764839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,7 +1419,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5108620915587026369
 MonoBehaviour:
@@ -1655,15 +1716,15 @@ MonoBehaviour:
   jumpEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: bac9d7ed5a872f54c813aa1fa7f65d0d, type: 2}
   landEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 1990c830bd7c6e848b0bf5c21862d33f, type: 2}
   parrySuccessEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 21cc2124a9514df4b882f01d78305b13, type: 2}
   parryFailedEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -1905,6 +1966,7 @@ Transform:
   - {fileID: 5264274699394309572}
   - {fileID: 6363157009227727861}
   - {fileID: 7555128374327074077}
+  - {fileID: 4283083466396955914}
   - {fileID: 9026611846313162750}
   - {fileID: 1141539126091165322}
   - {fileID: 4996434186089034888}
@@ -2002,7 +2064,6 @@ Transform:
   - {fileID: 6472392994468313347}
   - {fileID: 9018898331002837539}
   - {fileID: 5182540510246415333}
-  - {fileID: 5045802619417859277}
   - {fileID: 8346527389441998078}
   - {fileID: 395157778548464970}
   m_Father: {fileID: 5264274699566487640}
@@ -2077,7 +2138,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1.5, z: 1}
+  m_Size: {x: 0.7, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &5264274699566487641
 MonoBehaviour:
@@ -2108,6 +2169,7 @@ MonoBehaviour:
   powerGauge: {fileID: 5296816373584105577}
   projectile: {fileID: 906690179923345741}
   characterIcon: {fileID: 5108620915587026369}
+  SmearsControllerSword: {fileID: 0}
   motionSpeed: 1
 --- !u!114 &5264274699566487643
 MonoBehaviour:
@@ -2752,7 +2814,6 @@ MonoBehaviour:
   collisionFriction: 5
   reboundReduction: 0.75
   reboundSpeedNeeded: 2
-  landingTime: 10
   knockbackLayerMask:
     serializedVersion: 2
     m_Bits: 49152
@@ -2761,7 +2822,6 @@ MonoBehaviour:
   techAntiSpam: 30
   joystickThreshold: 0.3
   DIAngle: 10
-  acumods: {fileID: 7084685002889938301}
 --- !u!1 &6904351279029750642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2806,12 +2866,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userBase: {fileID: 0}
-  gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
   gameEvent: {fileID: 0}
   lifePercentage: 0
   lifeStocks: 0
   death: 0
-  killNumber: 0
   attackMultiplier:
     baseStat: 0
     multiplierValue: 0
@@ -2838,6 +2896,11 @@ MonoBehaviour:
     incrementValue: 0
     valueStat: 0
   jump:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
+  knockbackPerDistance:
     baseStat: 0
     multiplierValue: 0
     incrementValue: 0
@@ -2977,7 +3040,7 @@ Transform:
   - {fileID: 1552467711427820106}
   - {fileID: 8949089042213434063}
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7340417341966648596
 GameObject:
@@ -3029,64 +3092,6 @@ MonoBehaviour:
   stateParry: {fileID: 5571493767746106257}
   stateAction: {fileID: 6363157009227727862}
   attackParry: {fileID: 8045468721652775528, guid: ff138b2648778614a91fa89b169a4949, type: 3}
---- !u!1 &7501158462512633219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5045802619417859277}
-  - component: {fileID: 3746776608136146251}
-  m_Layer: 0
-  m_Name: CharacterPowerGaugeSave
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5045802619417859277
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501158462512633219}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5264274699511311369}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3746776608136146251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501158462512633219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f4f6b06829dbf429f3eb85313e7ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPower: 0
-  speedPower: 0
-  speedTimeMax: 3
-  maxPower: 80
-  timerSegmentPowerMax: 1.5
-  canSignatureMoveUseOneSegmentPerUse: 1
-  powerGivenOnAttack: 5
-  powerGivenToHitTarget: 7
-  powerGivenOnWallJump: 5
-  powerGivenOnWallRun: 5
-  timePowerGivenOnWallRunMax: 1
-  canGainPointByWallRun: 0
-  powerGivenByBoost: 33
-  powerGivenByMegaBoost: 99
-  gameEvent: {fileID: 0}
 --- !u!1 &7703424688228140998
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,7 +3182,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5627719359471982833
 MonoBehaviour:
@@ -3224,7 +3229,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5264274699112707654}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3693550526802463188
 MonoBehaviour:
@@ -3285,7 +3290,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3.9788735
+  m_Intensity: 0.7957747
   m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3354,7 +3359,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 50
+  m_Intensity: 10
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -3580,7 +3585,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parrySuccesState: {fileID: 5782529380532812731}
   parryRepelState: {fileID: 5630689621701414398}
-  timingParry: 1e000000140000000a0000000500000001000000
+  guardBreakStatus: {fileID: 11400000, guid: 55e68a7b23564b54f9cea7e02023a2e0, type: 2}
+  ejectionPower: 21
   parryAngle: 400
   particleParry: {fileID: 1477291588837210726, guid: 14ccb119978fb114f832bfa3a5e734eb, type: 3}
   particleDirectionRepel: {fileID: 3721816288245871218, guid: e05ba4b2133efab43a37deb493c36445, type: 3}
@@ -3614,7 +3620,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8400892653186665996}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: -0.9, z: 0}
+  m_LocalPosition: {x: -0.1, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3216861426748504911}
@@ -3682,7 +3688,6 @@ MonoBehaviour:
   timeBlow: 37
   timeStop: 24
   timeCancelParry: 12
-  ejectionPower: 16
   ejectionCurve:
     serializedVersion: 2
     m_Curve:
@@ -3755,7 +3760,7 @@ MonoBehaviour:
   stateKnockback: {fileID: 137573344663488369}
   parry: {fileID: 4148548809691635473}
   weight: 1
-  timeKnockbackPerDistance: 0.03
+  timeKnockbackPerDistance: 0.026
   maxTimeKnockback: 1.5
   shakeEffect: {fileID: 7569065655930652586}
 --- !u!1 &8847065487129553527
@@ -4116,6 +4121,10 @@ MonoBehaviour:
   horizontalDeadZone: 0.5
   verticalDeadZone: 0.5
   fractionOfSpeedMaxToDash: 0.85
+  colorTiltEX: {r: 0, g: 0, b: 1, a: 1}
+  colorSpecialEX: {r: 1, g: 1, b: 0, a: 1}
+  tiltExCost: 20
+  specialExCost: 40
   jab: {fileID: 8045468721652775528, guid: 9f58c9d76a891224aa51364abf7e7013, type: 3}
   downTilt: {fileID: 8045468721652775528, guid: 3b7fa672114c7ca449de23ba1f175653, type: 3}
   upTilt: {fileID: 8045468721652775528, guid: 1380c4f8fccfb0048abdcaccb4afdb16, type: 3}
@@ -4126,11 +4135,17 @@ MonoBehaviour:
   upAir: {fileID: 8045468721652775528, guid: b2e4400d26a96124fafcc354e6446dbc, type: 3}
   downAir: {fileID: 8045468721652775528, guid: 6e919d295b39d3e4f87bc7eda7e3dfcd, type: 3}
   upSpecial: {fileID: 8045468721652775528, guid: 515203785d4e0b04ea9820a4aee6f7b0, type: 3}
-  downSpecial: {fileID: 0}
-  forwardSpecial: {fileID: 0}
-  neutralSpecial: {fileID: 0}
+  downSpecial: {fileID: 8045468721652775528, guid: 907f2d5483923974d8705f59af4084d8, type: 3}
+  forwardSpecial: {fileID: 8045468721652775528, guid: 39f487e16178b344d90a255196e3ff39, type: 3}
+  neutralSpecial: {fileID: 8045468721652775528, guid: 39f487e16178b344d90a255196e3ff39, type: 3}
+  upSpecialEx: {fileID: 8045468721652775528, guid: 37516781b73d87b41acd31e9b5b9f8d1, type: 3}
+  downSpecialEx: {fileID: 8045468721652775528, guid: 907f2d5483923974d8705f59af4084d8, type: 3}
+  forwardSpecialEx: {fileID: 8045468721652775528, guid: 39e6bd74550cbc54ab1e0bd63e52ba93, type: 3}
+  neutralSpecialEx: {fileID: 8045468721652775528, guid: 39e6bd74550cbc54ab1e0bd63e52ba93, type: 3}
   signatureMove: {fileID: 0}
   stateAction: {fileID: 6363157009227727862}
+  particleExTilt: {fileID: 332124027275021265, guid: f127838194b520e48b286ff15f7a1eda, type: 3}
+  particleExSpecial: {fileID: 8047502827971069016, guid: 96a08dd9a097a1f4988f0ec258143518, type: 3}
 --- !u!1001 &3111476146776923300
 PrefabInstance:
   m_ObjectHideFlags: 0
