@@ -93,6 +93,8 @@ public class GrandSlamManager : MonoBehaviour
 
         gameMode = listGameModesValid[randomKey].gameMode;
 
+        gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
         return listGameModesValid[randomKey].scenes;
     }
 
