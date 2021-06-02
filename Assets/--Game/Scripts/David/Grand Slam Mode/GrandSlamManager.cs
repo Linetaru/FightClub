@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
 public class GrandSlamManager : MonoBehaviour
 {
+    [SerializeField]
+    List<SlamMode> listGameModesValid;
+
+    [Button]
+    public void UpdateGameModeList()
+    {
+        listGameModesValid = new List<SlamMode>(GetComponentsInChildren<SlamMode>());
+    }
+
     GameModeStateEnum gameMode;
 
     [SerializeField]
@@ -18,11 +28,17 @@ public class GrandSlamManager : MonoBehaviour
 
     [SerializeField]
     private GrandSlamUi canvasScore;
-    
+
+    /*
+    [SerializeField]
+    List<string> scenesClassic = new List<string>();
     [SerializeField]
     List<string> scenesBomb = new List<string>();
     [SerializeField]
     List<string> scenesFlappy = new List<string>();
+    [SerializeField]
+    List<string> scenesVolley = new List<string>();
+    */
 
     List<string> listToPickFrom = new List<string>();
 
@@ -40,6 +56,7 @@ public class GrandSlamManager : MonoBehaviour
 
     private void Awake()
     {
+
     }
 
     private void Update()
@@ -59,10 +76,11 @@ public class GrandSlamManager : MonoBehaviour
 
     void Start()
     {
+        AdjustModeList();
         StartCoroutine(LoadSceneAsync());
     }
 
-    string GetRandomSceneFromList(List<string> list)
+    string GetRandomSceneFromList()
     {
         listToPickFrom = GetRandomModeList();
         string sceneName = listToPickFrom[Random.Range(0, listToPickFrom.Count)];
@@ -78,21 +96,48 @@ public class GrandSlamManager : MonoBehaviour
         // Une fois la cam set sur le score
     }
 
+
+    // Cette fonction sélectionne le mode et retourne la liste de scènes associée
     List<string> GetRandomModeList()
     {
-        int test = Random.Range(0, 2);
+        int randomKey = Random.Range(0, listGameModesValid.Count);
 
-        if (test == 0 && gameMode != GameModeStateEnum.Bomb_Mode)
-        {
-            gameMode = GameModeStateEnum.Bomb_Mode;
+        gameMode = listGameModesValid[randomKey].gameMode;
 
+        List<string> scenes = new List<string>(listGameModesValid[randomKey].scenes);
+
+        listGameModesValid.RemoveAt(randomKey);
+
+        return scenes;
+
+        /*
+        gameMode = listGameModesValid[Random.Range(0, listGameModesValid.Count)];
+
+        listGameModesValid.Remove(gameMode);
+
+        if (gameMode == GameModeStateEnum.Classic_Mode)
+            return scenesClassic;
+        else if (gameMode == GameModeStateEnum.Bomb_Mode)
             return scenesBomb;
-        }
-        else
-        {
-            gameMode = GameModeStateEnum.Flappy_Mode;
-
+        else if (gameMode == GameModeStateEnum.Volley_Mode)
+            return scenesVolley;
+        else if (gameMode == GameModeStateEnum.Flappy_Mode)
             return scenesFlappy;
+
+        return null;
+        */
+    }
+
+
+    // Cette fonction retire des modes de la liste en fonction du nombre de joueurs
+    public void AdjustModeList()
+    {
+        List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
+        //TMP POUR TEST
+        foreach(SlamMode slam in copySlamMode)
+        {
+            if (slam.gameMode == GameModeStateEnum.Volley_Mode)
+                listGameModesValid.Remove(slam);
         }
     }
 
@@ -195,7 +240,7 @@ public class GrandSlamManager : MonoBehaviour
 
     IEnumerator LoadSceneAsync()
     {
-        string sceneName = GetRandomSceneFromList(scenesBomb);
+        string sceneName = GetRandomSceneFromList();
 
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         async.completed += (AsyncOperation o) =>
@@ -209,6 +254,8 @@ public class GrandSlamManager : MonoBehaviour
             yield return null;
         }
         isLoaded = true;
+
+        BattleManager.Instance.cameraController.Camera.enabled = false;
 
 
         if (firstRound)
