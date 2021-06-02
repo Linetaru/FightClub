@@ -7,6 +7,9 @@ using Sirenix.OdinInspector;
 
 public class GrandSlamManager : MonoBehaviour
 {
+    [Expandable]
+    public GameData gameData;
+
     [SerializeField]
     List<SlamMode> listGameModesValid;
 
@@ -76,6 +79,7 @@ public class GrandSlamManager : MonoBehaviour
 
     void Start()
     {
+        gameData.slamMode = true;
         AdjustModeList();
         StartCoroutine(LoadSceneAsync());
     }
@@ -109,23 +113,6 @@ public class GrandSlamManager : MonoBehaviour
         listGameModesValid.RemoveAt(randomKey);
 
         return scenes;
-
-        /*
-        gameMode = listGameModesValid[Random.Range(0, listGameModesValid.Count)];
-
-        listGameModesValid.Remove(gameMode);
-
-        if (gameMode == GameModeStateEnum.Classic_Mode)
-            return scenesClassic;
-        else if (gameMode == GameModeStateEnum.Bomb_Mode)
-            return scenesBomb;
-        else if (gameMode == GameModeStateEnum.Volley_Mode)
-            return scenesVolley;
-        else if (gameMode == GameModeStateEnum.Flappy_Mode)
-            return scenesFlappy;
-
-        return null;
-        */
     }
 
 
@@ -133,23 +120,16 @@ public class GrandSlamManager : MonoBehaviour
     public void AdjustModeList()
     {
         List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
-        //TMP POUR TEST
+
         foreach(SlamMode slam in copySlamMode)
         {
-            if (slam.gameMode == GameModeStateEnum.Volley_Mode)
+            if (gameData.CharacterInfos.Count == 3 || slam.gameMode == GameModeStateEnum.Volley_Mode) // TMP CONDITION CAR VOLLEY PAS DISPO ::: A CHANGER AVEC && 
+                listGameModesValid.Remove(slam);
+            else if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
                 listGameModesValid.Remove(slam);
         }
     }
 
-    public void CameraTransitionScore()
-    {
-
-    }
-
-    public void CameraTransitionGame()
-    {
-
-    }
 
     IEnumerator ManageEndMode()
     {
@@ -181,41 +161,49 @@ public class GrandSlamManager : MonoBehaviour
         }
         isUnloaded = false;
 
-        StartCoroutine(LoadSceneAsync());
-
-        while(!isLoaded)
+        if(!IsGameOver())
         {
-            yield return null;
+            StartCoroutine(LoadSceneAsync());
+
+            while (!isLoaded)
+            {
+                yield return null;
+            }
+            isLoaded = false;
+
+            camSlam.RemoveBackgroundBlur();
+
+            yield return new WaitForSeconds(2f);
+
+            canvasScore.DeactivePanelScore();
+
+            currentCam = BattleManager.Instance.cameraController.Camera;
+            moveCamera = true;
+            /*
+            cameraObj.transform.position = currentCam.transform.position;
+            */
+
+            yield return new WaitForSeconds(2f);
+
+            camSlam.RotToGame();
+
+            while (!camSlam.watchingGame)
+            {
+                yield return null;
+            }
+
+            SetGame();
         }
-        isLoaded = false;
-
-        camSlam.RemoveBackgroundBlur();
-
-        yield return new WaitForSeconds(2f);
-
-        canvasScore.DeactivePanelScore();
-
-        currentCam = BattleManager.Instance.cameraController.Camera;
-        moveCamera = true;
-        /*
-        cameraObj.transform.position = currentCam.transform.position;
-        */
-
-        yield return new WaitForSeconds(2f);
-
-        camSlam.RotToGame();
-
-        while(!camSlam.watchingGame)
+        else
         {
-            yield return null;
+            ManageEndSlam();
         }
-
-        SetGame();
     }
 
     void SetGame()
     {
-        BattleManager.Instance.gameData.GameMode = gameMode;
+        gameData.GameMode = gameMode;
+
         StartGame();
     }
 
@@ -236,6 +224,20 @@ public class GrandSlamManager : MonoBehaviour
     void EndGame()
     {
         StartCoroutine(ManageEndMode());
+    }
+
+
+    // Gestion de la fin du mode Grand Slam
+    void ManageEndSlam()
+    {
+
+    }
+
+    bool IsGameOver()
+    {
+        if (listGameModesValid.Count > 0)
+            return false;
+        return true;
     }
 
     IEnumerator LoadSceneAsync()
@@ -275,8 +277,9 @@ public class GrandSlamManager : MonoBehaviour
         isUnloaded = true;
     }
 
-    private void LerpCamera(Camera start, Camera target)
+    private void OnDestroy()
     {
-
+        gameData.slamMode = false;
     }
+
 }

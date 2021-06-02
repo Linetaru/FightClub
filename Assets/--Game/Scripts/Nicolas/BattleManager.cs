@@ -83,6 +83,7 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
 	{
+		Debug.Log("SLAM : " + gameData.slamMode);
 		if(!gameData.slamMode)
 		{
 			fadeImage.enabled = true;
@@ -130,7 +131,6 @@ public class BattleManager : MonoBehaviour
 			if(timer < 2f)
 			{
 				timer += Time.unscaledDeltaTime;
-				Debug.Log(timer);
             }
             else
             {
