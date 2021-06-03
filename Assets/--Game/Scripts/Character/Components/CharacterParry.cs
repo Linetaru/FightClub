@@ -96,6 +96,9 @@ public class CharacterParry : MonoBehaviour
 		set { isJustFrameParry = value; }
 	}
 
+	// je savais pas ou le mettre
+	public bool forceAnimationParry = false;
+
 
 	CharacterBase characterParried = null;
 	public CharacterBase CharacterParried

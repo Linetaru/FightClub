@@ -34,7 +34,7 @@ public class CharacterStateParrySuccess : CharacterState
 
 	float t = 0f;
 	bool inHitStop = true;
-
+	bool guardEX = false;
 
 	private void Start()
 	{
@@ -52,12 +52,19 @@ public class CharacterStateParrySuccess : CharacterState
 		evasiveMoveset.ResetDodge();
 		character.Knockback.Parry.IsGuard = true;
 		character.Movement.SetSpeed(0, 0);
+
+		guardEX = moveset.ExTilt;
+		if (guardEX)
+			character.Model.FlashModel(Color.blue, 2f);
+		moveset.ExTilt = false;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
 		if (character.MotionSpeed == 0)
+		{
 			return;
+		}
 
 		if (inHitStop == true) // Première frame de fin de hitlag
 		{
@@ -111,6 +118,7 @@ public class CharacterStateParrySuccess : CharacterState
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 		character.Knockback.Parry.IsGuard = false;
+		character.Knockback.Parry.forceAnimationParry = false;
 	}
 
 

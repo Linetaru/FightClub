@@ -15,10 +15,10 @@ public class CharacterStateActing : CharacterState
 
 	//bool homingDashRegister = false;
 
-	/*public override void StartState(CharacterBase character, CharacterState oldState)
+	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-
-	}*/
+		character.Knockback.Parry.forceAnimationParry = false;
+	}
 
 	public override void UpdateState(CharacterBase character)
 	{

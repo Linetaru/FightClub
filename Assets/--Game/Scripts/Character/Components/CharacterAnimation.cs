@@ -118,12 +118,15 @@ public class CharacterAnimation : MonoBehaviour
                 animator.Play(animationParryAerial.name);
         }
 
-        if (newState is CharacterStateParrySuccess && !(oldState is CharacterStateActing))
+        if (newState is CharacterStateParrySuccess)
         {
-            if (characterBase.Rigidbody.IsGrounded)
-                animator.Play(animationParry.name);
-            else
-                animator.Play(animationParryAerial.name);
+            if (characterBase.Knockback.Parry.forceAnimationParry || !(oldState is CharacterStateActing))
+            {
+                if (characterBase.Rigidbody.IsGrounded)
+                    animator.Play(animationParry.name);
+                else
+                    animator.Play(animationParryAerial.name);
+            }
         }
 
         if (newState is CharacterStateParryBlow)
@@ -216,7 +219,7 @@ public class CharacterAnimation : MonoBehaviour
 
     void AnimationKnockback()
     {
-        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(characterBase.Movement.SpeedX, characterBase.Movement.SpeedY), Vector2.left * characterBase.Movement.Direction));
+        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(Mathf.Abs(characterBase.Movement.SpeedX) * characterBase.Movement.Direction, characterBase.Movement.SpeedY), Vector2.right * characterBase.Movement.Direction));
     }
 
 

@@ -87,8 +87,10 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ExTilt
 	{
 		get { return exTilt; }
+		set { exTilt = value; }
 	}
 
+	CharacterBase c;
 
 
 	/// <summary>
@@ -237,10 +239,26 @@ public class CharacterMoveset : MonoBehaviour
 			character.Model.FlashModel(colorTiltEX, 2f);
 			character.Knockback.Parry.IsParry = true;
 			character.Knockback.Parry.IsGuard = false;
+
 			exTilt = true;
+
+			if (c == null)
+			{
+				c = character;
+				character.Action.OnAttackActive += CallbackAttackActive;
+			}
+			c.Knockback.Parry.forceAnimationParry = true;
 			return true;
 		}
 		return false;
+	}
+
+
+	private void CallbackAttackActive()
+	{
+		exTilt = false;
+		c.Knockback.Parry.forceAnimationParry = false;
+		c.Knockback.Parry.IsParry = false;
 	}
 
 	public bool ActionExSpecial(CharacterBase character)

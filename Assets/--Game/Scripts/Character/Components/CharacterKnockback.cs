@@ -80,6 +80,10 @@ public class CharacterKnockback : MonoBehaviour
         set { isHardKnockback = value; }
     }
 
+
+
+
+
     protected float motionSpeed = 1;
     public float MotionSpeed
     {
@@ -168,7 +172,6 @@ public class CharacterKnockback : MonoBehaviour
             character.SetState(stateKnockback);
         OnKnockback?.Invoke(attack);
     }
-
 
 
 

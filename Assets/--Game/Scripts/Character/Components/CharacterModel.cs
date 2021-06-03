@@ -68,6 +68,17 @@ public class CharacterModel : MonoBehaviour
 		//StartCoroutine(FlashCoroutine(Color.white, 1f));
 	}
 
+	public void FlashModelQueue(Color flashColor, float time)
+	{
+		if (this.gameObject.activeInHierarchy == true)
+		{
+			if (flashCoroutine != null)
+				return;
+			flashCoroutine = FlashCoroutine(flashColor, time);
+			StartCoroutine(flashCoroutine);
+		}
+	}
+
 	public void FlashModel(Color flashColor, float time)
 	{
 		if (this.gameObject.activeInHierarchy == true)
