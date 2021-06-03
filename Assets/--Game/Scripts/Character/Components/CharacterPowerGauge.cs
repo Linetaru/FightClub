@@ -220,6 +220,6 @@ public class CharacterPowerGauge : MonoBehaviour
             }
         }*/
 
-        UpdateTimer(user);
+        //UpdateTimer(user);
     }
 }
