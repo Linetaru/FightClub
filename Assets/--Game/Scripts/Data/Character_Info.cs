@@ -18,8 +18,8 @@ public class Character_Info
 	[HorizontalGroup]
 	[HideLabel]
 	[SerializeField]
-	private InputMappingData inputMapping;
-	public InputMappingData InputMapping
+	private InputMappingDataClassic inputMapping;
+	public InputMappingDataClassic InputMapping
 	{
 		get { return inputMapping; }
 		set { inputMapping = value; }

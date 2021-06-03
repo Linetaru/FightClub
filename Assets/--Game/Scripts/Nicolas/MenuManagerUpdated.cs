@@ -29,8 +29,8 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	[ReadOnly] public GameObject currentSelectButton;
 	[ReadOnly] public GameObject lastSelectButton;
 
-	[Title("ControlMapper")]
-	public ControlMapper controlMapper;
+	[Title("Options Menu")]
+	public ChoosenInputProfile optionsInput;
 
 	[Title("Level Name")]
 	[Scene]
@@ -60,6 +60,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		InStart,
 		InPrincipalMenu,
 		InModeMenu,
+		InOptionMenu,
 		InTransition,
 	}
 
@@ -67,10 +68,10 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	private void Start()
 	{
-		controlMapper.Open();
-		controlMapper.onScreenClosed -= CloseOptions;
-		controlMapper.onScreenClosed += CloseOptions;
-		controlMapper.Close(true);
+		//controlMapper.Open();
+		//controlMapper.onScreenClosed -= CloseOptions;
+		//controlMapper.onScreenClosed += CloseOptions;
+		//controlMapper.Close(true);
 	}
 
 	public void UpdateControl(int ID, Input_Info input_Info)
@@ -90,9 +91,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		//	GoToOtherScene();
 		//}
 
-		if (!controlMapper.isOpen && timeTransition <= 0)
+		if (timeTransition <= 0)
 		{
-			if (!OnTransition && menuState != MenuState.InStart && menuState != MenuState.InTransition)
+			if (!OnTransition && menuState != MenuState.InStart && menuState != MenuState.InTransition && menuState != MenuState.InOptionMenu)
 			{
 				if (input_Info.vertical < -0.75)
 					ChangeSelectedButton(false);
@@ -131,7 +132,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 				currentSelectButton.SetActive(true);
 			}
 
-			if (menuState != MenuState.InStart && input_Info.inputUiAction == InputConst.Interact)
+			if (menuState != MenuState.InStart && input_Info.inputUiAction == InputConst.Interact && menuState != MenuState.InOptionMenu)
 			{
 
 				switch (menuState)
@@ -148,6 +149,8 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 								//canChangeScene = true;
 								break;
 							case 2:
+								Camera.main.GetComponent<Animator>().SetBool("canTransiToOption", true);
+								menuState = MenuState.InOptionMenu;
 								Options();
 								break;
 							case 3:
@@ -365,7 +368,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
     public void Options()
 	{
-		controlMapper.Open();
+		//controlMapper.Open();
+		optionsInput.enabled = true;
+		optionsInput.Init();
 
 		currentSelectButton.SetActive(false);
 		currentSelectButton = null;
@@ -375,11 +380,19 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	public void CloseOptions()
 	{
-		OnTransition = true;
+		optionsInput.enabled = false;
+		for(int i = optionsInput.profileCreate.Count - 1; i >= 0; i--)
+        {
+			Destroy(optionsInput.profileCreate[i].gameObject);
+        }
+		optionsInput.profileCreate.Clear();
+		optionsInput.profileCreate = new List<UnityEngine.UI.Button>();
 		currentButtonSelected = 1;
-		currentSelectButton = principalButtons[principalButtons.Count - 2];
-		//EventSystem.current.SetSelectedGameObject(currentSelectButton);
-		timeTransition = 0.2f;
+		currentSelectButton = principalButtons[0];
+		EventSystem.current.SetSelectedGameObject(null);
+		menuState = MenuState.InPrincipalMenu;
+		Camera.main.GetComponent<Animator>().SetBool("canTransiToOption", false);
+		ChangeSelectedButton(true);
 	}
 
 	private IEnumerator GoToOtherScene(string level)

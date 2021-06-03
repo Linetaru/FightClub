@@ -11,7 +11,7 @@ using System.Linq;
 public class InputMappingData : ScriptableObject
 {
     [SerializeField]
-    string profileName;
+    public string profileName;
 
     [SerializeField]
     public EnumInput inputJump;
