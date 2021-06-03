@@ -27,6 +27,9 @@ public class InputMappingDataClassic
     [SerializeField]
     public EnumInput inputDash = EnumInput.R2;
 
+    [SerializeField]
+    public bool isUsed = false;
+
     public InputMappingDataClassic(string st)
     {
         profileName = st;
@@ -36,5 +39,6 @@ public class InputMappingDataClassic
         inputSpecial = EnumInput.Y;
         inputParry = EnumInput.R1;
         inputDash = EnumInput.R2;
+        isUsed = false;
     }
 }

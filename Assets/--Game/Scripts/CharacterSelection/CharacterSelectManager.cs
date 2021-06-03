@@ -289,15 +289,22 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 {
                     //if (gameData.CharacterInfos.Count > i)
                     //{
-                        gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
-                        gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
+                    gameData.CharacterInfos[characterInfoNumber].CharacterData = holograms[i].currentChoosedCharacter;
+                    gameData.CharacterInfos[characterInfoNumber].CharacterColorID = holograms[i].currentColorSkin;
+                    if(holograms[i].currentConfigChoice == 0)
+                        gameData.CharacterInfos[characterInfoNumber].InputMapping = new InputMappingDataClassic("classic");
+                    else
+                    {
+                        gameData.CharacterInfos[characterInfoNumber].InputMapping = InputMappingDataStatic.inputMappingDataClassics[holograms[i].currentConfigChoice - 1];
+                        gameData.CharacterInfos[characterInfoNumber].InputMapping.isUsed = true;
+                    }
 
-                        Debug.Log(holograms[i].currentChoosedCharacter.name);
+                        //Debug.Log(holograms[i].currentChoosedCharacter.name);
 
-                        //Assign Team
-                        gameData.CharacterInfos[characterInfoNumber].Team = holograms[i].currentTeam;
-                        gameData.CharacterInfos[characterInfoNumber].ControllerID = holograms[i].iD;
-                        characterInfoNumber++;
+                    //Assign Team
+                    gameData.CharacterInfos[characterInfoNumber].Team = holograms[i].currentTeam;
+                    gameData.CharacterInfos[characterInfoNumber].ControllerID = holograms[i].iD;
+                    characterInfoNumber++;
                     //}
                 }
             }

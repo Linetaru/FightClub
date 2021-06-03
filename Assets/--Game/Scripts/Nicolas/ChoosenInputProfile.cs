@@ -20,14 +20,18 @@ public class ChoosenInputProfile : MonoBehaviour
 	public Button doneDropdownButton;
 	public Button createButton;
 	public Button backButton;
+	private ButtonInputData bt_InputData;
 
 	[HideInInspector] public List<Button> profileCreate;
 	public TMP_Dropdown[] dropdowns = new TMP_Dropdown[6];
-	public bool[] dropdownsBool = new bool[6] { false, false, false, false, false, false };
-	[HideInInspector] public List<InputMappingDataClassic> input;
+	public List<InputMappingDataClassic> input;
 
 	public Button inputButton, audioButton;
 
+	private void Start()
+    {
+		doneDropdownButton.onClick.AddListener(AddTouchOnClickButtonDone);
+	}
 
 	public void Init()
 	{
@@ -100,14 +104,20 @@ public class ChoosenInputProfile : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		for(int i = 0; i < dropdowns.Length; i++)
+		for (int i = 0; i < dropdowns.Length; i++)
 		{
 			if (i == dropdowns.Length - 1 && dropdowns[i].IsExpanded)
 				dropdowns[i].transform.GetChild(dropdowns[i].transform.childCount - 1).GetComponent<Canvas>().sortingOrder = -1;
 			else if (dropdowns[i].IsExpanded)
 				dropdowns[i].transform.GetChild(dropdowns[i].transform.childCount - 1).GetComponent<Canvas>().sortingOrder = dropdowns[i].GetComponent<Canvas>().sortingOrder;
-		}
 
+			ColorBlock cl = new ColorBlock();
+			cl.highlightedColor = Color.black;
+			foreach (Toggle tg in dropdowns[i].gameObject.GetComponentsInChildren<Toggle>())
+			{
+				tg.colors = cl;
+			}
+		}
 	}
 
 	public void OnClickButton()
@@ -115,9 +125,9 @@ public class ChoosenInputProfile : MonoBehaviour
 		Button bt = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
 		EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
 		ButtonInputData tmpBT = bt.GetComponent<ButtonInputData>();
+		bt_InputData = tmpBT;
 		dropdown.Select();
 		panelConfig.SetActive(true);
-		doneDropdownButton.onClick.AddListener(delegate { AddTouchOnClickButtonDone(tmpBT); });
 
 		Navigation NewNav = new Navigation();
 		NewNav.mode = Navigation.Mode.Explicit;
@@ -234,27 +244,32 @@ public class ChoosenInputProfile : MonoBehaviour
 		}
 	}
 
-	private void AddTouchOnClickButtonDone(ButtonInputData btInput)
+	private void AddTouchOnClickButtonDone()
 	{
 		//if(dropdownsBool[0])
-			btInput.inputMappingData.inputJump = (EnumInput)dropdowns[0].value;
+		bt_InputData.inputMappingData.inputJump = (EnumInput)dropdowns[0].value;
 		//if (dropdownsBool[1])
-			btInput.inputMappingData.inputShortHop = (EnumInput)dropdowns[1].value;
+		bt_InputData.inputMappingData.inputShortHop = (EnumInput)dropdowns[1].value;
 		//if (dropdownsBool[2])
-			btInput.inputMappingData.inputAttack = (EnumInput)dropdowns[2].value;
+		bt_InputData.inputMappingData.inputAttack = (EnumInput)dropdowns[2].value;
 		//if (dropdownsBool[3])
-			btInput.inputMappingData.inputSpecial = (EnumInput)dropdowns[3].value;
+		bt_InputData.inputMappingData.inputSpecial = (EnumInput)dropdowns[3].value;
 		//if (dropdownsBool[4])
-			btInput.inputMappingData.inputParry = (EnumInput)dropdowns[4].value;
+		bt_InputData.inputMappingData.inputParry = (EnumInput)dropdowns[4].value;
 		//if (dropdownsBool[5])
-			btInput.inputMappingData.inputDash = (EnumInput)dropdowns[5].value;
+		bt_InputData.inputMappingData.inputDash = (EnumInput)dropdowns[5].value;
+
+		for(int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
+		{
+			if (bt_InputData.inputMappingData.profileName == InputMappingDataStatic.inputMappingDataClassics[i].profileName)
+			{
+				InputMappingDataStatic.inputMappingDataClassics[i] = bt_InputData.inputMappingData;
+				Debug.Log("Remapping " + bt_InputData.GetComponent<ButtonInputData>().inputMappingData.profileName + " - " + InputMappingDataStatic.inputMappingDataClassics[i].profileName);
+			}
+		}
 
 		panelConfig.SetActive(false);
-		EventSystem.current.SetSelectedGameObject(btInput.gameObject);
-		for(int i = 0; i < dropdownsBool.Length; i++)
-        {
-			dropdownsBool[i] = false;
-		}
+		EventSystem.current.SetSelectedGameObject(bt_InputData.gameObject);
 	}
 
 	public void CreateButton()
@@ -361,6 +376,8 @@ public class ChoosenInputProfile : MonoBehaviour
 			GameObject go = Instantiate(baseProfile, this.transform.GetChild(0));
 			go.GetComponentInChildren<TextMeshProUGUI>().text = inputField.text;
 			InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(inputField.text));
+			go.GetComponent<ButtonInputData>().inputMappingData = InputMappingDataStatic.inputMappingDataClassics[InputMappingDataStatic.inputMappingDataClassics.Count - 1];
+			Debug.Log("Creation " + go.GetComponent<ButtonInputData>().inputMappingData.profileName + InputMappingDataStatic.inputMappingDataClassics.Count);
 			inputField.text = "";
             go.SetActive(true);
 			profileCreate.Add(go.GetComponent<Button>());

@@ -16,7 +16,6 @@ public class Character_Info
 	}
 
 	[HorizontalGroup]
-	[HideLabel]
 	[SerializeField]
 	private InputMappingDataClassic inputMapping;
 	public InputMappingDataClassic InputMapping
