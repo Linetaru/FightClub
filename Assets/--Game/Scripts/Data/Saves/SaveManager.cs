@@ -120,8 +120,8 @@ public class SaveManager : MonoBehaviour
             SaveData(saveItem);
         }
 
-
         // Save dans un fichier Json saveData
+        saveData.inputs = InputMappingDataStatic.inputMappingDataClassics;
         string json = JsonUtility.ToJson(saveData);
         string filePath = string.Format("{0}/saves/{1}.json", Application.persistentDataPath, saveFileName);
         Debug.Log(filePath);
@@ -132,6 +132,7 @@ public class SaveManager : MonoBehaviour
             Directory.CreateDirectory(fileInfo.Directory.FullName);
         }
         File.WriteAllText(filePath, json);
+
     }
 
 
@@ -148,9 +149,12 @@ public class SaveManager : MonoBehaviour
             string dataAsJson = File.ReadAllText(filePath);
             JsonUtility.FromJsonOverwrite(dataAsJson, saveData);
             LoadData();
+            InputMappingDataStatic.inputMappingDataClassics = saveData.inputs;
             return true;
         }
         return false;
     }
+
+
 
 }
