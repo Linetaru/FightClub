@@ -111,12 +111,12 @@ public class ChoosenInputProfile : MonoBehaviour
 			else if (dropdowns[i].IsExpanded)
 				dropdowns[i].transform.GetChild(dropdowns[i].transform.childCount - 1).GetComponent<Canvas>().sortingOrder = dropdowns[i].GetComponent<Canvas>().sortingOrder;
 
-			ColorBlock cl = new ColorBlock();
+			/*ColorBlock cl = new ColorBlock();
 			cl.highlightedColor = Color.black;
 			foreach (Toggle tg in dropdowns[i].gameObject.GetComponentsInChildren<Toggle>())
 			{
 				tg.colors = cl;
-			}
+			}*/
 		}
 	}
 
