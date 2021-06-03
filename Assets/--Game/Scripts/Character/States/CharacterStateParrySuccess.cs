@@ -32,12 +32,6 @@ public class CharacterStateParrySuccess : CharacterState
 	float parryInfluenceAngle = 30f;
 
 
-	[SerializeField]
-	AttackManager counterAction;
-
-	/*[SerializeField]
-	CharacterState homingDashState;*/
-
 	float t = 0f;
 	bool inHitStop = true;
 
@@ -71,25 +65,10 @@ public class CharacterStateParrySuccess : CharacterState
 			ParryInfluence(character);
 		}
 
-		/*if(character.Rigidbody.IsGrounded)
-		{
-			character.Movement.SpeedY = -5f;
-		}*/
-
-		/*if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
-		{
-			if (character.Action.CharacterHit != null) // On a touché quelqu'un 
-			{
-				character.SetState(homingDashState);
-				character.Input.inputActions[0].timeValue = 0;
-				return;
-			}
-		}*/
 		if (evasiveMoveset.Parry(character))
 		{
 			return;
 		}
-
 
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= timeCancel)

@@ -33,7 +33,7 @@ public class CharacterAnimation : MonoBehaviour
     {
         characterBase.OnStateChanged += CheckState;
     }
-
+    // Si le cast n'est pas performant ou qu'on a trop de sous state, ajouter des tag sur les states pour les identifier
     public void CheckState(CharacterState oldState, CharacterState newState)
     {
         actualState = ActualState.Null;
@@ -105,12 +105,6 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("DodgeAerial");
         }
 
-        /*if (newState is CharacterStateHomingDash)
-        {
-            animator.SetTrigger("Idle");
-            //animator.SetTrigger("HomingDash");
-        }*/
-
         if (newState is CharacterStateTurnAround)
         {
             animator.SetTrigger("TurnAround");
@@ -119,6 +113,14 @@ public class CharacterAnimation : MonoBehaviour
         if (newState is CharacterStateParry)
         {
             if(characterBase.Rigidbody.IsGrounded)
+                animator.Play(animationParry.name);
+            else
+                animator.Play(animationParryAerial.name);
+        }
+
+        if (newState is CharacterStateParrySuccess && !(oldState is CharacterStateActing))
+        {
+            if (characterBase.Rigidbody.IsGrounded)
                 animator.Play(animationParry.name);
             else
                 animator.Play(animationParryAerial.name);

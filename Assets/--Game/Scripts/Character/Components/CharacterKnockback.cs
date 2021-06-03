@@ -146,17 +146,18 @@ public class CharacterKnockback : MonoBehaviour
                 Parry.Clash(character, atkRegistered[i]); // Le clash
                 atkRegistered[i].User.Knockback.UnregisterHit(atkRegistered[i].AttackClashed); // On retire l'attaque de l'adversaire pour ne pas lancer 2 fois le clash
             }
-           //else if () // Parry just frame, on doit check que le bouton R1 est appuyé et que le perso est dans un état om il est possible de parer
-           //{
-           //    Parry.ParryResolution(character, atkRegistered[i]);
-           //}
+            else if (Parry.CanJustFrameParry(character, atkRegistered[i])) // Parry just frame, on doit check que le bouton R1 est appuyé et que le perso est dans un état om il est possible de parer
+            {
+                Parry.ParryResolution(character, atkRegistered[i]);
+            }
             else // On touche
             {
                 Hit(character, atkRegistered[i]);
             }
             atkRegistered.RemoveAt(i);
         }
- 
+        character.Knockback.Parry.IsJustFrameParry = false;
+
     }
 
 

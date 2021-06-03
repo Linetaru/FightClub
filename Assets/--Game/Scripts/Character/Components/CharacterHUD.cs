@@ -30,6 +30,8 @@ public class CharacterHUD : MonoBehaviour
 	[SerializeField]
 	TextMeshProUGUI textName;
 	[SerializeField]
+	Image characterFace;
+	[SerializeField]
 	Image backgroundColor;
 
 	[Space]
@@ -110,6 +112,10 @@ public class CharacterHUD : MonoBehaviour
 	public void DrawName(string name)
 	{
 		textName.text = name;
+	}
+	public void DrawFace(Sprite face)
+	{
+		characterFace.sprite = face;
 	}
 
 	public void SetColor(Color c)
