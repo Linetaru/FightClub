@@ -246,6 +246,30 @@ public class CharacterHUD : MonoBehaviour
 	public void Fade(bool b)
 	{
 		animatorFade.SetBool("Fade", b);
+		if(b)
+		{
+			Color fade = new Color(1, 1, 1, 0.02f);
+			for (int i = 0; i < livesImage.Length; i++)
+			{
+				livesImage[i].color = fade;
+			}
+			for (int i = previousGaugeID; i < powerGauge.Length; i++)
+			{
+				powerGauge[i].color = fade;
+			}
+		}
+		else
+		{
+			Color unfade = new Color(1, 1, 1, 1f);
+			for (int i = 0; i < livesImage.Length; i++)
+			{
+				livesImage[i].color = unfade;
+			}
+			for (int i = previousGaugeID; i < powerGauge.Length; i++)
+			{
+				powerGauge[i].color = unfade;
+			}
+		}
 	}
 
 
