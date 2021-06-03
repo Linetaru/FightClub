@@ -53,6 +53,7 @@ public class CharacterStateWallRun : CharacterState
 
     public override void UpdateState(CharacterBase character)
     {
+        character.Movement.SpeedX = 1;
         wallCollision = CheckFullWallCollision(character);
        // wallCollision = (Physics.Raycast(transform.position, Vector3.right * character.Movement.Direction, out _, .3f, wallLayer));
         //groundCollision = Physics.Raycast(transform.position, Vector3.down, out _, 1f, wallLayer);
