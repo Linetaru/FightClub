@@ -8,6 +8,13 @@ using Sirenix.OdinInspector;
 public class GrandSlamManager : MonoBehaviour
 {
     [Title("Data")]
+    [SerializeField]
+    private int scoreToWin = 1500;
+    [SerializeField]
+    private float timeOnScore = 6f;
+
+
+    [Title("GameData")]
     [Expandable]
     public GameData gameData;
 
@@ -36,6 +43,8 @@ public class GrandSlamManager : MonoBehaviour
     private CameraSlam camSlam;
     [SerializeField]
     private GrandSlamUi canvasScore;
+    [SerializeField]
+    private SlamLogoMode slamLogoMode;
 
     private Camera currentCam;
 
@@ -52,6 +61,9 @@ public class GrandSlamManager : MonoBehaviour
     private float cameraResetSpeed = 1.0f;
 
     UnityEvent gameEndedEvent;
+
+
+    private string nextSceneName;
 
 
     private void Awake()
@@ -76,6 +88,7 @@ public class GrandSlamManager : MonoBehaviour
 
     private void Start()
     {
+        nextSceneName = GetRandomSceneFromList();
         gameData.slamMode = true;
         InitScoreDictionary();
         AdjustModeList();
@@ -114,9 +127,10 @@ public class GrandSlamManager : MonoBehaviour
 
         foreach(SlamMode slam in copySlamMode)
         {
-            if ((gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode) || gameMode == GameModeStateEnum.Volley_Mode) // TMP CONDITION CAR VOLLEY PAS DISPO
+            if (gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode)
                 listGameModesValid.Remove(slam);
-            else if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
+            
+            if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
                 listGameModesValid.Remove(slam);
         }
     }
@@ -157,13 +171,17 @@ public class GrandSlamManager : MonoBehaviour
         }
 
         canvasScore.DrawScores(scores, i);
+        slamLogoMode.TriggerWheel();
+
     }
 
 
     private IEnumerator ManageEndMode()
     {
-        RemoveCurrentGameModeFromList();
-        CalculateScore();
+        //RemoveCurrentGameModeFromList();
+
+        // Récup aléatoirement scène parmi gameMode aléatoire
+        nextSceneName = GetRandomSceneFromList();
 
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(2f);
@@ -182,8 +200,14 @@ public class GrandSlamManager : MonoBehaviour
 
         canvasScore.ActivePanelScore();
 
+        CalculateScore();
+
         BattleManager.Instance.ResetInstance();
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(timeOnScore);
+
+        slamLogoMode.DrawLogo(gameMode);
+
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine(UnloadSceneAsync());
 
@@ -274,12 +298,11 @@ public class GrandSlamManager : MonoBehaviour
 
     private IEnumerator LoadSceneAsync()
     {
-        string sceneName = GetRandomSceneFromList();
 
-        AsyncOperation async = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        AsyncOperation async = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         async.completed += (AsyncOperation o) =>
         {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextSceneName));
         };
 
         async.allowSceneActivation = true;

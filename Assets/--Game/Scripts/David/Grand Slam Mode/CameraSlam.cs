@@ -37,6 +37,11 @@ public class CameraSlam : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void OnDestroy()
+    {
+        blurMat.SetFloat("_Smoothness", 1.0f);
+    }
+
     private void Update()
     {
         if(setBlur)
