@@ -11,4 +11,5 @@ public enum MainStat
     NbJump,
     Gravity,
     Weight,
+    KnockbackPerDistance
 }

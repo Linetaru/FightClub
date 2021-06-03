@@ -65,7 +65,7 @@ public class CharacterStateIdle : CharacterState
 	{
 		timeForDash /= 60;
 		dashTimer = timeForDash;
-		gravityConst = -0.1f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
+		gravityConst = -0.2f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
 	}
 
 
@@ -120,15 +120,13 @@ public class CharacterStateIdle : CharacterState
 			}
 		}
 
-
-
 		/*if (character.Input.CheckAction(0, InputConst.Jump) || character.Input.CheckAction(0, InputConst.Smash))
 		{
 			character.Input.inputActions[0].timeValue = 0;
 			character.SetState(jumpStartState);
 			return;
 		}*/
-		else if (moveset.ActionAttack(character) == true)
+		else if (moveset.ActionAttack(character))
 		{
 			return;
 		}
@@ -137,6 +135,14 @@ public class CharacterStateIdle : CharacterState
 			character.SetState(dashState);
 			return;
 		}
+		/*else if (moveset.ActionEx(character))
+		{
+			return;
+		}
+		else if (moveset.ActionSpecialEx(character))
+		{
+			return;
+		}*/
 		else if (evasiveMoveset.Parry(character))
         {
 			return;
@@ -181,6 +187,7 @@ public class CharacterStateIdle : CharacterState
 		}	
 		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
 		{
+			character.Movement.SpeedY = 0;
 			character.SetState(aerialState);
 		}
 	}

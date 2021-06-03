@@ -52,6 +52,11 @@ public class CharacterRigidbody : MonoBehaviour
 
     }
 
+    public virtual void CheckGround(float gravity)
+    {
+
+    }
+
 
     protected bool preventFall = true;
 

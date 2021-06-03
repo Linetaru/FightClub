@@ -14,41 +14,61 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	float fractionOfSpeedMaxToDash = 0.95f;
 
+	[SerializeField]
+	Color colorTiltEX;
+	[SerializeField]
+	Color colorSpecialEX;
+	[SerializeField]
+	int tiltExCost = 20;
+	[SerializeField]
+	int specialExCost = 40;
+
 	[Title("Parameter - Actions")]
 	[SerializeField]
-	AttackManager jab;
+	AttackManager jab = null;
 	[SerializeField]
-	AttackManager downTilt;
+	AttackManager downTilt = null;
 	[SerializeField]
-	AttackManager upTilt;
+	AttackManager upTilt = null;
 	[SerializeField]
-	AttackManager forwardTilt;
+	AttackManager forwardTilt = null;
 	[SerializeField]
-	AttackManager dashAttack;
+	AttackManager dashAttack = null;
 
 	[Title("Parameter - Actions Aerial")]
 	[SerializeField]
-	AttackManager neutralAir;
+	AttackManager neutralAir = null;
 	[SerializeField]
-	AttackManager forwardAir;
+	AttackManager forwardAir = null;
 	[SerializeField]
-	AttackManager upAir;
+	AttackManager upAir = null;
 	[SerializeField]
-	AttackManager downAir;
+	AttackManager downAir = null;
 
 	[Title("Parameter - Specials")]
 	[SerializeField]
-	AttackManager upSpecial;
+	AttackManager upSpecial = null;
 	[SerializeField]
-	AttackManager downSpecial;
+	AttackManager downSpecial = null;
 	[SerializeField]
-	AttackManager forwardSpecial;
+	AttackManager forwardSpecial = null;
 	[SerializeField]
-	AttackManager neutralSpecial;
+	AttackManager neutralSpecial = null;
+
+
+	[Title("Parameter - Specials Ex")]
+	[SerializeField]
+	AttackManager upSpecialEx = null;
+	[SerializeField]
+	AttackManager downSpecialEx = null;
+	[SerializeField]
+	AttackManager forwardSpecialEx = null;
+	[SerializeField]
+	AttackManager neutralSpecialEx = null;
 
 	[Title("Parameter - Signature Move")]
 	[SerializeField]
-	AttackManager signatureMove;
+	AttackManager signatureMove = null;
 
 
 
@@ -56,12 +76,27 @@ public class CharacterMoveset : MonoBehaviour
 	[SerializeField]
 	CharacterState stateAction;
 
+	[Title("Feedbacks")]
+	[SerializeField]
+	ParticleSystem particleExTilt = null;
+	[SerializeField]
+	ParticleSystem particleExSpecial = null;
+
+
+	private bool exTilt;
+	public bool ExTilt
+	{
+		get { return exTilt; }
+	}
+
+
+
 	/// <summary>
 	/// Return true if an action has been validated
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	public bool ActionAttack(CharacterBase character)
+	public bool ActionAttack(CharacterBase character, bool canSpecial = true)
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
@@ -102,8 +137,8 @@ public class CharacterMoveset : MonoBehaviour
 				}
 			}
 
-
-			return ActionSpecial(character);
+			if (canSpecial)
+				return ActionSpecial(character);
 		}
 		else // Attaque dans les airs
 		{
@@ -130,26 +165,13 @@ public class CharacterMoveset : MonoBehaviour
 			else if (character.Input.CheckAction(0, InputConst.Attack))
 				return ActionAttack(character, neutralAir);
 
-			return ActionSpecial(character);
+			if(canSpecial)
+				return ActionSpecial(character);
 		}
 
 		return false;
 	}
 
-
-	public bool ActionAttack(CharacterBase character, AttackManager attack)
-	{
-		if (attack == null)
-			return false;
-		if (character.Action.Action(attack) == true)
-		{
-			character.SetState(stateAction);
-			if(character.Input.inputActions.Count != 0)
-				character.Input.inputActions[0].timeValue = 0;
-			return true;
-		}
-		return false;
-	}
 
 
 
@@ -191,5 +213,164 @@ public class CharacterMoveset : MonoBehaviour
 
 		return false;
 	}
+
+
+
+
+	public bool ActionEx(CharacterBase character)
+	{
+		// Si on ne laisse pas R1 enfoncé, pas d'actions EX
+		if (!character.Input.CheckActionHold(InputConst.RightShoulder))
+			return false;
+
+		// Si on a pas la barre pour un tilt EX
+		if (character.PowerGauge.CurrentPower < tiltExCost)
+			return false;
+
+		character.Rigidbody.CheckGround(character.Movement.Gravity);
+		if (ActionAttack(character, false))
+		{
+			ParticleSystem par = Instantiate(particleExTilt, character.CenterPoint.transform.position, Quaternion.identity, character.CenterPoint.transform);
+			Destroy(par.gameObject, 1f);
+
+			character.PowerGauge.ForceAddPower(-tiltExCost);
+			character.Model.FlashModel(colorTiltEX, 1f);
+			character.Knockback.Parry.IsParry = true;
+			character.Knockback.Parry.IsGuard = false;
+			exTilt = true;
+			return true;
+		}
+		return false;
+	}
+
+	public bool ActionExSpecial(CharacterBase character)
+	{
+		// Si on ne laisse pas R1 enfoncé, pas d'actions EX
+		if (!character.Input.CheckActionHold(InputConst.RightShoulder))
+			return false;
+
+		// Si on a pas la barre pour un special EX
+		if (character.PowerGauge.CurrentPower < specialExCost)
+			return false;
+
+		if (ActionSpecialEx(character))
+		{
+			character.PowerGauge.ForceAddPower(-specialExCost);
+			character.Model.FlashModel(colorSpecialEX, 1f);
+
+			ParticleSystem par = Instantiate(particleExSpecial, character.CenterPoint.transform.position, Quaternion.identity, character.CenterPoint.transform);
+			Destroy(par.gameObject, 1f);
+			return true;
+		}
+
+		return false;
+	}
+
+	/*public bool ActionSpecialEx(CharacterBase character)
+	{
+		// Si on ne laisse pas R1 enfoncé, pas d'actions EX
+		if (!character.Input.CheckActionHold(InputConst.RightShoulder))
+			return false;
+
+		// Si on a pas la barre
+		if (character.PowerGauge.CurrentPower < specialExCost)
+			return false;
+
+		character.PowerGauge.ForceAddPower(-specialExCost);
+
+
+
+		if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
+			return ActionAttack(character, upSpecialEx);
+		}
+
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			return ActionAttack(character, downSpecialEx);
+
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
+			return ActionAttack(character, forwardSpecialEx);
+		}
+
+		else if (character.Input.CheckAction(0, InputConst.Special))
+			return ActionAttack(character, neutralSpecialEx);
+
+
+		return false;
+	}*/
+
+	private bool ActionSpecialEx(CharacterBase character)
+	{
+
+		if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical > verticalDeadZone)
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
+			return ActionAttack(character, upSpecialEx);
+		}
+
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && character.Input.vertical < -verticalDeadZone)
+			return ActionAttack(character, downSpecialEx);
+
+
+		else if (character.Input.CheckAction(0, InputConst.Special) && (character.Input.horizontal < -horizontalDeadZone || character.Input.horizontal > horizontalDeadZone))
+		{
+			if (character.Action.CanAct())
+			{
+				if (character.Movement.Direction != (int)Mathf.Sign(character.Input.horizontal) && Mathf.Abs(character.Input.horizontal) > horizontalDeadZone)
+					character.Movement.Direction = (int)Mathf.Sign(character.Input.horizontal);
+			}
+			return ActionAttack(character, forwardSpecialEx);
+		}
+
+		else if (character.Input.CheckAction(0, InputConst.Special))
+			return ActionAttack(character, neutralSpecialEx);
+
+
+		return false;
+	}
+
+
+
+
+
+
+	public bool ActionAttack(CharacterBase character, AttackManager attack)
+	{
+		if (attack == null)
+			return false;
+		if (character.Action.Action(attack) == true)
+		{
+			character.SetState(stateAction);
+			if (character.Input.inputActions.Count != 0)
+				character.Input.inputActions[0].timeValue = 0;
+			return true;
+		}
+		return false;
+	}
+
+
+
+
+
+
+
 
 }

@@ -14,11 +14,13 @@ public class CharacterStateParry : CharacterState
 
 	[SerializeField]
 	GameObject debug;
-
+	[SerializeField]
+	CharacterMoveset characterMoveset;
 
 	float t = 0f;
 	bool flash = false;
 	bool spamParry = false;
+	bool firstFrame = false;
 
 	private void Start()
 	{
@@ -29,13 +31,11 @@ public class CharacterStateParry : CharacterState
 
 	public override void StartState(CharacterBase character, CharacterState oldState)
 	{
-		//Debug.Log(spamParry);
-		/*if (oldState is CharacterStateParryBlow)
-			spamParry = false;*/
 		character.Knockback.Parry.IsParry = true;
 
 		t = 0f;
 		flash = false;
+		firstFrame = false;
 
 		if (Mathf.Abs(character.Input.horizontal) < 0.3f && Mathf.Abs(character.Input.vertical) < 0.3f)
 			character.Knockback.Parry.ParryDirection = new Vector2(character.Movement.Direction, 0);
@@ -51,6 +51,7 @@ public class CharacterStateParry : CharacterState
 		{
 			character.Model.FlashModel(Color.white, timeInParry);
 			character.Movement.SpeedY = character.Movement.SpeedY * 0.1f;
+			//Debug.Log(character.Rigidbody.CollisionGroundInfo);
 		}
 		else
 		{
@@ -63,6 +64,24 @@ public class CharacterStateParry : CharacterState
 		character.Movement.SpeedX = character.Movement.SpeedX * 0.9f;
 		character.Movement.ApplyGravity(0.05f);
 		t += Time.deltaTime * character.MotionSpeed;
+
+		// ========== Action
+		if (t <= timeInParry)
+		{
+			if (characterMoveset.ActionExSpecial(character))
+			{
+				return;
+			}
+			else if (characterMoveset.ActionEx(character))
+			{
+				return;
+			}
+		}
+		/*if (t >= timeInParry && t <= timeInParry + timeInGuard && !firstFrame)
+		{
+			firstFrame = true;
+		}*/
+		// ==========
 
 		if (t >= timeInParry && t <= timeInParry + timeInGuard)
 		{
