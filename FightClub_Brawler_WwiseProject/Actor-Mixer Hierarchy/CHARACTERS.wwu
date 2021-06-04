@@ -5792,6 +5792,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="CROW_Whoosh_Spe_Forward_Throw" ID="{0608DB02-DBAF-419E-A19B-994C117E9A8F}" ShortID="989983901">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -6106,6 +6113,33 @@
 												<ActiveSource Name="CROW_Whoosh_Dash_Attack" ID="{E481807E-3CC9-41BE-B476-36A384A6F5FF}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<Sound Name="CROW_Whoosh_Spe_Down_Charge_End" ID="{A56236E2-AC49-45C9-8530-751690C1EB88}" ShortID="978639618">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="CROW_Whoosh_Spe_Down_Charge_End" ID="{6F4E7176-A322-4475-9953-D85D378546FD}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="0.0936"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.0936"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Characters\Crow\CROW_Whoosh_Spe_Down_Charge_End.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="159034501"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="CROW_Whoosh_Spe_Down_Charge_End" ID="{6F4E7176-A322-4475-9953-D85D378546FD}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 									</ChildrenList>
 								</ActorMixer>
 								<ActorMixer Name="CROW_Hit" ID="{62452127-0CC0-4F2B-9581-5B515C78F83C}" ShortID="372207593">
@@ -6380,32 +6414,6 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="CROW_Hit_Tilt_Up_02" ID="{4E77F6CC-D7A1-49B5-8A84-6649AF84C624}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="CROW_Hit_Dash_Attack" ID="{C08CA8C4-90C9-43D0-8B51-41F378F12FED}" ShortID="831230780">
-											<PropertyList>
-												<Property Name="Color" Type="int16" Value="1"/>
-												<Property Name="OverrideColor" Type="bool" Value="True"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="CROW_Hit_Aerial_Down" ID="{8F10A950-F896-4552-BDCF-FB39E82F4391}">
-													<Language>SFX</Language>
-													<AudioFile>Characters\Crow\CROW_Hit_Aerial_Down.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="258418449"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="CROW_Hit_Aerial_Down" ID="{8F10A950-F896-4552-BDCF-FB39E82F4391}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="CROW_Hit_Aerial_Forward" ID="{1D175165-3E74-4039-BAF6-EC543EE077F0}" ShortID="298161362">
@@ -6743,6 +6751,28 @@
 												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
+										<Sound Name="CROW_Hit_Dash_Attack" ID="{43A628C5-667F-4FA2-ABA2-4210B4773A5D}" ShortID="818822737">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="CROW_Hit_Dash_Attack" ID="{41B89469-B29E-4271-84DA-72F14EE8A4DA}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Crow\CROW_Hit_Dash_Attack.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="601585790"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="CROW_Hit_Dash_Attack" ID="{41B89469-B29E-4271-84DA-72F14EE8A4DA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 									</ChildrenList>
 								</ActorMixer>
 							</ChildrenList>
