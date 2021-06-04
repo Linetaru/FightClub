@@ -80,6 +80,10 @@ public class CharacterKnockback : MonoBehaviour
         set { isHardKnockback = value; }
     }
 
+
+
+
+
     protected float motionSpeed = 1;
     public float MotionSpeed
     {
@@ -141,10 +145,14 @@ public class CharacterKnockback : MonoBehaviour
             {
                 Parry.GuardResolution(character, atkRegistered[i]);
             }
-            else if(atkRegistered[i].AttackClashed != null) // On clash
+            else if (atkRegistered[i].AttackClashed != null) // On clash
             {
                 Parry.Clash(character, atkRegistered[i]); // Le clash
                 atkRegistered[i].User.Knockback.UnregisterHit(atkRegistered[i].AttackClashed); // On retire l'attaque de l'adversaire pour ne pas lancer 2 fois le clash
+            }
+            else if (Parry.CanJustFrameParry(character, atkRegistered[i])) // Parry just frame, on doit check que le bouton R1 est appuyé et que le perso est dans un état om il est possible de parer
+            {
+                Parry.ParryResolution(character, atkRegistered[i]);
             }
             else // On touche
             {
@@ -152,7 +160,8 @@ public class CharacterKnockback : MonoBehaviour
             }
             atkRegistered.RemoveAt(i);
         }
- 
+        character.Knockback.Parry.IsJustFrameParry = false;
+
     }
 
 
@@ -163,7 +172,6 @@ public class CharacterKnockback : MonoBehaviour
             character.SetState(stateKnockback);
         OnKnockback?.Invoke(attack);
     }
-
 
 
 

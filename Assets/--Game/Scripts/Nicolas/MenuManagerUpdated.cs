@@ -393,6 +393,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		menuState = MenuState.InPrincipalMenu;
 		Camera.main.GetComponent<Animator>().SetBool("canTransiToOption", false);
 		ChangeSelectedButton(true);
+		SaveManager.Instance.SaveFile();
 	}
 
 	private IEnumerator GoToOtherScene(string level)

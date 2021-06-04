@@ -57,6 +57,8 @@ public class CharacterStateParry : CharacterState
 		{
 			t = timeInParry;
 		}
+
+		characterMoveset.ExTilt = false;
 	}
 
 	public override void UpdateState(CharacterBase character)

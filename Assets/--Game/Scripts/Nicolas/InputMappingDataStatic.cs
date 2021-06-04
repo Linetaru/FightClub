@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class InputMappingDataStatic
 {
+    [SerializeField]
     public static List<InputMappingDataClassic> inputMappingDataClassics = new List<InputMappingDataClassic>();
 }
 

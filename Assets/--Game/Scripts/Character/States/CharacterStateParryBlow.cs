@@ -54,8 +54,6 @@ public class CharacterStateParryBlow : CharacterState
 		character.Movement.SpeedX = initialSpeedX;
 		character.Movement.SpeedY = initialSpeedY;
 
-		Debug.Log(character.Movement.SpeedX);
-
 		character.Rigidbody.PreventFall(false);
 	}
 

@@ -22,7 +22,6 @@ namespace Feedbacks
 
 
 
-
         private static GlobalFeedback _instance;
         public static GlobalFeedback Instance { get { return _instance; } }
         private void Awake()
