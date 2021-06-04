@@ -14,15 +14,20 @@ public class DebugInfos : MonoBehaviour
     [SerializeField]
     private InputController inputController;
 
+    bool startCount = false;
     int nextPos = 1;
+    float frameAttackActive = 0;
 
-    void Start()
+    /*void Start()
     {
-    }
+    }*/
 
 
     void Update()
     {
+        if(startCount)
+            frameAttackActive += Time.deltaTime;
+
         ShowHideInfos();
 
         SwitchPlayers();
@@ -33,9 +38,47 @@ public class DebugInfos : MonoBehaviour
     public void AddCharacter(CharacterBase character)
     {
         playersList.Add(character);
+        character.OnStateChanged += OnStateChangedCallback;
+        character.Action.OnAttack += OnAttackCallback;
+        character.Action.OnAttackActive += OnAttackActiveCallback;
 
         InitInfos();
     }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < playersList.Count; i++)
+        {
+            playersList[i].OnStateChanged -= OnStateChangedCallback;
+            playersList[i].Action.OnAttack -= OnAttackCallback;
+            playersList[i].Action.OnAttackActive -= OnAttackActiveCallback;
+        }
+    }
+
+    private void OnStateChangedCallback(CharacterState oldState, CharacterState newState)
+    {
+        if(newState is CharacterStateActing)
+        {
+            startCount = true;
+        }
+        else 
+        {
+            startCount = false;
+        }
+
+    }
+
+    private void OnAttackCallback(AttackManager attackManager)
+    {
+        frameAttackActive = 0;
+        startCount = true;
+    }
+
+    private void OnAttackActiveCallback()
+    {
+        startCount = false;
+    }
+
 
 
     private void InitInfos()
@@ -54,9 +97,10 @@ public class DebugInfos : MonoBehaviour
             playerInfos[i].CurrentState.text = playersList[i].CurrentState.name;
             playerInfos[i].SpeedX.text = playersList[i].Movement.SpeedX.ToString();
             playerInfos[i].SpeedY.text = playersList[i].Movement.SpeedY.ToString();
+            playerInfos[i].StartupText.text = ((int)(frameAttackActive * 60)).ToString();
 
             // A Update avec la liste entière
-            if(playersList[i].Input != null && playersList[i].Input.inputActions.Count > 0)
+            if (playersList[i].Input != null && playersList[i].Input.inputActions.Count > 0)
             {
                 playerInfos[i].Inputs.text = playersList[i].Input.inputActions[0].action.name;
             }
@@ -97,5 +141,7 @@ public class DebugInfos : MonoBehaviour
 
         }
     }
+
+
 
 }

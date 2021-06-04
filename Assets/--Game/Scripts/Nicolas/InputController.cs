@@ -34,7 +34,7 @@ public class Input_Info
 
 	public Rewired.InputAction inputUiAction;
 
-	public InputMappingData inputMapping = null;
+	public InputMappingDataClassic inputMapping = null;
 
 	public Input_Info()
     {
@@ -93,7 +93,7 @@ public class Input_Info
 	// A opti en dictionnaire mais fuat faire des shenanigan dans le SO du coup
 	public InputAction CheckMapping(InputAction inputAction)
 	{
-		if (inputMapping == null)
+		if (inputMapping == null || !inputMapping.isUsed)
 			return inputAction;
 
 		EnumInput input = EnumInput.A;
@@ -150,7 +150,7 @@ public class InputController : SerializedMonoBehaviour
 
 	public PackageCreator.Event.GameEvent pauseEvent;
 
-	public void SetInputMapping(int id, InputMappingData inputData)
+	public void SetInputMapping(int id, InputMappingDataClassic inputData)
 	{
 		playerInputs[id].inputMapping = inputData;
 	}

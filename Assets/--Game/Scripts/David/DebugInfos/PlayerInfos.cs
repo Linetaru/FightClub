@@ -22,6 +22,10 @@ public class PlayerInfos : MonoBehaviour
     public Text SpeedY { get { return speedY; } set { speedY = value; } }
 
     [SerializeField]
+    private Text startupText;
+    public Text StartupText { get { return startupText; } set { startupText = value; } }
+
+    [SerializeField]
     private Text inputs;
     public Text Inputs { get { return inputs; } set { inputs = value; } }
 

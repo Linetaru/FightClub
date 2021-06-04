@@ -87,6 +87,18 @@ public class CharacterParry : MonoBehaviour
 		set { isGuardDash = value; }
 	}
 
+	// utilisé si on appuis sur le bouton R1 à la même frame où on se prend le coup, 
+	// ce bool indique si on est dans un état ou la parade est disponible, et si elle est disponible on peut check si le joueur a appuyé sur R1
+	private bool isJustFrameParry = false;
+	public bool IsJustFrameParry
+	{
+		get { return isJustFrameParry; }
+		set { isJustFrameParry = value; }
+	}
+
+	// je savais pas ou le mettre
+	public bool forceAnimationParry = false;
+
 
 	CharacterBase characterParried = null;
 	public CharacterBase CharacterParried
@@ -152,6 +164,16 @@ public class CharacterParry : MonoBehaviour
 		else if (attackManager.BreakParry == true)
 			return false;
 		return CheckAngle(attackManager);
+	}
+
+	public virtual bool CanJustFrameParry(CharacterBase c, AttackSubManager attackManager)
+	{
+		if(c.Input.CheckAction(0, InputConst.RightShoulder) && isJustFrameParry)
+		{
+			isParry = true;
+			return CanParry(attackManager);
+		}
+		return false;
 	}
 
 	/*public virtual bool CanGuard(AttackSubManager attackManager)
