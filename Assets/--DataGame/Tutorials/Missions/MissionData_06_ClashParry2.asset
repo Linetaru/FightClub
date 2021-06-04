@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrainingData_010_Parry
+  m_Name: MissionData_06_ClashParry2
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|MissionInputParry, Assembly-CSharp
@@ -44,6 +44,15 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 2|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -51,23 +60,41 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
-      Data: 3|MissionInputRespawn, Assembly-CSharp
+      Data: 4|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputTimeOut, Assembly-CSharp
-    - Name: time
-      Entry: 4
-      Data: 4.5
+      Data: 5|MissionInputParryRB, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MissionInputOutOfKnockback, Assembly-CSharp
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|MissionInputLand, Assembly-CSharp
+    - Name: numberOfLand
+      Entry: 3
+      Data: 2
+    - Name: isDummy
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -77,22 +104,30 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 10 - Parry
+  trialsName: 06 - Clash Parry 2
   trialsDescription: 
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnPlayer: 0
+  spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 1
-  dummyBehavior: {fileID: 5061073795408886244, guid: 189702981f4af3e4e9828984b3d29e3f, type: 3}
+  spawnEnemy: 3
+  dummyBehavior: {fileID: 5061073795408886244, guid: 9ca3834d892ff0b4aad6d0b423198503, type: 3}
   osef: 
   textboxStart:
-  - Essaye de parer
+  - 'Les attaques disposent d''un niveau de Clash.
+
+    Les niveaux sont les suivants
+    :'
+  - Tilt > Aerials > Dash
+  - "Apr\xE8s un Clash Parry, vous avez les m\xEAmes options que lorsque vous r\xE9alisez
+    un Parry."
   textboxEnd:
-  - "Ces attaques sont appel\xE9es les Tilt et bla bla bla..."
+  - "Attention \xE0 ne pas rester passif en essayant \xE0 tout pris de placer un
+    Clash Parry"
   enemyPercentage: 0
-  numberToSuccess: 1
+  numberToSuccess: 3
   comboNotes:
-  - Parry - <sprite=10> (Au moment de l'attaque)
-  moneyReward: 100
-  nextTrial: {fileID: 11400000, guid: 6da7b1978694ca84480b084c02d35576, type: 2}
+  - Clash Parry
+  - Air Dash
+  moneyReward: 200
+  nextTrial: {fileID: 11400000, guid: decf9e13452089f429d36da55e1947b9, type: 2}

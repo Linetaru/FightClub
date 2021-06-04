@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrainingData_012_Super
+  m_Name: MissionData_09_Projectile
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
-    - {fileID: 8045468721652775528, guid: b7051e5bb8622d64bb2b6494a4e33269, type: 3}
+    - {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -29,25 +28,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 1|MissionInputGauge, Assembly-CSharp
-    - Name: gaugeNeeded
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 2|MissionInputAttack, Assembly-CSharp
+      Data: 1|MissionInputAttack, Assembly-CSharp
     - Name: attack
       Entry: 10
       Data: 0
     - Name: hitboxID
       Entry: 7
-      Data: 3|System.Int32[], mscorlib
+      Data: 2|System.Int32[], mscorlib
     - Name: 
       Entry: 14
       Data: 1
@@ -65,25 +55,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputAttack, Assembly-CSharp
-    - Name: attack
-      Entry: 10
-      Data: 1
-    - Name: hitboxID
-      Entry: 7
-      Data: 5|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 3|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -95,14 +67,29 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 4|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 7|MissionInputRespawn, Assembly-CSharp
+      Data: 5|MissionInputPositionX, Assembly-CSharp
+    - Name: isDummy
+      Entry: 5
+      Data: true
+    - Name: distanceX
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: -12
+    - Name: 
+      Entry: 4
+      Data: -11
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -112,24 +99,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 12 - Signature Move
+  trialsName: 08 - Edgeguard 2
   trialsDescription: 
-  scene: TutorialStage2
+  scene: TutorialStage3
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnPlayer: 0
+  spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 1
-  dummyBehavior: {fileID: 5061073795408886244, guid: 189702981f4af3e4e9828984b3d29e3f, type: 3}
+  spawnEnemy: 3
+  dummyBehavior: {fileID: 5061073795408886244, guid: b81d26fe74ff714469598d2f74549aa3, type: 3}
   osef: 
   textboxStart:
-  - Essaye d'attaquer.
+  - "Les attaques disposant d'un angle d'\xE9jection vers le bas sont appel\xE9s
+    des Spikes."
+  - "Ces attaques sont tr\xE8s efficaces pour Edgeguard."
   textboxEnd:
-  - "Ces attaques sont appel\xE9es les Tilt et bla bla bla..."
-  enemyPercentage: 0
-  numberToSuccess: 1
+  - "Chaque personnage a des outils diff\xE9rents pour prot\xE9ger le bord, mais
+    aussi pour revenir. Utilisez les bon outils en fonction de la situation et du
+    personnage."
+  enemyPercentage: 100
+  numberToSuccess: 3
   comboNotes:
-  - Parry (x5) - <sprite=10>
-  - Signature Move - <sprite=12>
-  - Finish
-  moneyReward: 100
+  - Down Air
+  - Enemy Fall
+  moneyReward: 200
   nextTrial: {fileID: 0}
