@@ -204,6 +204,65 @@ public class ChoosenInputProfile : MonoBehaviour
 		}
 	}
 
+	public void DeleteInputConfigOnClick()
+    {
+		for(int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
+        {
+			if(bt_InputData.inputMappingData.profileName == InputMappingDataStatic.inputMappingDataClassics[i].profileName)
+            {
+				InputMappingDataStatic.inputMappingDataClassics.RemoveAt(i);
+				profileCreate.Remove(bt_InputData.gameObject.GetComponent<Button>());
+				Destroy(bt_InputData.gameObject);
+				panelConfig.SetActive(false);
+				EventSystem.current.SetSelectedGameObject(createButton.gameObject);
+
+				Navigation NewNav = new Navigation();
+				NewNav.mode = Navigation.Mode.Explicit;
+				if (profileCreate.Count == 1)
+				{
+					NewNav.selectOnUp = createButton;
+					NewNav.selectOnDown = createButton;
+				}
+				else
+				{
+					for (int z = 0; z < profileCreate.Count; z++)
+					{
+						if (z == 0)
+						{
+							NewNav.selectOnUp = createButton;
+							NewNav.selectOnDown = profileCreate[z + 1];
+						}
+						else if (z == profileCreate.Count - 1)
+						{
+							NewNav.selectOnUp = profileCreate[z - 1];
+							NewNav.selectOnDown = createButton;
+						}
+						else
+						{
+							NewNav.selectOnUp = profileCreate[z - 1];
+							NewNav.selectOnDown = profileCreate[z + 1];
+						}
+						profileCreate[z].navigation = NewNav;
+
+					}
+				}
+				UpdateNavigation();
+
+				if (profileCreate.Count > 0)
+				{
+					NewNav.selectOnUp = profileCreate[profileCreate.Count - 1];
+					NewNav.selectOnDown = profileCreate[0];
+				}
+				NewNav.selectOnRight = inputButton;
+				NewNav.selectOnLeft = inputButton;
+
+				createButton.navigation = NewNav;
+
+				return;
+			}
+		}
+    }
+
 	public void OnDeselectInputField()
     {
 		createButton.gameObject.SetActive(true);
@@ -371,8 +430,60 @@ public class ChoosenInputProfile : MonoBehaviour
 
 	public void OnFinishInputField()
 	{
-		if (!inputField.text.Contains(" ") && inputField.text != "" && inputField.text.Count<char>() < 7 && input.Count < 6)
+		if (!inputField.text.Contains(" ") && inputField.text != "" && profileCreate.Count < 5)
 		{
+			Navigation NewNav = new Navigation();
+			foreach (InputMappingDataClassic iMPDC in InputMappingDataStatic.inputMappingDataClassics)
+            {
+				if (iMPDC.profileName == inputField.text)
+				{
+					createButton.gameObject.SetActive(true);
+					inputField.gameObject.SetActive(false);
+
+					EventSystem.current.SetSelectedGameObject(createButton.gameObject);
+
+					NewNav.mode = Navigation.Mode.Explicit;
+					if (profileCreate.Count == 1)
+					{
+						NewNav.selectOnUp = createButton;
+						NewNav.selectOnDown = createButton;
+					}
+					else
+					{
+						for (int z = 0; z < profileCreate.Count; z++)
+						{
+							if (z == 0)
+							{
+								NewNav.selectOnUp = createButton;
+								NewNav.selectOnDown = profileCreate[z + 1];
+							}
+							else if (z == profileCreate.Count - 1)
+							{
+								NewNav.selectOnUp = profileCreate[z - 1];
+								NewNav.selectOnDown = createButton;
+							}
+							else
+							{
+								NewNav.selectOnUp = profileCreate[z - 1];
+								NewNav.selectOnDown = profileCreate[z + 1];
+							}
+							profileCreate[z].navigation = NewNav;
+
+						}
+					}
+					UpdateNavigation();
+
+					NewNav.selectOnUp = profileCreate[profileCreate.Count - 1];
+					NewNav.selectOnDown = profileCreate[0];
+					NewNav.selectOnRight = inputButton;
+					NewNav.selectOnLeft = inputButton;
+
+					createButton.navigation = NewNav;
+
+					return;
+				}
+            }
+
 			GameObject go = Instantiate(baseProfile, this.transform.GetChild(0));
 			go.GetComponentInChildren<TextMeshProUGUI>().text = inputField.text;
 			InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(inputField.text));
@@ -382,7 +493,6 @@ public class ChoosenInputProfile : MonoBehaviour
             go.SetActive(true);
 			profileCreate.Add(go.GetComponent<Button>());
 			go.GetComponent<Button>().onClick.AddListener(OnClickButton);
-			Navigation NewNav = new Navigation();
 			NewNav.mode = Navigation.Mode.Explicit;
 
 			NewNav.selectOnRight = inputButton;
@@ -405,13 +515,13 @@ public class ChoosenInputProfile : MonoBehaviour
 				{
 					if (z == 0)
 					{
-						NewNav.selectOnUp = inputField;
+						NewNav.selectOnUp = createButton;
 						NewNav.selectOnDown = profileCreate[z + 1];
 					}
 					else if (z == profileCreate.Count - 1)
 					{
 						NewNav.selectOnUp = profileCreate[z - 1];
-						NewNav.selectOnDown = inputField; 
+						NewNav.selectOnDown = createButton; 
 					}
 					else
 					{
