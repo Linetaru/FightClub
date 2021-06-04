@@ -87,8 +87,10 @@ public class CharacterMoveset : MonoBehaviour
 	public bool ExTilt
 	{
 		get { return exTilt; }
+		set { exTilt = value; }
 	}
 
+	CharacterBase c;
 
 
 	/// <summary>
@@ -227,19 +229,36 @@ public class CharacterMoveset : MonoBehaviour
 		if (character.PowerGauge.CurrentPower < tiltExCost)
 			return false;
 
-		if(ActionAttack(character, false))
+		character.Rigidbody.CheckGround(character.Movement.Gravity);
+		if (ActionAttack(character, false))
 		{
 			ParticleSystem par = Instantiate(particleExTilt, character.CenterPoint.transform.position, Quaternion.identity, character.CenterPoint.transform);
 			Destroy(par.gameObject, 1f);
 
 			character.PowerGauge.ForceAddPower(-tiltExCost);
-			character.Model.FlashModel(colorTiltEX, 1f);
+			character.Model.FlashModel(colorTiltEX, 2f);
 			character.Knockback.Parry.IsParry = true;
 			character.Knockback.Parry.IsGuard = false;
+
 			exTilt = true;
+
+			if (c == null)
+			{
+				c = character;
+				character.Action.OnAttackActive += CallbackAttackActive;
+			}
+			c.Knockback.Parry.forceAnimationParry = true;
 			return true;
 		}
 		return false;
+	}
+
+
+	private void CallbackAttackActive()
+	{
+		exTilt = false;
+		c.Knockback.Parry.forceAnimationParry = false;
+		c.Knockback.Parry.IsParry = false;
 	}
 
 	public bool ActionExSpecial(CharacterBase character)
@@ -255,7 +274,7 @@ public class CharacterMoveset : MonoBehaviour
 		if (ActionSpecialEx(character))
 		{
 			character.PowerGauge.ForceAddPower(-specialExCost);
-			character.Model.FlashModel(colorSpecialEX, 1f);
+			character.Model.FlashModel(colorSpecialEX, 2f);
 
 			ParticleSystem par = Instantiate(particleExSpecial, character.CenterPoint.transform.position, Quaternion.identity, character.CenterPoint.transform);
 			Destroy(par.gameObject, 1f);

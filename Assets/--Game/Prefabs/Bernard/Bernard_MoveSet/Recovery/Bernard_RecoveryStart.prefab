@@ -83,7 +83,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 6b439ab53f81af741b4f886e26c60ea5, type: 2}
+    WwiseObjectReference: {fileID: 0}
 --- !u!1 &1099147148166008665
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upSpecial: {fileID: 8045468721652775528, guid: d75192a58e954b34695cc093adab23fe, type: 3}
-  duration: 0.3
+  duration: 0.35
   VFX: {fileID: 1045179165860666359}
 --- !u!1 &2130186020538094675
 GameObject:
@@ -315,8 +315,15 @@ MonoBehaviour:
   - {fileID: 475136960455095257}
   - {fileID: 7376335771800043540}
   - {fileID: 591375028510943551}
+  playerHitEvent: {fileID: 0}
   clashLevel: 1
-  clashCancel: 1
+  noClash: 0
+  noParryCancel: 0
+  disjoint: 0
+  guardOnDash: 0
+  guardWin: 0
+  parryBreak: 0
+  guardBreak: 0
   onHitColliderEvents:
     m_PersistentCalls:
       m_Calls: []
@@ -484,6 +491,8 @@ MonoBehaviour:
   keepMomentumY: 0
   applyGravity: 1
   gravityMultiplier: 0.1
+  applyGravityDescend: 0
+  gravityMultiplierDescend: 1
   canAirControl: 0
   groundCancel: 0
   groundEndLag: {fileID: 0}
@@ -670,8 +679,10 @@ MonoBehaviour:
   linkToCharacter: 1
   atkCombo: {fileID: 0}
   attackCondition: {fileID: 1462029314070835335}
+  playerHitEvent: {fileID: 0}
   atkSubs:
   - {fileID: 4115750712046349460}
+  subAnimators: []
 --- !u!136 &1868422020767181866
 CapsuleCollider:
   m_ObjectHideFlags: 0

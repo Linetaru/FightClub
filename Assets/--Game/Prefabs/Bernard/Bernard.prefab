@@ -1422,10 +1422,10 @@ MonoBehaviour:
   downSpecial: {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
   forwardSpecial: {fileID: 8045468721652775528, guid: b41ce8741f323b843aeef8c08c3903f1, type: 3}
   neutralSpecial: {fileID: 8045468721652775528, guid: 56934ad3f6d983f4785081685cf5830c, type: 3}
-  upSpecialEx: {fileID: 0}
-  downSpecialEx: {fileID: 0}
-  forwardSpecialEx: {fileID: 0}
-  neutralSpecialEx: {fileID: 0}
+  upSpecialEx: {fileID: 8045468721652775528, guid: ad5379dac59d2b340a0fce7b182ed110, type: 3}
+  downSpecialEx: {fileID: 8045468721652775528, guid: 6cf1247217def6a4386609ccc53ff30b, type: 3}
+  forwardSpecialEx: {fileID: 8045468721652775528, guid: 5ff2e8a8e98fde6448cac282781e4e30, type: 3}
+  neutralSpecialEx: {fileID: 8045468721652775528, guid: 5ff2e8a8e98fde6448cac282781e4e30, type: 3}
   signatureMove: {fileID: 8045468721652775528, guid: 4ec8ee33fe41a324a85eff9640214ad7, type: 3}
   stateAction: {fileID: 8607249597957437018}
   particleExTilt: {fileID: 332124027275021265, guid: f127838194b520e48b286ff15f7a1eda, type: 3}
@@ -1660,7 +1660,7 @@ MonoBehaviour:
   stateKnockback: {fileID: 3374792937015931613}
   parry: {fileID: 1634794949363116733}
   weight: 1
-  timeKnockbackPerDistance: 0.03
+  timeKnockbackPerDistance: 0.026
   maxTimeKnockback: 1.5
   shakeEffect: {fileID: 5059749571089216006}
 --- !u!1 &6541291579576450532
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parrySuccesState: {fileID: 9152094702135463447}
   parryRepelState: {fileID: 6996715928349309010}
-  timingParry: 1e000000140000000a0000000500000001000000
+  guardBreakStatus: {fileID: 11400000, guid: 55e68a7b23564b54f9cea7e02023a2e0, type: 2}
   ejectionPower: 16
   parryAngle: 400
   particleParry: {fileID: 1477291588837210726, guid: 14ccb119978fb114f832bfa3a5e734eb, type: 3}
@@ -2676,11 +2676,11 @@ MonoBehaviour:
   landEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 91e762957a10f664db33e0825c04ef4d, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 43ed42f38ef1a804e80d12bb4c49ea9a, type: 2}
   parrySuccessEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 3ea85864b5d9f4140995711cf0b99684, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 21cc2124a9514df4b882f01d78305b13, type: 2}
   parryFailedEvent:
     idInternal: 0
     valueGuidInternal: 
@@ -2912,6 +2912,11 @@ MonoBehaviour:
     multiplierValue: 0
     incrementValue: 0
     valueStat: 0
+  knockbackPerDistance:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
 --- !u!136 &2920413699501023807
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2974,7 +2979,6 @@ MonoBehaviour:
   collisionFriction: 5
   reboundReduction: 0.75
   reboundSpeedNeeded: 2
-  landingTime: 10
   knockbackLayerMask:
     serializedVersion: 2
     m_Bits: 49152
@@ -2983,7 +2987,6 @@ MonoBehaviour:
   techAntiSpam: 30
   joystickThreshold: 0.3
   DIAngle: 10
-  acumods: {fileID: 5579033086863405265}
 --- !u!1 &8601508828811202049
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,19 +64,32 @@ public class CharacterModel : MonoBehaviour
 	public void FlashModel()
 	{
 		if(this.gameObject.activeInHierarchy == true)
-			StartCoroutine(FlashCoroutine(Color.white, 1f));
+			FlashModelCoroutine(Color.white, 1f);
+		//StartCoroutine(FlashCoroutine(Color.white, 1f));
+	}
+
+	public void FlashModelQueue(Color flashColor, float time)
+	{
+		if (this.gameObject.activeInHierarchy == true)
+		{
+			if (flashCoroutine != null)
+				return;
+			flashCoroutine = FlashCoroutine(flashColor, time);
+			StartCoroutine(flashCoroutine);
+		}
 	}
 
 	public void FlashModel(Color flashColor, float time)
 	{
 		if (this.gameObject.activeInHierarchy == true)
-			StartCoroutine(FlashCoroutine(flashColor, time));
+			FlashModelCoroutine(flashColor, time);
+			//StartCoroutine(FlashCoroutine(flashColor, time));
 	}
 
 	public void FlashModelCoroutine(Color flashColor, float time)
 	{
 		if (flashCoroutine != null)
-			return;// StopCoroutine(flashCoroutine);
+			StopCoroutine(flashCoroutine);
 		flashCoroutine = FlashCoroutine(flashColor, time);
 		StartCoroutine(flashCoroutine);
 	}
