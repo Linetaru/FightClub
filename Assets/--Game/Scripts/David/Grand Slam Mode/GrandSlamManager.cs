@@ -285,18 +285,22 @@ public class GrandSlamManager : MonoBehaviour
     // Gestion de la fin du mode Grand Slam
     private void ManageEndSlam()
     {
-
+        Debug.Log("BIEN JOUÉ C'EST LA FIN");
     }
 
     private bool IsGameOver()
     {
+        foreach(KeyValuePair<int, int> scores in playersScore)
+        {
+            if (scores.Value >= scoreToWin)
+                return true;
+        }
 
         return false;
     }
 
     private IEnumerator LoadSceneAsync()
     {
-
         AsyncOperation async = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         async.completed += (AsyncOperation o) =>
         {
@@ -312,13 +316,11 @@ public class GrandSlamManager : MonoBehaviour
 
         BattleManager.Instance.cameraController.Camera.enabled = false;
 
-
         if (firstRound)
         {
             firstRound = false;
             SetGame();
         }
-
     }
 
     private IEnumerator UnloadSceneAsync()
