@@ -20,8 +20,10 @@ public class GrandSlamManager : MonoBehaviour
 
     [Title("Lists")]
     [SerializeField]
-    List<SlamMode> listGameModesValid;
+    List<SlamMode> listGameModesValid = new List<SlamMode>();
     List<string> listToPickFrom = new List<string>();
+
+    SlamMode currentMode;
 
     // Dictionary<ControllerID, Score>
     Dictionary<int, int> playersScore = new Dictionary<int, int>();
@@ -95,6 +97,7 @@ public class GrandSlamManager : MonoBehaviour
         StartCoroutine(LoadSceneAsync());
     }
 
+    // Récupère une scène parmi la liste du mode choisi
     private string GetRandomSceneFromList()
     {
         listToPickFrom = GetRandomModeList();
@@ -106,15 +109,21 @@ public class GrandSlamManager : MonoBehaviour
 
 
     // Cette fonction sélectionne le mode et retourne la liste de scènes associée
+    // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
+        if(currentMode != null)
+            listGameModesValid.Remove(currentMode);
+
         int randomKey = Random.Range(0, listGameModesValid.Count);
-
         gameMode = listGameModesValid[randomKey].gameMode;
-
         gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
-
         currentScoreArr = listGameModesValid[randomKey].scoreArr;
+
+        if(currentMode != null)
+            listGameModesValid.Add(currentMode);
+
+        currentMode = listGameModesValid[randomKey];
 
         return listGameModesValid[randomKey].scenes;
     }
@@ -125,28 +134,16 @@ public class GrandSlamManager : MonoBehaviour
     {
         List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
 
-        foreach(SlamMode slam in copySlamMode)
+        foreach (SlamMode slam in copySlamMode)
         {
             if (gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode)
                 listGameModesValid.Remove(slam);
-            
+
             if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
                 listGameModesValid.Remove(slam);
         }
     }
 
-
-    /// Cette fonction retire le mode actuel de la list des modes valides
-    private void RemoveCurrentGameModeFromList()
-    {
-        List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
-
-        foreach (SlamMode slam in copySlamMode)
-        {
-            if(slam.gameMode == gameMode)
-                listGameModesValid.Remove(slam);
-        }
-    }
     private void InitScoreDictionary()
     {
         foreach(Character_Info character in gameData.CharacterInfos)
@@ -155,6 +152,8 @@ public class GrandSlamManager : MonoBehaviour
         }
     }
 
+
+    // Calcule les scores et demande au canvas de les afficher
     private void CalculateScore()
     {
         int[] scores = new int[4];
@@ -170,17 +169,14 @@ public class GrandSlamManager : MonoBehaviour
             i++;
         }
 
-        canvasScore.DrawScores(scores, i);
+        canvasScore.DrawScores(scores, gameData.CharacterInfos.Count);
         slamLogoMode.TriggerWheel();
 
     }
 
-
+    // Gère toute la transition de la fin du mode en cours au début du prochain mode
     private IEnumerator ManageEndMode()
     {
-        //RemoveCurrentGameModeFromList();
-
-        // Récup aléatoirement scène parmi gameMode aléatoire
         nextSceneName = GetRandomSceneFromList();
 
         Time.timeScale = 0.2f;
@@ -256,6 +252,8 @@ public class GrandSlamManager : MonoBehaviour
         }
     }
 
+
+    // Paramètre le gameData
     private void SetGame()
     {
         gameData.GameMode = gameMode;
@@ -263,6 +261,7 @@ public class GrandSlamManager : MonoBehaviour
         StartGame();
     }
 
+    // Récupère quelques infos du Battlemanager et le démarre
     private void StartGame()
     {
         currentCam = null;
@@ -291,9 +290,8 @@ public class GrandSlamManager : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (listGameModesValid.Count > 0)
-            return false;
-        return true;
+
+        return false;
     }
 
     private IEnumerator LoadSceneAsync()
@@ -322,6 +320,7 @@ public class GrandSlamManager : MonoBehaviour
         }
 
     }
+
     private IEnumerator UnloadSceneAsync()
     {
         AsyncOperation async = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
