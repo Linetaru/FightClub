@@ -44,6 +44,9 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
+	public bool GamePaused = false;
+
+
 	private bool slowMowEnd;
 	private float timer;
 
@@ -300,6 +303,7 @@ public class BattleManager : MonoBehaviour
 	// JSP si là c'est le mieux
 	public void SetMenuControllable(IControllable controllable)
 	{
+		GamePaused = true;
 		for (int i = 0; i < characterAlive.Count; i++)
 		{
 			if (characterAlive[i].ControllerID >= 0)
@@ -325,6 +329,7 @@ public class BattleManager : MonoBehaviour
 
 	public void SetBattleControllable()
 	{
+		GamePaused = false;
 		standbyList.Clear();
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{

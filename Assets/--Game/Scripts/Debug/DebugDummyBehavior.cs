@@ -79,11 +79,6 @@ public class DebugDummyBehavior : MonoBehaviour
 			if (input.inputActions.Count != 0)
 				inputController.UpdateTimeInBuffer(input.inputActions);
 		}
-		/*else if (characterBase.Knockback.KnockbackDuration <= 0 && knockbackOn == true)
-		{
-			inputController.AddInput(InputConst.Jump.name, ref input);
-			knockbackOn = false;
-		}*/
 	}
 
 

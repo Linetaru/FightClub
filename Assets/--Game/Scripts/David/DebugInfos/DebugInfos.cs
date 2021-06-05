@@ -18,6 +18,9 @@ public class DebugInfos : MonoBehaviour
     int nextPos = 1;
     float frameAttackActive = 0;
 
+    bool startCountKnockback = false;
+    float knockbackDuration = 0;
+
     /*void Start()
     {
     }*/
@@ -27,6 +30,14 @@ public class DebugInfos : MonoBehaviour
     {
         if(startCount)
             frameAttackActive += Time.deltaTime;
+        if (startCountKnockback)
+        {
+            float best = playersList[0].Knockback.KnockbackDuration;
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                knockbackDuration = Mathf.Max(best, playersList[i].Knockback.KnockbackDuration);
+            }
+        }
 
         ShowHideInfos();
 
@@ -41,6 +52,7 @@ public class DebugInfos : MonoBehaviour
         character.OnStateChanged += OnStateChangedCallback;
         character.Action.OnAttack += OnAttackCallback;
         character.Action.OnAttackActive += OnAttackActiveCallback;
+        character.Knockback.OnKnockback += OnKnockbackCount;
 
         InitInfos();
     }
@@ -52,6 +64,7 @@ public class DebugInfos : MonoBehaviour
             playersList[i].OnStateChanged -= OnStateChangedCallback;
             playersList[i].Action.OnAttack -= OnAttackCallback;
             playersList[i].Action.OnAttackActive -= OnAttackActiveCallback;
+            playersList[i].Knockback.OnKnockback -= OnKnockbackCount;
         }
     }
 
@@ -64,6 +77,11 @@ public class DebugInfos : MonoBehaviour
         else 
         {
             startCount = false;
+        }
+
+        if (oldState is CharacterStateKnockback && !(newState is CharacterStateKnockback))
+        {
+            startCountKnockback = false;
         }
 
     }
@@ -79,7 +97,15 @@ public class DebugInfos : MonoBehaviour
         startCount = false;
     }
 
-
+    private void OnKnockbackCount(AttackSubManager attackManager)
+    {
+        startCountKnockback = true;
+        float best = playersList[0].Knockback.KnockbackDuration;
+        for (int i = 0; i < playersList.Count; i++)
+        {
+            knockbackDuration = Mathf.Max(best, playersList[i].Knockback.KnockbackDuration);
+        }
+    }
 
     private void InitInfos()
     {
@@ -98,6 +124,7 @@ public class DebugInfos : MonoBehaviour
             playerInfos[i].SpeedX.text = playersList[i].Movement.SpeedX.ToString();
             playerInfos[i].SpeedY.text = playersList[i].Movement.SpeedY.ToString();
             playerInfos[i].StartupText.text = ((int)(frameAttackActive * 60)).ToString();
+            playerInfos[i].knockbackTime.localScale = new Vector3(knockbackDuration / playersList[i].Knockback.MaxTimeKnockback, 1, 1);
 
             // A Update avec la liste entière
             if (playersList[i].Input != null && playersList[i].Input.inputActions.Count > 0)
