@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrainingData_011_Guard
+  m_Name: MissionData_11_DangerousAttacks
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 1|MissionInputParry, Assembly-CSharp
@@ -36,10 +36,19 @@ MonoBehaviour:
       Data: false
     - Name: isDummy
       Entry: 5
-      Data: true
+      Data: false
     - Name: nbOfParry
       Entry: 3
       Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|MissionInputTimeOut, Assembly-CSharp
+    - Name: time
+      Entry: 4
+      Data: 2.5
     - Name: 
       Entry: 8
       Data: 
@@ -51,29 +60,23 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 3|MissionInputParry, Assembly-CSharp
-    - Name: isParry
-      Entry: 5
-      Data: true
+      Data: 4|MissionInputOutOfKnockback, Assembly-CSharp
     - Name: isDummy
       Entry: 5
-      Data: true
-    - Name: nbOfParry
-      Entry: 3
-      Data: 1
+      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputRespawn, Assembly-CSharp
+      Data: 5|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -83,22 +86,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 11 - Guard
-  trialsDescription: 
+  trialsName: 11 - Breaking attacks
+  trialsDescription: Your parry doesn't work sometimes ? Here's why.
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnPlayer: 0
+  spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 1
-  dummyBehavior: {fileID: 5061073795408886244, guid: 99c560d170b0d6c4eac8fe73baca5b5e, type: 3}
+  spawnEnemy: 3
+  dummyBehavior: {fileID: -6739672029780065382, guid: e960143df0ca34641924a047ff329341, type: 3}
   osef: 
   textboxStart:
-  - Essaye d'attaquer.
+  - Attacks starting with a green light flare are breaking attacks.
+  - Those attacks will pass through a guard and some pass even through you parry.
+  - Only one solution, dodging.
   textboxEnd:
-  - "Ces attaques sont appel\xE9es les Tilt et bla bla bla..."
+  - Breaking attacks have always a long startup so in some situations, you can beat
+    them simply by attacking with a faster attack.
   enemyPercentage: 0
-  numberToSuccess: 1
+  gaugeNumber: 4
+  numberToSuccess: 3
   comboNotes:
-  - Attack in Guard
-  moneyReward: 100
-  nextTrial: {fileID: 11400000, guid: 6bb1e731a7a099a448c52f0dfe8940bf, type: 2}
+  - Get Parried
+  - Don't get hit
+  moneyReward: 200
+  nextTrial: {fileID: 11400000, guid: 0ee6896bec2183d48a982e662b3bc8f8, type: 2}

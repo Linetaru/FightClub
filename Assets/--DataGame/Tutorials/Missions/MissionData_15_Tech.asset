@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: MissionData_11_WaveLanding
+  m_Name: MissionData_15_Tech
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
+    - {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -40,22 +40,34 @@ MonoBehaviour:
       Data: 2|System.Int32[], mscorlib
     - Name: 
       Entry: 14
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 3
       Data: 0
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: playerReceiveAttack
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|MissionInputRespawn, Assembly-CSharp
+      Data: 3|MissionInputDodge, Assembly-CSharp
+    - Name: aerialDodge
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -71,25 +83,19 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 5|MissionInputPositionX, Assembly-CSharp
-    - Name: isDummy
-      Entry: 5
-      Data: true
-    - Name: distanceX
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: -12
-    - Name: 
-      Entry: 4
-      Data: -11
+      Data: 5|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MissionInputOutOfKnockback, Assembly-CSharp
+    - Name: isDummy
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -99,27 +105,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 08 - Edgeguard 2
-  trialsDescription: 
-  scene: TutorialStage3
+  trialsName: 15 - Tech
+  trialsDescription: Getting comboed to death ? Here's something that could help
+    you.
+  scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnEnemy: 3
-  dummyBehavior: {fileID: 5061073795408886244, guid: b81d26fe74ff714469598d2f74549aa3, type: 3}
+  dummyBehavior: {fileID: 5061073795408886244, guid: a38ce0ecc3b6d3f4e8785553ea6cd048, type: 3}
   osef: 
   textboxStart:
-  - "Les attaques disposant d'un angle d'\xE9jection vers le bas sont appel\xE9s
-    des Spikes."
-  - "Ces attaques sont tr\xE8s efficaces pour Edgeguard."
+  - When you hit a wall or the ground in knockback, you rebound.
+  - But if you press the dodge button before hitting the ground, you can tech out
+    of the knockback and act faster than normal.
   textboxEnd:
-  - "Chaque personnage a des outils diff\xE9rents pour prot\xE9ger le bord, mais
-    aussi pour revenir. Utilisez les bon outils en fonction de la situation et du
-    personnage."
-  enemyPercentage: 100
+  - On the ground you can select the direction of your tech with the left stick.
+  enemyPercentage: 80
+  gaugeNumber: 0
   numberToSuccess: 3
   comboNotes:
-  - Down Air
-  - Enemy Fall
+  - Get Hit
+  - Tech
   moneyReward: 200
   nextTrial: {fileID: 0}

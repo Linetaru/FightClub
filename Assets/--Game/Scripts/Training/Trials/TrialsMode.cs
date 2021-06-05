@@ -243,6 +243,7 @@ public class TrialsMode : MonoBehaviour
 		for (int i = 0; i < battleManager.characterAlive.Count; i++)
 		{
 			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+			battleManager.characterAlive[i].PowerGauge.CurrentPower = 20 * trialsData.GaugeNumber;
 		}
 		player.transform.position = spawnPoints[(int)trialsData.SpawnPlayer].position;
 		player.Movement.Direction = (int)spawnPoints[(int)trialsData.SpawnPlayer].transform.localScale.x;

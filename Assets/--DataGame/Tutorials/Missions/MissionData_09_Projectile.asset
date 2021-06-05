@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
+    - {fileID: 8045468721652775528, guid: e67d282796e01a24b868b1c78e11429c, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -31,13 +31,19 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 7
-      Data: 1|MissionInputAttack, Assembly-CSharp
+      Data: 1|MissionInputDash, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|MissionInputAttack, Assembly-CSharp
     - Name: attack
       Entry: 10
       Data: 0
     - Name: hitboxID
       Entry: 7
-      Data: 2|System.Int32[], mscorlib
+      Data: 3|System.Int32[], mscorlib
     - Name: 
       Entry: 14
       Data: 1
@@ -50,12 +56,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|MissionInputRespawn, Assembly-CSharp
+    - Name: playerReceiveAttack
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -71,25 +74,28 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 5|MissionInputPositionX, Assembly-CSharp
-    - Name: isDummy
-      Entry: 5
-      Data: true
-    - Name: distanceX
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: -12
-    - Name: 
-      Entry: 4
-      Data: -11
+      Data: 5|MissionInputJump, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MissionInputOutOfKnockback, Assembly-CSharp
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|MissionInputOutOfKnockback, Assembly-CSharp
+    - Name: isDummy
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -99,27 +105,29 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 08 - Edgeguard 2
-  trialsDescription: 
-  scene: TutorialStage3
-  player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnPlayer: 2
+  trialsName: 09 - Projectile
+  trialsDescription: The enemy projectile causes you trouble ? Here's what to do
+    against them.
+  scene: TutorialStage2
+  player: {fileID: 11400000, guid: 56210370af7935a48b9c71abcd893d6b, type: 2}
+  spawnPlayer: 4
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 3
-  dummyBehavior: {fileID: 5061073795408886244, guid: b81d26fe74ff714469598d2f74549aa3, type: 3}
+  spawnEnemy: 5
+  dummyBehavior: {fileID: 5061073795408886244, guid: 82236798b8466bc4babfa089c4f195c7, type: 3}
   osef: 
   textboxStart:
-  - "Les attaques disposant d'un angle d'\xE9jection vers le bas sont appel\xE9s
-    des Spikes."
-  - "Ces attaques sont tr\xE8s efficaces pour Edgeguard."
+  - Some characters can throw projectile at you, giving them massive range.
+  - But those attacks have many weaknesses, the first one is the fact that you can
+    dash to deflect them.
+  - Try to dash towards the enemy.
   textboxEnd:
-  - "Chaque personnage a des outils diff\xE9rents pour prot\xE9ger le bord, mais
-    aussi pour revenir. Utilisez les bon outils en fonction de la situation et du
-    personnage."
-  enemyPercentage: 100
+  - Dash attacks also put your character in a dash state, meaning that your dash
+    attack will always deflect projectile.
+  enemyPercentage: 0
+  gaugeNumber: 0
   numberToSuccess: 3
   comboNotes:
-  - Down Air
-  - Enemy Fall
+  - 'Dash '
+  - Dash Attack
   moneyReward: 200
-  nextTrial: {fileID: 0}
+  nextTrial: {fileID: 11400000, guid: 55c4c4f7ae27cb5478f206fc6ea717a0, type: 2}
