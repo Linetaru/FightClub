@@ -112,6 +112,7 @@ public class TrialsMode : MonoBehaviour
 		for (int i = 0; i < battleManager.characterAlive.Count; i++)
 		{
 			battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+			battleManager.characterAlive[i].PowerGauge.CurrentPower = trialsData.GaugeNumber * 20;
 		}
 
 		// AI
@@ -382,16 +383,27 @@ public class TrialsMode : MonoBehaviour
 
 		if (trialsData.NextTrial != null)
 		{
+			if(trialsData.NextTrial.StageName != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+			{
+				settingsMission.TrialsData = trialsData.NextTrial;
+				UnityEngine.SceneManagement.SceneManager.LoadScene(trialsData.NextTrial.StageName);
+				return;
+			}
 			animatorSuccess.gameObject.SetActive(false);
 			animatorRespawn.SetTrigger("Feedback");
 			battleManager.ResetPlayer();
 			for (int i = 0; i < battleManager.characterAlive.Count; i++)
 			{
 				battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
+				battleManager.characterAlive[i].PowerGauge.CurrentPower = trialsData.GaugeNumber * 20;
 			}
 			inputControllerEmpty.controllable = null;
 			inputController.controllable[player.ControllerID] = player;
 			InitializeTrial(trialsData.NextTrial);
+		}
+		else
+		{
+			// Back to menu
 		}
 
 	}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrainingData_013_SpecialsEXE
+  m_Name: TrainingData_013_TiltEXE
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -83,6 +83,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: playerReceiveAttack
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -98,58 +101,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 7|MissionInputOutOfKnockback, Assembly-CSharp
-    - Name: isDummy
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|MissionInputParry, Assembly-CSharp
-    - Name: isParry
-      Entry: 5
-      Data: false
-    - Name: isDummy
-      Entry: 5
-      Data: false
-    - Name: nbOfParry
-      Entry: 3
       Data: 1
     - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 7
-      Data: 9|MissionInputLand, Assembly-CSharp
-    - Name: numberOfLand
-      Entry: 3
-      Data: 2
-    - Name: isDummy
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|MissionInputLand, Assembly-CSharp
-    - Name: numberOfLand
-      Entry: 3
-      Data: 2
-    - Name: isDummy
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|MissionInputRespawn, Assembly-CSharp
+      Data: 7|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -159,28 +114,26 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 03 - Attack after parry 2
+  trialsName: 13 - Attack .EXE
   trialsDescription: 
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnEnemy: 3
-  dummyBehavior: {fileID: 5061073795408886244, guid: 2ee77faf09a462d4e90ac7ac77c8f328, type: 3}
+  dummyBehavior: {fileID: 0}
   osef: 
   textboxStart:
-  - "Quand vous parrez un adversaire, ce dernier pour se d\xE9fendre va souvent tenter
-    une parade \xE0 son tour pour reprendre l'avantage."
-  - "Apr\xE8s votre parade, plut\xF4t que d'attaquer apr\xE8s votre dash, initiez
-    un nouveau dash pour vous placer au-dessus de votre adversaire et attaquer dans
-    sa garde."
+  - For a stack of your power gauge, you can power up your attacks.
+  - Those powered up attacks are called Attacks .EXE.
+  - You can execute them by pressing the attack button and the parry at the same
+    time.
   textboxEnd:
-  - "Attention, si votre adversaire a compris votre tactique, au lieu de parer, il
-    peut simplement attaquer et vous toucher durant votre deuxi\xE8me Dash."
-  - "C'est l\xE0 que se cr\xE9er la notion de Mind game et de Mixup."
-  - "Apr\xE8s une parade, varier vos approches pour ne pas \xEAtre trop pr\xE9visible.
-    Sinon l'adversaire pourra vous contrez."
+  - The difference between .EXE attacks and regular ones, are the fact that the startup
+    of .EXE attacks put you in a parry state.
+  - So with .EXE attacks you can defend while attacking.
   enemyPercentage: 0
+  gaugeNumber: 7
   numberToSuccess: 3
   comboNotes:
   - Parry - <sprite=4>
@@ -188,4 +141,4 @@ MonoBehaviour:
   - Air Dash - <sprite=6> + <sprite=5>
   - Down Air - <sprite=8> + <sprite=0>
   moneyReward: 200
-  nextTrial: {fileID: 11400000, guid: 7ebad87160cebd9448f924699d6a038c, type: 2}
+  nextTrial: {fileID: 11400000, guid: 8bdc15f036da38d45aeaf747b5346ec5, type: 2}

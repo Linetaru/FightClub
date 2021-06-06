@@ -203,6 +203,7 @@ public class BattleManager : MonoBehaviour
 		{
 			characterAlive[i].transform.position = spawningPoint[i].transform.position;
 			characterAlive[i].Stats.InitStats();
+			characterAlive[i].Stats.LifeStocks = gameData.NumberOfLifes;
 
 			characterAlive[i].Action.CancelAction();
 			characterAlive[i].ResetToIdle();

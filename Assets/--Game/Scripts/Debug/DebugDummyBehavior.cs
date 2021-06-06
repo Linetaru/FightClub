@@ -34,7 +34,7 @@ public class DebugDummyBehavior : MonoBehaviour
 	public void SetBehaviorToCharacter(int id, DummyBehavior dummyBehavior)
 	{
 
-		behavior = dummyBehavior;
+		/*behavior = dummyBehavior;
 		if (dummyBehavior == DummyBehavior.Idle && characterBase != null)
 		{
 			characterID = id;
@@ -48,7 +48,7 @@ public class DebugDummyBehavior : MonoBehaviour
 			characterID = id;
 			characterBase = (CharacterBase)inputController.controllable[id];
 			inputController.controllable[id] = null;
-		}
+		}*/
 	}
 
 	// Update is called once per frame

@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: MissionData_15_Tech
+  m_Name: TrainingData_014_SpecialsEXE
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: 40b85ba1c84cd024c871da003ab69e11, type: 3}
+    - {fileID: 8045468721652775528, guid: 5ff2e8a8e98fde6448cac282781e4e30, type: 3}
+    - {fileID: 8045468721652775528, guid: 6cf1247217def6a4386609ccc53ff30b, type: 3}
+    - {fileID: 8045468721652775528, guid: d75192a58e954b34695cc093adab23fe, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -28,44 +30,38 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 1|MissionInputAttack, Assembly-CSharp
+      Data: 1|MissionInputAttackWhiff, Assembly-CSharp
     - Name: attack
       Entry: 10
       Data: 0
-    - Name: hitboxID
-      Entry: 7
-      Data: 2|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 3
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: playerReceiveAttack
+    - Name: isDummy
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|MissionInputDodge, Assembly-CSharp
-    - Name: aerialDodge
+      Data: 2|MissionInputAttackWhiff, Assembly-CSharp
+    - Name: attack
+      Entry: 10
+      Data: 1
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|MissionInputAttackWhiff, Assembly-CSharp
+    - Name: attack
+      Entry: 10
+      Data: 2
+    - Name: isDummy
       Entry: 5
       Data: false
     - Name: 
@@ -92,8 +88,11 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|MissionInputOutOfKnockback, Assembly-CSharp
-    - Name: isDummy
+      Data: 6|MissionInputGauge, Assembly-CSharp
+    - Name: gaugeNeeded
+      Entry: 4
+      Data: 1
+    - Name: superior
       Entry: 5
       Data: false
     - Name: 
@@ -105,27 +104,29 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 15 - Tech
-  trialsDescription: Getting comboed to death ? Here's something that could help
-    you.
+  trialsName: 13 - Specials .EXE
+  trialsDescription: 
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnEnemy: 3
-  dummyBehavior: {fileID: 5061073795408886244, guid: a38ce0ecc3b6d3f4e8785553ea6cd048, type: 3}
+  dummyBehavior: {fileID: 0}
   osef: 
   textboxStart:
-  - When you hit a wall or the ground in knockback, you rebound.
-  - But if you press the dodge button before hitting the ground, you can tech out
-    of the knockback and act faster than normal.
+  - For 2 stacks of your power gauge, you can power up your specials attacks.
+  - Those powered up attacks are called Specials .EXE.
+  - You can execute them by pressing the special button and the parry at the same
+    time.
   textboxEnd:
-  - On the ground you can select the direction of your tech with the left stick.
-  enemyPercentage: 80
-  gaugeNumber: 0
-  numberToSuccess: 3
+  - You can also first press the parry button, then right after the special button
+    to execute a Special .EXE.
+  enemyPercentage: 0
+  gaugeNumber: 7
+  numberToSuccess: 1
   comboNotes:
-  - Get Hit
-  - Tech
+  - Breakers Boom .EXE
+  - Breakers Boombox .EXE
+  - Breakers Ascension .EXE
   moneyReward: 200
-  nextTrial: {fileID: 11400000, guid: 966c2b3072587c44b886ec512eaa7f55, type: 2}
+  nextTrial: {fileID: 11400000, guid: 6bb1e731a7a099a448c52f0dfe8940bf, type: 2}

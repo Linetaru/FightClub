@@ -33,7 +33,7 @@ namespace Menu
 
 		float timeScale = 1f;
 		int percentage = 0;
-		int powerGauge = 0;
+		int powerGauge = 4;
 		bool guardBreakEnemy = false;
 		int behavior = 0;
 		bool tech = false;
@@ -115,6 +115,11 @@ namespace Menu
 			if (battleManager.GamePaused)
 				return;
 			battleManager.SetMenuControllable(this);
+
+			for (int i = 0; i < battleManager.inputController.playerInputs.Length; i++)
+			{
+				battleManager.inputController.playerInputs[i].inputUiAction = null;
+			}
 			ShowMenu();
 		}
 
