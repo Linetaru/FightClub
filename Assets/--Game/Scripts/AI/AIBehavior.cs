@@ -8,6 +8,11 @@ public class AIBehavior : MonoBehaviour
 
 	[SerializeField]
 	protected CharacterBase character;
+	public CharacterBase Character
+	{
+		get { return character; }
+	}
+
 	[SerializeField]
 	protected InputController inputController;
 	[SerializeField]

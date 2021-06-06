@@ -167,6 +167,10 @@ public class BattleManager : MonoBehaviour
 					aIBehavior.StartBehavior();
 					aIController.AIBehaviors.Add(aIBehavior);
 				}
+				else
+				{
+					aIController.CreateDefaultBehavior(user, inputController);
+				}
 			}
 
 			user.TeamID = gameData.CharacterInfos[i].Team;

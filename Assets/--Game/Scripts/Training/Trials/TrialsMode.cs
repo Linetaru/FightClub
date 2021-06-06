@@ -21,7 +21,7 @@ public class TrialsMode : MonoBehaviour
 	//[SerializeField]
 	InputController inputController;
 	//[SerializeField]
-	InputControllerEmpty inputControllerEmpty;
+	//InputControllerEmpty inputControllerEmpty;
 
 	[SerializeField]
 	Textbox textbox;
@@ -72,6 +72,7 @@ public class TrialsMode : MonoBehaviour
 			dummy = character;
 			battleManager = BattleManager.Instance;
 			inputController = battleManager.inputController;
+			battleManager.aIController.RemoveBehavior(dummy); // on remove le behavior par défaut pour mettre le notre
 			InitializeTrial();
 		}
 	}
@@ -94,7 +95,6 @@ public class TrialsMode : MonoBehaviour
 		// On reset le behavior pour que Initialize Trial fasse ce qu'il faut
 		if(aiBehavior != null)
 		{
-			//inputController.controllable[dummy.ControllerID] = dummy;
 			battleManager.aIController.AIBehaviors.Remove(aiBehavior);
 			Destroy(aiBehavior.gameObject);
 			aiBehavior = null;
@@ -124,6 +124,10 @@ public class TrialsMode : MonoBehaviour
 			aiBehavior = Instantiate(trialsData.DummyBehavior, dummy.transform);
 			aiBehavior.SetCharacter(dummy, inputController);
 			battleManager.aIController.AIBehaviors.Add(aiBehavior);
+		}
+		else
+		{
+			aiBehavior = battleManager.aIController.CreateDefaultBehavior(dummy, inputController);
 		}
 
 		// UI
