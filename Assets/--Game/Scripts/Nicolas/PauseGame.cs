@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 
-public class PauseGame : MonoBehaviour
+public class PauseGame : MonoBehaviour, IControllable
 {
     private bool isPause = false;
 
@@ -12,9 +12,10 @@ public class PauseGame : MonoBehaviour
     public TextMeshProUGUI textReturn;
     public TextMeshProUGUI textQuit;
 
-    public InputController inputController;
+    //public InputController inputController;
 
     private int state = 0;
+    private int characterID = 0;
 
     public string quit_button_scene;
 
@@ -22,24 +23,28 @@ public class PauseGame : MonoBehaviour
     private float timeTransit;
     float tempScale;
 
-    private enum State {
+    private enum State 
+    {
         Up,
         Down
     }
 
-	public void UpdatePauseState()
+    // Appelé par des events
+	public void UpdatePauseState(int id)
     {
-        for (int i = 0; i < inputController.playerInputs.Length; i++)
-        {
-            if(inputController.playerInputs[i].inputUiAction == InputConst.Pause)
-                inputController.playerInputs[i].inputUiAction = null;
-        }
-        isPause = !isPause;
+        if (BattleManager.Instance.GamePaused)
+            return;
+        characterID = id;
+        isPause = true;
+        BattleManager.Instance.SetMenuControllable(this);
         PauseGameUI();
     }
 
-    private void Update()
+    public void UpdateControl(int id, Input_Info inputs)
     {
+        if (id != characterID)
+            return;
+
         if(OnTransition)
         {
             if (timeTransit < 0.5f)
@@ -52,68 +57,35 @@ public class PauseGame : MonoBehaviour
 
         }
 
-        if (isPause && !OnTransition)
+        if (isPause)
         {
-            for (int i = 0; i < inputController.playerInputs.Length; i++)
+            if (inputs.inputUiAction == InputConst.Interact)
             {
-                if (inputController.playerInputs[i].vertical > 0.75 || inputController.playerInputs[i].horizontal < -0.75)
+                if (state == 0)
+                    ResumeGame();
+                else
                 {
-                    GetPositionCursor(State.Down);
-                }
-                else if (inputController.playerInputs[i].horizontal > 0.75 || inputController.playerInputs[i].vertical < -0.75)
-                {
-                    GetPositionCursor(State.Up);
-                }
-
-                if (inputController.playerInputs[i].inputUiAction == InputConst.Interact)
-                {
-
-                    if (state == 0)
-                        UpdatePauseState();
-                    else
-                    {
-                        Time.timeScale = 1;
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
-                    }
+                    Time.timeScale = 1;
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
                 }
             }
         }
 
-        if (isPause)
+        if(!OnTransition)
         {
-            //Debug.Log("Encore un debug qui va finir par faire n'importe quoi ou pas c'est pas trop long j'espere comme debug");
-            for (int i = 0; i < inputController.playerInputs.Length; i++)
+            if (inputs.vertical > 0.75 || inputs.horizontal < -0.75)
             {
-                if(inputController.playerInputs[i].inputUiAction == InputConst.Interact)
-                {
-                    if (state == 0)
-                        UpdatePauseState();
-                    else
-                    {
-                        Time.timeScale = 1;
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
-                    }
-                }
+                GetPositionCursor(State.Down);
+            }
+            else if (inputs.horizontal > 0.75 || inputs.vertical < -0.75)
+            {
+                GetPositionCursor(State.Up);
             }
         }
     }
 
     private void GetPositionCursor(State e_state)
     {
-        //switch(e_state)
-        //{
-        //    case State.Up:
-        //        if (state == 0)
-        //            state = 1;
-        //        else
-        //            state = 0;
-        //        break;
-
-        //    case State.Down:
-
-        //        break;
-        //}
-
         OnTransition = true;
 
         if (state == 0)
@@ -144,4 +116,12 @@ public class PauseGame : MonoBehaviour
         else
             Time.timeScale = tempScale;
     }
-}
+
+
+    private void ResumeGame()
+    {
+        isPause = false;
+        BattleManager.Instance.SetBattleControllable();
+        PauseGameUI();
+    }
+} 

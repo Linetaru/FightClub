@@ -160,10 +160,13 @@ public class BattleManager : MonoBehaviour
 			else
 			{
 				int aiDifficulty = Mathf.Abs(gameData.CharacterInfos[i].ControllerID) - 1;
-				AIBehavior aIBehavior = Instantiate(gameData.CharacterInfos[i].CharacterData.aiBehavior[aiDifficulty], user.transform);
-				aIBehavior.SetCharacter(user, inputController);
-				aIBehavior.StartBehavior();
-				aIController.AIBehaviors.Add(aIBehavior);
+				if (aiDifficulty < gameData.CharacterInfos[i].CharacterData.aiBehavior.Length)
+				{
+					AIBehavior aIBehavior = Instantiate(gameData.CharacterInfos[i].CharacterData.aiBehavior[aiDifficulty], user.transform);
+					aIBehavior.SetCharacter(user, inputController);
+					aIBehavior.StartBehavior();
+					aIController.AIBehaviors.Add(aIBehavior);
+				}
 			}
 
 			user.TeamID = gameData.CharacterInfos[i].Team;

@@ -160,6 +160,7 @@ public class CharacterKnockback : MonoBehaviour
             }
             else if (Parry.CanJustFrameParry(character, atkRegistered[i])) // Parry just frame, on doit check que le bouton R1 est appuyé et que le perso est dans un état om il est possible de parer
             {
+                Debug.Log("Just frame");
                 Parry.ParryResolution(character, atkRegistered[i]);
             }
             else // On touche

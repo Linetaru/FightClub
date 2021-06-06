@@ -108,12 +108,13 @@ namespace Menu
 
 
 
-		public void OpenMenu()
+		public void OpenMenu(int id)
 		{
 			if (menuOn)
 				return;
 			if (battleManager.GamePaused)
 				return;
+			characterPauseID = id;
 			battleManager.SetMenuControllable(this);
 
 			for (int i = 0; i < battleManager.inputController.playerInputs.Length; i++)

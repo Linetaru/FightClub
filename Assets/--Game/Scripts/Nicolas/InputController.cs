@@ -148,7 +148,7 @@ public class InputController : SerializedMonoBehaviour
 	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
 
-	public PackageCreator.Event.GameEvent pauseEvent;
+	public PackageCreator.Event.GameEventInt pauseEvent;
 
 	public void SetInputMapping(int id, InputMappingDataClassic inputData)
 	{
@@ -216,7 +216,7 @@ public class InputController : SerializedMonoBehaviour
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
-					pauseEvent.Raise();
+					pauseEvent.Raise(i);
 				}
 
 			//If we got at least one entity will send to each entity their linked list for input buffer

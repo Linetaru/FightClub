@@ -16,11 +16,11 @@ public class TrialsMode : MonoBehaviour
 	TrialsModeData trialsData;
 
 	[Title("Logic")]
-	[SerializeField]
+	//[SerializeField]
 	BattleManager battleManager;
-	[SerializeField]
+	//[SerializeField]
 	InputController inputController;
-	[SerializeField]
+	//[SerializeField]
 	InputControllerEmpty inputControllerEmpty;
 
 	[SerializeField]
@@ -44,7 +44,7 @@ public class TrialsMode : MonoBehaviour
 	[SerializeField]
 	List<Animator> animatorTries;
 
-	int textIndex = 0;
+	int textIndex = -1;
 	int comboIndex = 0;
 	int nbOfTry = 0;
 	bool success = false;
@@ -70,6 +70,8 @@ public class TrialsMode : MonoBehaviour
 		else if (character.PlayerID == 1)
 		{
 			dummy = character;
+			battleManager = BattleManager.Instance;
+			inputController = battleManager.inputController;
 			InitializeTrial();
 		}
 	}
@@ -92,7 +94,8 @@ public class TrialsMode : MonoBehaviour
 		// On reset le behavior pour que Initialize Trial fasse ce qu'il faut
 		if(aiBehavior != null)
 		{
-			inputController.controllable[dummy.ControllerID] = dummy;
+			//inputController.controllable[dummy.ControllerID] = dummy;
+			battleManager.aIController.AIBehaviors.Remove(aiBehavior);
 			Destroy(aiBehavior.gameObject);
 			aiBehavior = null;
 		}
@@ -120,6 +123,7 @@ public class TrialsMode : MonoBehaviour
 		{
 			aiBehavior = Instantiate(trialsData.DummyBehavior, dummy.transform);
 			aiBehavior.SetCharacter(dummy, inputController);
+			battleManager.aIController.AIBehaviors.Add(aiBehavior);
 		}
 
 		// UI
@@ -140,14 +144,14 @@ public class TrialsMode : MonoBehaviour
 		}
 
 		// Text
-		Debug.Log(trialsData.TextboxStart.Count);
 		if (trialsData.TextboxStart.Count != 0)
 		{
 			textIndex = 0;
 			textbox.DrawTextbox(trialsData.TextboxStart[textIndex]);
 			// On échange le player et la textbox
-			inputControllerEmpty.controllable = player;
-			inputController.controllable[player.ControllerID] = textbox;
+			battleManager.SetMenuControllable(textbox);
+			/*inputControllerEmpty.controllable = player;
+			inputController.controllable[player.ControllerID] = textbox;*/
 		}
 		else
 		{
@@ -176,8 +180,17 @@ public class TrialsMode : MonoBehaviour
 
 
 
-
-
+	// Quand on appuies sur pause on reset
+	public void ForceFail()
+	{
+		if (pauseFailed == true)
+			return;
+		if (success == true)
+			return;
+		if (textIndex > -1)
+			return;
+		StartCoroutine(FailCoroutine());
+	}
 
 
 
@@ -189,6 +202,9 @@ public class TrialsMode : MonoBehaviour
 			return;
 		if (pauseFailed == true)
 			return;
+		if (battleManager.GamePaused == true)
+			return;
+
 		// Missions
 		if (trialsData.Missions[comboIndex].UpdateCondition(player, dummy) == true)
 		{
@@ -211,8 +227,6 @@ public class TrialsMode : MonoBehaviour
 			if (trialsData.FailConditions[i].UpdateCondition(player, dummy) == true)
 			{
 				StartCoroutine(FailCoroutine());
-				/*ResetTrial();
-				ResetNbOfTry();*/
 			}
 		}
 
@@ -283,8 +297,9 @@ public class TrialsMode : MonoBehaviour
 			aiBehavior.StopBehavior();
 
 		// On échange le player et la textbox
-		inputControllerEmpty.controllable = player;
-		inputController.controllable[player.ControllerID] = textbox;
+		BattleManager.Instance.SetMenuControllable(textbox);
+		/*inputControllerEmpty.controllable = player;
+		inputController.controllable[player.ControllerID] = textbox;*/
 		StartCoroutine(WaitSuccess());
 
 	}
@@ -313,8 +328,9 @@ public class TrialsMode : MonoBehaviour
 			yield return new WaitForSeconds(0.5f);
 			success = false;
 
-			inputControllerEmpty.controllable = null;
-			inputController.controllable[player.ControllerID] = player;
+			BattleManager.Instance.SetBattleControllable();
+			/*inputControllerEmpty.controllable = null;
+			inputController.controllable[player.ControllerID] = player;*/
 
 			InitializeFailConditions();
 			ResetTrial();
@@ -333,8 +349,10 @@ public class TrialsMode : MonoBehaviour
 		{
 			if(textIndex >= trialsData.TextboxStart.Count)
 			{
-				inputControllerEmpty.controllable = null;
-				inputController.controllable[player.ControllerID] = player;
+				textIndex = -1;
+				battleManager.SetBattleControllable();
+				/*inputControllerEmpty.controllable = null;
+				inputController.controllable[player.ControllerID] = player;*/
 				if (aiBehavior != null)
 					aiBehavior.StartBehavior();
 				InitializeFailConditions();
@@ -348,6 +366,7 @@ public class TrialsMode : MonoBehaviour
 		{
 			if (textIndex >= trialsData.TextboxEnd.Count)
 			{
+				textIndex = -1;
 				EndTrial();
 			}
 			else
@@ -397,8 +416,9 @@ public class TrialsMode : MonoBehaviour
 				battleManager.characterAlive[i].Stats.LifePercentage = trialsData.EnemyPercentage;
 				battleManager.characterAlive[i].PowerGauge.CurrentPower = trialsData.GaugeNumber * 20;
 			}
-			inputControllerEmpty.controllable = null;
-			inputController.controllable[player.ControllerID] = player;
+			battleManager.SetBattleControllable();
+			/*inputControllerEmpty.controllable = null;
+			inputController.controllable[player.ControllerID] = player;*/
 			InitializeTrial(trialsData.NextTrial);
 		}
 		else
@@ -411,8 +431,8 @@ public class TrialsMode : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		/*if (success == false)
-			InitializeFailConditions();*/
+		if (battleManager.GamePaused == true)
+			EndFailConditions();
 		textbox.OnTextEnd -= NextText;
 
 	}
