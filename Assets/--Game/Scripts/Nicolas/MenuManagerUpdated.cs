@@ -86,6 +86,11 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 			OnTransition = false;
 		}
 
+		if(menuState != MenuState.InOptionMenu)
+        {
+			optionsInput.UpdateControl(ID, input_Info);
+		}
+
 		//if (canChangeScene)
 		//{
 		//	GoToOtherScene();

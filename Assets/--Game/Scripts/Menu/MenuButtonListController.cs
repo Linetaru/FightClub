@@ -99,6 +99,8 @@ namespace Menu
             listIndexCount = listItem.Count;
         }
 
+        public void DrawItemList(int i, string text, string subText = "") => DrawItemList(i, null, text, subText);
+
         public void SetItemCount(int count)
         {
             listIndexCount = count;

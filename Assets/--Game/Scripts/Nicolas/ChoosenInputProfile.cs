@@ -28,6 +28,8 @@ public class ChoosenInputProfile : MonoBehaviour
 
 	public Button inputButton, audioButton;
 
+	private Input_Info input_Info;
+
 	private void Start()
     {
 		doneDropdownButton.onClick.AddListener(AddTouchOnClickButtonDone);
@@ -102,7 +104,7 @@ public class ChoosenInputProfile : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	public void UpdateControl(int ID, Input_Info input)
 	{
 		for (int i = 0; i < dropdowns.Length; i++)
 		{
@@ -110,14 +112,8 @@ public class ChoosenInputProfile : MonoBehaviour
 				dropdowns[i].transform.GetChild(dropdowns[i].transform.childCount - 1).GetComponent<Canvas>().sortingOrder = -1;
 			else if (dropdowns[i].IsExpanded)
 				dropdowns[i].transform.GetChild(dropdowns[i].transform.childCount - 1).GetComponent<Canvas>().sortingOrder = dropdowns[i].GetComponent<Canvas>().sortingOrder;
-
-			/*ColorBlock cl = new ColorBlock();
-			cl.highlightedColor = Color.black;
-			foreach (Toggle tg in dropdowns[i].gameObject.GetComponentsInChildren<Toggle>())
-			{
-				tg.colors = cl;
-			}*/
 		}
+		input_Info = input;
 	}
 
 	public void OnClickButton()
