@@ -8,11 +8,14 @@ public class MissionInputGauge: MissionInputCondition
 {
 	[SerializeField]
 	float gaugeNeeded = 0;
-
+	[SerializeField]
+	bool superior = true;
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
-		return (player.PowerGauge.CurrentPower >= gaugeNeeded);
+		if(superior)
+			return (player.PowerGauge.CurrentPower >= gaugeNeeded);
+		return (player.PowerGauge.CurrentPower <= gaugeNeeded);
 	}
 
 

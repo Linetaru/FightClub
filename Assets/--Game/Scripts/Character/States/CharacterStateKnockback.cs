@@ -21,9 +21,9 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float reboundSpeedNeeded = 2f;
 
-    /*[SerializeField]
+    [SerializeField]
     [SuffixLabel("en frames")]
-    float landingTime = 10;*/
+    float landingTime = 10;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -56,7 +56,7 @@ public class CharacterStateKnockback : CharacterState
 
     private void Start()
     {
-        //landingTime /= 60f;
+        landingTime /= 60f;
         techTime /= 60f;
         techAntiSpam /= 60f;
     }
@@ -122,7 +122,16 @@ public class CharacterStateKnockback : CharacterState
             if (tech >= 0 && character.Movement.SpeedY < 0)
                 character.SetState(groundTechState);
             else
-                character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            {
+                if (character.Knockback.KnockbackDuration < landingTime)
+                {
+                    character.Movement.SetSpeed(0, 0);
+                    character.ResetToLand();
+                }
+                else
+                    character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            }
+
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)

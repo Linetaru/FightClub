@@ -32,7 +32,7 @@ public class MissionInputOutOfKnockback : MissionInputCondition
 
 	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
 	{
-		if (oldState is CharacterStateKnockback && (newState is CharacterStateIdle || newState is CharacterStateAerial))
+		if (oldState is CharacterStateKnockback && (newState is CharacterStateIdle || newState is CharacterStateAerial || newState is CharacterStateLanding))
 		{
 			condition = true;
 		}
