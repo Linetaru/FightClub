@@ -222,7 +222,10 @@ namespace Menu
         }
 
 
-
+        public void UpdateCountList()
+        {
+            listIndexCount = listItem.Count;
+        }
 
 
         // Check si on peut repeter l'input

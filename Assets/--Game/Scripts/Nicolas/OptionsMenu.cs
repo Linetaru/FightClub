@@ -113,7 +113,7 @@ public class OptionsMenu : MenuList
                     Destroy(selectionUI_Profile_Arrow[indexTMP].gameObject);
                     selectionUI_Profile_Arrow.RemoveAt(indexTMP);
                     listEntryProfile.ListItem.Remove(profileSelected.gameObject.GetComponent<MenuButtonList>());
-                    for(int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
+                    for (int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
                     {
                         if (InputMappingDataStatic.inputMappingDataClassics[i].profileName == profileSelected.inputMappingData.profileName)
                             InputMappingDataStatic.inputMappingDataClassics.RemoveAt(i);
@@ -121,6 +121,7 @@ public class OptionsMenu : MenuList
                     Destroy(profileSelected.gameObject);
                     profileSelected = null;
                     listEntry = listEntryProfile;
+                    listEntry.UpdateCountList();
                     listEntry.SelectIndexForIndexOnly(0);
                     selectionUI_Profile_Arrow[0].gameObject.SetActive(true);
                 }
@@ -132,6 +133,7 @@ public class OptionsMenu : MenuList
     public void Init()
     {
         InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test"));
+        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test2"));
 
         switch (state)
         {
