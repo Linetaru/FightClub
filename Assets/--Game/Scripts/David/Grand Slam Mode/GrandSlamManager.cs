@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +23,8 @@ public class GrandSlamManager : MonoBehaviour
     [SerializeField]
     List<SlamMode> listGameModesValid = new List<SlamMode>();
     List<string> listToPickFrom = new List<string>();
+
+    List<CharacterBase> podium = new List<CharacterBase>();
 
     SlamMode currentMode;
 
@@ -137,10 +140,23 @@ public class GrandSlamManager : MonoBehaviour
         foreach (SlamMode slam in copySlamMode)
         {
             if (gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode)
+            {
+                Debug.Log("JE RETIRE " + slam.gameMode);
                 listGameModesValid.Remove(slam);
+            }
 
             if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
+            {
+                Debug.Log("JE RETIRE " + slam.gameMode);
                 listGameModesValid.Remove(slam);
+            }
+        }
+
+        Debug.Log("LISTE MODES VALIDES : ");
+
+        foreach(SlamMode slam in listGameModesValid)
+        {
+            Debug.Log(slam.gameMode);
         }
     }
 
@@ -198,23 +214,23 @@ public class GrandSlamManager : MonoBehaviour
 
         CalculateScore();
 
-        BattleManager.Instance.ResetInstance();
-        yield return new WaitForSeconds(timeOnScore);
-
-        slamLogoMode.DrawLogo(gameMode);
-
-        yield return new WaitForSeconds(2f);
-
-        StartCoroutine(UnloadSceneAsync());
-
-        while(!isUnloaded)
-        {
-            yield return null;
-        }
-        isUnloaded = false; 
-
         if (!IsGameOver())
         {
+            BattleManager.Instance.ResetInstance();
+            yield return new WaitForSeconds(timeOnScore);
+
+            slamLogoMode.DrawLogo(gameMode);
+
+            yield return new WaitForSeconds(2f);
+
+            StartCoroutine(UnloadSceneAsync());
+
+            while(!isUnloaded)
+            {
+                yield return null;
+            }
+            isUnloaded = false; 
+
             StartCoroutine(LoadSceneAsync());
 
             while (!isLoaded)
@@ -286,6 +302,61 @@ public class GrandSlamManager : MonoBehaviour
     private void ManageEndSlam()
     {
         Debug.Log("BIEN JOUÉ C'EST LA FIN");
+
+        List<int> sortedControllerID = new List<int>();
+        List<int> sortedScores = new List<int>();
+
+        foreach (KeyValuePair<int, int> item in playersScore.OrderBy(key => key.Value))
+        {
+            sortedControllerID.Add(item.Key);
+            sortedScores.Add(item.Value);
+        }
+
+        sortedControllerID.Reverse();
+        sortedScores.Reverse();
+
+        CharacterBase[] podiumArr = new CharacterBase[4];
+
+        for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+        {
+            CharacterBase cb = BattleManager.Instance.characterFullDead[i];
+            int index = sortedControllerID.IndexOf(cb.ControllerID);
+            podiumArr[index] = cb;
+        }
+
+        foreach (CharacterBase cb in BattleManager.Instance.characterFullDead) 
+        { 
+            int index = sortedControllerID.IndexOf(cb.ControllerID);
+            podiumArr[index] = cb;
+
+            Debug.Log("JE MET LE CHARACTER " + cb + " A L'EMPLACEMENT " + index + " DU TABLEAU");
+        } 
+ 
+        for(int i = 0; i < gameData.CharacterInfos.Count; i++)
+        {
+            podium.Add(podiumArr[i]);
+        }
+
+
+        Debug.Log("DANS LE TABLEAU");
+
+        for(int i = 0; i < podiumArr.Length; i++)
+        {
+            Debug.Log(i + " = " + podiumArr[i]);
+        }
+
+        Debug.Log("DANS LA LISTE");
+        foreach(CharacterBase cb in podium) 
+        { 
+            Debug.Log(cb); 
+        }
+
+        camSlam.camera.enabled = false;
+        BattleManager.Instance.cameraController.Camera.enabled = false;
+        canvasScore.DeactivePanelScore();
+
+        //menuWin.InitializeWin(podium); 
+        BattleManager.Instance.MenuWin.InitializeWin(podium);
     }
 
     private bool IsGameOver()

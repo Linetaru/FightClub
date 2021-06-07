@@ -39,6 +39,10 @@ public class BattleManager : MonoBehaviour
 	[Title("Victory")]
 	[SerializeField]
 	private Menu.MenuWin menuWin;
+	public Menu.MenuWin MenuWin
+	{
+		get { return menuWin; }
+	}
 
 
 	[Title("Boolean Condition")]
@@ -295,8 +299,6 @@ public class BattleManager : MonoBehaviour
     {
 		if (!gameData.slamMode)
 			menuWin.InitializeWin(characterFullDead);
-		else
-			Debug.Log("END BATTLE GRAND SLAM");
 
 	}
 
