@@ -205,7 +205,11 @@ namespace Menu
 		{
 			fadeInTransition.SetTrigger("Feedback");
 			yield return new WaitForSeconds(1.2f);
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+			if(!gameData.slamMode) 
+				SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			else
+				SceneManager.LoadScene("GrandSlamScene");
 		}
 
 

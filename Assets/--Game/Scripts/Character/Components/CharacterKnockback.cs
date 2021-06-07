@@ -15,12 +15,12 @@ public class CharacterKnockback : MonoBehaviour
 
     [Title("States")]
     [SerializeField]
-    CharacterState stateKnockback;
+    CharacterState stateKnockback = null;
 
 
     [Title("Parry")]
     [SerializeField]
-    private CharacterParry parry;
+    private CharacterParry parry = null;
     public CharacterParry Parry
     {
         get { return parry; }
@@ -38,11 +38,19 @@ public class CharacterKnockback : MonoBehaviour
     }
 
     [SerializeField]
-    private float timeKnockbackPerDistance;
+    private float timeKnockbackPerDistance = 0.025f;
     public float TimeKnockbackPerDistance
     {
         get { return timeKnockbackPerDistance; }
         set { timeKnockbackPerDistance = value; }
+    }
+
+    [SerializeField]
+    private float knockbackAcumulationModifier = 0.4f;
+    public float KnockbackAcumulationModifier
+    {
+        get { return knockbackAcumulationModifier; }
+        set { knockbackAcumulationModifier = value; }
     }
 
     [SerializeField]
@@ -152,6 +160,7 @@ public class CharacterKnockback : MonoBehaviour
             }
             else if (Parry.CanJustFrameParry(character, atkRegistered[i])) // Parry just frame, on doit check que le bouton R1 est appuyé et que le perso est dans un état om il est possible de parer
             {
+                Debug.Log("Just frame");
                 Parry.ParryResolution(character, atkRegistered[i]);
             }
             else // On touche
@@ -193,7 +202,12 @@ public class CharacterKnockback : MonoBehaviour
         angleKnockback = angle * weight;
         angleKnockback *= ejectionPower; // (damagePercentage / damagePercentageRatio);
 
-        knockbackDuration = timeKnockbackPerDistance * angleKnockback.magnitude;
+        if (knockbackDuration > 0)
+            knockbackDuration = knockbackDuration * knockbackAcumulationModifier;
+        else
+            knockbackDuration = 0;
+
+        knockbackDuration += timeKnockbackPerDistance * angleKnockback.magnitude;
         knockbackDuration = Mathf.Clamp(knockbackDuration, 0, maxTimeKnockback);
         knockbackDuration += bonusKnockback;
     }

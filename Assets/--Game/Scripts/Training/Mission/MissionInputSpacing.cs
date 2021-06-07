@@ -12,7 +12,7 @@ public class MissionInputSpacing : MissionInputCondition
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
 	{
-		if (player.transform.position.x > dummy.transform.position.x)
+		if (player.transform.position.x > dummy.transform.position.x + 1)
 			return true;
 		else if (Vector3.Distance(player.transform.position, dummy.transform.position) > distanceMax)
 			return true;
