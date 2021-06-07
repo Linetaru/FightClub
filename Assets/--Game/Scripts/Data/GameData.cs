@@ -50,6 +50,23 @@ public class GameData : ScriptableObject
 		set { gameMode = value; }
 	}
 
+	[SerializeField]
+	private GameMode gameModePrefab = null;
+	public GameMode GameModePrefab
+	{
+		get { return gameModePrefab; }
+		set { gameModePrefab = value; }
+	}
+
+	[SerializeField]
+	[Expandable]
+	private GameModeSettings gameSettings = null;
+	public GameModeSettings GameSettings
+	{
+		get { return gameSettings; }
+		set { gameSettings = value; }
+	}
+
 	[HideInInspector]
 	public bool slamMode = false;
 }
