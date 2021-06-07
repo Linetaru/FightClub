@@ -149,6 +149,10 @@ namespace Menu
 
         public bool SelectUp()
         {
+            if (listItem.Count <= 1)
+            {
+                return false;
+            }
             if (listIndexCount == 0)
             {
                 return false;
@@ -177,6 +181,10 @@ namespace Menu
 
         public bool SelectDown()
         {
+            if(listItem.Count <= 1)
+            {
+                return false;
+            }
             if (listIndexCount == 0)
             {
                 return false;
@@ -207,6 +215,10 @@ namespace Menu
             listItem[indexSelection].UnselectButton();
             indexSelection = id;
             listItem[indexSelection].SelectButton();
+        }
+        public void SelectIndexForIndexOnly(int id)
+        {
+            indexSelection = id;
         }
 
 
