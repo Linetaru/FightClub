@@ -49,4 +49,7 @@ public class GameData : ScriptableObject
 		get { return gameMode; }
 		set { gameMode = value; }
 	}
+
+	[HideInInspector]
+	public bool slamMode = false;
 }

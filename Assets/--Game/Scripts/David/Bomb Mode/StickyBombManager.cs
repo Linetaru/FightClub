@@ -118,6 +118,8 @@ public class StickyBombManager : MonoBehaviour
     public PackageCreator.Event.GameEventUICharacter[] gameEventStocks;
     //Chararcter Event
     public PackageCreator.Event.GameEventCharacter gameEventCharacterFullDead;
+    [HideInInspector]
+    public UnityEvent gameEndedEvent;
 
     [Title("Status")]
     [SerializeField]
@@ -140,6 +142,9 @@ public class StickyBombManager : MonoBehaviour
 
     void Start()
     {
+        gameEndedEvent = battleManager.gameEndedEvent;
+        gameEndedEvent.AddListener(EndGame);
+
         bombIcon.StickyBombManager = this;
 
         InitTimerList();
@@ -444,6 +449,11 @@ public class StickyBombManager : MonoBehaviour
         explosion.GetComponent<BombExplosionAtk>().TriggerExplosion(currentBombedPlayer);
 
         Destroy(explosion, 4f);
+    }
+
+    public void EndGame()
+    {
+        uiManager.GetComponent<Canvas>().enabled = false;
     }
 
     IEnumerator WaitBeforeNextRound()

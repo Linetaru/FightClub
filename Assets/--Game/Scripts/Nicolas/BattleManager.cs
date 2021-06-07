@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
-	//[SerializeField]
-	public bool autoStart = true;
-
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
@@ -21,6 +19,8 @@ public class BattleManager : MonoBehaviour
 
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
+	[HideInInspector]
+	public UnityEvent gameEndedEvent = new UnityEvent();
 
 	[Title("Interractions")]
 	public InputController inputController;
@@ -39,6 +39,10 @@ public class BattleManager : MonoBehaviour
 	[Title("Victory")]
 	[SerializeField]
 	private Menu.MenuWin menuWin;
+	public Menu.MenuWin MenuWin
+	{
+		get { return menuWin; }
+	}
 
 
 	[Title("Boolean Condition")]
@@ -50,10 +54,13 @@ public class BattleManager : MonoBehaviour
 	private bool slowMowEnd;
 	private float timer;
 
+	[SerializeField]
+	private Canvas canvasUI;
+	[SerializeField]
+	private Image fadeImage;
+
 	Input_Info input;
 	List<IControllable> standbyList = new List<IControllable>();
-
-	public UnityEvent gameEndedEvent = new UnityEvent();
 
 
 	//SINGLETON
@@ -80,12 +87,15 @@ public class BattleManager : MonoBehaviour
 
     //END SINGLETON
 
-
     // Start is called before the first frame update
     void Start()
 	{
-		if(autoStart)
+		Debug.Log("SLAM : " + gameData.slamMode);
+		if(!gameData.slamMode)
+		{
+			fadeImage.enabled = true;
 			StartBattleManager();
+		}
 	}
 
     public void StartBattleManager()
@@ -93,10 +103,7 @@ public class BattleManager : MonoBehaviour
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
 
-		/*
-		if (gameEndedEvent == null)
-			gameEndedEvent = new UnityEvent();
-		*/
+
 
 		gameEndedEvent.AddListener(ManageEndBattle);
 
@@ -131,7 +138,6 @@ public class BattleManager : MonoBehaviour
 			if(timer < 2f)
 			{
 				timer += Time.unscaledDeltaTime;
-				Debug.Log(timer);
             }
             else
             {
@@ -255,7 +261,7 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			if(autoStart)  // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			if(!gameData.slamMode)
 				SlowMotionEnd();
 			else
 			{
@@ -279,7 +285,7 @@ public class BattleManager : MonoBehaviour
 	{
 		Time.timeScale = 1f;
 
-		if(autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if(!gameData.slamMode)
 			cameraController.gameObject.SetActive(false);
 
 		for (int i = 0; i < inputController.controllable.Length; i++)
@@ -296,14 +302,14 @@ public class BattleManager : MonoBehaviour
 
 		// Event end game
 		gameEndedEvent.Invoke();
+
+		canvasUI.enabled = false;
 	}
 
 	public void ManageEndBattle()
     {
-		if (autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if (!gameData.slamMode)
 			menuWin.InitializeWin(characterFullDead);
-		else
-			Debug.Log("END BATTLE GRAND SLAM");
 
 	}
 
