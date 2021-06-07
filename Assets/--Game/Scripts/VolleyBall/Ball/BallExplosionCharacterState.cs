@@ -46,7 +46,7 @@ public class BallExplosionCharacterState : CharacterState
     public override void StartState(CharacterBase character, CharacterState oldState)
     {
         ballShadowSprite.SetActive(false);
-        Camera.main.GetComponentInParent<ScreenShake>().StartScreenShake(0.5f, .5f);
+        BattleManager.Instance.cameraController.Camera.GetComponentInParent<ScreenShake>().StartScreenShake(0.5f, .5f);
 
         timer = respawnDuration;
         explosionParticle = Instantiate(explosionParticlePrefab, transform.position, Quaternion.identity);
