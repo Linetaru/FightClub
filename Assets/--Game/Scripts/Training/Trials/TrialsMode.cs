@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class TrialsMode : MonoBehaviour
+public class TrialsMode : GameMode
 {
 
 	[Title("Data")]
@@ -76,6 +76,12 @@ public class TrialsMode : MonoBehaviour
 			InitializeTrial();
 		}
 	}
+
+	/*public override void InitializeMode(BattleManager battleManager)
+	{
+		this.battleManager = battleManager;
+		inputController = battleManager.inputController;
+	}*/
 
 
 	public void InitializeTrial(TrialsModeData newTrials)

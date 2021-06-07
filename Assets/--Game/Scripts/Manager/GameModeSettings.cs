@@ -22,11 +22,13 @@ public class GameModeSettings : ScriptableObject
 		get { return canSelectCPU; }
 	}
 
+
 	[SerializeField]
 	bool skipIntro = false;
 	public bool SkipIntro
 	{
 		get { return skipIntro; }
+		set { skipIntro = value; }
 	}
 
 
