@@ -10,6 +10,12 @@ public class GrandSlamUi : MonoBehaviour
     [Title("Objects")]
     [SerializeField]
     private GameObject scoreInfosPanel;
+    [SerializeField]
+    private GameObject logoTransitionPanel;
+
+    [Title("Scripts")]
+    [SerializeField]
+    private LogoTransition logoTransition;
 
     [Title("List")]
     public List<GameObject> playersScoreObj = new List<GameObject>();
@@ -92,6 +98,12 @@ public class GrandSlamUi : MonoBehaviour
         textScore.text = to.ToString();
 
         // Increasing is done
+    }
+
+    public void StartTransitionLogo(GameModeStateEnum gameMode)
+    {
+        logoTransitionPanel.SetActive(true);
+        logoTransition.PlayTransition(gameMode);
     }
 
 }

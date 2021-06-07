@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "BombModeData", menuName = "Data/BombModeData")]
-public class BombModeScritpable : ScriptableObject
+public class BombModeScritpable : GameModeSettings
 {
     [Title("Timers")]
     [Range(1f, 120f)]

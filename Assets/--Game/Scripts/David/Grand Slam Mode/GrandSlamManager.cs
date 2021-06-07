@@ -251,6 +251,8 @@ public class GrandSlamManager : MonoBehaviour
             cameraObj.transform.position = currentCam.transform.position;
             */
 
+            canvasScore.StartTransitionLogo(gameMode);
+
             yield return new WaitForSeconds(2f);
 
             camSlam.RotToGame();
@@ -324,31 +326,16 @@ public class GrandSlamManager : MonoBehaviour
             podiumArr[index] = cb;
         }
 
+        /*
         foreach (CharacterBase cb in BattleManager.Instance.characterFullDead) 
         { 
             int index = sortedControllerID.IndexOf(cb.ControllerID);
             podiumArr[index] = cb;
-
-            Debug.Log("JE MET LE CHARACTER " + cb + " A L'EMPLACEMENT " + index + " DU TABLEAU");
         } 
- 
+        */
         for(int i = 0; i < gameData.CharacterInfos.Count; i++)
         {
             podium.Add(podiumArr[i]);
-        }
-
-
-        Debug.Log("DANS LE TABLEAU");
-
-        for(int i = 0; i < podiumArr.Length; i++)
-        {
-            Debug.Log(i + " = " + podiumArr[i]);
-        }
-
-        Debug.Log("DANS LA LISTE");
-        foreach(CharacterBase cb in podium) 
-        { 
-            Debug.Log(cb); 
         }
 
         camSlam.camera.enabled = false;
