@@ -28,30 +28,44 @@ public class CharacterHUD : MonoBehaviour
 	[Space]
 	[Title("UI")]
 	[SerializeField]
-	TextMeshProUGUI textName;
+	TextMeshProUGUI textName = null;
 	[SerializeField]
-	Image backgroundColor;
+	Image characterFace = null;
+	[SerializeField]
+	Image backgroundColor = null;
 
 	[Space]
 	[SerializeField]
-	Image healthGaugeColor;
+	Image healthGaugeColor = null;
 	[SerializeField]
-	Image healthGauge;
+	Image healthGauge = null;
 
 	[Space]
 	[SerializeField]
-	Image[] powerGauge;
+	Image[] powerGauge = null;
 	[SerializeField]
-	Sprite[] powerGaugeOn;
+	Sprite[] powerGaugeOn = null;
 	[SerializeField]
-	Sprite[] powerGaugeOff;
+	Sprite[] powerGaugeOff = null;
 
 
 	[Space]
 	[SerializeField]
-	Image[] livesImage;
+	Image[] livesImage = null;
 	[SerializeField]
-	TextMeshProUGUI textLivesNumber;
+	TextMeshProUGUI textLivesNumber = null;
+
+
+	[Space]
+	[Title("Dmg")]
+	[SerializeField]
+	TextMeshProUGUI textHit = null;
+	[SerializeField]
+	TextMeshProUGUI textDmg = null;
+
+	int comboCount = 0;
+	float initialPercent = 0f;
+	float finalPercent = 0f;
 
 	[Space]
 	[Title("Feedbacks")]
@@ -60,45 +74,51 @@ public class CharacterHUD : MonoBehaviour
 	[SerializeField]
 	Vector2 shakeTime;
 	[SerializeField]
-	Feedbacks.ShakeRectEffect shake;
-
+	Feedbacks.ShakeRectEffect shake = null;
+	/*[SerializeField]
+	Feedbacks.ShakeRectEffect shakeCombo = null;*/
 
 	[SerializeField]
 	Vector2 shakeHUDPower;
 	[SerializeField]
-	Feedbacks.ShakeRectEffect shakeHUD;
+	Feedbacks.ShakeRectEffect shakeHUD = null;
 
 	[Space]
 	[SerializeField]
-	Animator animatorHealthDanger;
+	Animator animatorHealthDanger = null;
 	[SerializeField]
-	Animator[] animatorGauge;
+	Animator animatorCombo = null;
 	[SerializeField]
-	Animator animatorParry;
+	Animator[] animatorGauge = null;
+	[SerializeField]
+	Animator animatorParry = null;
 
 	[SerializeField]
-	Animator animatorBreak;
+	Animator animatorBreak = null;
 	[SerializeField]
-	Animator animatorFade;
+	Animator animatorFade = null;
 
 	[SerializeField]
-	Image redCross;
+	Image redCross = null;
 
 	[Title("Listener")]
 	[SerializeField]
 	PackageCreator.Event.GameEventListenerUICharacter listener;
 
 
-
+	CharacterBase character = null;
 
 	int previousGauge = 0;
 	int previousGaugeID = -1;
 
 	public void InitPlayerPanel(CharacterBase user)
 	{
+		character = user;
 		previousGaugeID = -1;
 		user.Stats.gameEvent.RegisterListener(listener);
 		user.Knockback.Parry.OnParry += CallbackParry;
+		user.Knockback.OnKnockback += OnHitCallback;
+		character.OnStateChanged += OnStateChangedCallback;
 		this.gameObject.SetActive(true);
 
 		//textName.text = user.Stats.data
@@ -107,9 +127,20 @@ public class CharacterHUD : MonoBehaviour
 		DrawLives(user.Stats.LifeStocks);
 	}
 
+	private void OnDestroy()
+	{
+		character.Knockback.Parry.OnParry -= CallbackParry;
+		character.Knockback.OnKnockback -= OnHitCallback;
+		character.OnStateChanged -= OnStateChangedCallback;
+	}
+
 	public void DrawName(string name)
 	{
 		textName.text = name;
+	}
+	public void DrawFace(Sprite face)
+	{
+		characterFace.sprite = face;
 	}
 
 	public void SetColor(Color c)
@@ -215,6 +246,30 @@ public class CharacterHUD : MonoBehaviour
 	public void Fade(bool b)
 	{
 		animatorFade.SetBool("Fade", b);
+		if(b)
+		{
+			Color fade = new Color(1, 1, 1, 0.02f);
+			for (int i = 0; i < livesImage.Length; i++)
+			{
+				livesImage[i].color = fade;
+			}
+			for (int i = previousGaugeID; i < powerGauge.Length; i++)
+			{
+				powerGauge[i].color = fade;
+			}
+		}
+		else
+		{
+			Color unfade = new Color(1, 1, 1, 1f);
+			for (int i = 0; i < livesImage.Length; i++)
+			{
+				livesImage[i].color = unfade;
+			}
+			for (int i = previousGaugeID; i < powerGauge.Length; i++)
+			{
+				powerGauge[i].color = unfade;
+			}
+		}
 	}
 
 
@@ -223,4 +278,40 @@ public class CharacterHUD : MonoBehaviour
 	{
 		animatorParry.SetTrigger("Feedback");
 	}
+
+
+
+
+	private void OnStateChangedCallback(CharacterState oldState, CharacterState newState) 
+	{
+		if(!(newState is CharacterStateKnockback))
+		{
+			if(comboCount >= 2)
+				animatorCombo.SetTrigger("Disappear");
+			comboCount = 0;
+			initialPercent = character.Stats.LifePercentage;
+
+		}
+	}
+
+	private void OnHitCallback(AttackSubManager attack)
+	{
+		comboCount += 1;
+		finalPercent = character.Stats.LifePercentage;
+		if(comboCount >= 2)
+			DrawCombo();
+	}
+
+
+	private void DrawCombo()
+	{
+		textDmg.text = (finalPercent - initialPercent).ToString();
+		textHit.text = comboCount.ToString();
+		//shakeCombo.gameObject.SetActive(true);
+		//shakeCombo.Shake();
+
+		animatorCombo.SetTrigger("Feedback");
+	}
+
+
 }

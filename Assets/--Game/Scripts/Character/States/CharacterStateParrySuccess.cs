@@ -32,15 +32,9 @@ public class CharacterStateParrySuccess : CharacterState
 	float parryInfluenceAngle = 30f;
 
 
-	[SerializeField]
-	AttackManager counterAction;
-
-	/*[SerializeField]
-	CharacterState homingDashState;*/
-
 	float t = 0f;
 	bool inHitStop = true;
-
+	bool guardEX = false;
 
 	private void Start()
 	{
@@ -58,42 +52,30 @@ public class CharacterStateParrySuccess : CharacterState
 		evasiveMoveset.ResetDodge();
 		character.Knockback.Parry.IsGuard = true;
 		character.Movement.SetSpeed(0, 0);
+
+		guardEX = moveset.ExTilt;
+		if (guardEX)
+			character.Model.FlashModel(Color.blue, 2f);
+		moveset.ExTilt = false;
 	}
 
 	public override void UpdateState(CharacterBase character)
 	{
 		if (character.MotionSpeed == 0)
+		{
 			return;
+		}
 
 		if (inHitStop == true) // Première frame de fin de hitlag
 		{
 			inHitStop = false;
-			/*if (character.Input.CheckActionHold(InputConst.RightShoulder) == true)
-			{
-				// Counter
-				if (moveset.ActionAttack(character, counterAction) == true)
-				{
-					return;
-				}
-			}*/
 			ParryInfluence(character);
 		}
 
-
-		/*if (character.Input.CheckAction(0, InputConst.LeftShoulder) && character.MotionSpeed != 0)
-		{
-			if (character.Action.CharacterHit != null) // On a touché quelqu'un 
-			{
-				character.SetState(homingDashState);
-				character.Input.inputActions[0].timeValue = 0;
-				return;
-			}
-		}*/
 		if (evasiveMoveset.Parry(character))
 		{
 			return;
 		}
-
 
 		t -= Time.deltaTime * character.MotionSpeed;
 		if (t <= timeCancel)
@@ -136,6 +118,7 @@ public class CharacterStateParrySuccess : CharacterState
 	public override void EndState(CharacterBase character, CharacterState newState)
 	{
 		character.Knockback.Parry.IsGuard = false;
+		character.Knockback.Parry.forceAnimationParry = false;
 	}
 
 

@@ -126,8 +126,16 @@ public class CharacterStats : MonoBehaviour, IStats
         set { jump = value; }
     }
 
-    //=======================================================================================
+    [SerializeField]
+    private Stats knockbackPerDistance;
+    public Stats KnockbackPerDistance
+    {
+        get { return knockbackPerDistance; }
+        set { knockbackPerDistance = value; }
+    }
 
+    //=======================================================================================
+    bool firstTime = false;
     public void InitStats()
     {
         //characterData = data;
@@ -135,14 +143,19 @@ public class CharacterStats : MonoBehaviour, IStats
         LifePercentage = 0;
         Death = false;
 
-        AttackMultiplier.InitStats(1);
-        DefenseMultiplier.InitStats(1);
+        if (firstTime == false) // Quand on reset la map, si on reset les stats une deuxieme fois ça peut créer des embrouilles
+        {
+            AttackMultiplier.InitStats(1);
+            DefenseMultiplier.InitStats(1);
 
-        Speed.InitStats(userBase.Movement.SpeedMax);
-        AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
+            Speed.InitStats(userBase.Movement.SpeedMax);
+            AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
+            Jump.InitStats(userBase.Movement.JumpNumber);
 
-        Jump.InitStats(userBase.Movement.JumpNumber);
-        Weight.InitStats(userBase.Knockback.Weight);
+            Weight.InitStats(userBase.Knockback.Weight);
+            KnockbackPerDistance.InitStats(userBase.Knockback.TimeKnockbackPerDistance);
+            firstTime = true;
+        }
 
     }
 
@@ -186,6 +199,8 @@ public class CharacterStats : MonoBehaviour, IStats
                 return Jump;
             case MainStat.Weight:
                 return Weight;
+            case MainStat.KnockbackPerDistance:
+                return KnockbackPerDistance;
         }
         return null;
     }
@@ -205,6 +220,9 @@ public class CharacterStats : MonoBehaviour, IStats
                 break;
             case MainStat.Weight:
                 userBase.Knockback.Weight = Weight.Value;
+                break;
+            case MainStat.KnockbackPerDistance:
+                userBase.Knockback.TimeKnockbackPerDistance = KnockbackPerDistance.Value;
                 break;
         }
     }

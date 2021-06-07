@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class StatusUpdate_Ground : StatusUpdate
 {
+    bool wasGrounded = false;
+
+    public StatusUpdate_Ground()
+    {
+        wasGrounded = false;
+    }
 
     public override StatusUpdate Copy()
     {
@@ -12,6 +18,10 @@ public class StatusUpdate_Ground : StatusUpdate
 
     public override bool CanRemoveStatus(CharacterBase character)
     {
-        return character.Rigidbody.IsGrounded;
+        if (character.Rigidbody.IsGrounded == false && wasGrounded == false)
+            wasGrounded = true;
+        if (character.Rigidbody.IsGrounded && wasGrounded)
+            return true;
+        return false;
     }
 }

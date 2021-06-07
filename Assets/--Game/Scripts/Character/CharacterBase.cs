@@ -199,16 +199,16 @@ public class CharacterBase : MonoBehaviour, IControllable
 		// Action.CanEndAction() se lance en tout début pour bien recevoir les animation event
 		action.CanEndAction();
 
+		input = input_Info;
 		// Les OnTrigger se lancent avant l'update
 		// Knockback.CheckHit se lance en tout début pour bien recevoir les collisions
 		knockback.CheckHit(this);
 
-		input = input_Info;
 		status.UpdateStatus();
 		currentState.UpdateState(this);
 		rigidbody.UpdateCollision(movement.SpeedX * movement.Direction * motionSpeed, movement.SpeedY * motionSpeed);
 		currentState.LateUpdateState(this);
-		powerGauge.ConsumePowerSegment(input_Info, this);
+		//powerGauge.ConsumePowerSegment(input_Info, this);
 
 		action.EndActionState();
 	}
@@ -217,7 +217,8 @@ public class CharacterBase : MonoBehaviour, IControllable
 	// Aveux de faiblesse pardon les amis
 	public void ResetToIdle()
     {
-        if (rigidbody.IsGrounded)
+		rigidbody.CheckGround(movement.Gravity);
+		if (rigidbody.IsGrounded)
         {
 			SetState(idleState);
         }

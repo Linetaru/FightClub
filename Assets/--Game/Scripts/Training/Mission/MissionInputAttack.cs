@@ -16,13 +16,19 @@ public class MissionInputAttack : MissionInputCondition
 	[ListDrawerSettings(Expanded = true)]
 	int[] hitboxID = { 0 };
 
+	[SerializeField]
+	bool playerReceiveAttack = false;
+
 	bool condition = false;
 
 
 	public override void InitializeCondition(CharacterBase player, CharacterBase dummy)
 	{
 		condition = false;
-		dummy.Knockback.OnKnockback += KnockbackCallback;
+		if(playerReceiveAttack)
+			player.Knockback.OnKnockback += KnockbackCallback;
+		else
+			dummy.Knockback.OnKnockback += KnockbackCallback;
 	}
 
 	public override bool UpdateCondition(CharacterBase player, CharacterBase dummy)
@@ -32,7 +38,10 @@ public class MissionInputAttack : MissionInputCondition
 
 	public override void EndCondition(CharacterBase player, CharacterBase dummy)
 	{
-		dummy.Knockback.OnKnockback -= KnockbackCallback;
+		if (playerReceiveAttack)
+			player.Knockback.OnKnockback -= KnockbackCallback;
+		else
+			dummy.Knockback.OnKnockback -= KnockbackCallback;
 	}
 
 	public void KnockbackCallback(AttackSubManager attackSubManager)

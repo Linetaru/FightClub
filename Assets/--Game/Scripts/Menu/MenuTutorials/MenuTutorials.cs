@@ -9,14 +9,14 @@ namespace Menu
 
 	public class MenuTutorials : MenuList, IControllable
 	{
-
 		[SerializeField]
 		InputController inputController;
+		[SerializeField]
+		GameModeSettingsMission settingsMission;
 
 		[Title("SubMenu")]
 		[SerializeField]
 		MenuList[] menu;
-
 
 		[Title("UI")]
 		[SerializeField]
@@ -42,6 +42,20 @@ namespace Menu
 			{
 				menu[i].OnEnd += BackToMenu;
 			}
+			for (int i = 0; i < databaseMissions.Length; i++)
+			{
+				if (settingsMission.TrialsDatabase == databaseMissions[i])
+				{
+					ValidateEntry(i);
+					return;
+				}
+			}
+			if (settingsMission.TrialsDatabase != null)
+			{
+				ValidateEntry(2); // La 3e option c'est les trials donc c'est un peu particulier
+				return;
+			}
+
 			SelectEntry(0);
 			ShowMenu();
 		}
@@ -71,6 +85,7 @@ namespace Menu
 			base.QuitMenu();
 			HideMenu();
 			inputController.controllable[0] = null;
+			settingsMission.TrialsDatabase = null;
 			UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
 		}
 

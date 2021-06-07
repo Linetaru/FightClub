@@ -65,7 +65,7 @@ public class CharacterStateIdle : CharacterState
 	{
 		timeForDash /= 60;
 		dashTimer = timeForDash;
-		gravityConst = -0.1f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
+		gravityConst = -0.2f / Time.deltaTime; // Cette constante est utilisé pour que le rigidbody fasse un test de gravité à chaque update pour bien mettre à jour IsGrounded
 	}
 
 
@@ -187,6 +187,7 @@ public class CharacterStateIdle : CharacterState
 		}	
 		else if (character.Rigidbody.IsGrounded == false) // ------------ On tombe
 		{
+			character.Movement.SpeedY = 0;
 			character.SetState(aerialState);
 		}
 	}

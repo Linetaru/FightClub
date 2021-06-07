@@ -16,7 +16,7 @@ public class CharacterAnimation : MonoBehaviour
     [SerializeField]
     AnimationClip animationParryAerial;
     [SerializeField]
-    AnimationClip animationAcumod;    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
+    AnimationClip animationAcumod;    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;    bool dash = false;
 
     public enum ActualState
     {
@@ -24,7 +24,8 @@ public class CharacterAnimation : MonoBehaviour
         Idle,
         Knockback,
         Wallrun,        StartJump,
-        ParryBlow
+        ParryBlow,
+        Dash
     }
     ActualState actualState;
 
@@ -33,7 +34,7 @@ public class CharacterAnimation : MonoBehaviour
     {
         characterBase.OnStateChanged += CheckState;
     }
-
+    // Si le cast n'est pas performant ou qu'on a trop de sous state, ajouter des tag sur les states pour les identifier
     public void CheckState(CharacterState oldState, CharacterState newState)
     {
         actualState = ActualState.Null;
@@ -67,10 +68,10 @@ public class CharacterAnimation : MonoBehaviour
         }
         if (newState is CharacterStateDash)
         {
-            animator.SetTrigger("Idle");
+            dash = false;
+            animator.SetTrigger("Crouch");
             animator.SetFloat("Speed", 1);
-            //animator.SetTrigger("Idle");
-            //actualState = ActualState.Idle;
+            actualState = ActualState.Dash;
         }
         if (newState is CharacterStateDashEnd)
         {
@@ -105,12 +106,6 @@ public class CharacterAnimation : MonoBehaviour
             animator.SetTrigger("DodgeAerial");
         }
 
-        /*if (newState is CharacterStateHomingDash)
-        {
-            animator.SetTrigger("Idle");
-            //animator.SetTrigger("HomingDash");
-        }*/
-
         if (newState is CharacterStateTurnAround)
         {
             animator.SetTrigger("TurnAround");
@@ -122,6 +117,17 @@ public class CharacterAnimation : MonoBehaviour
                 animator.Play(animationParry.name);
             else
                 animator.Play(animationParryAerial.name);
+        }
+
+        if (newState is CharacterStateParrySuccess)
+        {
+            if (characterBase.Knockback.Parry.forceAnimationParry || !(oldState is CharacterStateActing))
+            {
+                if (characterBase.Rigidbody.IsGrounded)
+                    animator.Play(animationParry.name);
+                else
+                    animator.Play(animationParryAerial.name);
+            }
         }
 
         if (newState is CharacterStateParryBlow)
@@ -164,7 +170,12 @@ public class CharacterAnimation : MonoBehaviour
         else if (actualState == ActualState.ParryBlow)
         {
             AnimationParryBlow();
-        }
+        }
+
+        else if (actualState == ActualState.Dash)
+        {
+            AnimationDash();
+        }
     }
     void AnimationIdle()
     {
@@ -197,7 +208,19 @@ public class CharacterAnimation : MonoBehaviour
             previousSpeedT = speedT;
         }
 
-    }
+    }
+
+
+    void AnimationDash()
+    {
+        if(Mathf.Abs(characterBase.Movement.SpeedX) > 1 && !dash)
+        {
+            animator.SetTrigger("Idle");
+            dash = true;
+        }
+    }
+
+
     void AnimationWallrun()
     {
         float speedT = characterBase.Movement.SpeedY / characterBase.Movement.SpeedMax;
@@ -214,7 +237,7 @@ public class CharacterAnimation : MonoBehaviour
 
     void AnimationKnockback()
     {
-        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(characterBase.Movement.SpeedX, characterBase.Movement.SpeedY), Vector2.left * characterBase.Movement.Direction));
+        characterBase.CenterPivot.localRotation = Quaternion.Euler(0, 0, Vector2.Angle(new Vector2(Mathf.Abs(characterBase.Movement.SpeedX) * characterBase.Movement.Direction, characterBase.Movement.SpeedY), Vector2.right * characterBase.Movement.Direction));
     }
 
 

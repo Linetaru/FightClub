@@ -29,6 +29,7 @@ public class UiCharacterParent : MonoBehaviour
 	{
 		CharacterHUD hud = Instantiate(characterHudPrefab, parent);
 		hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName);
+		hud.DrawFace(gameData.CharacterInfos[user.PlayerID].CharacterData.characterFace);
 		hud.InitPlayerPanel(user);
 		hud.SetColor(teamColors[(int)user.TeamID]);
 

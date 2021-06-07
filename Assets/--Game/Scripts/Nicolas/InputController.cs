@@ -34,7 +34,7 @@ public class Input_Info
 
 	public Rewired.InputAction inputUiAction;
 
-	public InputMappingData inputMapping = null;
+	public InputMappingDataClassic inputMapping = null;
 
 	public Input_Info()
     {
@@ -93,7 +93,7 @@ public class Input_Info
 	// A opti en dictionnaire mais fuat faire des shenanigan dans le SO du coup
 	public InputAction CheckMapping(InputAction inputAction)
 	{
-		if (inputMapping == null)
+		if (inputMapping == null || !inputMapping.isUsed)
 			return inputAction;
 
 		EnumInput input = EnumInput.A;
@@ -148,9 +148,9 @@ public class InputController : SerializedMonoBehaviour
 	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
 
-	public PackageCreator.Event.GameEvent pauseEvent;
+	public PackageCreator.Event.GameEventInt pauseEvent;
 
-	public void SetInputMapping(int id, InputMappingData inputData)
+	public void SetInputMapping(int id, InputMappingDataClassic inputData)
 	{
 		playerInputs[id].inputMapping = inputData;
 	}
@@ -216,7 +216,7 @@ public class InputController : SerializedMonoBehaviour
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
-					pauseEvent.Raise();
+					pauseEvent.Raise(i);
 				}
 
 			//If we got at least one entity will send to each entity their linked list for input buffer

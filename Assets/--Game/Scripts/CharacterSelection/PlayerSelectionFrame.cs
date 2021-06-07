@@ -62,6 +62,12 @@ public class PlayerSelectionFrame : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI skillChoiceText;
 
+    [SerializeField]
+    TextMeshProUGUI configChoiceText;
+
+    [HideInInspector]
+    public int currentConfigChoice = 0;
+
     [HideInInspector]
     public int currentColorSkin = 0;
 
@@ -94,6 +100,7 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     string[] choosableSkills = new string[6];
     Color[] choosableSkillsColor = new Color[6];
+    List<string> choosableConfig = new List<string>();
 
     [Space]
     [SerializeField]
@@ -110,21 +117,27 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     private void Awake()
     {
-        choosableSkills[0] = "Homing Dash";
-        choosableSkills[1] = "Burst";
-        choosableSkills[2] = "Attack Up";
-        choosableSkills[3] = "Defense Up";
-        choosableSkills[4] = "Infinite Jump";
-        choosableSkills[5] = "Earthquake";
+        //choosableSkills[0] = "Homing Dash";
+        //choosableSkills[1] = "Burst";
+        //choosableSkills[2] = "Attack Up";
+        //choosableSkills[3] = "Defense Up";
+        //choosableSkills[4] = "Infinite Jump";
+        //choosableSkills[5] = "Earthquake";
 
-        choosableSkillsColor[0] = Color.green;
-        choosableSkillsColor[1] = Color.cyan;
-        choosableSkillsColor[2] = Color.red;
-        choosableSkillsColor[3] = Color.blue;
-        choosableSkillsColor[4] = Color.white;
-        choosableSkillsColor[5] = Color.yellow;
+        //choosableSkillsColor[0] = Color.green;
+        //choosableSkillsColor[1] = Color.cyan;
+        //choosableSkillsColor[2] = Color.red;
+        //choosableSkillsColor[3] = Color.blue;
+        //choosableSkillsColor[4] = Color.white;
+        //choosableSkillsColor[5] = Color.yellow;
 
         teamEnumLength = System.Enum.GetValues(typeof(TeamEnum)).Length - 1;
+
+        choosableConfig.Add("Classic");
+        for (int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
+        {
+            choosableConfig.Add(InputMappingDataStatic.inputMappingDataClassics[i].profileName);
+        }
 
         UpdateTeamColor();
     }
@@ -296,18 +309,21 @@ public class PlayerSelectionFrame : MonoBehaviour
     public void UpdateParamsDisplay()
     {
         colorChoiceText.text = "Color " + (currentColorSkin + 1).ToString();
-        skillChoiceText.text = choosableSkills[currentChoosableSkill];
-        choosableSkillIcon.color = choosableSkillsColor[currentChoosableSkill];
+        //skillChoiceText.text = choosableSkills[currentChoosableSkill];
+        //choosableSkillIcon.color = choosableSkillsColor[currentChoosableSkill];
+        configChoiceText.text = choosableConfig[currentConfigChoice];
     }
 
     public void ChangeParam()
     {
         if (currentParam == 0)
         {
-            currentParam = 1;
+            currentParam = 2;
 
         }
-        else if (currentParam == 1)
+        //else if (currentParam == 1)
+        //    currentParam = 2;
+        else if (currentParam == 2)
             currentParam = 0;
 
         paramCursor.transform.DOMove(paramPositions[currentParam].transform.position, .2f);
@@ -332,15 +348,26 @@ public class PlayerSelectionFrame : MonoBehaviour
                     currentColorSkin = 0;
                 }
             }
-            else if (currentParam == 1)
+            //else if (currentParam == 1)
+            //{
+            //    if (currentChoosableSkill < choosableSkills.Length - 1)
+            //    {
+            //        ++currentChoosableSkill;
+            //    }
+            //    else
+            //    {
+            //        currentChoosableSkill = 0;
+            //    }
+            //}
+            else if (currentParam == 2)
             {
-                if (currentChoosableSkill < choosableSkills.Length - 1)
+                if (currentConfigChoice < choosableConfig.Count - 1)
                 {
-                    ++currentChoosableSkill;
+                    ++currentConfigChoice;
                 }
                 else
                 {
-                    currentChoosableSkill = 0;
+                    currentConfigChoice = 0;
                 }
             }
         }
@@ -357,15 +384,26 @@ public class PlayerSelectionFrame : MonoBehaviour
                     currentColorSkin = currentChoosedCharacter.characterMaterials.Count - 1;
                 }
             }
-            else if (currentParam == 1)
+            //else if (currentParam == 1)
+            //{
+            //    if (currentChoosableSkill > 0)
+            //    {
+            //        --currentChoosableSkill;
+            //    }
+            //    else
+            //    {
+            //        currentChoosableSkill = choosableSkills.Length - 1;
+            //    }
+            //}
+            else if (currentParam == 2)
             {
-                if (currentChoosableSkill > 0)
+                if (currentConfigChoice > 0)
                 {
-                    --currentChoosableSkill;
+                    --currentConfigChoice;
                 }
                 else
                 {
-                    currentChoosableSkill = choosableSkills.Length - 1;
+                    currentConfigChoice = choosableConfig.Count - 1;
                 }
             }
         }
@@ -413,7 +451,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         currentChoosedCharacter = characterDatasRandom;
         
         currentColorSkin = Random.Range(0, characterDatasRandom.characterMaterials.Count);
-        currentChoosableSkill = Random.Range(0, choosableSkills.Length);
+        //currentChoosableSkill = Random.Range(0, choosableSkills.Length);
+        currentConfigChoice = 0;
         ChangeCharacterModelColorRandom(characterDatasRandom);
 
         isPlayerConnected = true;

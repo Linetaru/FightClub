@@ -85,18 +85,21 @@ public class Textbox : MonoBehaviour, IControllable
 			textBox.maxVisibleCharacters = text.Length;
 		}
 
-		t += Time.deltaTime;
-		if (t > timeInterval)
+		if (id == 0)
 		{
-			textBox.maxVisibleCharacters += 1;
-			t = 0;
-			if (textBox.maxVisibleCharacters > 0 && textBox.maxVisibleCharacters < text.Length)
+			t += Time.deltaTime;
+			if (t > timeInterval)
 			{
-				if (text[textBox.maxVisibleCharacters - 1] == ',' && text[textBox.maxVisibleCharacters] == ' ' ||
-					text[textBox.maxVisibleCharacters - 1] == '.' && text[textBox.maxVisibleCharacters] == ' ' ||
-					text[textBox.maxVisibleCharacters - 1] == '?' && text[textBox.maxVisibleCharacters] == ' ' ||
-					text[textBox.maxVisibleCharacters - 1] == '!' && text[textBox.maxVisibleCharacters] == ' ')
-					t -= timePause;
+				textBox.maxVisibleCharacters += 1;
+				t = 0;
+				if (textBox.maxVisibleCharacters > 0 && textBox.maxVisibleCharacters < text.Length)
+				{
+					if (text[textBox.maxVisibleCharacters - 1] == ',' && text[textBox.maxVisibleCharacters] == ' ' ||
+						text[textBox.maxVisibleCharacters - 1] == '.' && text[textBox.maxVisibleCharacters] == ' ' ||
+						text[textBox.maxVisibleCharacters - 1] == '?' && text[textBox.maxVisibleCharacters] == ' ' ||
+						text[textBox.maxVisibleCharacters - 1] == '!' && text[textBox.maxVisibleCharacters] == ' ')
+						t -= timePause;
+				}
 			}
 		}
 	}

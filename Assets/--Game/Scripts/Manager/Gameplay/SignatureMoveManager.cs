@@ -6,25 +6,22 @@ using Sirenix.OdinInspector;
 public class SignatureMoveManager : MonoBehaviour
 {
 
-	[SerializeField]
-	BattleManager battleManager;
+	BattleManager battleManager = null;
+	CameraZoomController cameraManager = null;
 
 	[SerializeField]
-	CameraManager cameraManager;
-
-	[SerializeField]
-	Transform centerStage;
+	Transform centerStage = null;
 
 
 	[SerializeField]
-	ParticleSystem particleSystem;
+	ParticleSystem particleSystem = null;
 
 
 	[Title("UI")]
 	[SerializeField]
-	Animator feedback;
+	Animator feedback = null;
 
-	TargetsCamera target;
+	TargetsCamera target = null;
 
 
 	private static SignatureMoveManager _instance;
@@ -35,6 +32,7 @@ public class SignatureMoveManager : MonoBehaviour
 		if (_instance == null)
 		{
 			_instance = this;
+
 		}
 		else
 		{
@@ -43,9 +41,14 @@ public class SignatureMoveManager : MonoBehaviour
 	}
 
 
-
 	public void StartSignatureMove(CharacterBase user)
 	{
+		if(battleManager == null)
+		{
+			battleManager = BattleManager.Instance;
+			cameraManager = BattleManager.Instance.cameraController;
+		}
+
 		feedback.gameObject.SetActive(true);
 
 		ParticleSystem particle = Instantiate(particleSystem, user.CenterPoint.position, Quaternion.identity);
@@ -56,7 +59,7 @@ public class SignatureMoveManager : MonoBehaviour
 			battleManager.characterAlive[i].SetMotionSpeed(0, 1);
 		}
 		target = new TargetsCamera(user.transform, 2);
-		cameraManager.zoomController.targets.Add(target);
+		cameraManager.targets.Add(target);
 
 		StartCoroutine(SignatureMoveFeedback());
 	}
@@ -64,7 +67,7 @@ public class SignatureMoveManager : MonoBehaviour
 	private IEnumerator SignatureMoveFeedback()
 	{
 		yield return new WaitForSeconds(1f);
-		cameraManager.zoomController.targets.Remove(target);
+		cameraManager.targets.Remove(target);
 		feedback.gameObject.SetActive(false);
 	}
 

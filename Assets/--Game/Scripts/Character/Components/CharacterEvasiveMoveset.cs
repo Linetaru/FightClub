@@ -74,7 +74,6 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public void ForceDodgeGround(CharacterBase character)
 	{
-		nbOfDodge -= 1;
 		character.SetState(stateDodge);
 		StartCoroutine(DodgeCooldownCoroutine());
 	}
@@ -120,6 +119,7 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public bool Parry(CharacterBase character)
 	{
+		character.Knockback.Parry.IsJustFrameParry = true; // Indiue qu'on est dans un état ou on peut parry (utilisé pour capter une pression de R1 à la frame)
 		if (character.Input.CheckAction(0, InputConst.RightShoulder))
 		{
 			/*if(character.Action.Action(attackParry) == true)

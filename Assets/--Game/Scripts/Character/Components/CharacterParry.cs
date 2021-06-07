@@ -8,23 +8,30 @@ public class CharacterParry : MonoBehaviour
 
 	[Title("States")]
 	[SerializeField]
-	CharacterState parrySuccesState;
+	CharacterState parrySuccesState = null;
 
 	[SerializeField]
-	CharacterState parryRepelState;
+	CharacterState parryRepelState = null;
 
 
 	[Title("Parameter")]
 	[SerializeField]
+	private StatusData guardBreakStatus;
+	public StatusData GuardBreakStatus
+	{
+		get { return guardBreakStatus; }
+	}
+
+	/*[SerializeField]
 	private int[] timingParry;
 	public int[] TimingParry
 	{
 		get { return timingParry; }
-	}
+	}*/
 
 
 	[SerializeField]
-	private float ejectionPower;
+	private float ejectionPower = 16;
 	public float EjectionPower
 	{
 		get { return ejectionPower; }
@@ -59,29 +66,41 @@ public class CharacterParry : MonoBehaviour
 		set { parryNumber = value; }
 	}
 
-	private bool isParry;
+	private bool isParry = false;
 	public bool IsParry
 	{
 		get { return isParry; }
 		set { isParry = value; }
 	}
 
-	private bool isGuard;
+	private bool isGuard = false;
 	public bool IsGuard
 	{
 		get { return isGuard; }
 		set { isGuard = value; }
 	}
 
-	private bool isGuardDash;
+	private bool isGuardDash = false;
 	public bool IsGuardDash
 	{
 		get { return isGuardDash; }
 		set { isGuardDash = value; }
 	}
 
+	// utilisé si on appuis sur le bouton R1 à la même frame où on se prend le coup, 
+	// ce bool indique si on est dans un état ou la parade est disponible, et si elle est disponible on peut check si le joueur a appuyé sur R1
+	private bool isJustFrameParry = false;
+	public bool IsJustFrameParry
+	{
+		get { return isJustFrameParry; }
+		set { isJustFrameParry = value; }
+	}
 
-	CharacterBase characterParried;
+	// je savais pas ou le mettre
+	public bool forceAnimationParry = false;
+
+
+	CharacterBase characterParried = null;
 	public CharacterBase CharacterParried
 	{
 		get { return characterParried; }
@@ -100,31 +119,31 @@ public class CharacterParry : MonoBehaviour
 
 	[Title("Particle - A virer plus tard")]
 	[SerializeField]
-	GameObject particleParry;
+	GameObject particleParry = null;
 	public GameObject ParticleParry
 	{
 		get { return particleParry; }
 	}
 
 	[SerializeField]
-	GameObject particleDirectionRepel;
+	GameObject particleDirectionRepel = null;
 	public GameObject ParticleDirectionRepel
 	{
 		get { return particleDirectionRepel; }
 	}
 
 	[SerializeField]
-	GameObject particleGuard;
+	GameObject particleGuard = null;
 	[SerializeField]
-	GameObject particleGuardMedium;
+	GameObject particleGuardMedium = null;
 	[SerializeField]
-	GameObject particleGuardCritical;
+	GameObject particleGuardCritical = null;
 
 	[SerializeField]
-	GameObject particleGuardBreak;
+	GameObject particleGuardBreak = null;
 
 	[SerializeField]
-	GameObject particleGuardDirectionRepel;
+	GameObject particleGuardDirectionRepel = null;
 
 
 	// Faire une interface ou une classe abstraire pour attackManager
@@ -145,6 +164,16 @@ public class CharacterParry : MonoBehaviour
 		else if (attackManager.BreakParry == true)
 			return false;
 		return CheckAngle(attackManager);
+	}
+
+	public virtual bool CanJustFrameParry(CharacterBase c, AttackSubManager attackManager)
+	{
+		if(c.Input.CheckAction(0, InputConst.RightShoulder) && isJustFrameParry)
+		{
+			isParry = true;
+			return CanParry(attackManager);
+		}
+		return false;
 	}
 
 	/*public virtual bool CanGuard(AttackSubManager attackManager)
@@ -251,20 +280,21 @@ public class CharacterParry : MonoBehaviour
 	public virtual void GuardResolution(CharacterBase character, AttackSubManager atkRegistered)
 	{
 		//	atkRegistered.User.Knockback.ContactPoint = character.Knockback.ContactPoint;
-
-
-
 		if (atkRegistered.GuardWin == false)
 		{
-			if (character.PowerGauge.CurrentPower <= 20) // Guard Break
+			if (character.PowerGauge.CurrentPower <= 1) // Guard Break
 			{
-				character.PowerGauge.ForceAddPower(-20);
+				//character.PowerGauge.ForceAddPower(-20);
 				character.PowerGauge.ForceAddPower(80);
+				atkRegistered.User.PowerGauge.ForceAddPower(20);
+
 				character.Knockback.Hit(character, atkRegistered);
 
-				character.SetMotionSpeed(0.1f, 0.8f);
+				character.SetMotionSpeed(0.1f, 2f);
 				atkRegistered.User.SetMotionSpeed(0.1f, 0.8f);
-
+				character.Knockback.KnockbackDuration = 1;
+				//character.Knockback.IsHardKnockback = true;
+				character.Status.AddStatus(new Status("GuardBreak", guardBreakStatus));
 
 				Vector2 angleEjection = character.Knockback.GetAngleKnockback().normalized;
 				Feedbacks.GlobalFeedback.Instance.CameraRotationImpulse(new Vector2(-angleEjection.y, angleEjection.x) * 10, 0.8f);
