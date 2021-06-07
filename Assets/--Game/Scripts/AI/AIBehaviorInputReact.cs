@@ -9,6 +9,8 @@ public class AIBehaviorInputReact : AIBehavior
 	[InfoBox("React à la parry uniquement actuellement")]
 	[Title("Inputs")]
 	[SerializeField]
+	InputRecordingData[] inputDatas;
+
 	InputRecordingData inputData;
 
 	[SerializeField]
@@ -52,6 +54,7 @@ public class AIBehaviorInputReact : AIBehavior
 		base.StartBehavior();
 		indexPlay = 0;
 		playTime = 0f;
+		inputData = inputDatas[Random.Range(0, inputDatas.Length)];
 		react = false;
 
 		// En mode Schlag

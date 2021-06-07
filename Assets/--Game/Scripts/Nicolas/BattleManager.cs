@@ -44,6 +44,9 @@ public class BattleManager : MonoBehaviour
 	[Title("Boolean Condition")]
 	public bool isGameStarted;
 
+	public bool GamePaused = false;
+
+
 	private bool slowMowEnd;
 	private float timer;
 
@@ -157,10 +160,17 @@ public class BattleManager : MonoBehaviour
 			else
 			{
 				int aiDifficulty = Mathf.Abs(gameData.CharacterInfos[i].ControllerID) - 1;
-				AIBehavior aIBehavior = Instantiate(gameData.CharacterInfos[i].CharacterData.aiBehavior[aiDifficulty], user.transform);
-				aIBehavior.SetCharacter(user, inputController);
-				aIBehavior.StartBehavior();
-				aIController.AIBehaviors.Add(aIBehavior);
+				if (aiDifficulty < gameData.CharacterInfos[i].CharacterData.aiBehavior.Length)
+				{
+					AIBehavior aIBehavior = Instantiate(gameData.CharacterInfos[i].CharacterData.aiBehavior[aiDifficulty], user.transform);
+					aIBehavior.SetCharacter(user, inputController);
+					aIBehavior.StartBehavior();
+					aIController.AIBehaviors.Add(aIBehavior);
+				}
+				else
+				{
+					aIController.CreateDefaultBehavior(user, inputController);
+				}
 			}
 
 			user.TeamID = gameData.CharacterInfos[i].Team;
@@ -200,6 +210,7 @@ public class BattleManager : MonoBehaviour
 		{
 			characterAlive[i].transform.position = spawningPoint[i].transform.position;
 			characterAlive[i].Stats.InitStats();
+			characterAlive[i].Stats.LifeStocks = gameData.NumberOfLifes;
 
 			characterAlive[i].Action.CancelAction();
 			characterAlive[i].ResetToIdle();
@@ -300,6 +311,7 @@ public class BattleManager : MonoBehaviour
 	// JSP si là c'est le mieux
 	public void SetMenuControllable(IControllable controllable)
 	{
+		GamePaused = true;
 		for (int i = 0; i < characterAlive.Count; i++)
 		{
 			if (characterAlive[i].ControllerID >= 0)
@@ -325,6 +337,7 @@ public class BattleManager : MonoBehaviour
 
 	public void SetBattleControllable()
 	{
+		GamePaused = false;
 		standbyList.Clear();
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{

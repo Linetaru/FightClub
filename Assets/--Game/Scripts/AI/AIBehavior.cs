@@ -8,6 +8,11 @@ public class AIBehavior : MonoBehaviour
 
 	[SerializeField]
 	protected CharacterBase character;
+	public CharacterBase Character
+	{
+		get { return character; }
+	}
+
 	[SerializeField]
 	protected InputController inputController;
 	[SerializeField]
@@ -32,7 +37,7 @@ public class AIBehavior : MonoBehaviour
 	{
 		character = c;
 		inputController = input;
-		inputController.controllable[Mathf.Abs(character.ControllerID)] = null;
+		//inputController.controllable[Mathf.Abs(character.ControllerID)] = null;
 	}
 
 	public void ResetBehavior()

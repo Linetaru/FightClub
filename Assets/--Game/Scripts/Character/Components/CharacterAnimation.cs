@@ -16,7 +16,7 @@ public class CharacterAnimation : MonoBehaviour
     [SerializeField]
     AnimationClip animationParryAerial;
     [SerializeField]
-    AnimationClip animationAcumod;    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;
+    AnimationClip animationAcumod;    bool isHanging = false;    bool canDeccelerate = false;    bool isDeccelerating = false;    bool parryBlow = false;    float previousSpeedT = 0;    bool dash = false;
 
     public enum ActualState
     {
@@ -24,7 +24,8 @@ public class CharacterAnimation : MonoBehaviour
         Idle,
         Knockback,
         Wallrun,        StartJump,
-        ParryBlow
+        ParryBlow,
+        Dash
     }
     ActualState actualState;
 
@@ -67,10 +68,10 @@ public class CharacterAnimation : MonoBehaviour
         }
         if (newState is CharacterStateDash)
         {
-            animator.SetTrigger("Idle");
+            dash = false;
+            animator.SetTrigger("Crouch");
             animator.SetFloat("Speed", 1);
-            //animator.SetTrigger("Idle");
-            //actualState = ActualState.Idle;
+            actualState = ActualState.Dash;
         }
         if (newState is CharacterStateDashEnd)
         {
@@ -169,7 +170,12 @@ public class CharacterAnimation : MonoBehaviour
         else if (actualState == ActualState.ParryBlow)
         {
             AnimationParryBlow();
-        }
+        }
+
+        else if (actualState == ActualState.Dash)
+        {
+            AnimationDash();
+        }
     }
     void AnimationIdle()
     {
@@ -202,7 +208,19 @@ public class CharacterAnimation : MonoBehaviour
             previousSpeedT = speedT;
         }
 
-    }
+    }
+
+
+    void AnimationDash()
+    {
+        if(Mathf.Abs(characterBase.Movement.SpeedX) > 1 && !dash)
+        {
+            animator.SetTrigger("Idle");
+            dash = true;
+        }
+    }
+
+
     void AnimationWallrun()
     {
         float speedT = characterBase.Movement.SpeedY / characterBase.Movement.SpeedMax;

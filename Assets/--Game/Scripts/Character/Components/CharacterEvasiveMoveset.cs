@@ -74,7 +74,6 @@ public class CharacterEvasiveMoveset : MonoBehaviour
 
 	public void ForceDodgeGround(CharacterBase character)
 	{
-		nbOfDodge -= 1;
 		character.SetState(stateDodge);
 		StartCoroutine(DodgeCooldownCoroutine());
 	}
