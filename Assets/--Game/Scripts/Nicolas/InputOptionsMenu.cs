@@ -165,10 +165,10 @@ public class InputOptionsMenu : MenuList
                     listEntry.SelectIndex(listEntryProfile.IndexSelection);
                     //selectionUI_Profile_Arrow[indexTMP].gameObject.SetActive(true);
 
-                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputAttack = inputVar[0];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputJump = inputVar[0];
                     InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputShortHop = inputVar[1];
-                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputSpecial = inputVar[2];
-                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputJump = inputVar[3];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputAttack = inputVar[2];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputSpecial = inputVar[3];
                     InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputParry = inputVar[4];
                     InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputDash = inputVar[5];
 
