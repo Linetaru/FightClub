@@ -13,16 +13,8 @@ public class TrialsMode : GameMode
 	[SerializeField]
 	CurrencyData currency;
 
-	TrialsModeData trialsData;
 
 	[Title("Logic")]
-	//[SerializeField]
-	BattleManager battleManager;
-	//[SerializeField]
-	InputController inputController;
-	//[SerializeField]
-	//InputControllerEmpty inputControllerEmpty;
-
 	[SerializeField]
 	Textbox textbox;
 	[SerializeField]
@@ -54,6 +46,11 @@ public class TrialsMode : GameMode
 	CharacterBase player;
 	CharacterBase dummy;
 	AIBehavior aiBehavior;
+
+	TrialsModeData trialsData;
+
+	BattleManager battleManager;
+	InputController inputController;
 
 	private void Awake()
 	{
