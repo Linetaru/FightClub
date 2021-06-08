@@ -55,29 +55,20 @@ namespace Menu
 
 
 
-		private void Start()
+		public override void InitializeMode(BattleManager battleManager)
 		{
 			timeScale = 1f;
-			battleManager = BattleManager.Instance;
-			inputController = BattleManager.Instance.inputController;
+			this.battleManager = battleManager;
+			inputController = battleManager.inputController;
 		}
-
 
 
 		private void Update()
 		{
 			if (menuOn == true)
 				return;
-
-			/*if(inputController.playerInputs[0].CheckAction(0, InputConst.Pause) && menuOn == false)
-			{
-				inputController.playerInputs[0].inputActions[0].timeValue = 0;
-
-				character = inputController.controllable[0];
-				inputController.controllable[0] = this;
-				ShowMenu();
-			}*/
-
+			if (battleManager.GamePaused)
+				return;
 
 			if (inputController.playerInputs[0].CheckAction(0, InputConst.Back) && menuOn == false)
 			{

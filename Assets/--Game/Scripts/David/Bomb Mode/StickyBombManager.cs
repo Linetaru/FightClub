@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class StickyBombManager : MonoBehaviour
+public class StickyBombManager : GameMode
 {
     // Singleton
     //private static StickyBombManager _instance;
@@ -139,8 +139,31 @@ public class StickyBombManager : MonoBehaviour
         //}
     }
 
+    public override void InitializeMode(BattleManager battleManager)
+    {
+        this.battleManager = battleManager;
+        gameEndedEvent = battleManager.gameEndedEvent;
+        gameEndedEvent.AddListener(EndGame);
 
-    void Start()
+        bombIcon.StickyBombManager = this;
+
+        InitTimerList();
+
+        originalBombTimer = bombTimer;
+
+        GameObject stickyBombUIGO = Instantiate(stickyBombUI);
+
+        uiManager = stickyBombUIGO.GetComponent<StickyBombUIManager>();
+
+        StartCoroutine(WaitBeforeNextRound());
+
+        for (int i = 0; i < battleManager.characterAlive.Count; i++)
+        {
+            battleManager.characterAlive[i].Knockback.Parry.OnGuard += ManageHit;
+        }
+    }
+
+    /*void Start()
     {
         gameEndedEvent = battleManager.gameEndedEvent;
         gameEndedEvent.AddListener(EndGame);
@@ -162,7 +185,7 @@ public class StickyBombManager : MonoBehaviour
             battleManager.characterAlive[i].Knockback.Parry.OnGuard += ManageHit;
         }
         //InitStickyBomb();
-    }
+    }*/
 
     void Update()
     {
