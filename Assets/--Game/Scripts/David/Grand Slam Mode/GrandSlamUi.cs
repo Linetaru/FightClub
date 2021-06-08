@@ -28,12 +28,9 @@ public class GrandSlamUi : MonoBehaviour
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
     private int incRate = 4;
-    int posBestScore = 0;
 
-    private void Update()
-    {
-        
-    }
+    List<int> bestScoreIDs = new List<int>();
+    List<int> bestScoreIndexes = new List<int>();
 
     public void ActivePanelScore()
     {
@@ -42,8 +39,6 @@ public class GrandSlamUi : MonoBehaviour
 
     public void DeactivePanelScore()
     {
-        crownList[posBestScore].enabled = false;
-
         for (int i = 0; i < playersScoreObj.Count; i++)
         {
             playersScoreObj[i].SetActive(false);
@@ -54,9 +49,17 @@ public class GrandSlamUi : MonoBehaviour
     public void DrawScores(Dictionary<int, int> playersScore, GameData gameData)
     {
         int i = 0;
+        bestScoreIndexes.Clear();
+        bestScoreIDs.Clear();
+        bestScoreIndexes.Add(0);
 
-        foreach(KeyValuePair<int, int> score in playersScore)
+        foreach (KeyValuePair<int, int> score in playersScore)
         {
+            if (i == 0)
+                bestScoreIDs.Add(score.Key);
+
+            crownList[i].enabled = false;
+
             playersScoreObj[i].SetActive(true);
 
             playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i+1) + ")";
@@ -69,16 +72,30 @@ public class GrandSlamUi : MonoBehaviour
                 oldPlayersScore[i] = score.Value;
             }
 
-            if (playersScore[i] > playersScore[posBestScore])
+            if(i > 0)
             {
-                posBestScore = i;
-            }
+                if (score.Value > playersScore[bestScoreIDs[0]])
+                {
+                    bestScoreIDs.Clear();
+                    bestScoreIDs.Add(score.Key);
 
-            crownList[posBestScore].enabled = true;
+                    bestScoreIndexes.Clear();
+                    bestScoreIndexes.Add(i);
+                }
+                else if (score.Value == playersScore[bestScoreIDs[0]])
+                {
+                    bestScoreIDs.Add(score.Key);
+                    bestScoreIndexes.Add(i);
+                }
+            }
 
             i++;
         }
-
+        
+        foreach(int index in bestScoreIndexes)
+        {
+            crownList[index].enabled = true;
+        }
 
         /*
         for (int i = 0; i < realLength; i++)
