@@ -10,18 +10,20 @@ public class OptionsMenu : MenuList
 {
     [TitleGroup("Selection Profile")]
     public List<Image> selectionUI_Profile_Arrow;
-    public List<TMP_Text> text_Profile;
+    //public List<TMP_Text> text_Profile;
     public MenuButtonListController listEntryProfile;
     public Image arrowBase;
     public GameObject profileBase;
     public ButtonInputData profileSelected;
     public GameObject panelArrowProfile;
+    public TMP_InputField inputField;
+    private bool isOnCreateButton = true;
 
     [Title("Selection Input")]
     public GameObject panelSelection;
     public GameObject panelArrowSelection;
     public List<Image> selectionUI_Input_Arrow;
-    public List<TMP_Text> text_Input;
+    //public List<TMP_Text> text_Input;
     public MenuButtonListController listEntrySelection;
 
 
@@ -93,16 +95,32 @@ public class OptionsMenu : MenuList
                     state = SelectionState.OnSelectionInput;
                     Init();
                 }
+                else if(id == 0)
+                {
+                    if(isOnCreateButton)
+                    {
+                        inputField.gameObject.SetActive(true);
+                        listEntry.ListItem[0].gameObject.SetActive(false);
+                        listEntry.ListItem[0] = inputField.gameObject.GetComponent<MenuButtonList>();
+                    }
+                    else
+                    {
+
+                    }
+
+                    isOnCreateButton = !isOnCreateButton;
+                }
                 break;
             case SelectionState.OnSelectionInput:
                 if (id == 6)
                 {
+                    state = SelectionState.OnProfile;
                     panelSelection.SetActive(false);
                     panelArrowSelection.SetActive(false);
                     listEntry = listEntryProfile;
-                    listEntry.SelectIndex(0);
-                    selectionUI_Profile_Arrow[0].gameObject.SetActive(true);
-                    state = SelectionState.OnProfile;
+                    int indexTMP = listEntryProfile.ListItem.IndexOf(profileSelected.gameObject.GetComponent<MenuButtonList>());
+                    listEntry.SelectIndex(indexTMP);
+                    selectionUI_Profile_Arrow[indexTMP].gameObject.SetActive(true);
                 }
                 else if(id == 7)
                 {
@@ -130,10 +148,49 @@ public class OptionsMenu : MenuList
 
     }
 
+    public void OnCreateProfile(string profileNameString)
+    {
+        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(profileNameString));
+        Init();
+
+        inputConfig = InputMappingDataStatic.inputMappingDataClassics;
+
+        for (int i = 1; i < inputConfig.Count; i++)
+        {
+            if(listEntry.ListItem[i] != null)
+            {
+                foreach(MenuButtonList mbl in listEntry.ListItem)
+                {
+                    if (mbl.gameObject.GetComponent<TMP_Text>().text == inputConfig[i].profileName)
+                    {
+                        break;
+                    }
+                    else if(listEntry.ListItem.IndexOf(mbl) >= listEntry.ListItem.Count)
+                    {
+                        AddingNewProfile(i);
+                    }
+                }
+            }
+        }
+    }
+
+    private void AddingNewProfile(int index)
+    {
+        listEntry.DrawItemList(index, inputConfig[index].profileName);
+        Image im = Instantiate(arrowBase, panelArrowProfile.transform);
+        selectionUI_Profile_Arrow.Add(im);
+
+        //Need improvement Image don't go more down than the first image spawned
+        Vector3 tmpPos = im.transform.position;
+        tmpPos.y = listEntry.ListItem[index].transform.position.y;
+        im.transform.position = tmpPos;
+    }
+
     public void Init()
     {
-        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test"));
-        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test2"));
+        //Testing Adding Some Input config when create button doesn't work yet
+            InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test"));
+            InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test2"));
 
         switch (state)
         {
@@ -144,12 +201,7 @@ public class OptionsMenu : MenuList
 
                 for (int i = 1; i < inputConfig.Count; i++)
                 {
-                    listEntry.DrawItemList(i, inputConfig[i].profileName);
-                    Image im = Instantiate(arrowBase, panelArrowProfile.transform);
-                    selectionUI_Profile_Arrow.Add(im);
-                    Vector3 tmpPos = im.rectTransform.position;
-                    tmpPos.y = listEntry.ListItem[i].gameObject.transform.position.y;
-                    im.rectTransform.position = tmpPos;
+                    AddingNewProfile(i);
                 }
 
                 inputVar = new EnumInput[]
@@ -168,6 +220,8 @@ public class OptionsMenu : MenuList
                 foreach (Image im in selectionUI_Profile_Arrow)
                     im.gameObject.SetActive(false);
 
+                selectionUI_Profile_Arrow[listEntry.IndexSelection].gameObject.SetActive(true);
+
                 break;
             case SelectionState.OnSelectionInput:
 
@@ -178,6 +232,8 @@ public class OptionsMenu : MenuList
                 {
                     listEntry.DrawItemList(i, inputVar[i].ToString());
                 }
+
+                selectionUI_Input_Arrow[listEntry.IndexSelection].gameObject.SetActive(true);
                 break;
         }
     }
