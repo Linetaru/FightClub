@@ -21,11 +21,21 @@ public class ButtonNavigationOptionsMenu : MenuList
     public MenuManagerUpdated menuPrincipal;
     public InputController inputController;
 
+    private int characterID = 0;
+
     public override void UpdateControl(int id, Input_Info input)
     {
-        if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
+        if (id == characterID)
         {
-            SelectEntry(listEntry.IndexSelection);
+            if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
+            {
+                SelectEntry(listEntry.IndexSelection);
+                return;
+            }
+        }
+        if (Mathf.Abs(input.vertical) > 0.2f)
+        {
+            characterID = id;
         }
         else if (input.inputUiAction == InputConst.Interact)
         {
