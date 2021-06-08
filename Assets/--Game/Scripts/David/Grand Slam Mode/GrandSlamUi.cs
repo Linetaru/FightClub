@@ -20,6 +20,7 @@ public class GrandSlamUi : MonoBehaviour
     [Title("List")]
     public List<GameObject> playersScoreObj = new List<GameObject>();
     public List<TextMeshProUGUI> playerNameTxt = new List<TextMeshProUGUI>();
+    public List<Image> playerImage = new List<Image>();
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
 
     public List<Image> crownList = new List<Image>();
@@ -50,8 +51,36 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
-    public void DrawScores(int[] playersScore, int realLength)
+    public void DrawScores(Dictionary<int, int> playersScore, GameData gameData)
     {
+        int i = 0;
+
+        foreach(KeyValuePair<int, int> score in playersScore)
+        {
+            playersScoreObj[i].SetActive(true);
+
+            playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i+1) + ")";
+            playerImage[i].sprite = gameData.CharacterInfos[i].CharacterData.characterFace;
+
+            if(score.Value > oldPlayersScore[i])
+            {
+                StartCoroutine(IncreaseScore(oldPlayersScore[i], score.Value, playerScoreTxt[i]));
+
+                oldPlayersScore[i] = score.Value;
+            }
+
+            if (playersScore[i] > playersScore[posBestScore])
+            {
+                posBestScore = i;
+            }
+
+            crownList[posBestScore].enabled = true;
+
+            i++;
+        }
+
+
+        /*
         for (int i = 0; i < realLength; i++)
         {
             playersScoreObj[i].SetActive(true);
@@ -76,6 +105,7 @@ public class GrandSlamUi : MonoBehaviour
         crownList[posBestScore].enabled = true;
 
         oldPlayersScore = playersScore;
+        */
     }
 
     private IEnumerator IncreaseScore(int from, int to, TextMeshProUGUI textScore)

@@ -16,7 +16,7 @@ public class GrandSlamManager : MonoBehaviour
     [SerializeField]
     private int scoreGoal4Players = 1800;
 
-    public int scoreToWin = 1500;
+    private int scoreToWin = 1500;
     [SerializeField]
     private float timeOnScore = 6f;
 
@@ -196,22 +196,17 @@ public class GrandSlamManager : MonoBehaviour
     // Calcule les scores et demande au canvas de les afficher
     private void CalculateScore()
     {
-        int[] scores = new int[4];
-
         int i = 0;
 
         foreach (CharacterBase character in BattleManager.Instance.characterFullDead)
         {
             playersScore[character.ControllerID] += currentScoreArr[i];
 
-            scores[character.PlayerID] = playersScore[character.ControllerID];
-
             i++;
         }
 
-        canvasScore.DrawScores(scores, gameData.CharacterInfos.Count);
+        canvasScore.DrawScores(playersScore, gameData);
         slamLogoMode.TriggerWheel();
-
     }
 
     // Gère toute la transition de la fin du mode en cours au début du prochain mode
