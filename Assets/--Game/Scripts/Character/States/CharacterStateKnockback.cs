@@ -53,6 +53,7 @@ public class CharacterStateKnockback : CharacterState
     bool inHitStop = true;
     float tech = 0;
     float techCooldown = 0;
+    float knockbackY = 0;
 
     private void Start()
     {
@@ -69,6 +70,7 @@ public class CharacterStateKnockback : CharacterState
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+        knockbackY = character.Knockback.GetAngleKnockback().y;
 
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask, false, true);
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
@@ -92,8 +94,11 @@ public class CharacterStateKnockback : CharacterState
             character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) *  Time.deltaTime;
 
 
+        if (character.Movement.SpeedY < character.Movement.GravityMax)
+            character.Movement.SpeedY += (collisionFriction * 2) * Time.deltaTime;
+        else
+            character.Movement.ApplyGravity();
 
-        character.Movement.ApplyGravity();
 
 
         character.Knockback.UpdateKnockback(1);
