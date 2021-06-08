@@ -30,7 +30,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 	[ReadOnly] public GameObject lastSelectButton;
 
 	[Title("Options Menu")]
-	public ChoosenInputProfile optionsInput;
+	public ButtonNavigationOptionsMenu optionsInput;
 
 	[Title("Level Name")]
 	[Scene]
@@ -84,11 +84,6 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 		else
         {
 			OnTransition = false;
-		}
-
-		if(menuState != MenuState.InOptionMenu)
-        {
-			optionsInput.UpdateControl(ID, input_Info);
 		}
 
 		//if (canChangeScene)
@@ -374,8 +369,7 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
     public void Options()
 	{
 		//controlMapper.Open();
-		optionsInput.enabled = true;
-		optionsInput.Init();
+		optionsInput.InitializeMenu();
 
 		currentSelectButton.SetActive(false);
 		currentSelectButton = null;
@@ -385,13 +379,9 @@ public class MenuManagerUpdated : MonoBehaviour, IControllable
 
 	public void CloseOptions()
 	{
-		optionsInput.enabled = false;
-		for(int i = optionsInput.profileCreate.Count - 1; i >= 0; i--)
-        {
-			Destroy(optionsInput.profileCreate[i].gameObject);
-        }
-		optionsInput.profileCreate.Clear();
-		optionsInput.profileCreate = new List<UnityEngine.UI.Button>();
+		for (int i = 0; i < 4; i++)
+			optionsInput.inputController.controllable[i] = this;
+
 		currentButtonSelected = 1;
 		currentSelectButton = principalButtons[0];
 		EventSystem.current.SetSelectedGameObject(null);

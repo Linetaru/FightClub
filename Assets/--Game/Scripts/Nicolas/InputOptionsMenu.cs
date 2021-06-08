@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Menu;
 
-public class OptionsMenu : MenuList
+public class InputOptionsMenu : MenuList
 {
     [TitleGroup("Selection Profile")]
     public RectTransform selectionUIArrow;
@@ -18,7 +18,6 @@ public class OptionsMenu : MenuList
     public ButtonInputData profileSelected;
     public GameObject panelArrowProfile;
     public TMP_InputField inputField;
-    private bool isOnCreateButton = true;
 
     [Title("Selection Input")]
     public GameObject panelSelection;
@@ -43,7 +42,7 @@ public class OptionsMenu : MenuList
 
     SelectionState state = SelectionState.OnProfile;
 
-    private void Start()
+    private void Awake()
     {
         menuNameInput.OnValidate += OnCreateProfile;
     }
@@ -116,6 +115,10 @@ public class OptionsMenu : MenuList
                 input.inputActions.Clear();
                 characterID = id;
                 ValidateEntry(listEntry.IndexSelection);
+            }
+            else if (input.inputUiAction == InputConst.Return)
+            {
+                QuitMenu();
             }
         }
     }
@@ -224,6 +227,7 @@ public class OptionsMenu : MenuList
             }*/
         }
         InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(profileNameString));
+
         //AddingNewProfile(inputConfig.Count);
         listEntry.DrawItemList(inputConfig.Count, profileNameString);
         //Init();
@@ -252,6 +256,7 @@ public class OptionsMenu : MenuList
             case SelectionState.OnButton:
                 break;
             case SelectionState.OnProfile:
+
                 inputConfig = InputMappingDataStatic.inputMappingDataClassics;
 
                 for (int i = 0; i < inputConfig.Count; i++)
@@ -301,6 +306,7 @@ public class OptionsMenu : MenuList
         base.InitializeMenu();
 
         Init();
+        selectionUIArrow.anchoredPosition = listEntry.ListItem[0].RectTransform.anchoredPosition;
     }
 
     protected override void SelectEntry(int id)
