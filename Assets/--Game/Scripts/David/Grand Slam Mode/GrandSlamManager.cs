@@ -10,7 +10,13 @@ public class GrandSlamManager : MonoBehaviour
 {
     [Title("Data")]
     [SerializeField]
-    private int scoreToWin = 1500;
+    private int scoreGoal2Players = 800;
+    [SerializeField]
+    private int scoreGoal3Players = 1200;
+    [SerializeField]
+    private int scoreGoal4Players = 1800;
+
+    public int scoreToWin = 1500;
     [SerializeField]
     private float timeOnScore = 6f;
 
@@ -95,9 +101,27 @@ public class GrandSlamManager : MonoBehaviour
     {
         nextSceneName = GetRandomSceneFromList();
         gameData.slamMode = true;
+
+        InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
         StartCoroutine(LoadSceneAsync());
+    }
+
+    private void InitScoreGoal()
+    {
+        if(gameData.CharacterInfos.Count == 2)
+        {
+            scoreToWin = scoreGoal2Players;
+        }
+        else if (gameData.CharacterInfos.Count == 3)
+        {
+            scoreToWin = scoreGoal3Players;
+        }
+        else
+        {
+            scoreToWin = scoreGoal4Players;
+        }
     }
 
     // Récupère une scène parmi la liste du mode choisi
