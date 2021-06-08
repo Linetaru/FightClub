@@ -13,11 +13,14 @@ namespace Menu
         [SerializeField]
         SaveGraphicsSettings graphicsSettings;
 
+        public Image selectionUIArrow;
+
         int characterID = 0;
 
 		public override void InitializeMenu()
 		{
 			base.InitializeMenu();
+            graphicsSettings.Resolution = Screen.resolutions.Length - 1;
 
             listEntry.DrawItemList(0, QualitySettings.names[graphicsSettings.QualityLevel]);
             listEntry.DrawItemList(1, Screen.resolutions[graphicsSettings.Resolution].ToString());
@@ -52,7 +55,10 @@ namespace Menu
 		protected override void SelectEntry(int id)
 		{
 			base.SelectEntry(id);
-		}
+
+            selectionUIArrow.rectTransform.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
+            selectionUIArrow.rectTransform.anchoredPosition += new Vector2(-20, 0);
+        }
 
 
 		private void ChangeSettings(int id, int direction)
@@ -70,6 +76,14 @@ namespace Menu
             else if (id == 2) // Fullscreen
             {
                 graphicsSettings.Fullscreen += 1 * direction;
+                if (graphicsSettings.Fullscreen == 0)
+                {
+                    Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                }
+                else
+                {
+                    Screen.fullScreenMode = FullScreenMode.Windowed;
+                }
                 listEntry.DrawItemList(id, (graphicsSettings.Fullscreen == 0) ? "On" : "Off");
             }
             graphicsSettings.ChangeQualitySettings();

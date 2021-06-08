@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Menu
 {
@@ -22,10 +23,36 @@ namespace Menu
 		public override void InitializeMenu()
 		{
 			base.InitializeMenu();
+
+            sliders[0].handleRect.gameObject.GetComponent<Image>().color = Color.cyan;
+
+            sliders[0].value = volumeSettings.MasterVolume;
             listEntry.DrawItemList(0, volumeSettings.MasterVolume.ToString());
+
+            sliders[1].value = volumeSettings.MusicVolume;
             listEntry.DrawItemList(1, volumeSettings.MusicVolume.ToString());
+
+            sliders[2].value = volumeSettings.VoiceVolume;
             listEntry.DrawItemList(2, volumeSettings.VoiceVolume.ToString());
+
+            sliders[3].value = volumeSettings.SfxVolume;
             listEntry.DrawItemList(3, volumeSettings.SfxVolume.ToString());
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (sliders[i].value >= 50)
+                {
+                    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
+                        if (tmpText.name == "TextValue")
+                            tmpText.color = Color.black;
+                }
+                else
+                {
+                    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
+                        if (tmpText.name == "TextValue")
+                            tmpText.color = Color.white;
+                }
+            }
         }
 
 		public override void UpdateControl(int id, Input_Info input)
@@ -52,10 +79,17 @@ namespace Menu
         }
 
 
-		protected override void SelectEntry(int id)
-		{
-			base.SelectEntry(id);
-		}
+        protected override void SelectEntry(int id)
+        {
+            base.SelectEntry(id);
+
+            for (int i = 0; i < 4; i++)
+            {
+                sliders[i].handleRect.gameObject.GetComponent<Image>().color = Color.white;
+            }
+
+            sliders[id].handleRect.gameObject.GetComponent<Image>().color = Color.cyan;
+        }
 
 
 		private void ChangeVolume(int id, int direction)
@@ -71,6 +105,7 @@ namespace Menu
                 volumeSettings.MusicVolume += 1 * direction;
                 sliders[id].value = volumeSettings.MusicVolume;
                 listEntry.DrawItemList(id, volumeSettings.MusicVolume.ToString());
+                
             }
             else if(id == 2) // Voice
             {
@@ -84,7 +119,20 @@ namespace Menu
                 sliders[id].value = volumeSettings.SfxVolume;
                 listEntry.DrawItemList(id, volumeSettings.SfxVolume.ToString());
             }
-            
+
+            if (sliders[id].value >= 50)
+            {
+                foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
+                    if (tmpText.name == "TextValue")
+                        tmpText.color = Color.black;
+            }
+            else
+            {
+                foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
+                    if (tmpText.name == "TextValue")
+                        tmpText.color = Color.white;
+            }
+
             volumeSettings.ChangeRTPCValue();
         }
 	}
