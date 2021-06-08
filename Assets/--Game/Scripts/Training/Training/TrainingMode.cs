@@ -17,6 +17,13 @@ namespace Menu
 		DebugRegisterInput registerInput = null;
 		[SerializeField]
 		DebugDummyBehavior dummyBehavior = null;
+		[SerializeField]
+		DebugInfos debugInfos = null;
+
+		[SerializeField]
+		Transform parentInputVisual = null;
+		[SerializeField]
+		InputVisual[] inputVisual = null;
 
 		[Title("Parameter")]
 		[SerializeField]
@@ -60,6 +67,12 @@ namespace Menu
 			timeScale = 1f;
 			this.battleManager = battleManager;
 			inputController = battleManager.inputController;
+			debugInfos.SetCharacters(battleManager.characterAlive);
+
+			for (int i = 0; i < battleManager.characterAlive.Count; i++)
+			{
+				inputVisual[i].SetCharacter(battleManager.characterAlive[i]);
+			}
 		}
 
 
@@ -189,9 +202,11 @@ namespace Menu
 					break;
 				case 6: // Display Infos
 					displayInfos = !displayInfos;
+					debugInfos.ShowHideInfos();
 					break;
 				case 7: // Display Inputs
 					displayInput = !displayInput;
+					parentInputVisual.gameObject.SetActive(!parentInputVisual.gameObject.activeInHierarchy);
 					break;
 			}
 			DrawOptions();
