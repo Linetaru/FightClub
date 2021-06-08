@@ -44,6 +44,8 @@ public class ButtonNavigationOptionsMenu : MenuList
         }
         else if (input.inputUiAction == InputConst.Return)
         {
+            input.inputUiAction = null;
+            SaveManager.Instance.SaveFile();
             QuitMenu();
         }
     }
@@ -93,6 +95,7 @@ public class ButtonNavigationOptionsMenu : MenuList
         {
             DisplayPanel(panelGraph, id);
         }
+        inputOptionsMenu[id].InitializeMenu();
     }
 
     public void DisplayPanel(GameObject panel, int index)
