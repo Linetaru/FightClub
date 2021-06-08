@@ -9,6 +9,7 @@ using Menu;
 public class OptionsMenu : MenuList
 {
     [TitleGroup("Selection Profile")]
+    public RectTransform selectionUIArrow;
     public List<Image> selectionUI_Profile_Arrow;
     //public List<TMP_Text> text_Profile;
     public MenuButtonListController listEntryProfile;
@@ -26,7 +27,11 @@ public class OptionsMenu : MenuList
     //public List<TMP_Text> text_Input;
     public MenuButtonListController listEntrySelection;
 
+    [Title("Name Input")]
+    public InputController inputController;
+    public MenuNameInput menuNameInput;
 
+    private int characterID = 0;
     private List<InputMappingDataClassic> inputConfig = new List<InputMappingDataClassic>();
     EnumInput[] inputVar = new EnumInput[6];
 
@@ -38,39 +43,79 @@ public class OptionsMenu : MenuList
 
     SelectionState state = SelectionState.OnProfile;
 
+    private void Start()
+    {
+        menuNameInput.OnValidate += OnCreateProfile;
+    }
+    private void OnDestroy()
+    {
+        menuNameInput.OnValidate -= OnCreateProfile;
+    }
+
     public override void UpdateControl(int id, Input_Info input)
     {
-        if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
+        if (state == SelectionState.OnSelectionInput)
         {
-            SelectEntry(listEntry.IndexSelection);
-        }
-        else if (input.inputUiAction == InputConst.Interact)
-        {
-            input.inputUiAction = null;
-            ValidateEntry(listEntry.IndexSelection);
-        }
-
-        if (listEntry.IndexSelection < 6 && state == SelectionState.OnSelectionInput)
-        {
-            if (input.CheckActionAbsolute(0, InputConst.Attack))
-                inputVar[listEntry.IndexSelection] = EnumInput.A;
-            else if(input.CheckActionAbsolute(0, InputConst.Smash))
-                inputVar[listEntry.IndexSelection] = EnumInput.B;
-            else if (input.CheckActionAbsolute(0, InputConst.Special))
-                inputVar[listEntry.IndexSelection] = EnumInput.X;
-            else if (input.CheckActionAbsolute(0, InputConst.Jump))
-                inputVar[listEntry.IndexSelection] = EnumInput.Y;
-            else if (input.CheckActionAbsolute(0, InputConst.RightShoulder))
-                inputVar[listEntry.IndexSelection] = EnumInput.R1;
-            else if (input.CheckActionAbsolute(0, InputConst.RightTrigger))
-                inputVar[listEntry.IndexSelection] = EnumInput.R2;
-
-            if (input.inputActions.Count > 0)
+            if (characterID != id)
+                return;
+            if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
             {
-                listEntry.DrawItemList(listEntry.IndexSelection, inputVar[listEntry.IndexSelection].ToString());
-                listEntry.SelectIndex(listEntry.IndexSelection + 1);
                 SelectEntry(listEntry.IndexSelection);
+            }
+            else if (input.inputUiAction == InputConst.Interact)
+            {
+                input.inputUiAction = null;
+                ValidateEntry(listEntry.IndexSelection);
+            }
+
+            if (listEntry.IndexSelection < 6 && state == SelectionState.OnSelectionInput)
+            {
+                if (input.CheckActionAbsolute(0, InputConst.Attack))
+                    inputVar[listEntry.IndexSelection] = EnumInput.A;
+                else if (input.CheckActionAbsolute(0, InputConst.Smash))
+                    inputVar[listEntry.IndexSelection] = EnumInput.B;
+                else if (input.CheckActionAbsolute(0, InputConst.Special))
+                    inputVar[listEntry.IndexSelection] = EnumInput.X;
+                else if (input.CheckActionAbsolute(0, InputConst.Jump))
+                    inputVar[listEntry.IndexSelection] = EnumInput.Y;
+                else if (input.CheckActionAbsolute(0, InputConst.RightShoulder))
+                    inputVar[listEntry.IndexSelection] = EnumInput.R1;
+                else if (input.CheckActionAbsolute(0, InputConst.RightTrigger))
+                    inputVar[listEntry.IndexSelection] = EnumInput.R2;
+
+                if (input.inputActions.Count > 0)
+                {
+                    listEntry.DrawItemList(listEntry.IndexSelection, inputVar[listEntry.IndexSelection].ToString());
+                    listEntry.SelectIndex(listEntry.IndexSelection + 1);
+                    SelectEntry(listEntry.IndexSelection);
+                    input.inputActions.Clear();
+                }
+            }
+        }
+
+
+
+        else if (state == SelectionState.OnProfile)
+        {
+            if (id == characterID)
+            {
+                if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
+                {
+                    SelectEntry(listEntry.IndexSelection);
+                    return;
+                }
+            }
+            if (Mathf.Abs(input.vertical) > 0.2f)
+            {
+                characterID = id;
+            }
+
+            if (input.inputUiAction == InputConst.Interact)
+            {
+                input.inputUiAction = null;
                 input.inputActions.Clear();
+                characterID = id;
+                ValidateEntry(listEntry.IndexSelection);
             }
         }
     }
@@ -84,11 +129,12 @@ public class OptionsMenu : MenuList
             case SelectionState.OnButton:
                 break;
             case SelectionState.OnProfile:
-                if(id > 0)
+                if (id > 0)
                 {
                     panelSelection.SetActive(true);
                     panelArrowSelection.SetActive(true);
                     profileSelected = listEntry.ListItem[listEntry.IndexSelection].GetComponent<ButtonInputData>();
+                    profileSelected.inputMappingData.profileName = profileSelected.GetComponent<TextMeshProUGUI>().text;
                     listEntry = listEntrySelection;
                     listEntry.SelectIndex(0);
                     selectionUI_Input_Arrow[0].gameObject.SetActive(true);
@@ -97,18 +143,12 @@ public class OptionsMenu : MenuList
                 }
                 else if(id == 0)
                 {
-                    if(isOnCreateButton)
+                    for (int i = 0; i < inputController.controllable.Length; i++)
                     {
-                        inputField.gameObject.SetActive(true);
-                        listEntry.ListItem[0].gameObject.SetActive(false);
-                        listEntry.ListItem[0] = inputField.gameObject.GetComponent<MenuButtonList>();
+                        inputController.controllable[i] = null;
                     }
-                    else
-                    {
-
-                    }
-
-                    isOnCreateButton = !isOnCreateButton;
+                    inputController.controllable[characterID] = menuNameInput;
+                    menuNameInput.gameObject.SetActive(true);
                 }
                 break;
             case SelectionState.OnSelectionInput:
@@ -118,30 +158,33 @@ public class OptionsMenu : MenuList
                     panelSelection.SetActive(false);
                     panelArrowSelection.SetActive(false);
                     listEntry = listEntryProfile;
-                    int indexTMP = listEntryProfile.ListItem.IndexOf(profileSelected.gameObject.GetComponent<MenuButtonList>());
-                    listEntry.SelectIndex(indexTMP);
-                    selectionUI_Profile_Arrow[indexTMP].gameObject.SetActive(true);
+                    //int indexTMP = listEntryProfile.ListItem.IndexOf(profileSelected.gameObject.GetComponent<MenuButtonList>());
+                    listEntry.SelectIndex(listEntryProfile.IndexSelection);
+                    //selectionUI_Profile_Arrow[indexTMP].gameObject.SetActive(true);
+
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputAttack = inputVar[0];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputShortHop = inputVar[1];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputSpecial = inputVar[2];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputJump = inputVar[3];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputParry = inputVar[4];
+                    InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1].inputDash = inputVar[5];
+
+                    profileSelected.inputMappingData = InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1];
                 }
                 else if(id == 7)
                 {
                     state = SelectionState.OnProfile;
                     panelSelection.SetActive(false);
                     panelArrowSelection.SetActive(false);
-                    int indexTMP = listEntryProfile.ListItem.IndexOf(profileSelected.gameObject.GetComponent<MenuButtonList>());
-                    Destroy(selectionUI_Profile_Arrow[indexTMP].gameObject);
-                    selectionUI_Profile_Arrow.RemoveAt(indexTMP);
-                    listEntryProfile.ListItem.Remove(profileSelected.gameObject.GetComponent<MenuButtonList>());
-                    for (int i = 0; i < InputMappingDataStatic.inputMappingDataClassics.Count; i++)
-                    {
-                        if (InputMappingDataStatic.inputMappingDataClassics[i].profileName == profileSelected.inputMappingData.profileName)
-                            InputMappingDataStatic.inputMappingDataClassics.RemoveAt(i);
-                    }
-                    Destroy(profileSelected.gameObject);
-                    profileSelected = null;
                     listEntry = listEntryProfile;
-                    listEntry.UpdateCountList();
+
+                    InputMappingDataStatic.inputMappingDataClassics.RemoveAt(listEntryProfile.IndexSelection-1);
+
+                    Init();
                     listEntry.SelectIndexForIndexOnly(0);
-                    selectionUI_Profile_Arrow[0].gameObject.SetActive(true);
+                    SelectEntry(0);
+
+                    //selectionUI_Profile_Arrow[0].gameObject.SetActive(true);
                 }
                 break;
         }
@@ -150,18 +193,26 @@ public class OptionsMenu : MenuList
 
     public void OnCreateProfile(string profileNameString)
     {
-        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(profileNameString));
-        Init();
+        // Redonne le controle du menu
+        for (int i = 0; i < inputController.controllable.Length; i++)
+        {
+            inputController.controllable[i] = this;
+        }
+        menuNameInput.gameObject.SetActive(false);
 
         inputConfig = InputMappingDataStatic.inputMappingDataClassics;
 
-        for (int i = 1; i < inputConfig.Count; i++)
+        for (int i = 0; i < inputConfig.Count; i++)
         {
-            if(listEntry.ListItem[i] != null)
+            if(inputConfig[i].profileName == profileNameString)
+            {
+                return;
+            }
+            /*if(listEntry.ListItem[i] != null)
             {
                 foreach(MenuButtonList mbl in listEntry.ListItem)
                 {
-                    if (mbl.gameObject.GetComponent<TMP_Text>().text == inputConfig[i].profileName)
+                    if (mbl.gameObject.GetComponent<TMP_Text>().text == inputConfig[i-1].profileName)
                     {
                         break;
                     }
@@ -170,27 +221,31 @@ public class OptionsMenu : MenuList
                         AddingNewProfile(i);
                     }
                 }
-            }
+            }*/
         }
+        InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic(profileNameString));
+        //AddingNewProfile(inputConfig.Count);
+        listEntry.DrawItemList(inputConfig.Count, profileNameString);
+        //Init();
     }
 
     private void AddingNewProfile(int index)
     {
-        listEntry.DrawItemList(index, inputConfig[index].profileName);
-        Image im = Instantiate(arrowBase, panelArrowProfile.transform);
-        selectionUI_Profile_Arrow.Add(im);
+        //listEntry.DrawItemList(index, inputConfig[index].profileName);
+        /*Image im = Instantiate(arrowBase, panelArrowProfile.transform);
+        selectionUI_Profile_Arrow.Add(im);*/
 
         //Need improvement Image don't go more down than the first image spawned
-        Vector3 tmpPos = im.transform.position;
+       /* Vector3 tmpPos = im.transform.position;
         tmpPos.y = listEntry.ListItem[index].transform.position.y;
-        im.transform.position = tmpPos;
+        im.transform.position = tmpPos;*/
     }
 
     public void Init()
     {
         //Testing Adding Some Input config when create button doesn't work yet
-            InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test"));
-            InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test2"));
+        /*    InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test"));
+            InputMappingDataStatic.inputMappingDataClassics.Add(new InputMappingDataClassic("test2"));*/
 
         switch (state)
         {
@@ -199,10 +254,24 @@ public class OptionsMenu : MenuList
             case SelectionState.OnProfile:
                 inputConfig = InputMappingDataStatic.inputMappingDataClassics;
 
-                for (int i = 1; i < inputConfig.Count; i++)
+                for (int i = 0; i < inputConfig.Count; i++)
                 {
-                    AddingNewProfile(i);
+                    Debug.Log(inputConfig[i].profileName);
+                    listEntry.DrawItemList(i+1, inputConfig[i].profileName);
+                    //AddingNewProfile(i+1);
                 }
+                listEntryProfile.SetItemCount(inputConfig.Count + 1);
+                panelSelection.SetActive(false);
+                panelArrowSelection.SetActive(false);
+
+               /* foreach (Image im in selectionUI_Profile_Arrow)
+                    im.gameObject.SetActive(false);
+
+                selectionUI_Profile_Arrow[listEntry.IndexSelection].gameObject.SetActive(true);*/
+
+                break;
+            case SelectionState.OnSelectionInput:
+
 
                 inputVar = new EnumInput[]
                 {
@@ -213,17 +282,6 @@ public class OptionsMenu : MenuList
                     profileSelected.inputMappingData.inputParry,
                     profileSelected.inputMappingData.inputDash,
                 };
-
-                panelSelection.SetActive(false);
-                panelArrowSelection.SetActive(false);
-
-                foreach (Image im in selectionUI_Profile_Arrow)
-                    im.gameObject.SetActive(false);
-
-                selectionUI_Profile_Arrow[listEntry.IndexSelection].gameObject.SetActive(true);
-
-                break;
-            case SelectionState.OnSelectionInput:
 
                 foreach (Image im in selectionUI_Input_Arrow)
                     im.gameObject.SetActive(false);
@@ -253,9 +311,10 @@ public class OptionsMenu : MenuList
             case SelectionState.OnButton:
                 break;
             case SelectionState.OnProfile:
-                foreach (Image im in selectionUI_Profile_Arrow)
+                selectionUIArrow.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
+                /*foreach (Image im in selectionUI_Profile_Arrow)
                     im.gameObject.SetActive(false);
-                selectionUI_Profile_Arrow[id].gameObject.SetActive(true);
+                selectionUI_Profile_Arrow[id].gameObject.SetActive(true);*/
                 break;
             case SelectionState.OnSelectionInput:
                 foreach (Image im in selectionUI_Input_Arrow)
