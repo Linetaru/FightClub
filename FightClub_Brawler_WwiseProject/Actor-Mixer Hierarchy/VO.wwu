@@ -1875,6 +1875,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="VO_PULSE" ID="{3CEC77EE-41C0-4861-8F1C-D5A64A629555}" ShortID="904223359">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -1948,72 +1955,6 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="VO_Pulse_No_One_Messes" ID="{55BC63C4-1D75-4D95-9239-8E40F54DD875}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{BA1D2D14-D68E-4C45-985C-0B101BD20B5A}" ShortID="599764443">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{19789913-0452-4AF2-AA4A-9DB0799C06C0}">
-									<Language>SFX</Language>
-									<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_01.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="203894886"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{19789913-0452-4AF2-AA4A-9DB0799C06C0}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{E7C1180D-49E6-424E-905E-8026036394D5}" ShortID="652842571">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{44DBFB86-3C8C-44B1-B787-9696DCDD3C52}">
-									<Language>SFX</Language>
-									<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_02.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="348163106"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{44DBFB86-3C8C-44B1-B787-9696DCDD3C52}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{749976A6-792D-4FF3-8C0D-089E89B1A802}" ShortID="473579762">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{60F78E1F-666E-4FD7-AB07-233FE428DDFC}">
-									<Language>SFX</Language>
-									<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_03.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="636844599"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{60F78E1F-666E-4FD7-AB07-233FE428DDFC}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="VO_Pulse_WasntEvenAChallenge_01" ID="{8BA2F906-15CD-4DB9-A309-038F5CB50BED}" ShortID="107752478">
@@ -2487,6 +2428,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_PULSE_FwrdTilt_02" ID="{EB8BD67A-4230-4F0F-AA38-93FFA2BBA1CD}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0230543130990415"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0787220447284345"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0331757188498403"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.250223642172524"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_PULSE_FwrdTilt_02.wav</AudioFile>
 											<MediaIDList>
@@ -2509,6 +2457,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_PULSE_FwrdTilt_03" ID="{4422C5A2-07C9-440C-8091-4BEBD6050A7B}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0162811501597444"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0425814696485622"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_PULSE_FwrdTilt_03.wav</AudioFile>
 											<MediaIDList>
@@ -2531,6 +2484,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_PULSE_FwrdTilt_04" ID="{2C32E090-9462-4C24-9DDE-CB187F94DA82}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.014038338658147"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0161980830670926"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_PULSE_FwrdTilt_04.wav</AudioFile>
 											<MediaIDList>
@@ -2543,9 +2501,15 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_PULSE_FwrdTilt_01" ID="{135D50BE-6490-4C1F-8B78-41C9A3C88FF7}" ShortID="831728601">
+									<PropertyList>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="Effect0" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+											<ObjectRef Name="New_Wwise_Parametric_EQ" ID="{09638726-CA26-4CC3-8E06-6F3DD068A64B}" WorkUnitID="{E60AEE8B-EA90-4A14-BABB-EA8B88362F75}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
@@ -2553,6 +2517,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_PULSE_FwrdTilt_01" ID="{5498D431-4651-43C1-AAA5-D9218136EA11}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.00821512247071353"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0402108626198083"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0423727369542066"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.209701810436635"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_PULSE_FwrdTilt_01.wav</AudioFile>
 											<MediaIDList>
@@ -2575,6 +2546,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_PULSE_FwrdTilt_05" ID="{7EE25C8D-BBCA-477F-AA36-9D9A418C3362}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.00923429179978701"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0149169329073482"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_PULSE_FwrdTilt_05.wav</AudioFile>
 											<MediaIDList>
@@ -2914,28 +2890,6 @@
 										<ActiveSource Name="VO_Pulse_SpecialFrwd_03" ID="{FBD28495-52F6-4EFE-9C6B-BA57845899D7}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="VO_Pulse_SpecialFrwd_02" ID="{8282A265-8C95-4AFA-AC1C-84566CF2D708}" ShortID="976768326">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="VO_Pulse_SpecialFrwd_02" ID="{B53E7618-A14F-4630-AD0C-C1E276A194D4}">
-											<Language>SFX</Language>
-											<AudioFile>VO\VO_Pulse_SpecialFrwd_02.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="754454907"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="VO_Pulse_SpecialFrwd_02" ID="{B53E7618-A14F-4630-AD0C-C1E276A194D4}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="VO_Pulse_SpecialFrwd_01" ID="{EDFCFFBD-D859-4D27-8FA9-FD24571DB1EE}" ShortID="923820322">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2956,6 +2910,33 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="VO_Pulse_SpecialFrwd_01" ID="{6F71BE7F-76FE-4483-8C90-F5382A06AC8C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="VO_Pulse_SpecialFrwd_02" ID="{D4E3A933-369E-4503-A15E-85B5556CAC20}" ShortID="68043396">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="VO_Pulse_SpecialFrwd_02" ID="{C63BA2FD-04AC-4BFF-88A8-B88257AB7CA3}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.00852822151224708"/>
+												<Property Name="LoopBegin" Type="Real64" Value="0"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>VO\VO_Pulse_SpecialFrwd_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="754454907"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="VO_Pulse_SpecialFrwd_02" ID="{C63BA2FD-04AC-4BFF-88A8-B88257AB7CA3}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
@@ -3141,9 +3122,94 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="VO_Pulse_SpecialDown_TakeThis" ID="{966DCA51-BE55-4CB1-BC6A-C90F326DDF33}" ShortID="1020456872">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{749976A6-792D-4FF3-8C0D-089E89B1A802}" ShortID="473579762">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{60F78E1F-666E-4FD7-AB07-233FE428DDFC}">
+											<Language>SFX</Language>
+											<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="636844599"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_03" ID="{60F78E1F-666E-4FD7-AB07-233FE428DDFC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{E7C1180D-49E6-424E-905E-8026036394D5}" ShortID="652842571">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{44DBFB86-3C8C-44B1-B787-9696DCDD3C52}">
+											<Language>SFX</Language>
+											<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="348163106"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{44DBFB86-3C8C-44B1-B787-9696DCDD3C52}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{BA1D2D14-D68E-4C45-985C-0B101BD20B5A}" ShortID="599764443">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{19789913-0452-4AF2-AA4A-9DB0799C06C0}">
+											<Language>SFX</Language>
+											<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="203894886"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{19789913-0452-4AF2-AA4A-9DB0799C06C0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="VO_Announcer" ID="{D3158BDF-E326-4CB4-9E19-B0B28465402E}" ShortID="3214846">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
