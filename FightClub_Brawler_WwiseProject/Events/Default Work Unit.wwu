@@ -984,9 +984,23 @@
 												<Event Name="Play_CROW_Whoosh_Special_Down_Charging" ID="{DD392564-6CFC-46AD-BCCB-D4B74A16B03C}">
 													<ChildrenList>
 														<Action Name="" ID="{75FA4448-8DA1-4503-98B3-24C68715147E}" ShortID="480757769">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
 																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge" ID="{8DC8ECFF-E526-4DBD-A3B7-64DBBFFB3784}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+														<Action Name="" ID="{3E1CE76A-C2D3-4C3C-B42D-184EE0C7F70D}" ShortID="733683974">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge_V2" ID="{9DE45C26-4294-4CAF-9CE3-DD8474EBCE45}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
@@ -1082,19 +1096,42 @@
 																</Reference>
 															</ReferenceList>
 														</Action>
+														<Action Name="" ID="{28FF2952-BE57-47DC-AF0E-338AA9D91D8B}" ShortID="611940452">
+															<PropertyList>
+																<Property Name="Inclusion" Type="bool">
+																	<ValueList>
+																		<Value>False</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge_Whoosh_End_V2" ID="{3B304C41-C3B8-4213-BDAC-746430C9E504}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
 													</ChildrenList>
 												</Event>
 												<Event Name="Stop_CROW_Whoosh_Spe_Down_Charge_End" ID="{3AEFFBC7-973C-4DA0-8747-AA5C385F25A4}">
 													<ChildrenList>
-														<Action Name="" ID="{1A24BE1E-1850-4DF8-A4A1-A931D54F42C5}" ShortID="685993873">
+														<Action Name="" ID="{AB878E73-7AF9-4548-8FB1-4548C80B40CF}" ShortID="642259128">
 															<PropertyList>
 																<Property Name="ActionType" Type="int16" Value="2"/>
-																<Property Name="FadeOutCurve" Type="int16" Value="6"/>
-																<Property Name="FadeTime" Type="Real64" Value="0.5"/>
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Target">
-																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge" ID="{8DC8ECFF-E526-4DBD-A3B7-64DBBFFB3784}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge_V2" ID="{9DE45C26-4294-4CAF-9CE3-DD8474EBCE45}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
+																</Reference>
+															</ReferenceList>
+														</Action>
+													</ChildrenList>
+												</Event>
+												<Event Name="Play_CROW_Whoosh_Spe_Down_Charge_Shake" ID="{5D033F06-CF67-4F90-8B35-BC9633178196}">
+													<ChildrenList>
+														<Action Name="" ID="{2A898015-E0C3-4BAE-AA3B-6CE24FBC84AA}" ShortID="886044999">
+															<ReferenceList>
+																<Reference Name="Target">
+																	<ObjectRef Name="CROW_Whoosh_Spe_Down_Charge_Shake" ID="{DC378068-C324-4C4C-8747-9C0AAAC536EE}" WorkUnitID="{C16A2C59-99E0-487F-B57A-5261247F9283}"/>
 																</Reference>
 															</ReferenceList>
 														</Action>
