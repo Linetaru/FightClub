@@ -67,7 +67,9 @@ public class StickyBombManager : GameMode
     private float resetModeTimer = 10f;
     */
 
-    private bool startRound;
+    private bool startRound = false;
+    private bool endGame = false;
+
 
     private float originalBombTimer;
 
@@ -198,7 +200,9 @@ public class StickyBombManager : GameMode
                 InitStickyBomb();
             }
         }
-        BombTimerManager();
+
+        if(!endGame)
+            BombTimerManager();
     }
 
     /*public void Callback(CharacterBase target)
@@ -377,6 +381,7 @@ public class StickyBombManager : GameMode
             gameEventCharacterFullDead.Raise(currentBombedPlayer);
         }
 
+
         //Float Event to update Stock UI
         if (tag == "Player1")
             gameEventStocks[0].Raise(currentBombedPlayer);
@@ -390,7 +395,8 @@ public class StickyBombManager : GameMode
         currentBombedPlayer = null;
         oldBombedPlayer = null;
 
-        StartCoroutine(WaitBeforeNextRound());
+        if(!endGame)
+            StartCoroutine(WaitBeforeNextRound());
     }
 
     private void UpdateRoundMode()
@@ -476,7 +482,9 @@ public class StickyBombManager : GameMode
 
     public void EndGame()
     {
+        Debug.Log("ENDGAME !!!!!!!!!!!!!");
         uiManager.GetComponent<Canvas>().enabled = false;
+        endGame = true;
     }
 
     IEnumerator WaitBeforeNextRound()
