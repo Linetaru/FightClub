@@ -10,6 +10,12 @@ public class GrandSlamManager : MonoBehaviour
 {
     [Title("Data")]
     [SerializeField]
+    private int scoreGoal2Players = 800;
+    [SerializeField]
+    private int scoreGoal3Players = 1200;
+    [SerializeField]
+    private int scoreGoal4Players = 1800;
+
     private int scoreToWin = 1500;
     [SerializeField]
     private float timeOnScore = 6f;
@@ -95,9 +101,27 @@ public class GrandSlamManager : MonoBehaviour
     {
         nextSceneName = GetRandomSceneFromList();
         gameData.slamMode = true;
+
+        InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
         StartCoroutine(LoadSceneAsync());
+    }
+
+    private void InitScoreGoal()
+    {
+        if(gameData.CharacterInfos.Count == 2)
+        {
+            scoreToWin = scoreGoal2Players;
+        }
+        else if (gameData.CharacterInfos.Count == 3)
+        {
+            scoreToWin = scoreGoal3Players;
+        }
+        else
+        {
+            scoreToWin = scoreGoal4Players;
+        }
     }
 
     // Récupère une scène parmi la liste du mode choisi
@@ -172,29 +196,53 @@ public class GrandSlamManager : MonoBehaviour
     // Calcule les scores et demande au canvas de les afficher
     private void CalculateScore()
     {
-        int[] scores = new int[4];
-
-        int i = 0;
-
-        foreach (CharacterBase character in BattleManager.Instance.characterFullDead)
+        if(gameMode == GameModeStateEnum.Volley_Mode)
         {
-            playersScore[character.ControllerID] += currentScoreArr[i];
+            // Condition points volley
+            // Si bleus gagne - Joueur 1 et 3 gagnent les points de currentScoreArr[0] et Joueur 2 et 4 gagnent les points de currentScoreArr[1]
 
-            scores[character.PlayerID] = playersScore[character.ControllerID];
 
-            i++;
+            // Code temporaire
+            /*
+            int winnerPoints = currentScoreArr[0];
+            int loserPoints = currentScoreArr[1];
+
+            if(bleuWin)
+            {
+                playersScore[gameData.CharacterInfos[0].ControllerID] += winnerPoints;
+                playersScore[gameData.CharacterInfos[2].ControllerID] += winnerPoints;
+                playersScore[gameData.CharacterInfos[1].ControllerID] += loserPoints;
+                playersScore[gameData.CharacterInfos[3].ControllerID] += loserPoints;
+            }
+            else
+            {
+                playersScore[gameData.CharacterInfos[1].ControllerID] += winnerPoints;
+                playersScore[gameData.CharacterInfos[3].ControllerID] += winnerPoints;
+                playersScore[gameData.CharacterInfos[2].ControllerID] += loserPoints;
+                playersScore[gameData.CharacterInfos[0].ControllerID] += loserPoints;
+            }
+            */
+
+        }
+        else
+        {
+            int i = 0;
+
+            foreach (CharacterBase character in BattleManager.Instance.characterFullDead)
+            {
+                playersScore[character.ControllerID] += currentScoreArr[i];
+
+                i++;
+            }
         }
 
-        canvasScore.DrawScores(scores, gameData.CharacterInfos.Count);
+        canvasScore.DrawScores(playersScore, gameData);
         slamLogoMode.TriggerWheel();
-
     }
 
     // Gère toute la transition de la fin du mode en cours au début du prochain mode
     private IEnumerator ManageEndMode()
     {
-        nextSceneName = GetRandomSceneFromList();
-
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1.0f;
@@ -216,6 +264,8 @@ public class GrandSlamManager : MonoBehaviour
 
         if (!IsGameOver())
         {
+            nextSceneName = GetRandomSceneFromList();
+
             BattleManager.Instance.ResetInstance();
             yield return new WaitForSeconds(timeOnScore);
 
@@ -251,6 +301,8 @@ public class GrandSlamManager : MonoBehaviour
             cameraObj.transform.position = currentCam.transform.position;
             */
 
+            canvasScore.StartTransitionLogo(gameMode);
+
             yield return new WaitForSeconds(2f);
 
             camSlam.RotToGame();
@@ -272,7 +324,7 @@ public class GrandSlamManager : MonoBehaviour
     // Paramètre le gameData
     private void SetGame()
     {
-        gameData.GameMode = gameMode;
+        //gameData.GameMode = gameMode;
 
         StartGame();
     }
@@ -324,31 +376,16 @@ public class GrandSlamManager : MonoBehaviour
             podiumArr[index] = cb;
         }
 
+        /*
         foreach (CharacterBase cb in BattleManager.Instance.characterFullDead) 
         { 
             int index = sortedControllerID.IndexOf(cb.ControllerID);
             podiumArr[index] = cb;
-
-            Debug.Log("JE MET LE CHARACTER " + cb + " A L'EMPLACEMENT " + index + " DU TABLEAU");
         } 
- 
+        */
         for(int i = 0; i < gameData.CharacterInfos.Count; i++)
         {
             podium.Add(podiumArr[i]);
-        }
-
-
-        Debug.Log("DANS LE TABLEAU");
-
-        for(int i = 0; i < podiumArr.Length; i++)
-        {
-            Debug.Log(i + " = " + podiumArr[i]);
-        }
-
-        Debug.Log("DANS LA LISTE");
-        foreach(CharacterBase cb in podium) 
-        { 
-            Debug.Log(cb); 
         }
 
         camSlam.camera.enabled = false;
@@ -372,6 +409,8 @@ public class GrandSlamManager : MonoBehaviour
 
     private IEnumerator LoadSceneAsync()
     {
+        gameData.GameMode = gameMode;
+
         AsyncOperation async = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         async.completed += (AsyncOperation o) =>
         {

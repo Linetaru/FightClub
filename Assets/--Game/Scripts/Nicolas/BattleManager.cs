@@ -14,7 +14,7 @@ public class BattleManager : MonoBehaviour
 	public Color[] teamTextColors;
 
 	[Title("Game Mode Managers")]
-	public GameObject BombModeManager;
+	//public GameObject BombModeManager;
 	public FlappyModeManager FlappyModeManager;
 
 	[Title("Events")]
@@ -59,9 +59,9 @@ public class BattleManager : MonoBehaviour
 	[SerializeField]
 	private Image fadeImage;
 
-	Input_Info input;
+	Input_Info input = null;
 	List<IControllable> standbyList = new List<IControllable>();
-
+	GameMode currentGameMode = null;
 
 	//SINGLETON
 
@@ -77,6 +77,10 @@ public class BattleManager : MonoBehaviour
 		else
 		{
 			_instance = this;
+			if (!gameData.slamMode)
+			{
+				gameData.SetGameSettings();
+			}
 		}
 	}
 
@@ -108,12 +112,16 @@ public class BattleManager : MonoBehaviour
 		gameEndedEvent.AddListener(ManageEndBattle);
 
 		SpawnPlayer();
-		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+
+		currentGameMode = Instantiate(gameData.CreateGameMode(), this.transform);
+		currentGameMode.InitializeMode(this);
+
+		/*if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
 		{
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
-		}
-		else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		}*/
+		if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
 		{
 			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
 			go.BattleManager = this;
@@ -331,10 +339,6 @@ public class BattleManager : MonoBehaviour
 
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{
-			/*if (inputController.controllable[i] != null)
-			{
-				standbyList.Add(inputController.controllable[i]);
-			}*/
 			inputController.controllable[i] = controllable;
 		}
 		// Enlevé les IA

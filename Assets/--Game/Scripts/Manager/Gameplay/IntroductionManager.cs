@@ -41,6 +41,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	private void Start()
 	{
 		battleManager = BattleManager.Instance;
+		if (battleManager.gameData.GameSetting.SkipIntro)
+			this.gameObject.SetActive(false);
 	}
 
 

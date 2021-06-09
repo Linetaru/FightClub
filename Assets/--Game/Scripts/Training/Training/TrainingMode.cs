@@ -17,6 +17,13 @@ namespace Menu
 		DebugRegisterInput registerInput = null;
 		[SerializeField]
 		DebugDummyBehavior dummyBehavior = null;
+		[SerializeField]
+		DebugInfos debugInfos = null;
+
+		[SerializeField]
+		Transform parentInputVisual = null;
+		[SerializeField]
+		InputVisual[] inputVisual = null;
 
 		[Title("Parameter")]
 		[SerializeField]
@@ -55,29 +62,26 @@ namespace Menu
 
 
 
-		private void Start()
+		public override void InitializeMode(BattleManager battleManager)
 		{
 			timeScale = 1f;
-			battleManager = BattleManager.Instance;
-			inputController = BattleManager.Instance.inputController;
-		}
+			this.battleManager = battleManager;
+			inputController = battleManager.inputController;
+			debugInfos.SetCharacters(battleManager.characterAlive);
 
+			for (int i = 0; i < battleManager.characterAlive.Count; i++)
+			{
+				inputVisual[i].SetCharacter(battleManager.characterAlive[i]);
+			}
+		}
 
 
 		private void Update()
 		{
 			if (menuOn == true)
 				return;
-
-			/*if(inputController.playerInputs[0].CheckAction(0, InputConst.Pause) && menuOn == false)
-			{
-				inputController.playerInputs[0].inputActions[0].timeValue = 0;
-
-				character = inputController.controllable[0];
-				inputController.controllable[0] = this;
-				ShowMenu();
-			}*/
-
+			if (battleManager.GamePaused)
+				return;
 
 			if (inputController.playerInputs[0].CheckAction(0, InputConst.Back) && menuOn == false)
 			{
@@ -198,9 +202,11 @@ namespace Menu
 					break;
 				case 6: // Display Infos
 					displayInfos = !displayInfos;
+					debugInfos.ShowHideInfos();
 					break;
 				case 7: // Display Inputs
 					displayInput = !displayInput;
+					parentInputVisual.gameObject.SetActive(!parentInputVisual.gameObject.activeInHierarchy);
 					break;
 			}
 			DrawOptions();

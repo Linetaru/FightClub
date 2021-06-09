@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class GameMode : MonoBehaviour
 {
+    public virtual void InitializeMode(BattleManager battleManager)
+    {
 
+    }
 }

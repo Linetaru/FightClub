@@ -39,11 +39,24 @@ public class DebugInfos : MonoBehaviour
             }
         }
 
-        ShowHideInfos();
-
-        SwitchPlayers();
-
         UpdateInfos();
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ShowHideInfos();
+        }
+#endif
+
+        //SwitchPlayers();
+    }
+
+    public void SetCharacters(List<CharacterBase> characterBases)
+    {
+        for (int i = 0; i < characterBases.Count; i++)
+        {
+            AddCharacter(characterBases[i]);
+        }
     }
 
     public void AddCharacter(CharacterBase character)
@@ -135,18 +148,15 @@ public class DebugInfos : MonoBehaviour
         }
     }
 
-    private void ShowHideInfos()
+    public void ShowHideInfos()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        for(int i = 0; i < playersList.Count; i++)
         {
-            for(int i = 0; i < playersList.Count; i++)
-            {
-                CanvasGroup canvasG = playerInfos[i].GetComponent<CanvasGroup>();
-                if (canvasG.alpha < 1f)
-                    canvasG.alpha = 1f;
-                else
-                    canvasG.alpha = 0f;
-            }
+            CanvasGroup canvasG = playerInfos[i].GetComponent<CanvasGroup>();
+            if (canvasG.alpha < 1f)
+                canvasG.alpha = 1f;
+            else
+                canvasG.alpha = 0f;
         }
     }
 
