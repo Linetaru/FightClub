@@ -6,6 +6,7 @@ public class SlamMode : MonoBehaviour
 {
     public GameModeStateEnum gameMode;
 
+    [Scene]
     public List<string> scenes = new List<string>();
 
     public int nbLife = 1;
