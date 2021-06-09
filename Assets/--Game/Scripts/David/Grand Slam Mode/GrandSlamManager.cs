@@ -67,6 +67,8 @@ public class GrandSlamManager : MonoBehaviour
 
     bool moveCamera = false;
 
+    bool almostOver = false;
+
     [Title("Values")]
     [SerializeField]
     private float cameraResetSpeed = 1.0f;
@@ -99,13 +101,16 @@ public class GrandSlamManager : MonoBehaviour
 
     private void Start()
     {
-        nextSceneName = GetRandomSceneFromList();
         gameData.slamMode = true;
 
         InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
+
+        nextSceneName = GetRandomSceneFromList();
+
         StartCoroutine(LoadSceneAsync());
+
     }
 
     private void InitScoreGoal()
@@ -139,6 +144,18 @@ public class GrandSlamManager : MonoBehaviour
     // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
+        if(!almostOver && PlayerAboutToWin())
+        {
+            SlamMode slamMode = RemoveMode(GameModeStateEnum.Volley_Mode);
+
+            if(slamMode == currentMode)
+            {
+                currentMode = null;
+            }
+
+            almostOver = true;
+        }
+
         if(currentMode != null)
             listGameModesValid.Remove(currentMode);
 
@@ -155,6 +172,33 @@ public class GrandSlamManager : MonoBehaviour
         return listGameModesValid[randomKey].scenes;
     }
 
+    private bool PlayerAboutToWin()
+    {
+        foreach(KeyValuePair<int, int> score in playersScore)
+        {
+            if(scoreToWin - score.Value <= 300)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private SlamMode RemoveMode(GameModeStateEnum gameMode)
+    {
+        List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
+
+        foreach (SlamMode slam in copySlamMode)
+        {
+             if(slam.gameMode == gameMode)
+            {
+                listGameModesValid.Remove(slam);
+                return slam;
+            }
+        }
+        return null;
+    }
+
 
     // Cette fonction retire des modes de la liste en fonction du nombre de joueurs
     private void AdjustModeList()
@@ -165,22 +209,13 @@ public class GrandSlamManager : MonoBehaviour
         {
             if (gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode)
             {
-                Debug.Log("JE RETIRE " + slam.gameMode);
                 listGameModesValid.Remove(slam);
             }
 
             if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)
             {
-                Debug.Log("JE RETIRE " + slam.gameMode);
                 listGameModesValid.Remove(slam);
             }
-        }
-
-        Debug.Log("LISTE MODES VALIDES : ");
-
-        foreach(SlamMode slam in listGameModesValid)
-        {
-            Debug.Log(slam.gameMode);
         }
     }
 
