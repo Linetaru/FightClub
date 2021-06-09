@@ -101,6 +101,10 @@ public class GrandSlamManager : MonoBehaviour
 
     private void Start()
     {
+        gameData.GameMode = GameModeStateEnum.Special_Mode;
+
+        gameData.SetGameSettings();
+
         gameData.slamMode = true;
 
         InitScoreGoal();
@@ -261,13 +265,11 @@ public class GrandSlamManager : MonoBehaviour
         }
         else
         {
-            int i = 0;
+            List<CharacterBase> listCharacter = new List<CharacterBase>(BattleManager.Instance.characterFullDead);
 
-            foreach (CharacterBase character in BattleManager.Instance.characterFullDead)
+            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
             {
-                playersScore[character.ControllerID] += currentScoreArr[i];
-
-                i++;
+                playersScore[listCharacter[i].ControllerID] += currentScoreArr[i];
             }
         }
 
