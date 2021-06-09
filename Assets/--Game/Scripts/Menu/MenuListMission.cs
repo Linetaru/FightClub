@@ -32,6 +32,11 @@ namespace Menu
 		[SerializeField]
 		Animator animatorDescription;
 
+		public void SetDatabase(SODatabase_Mission newDatabase)
+		{
+			databaseMission = newDatabase;
+		}
+
 		public override void InitializeMenu()
 		{
 			animatorMenu.gameObject.SetActive(true);
@@ -85,7 +90,7 @@ namespace Menu
 			{
 				gameData.CharacterInfos.Add(new Character_Info());
 				gameData.CharacterInfos[1].CharacterData = databaseMission.Database[id].Dummy;
-				gameData.CharacterInfos[1].ControllerID = 1;
+				gameData.CharacterInfos[1].ControllerID = -10;
 				gameData.CharacterInfos[1].CharacterColorID = 3;
 				gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
 			}

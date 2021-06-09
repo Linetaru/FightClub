@@ -36,6 +36,7 @@ public class CharacterAction : MonoBehaviour
     Animator animator;
 
     public EventAttackManager OnAttack;
+    public EventVoid OnAttackActive;
 
     // à virer 
     public Animator Animator
@@ -148,6 +149,7 @@ public class CharacterAction : MonoBehaviour
         if (currentAttackManager != null)
         {
             currentAttackManager.ActionActive(subAttack);
+            OnAttackActive?.Invoke();
         }
     }
 
@@ -164,6 +166,7 @@ public class CharacterAction : MonoBehaviour
         if (currentAttackManager != null)
         {
             currentAttackManager.ActionAllActive();
+            OnAttackActive?.Invoke();
         }
     }
 

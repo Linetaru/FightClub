@@ -21,9 +21,9 @@ public class CharacterStateKnockback : CharacterState
     [SerializeField]
     float reboundSpeedNeeded = 2f;
 
-    /*[SerializeField]
+    [SerializeField]
     [SuffixLabel("en frames")]
-    float landingTime = 10;*/
+    float landingTime = 10;
 
     [Title("Parameter - Collision")]
     [SerializeField]
@@ -53,10 +53,11 @@ public class CharacterStateKnockback : CharacterState
     bool inHitStop = true;
     float tech = 0;
     float techCooldown = 0;
+    float knockbackY = 0;
 
     private void Start()
     {
-        //landingTime /= 60f;
+        landingTime /= 60f;
         techTime /= 60f;
         techAntiSpam /= 60f;
     }
@@ -69,6 +70,7 @@ public class CharacterStateKnockback : CharacterState
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;
         character.Movement.SpeedY = character.Knockback.GetAngleKnockback().y;
+        knockbackY = character.Knockback.GetAngleKnockback().y;
 
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask, false, true);
         character.Rigidbody.SetNewLayerMask(knockbackLayerMask);
@@ -92,8 +94,11 @@ public class CharacterStateKnockback : CharacterState
             character.Movement.SpeedX -= (collisionFriction * Mathf.Sign(character.Movement.SpeedX)) *  Time.deltaTime;
 
 
+        if (character.Movement.SpeedY < character.Movement.GravityMax)
+            character.Movement.SpeedY += (collisionFriction * 2) * Time.deltaTime;
+        else
+            character.Movement.ApplyGravity();
 
-        character.Movement.ApplyGravity();
 
 
         character.Knockback.UpdateKnockback(1);
@@ -122,7 +127,16 @@ public class CharacterStateKnockback : CharacterState
             if (tech >= 0 && character.Movement.SpeedY < 0)
                 character.SetState(groundTechState);
             else
-                character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            {
+                if (character.Knockback.KnockbackDuration < landingTime)
+                {
+                    character.Movement.SetSpeed(0, 0);
+                    character.ResetToLand();
+                }
+                else
+                    character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
+            }
+
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)

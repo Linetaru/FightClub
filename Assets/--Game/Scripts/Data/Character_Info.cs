@@ -16,10 +16,9 @@ public class Character_Info
 	}
 
 	[HorizontalGroup]
-	[HideLabel]
 	[SerializeField]
-	private InputMappingData inputMapping;
-	public InputMappingData InputMapping
+	private InputMappingDataClassic inputMapping;
+	public InputMappingDataClassic InputMapping
 	{
 		get { return inputMapping; }
 		set { inputMapping = value; }
@@ -56,5 +55,6 @@ public class Character_Info
 		team = TeamEnum.No_Team;
 		characterColorID = 0;
 		characterData = null;
+		inputMapping = new InputMappingDataClassic("classic");
 	}
 }

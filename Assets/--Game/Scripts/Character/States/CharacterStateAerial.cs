@@ -151,7 +151,7 @@ public class CharacterStateAerial : CharacterState
                         return;
                     }
                 }
-                if (Mathf.Abs(character.Input.horizontal) > .2) // && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))
+                if (Mathf.Abs(character.Input.horizontal) > .1) // && Mathf.Sign(character.Input.horizontal) == Mathf.Sign(character.Movement.Direction))
                     character.SetState(wallRunState);
             }
             character.Movement.SpeedX = 0;

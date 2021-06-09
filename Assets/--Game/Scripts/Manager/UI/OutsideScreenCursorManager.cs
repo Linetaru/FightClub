@@ -7,7 +7,8 @@ public class OutsideScreenCursorManager : MonoBehaviour
 {
 	[SerializeField]
 	BoxCollider blastZone;
-	[SerializeField]
+
+
 	CameraZoomController cam;
 
 	[Title("Canvas")]
@@ -23,6 +24,8 @@ public class OutsideScreenCursorManager : MonoBehaviour
 
 	public void InitializeCharacter(CharacterBase c)
 	{
+		if (cam == null)
+			cam = BattleManager.Instance.cameraController;
 		OutsideScreenCursor cursor = Instantiate(prefab, parent);
 		cursor.Initialize(c.CenterPoint, blastZone.bounds, cam);
 

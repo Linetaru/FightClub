@@ -99,6 +99,8 @@ namespace Menu
             listIndexCount = listItem.Count;
         }
 
+        public void DrawItemList(int i, string text) => DrawItemList(i, null, text, "");
+
         public void SetItemCount(int count)
         {
             listIndexCount = count;
@@ -147,6 +149,10 @@ namespace Menu
 
         public bool SelectUp()
         {
+            if (listItem.Count <= 1)
+            {
+                return false;
+            }
             if (listIndexCount == 0)
             {
                 return false;
@@ -175,6 +181,10 @@ namespace Menu
 
         public bool SelectDown()
         {
+            if(listItem.Count <= 1)
+            {
+                return false;
+            }
             if (listIndexCount == 0)
             {
                 return false;
@@ -206,9 +216,16 @@ namespace Menu
             indexSelection = id;
             listItem[indexSelection].SelectButton();
         }
+        public void SelectIndexForIndexOnly(int id)
+        {
+            indexSelection = id;
+        }
 
 
-
+        public void UpdateCountList()
+        {
+            listIndexCount = listItem.Count;
+        }
 
 
         // Check si on peut repeter l'input

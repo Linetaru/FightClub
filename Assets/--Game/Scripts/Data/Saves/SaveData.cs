@@ -51,6 +51,9 @@ public class SaveData : ScriptableObject
 		set { dataSaves = value; }
 	}
 
+	[SerializeField]
+	public List<InputMappingDataClassic> inputs = new List<InputMappingDataClassic>();
+
 
 	// On copie save profile dans dataSaves
 	public void LoadProfile(SaveProfile saveProfile)

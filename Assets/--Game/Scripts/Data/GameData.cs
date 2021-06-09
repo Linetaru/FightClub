@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public enum VictoryCondition{
 	Health,
@@ -49,4 +50,55 @@ public class GameData : ScriptableObject
 		get { return gameMode; }
 		set { gameMode = value; }
 	}
+
+
+	[HorizontalGroup("GameMode")]
+	[SerializeField]
+	private GameMode[] gameModes = null;
+
+	[HorizontalGroup("GameMode")]
+	[SerializeField]
+	private GameModeSettings[] gameSettings = null;
+
+
+
+	private GameMode gameModePrefab = null;
+	public GameMode GameModePrefab
+	{
+		get { return gameModePrefab; }
+		set { gameModePrefab = value; }
+	}
+
+	private GameModeSettings gameSetting = null;
+	public GameModeSettings GameSetting
+	{
+		get { return gameSetting; }
+		set { gameSetting = value; }
+	}
+
+
+	[HideInInspector]
+	public bool slamMode = false;
+
+
+	public void SetGameSettings()
+	{
+		SetGameSettings(gameMode);
+	}
+	public void SetGameSettings(GameModeStateEnum gameMode)
+	{
+		gameSetting = gameSettings[(int)gameMode];
+	}
+
+
+
+	public GameMode CreateGameMode()
+	{
+		return CreateGameMode(gameMode);
+	}
+	public GameMode CreateGameMode(GameModeStateEnum gameMode)
+	{
+		return gameModes[(int)gameMode];
+	}
+
 }
