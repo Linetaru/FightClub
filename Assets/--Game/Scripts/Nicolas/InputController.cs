@@ -60,6 +60,24 @@ public class Input_Info
 		return false;
 	}
 
+	/// <summary>
+	/// CARE USE CHECKACTION INSTEAD OF IT IF U WANT REAL MAPPING
+	/// </summary>
+	/// <param name="id"></param>
+	/// <param name="inputAction"></param>
+	/// <returns></returns>
+	public bool CheckActionAbsolute(int id, InputAction inputAction)
+	{
+		if (inputActions.Count != 0)
+		{
+			if (inputActions[id].action == inputAction)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/*public bool CheckActionUI(InputAction inputAction)
 	{
 		if (inputUiAction == inputAction)
@@ -148,7 +166,7 @@ public class InputController : SerializedMonoBehaviour
 	//Buffer Length is start time before input is removed for each input in buffer
 	public float bufferLength = 6;
 
-	public PackageCreator.Event.GameEvent pauseEvent;
+	public PackageCreator.Event.GameEventInt pauseEvent;
 
 	public void SetInputMapping(int id, InputMappingDataClassic inputData)
 	{
@@ -216,7 +234,7 @@ public class InputController : SerializedMonoBehaviour
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
-					pauseEvent.Raise();
+					pauseEvent.Raise(i);
 				}
 
 			//If we got at least one entity will send to each entity their linked list for input buffer

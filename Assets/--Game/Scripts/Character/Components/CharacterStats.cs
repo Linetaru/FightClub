@@ -135,7 +135,7 @@ public class CharacterStats : MonoBehaviour, IStats
     }
 
     //=======================================================================================
-
+    bool firstTime = false;
     public void InitStats()
     {
         //characterData = data;
@@ -143,15 +143,19 @@ public class CharacterStats : MonoBehaviour, IStats
         LifePercentage = 0;
         Death = false;
 
-        AttackMultiplier.InitStats(1);
-        DefenseMultiplier.InitStats(1);
+        if (firstTime == false) // Quand on reset la map, si on reset les stats une deuxieme fois ça peut créer des embrouilles
+        {
+            AttackMultiplier.InitStats(1);
+            DefenseMultiplier.InitStats(1);
 
-        Speed.InitStats(userBase.Movement.SpeedMax);
-        AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
-        Jump.InitStats(userBase.Movement.JumpNumber);
+            Speed.InitStats(userBase.Movement.SpeedMax);
+            AerialSpeed.InitStats(userBase.Movement.MaxAerialSpeed);
+            Jump.InitStats(userBase.Movement.JumpNumber);
 
-        Weight.InitStats(userBase.Knockback.Weight);
-        KnockbackPerDistance.InitStats(userBase.Knockback.TimeKnockbackPerDistance);
+            Weight.InitStats(userBase.Knockback.Weight);
+            KnockbackPerDistance.InitStats(userBase.Knockback.TimeKnockbackPerDistance);
+            firstTime = true;
+        }
 
     }
 

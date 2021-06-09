@@ -27,11 +27,14 @@ namespace Menu
 
 		public virtual void DrawButton(Sprite icon, string text, string text2)
 		{
-			if (icon == null)
-				imageButton.enabled = false;
-			else
-				imageButton.enabled = true;
-			imageButton.sprite = icon;
+			if (imageButton != null)
+			{
+				if (icon == null)
+					imageButton.enabled = false;
+				else
+					imageButton.enabled = true;
+				imageButton.sprite = icon;
+			}
 			mainText.text = text;
 			if(subText != null)
 				subText.text = text2;
@@ -39,16 +42,19 @@ namespace Menu
 
 		public virtual void DrawSubText(string text2)
 		{
-			subText.text = text2;
+			if(subText != null)
+				subText.text = text2;
 		}
 
 		public virtual void SelectButton()
 		{
-			animator.SetTrigger("Selected");
+			if(animator != null)
+				animator.SetTrigger("Selected");
 		}
 		public virtual void UnselectButton()
 		{
-			animator.SetTrigger("Unselected");
+			if (animator != null)
+				animator.SetTrigger("Unselected");
 		}
 	}
 }

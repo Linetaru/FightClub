@@ -50,7 +50,7 @@ namespace Menu
 
 
 
-        private event UnityAction<string> OnValidate;
+        public event UnityAction<string> OnValidate;
 
         protected float currentTimeBeforeRepeat = -1;
         protected float currentRepeatInterval = -1;
@@ -141,11 +141,15 @@ namespace Menu
 
         public void Type()
         {
+            if (inputField.text.Length > inputField.characterLimit)
+                return;
             inputField.text += characterTable[indexSelectedX, indexSelectedY];
         }
 
         public void TypeSpace()
         {
+            if (inputField.text.Length > inputField.characterLimit)
+                return;
             inputField.text += " ";
         }
 

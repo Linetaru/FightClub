@@ -110,7 +110,8 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return textboxEnd; }
 	}
 
-
+	[Space]
+	[Space]
 	[Space]
 	[Title("Trials")]
 	[SerializeField]
@@ -118,6 +119,12 @@ public class TrialsModeData : SerializedScriptableObject
 	public int EnemyPercentage
 	{
 		get { return enemyPercentage; }
+	}
+	[SerializeField]
+	int gaugeNumber = 4;
+	public int GaugeNumber
+	{
+		get { return gaugeNumber; }
 	}
 	[SerializeField]
 	int numberToSuccess = 1;

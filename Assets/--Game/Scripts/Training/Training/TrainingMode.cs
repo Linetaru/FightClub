@@ -5,39 +5,49 @@ using Sirenix.OdinInspector;
 
 namespace Menu
 {
-	public class TrainingMode : MonoBehaviour, IControllable
+	public class TrainingMode : GameMode, IControllable
 	{
+
 		[SerializeField]
-		InputController inputController;
-		[SerializeField]
-		MenuButtonListController listEntry;
+		MenuButtonListController listEntry = null;
 
 
 		[Title("Scripts")]
 		[SerializeField]
-		BattleManager battleManager;
+		DebugRegisterInput registerInput = null;
 		[SerializeField]
-		DebugRegisterInput registerInput;
+		DebugDummyBehavior dummyBehavior = null;
 		[SerializeField]
-		DebugDummyBehavior dummyBehavior;
+		DebugInfos debugInfos = null;
+
+		[SerializeField]
+		Transform parentInputVisual = null;
+		[SerializeField]
+		InputVisual[] inputVisual = null;
 
 		[Title("Parameter")]
 		[SerializeField]
 		Vector2 timeScaleInterval;
 		[SerializeField]
 		Vector2 percentageInterval;
+		[SerializeField]
+		Vector2 powerGaugeInterval;
 
 
-
+		BattleManager battleManager = null;
+		InputController inputController = null;
+		int characterPauseID = 0;
 
 		float timeScale = 1f;
 		int percentage = 0;
-
-		int characterToRecordID = 1;
-
+		int powerGauge = 4;
+		bool guardBreakEnemy = false;
 		int behavior = 0;
+		bool tech = false;
 
-		IControllable character = null;
+		bool displayInfos = false;
+		bool displayInput = false;
+
 		bool menuOn = false;
 
 
@@ -49,39 +59,31 @@ namespace Menu
 		[SerializeField]
 		GameObject selection;
 
-		[Button]
-		private void UpdateComponents()
-		{
-			battleManager = FindObjectOfType<BattleManager>();
-			inputController = FindObjectOfType<InputController>();
-		}
 
 
 
-
-
-
-		private void Start()
+		public override void InitializeMode(BattleManager battleManager)
 		{
 			timeScale = 1f;
-		}
+			this.battleManager = battleManager;
+			inputController = battleManager.inputController;
+			debugInfos.SetCharacters(battleManager.characterAlive);
 
+			for (int i = 0; i < battleManager.characterAlive.Count; i++)
+			{
+				inputVisual[i].SetCharacter(battleManager.characterAlive[i]);
+			}
+		}
 
 
 		private void Update()
 		{
 			if (menuOn == true)
 				return;
+			if (battleManager.GamePaused)
+				return;
 
-			if(inputController.playerInputs[0].CheckAction(0, InputConst.Pause) && menuOn == false)
-			{
-				inputController.playerInputs[0].inputActions[0].timeValue = 0;
-
-				character = inputController.controllable[0];
-				inputController.controllable[0] = this;
-				ShowMenu();
-			}
-			else if (inputController.playerInputs[0].CheckAction(0, InputConst.Back) && menuOn == false)
+			if (inputController.playerInputs[0].CheckAction(0, InputConst.Back) && menuOn == false)
 			{
 				if (registerInput.registerInput == true)
 					registerInput.StopRegisterInput();
@@ -90,8 +92,6 @@ namespace Menu
 				battleManager.ResetPlayer();
 				ValidateOptions();
 			}
-
-
 			else if (inputController.playerInputs[0].CheckAction(0, InputConst.DownTaunt))
 			{
 				inputController.playerInputs[0].inputActions[0].timeValue = 0;
@@ -112,7 +112,21 @@ namespace Menu
 
 
 
+		public void OpenMenu(int id)
+		{
+			if (menuOn)
+				return;
+			if (battleManager.GamePaused)
+				return;
+			characterPauseID = id;
+			battleManager.SetMenuControllable(this);
 
+			for (int i = 0; i < battleManager.inputController.playerInputs.Length; i++)
+			{
+				battleManager.inputController.playerInputs[i].inputUiAction = null;
+			}
+			ShowMenu();
+		}
 
 
 
@@ -123,6 +137,8 @@ namespace Menu
 		bool inputDown = false;
 		public void UpdateControl(int id, Input_Info input)
 		{
+			if (id != characterPauseID)
+				return;
 			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
 			{
 				SelectTrainingOption(listEntry.IndexSelection);
@@ -136,9 +152,9 @@ namespace Menu
 			{
 				inputDown = false;
 			}
-			else if (input.CheckAction(id, InputConst.Pause) == true)
+			else if (input.inputUiAction == InputConst.Pause || input.inputUiAction == InputConst.Back)
 			{
-				inputController.playerInputs[0].inputActions[0].timeValue = 0;
+				input.inputUiAction = null;
 				ValidateOptions();
 				QuitMenu();
 			}
@@ -151,8 +167,7 @@ namespace Menu
 
 		public void QuitMenu()
 		{
-			inputController.controllable[0] = character;
-			character = null;
+			battleManager.SetBattleControllable();
 			HideMenu();
 		}
 
@@ -171,9 +186,27 @@ namespace Menu
 					percentage += 10 * direction;
 					percentage = (int) Mathf.Clamp(percentage, percentageInterval.x, percentageInterval.y);
 					break;
-				case 2: // Dummy Behavior
+				case 2: // Power Gauge
+					powerGauge += 1 * direction;
+					powerGauge = (int)Mathf.Clamp(powerGauge, powerGaugeInterval.x, powerGaugeInterval.y);
+					break;
+				case 3: // Guard Break Enemy
+					guardBreakEnemy = !guardBreakEnemy;
+					break;
+				case 4: // Dummy Behavior
 					behavior += 1 * direction;
 					behavior = Mathf.Clamp(behavior, 0, System.Enum.GetValues(typeof(DummyBehavior)).Length-1);
+					break;
+				case 5: // Tech
+					tech = !tech;
+					break;
+				case 6: // Display Infos
+					displayInfos = !displayInfos;
+					debugInfos.ShowHideInfos();
+					break;
+				case 7: // Display Inputs
+					displayInput = !displayInput;
+					parentInputVisual.gameObject.SetActive(!parentInputVisual.gameObject.activeInHierarchy);
 					break;
 			}
 			DrawOptions();
@@ -184,19 +217,29 @@ namespace Menu
 			// TimeScale
 			Time.timeScale = timeScale;
 
-			// Percentage
+			// Percentage && Power Gauge
 			for (int i = 0; i < battleManager.characterAlive.Count; i++)
 			{
 				battleManager.characterAlive[i].Stats.LifePercentage = percentage;
+				battleManager.characterAlive[i].PowerGauge.CurrentPower = powerGauge * 20;
 			}
 
-			Debug.Log("Allooooooooooooo");
 			// Dummy Behavior
 			dummyBehavior.SetBehaviorToCharacter(1, (DummyBehavior)behavior);
 		}
 
 
-
+		private void DrawOptions()
+		{
+			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
+			listEntry.ListItem[1].DrawSubText(percentage.ToString());
+			listEntry.ListItem[2].DrawSubText(powerGauge.ToString());
+			listEntry.ListItem[3].DrawSubText(guardBreakEnemy ? "On" : "Off");
+			listEntry.ListItem[4].DrawSubText(((DummyBehavior)behavior).ToString());
+			listEntry.ListItem[5].DrawSubText(tech ? "On" : "Off");
+			listEntry.ListItem[6].DrawSubText(displayInfos ? "On" : "Off");
+			listEntry.ListItem[7].DrawSubText(displayInput ? "On" : "Off");
+		}
 
 
 
@@ -220,12 +263,7 @@ namespace Menu
 			menuOn = false;
 		}
 
-		private void DrawOptions()
-		{
-			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
-			listEntry.ListItem[1].DrawSubText(percentage.ToString());
-			listEntry.ListItem[2].DrawSubText(((DummyBehavior) behavior).ToString());
-		}
+
 
 
 	}

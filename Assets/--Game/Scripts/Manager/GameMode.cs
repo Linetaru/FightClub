@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMode
+public class GameMode : MonoBehaviour
 {
+    public virtual void InitializeMode(BattleManager battleManager)
+    {
 
+    }
 }

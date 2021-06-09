@@ -9,8 +9,6 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	[Title("Logic")]
 	[SerializeField]
 	GameData gameData;
-	[SerializeField]
-	BattleManager battleManager;
 
 	[Title("UI")]
 	[SerializeField]
@@ -22,6 +20,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	[SerializeField]
 	RenderTexture[] renderTextures;
 
+	[Title("Skip")]
+
 	[Title("Feedbacks")]
 	[SerializeField]
 	float timeCutInTotal = 3;
@@ -32,11 +32,20 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	[SerializeField]
 	Animator animatorTransitionToBattle;
 
+
+	BattleManager battleManager;
 	public Color[] teamColors;
 
 	bool active = false;
 	List<CharacterBase> characters = new List<CharacterBase>();
 
+
+	private void Start()
+	{
+		battleManager = BattleManager.Instance;
+		if (battleManager.gameData.GameSetting.SkipIntro)
+			this.gameObject.SetActive(false);
+	}
 
 
 	// Update is called once per frame
@@ -56,6 +65,9 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	// Appelé par l'event Battle Manager
 	public void StartIntroduction(CharacterBase character)
 	{
+		if(battleManager == null)
+			battleManager = BattleManager.Instance;
+
 		characters.Add(character);
 		if(characters.Count == gameData.CharacterInfos.Count)
 		{
@@ -125,5 +137,6 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	public void EndIntroduction()
 	{
 		battleManager.SetBattleControllable();
+		this.gameObject.SetActive(false);
 	}
 }
