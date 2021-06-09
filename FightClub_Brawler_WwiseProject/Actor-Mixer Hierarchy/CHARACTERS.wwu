@@ -12,7 +12,7 @@
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 						<Property Name="Color" Type="int16" Value="1"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
-						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
+						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-9</Value>
@@ -1550,6 +1550,13 @@
 														<MediaID ID="1046120963"/>
 													</MediaIDList>
 												</AudioFileSource>
+												<AudioFileSource Name="BRND_Hit_Projectile" ID="{A1EA85E4-26CB-46DC-955D-FE7900FCAE10}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Hit_Projectile.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="291321135"/>
+													</MediaIDList>
+												</AudioFileSource>
 											</ChildrenList>
 											<PositioningInfo>
 												<Panner Name="" ID="{EA8A4698-C190-48C2-8106-11682E44AEEA}">
@@ -2002,6 +2009,35 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="SFX_BRND_Hit_Up_Air" ID="{9E15C0C6-C081-4752-82BE-7F72B76BA2D4}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="BRND_Hit_Special_Forward" ID="{5930DB69-4A4F-48A0-B7D9-638EFE81770C}" ShortID="561993361">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>9</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="BRND_Hit_Projectile" ID="{37960023-9316-4AD9-9AA6-3EEAECE37EC6}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Hit_v2\BRND_Hit_Projectile.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="291321135"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="BRND_Hit_Projectile" ID="{37960023-9316-4AD9-9AA6-3EEAECE37EC6}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
@@ -3540,6 +3576,28 @@
 											</PositioningInfo>
 											<ActiveSourceList>
 												<ActiveSource Name="SFX_BRND_Attack_Whoosh_SpecialForward_02" ID="{4A59E43E-86C9-4B93-84BD-8798D40F32C9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="BRND_Whoosh_Special_Frwd_Launch" ID="{FE3C09E6-73CF-478E-8B2F-9D96E8DF2AB2}" ShortID="912754706">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="BRND_Whoosh_Projectile_Throw" ID="{27984E69-2AB4-479F-8E86-364EB43F488D}">
+													<Language>SFX</Language>
+													<AudioFile>Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Whoosh_Projectile_Throw.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="7876816"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="BRND_Whoosh_Projectile_Throw" ID="{27984E69-2AB4-479F-8E86-364EB43F488D}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
@@ -5552,6 +5610,11 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="CROW_Attack" ID="{DE3FD87E-B95C-4739-BAEC-F03990EB6BF4}" ShortID="854492019">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>

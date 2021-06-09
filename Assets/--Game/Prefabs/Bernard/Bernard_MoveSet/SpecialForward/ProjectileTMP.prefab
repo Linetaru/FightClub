@@ -69,7 +69,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 369fc816f06f3774ba82b09b2e7ea572, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: c58fa8af5dad33649a736891f02318c4, type: 2}
 --- !u!1 &419205799418343991
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,8 +189,15 @@ MonoBehaviour:
   - {fileID: 6417675341731173433}
   - {fileID: 4419733276239966176}
   - {fileID: 2232680774556314716}
+  playerHitEvent: {fileID: 0}
   clashLevel: 1
-  clashCancel: 1
+  noClash: 0
+  noParryCancel: 0
+  disjoint: 0
+  guardOnDash: 0
+  guardWin: 0
+  parryBreak: 0
+  guardBreak: 0
   onHitColliderEvents:
     m_PersistentCalls:
       m_Calls:
@@ -544,6 +551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentDamage: 10
+  percentDamageOnGuard: 0
 --- !u!1 &9066370030381178887
 GameObject:
   m_ObjectHideFlags: 0
