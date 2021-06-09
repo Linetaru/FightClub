@@ -9,6 +9,8 @@
 			<ChildrenList>
 				<ActorMixer Name="VO_CROW" ID="{53072BD8-8517-42D7-8031-260D7622AC70}" ShortID="1072026197">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-5</Value>
@@ -1876,6 +1878,8 @@
 				</ActorMixer>
 				<ActorMixer Name="VO_PULSE" ID="{3CEC77EE-41C0-4861-8F1C-D5A64A629555}" ShortID="904223359">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="1"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-5</Value>
@@ -1888,6 +1892,9 @@
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="VO_Rev" ID="{5A2FC465-E69D-48F9-AD2F-D53677FB3DA6}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -2196,6 +2203,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_PULSE_DownTilt_02" ID="{2D46490B-C6A0-4FCC-9068-0609E4BAA946}" ShortID="878042641">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -2240,6 +2254,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_PULSE_DownTilt_04" ID="{E39F6D7A-3307-4A1B-B0F1-5483D7362120}" ShortID="169256969">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -2962,6 +2983,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_Pulse_SpecialUp_01" ID="{97BE7CDB-DFF0-4383-9630-35215F7BBAB7}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0420021299254526"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0525026624068157"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.016800851970181"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.783339723109688"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_Pulse_SpecialUp_01.wav</AudioFile>
 											<MediaIDList>
@@ -2984,6 +3012,12 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_Pulse_SpecialUp_02" ID="{98AFDE50-AF43-41BA-8894-8579CFD4D21B}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0839190628328008"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0486730564430245"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.839190628328007"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_Pulse_SpecialUp_02.wav</AudioFile>
 											<MediaIDList>
@@ -2996,6 +3030,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_Pulse_SpecialUp_03" ID="{09BC2231-AF45-41EB-8033-D27EDA329BEB}" ShortID="349284033">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -3006,6 +3047,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_Pulse_SpecialUp_03" ID="{D4546A9F-5D67-4FE9-B9AD-C9E53DBE5D1B}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0157444089456869"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0179936102236422"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_Pulse_SpecialUp_03.wav</AudioFile>
 											<MediaIDList>
@@ -3155,6 +3201,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_Pulse_SpecialDown_TakeThis_02" ID="{E7C1180D-49E6-424E-905E-8026036394D5}" ShortID="652842571">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -3177,6 +3230,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{BA1D2D14-D68E-4C45-985C-0B101BD20B5A}" ShortID="599764443">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -3187,6 +3247,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="VO_Pulse_SpecialDown_TakeThis_01" ID="{19789913-0452-4AF2-AA4A-9DB0799C06C0}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0256613418530351"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0534611288604898"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.188183173588924"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.29589776357827"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>VO\VO_Pulse_SpecialDown_TakeThis_01.wav</AudioFile>
 											<MediaIDList>
@@ -3204,6 +3271,8 @@
 				</ActorMixer>
 				<ActorMixer Name="VO_Announcer" ID="{D3158BDF-E326-4CB4-9E19-B0B28465402E}" ShortID="3214846">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-5</Value>
