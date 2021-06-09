@@ -2521,68 +2521,6 @@
 										<ActiveSource Name="VO_PULSE_FwrdTilt_04" ID="{2C32E090-9462-4C24-9DDE-CB187F94DA82}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="VO_PULSE_FwrdTilt_01" ID="{135D50BE-6490-4C1F-8B78-41C9A3C88FF7}" ShortID="831728601">
-									<PropertyList>
-										<Property Name="OverrideEffect" Type="bool" Value="True"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="Effect0" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-											<ObjectRef Name="New_Wwise_Parametric_EQ" ID="{09638726-CA26-4CC3-8E06-6F3DD068A64B}" WorkUnitID="{E60AEE8B-EA90-4A14-BABB-EA8B88362F75}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="VO_PULSE_FwrdTilt_01" ID="{5498D431-4651-43C1-AAA5-D9218136EA11}">
-											<PropertyList>
-												<Property Name="FadeInDuration" Type="Real64" Value="0.00821512247071353"/>
-												<Property Name="FadeOutDuration" Type="Real64" Value="0.0402108626198083"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.0423727369542066"/>
-												<Property Name="TrimEnd" Type="Real64" Value="0.209701810436635"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>VO\VO_PULSE_FwrdTilt_01.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="588883501"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="VO_PULSE_FwrdTilt_01" ID="{5498D431-4651-43C1-AAA5-D9218136EA11}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="VO_PULSE_FwrdTilt_05" ID="{AC6110C3-BF47-464A-8082-C7CDB0B33021}" ShortID="827639510">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="VO_PULSE_FwrdTilt_05" ID="{7EE25C8D-BBCA-477F-AA36-9D9A418C3362}">
-											<PropertyList>
-												<Property Name="FadeInDuration" Type="Real64" Value="0.00923429179978701"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.0149169329073482"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>VO\VO_PULSE_FwrdTilt_05.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="821796316"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="VO_PULSE_FwrdTilt_05" ID="{7EE25C8D-BBCA-477F-AA36-9D9A418C3362}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="VO_PULSE_Pain_Cry_rdm" ID="{FE850E74-8E83-42D8-9183-503E36AEF68C}" ShortID="1056488739">
@@ -3267,6 +3205,74 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
+						<Sound Name="VO_PULSE_Dash_Attack" ID="{AC6110C3-BF47-464A-8082-C7CDB0B33021}" ShortID="827639510">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="VO_Rev" ID="{5A2FC465-E69D-48F9-AD2F-D53677FB3DA6}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_PULSE_FwrdTilt_05" ID="{7EE25C8D-BBCA-477F-AA36-9D9A418C3362}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.00923429179978701"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0149169329073482"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_PULSE_FwrdTilt_05.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="821796316"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_PULSE_FwrdTilt_05" ID="{7EE25C8D-BBCA-477F-AA36-9D9A418C3362}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_PULSE_Up_Air" ID="{135D50BE-6490-4C1F-8B78-41C9A3C88FF7}" ShortID="831728601">
+							<PropertyList>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="Effect0" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+									<ObjectRef Name="New_Wwise_Parametric_EQ" ID="{09638726-CA26-4CC3-8E06-6F3DD068A64B}" WorkUnitID="{E60AEE8B-EA90-4A14-BABB-EA8B88362F75}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="VO_Rev" ID="{5A2FC465-E69D-48F9-AD2F-D53677FB3DA6}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_PULSE_FwrdTilt_01" ID="{5498D431-4651-43C1-AAA5-D9218136EA11}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.00821512247071353"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.0402108626198083"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0423727369542066"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.209701810436635"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_PULSE_FwrdTilt_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="588883501"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_PULSE_FwrdTilt_01" ID="{5498D431-4651-43C1-AAA5-D9218136EA11}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="VO_Announcer" ID="{D3158BDF-E326-4CB4-9E19-B0B28465402E}" ShortID="3214846">
