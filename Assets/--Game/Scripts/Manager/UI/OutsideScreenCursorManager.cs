@@ -27,7 +27,7 @@ public class OutsideScreenCursorManager : MonoBehaviour
 		if (cam == null)
 			cam = BattleManager.Instance.cameraController;
 		OutsideScreenCursor cursor = Instantiate(prefab, parent);
-		cursor.Initialize(c.CenterPoint, blastZone.bounds, cam);
+		cursor.Initialize(c, blastZone.bounds, cam);
 
 		outsideScreenCursors.Add(cursor); 
 		cursor.gameObject.SetActive(true);

@@ -58,8 +58,11 @@ namespace Menu
 			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
 			// On instancie le winner
-			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
-			listPlayerChoice.Add(0);
+			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult)); 
+			if (Mathf.Sign(charactersPodium[0].ControllerID) != -1)
+				listPlayerChoice.Add(0);
+			else
+				listPlayerChoice.Add(2);
 			listPlayerControllerID.Add(charactersPodium[0].ControllerID);
 
 			int winnerID = charactersPodium[0].PlayerID;
@@ -73,13 +76,19 @@ namespace Menu
 			listResultDrawers[0].DrawKilled(characterBattleData.Killed);
 			listResultDrawers[0].DrawKiller(characterBattleData.Killer);
 			listResultDrawers[0].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
+			if (Mathf.Sign(charactersPodium[0].ControllerID) == -1)
+				listResultDrawers[0].SetFeedback("Rematch");
 
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
 			{
 
 				listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
-				listPlayerChoice.Add(0);
+				if (Mathf.Sign(charactersPodium[i].ControllerID) != -1)
+					listPlayerChoice.Add(0);
+				else
+					listPlayerChoice.Add(2);
+
 				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
 				Character_Info characterInfo = gameData.CharacterInfos[charactersPodium[i].PlayerID];
@@ -94,6 +103,8 @@ namespace Menu
 				listResultDrawers[i].DrawKilled(characterBattleData.Killed);
 				listResultDrawers[i].DrawKiller(characterBattleData.Killer);
 				listResultDrawers[i].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
+				if (Mathf.Sign(charactersPodium[i].ControllerID) == -1)
+					listResultDrawers[i].SetFeedback("Rematch");
 			}
 		}
 
@@ -143,6 +154,7 @@ namespace Menu
 
 			if (listPlayerChoice.Count <= id)
 				return;
+
 
 			if (listPlayerChoice[id] == 0) // Aucun choix de fait  
 			{
