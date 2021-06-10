@@ -27,6 +27,13 @@ public class VolleyMode : GameMode
         scoreUI.UpdateBlueScoreText(blueTeamScore);
         scoreUI.UpdateRedScoreText(redTeamScore);
         battleManager.cameraController.targets.Add(new TargetsCamera(ball.transform, 0));
+
+        
+        // A changer si on veut set l'objectif de points via le menu (on garde juste la première condition)
+        if (battleManager.gameData.slamMode)
+            scoreLimit = battleManager.gameData.GetModeScoreGoal(GameModeStateEnum.Volley_Mode);
+        else
+            battleManager.gameData.SetModeScoreGoal(GameModeStateEnum.Volley_Mode, scoreLimit);
     }
 
     public void UpdateRedScore()

@@ -101,4 +101,13 @@ public class GameData : ScriptableObject
 		return gameModes[(int)gameMode];
 	}
 
+	public int GetModeScoreGoal(GameModeStateEnum gameMode)
+    {
+		return gameSettings[(int)gameMode].ScoreGoal;
+	}
+	public void SetModeScoreGoal(GameModeStateEnum gameMode, int scoreGoal)
+	{
+		gameSettings[(int)gameMode].ScoreGoal = scoreGoal;
+	}
+
 }

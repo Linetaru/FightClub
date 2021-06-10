@@ -205,6 +205,7 @@ public class GrandSlamManager : MonoBehaviour
 
 
     // Cette fonction retire des modes de la liste en fonction du nombre de joueurs
+    // On ajoute aussi des settings particulier à certains modes
     private void AdjustModeList()
     {
         List<SlamMode> copySlamMode = new List<SlamMode>(listGameModesValid);
@@ -214,6 +215,10 @@ public class GrandSlamManager : MonoBehaviour
             if (gameData.CharacterInfos.Count == 3 && slam.gameMode == GameModeStateEnum.Volley_Mode)
             {
                 listGameModesValid.Remove(slam);
+            }
+            else if (slam.gameMode == GameModeStateEnum.Volley_Mode)
+            {
+                gameData.SetModeScoreGoal(slam.gameMode, slam.scoreGoal);
             }
 
             if (gameData.CharacterInfos.Count == 2 && slam.gameMode == GameModeStateEnum.Bomb_Mode)

@@ -31,6 +31,20 @@ public class GameModeSettings : ScriptableObject
 		set { skipIntro = value; }
 	}
 
+	[SerializeField]
+	bool hasScoreGoal = false;
+	public bool HasScoreGoal
+	{
+		get { return hasScoreGoal; }
+		set { hasScoreGoal = value; }
+	}
 
-
+	[SerializeField]
+	[ShowIf("hasScoreGoal")]
+	int scoreGoal = 5;
+	public int ScoreGoal
+	{
+		get { return scoreGoal; }
+		set { scoreGoal = value; }
+	}
 }
