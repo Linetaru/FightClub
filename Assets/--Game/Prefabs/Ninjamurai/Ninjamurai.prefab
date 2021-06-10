@@ -1527,6 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultForce: 0.02
   defaultTime: 0.2
+  shakeTarget: {fileID: 0}
 --- !u!1 &5806412752620779115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,6 +1844,7 @@ MonoBehaviour:
   parry: {fileID: 1634794949363116733}
   weight: 1
   timeKnockbackPerDistance: 0.03
+  knockbackAcumulationModifier: 0.4
   maxTimeKnockback: 1.5
   shakeEffect: {fileID: 5059749571089216006}
 --- !u!136 &4546034057863053081
@@ -2091,6 +2093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultForce: 0.02
   defaultTime: 0.2
+  shakeTarget: {fileID: 0}
 --- !u!114 &5784047344819564394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,9 +2189,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parrySuccesState: {fileID: 9152094702135463447}
   parryRepelState: {fileID: 6996715928349309010}
-  timingParry: 1e000000140000000a0000000500000001000000
+  guardBreakStatus: {fileID: 0}
   ejectionPower: 16
   parryAngle: 400
+  forceAnimationParry: 0
   particleParry: {fileID: 1477291588837210726, guid: 14ccb119978fb114f832bfa3a5e734eb, type: 3}
   particleDirectionRepel: {fileID: 3721816288245871218, guid: e05ba4b2133efab43a37deb493c36445, type: 3}
   particleGuard: {fileID: 9040037760418770215, guid: c717939a5a39df640820c083e30b9632, type: 3}
@@ -2571,6 +2575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultForce: 0.02
   defaultTime: 0.2
+  shakeTarget: {fileID: 0}
 --- !u!114 &7074642483255584171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3161,11 +3166,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 7364260067045191157}
-  active: 1
+  active: 0
   startPoint: {fileID: 2791299178773295303}
   endPoint: {fileID: 2186698079931348363}
   time: 0.1
   smoothPoint: 4
+  smoothRatio: 0.25
 --- !u!1 &7759050101797810993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3214,22 +3220,34 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: dd92b34e22b03884fbe8a4b636ef9d96, type: 2}
-  landEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 926af211632348843a2408d22fada3c2, type: 2}
-  parrySuccessEvent:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 3ea85864b5d9f4140995711cf0b99684, type: 2}
-  parryFailedEvent:
+  doubleJumpEvent:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
-  deathEvent:
+  landEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: bb0958dac90d4894d891f741168c4ae2, type: 2}
+    WwiseObjectReference: {fileID: 0}
+  damageVoiceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  ejectionVoiceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  parryVoiceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  guardVoiceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  breakVoiceEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
 --- !u!1 &7893344342901543679
 GameObject:
   m_ObjectHideFlags: 0
@@ -3453,6 +3471,11 @@ MonoBehaviour:
     multiplierValue: 0
     incrementValue: 0
     valueStat: 0
+  knockbackPerDistance:
+    baseStat: 0
+    multiplierValue: 0
+    incrementValue: 0
+    valueStat: 0
 --- !u!1 &8160183139703677054
 GameObject:
   m_ObjectHideFlags: 0
@@ -3554,7 +3577,6 @@ MonoBehaviour:
   techAntiSpam: 30
   joystickThreshold: 0.3
   DIAngle: 10
-  acumods: {fileID: 5579033086863405265}
 --- !u!1 &8601508828811202049
 GameObject:
   m_ObjectHideFlags: 0
@@ -3849,7 +3871,6 @@ MonoBehaviour:
     m_Bits: 163840
   joystickThreshold: 0.3
   parryInfluenceAngle: 40
-  counterAction: {fileID: 8045468721652775528, guid: cb1e20cd7ae63044ca3379a704f1545d, type: 3}
 --- !u!1 &9122743825121428134
 GameObject:
   m_ObjectHideFlags: 0
