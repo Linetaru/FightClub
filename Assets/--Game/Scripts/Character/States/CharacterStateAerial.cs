@@ -96,6 +96,7 @@ public class CharacterStateAerial : CharacterState
                     character.Movement.CurrentNumberOfJump--;
 
                     character.Movement.Jump();
+                    character.Movement.MultipleJumpCall();
 
                     if (Mathf.Abs(character.Input.horizontal) < 0.25f)
                     {
