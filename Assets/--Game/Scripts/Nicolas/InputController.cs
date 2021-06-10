@@ -213,6 +213,16 @@ public class InputController : SerializedMonoBehaviour
 			Input_ActionUI(i, InputConst.Interact.name);
 			Input_ActionUI(i, InputConst.Return.name);
 
+			Input_ActionUI(i, InputConst.LeftShoulder.name);
+			Input_ActionUI(i, InputConst.RightShoulder.name);
+			Input_ActionUI(i, InputConst.RightTrigger.name);
+			Input_ActionUI(i, InputConst.LeftTrigger.name);
+
+			Input_ActionUI(i, InputConst.LeftTaunt.name);
+			Input_ActionUI(i, InputConst.RightTaunt.name);
+			Input_ActionUI(i, InputConst.UpTaunt.name);
+			Input_ActionUI(i, InputConst.DownTaunt.name);
+
 			if (pauseEvent != null)
 				if (playerInputs[i].inputUiAction == InputConst.Pause)
 				{
