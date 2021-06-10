@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NeverGonnaGiveYouUp : MonoBehaviour
+public class ScreenMaterials : MonoBehaviour
 {
-    public Material material1; 
-    public Material material2;
     public List<Material> textures;
+    public List<Material> materialScreen;
     int random = 0;
     int index = 0;
     float timerMax = 0.1f;
@@ -14,27 +13,18 @@ public class NeverGonnaGiveYouUp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        random = Random.Range(0, 11);
-        random = 5;
+        random = Random.Range(0, materialScreen.Count);
+        //random = 9;
 
-        if(random == 5)
-        {
-            Material[] mats = this.GetComponent<MeshRenderer>().materials;
-            mats[1] = material2;
-            this.GetComponent<MeshRenderer>().materials = mats;
-        }
-        else
-        {
-            Material[] mats = this.GetComponent<MeshRenderer>().materials;
-            mats[1] = material1;
-            this.GetComponent<MeshRenderer>().materials = mats;
-        }
+        Material[] mats = this.GetComponent<MeshRenderer>().materials;
+        mats[1] = materialScreen[random];
+        this.GetComponent<MeshRenderer>().materials = mats;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (random == 5)
+        if (random == 1)
         {
             if (timerMax <= 0)
             {
