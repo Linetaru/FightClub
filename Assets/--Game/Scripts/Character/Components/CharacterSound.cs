@@ -8,34 +8,37 @@ using AK;
 public class CharacterSound : MonoBehaviour
 {
 
-	[SerializeField]
-	CharacterBase characterBase;
+    [SerializeField]
+    CharacterBase characterBase = null;
 
 
     [Title("Sounds")]
     [SerializeField]
-    AK.Wwise.Event jumpEvent;
+    AK.Wwise.Event jumpEvent = null;
     [SerializeField]
-    AK.Wwise.Event landEvent;
+    AK.Wwise.Event doubleJumpEvent = null;
+    [SerializeField]
+    AK.Wwise.Event landEvent = null;
 
 
     [Title("Voice")]
     [SerializeField]
-    AK.Wwise.Event damageVoiceEvent;
+    AK.Wwise.Event damageVoiceEvent = null;
     [SerializeField]
-    AK.Wwise.Event ejectionVoiceEvent;
+    AK.Wwise.Event ejectionVoiceEvent = null;
     [SerializeField]
-    AK.Wwise.Event parryVoiceEvent;
+    AK.Wwise.Event parryVoiceEvent = null;
     [SerializeField]
-    AK.Wwise.Event guardVoiceEvent;
+    AK.Wwise.Event guardVoiceEvent = null;
     [SerializeField]
-    AK.Wwise.Event breakVoiceEvent;
+    AK.Wwise.Event breakVoiceEvent = null;
 
     void Start()
     {
         if (characterBase == null)
             return;
         characterBase.OnStateChanged += CheckState;
+        characterBase.Movement.OnMultipleJump += PlayMultipleJump;
         characterBase.Knockback.OnKnockback += PlayKnockback;
         characterBase.Knockback.Parry.OnParry += PlayParry;
         characterBase.Knockback.Parry.OnGuard += PlayGuard;
@@ -59,8 +62,17 @@ public class CharacterSound : MonoBehaviour
             if (ejectionVoiceEvent != null)
                 AkSoundEngine.PostEvent(ejectionVoiceEvent.Id, this.gameObject);
         }
+        if (newState is CharacterStateKnockback)
+        {
+            AkSoundEngine.StopAll(characterBase.Model.gameObject);
+        }
     }
 
+
+    public void PlayMultipleJump()
+    {
+        AkSoundEngine.PostEvent(doubleJumpEvent.Id, this.gameObject);
+    }
     public void PlayKnockback(AttackSubManager subManager)
     {
         AkSoundEngine.PostEvent(damageVoiceEvent.Id, this.gameObject);
@@ -88,6 +100,7 @@ public class CharacterSound : MonoBehaviour
         if (characterBase == null)
             return;
         characterBase.OnStateChanged -= CheckState;
+        characterBase.Movement.OnMultipleJump -= PlayMultipleJump;
         characterBase.Knockback.OnKnockback -= PlayKnockback;
         characterBase.Knockback.Parry.OnParry -= PlayParry;
         characterBase.Knockback.Parry.OnGuard -= PlayGuard;

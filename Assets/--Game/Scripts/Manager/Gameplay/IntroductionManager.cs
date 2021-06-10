@@ -6,6 +6,12 @@ using Sirenix.OdinInspector;
 
 public class IntroductionManager : MonoBehaviour, IControllable
 {
+	[Title("Raphael c'est ici !!!")]
+	[SerializeField]
+	AK.Wwise.Event skipEvent;
+	[Title("Raphael c'est ici !!!")]
+
+
 	[Title("Logic")]
 	[SerializeField]
 	GameData gameData;
@@ -33,11 +39,17 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	Animator animatorTransitionToBattle;
 
 
+	/*[Title("Sounds")]
+	[SerializeField]*/
+
+
 	BattleManager battleManager;
 	public Color[] teamColors;
 
 	bool active = false;
 	List<CharacterBase> characters = new List<CharacterBase>();
+
+
 
 
 	private void Start()
@@ -131,6 +143,7 @@ public class IntroductionManager : MonoBehaviour, IControllable
 		active = false;
 		StopAllCoroutines();
 		StartCoroutine(SkipIntroductionCoroutine());
+		AkSoundEngine.PostEvent(skipEvent.Id, this.gameObject);
 	}
 
 

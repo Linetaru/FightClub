@@ -66,7 +66,6 @@ public class CharacterStateKnockback : CharacterState
     {
         inHitStop = true;
         particleTrail.Play();
-        AkSoundEngine.StopAll(character.Model.gameObject);
         character.Action.CancelAction();
         character.Movement.SpeedX = character.Knockback.GetAngleKnockback().x;
         character.Movement.SpeedX *= character.Movement.Direction;

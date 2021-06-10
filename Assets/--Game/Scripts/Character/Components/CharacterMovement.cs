@@ -130,6 +130,9 @@ public class CharacterMovement : MonoBehaviour
 
 
 
+    public EventVoid OnMultipleJump;
+
+
 
     public void Accelerate()
     {
@@ -250,6 +253,10 @@ public class CharacterMovement : MonoBehaviour
         characterParticle.UseParticle("jump");
     }
     
+    public void MultipleJumpCall()
+    {
+        OnMultipleJump?.Invoke();
+    }
 
     public void ApplyGravity()
     {
