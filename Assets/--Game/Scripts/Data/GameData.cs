@@ -109,5 +109,9 @@ public class GameData : ScriptableObject
 	{
 		gameSettings[(int)gameMode].ScoreGoal = scoreGoal;
 	}
+	public void SetSkipIntro(GameModeStateEnum gameMode, bool skipIntro)
+	{
+		gameSettings[(int)gameMode].SkipIntro = skipIntro;
+	}
 
 }

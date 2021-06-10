@@ -103,6 +103,8 @@ public class GrandSlamManager : MonoBehaviour
     {
         gameData.GameMode = GameModeStateEnum.Special_Mode;
 
+        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, false);
+
         gameData.SetGameSettings();
 
         gameData.slamMode = true;
@@ -111,10 +113,22 @@ public class GrandSlamManager : MonoBehaviour
         InitScoreDictionary();
         AdjustModeList();
 
-        nextSceneName = GetRandomSceneFromList();
+        InitFirstRound();
+
+    }
+
+    private void InitFirstRound()
+    {
+        gameMode = listGameModesValid[0].gameMode;
+        gameData.NumberOfLifes = listGameModesValid[0].nbLife;
+        currentScoreArr = listGameModesValid[0].scoreArr;
+        currentMode = listGameModesValid[0];
+
+        nextSceneName = listGameModesValid[0].scenes[0];
+
+
 
         StartCoroutine(LoadSceneAsync());
-
     }
 
     private void InitScoreGoal()
@@ -368,7 +382,7 @@ public class GrandSlamManager : MonoBehaviour
     // Paramètre le gameData
     private void SetGame()
     {
-        //gameData.GameMode = gameMode;
+        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
 
         StartGame();
     }
