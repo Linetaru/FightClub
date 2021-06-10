@@ -22,7 +22,7 @@ public class ScreenMaterials : MonoBehaviour
     void Start()
     {
         random = Random.Range(0, 11);
-        random = 9;
+        //random = 9;
 
         if (random == 5)
         {
