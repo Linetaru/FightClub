@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NeverGonnaGiveYouUp : MonoBehaviour
+public class ScreenMaterials : MonoBehaviour
 {
     public Material material1; 
     public Material material2;
@@ -15,7 +15,7 @@ public class NeverGonnaGiveYouUp : MonoBehaviour
     void Start()
     {
         random = Random.Range(0, 11);
-        random = 5;
+        //random = 5;
 
         if(random == 5)
         {
