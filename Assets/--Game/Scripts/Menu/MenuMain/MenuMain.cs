@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
 namespace Menu
@@ -8,17 +9,33 @@ namespace Menu
 	public class MenuMain : MonoBehaviour, IControllable
 	{
 		[SerializeField]
-		GameData gameData;
+		GameData gameData = null;
 		[SerializeField]
-		InputController inputController;
+		InputController inputController = null;
 
-
-
-		/*[Title("Menu")]
+		[Title("UI")]
 		[SerializeField]
-		MenuList menu;
+		Canvas canvasStart = null;
 		[SerializeField]
-		MenuList[] menuList;*/
+		Canvas canvasButton = null;
+
+		[Title("Feedbacks")]
+		[SerializeField]
+		Animator animatorCamera = null;
+
+		[Title("Menu")]
+		[SerializeField]
+		MenuList menuSlam = null;
+		[SerializeField]
+		MenuList menuModes = null;
+		[SerializeField]
+		MenuList menuExtra = null;
+		[SerializeField]
+		MenuList menuTraining = null;
+
+		[Title("Events")]
+		[SerializeField]
+		UnityEvent unityEventStart = null;
 
 		// Start is called before the first frame update
 		void Start()
@@ -45,8 +62,46 @@ namespace Menu
 			if (input.inputUiAction == InputConst.Pause)
 			{
 				input.inputUiAction = null;
-
+				canvasStart.gameObject.SetActive(false);
+				canvasButton.gameObject.SetActive(true);
+				unityEventStart.Invoke();
 			}
+		}
+
+
+
+
+
+
+		// Utilisé par des Unity Event
+		public void LockInput(float time)
+		{
+
+		}
+
+
+		public void SetGameMode(int gameModeID)
+		{
+			gameData.GameMode = (GameModeStateEnum)gameModeID;
+			gameData.SetGameSettings();
+		}
+
+		public void LoadScene(string sceneName)
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+		}
+
+		public void SetControl(MenuList menu)
+		{
+			for (int i = 0; i < inputController.controllable.Length; i++)
+			{
+				inputController.controllable[i] = menu;
+			}
+		}
+
+		public void MoveCamera(int id)
+		{
+			animatorCamera.SetInteger("State", id);
 		}
 	}
 }
