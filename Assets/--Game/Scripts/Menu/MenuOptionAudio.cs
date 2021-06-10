@@ -38,21 +38,21 @@ namespace Menu
             sliders[3].value = volumeSettings.SfxVolume;
             listEntry.DrawItemList(3, volumeSettings.SfxVolume.ToString());
 
-            for (int i = 0; i < 4; i++)
-            {
-                if (sliders[i].value >= 50)
-                {
-                    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
-                        if (tmpText.name == "TextValue")
-                            tmpText.color = Color.black;
-                }
-                else
-                {
-                    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
-                        if (tmpText.name == "TextValue")
-                            tmpText.color = Color.white;
-                }
-            }
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    if (sliders[i].value >= 50)
+            //    {
+            //        foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
+            //            if (tmpText.name == "TextValue")
+            //                tmpText.color = Color.black;
+            //    }
+            //    else
+            //    {
+            //        foreach (TextMeshProUGUI tmpText in listEntry.ListItem[i].GetComponentsInChildren<TextMeshProUGUI>())
+            //            if (tmpText.name == "TextValue")
+            //                tmpText.color = Color.white;
+            //    }
+            //}
         }
 
 		public override void UpdateControl(int id, Input_Info input)
@@ -120,18 +120,18 @@ namespace Menu
                 listEntry.DrawItemList(id, volumeSettings.SfxVolume.ToString());
             }
 
-            if (sliders[id].value >= 50)
-            {
-                foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
-                    if (tmpText.name == "TextValue")
-                        tmpText.color = Color.black;
-            }
-            else
-            {
-                foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
-                    if (tmpText.name == "TextValue")
-                        tmpText.color = Color.white;
-            }
+            //if (sliders[id].value >= 50)
+            //{
+            //    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
+            //        if (tmpText.name == "TextValue")
+            //            tmpText.color = Color.black;
+            //}
+            //else
+            //{
+            //    foreach (TextMeshProUGUI tmpText in listEntry.ListItem[id].GetComponentsInChildren<TextMeshProUGUI>())
+            //        if (tmpText.name == "TextValue")
+            //            tmpText.color = Color.white;
+            //}
 
             volumeSettings.ChangeRTPCValue();
         }

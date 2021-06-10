@@ -18,6 +18,10 @@ namespace Menu
 		Canvas canvasStart = null;
 		[SerializeField]
 		Canvas canvasButton = null;
+		[SerializeField]
+		Canvas canvasOption = null;
+		[SerializeField]
+		MenuCurrency canvasMoney = null;
 
 		[Title("Feedbacks")]
 		[SerializeField]
@@ -64,19 +68,37 @@ namespace Menu
 				input.inputUiAction = null;
 				canvasStart.gameObject.SetActive(false);
 				canvasButton.gameObject.SetActive(true);
+
+				canvasMoney.animatorPanel.gameObject.SetActive(true);
+				canvasMoney.animatorPanel.SetBool("Appear", true);
+
 				unityEventStart.Invoke();
 			}
 		}
 
 
+		public void SetCanvasStartAgain(bool delayed)
+        {
+			if(delayed)
+				canvasStart.gameObject.SetActive(true);
+			canvasButton.gameObject.SetActive(false);
+			canvasMoney.animatorPanel.SetBool("Appear", false);
+		}
 
 
 
-
-		// Utilisé par des Unity Event
+			// Utilisé par des Unity Event
 		public void LockInput(float time)
 		{
 
+		}
+
+		public void ReplaceByMenuMainAllControllable()
+		{
+			for (int i = 0; i < inputController.controllable.Length; i++)
+			{
+				inputController.controllable[i] = this;
+			}
 		}
 
 
@@ -98,6 +120,7 @@ namespace Menu
 				inputController.controllable[i] = menu;
 			}
 		}
+
 
 		public void MoveCamera(int id)
 		{

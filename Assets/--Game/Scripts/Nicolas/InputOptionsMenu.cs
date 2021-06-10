@@ -317,15 +317,19 @@ public class InputOptionsMenu : MenuList
             case SelectionState.OnButton:
                 break;
             case SelectionState.OnProfile:
-                selectionUIArrow.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
+                    selectionUIArrow.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
                 /*foreach (Image im in selectionUI_Profile_Arrow)
                     im.gameObject.SetActive(false);
                 selectionUI_Profile_Arrow[id].gameObject.SetActive(true);*/
                 break;
             case SelectionState.OnSelectionInput:
+
                 foreach (Image im in selectionUI_Input_Arrow)
                     im.gameObject.SetActive(false);
-                selectionUI_Input_Arrow[id].gameObject.SetActive(true);
+                if (id != 6 & id != 7)
+                {
+                    selectionUI_Input_Arrow[id].gameObject.SetActive(true);
+                }
                 break;
         }
 

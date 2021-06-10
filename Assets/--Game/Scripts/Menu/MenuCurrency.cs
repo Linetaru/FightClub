@@ -29,7 +29,7 @@ public class MenuCurrency : MonoBehaviour, IListener<int>
 
 	[Title("Feedbacks")]
 	[SerializeField]
-	Animator animatorPanel;
+	public Animator animatorPanel;
 
 
 	private void Start()
