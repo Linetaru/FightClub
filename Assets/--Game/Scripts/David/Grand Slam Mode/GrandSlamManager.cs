@@ -239,29 +239,28 @@ public class GrandSlamManager : MonoBehaviour
         {
             // Condition points volley
             // Si bleus gagne - Joueur 1 et 3 gagnent les points de currentScoreArr[0] et Joueur 2 et 4 gagnent les points de currentScoreArr[1]
-
-
-            // Code temporaire
-            /*
             int winnerPoints = currentScoreArr[0];
             int loserPoints = currentScoreArr[1];
 
-            if(bleuWin)
-            {
-                playersScore[gameData.CharacterInfos[0].ControllerID] += winnerPoints;
-                playersScore[gameData.CharacterInfos[2].ControllerID] += winnerPoints;
-                playersScore[gameData.CharacterInfos[1].ControllerID] += loserPoints;
-                playersScore[gameData.CharacterInfos[3].ControllerID] += loserPoints;
-            }
-            else
-            {
-                playersScore[gameData.CharacterInfos[1].ControllerID] += winnerPoints;
-                playersScore[gameData.CharacterInfos[3].ControllerID] += winnerPoints;
-                playersScore[gameData.CharacterInfos[2].ControllerID] += loserPoints;
-                playersScore[gameData.CharacterInfos[0].ControllerID] += loserPoints;
-            }
-            */
+            int winnerTeam = BattleManager.Instance.currentWinningTeam;
 
+            for(int i = 0; i < gameData.CharacterInfos.Count; i++)
+            {
+                if(winnerTeam == 0)
+                {
+                    if(i == 0 || i == 2)
+                        playersScore[gameData.CharacterInfos[i].ControllerID] += winnerPoints;
+                    else
+                        playersScore[gameData.CharacterInfos[i].ControllerID] += loserPoints;
+                }
+                else
+                {
+                    if (i == 1 || i == 3)
+                        playersScore[gameData.CharacterInfos[i].ControllerID] += winnerPoints;
+                    else
+                        playersScore[gameData.CharacterInfos[i].ControllerID] += loserPoints;
+                }
+            }
         }
         else
         {
@@ -281,7 +280,10 @@ public class GrandSlamManager : MonoBehaviour
     private IEnumerator ManageEndMode()
     {
         Time.timeScale = 0.2f;
-        yield return new WaitForSecondsRealtime(2f);
+        if(gameMode != GameModeStateEnum.Volley_Mode)
+            yield return new WaitForSecondsRealtime(2f);
+        else
+            yield return new WaitForSecondsRealtime(0.8f);
         Time.timeScale = 1.0f;
 
         currentCam = BattleManager.Instance.cameraController.Camera;
@@ -340,7 +342,7 @@ public class GrandSlamManager : MonoBehaviour
 
             canvasScore.StartTransitionLogo(gameMode);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
 
             camSlam.RotToGame();
 

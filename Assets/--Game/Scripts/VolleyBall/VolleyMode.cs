@@ -34,7 +34,10 @@ public class VolleyMode : GameMode
         redTeamScore++;
         scoreUI.UpdateRedScoreText(redTeamScore);
         if(redTeamScore >= scoreLimit)
+        {
+            battleManager.currentWinningTeam = 1;
             battleManager.SlowMotionEnd();
+        }
     }
 
     public void UpdateBlueScore()
@@ -42,7 +45,10 @@ public class VolleyMode : GameMode
         blueTeamScore++;
         scoreUI.UpdateBlueScoreText(blueTeamScore);
         if(blueTeamScore >= scoreLimit)
+        {
+            battleManager.currentWinningTeam = 0;
             battleManager.SlowMotionEnd();
+        }
     }
 
     // Update is called once per frame
