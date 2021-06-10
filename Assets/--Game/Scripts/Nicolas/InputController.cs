@@ -60,6 +60,24 @@ public class Input_Info
 		return false;
 	}
 
+	/// <summary>
+	/// CARE USE CHECKACTION INSTEAD OF IT IF U WANT REAL MAPPING
+	/// </summary>
+	/// <param name="id"></param>
+	/// <param name="inputAction"></param>
+	/// <returns></returns>
+	public bool CheckActionAbsolute(int id, InputAction inputAction)
+	{
+		if (inputActions.Count != 0)
+		{
+			if (inputActions[id].action == inputAction)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/*public bool CheckActionUI(InputAction inputAction)
 	{
 		if (inputUiAction == inputAction)

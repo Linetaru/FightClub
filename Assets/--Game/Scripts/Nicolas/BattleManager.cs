@@ -1,26 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Sirenix.OdinInspector;
 
 public class BattleManager : MonoBehaviour
 {
-	//[SerializeField]
-	public bool autoStart = true;
-
 	[Title("Data")]
 	[Expandable]
 	public GameData gameData;
 	public Color[] teamTextColors;
 
 	[Title("Game Mode Managers")]
-	public GameObject BombModeManager;
+	//public GameObject BombModeManager;
 	public FlappyModeManager FlappyModeManager;
 
 	[Title("Events")]
 	public PackageCreator.Event.GameEventCharacter uiEvent;
+	[HideInInspector]
+	public UnityEvent gameEndedEvent = new UnityEvent();
 
 	[Title("Interractions")]
 	public InputController inputController;
@@ -39,6 +39,10 @@ public class BattleManager : MonoBehaviour
 	[Title("Victory")]
 	[SerializeField]
 	private Menu.MenuWin menuWin;
+	public Menu.MenuWin MenuWin
+	{
+		get { return menuWin; }
+	}
 
 
 	[Title("Boolean Condition")]
@@ -50,11 +54,16 @@ public class BattleManager : MonoBehaviour
 	private bool slowMowEnd;
 	private float timer;
 
-	Input_Info input;
+	public int currentWinningTeam = 0;
+
+	[SerializeField]
+	private Canvas canvasUI;
+	[SerializeField]
+	private Image fadeImage;
+
+	Input_Info input = null;
 	List<IControllable> standbyList = new List<IControllable>();
-
-	public UnityEvent gameEndedEvent = new UnityEvent();
-
+	GameMode currentGameMode = null;
 
 	//SINGLETON
 
@@ -70,6 +79,10 @@ public class BattleManager : MonoBehaviour
 		else
 		{
 			_instance = this;
+			if (!gameData.slamMode)
+			{
+				gameData.SetGameSettings();
+			}
 		}
 	}
 
@@ -80,12 +93,14 @@ public class BattleManager : MonoBehaviour
 
     //END SINGLETON
 
-
     // Start is called before the first frame update
     void Start()
 	{
-		if(autoStart)
+		if(!gameData.slamMode)
+		{
+			fadeImage.enabled = true;
 			StartBattleManager();
+		}
 	}
 
     public void StartBattleManager()
@@ -93,20 +108,21 @@ public class BattleManager : MonoBehaviour
 		standbyList = new List<IControllable>();
 		input = new Input_Info();
 
-		/*
-		if (gameEndedEvent == null)
-			gameEndedEvent = new UnityEvent();
-		*/
+
 
 		gameEndedEvent.AddListener(ManageEndBattle);
 
 		SpawnPlayer();
-		if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+
+		currentGameMode = Instantiate(gameData.CreateGameMode(), this.transform);
+		currentGameMode.InitializeMode(this);
+
+		/*if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
 		{
 			GameObject go = Instantiate(BombModeManager, transform.parent);
 			go.GetComponent<StickyBombManager>().BattleManager = this;
-		}
-		else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+		}*/
+		if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
 		{
 			FlappyModeManager go = Instantiate(FlappyModeManager, transform.parent);
 			go.BattleManager = this;
@@ -131,7 +147,6 @@ public class BattleManager : MonoBehaviour
 			if(timer < 2f)
 			{
 				timer += Time.unscaledDeltaTime;
-				Debug.Log(timer);
             }
             else
             {
@@ -255,7 +270,7 @@ public class BattleManager : MonoBehaviour
 				}
             }
 
-			if(autoStart)  // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+			if(!gameData.slamMode)
 				SlowMotionEnd();
 			else
 			{
@@ -270,8 +285,15 @@ public class BattleManager : MonoBehaviour
 
 	public void SlowMotionEnd()
 	{
-		Time.timeScale = 0.2f;
-		slowMowEnd = true;
+		if(!gameData.slamMode)
+		{
+			Time.timeScale = 0.2f;
+			slowMowEnd = true;
+		}
+        else
+        {
+			EndBattle();
+        }
 	}
 
 
@@ -279,7 +301,7 @@ public class BattleManager : MonoBehaviour
 	{
 		Time.timeScale = 1f;
 
-		if(autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if(!gameData.slamMode)
 			cameraController.gameObject.SetActive(false);
 
 		for (int i = 0; i < inputController.controllable.Length; i++)
@@ -296,14 +318,14 @@ public class BattleManager : MonoBehaviour
 
 		// Event end game
 		gameEndedEvent.Invoke();
+
+		canvasUI.enabled = false;
 	}
 
 	public void ManageEndBattle()
     {
-		if (autoStart) // TMP CONDITION POUR TEST (A remplacer par un bool grandslam)
+		if (!gameData.slamMode)
 			menuWin.InitializeWin(characterFullDead);
-		else
-			Debug.Log("END BATTLE GRAND SLAM");
 
 	}
 
@@ -325,10 +347,6 @@ public class BattleManager : MonoBehaviour
 
 		for (int i = 0; i < inputController.controllable.Length; i++)
 		{
-			/*if (inputController.controllable[i] != null)
-			{
-				standbyList.Add(inputController.controllable[i]);
-			}*/
 			inputController.controllable[i] = controllable;
 		}
 		// Enlevé les IA

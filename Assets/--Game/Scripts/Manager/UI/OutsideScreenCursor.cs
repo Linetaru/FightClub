@@ -16,6 +16,7 @@ public class OutsideScreenCursor : MonoBehaviour
 
 	CameraZoomController cam;
 	Transform focus;
+	CharacterBase c;
 	Bounds blastZones;
 
 	Vector2 viewportPos;
@@ -24,9 +25,10 @@ public class OutsideScreenCursor : MonoBehaviour
 
 
 
-	public void Initialize(Transform character, Bounds blastZoneBounds, CameraZoomController camera)
+	public void Initialize(CharacterBase character, Bounds blastZoneBounds, CameraZoomController camera)
 	{
-		focus = character;
+		c = character;
+		focus = character.CenterPoint;
 		blastZones = blastZoneBounds;
 		cam = camera;
 
@@ -39,6 +41,17 @@ public class OutsideScreenCursor : MonoBehaviour
 	{
 		if (focus == null)
 			return;
+
+		if (c.Stats.Death == false)
+		{
+			cursorTransform.localScale = Vector3.one;
+		}
+		else
+		{
+			cursorTransform.localScale = Vector3.zero;
+			return;
+		}
+
 		viewportPos = cam.Camera.WorldToViewportPoint(focus.transform.position);
 		if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1)
 		{

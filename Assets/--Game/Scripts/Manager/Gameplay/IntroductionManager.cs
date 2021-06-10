@@ -20,6 +20,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	[SerializeField]
 	RenderTexture[] renderTextures;
 
+	[Title("Skip")]
+
 	[Title("Feedbacks")]
 	[SerializeField]
 	float timeCutInTotal = 3;
@@ -41,6 +43,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	private void Start()
 	{
 		battleManager = BattleManager.Instance;
+		if (battleManager.gameData.GameSetting.SkipIntro)
+			this.gameObject.SetActive(false);
 	}
 
 
@@ -133,5 +137,6 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	public void EndIntroduction()
 	{
 		battleManager.SetBattleControllable();
+		this.gameObject.SetActive(false);
 	}
 }

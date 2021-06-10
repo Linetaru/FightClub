@@ -55,5 +55,6 @@ public class Character_Info
 		team = TeamEnum.No_Team;
 		characterColorID = 0;
 		characterData = null;
+		inputMapping = new InputMappingDataClassic("classic");
 	}
 }

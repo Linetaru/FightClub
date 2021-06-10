@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CameraSlam : MonoBehaviour
 {
+    public Camera camera;
+
     [SerializeField]
     private MeshRenderer background;
 
@@ -35,6 +37,12 @@ public class CameraSlam : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
+        camera = GetComponent<Camera>();
+    }
+
+    private void OnDestroy()
+    {
+        blurMat.SetFloat("_Smoothness", 1.0f);
     }
 
     private void Update()
