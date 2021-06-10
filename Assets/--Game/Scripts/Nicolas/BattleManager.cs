@@ -77,8 +77,10 @@ public class BattleManager : MonoBehaviour
 		else
 		{
 			_instance = this;
-			if(!gameData.slamMode)
+			if (!gameData.slamMode)
+			{
 				gameData.SetGameSettings();
+			}
 		}
 	}
 

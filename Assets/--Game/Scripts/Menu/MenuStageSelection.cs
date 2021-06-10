@@ -11,58 +11,80 @@ namespace Menu
 	public class MenuStageSelection : MonoBehaviour, IControllable
 	{
 		[SerializeField]
-		MenuButtonListController listStage;
+		MenuButtonListController listStage = null;
 
-		[HorizontalGroup("Stages")]
+		[SerializeField]
+		GameData gameData = null;
+
+		[Title("Transforms")]
 		[ListDrawerSettings(Expanded = true)]
 		[SerializeField]
-		StageData[] stageDatabase;
-
-
-		[HorizontalGroup("Stages")]
-		[ListDrawerSettings(Expanded = true)]
-		[SerializeField]
-		Transform[] stagePositions;
+		Transform[] stagePositions = null;
 
 
 		[Title("UI")]
 		[SerializeField]
-		TextMeshPro text3DStageName;
+		TextMeshPro text3DStageName = null;
 		[SerializeField]
-		TextMeshProUGUI textDescription;
+		TextMeshProUGUI textDescription = null;
 		[SerializeField]
-		Image imageStageThumbnail;
+		Image imageStageThumbnail = null;
 		[SerializeField]
-		TextMeshProUGUI textDate;
+		TextMeshProUGUI textDate = null;
 
 
 		[Title("Feedback")]
 		[SerializeField]
-		Transform cameraPivot;
+		Transform cameraPivot = null;
 		[SerializeField]
-		Image noiseFeedback;
+		Image noiseFeedback = null;
 
 		[SerializeField]
-		Animator feedback;
+		Animator feedback = null;
 
 		[SerializeField]
-		Animator fadeIn;
+		Animator fadeIn = null;
 		[SerializeField]
-		Animator animatorCamera;
+		Animator animatorCamera = null;
 
 		bool canControl = true;
 		private IEnumerator stageCoroutine;
 		public string menuSelectionPersoScene;
+		int characterID = 0;
+
+		List<StageData> stageDatabase = null;
 
 		private void Start()
 		{
 			textDate.text = "Groove City - " + System.DateTime.Now;
+
+			if(gameData.GameSetting == null)
+				gameData.SetGameSettings();
+
+			stageDatabase = new List<StageData>();
+			for (int i = 0; i < gameData.GameSetting.StagesAvailable.Database.Count; i++)
+			{
+				if(gameData.GameSetting.StagesAvailable.GetUnlocked(i))
+				{
+					stageDatabase.Add(gameData.GameSetting.StagesAvailable.Database[i]);
+				}
+			}
+
+			// On a un problème on ne devrait pas être là si on a aucun stage de débloqué, donc je les débloque tous en mode cheat code
+			if (stageDatabase.Count == 0)
+			{
+				for (int i = 0; i < gameData.GameSetting.StagesAvailable.Database.Count; i++)
+				{
+					stageDatabase.Add(gameData.GameSetting.StagesAvailable.Database[i]);
+				}
+			}
+
 			DrawItemList();
 		}
 
 		public void DrawItemList()
 		{
-			for (int i = 0; i < stageDatabase.Length; i++)
+			for (int i = 0; i < stageDatabase.Count; i++)
 			{
 				listStage.DrawItemList(i, null, stageDatabase[i].StageName);
 			}
@@ -75,12 +97,17 @@ namespace Menu
 			if (!canControl)
 				return;
 
-			if (listStage.InputList(input)) // On s'est déplacé dans la liste
-				SelectStage(listStage.IndexSelection);
-			else if (input.inputUiAction == InputConst.Interact)
-				ValidateStage(listStage.IndexSelection);
-			else if (input.inputUiAction == InputConst.Return)
-				QuitMenu();
+			if (characterID == id)
+			{
+				if (listStage.InputList(input)) // On s'est déplacé dans la liste
+					SelectStage(listStage.IndexSelection);
+				else if (input.inputUiAction == InputConst.Interact)
+					ValidateStage(listStage.IndexSelection);
+				else if (input.inputUiAction == InputConst.Return)
+					QuitMenu();
+			}
+			else if (Mathf.Abs(input.vertical) > 0.2f)
+				characterID = id;
 		}
 
 

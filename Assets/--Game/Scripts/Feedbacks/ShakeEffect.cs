@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 namespace Feedbacks
 {
@@ -24,9 +25,12 @@ namespace Feedbacks
         [SerializeField]
         float defaultTime = 0.2f;
 
+        [Space]
+        [Title("Optional")]
+        [SerializeField]
+        Transform shakeTarget = null;
 
-        Transform spriteTransform;
-        private IEnumerator shakeCoroutine;
+        private IEnumerator shakeCoroutine = null;
 
         #endregion
 
@@ -49,29 +53,43 @@ namespace Feedbacks
         {
             if (shakeCoroutine != null)
                 StopCoroutine(shakeCoroutine);
-            shakeCoroutine = ShakeSpriteCoroutine(power, time);
+            if(shakeTarget != null)
+                shakeCoroutine = ShakeSpriteCoroutine(shakeTarget, power, time);
+            else
+                shakeCoroutine = ShakeSpriteCoroutine(this.transform, power, time);
             StartCoroutine(shakeCoroutine);
         }
 
         [ContextMenu("Shake")]
         public void Shake()
         {
-            if (shakeCoroutine != null)
+            Shake(defaultForce, defaultTime);
+            /*if (shakeCoroutine != null)
                 StopCoroutine(shakeCoroutine);
-            shakeCoroutine = ShakeSpriteCoroutine(defaultForce, defaultTime);
-            StartCoroutine(shakeCoroutine);
+            if(shakeTarget != null)
+                shakeCoroutine = ShakeSpriteCoroutine(shakeTarget, defaultForce, defaultTime);
+            else
+                shakeCoroutine = ShakeSpriteCoroutine(this.transform, defaultForce, defaultTime);
+            StartCoroutine(shakeCoroutine);*/
         }
 
-        private IEnumerator ShakeSpriteCoroutine(float power, float time)
+        // Pour les animators parce que unity a du mal
+        public void ShakeCallback()
+        {
+            Shake(defaultForce, defaultTime);
+
+        }
+
+        private IEnumerator ShakeSpriteCoroutine(Transform transform, float power, float time)
         {
             float t = 0f;
             while (t < time)
             {
                 t += Time.deltaTime;
-                this.transform.localPosition = new Vector3(0 + Random.Range(-power, power), 0 + Random.Range(-power, power), 0 + Random.Range(-power, power));
+                transform.localPosition = new Vector3(0 + Random.Range(-power, power), 0 + Random.Range(-power, power), 0 + Random.Range(-power, power));
                 yield return null;
             }
-            this.transform.localPosition = new Vector3(0, 0 , 0);
+            transform.localPosition = new Vector3(0, 0 , 0);
         }
 
 

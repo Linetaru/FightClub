@@ -132,12 +132,15 @@ public class CharacterStateParrySuccess : CharacterState
 				evasiveMoveset.ForceDodgeAerial(character);
 				return true;
 			}
-			else if(character.Input.vertical < -joystickThreshold && character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+			else if(character.Input.vertical < -joystickThreshold && character.Rigidbody.CollisionGroundInfo != null)
 			{
-				character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true);
-				evasiveMoveset.ForceDodgeAerial(character);
-				StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));
-				return true;
+				if (character.Rigidbody.CollisionGroundInfo.gameObject.layer == 16)
+				{
+					character.Rigidbody.SetNewLayerMask(goThroughGroundMask, true);
+					evasiveMoveset.ForceDodgeAerial(character);
+					StartCoroutine(GoThroughGroundCoroutine(character.Rigidbody));
+					return true;
+				}
 			}
 			//else
 		}
@@ -171,10 +174,12 @@ public class CharacterStateParrySuccess : CharacterState
 		float finalAngle = Vector2.Angle(ejectionAngle, input);
 		if (finalAngle <= parryInfluenceAngle)
 		{
+			Debug.Log("Allo");
 			character.Knockback.Parry.CharacterParried.Knockback.Launch(input.normalized, character.Knockback.Parry.EjectionPower);
 		}
 		else
 		{
+			Debug.Log("Pablo");
 			finalAngle = Vector2.SignedAngle(ejectionAngle, input);
 			Vector2 finalDirection = Quaternion.Euler(0, 0, parryInfluenceAngle * Mathf.Sign(finalAngle)) * ejectionAngle;
 			character.Knockback.Parry.CharacterParried.Knockback.Launch(finalDirection.normalized, character.Knockback.Parry.EjectionPower);

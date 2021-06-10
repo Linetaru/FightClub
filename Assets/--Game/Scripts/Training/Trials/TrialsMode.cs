@@ -13,16 +13,8 @@ public class TrialsMode : GameMode
 	[SerializeField]
 	CurrencyData currency;
 
-	TrialsModeData trialsData;
 
 	[Title("Logic")]
-	//[SerializeField]
-	BattleManager battleManager;
-	//[SerializeField]
-	InputController inputController;
-	//[SerializeField]
-	//InputControllerEmpty inputControllerEmpty;
-
 	[SerializeField]
 	Textbox textbox;
 	[SerializeField]
@@ -55,6 +47,11 @@ public class TrialsMode : GameMode
 	CharacterBase dummy;
 	AIBehavior aiBehavior;
 
+	TrialsModeData trialsData;
+
+	BattleManager battleManager;
+	InputController inputController;
+
 	private void Awake()
 	{
 		trialsData = settingsMission.TrialsData;
@@ -70,18 +67,26 @@ public class TrialsMode : GameMode
 		else if (character.PlayerID == 1)
 		{
 			dummy = character;
-			battleManager = BattleManager.Instance;
-			inputController = battleManager.inputController;
-			battleManager.aIController.RemoveBehavior(dummy); // on remove le behavior par défaut pour mettre le notre
-			InitializeTrial();
+			InitializeMode(BattleManager.Instance);
 		}
 	}
 
-	/*public override void InitializeMode(BattleManager battleManager)
+	public override void InitializeMode(BattleManager battleManager)
 	{
 		this.battleManager = battleManager;
 		inputController = battleManager.inputController;
-	}*/
+
+		// On fait ce check car ce game mode ne peut pas être instancié, il doit etre présent de base sur la scène
+		if (battleManager.gameData.GameMode != GameModeStateEnum.Tutorial)
+		{
+			this.gameObject.SetActive(false);
+			return;
+		}
+
+
+		battleManager.aIController.RemoveBehavior(dummy); // on remove le behavior par défaut pour mettre le notre
+		InitializeTrial();
+	}
 
 
 	public void InitializeTrial(TrialsModeData newTrials)
