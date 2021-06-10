@@ -498,14 +498,37 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private IEnumerator GoToStageMenu()
     {
         yield return new WaitForSeconds(1.2f);
-        if (gameData.GameMode == GameModeStateEnum.Classic_Mode || gameData.GameMode == GameModeStateEnum.Training)
+
+        StageData currentStage = null;
+
+        for (int i = 0; i < gameData.GameSetting.StagesAvailable.Database.Count; i++)
+        {
+            if(gameData.GameSetting.StagesAvailable.GetUnlocked(i) && currentStage != null)
+            {
+                SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+                yield break;
+            }
+
+            if (gameData.GameSetting.StagesAvailable.GetUnlocked(i))
+            {
+                currentStage = gameData.GameSetting.StagesAvailable.Database[i];
+            }
+
+        }
+
+        if(currentStage == null)
             SceneManager.LoadScene(afterMenuSceneNameClassicMode);
-        else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
-            SceneManager.LoadScene(afterMenuSceneNameBombMode);
-        else if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
-            SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
-        else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
-            SceneManager.LoadScene(afterMenuSceneNameFlappyMode);
+        else
+            SceneManager.LoadScene(currentStage.SceneName);
+
+        //if (gameData.GameMode == GameModeStateEnum.Classic_Mode || gameData.GameMode == GameModeStateEnum.Training)
+        //    SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+        //else if (gameData.GameMode == GameModeStateEnum.Bomb_Mode)
+        //    SceneManager.LoadScene(afterMenuSceneNameBombMode);
+        //else if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
+        //    SceneManager.LoadScene(afterMenuSceneNameVolleyMode);
+        //else if (gameData.GameMode == GameModeStateEnum.Flappy_Mode)
+        //    SceneManager.LoadScene(afterMenuSceneNameFlappyMode);
     }
 
     void ReturnToMainMenu()
