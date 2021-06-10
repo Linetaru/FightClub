@@ -52,7 +52,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="3570123002">
+		<SoundBank Id="152968626" Language="SFX" Hash="1821422009">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -1029,6 +1029,9 @@
 							<Path>SFX\VO\VO_CROW_Perfect_Parry_07_C186C889.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
 				<Event Id="1354215100" Name="Play_CROW_Whoosh_Aerial_Down" ObjectPath="\Events\Default Work Unit\Characters\CROW\CROW_Attack\CROW_Attack_Whoosh\Play_CROW_Whoosh_Aerial_Down" DurationType="OneShot" DurationMin="0.229354" DurationMax="0.229354">
 					<IncludedMemoryFiles>
@@ -1507,7 +1510,49 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2814004620" Name="Play_VO_CROW_Down_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Down_Tilt" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.752000">
+				<Event Id="2304898648" Name="Play_VO_CROW_Aerial_Neutral" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Aerial_Neutral" DurationType="OneShot" DurationMin="0.457333" DurationMax="0.674771">
+					<IncludedMemoryFiles>
+						<File Id="367574091" Language="SFX">
+							<ShortName>VO\VO_CROW_Up_Tilt_03.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Up_Tilt_03_D8C07C79.wem</Path>
+						</File>
+						<File Id="495857971" Language="SFX">
+							<ShortName>VO\VO_CROW_Up_Tilt_04.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Up_Tilt_04_D8C07C79.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
+				</Event>
+				<Event Id="577522105" Name="Play_VO_CROW_Dash_Attack" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Dash_Attack" DurationType="OneShot" DurationMin="0.665704" DurationMax="2.088486">
+					<IncludedMemoryFiles>
+						<File Id="164125324" Language="SFX">
+							<ShortName>VO\VO_CROW_Special_Down_10.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Special_Down_10_FD34B4F9.wem</Path>
+						</File>
+						<File Id="197436787" Language="SFX">
+							<ShortName>VO\VO_CROW_Special_Down_09.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Special_Down_09_2A651E70.wem</Path>
+						</File>
+						<File Id="215931370" Language="SFX">
+							<ShortName>VO\VO_CROW_Special_Down_11.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Special_Down_11_587C7676.wem</Path>
+						</File>
+						<File Id="465105174" Language="SFX">
+							<ShortName>VO\VO_CROW_Special_Down_07.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Special_Down_07_F30C1822.wem</Path>
+						</File>
+						<File Id="466377877" Language="SFX">
+							<ShortName>VO\VO_CROW_Special_Down_08.wav</ShortName>
+							<Path>SFX\VO\VO_CROW_Special_Down_08_EE705DC4.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
+				</Event>
+				<Event Id="2814004620" Name="Play_VO_CROW_Down_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Down_Tilt" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.752000">
 					<IncludedMemoryFiles>
 						<File Id="78469071" Language="SFX">
 							<ShortName>VO\VO_CROW_Down_Tilt_04.wav</ShortName>
@@ -1526,8 +1571,11 @@
 							<Path>SFX\VO\VO_CROW_Down_Tilt_01_D8C07C79.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="2765796119" Name="Play_VO_CROW_Fall_Scream" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Fall_Scream" DurationType="OneShot" DurationMin="2.331438" DurationMax="3.561333">
+				<Event Id="2765796119" Name="Play_VO_CROW_Fall_Scream" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Pain\Play_VO_CROW_Fall_Scream" DurationType="OneShot" DurationMin="2.331438" DurationMax="3.561333">
 					<IncludedMemoryFiles>
 						<File Id="787307635" Language="SFX">
 							<ShortName>VO\VO_CROW_Fall_Scream_03.wav</ShortName>
@@ -1543,7 +1591,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1731085913" Name="Play_VO_CROW_Forward_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Forward_Tilt" DurationType="OneShot" DurationMin="0.297166" DurationMax="0.829269">
+				<Event Id="1731085913" Name="Play_VO_CROW_Forward_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Forward_Tilt" DurationType="OneShot" DurationMin="0.297166" DurationMax="0.829269">
 					<IncludedMemoryFiles>
 						<File Id="56159513" Language="SFX">
 							<ShortName>VO\VO_CROW_Forward_Tilt_01.wav</ShortName>
@@ -1570,8 +1618,11 @@
 							<Path>SFX\VO\VO_CROW_Forward_Tilt_02_BB27968A.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="1812282459" Name="Play_VO_CROW_Pain_Cry" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Pain_Cry" DurationType="OneShot" DurationMin="0.247083" DurationMax="0.615521">
+				<Event Id="1812282459" Name="Play_VO_CROW_Pain_Cry" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Pain\Play_VO_CROW_Pain_Cry" DurationType="OneShot" DurationMin="0.247083" DurationMax="0.615521">
 					<IncludedMemoryFiles>
 						<File Id="34457934" Language="SFX">
 							<ShortName>VO\VO_CROW_Pain_Cry_04.wav</ShortName>
@@ -1607,7 +1658,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2859618141" Name="Play_VO_CROW_Parry_Failed_Long" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Parry_Failed_Long" DurationType="OneShot" DurationMin="2.121854" DurationMax="3.679333">
+				<Event Id="2859618141" Name="Play_VO_CROW_Parry_Failed_Long" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Pain\Play_VO_CROW_Parry_Failed_Long" DurationType="OneShot" DurationMin="2.121854" DurationMax="3.679333">
 					<IncludedMemoryFiles>
 						<File Id="121498902" Language="SFX">
 							<ShortName>VO\VO_CROW_Parry_Failed_Long_03.wav</ShortName>
@@ -1635,7 +1686,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2597179739" Name="Play_VO_CROW_Parry_Failed_Short" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Parry_Failed_Short" DurationType="OneShot" DurationMin="0.419437" DurationMax="1.017563">
+				<Event Id="2597179739" Name="Play_VO_CROW_Parry_Failed_Short" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Pain\Play_VO_CROW_Parry_Failed_Short" DurationType="OneShot" DurationMin="0.419437" DurationMax="1.017563">
 					<IncludedMemoryFiles>
 						<File Id="46730069" Language="SFX">
 							<ShortName>VO\VO_CROW_Parry_Failed_Short_05.wav</ShortName>
@@ -1667,7 +1718,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3823203326" Name="Play_VO_CROW_Perfect_Parry" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Perfect_Parry" DurationType="OneShot" DurationMin="0.556792" DurationMax="0.935059">
+				<Event Id="3823203326" Name="Play_VO_CROW_Perfect_Parry" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Perfect_Parry" DurationType="OneShot" DurationMin="0.556792" DurationMax="0.935059">
 					<IncludedMemoryFiles>
 						<File Id="56759381" Language="SFX">
 							<ShortName>VO\VO_CROW_Perfect_Parry_06.wav</ShortName>
@@ -1714,8 +1765,11 @@
 							<Path>SFX\VO\VO_CROW_Perfect_Parry_07_C186C889.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="1754049063" Name="Play_VO_CROW_SignatureMove_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_SignatureMove_01" DurationType="OneShot" DurationMin="2.780021" DurationMax="2.780021">
+				<Event Id="1754049063" Name="Play_VO_CROW_SignatureMove_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_SignatureMove_01" DurationType="OneShot" DurationMin="2.780021" DurationMax="2.780021">
 					<IncludedMemoryFiles>
 						<File Id="867939497" Language="SFX">
 							<ShortName>VO\VO_CROW_SignatureMove_01.wav</ShortName>
@@ -1723,7 +1777,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1754049060" Name="Play_VO_CROW_SignatureMove_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_SignatureMove_02" DurationType="OneShot" DurationMin="2.345333" DurationMax="2.345333">
+				<Event Id="1754049060" Name="Play_VO_CROW_SignatureMove_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_SignatureMove_02" DurationType="OneShot" DurationMin="2.345333" DurationMax="2.345333">
 					<IncludedMemoryFiles>
 						<File Id="828688170" Language="SFX">
 							<ShortName>VO\VO_CROW_SignatureMove_02.wav</ShortName>
@@ -1731,7 +1785,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1754049061" Name="Play_VO_CROW_SignatureMove_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_SignatureMove_03" DurationType="OneShot" DurationMin="2.975333" DurationMax="2.975333">
+				<Event Id="1754049061" Name="Play_VO_CROW_SignatureMove_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_SignatureMove_03" DurationType="OneShot" DurationMin="2.975333" DurationMax="2.975333">
 					<IncludedMemoryFiles>
 						<File Id="754092859" Language="SFX">
 							<ShortName>VO\VO_CROW_SignatureMove_03.wav</ShortName>
@@ -1739,7 +1793,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1257274962" Name="Play_VO_CROW_Special_Down" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Special_Down" DurationType="OneShot" DurationMin="0.349201" DurationMax="2.434432">
+				<Event Id="1257274962" Name="Play_VO_CROW_Special_Down" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Special_Down" DurationType="OneShot" DurationMin="0.349201" DurationMax="1.380599">
 					<IncludedMemoryFiles>
 						<File Id="41055039" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Down_02.wav</ShortName>
@@ -1748,26 +1802,6 @@
 						<File Id="158243045" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Down_04.wav</ShortName>
 							<Path>SFX\VO\VO_CROW_Special_Down_04_40769033.wem</Path>
-						</File>
-						<File Id="164125324" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Down_10.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Down_10_FD34B4F9.wem</Path>
-						</File>
-						<File Id="197436787" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Down_09.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Down_09_2A651E70.wem</Path>
-						</File>
-						<File Id="215931370" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Down_11.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Down_11_2889BF93.wem</Path>
-						</File>
-						<File Id="465105174" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Down_07.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Down_07_F30C1822.wem</Path>
-						</File>
-						<File Id="466377877" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Down_08.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Down_08_10F5F130.wem</Path>
 						</File>
 						<File Id="761354936" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Down_06.wav</ShortName>
@@ -1786,20 +1820,15 @@
 							<Path>SFX\VO\VO_CROW_Special_Down_03_7ECE6A99.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="57813025" Name="Play_VO_CROW_Special_Forward" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Special_Forward" DurationType="OneShot" DurationMin="1.167264" DurationMax="1.279401">
+				<Event Id="57813025" Name="Play_VO_CROW_Special_Forward" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Special_Forward" DurationType="OneShot" DurationMin="1.178807" DurationMax="1.223203">
 					<IncludedMemoryFiles>
-						<File Id="186053292" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Forward_03.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Forward_03_B96CBB59.wem</Path>
-						</File>
 						<File Id="361103791" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Forward_04.wav</ShortName>
 							<Path>SFX\VO\VO_CROW_Special_Forward_04_E4F92AFB.wem</Path>
-						</File>
-						<File Id="560196990" Language="SFX">
-							<ShortName>VO\VO_CROW_Special_Forward_06.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Forward_06_6B1E394A.wem</Path>
 						</File>
 						<File Id="736762418" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Forward_05.wav</ShortName>
@@ -1810,24 +1839,30 @@
 							<Path>SFX\VO\VO_CROW_Special_Forward_02_CA9857BA.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="2794088017" Name="Play_VO_CROW_Special_Up" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Special_Up" DurationType="OneShot" DurationMin="1.320104" DurationMax="1.908667">
+				<Event Id="2794088017" Name="Play_VO_CROW_Special_Up" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Special_Up" DurationType="OneShot" DurationMin="1.058195" DurationMax="1.656202">
 					<IncludedMemoryFiles>
 						<File Id="17833902" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Up_03.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Up_03_D8C07C79.wem</Path>
+							<Path>SFX\VO\VO_CROW_Special_Up_03_B4019085.wem</Path>
 						</File>
 						<File Id="326494564" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Up_01.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Up_01_D8C07C79.wem</Path>
+							<Path>SFX\VO\VO_CROW_Special_Up_01_9203AB5B.wem</Path>
 						</File>
 						<File Id="422023094" Language="SFX">
 							<ShortName>VO\VO_CROW_Special_Up_02.wav</ShortName>
-							<Path>SFX\VO\VO_CROW_Special_Up_02_D8C07C79.wem</Path>
+							<Path>SFX\VO\VO_CROW_Special_Up_02_C5D3B41C.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="1842325355" Name="Play_VO_CROW_Taunt_GetOverHere_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Taunt_GetOverHere_01" DurationType="OneShot" DurationMin="1.302750" DurationMax="1.302750">
+				<Event Id="1842325355" Name="Play_VO_CROW_Taunt_GetOverHere_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Taunt_GetOverHere_01" DurationType="OneShot" DurationMin="1.302750" DurationMax="1.302750">
 					<IncludedMemoryFiles>
 						<File Id="733220426" Language="SFX">
 							<ShortName>VO\VO_CROW_Taunt_GetOverHere_01.wav</ShortName>
@@ -1835,7 +1870,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1842325352" Name="Play_VO_CROW_Taunt_GetOverHere_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Taunt_GetOverHere_02" DurationType="OneShot" DurationMin="1.506771" DurationMax="1.506771">
+				<Event Id="1842325352" Name="Play_VO_CROW_Taunt_GetOverHere_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Taunt_GetOverHere_02" DurationType="OneShot" DurationMin="1.506771" DurationMax="1.506771">
 					<IncludedMemoryFiles>
 						<File Id="786904700" Language="SFX">
 							<ShortName>VO\VO_CROW_Taunt_GetOverHere_02.wav</ShortName>
@@ -1843,7 +1878,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1842325353" Name="Play_VO_CROW_Taunt_GetOverHere_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Taunt_GetOverHere_03" DurationType="OneShot" DurationMin="1.075333" DurationMax="1.075333">
+				<Event Id="1842325353" Name="Play_VO_CROW_Taunt_GetOverHere_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Taunt_GetOverHere_03" DurationType="OneShot" DurationMin="1.075333" DurationMax="1.075333">
 					<IncludedMemoryFiles>
 						<File Id="637031337" Language="SFX">
 							<ShortName>VO\VO_CROW_Taunt_GetOverHere_03.wav</ShortName>
@@ -1851,7 +1886,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2771885129" Name="Play_VO_CROW_Up_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Up_Tilt" DurationType="OneShot" DurationMin="0.457333" DurationMax="0.674771">
+				<Event Id="2771885129" Name="Play_VO_CROW_Up_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Attack\Play_VO_CROW_Up_Tilt" DurationType="OneShot" DurationMin="0.457333" DurationMax="0.674771">
 					<IncludedMemoryFiles>
 						<File Id="367574091" Language="SFX">
 							<ShortName>VO\VO_CROW_Up_Tilt_03.wav</ShortName>
@@ -1870,8 +1905,11 @@
 							<Path>SFX\VO\VO_CROW_Up_Tilt_02_D8C07C79.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<AuxBusSends>
+						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
+					</AuxBusSends>
 				</Event>
-				<Event Id="640416278" Name="Play_VO_CROW_Victory_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Victory_01" DurationType="OneShot" DurationMin="1.810938" DurationMax="1.810938">
+				<Event Id="640416278" Name="Play_VO_CROW_Victory_01" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Victory_01" DurationType="OneShot" DurationMin="1.810938" DurationMax="1.810938">
 					<IncludedMemoryFiles>
 						<File Id="962484307" Language="SFX">
 							<ShortName>VO\VO_CROW_Victory_01.wav</ShortName>
@@ -1879,7 +1917,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="640416277" Name="Play_VO_CROW_Victory_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Victory_02" DurationType="OneShot" DurationMin="1.759437" DurationMax="1.759437">
+				<Event Id="640416277" Name="Play_VO_CROW_Victory_02" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Victory_02" DurationType="OneShot" DurationMin="1.759437" DurationMax="1.759437">
 					<IncludedMemoryFiles>
 						<File Id="322885656" Language="SFX">
 							<ShortName>VO\VO_CROW_Victory_02.wav</ShortName>
@@ -1887,7 +1925,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="640416276" Name="Play_VO_CROW_Victory_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Play_VO_CROW_Victory_03" DurationType="OneShot" DurationMin="2.851333" DurationMax="2.851333">
+				<Event Id="640416276" Name="Play_VO_CROW_Victory_03" ObjectPath="\Events\Default Work Unit\VO\VO_CROW\Phrases\Play_VO_CROW_Victory_03" DurationType="OneShot" DurationMin="2.851333" DurationMax="2.851333">
 					<IncludedMemoryFiles>
 						<File Id="341778830" Language="SFX">
 							<ShortName>VO\VO_CROW_Victory_03.wav</ShortName>
@@ -1895,7 +1933,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1403533571" Name="Play_VO_PULSE_Dash_Attack" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_Dash_Attack" DurationType="OneShot" DurationMin="0.429750" DurationMax="0.429750">
+				<Event Id="1403533571" Name="Play_VO_PULSE_Dash_Attack" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_Dash_Attack" DurationType="OneShot" DurationMin="0.429750" DurationMax="0.429750">
 					<IncludedMemoryFiles>
 						<File Id="821796316" Language="SFX">
 							<ShortName>VO\VO_PULSE_FwrdTilt_05.wav</ShortName>
@@ -1940,7 +1978,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="549691761" Name="Play_VO_PULSE_DownTilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_DownTilt" DurationType="OneShot" DurationMin="0.197333" DurationMax="0.222667">
+				<Event Id="549691761" Name="Play_VO_PULSE_DownTilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_DownTilt" DurationType="OneShot" DurationMin="0.197333" DurationMax="0.222667">
 					<IncludedMemoryFiles>
 						<File Id="221167301" Language="SFX">
 							<ShortName>VO\VO_PULSE_DownTilt_01.wav</ShortName>
@@ -1986,7 +2024,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="1517751390" Name="Play_VO_PULSE_FwrdTilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_FwrdTilt" DurationType="OneShot" DurationMin="0.209135" DurationMax="0.349419">
+				<Event Id="1517751390" Name="Play_VO_PULSE_FwrdTilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_FwrdTilt" DurationType="OneShot" DurationMin="0.209135" DurationMax="0.349419">
 					<IncludedMemoryFiles>
 						<File Id="54056242" Language="SFX">
 							<ShortName>VO\VO_PULSE_FwrdTilt_03.wav</ShortName>
@@ -2065,7 +2103,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="1802197343" Name="Play_VO_PULSE_PerfectParry" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_PerfectParry" DurationType="OneShot" DurationMin="0.320000" DurationMax="0.672000">
+				<Event Id="1802197343" Name="Play_VO_PULSE_PerfectParry" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_PerfectParry" DurationType="OneShot" DurationMin="0.320000" DurationMax="0.672000">
 					<IncludedMemoryFiles>
 						<File Id="38139410" Language="SFX">
 							<ShortName>VO\VO_Pulse_PerfectParry_06.wav</ShortName>
@@ -2100,7 +2138,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="3391252601" Name="Play_VO_Pulse_SpecialDown_TakeThis" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_Pulse_SpecialDown_TakeThis" DurationType="OneShot" DurationMin="0.964000" DurationMax="0.964000">
+				<Event Id="3391252601" Name="Play_VO_Pulse_SpecialDown_TakeThis" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_Pulse_SpecialDown_TakeThis" DurationType="OneShot" DurationMin="0.964000" DurationMax="0.964000">
 					<IncludedMemoryFiles>
 						<File Id="636844599" Language="SFX">
 							<ShortName>VO\VO_Pulse_SpecialDown_TakeThis_03.wav</ShortName>
@@ -2111,7 +2149,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="1343145908" Name="Play_VO_PULSE_SpecialFrwd" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_SpecialFrwd" DurationType="OneShot" DurationMin="0.320667" DurationMax="0.622667">
+				<Event Id="1343145908" Name="Play_VO_PULSE_SpecialFrwd" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_SpecialFrwd" DurationType="OneShot" DurationMin="0.320667" DurationMax="0.622667">
 					<IncludedMemoryFiles>
 						<File Id="566193344" Language="SFX">
 							<ShortName>VO\VO_Pulse_SpecialFrwd_01.wav</ShortName>
@@ -2130,7 +2168,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="2513777730" Name="Play_VO_PULSE_SpecialUp" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_SpecialUp" DurationType="OneShot" DurationMin="0.766539" DurationMax="0.790518">
+				<Event Id="2513777730" Name="Play_VO_PULSE_SpecialUp" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_SpecialUp" DurationType="OneShot" DurationMin="0.766539" DurationMax="0.790518">
 					<IncludedMemoryFiles>
 						<File Id="279059065" Language="SFX">
 							<ShortName>VO\VO_Pulse_SpecialUp_02.wav</ShortName>
@@ -2145,7 +2183,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="3586936542" Name="Play_VO_PULSE_Up_Air" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_Up_Air" DurationType="OneShot" DurationMin="0.167329" DurationMax="0.167329">
+				<Event Id="3586936542" Name="Play_VO_PULSE_Up_Air" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_Up_Air" DurationType="OneShot" DurationMin="0.167329" DurationMax="0.167329">
 					<IncludedMemoryFiles>
 						<File Id="588883501" Language="SFX">
 							<ShortName>VO\VO_PULSE_FwrdTilt_01.wav</ShortName>
@@ -2156,7 +2194,7 @@
 						<AuxBus Id="925572730" Name="VO_Rev" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Dialogue\VO_Rev"/>
 					</AuxBusSends>
 				</Event>
-				<Event Id="2220237231" Name="Play_VO_PULSE_Up_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Play_VO_PULSE_Up_Tilt" DurationType="OneShot" DurationMin="0.277333" DurationMax="0.350667">
+				<Event Id="2220237231" Name="Play_VO_PULSE_Up_Tilt" ObjectPath="\Events\Default Work Unit\VO\VO_PULSE\Attack\Play_VO_PULSE_Up_Tilt" DurationType="OneShot" DurationMin="0.277333" DurationMax="0.350667">
 					<IncludedMemoryFiles>
 						<File Id="118455664" Language="SFX">
 							<ShortName>VO\VO_PULSE_Up_Tilt_02.wav</ShortName>
