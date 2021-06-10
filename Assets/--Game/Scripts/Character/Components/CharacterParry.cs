@@ -113,6 +113,7 @@ public class CharacterParry : MonoBehaviour
 	public event EventCharacterBase OnParry;
 	public event EventCharacterBaseDouble OnGuard;
 	public event EventAttackSubManager OnClash;
+	public event EventAttackSubManager OnGuardBreak;
 
 
 
@@ -284,6 +285,7 @@ public class CharacterParry : MonoBehaviour
 		{
 			if (character.PowerGauge.CurrentPower <= 1) // Guard Break
 			{
+				OnGuardBreak?.Invoke(atkRegistered);
 				//character.PowerGauge.ForceAddPower(-20);
 				character.PowerGauge.ForceAddPower(80);
 				atkRegistered.User.PowerGauge.ForceAddPower(20);
