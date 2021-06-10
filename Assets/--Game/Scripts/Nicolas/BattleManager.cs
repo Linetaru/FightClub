@@ -54,6 +54,8 @@ public class BattleManager : MonoBehaviour
 	private bool slowMowEnd;
 	private float timer;
 
+	public int currentWinningTeam = 0;
+
 	[SerializeField]
 	private Canvas canvasUI;
 	[SerializeField]
@@ -94,7 +96,6 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
 	{
-		Debug.Log("SLAM : " + gameData.slamMode);
 		if(!gameData.slamMode)
 		{
 			fadeImage.enabled = true;
@@ -284,8 +285,15 @@ public class BattleManager : MonoBehaviour
 
 	public void SlowMotionEnd()
 	{
-		Time.timeScale = 0.2f;
-		slowMowEnd = true;
+		if(!gameData.slamMode)
+		{
+			Time.timeScale = 0.2f;
+			slowMowEnd = true;
+		}
+        else
+        {
+			EndBattle();
+        }
 	}
 
 
