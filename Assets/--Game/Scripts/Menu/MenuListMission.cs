@@ -73,7 +73,7 @@ namespace Menu
 			SaveManager.Instance.SaveFile();
 			InitializeMenu();*/
 
-			gameData.GameMode = GameModeStateEnum.Classic_Mode;
+			gameData.GameMode = GameModeStateEnum.Tutorial;
 			gameData.NumberOfLifes = 3;
 			gameData.CharacterInfos.Clear();
 
