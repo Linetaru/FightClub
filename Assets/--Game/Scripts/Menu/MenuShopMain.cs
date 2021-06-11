@@ -10,27 +10,32 @@ namespace Menu
 
 		[Title("Menu")]
 		[SerializeField]
-		InputController inputController;
+		InputController inputController = null;
 		[SerializeField]
-		MenuShop[] menuShops;
+		MenuShop[] menuShops = null;
 		[SerializeField]
 		string[] textOptions;
 		[SerializeField]
-		Textbox textDescription;
+		Textbox textDescription = null;
 
 
 		[Title("Animators")]
 		[SerializeField]
-		Animator animatorMenu;
+		Animator animatorMenu = null;
 		[SerializeField]
-		Animator animatorDescription;
+		Animator animatorDescription = null;
 		[SerializeField]
-		Animator animatorPanelUnityChan;
+		Animator animatorPanelUnityChan = null;
 		[SerializeField]
-		Animator animatorBackground;
+		Animator animatorBackground = null;
 
 		[SerializeField]
-		Animator animatorPanelUnityChan2;
+		Animator animatorPanelUnityChan2 = null;
+
+		[Title("Scene")]
+		[SerializeField]
+		[Scene]
+		string sceneMainMenu;
 
 		void Awake()
 		{
@@ -79,6 +84,7 @@ namespace Menu
 		{
 			SaveManager.Instance.SaveFile();
 			base.QuitMenu();
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMainMenu);
 		}
 
 

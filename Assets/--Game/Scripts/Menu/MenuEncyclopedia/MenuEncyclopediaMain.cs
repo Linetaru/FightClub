@@ -19,6 +19,11 @@ namespace Menu
 		[SerializeField]
 		Animator animatorRenderTexture;
 
+		[Title("Animator")]
+		[SerializeField]
+		[Scene]
+		string mainMenuScene;
+
 		private IEnumerator moveButtonCoroutine = null;
 
 
@@ -59,6 +64,11 @@ namespace Menu
 			{
 				QuitMenu();
 			}
+		}
+
+		protected override void QuitMenu()
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenuScene);
 		}
 
 		protected override void ValidateEntry(int id)
