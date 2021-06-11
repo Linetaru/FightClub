@@ -17,6 +17,7 @@ public class PauseGame : MonoBehaviour, IControllable
     private int state = 0;
     private int characterID = 0;
 
+    [Scene]
     public string quit_button_scene;
 
     private bool OnTransition;

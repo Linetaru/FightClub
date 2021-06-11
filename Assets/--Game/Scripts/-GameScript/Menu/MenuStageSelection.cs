@@ -49,6 +49,7 @@ namespace Menu
 
 		bool canControl = true;
 		private IEnumerator stageCoroutine;
+		[Scene]
 		public string menuSelectionPersoScene;
 		int characterID = 0;
 
