@@ -107,10 +107,10 @@ namespace Menu
 
         public void ChangeRTPCValue()
         {
-            AkSoundEngine.SetRTPCValue(MasterVolumeName, masterVolume / maxValue);
-            AkSoundEngine.SetRTPCValue(MusicVolumeName, musicVolume / maxValue);
-            AkSoundEngine.SetRTPCValue(SFXVolumeName, sfxVolume / maxValue);
-            AkSoundEngine.SetRTPCValue(VoiceVolumeName, voiceVolume / maxValue);
+            AkSoundEngine.SetRTPCValue(MasterVolumeName, masterVolume);
+            AkSoundEngine.SetRTPCValue(MusicVolumeName, musicVolume);
+            AkSoundEngine.SetRTPCValue(SFXVolumeName, sfxVolume);
+            AkSoundEngine.SetRTPCValue(VoiceVolumeName, voiceVolume);
         }
     }
 }

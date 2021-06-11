@@ -33,6 +33,10 @@ namespace Menu
 		[SerializeField]
 		Animator animatorDescription;
 
+		[SerializeField]
+		[Scene]
+		string sceneMenuMain;
+
 		int previousID = 0;
 
 
@@ -86,7 +90,7 @@ namespace Menu
 			HideMenu();
 			inputController.controllable[0] = null;
 			settingsMission.TrialsDatabase = null;
-			UnityEngine.SceneManagement.SceneManager.LoadScene("GP_Menu");
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMenuMain);
 		}
 
 
