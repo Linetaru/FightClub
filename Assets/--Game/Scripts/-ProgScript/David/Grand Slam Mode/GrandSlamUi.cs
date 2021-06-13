@@ -13,8 +13,14 @@ public class GrandSlamUi : MonoBehaviour
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
+
+    [Title("Components")]
     [SerializeField]
     private TextMeshProUGUI scoreToBeat;
+    [SerializeField]
+    private TextMeshProUGUI currentModeText;
+    [SerializeField]
+    private Image currentModeImage;
 
     [Title("Scripts")]
     [SerializeField]
@@ -27,7 +33,19 @@ public class GrandSlamUi : MonoBehaviour
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
     public List<TextMeshProUGUI> playerGainScoreTxt = new List<TextMeshProUGUI>();
 
+    [Title("Sprites")]
+    [SerializeField]
+    private Sprite logoClassicMode;
+    [SerializeField]
+    private Sprite logoBombMode;
+    [SerializeField]
+    private Sprite logoWallSplashMode;
+    [SerializeField]
+    private Sprite logoVolleyMode;
+
+
     public List<Image> crownList = new List<Image>();
+    public List<Image> glowList = new List<Image>();
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
@@ -82,6 +100,30 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
+    public void SetCurrentModeInfo(GameModeStateEnum gameMode)
+    {
+        if(gameMode == GameModeStateEnum.Classic_Mode)
+        {
+            currentModeText.text = "CLASSIC";
+            currentModeImage.sprite = logoClassicMode;
+        }
+        else if(gameMode == GameModeStateEnum.Bomb_Mode)
+        {
+            currentModeText.text = "BOMB";
+            currentModeImage.sprite = logoBombMode;
+        }
+        else if (gameMode == GameModeStateEnum.Flappy_Mode)
+        {
+            currentModeText.text = "WALL SPLASH";
+            currentModeImage.sprite = logoWallSplashMode;
+        }
+        else if (gameMode == GameModeStateEnum.Volley_Mode)
+        {
+            currentModeText.text = "VOLLEY";
+            currentModeImage.sprite = logoVolleyMode;
+        }
+    }
+
     public void DrawScores(Dictionary<int, int> playersScore, GameData gameData)
     {
         int i = 0;
@@ -102,6 +144,7 @@ public class GrandSlamUi : MonoBehaviour
                 bestScoreIDs.Add(score.Key);
 
             crownList[i].enabled = false;
+            glowList[i].enabled = false;
 
             playersScoreObj[i].SetActive(true);
 
@@ -152,6 +195,7 @@ public class GrandSlamUi : MonoBehaviour
         foreach(int index in bestScoreIndexes)
         {
             crownList[index].enabled = true;
+            glowList[index].enabled = true;
         }
 
         /*

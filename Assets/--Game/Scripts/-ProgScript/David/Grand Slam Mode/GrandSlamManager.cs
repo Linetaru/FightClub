@@ -271,6 +271,7 @@ public class GrandSlamManager : MonoBehaviour
     // Calcule les scores et demande au canvas de les afficher
     private void CalculateScore()
     {
+        canvasScore.SetCurrentModeInfo(gameMode);
         if(gameMode == GameModeStateEnum.Volley_Mode)
         {
             // Condition points volley
