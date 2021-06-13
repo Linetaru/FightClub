@@ -117,19 +117,28 @@ public class GrandSlamUi : MonoBehaviour
 
     public void DisplaySpecialRules(SpecialRound specialRound)
     {
-        bonusRoundAnimator.SetTrigger("Appear");
+        if (specialRound != SpecialRound.NoCurrentSpecialRound)
+        {
+            bonusRoundAnimator.SetTrigger("Appear");
 
-        if (specialRound == SpecialRound.DoublePoint)
-        {
-            // DISPLAY DOUBLE POINTS RULES
-            bonusRoundText.text = "Double Point";
-            bonusRoundSubtitleText.text = "Win your point x2";
-        }
-        else if(specialRound == SpecialRound.StealPoint)
-        {
-            // DISPLAY STEAL POINTS RULES
-            bonusRoundText.text = "Steal Point";
-            bonusRoundSubtitleText.text = "Win first and steal other points";
+            if (specialRound == SpecialRound.DoublePoint)
+            {
+                // DISPLAY DOUBLE POINTS RULES
+                bonusRoundText.text = "Double Point";
+                bonusRoundSubtitleText.text = "Win your point x2";
+            }
+            else if (specialRound == SpecialRound.StealPoint)
+            {
+                // DISPLAY STEAL POINTS RULES
+                bonusRoundText.text = "Steal Point";
+                bonusRoundSubtitleText.text = "Win first and steal other points";
+            }
+            else if (specialRound == SpecialRound.OneMoreLife)
+            {
+                // DISPLAY ONE MORE LIFE RULES
+                bonusRoundText.text = "One More Life";
+                bonusRoundSubtitleText.text = "All players gain 1 more life in the next round (1 more goal in Volley)";
+            }
         }
     }
 

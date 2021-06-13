@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using System;
 
 public enum SpecialRound
 {
-    DoublePoint = 0,
-    StealPoint = 1,
+    NoCurrentSpecialRound = 0,
+    DoublePoint = 1,
+    StealPoint = 2,
+    OneMoreLife = 3,
 }
 
 public class GrandSlamManager : MonoBehaviour
@@ -88,9 +91,9 @@ public class GrandSlamManager : MonoBehaviour
 
     [SerializeField]
     int specialRoundsOcurrence = 2;
+    [SerializeField] [ReadOnly]
     SpecialRound currentSpecialRound;
     int roundCount = 0;
-    bool isSpecialRound = false;
 
 
     private void Awake()
@@ -196,7 +199,10 @@ public class GrandSlamManager : MonoBehaviour
 
         int randomKey = Random.Range(0, listGameModesValid.Count);
         gameMode = listGameModesValid[randomKey].gameMode;
-        gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
+        gameData.NumberOfLifes = currentSpecialRound == SpecialRound.OneMoreLife ? listGameModesValid[randomKey].nbLife : listGameModesValid[randomKey].nbLife + 1;
+        //gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
         currentScoreArr = listGameModesValid[randomKey].scoreArr;
 
         //if(gameMode == GameModeStateEnum.Volley_Mode)
@@ -219,6 +225,10 @@ public class GrandSlamManager : MonoBehaviour
 
         currentMode = listGameModesValid[randomKey];
 
+        //Si mode Volley au lieu de donner une vie ca rajouter 1 goal dans l'objectif.
+        if (gameMode == GameModeStateEnum.Volley_Mode && currentSpecialRound == SpecialRound.OneMoreLife)
+            currentMode.scoreGoal = listGameModesValid[randomKey].scoreGoal + 1;
+
         return listGameModesValid[randomKey].scenes;
     }
 
@@ -226,7 +236,7 @@ public class GrandSlamManager : MonoBehaviour
     {
         foreach(KeyValuePair<int, int> score in playersScore)
         {
-            if(scoreToWin - score.Value <= 300)
+            if (scoreToWin - score.Value <= currentMode.scoreArr[0]) // 300)
             {
                 return true;
             }
@@ -289,7 +299,7 @@ public class GrandSlamManager : MonoBehaviour
         int[] scoreArr = (int[]) currentScoreArr.Clone();
 
 
-        if(isSpecialRound)
+        if(currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
         {
             if (currentSpecialRound == SpecialRound.DoublePoint)
             {
@@ -387,6 +397,11 @@ public class GrandSlamManager : MonoBehaviour
         {
             roundCount++;
 
+            //Bonus Round Checking
+            currentSpecialRound = roundCount % specialRoundsOcurrence == 0 ? (SpecialRound)UnityEngine.Random.Range(1, Enum.GetNames(typeof(SpecialRound)).Length) : SpecialRound.NoCurrentSpecialRound;
+
+            Debug.LogError(currentSpecialRound.ToString());
+
             nextSceneName = GetRandomSceneFromList();
 
             BattleManager.Instance.ResetInstance();
@@ -398,11 +413,11 @@ public class GrandSlamManager : MonoBehaviour
 
             StartCoroutine(UnloadSceneAsync());
 
-            while(!isUnloaded)
+            while (!isUnloaded)
             {
                 yield return null;
             }
-            isUnloaded = false; 
+            isUnloaded = false;
 
             StartCoroutine(LoadSceneAsync());
 
@@ -426,19 +441,11 @@ public class GrandSlamManager : MonoBehaviour
 
 
 
-            if (roundCount % specialRoundsOcurrence == 0)
+            if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
             {
-                isSpecialRound = true;
-                currentSpecialRound = (SpecialRound)Random.Range(0, 2);
-
                 canvasScore.DisplaySpecialRules(currentSpecialRound);
+            }
 
-                Debug.LogError(currentSpecialRound.ToString());
-            }
-            else
-            {
-                isSpecialRound = false;
-            }
 
 
             // hold while special round's rules displaying
