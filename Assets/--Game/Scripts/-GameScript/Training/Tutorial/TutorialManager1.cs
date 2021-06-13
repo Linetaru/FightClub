@@ -158,14 +158,14 @@ public class TutorialManager1 : MonoBehaviour
 	private void EndTrial()
 	{
 		Character_Info c = new Character_Info();
-		c.ControllerID = 1;
+		c.ControllerID = -10;
 		c.CharacterData = bernard;
 		c.CharacterColorID = 3;
 		gameData.CharacterInfos.Add(c);
 
 		if (settingsMission.TrialsDatabase != null)
 		{
-			settingsMission.TrialsDatabase.SetUnlocked(trialsData, true);
+			settingsMission.TrialsDatabase.SetUnlocked(0, true);
 			if (SaveManager.Instance != null)
 				SaveManager.Instance.SaveFile(settingsMission.TrialsDatabase);
 		}

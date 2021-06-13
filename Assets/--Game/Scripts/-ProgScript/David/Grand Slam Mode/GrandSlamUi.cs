@@ -13,8 +13,19 @@ public class GrandSlamUi : MonoBehaviour
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
+
+    [Title("Components")]
+    [SerializeField]
+    private Animator backgroundAnimator;
+
+    [Title("UI Components")]
     [SerializeField]
     private TextMeshProUGUI scoreToBeat;
+    [SerializeField]
+    private TextMeshProUGUI currentModeText;
+    [SerializeField]
+    private Image currentModeImage;
+
 
     [Title("Scripts")]
     [SerializeField]
@@ -27,11 +38,24 @@ public class GrandSlamUi : MonoBehaviour
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
     public List<TextMeshProUGUI> playerGainScoreTxt = new List<TextMeshProUGUI>();
 
+    [Title("Sprites")]
+    [SerializeField]
+    private Sprite logoClassicMode;
+    [SerializeField]
+    private Sprite logoBombMode;
+    [SerializeField]
+    private Sprite logoWallSplashMode;
+    [SerializeField]
+    private Sprite logoVolleyMode;
+
+
     public List<Image> crownList = new List<Image>();
+    public List<Image> glowList = new List<Image>();
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
     private int incRate = 4;
+    private float delayInc = 0.06f;
 
     List<int> bestScoreIDs = new List<int>();
     List<int> bestScoreIndexes = new List<int>();
@@ -71,6 +95,7 @@ public class GrandSlamUi : MonoBehaviour
     public void ActivePanelScore()
     {
         scoreInfosPanel.SetActive(true);
+        backgroundAnimator.SetTrigger("FadeIn");
     }
 
     public void DeactivePanelScore()
@@ -82,8 +107,57 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
-    public void DrawScores(Dictionary<int, int> playersScore, GameData gameData)
+    public void DisplaySpecialRules(SpecialRound specialRound)
     {
+        if(specialRound == SpecialRound.DoublePoint)
+        {
+            // DISPLAY DOUBLE POINTS RULES
+        }
+        else if(specialRound == SpecialRound.StealPoint)
+        {
+            // DISPLAY STEAL POINTS RULES
+        }
+    }
+
+
+    public void SetCurrentModeInfo(GameModeStateEnum gameMode)
+    {
+        if(gameMode == GameModeStateEnum.Classic_Mode)
+        {
+            currentModeText.text = "CLASSIC";
+            currentModeImage.sprite = logoClassicMode;
+        }
+        else if(gameMode == GameModeStateEnum.Bomb_Mode)
+        {
+            currentModeText.text = "BOMB";
+            currentModeImage.sprite = logoBombMode;
+        }
+        else if (gameMode == GameModeStateEnum.Flappy_Mode)
+        {
+            currentModeText.text = "WALL SPLASH";
+            currentModeImage.sprite = logoWallSplashMode;
+        }
+        else if (gameMode == GameModeStateEnum.Volley_Mode)
+        {
+            currentModeText.text = "VOLLEY";
+            currentModeImage.sprite = logoVolleyMode;
+        }
+    }
+
+    public void DrawScores(Dictionary<int, int> playersScore, GameData gameData, SpecialRound specialRound)
+    {
+        if(specialRound == SpecialRound.StealPoint)
+        {
+            incRate = 1;
+            delayInc = 0.05f;
+        }
+        else
+        {
+            incRate = 4;
+            delayInc = 0.06f;
+        }
+
+
         int i = 0;
         bestScoreIndexes.Clear();
         bestScoreIDs.Clear();
@@ -102,11 +176,12 @@ public class GrandSlamUi : MonoBehaviour
                 bestScoreIDs.Add(score.Key);
 
             crownList[i].enabled = false;
+            glowList[i].enabled = false;
 
             playersScoreObj[i].SetActive(true);
 
 
-            if(score.Value > oldPlayersScore[i])
+            if(score.Value > oldPlayersScore[i] || score.Value < oldPlayersScore[i])
             {
                 if(sortedControllerID[0] == score.Key)
                 {
@@ -152,6 +227,7 @@ public class GrandSlamUi : MonoBehaviour
         foreach(int index in bestScoreIndexes)
         {
             crownList[index].enabled = true;
+            glowList[index].enabled = true;
         }
 
         /*
@@ -190,16 +266,40 @@ public class GrandSlamUi : MonoBehaviour
 
         textScore.color = color;
         textGainScore.gameObject.SetActive(true);
-        textGainScore.text = "+" + (to - from);
         textGainScore.GetComponent<ScoreAnim>().TriggerAnim();
         textGainScore.color = color;
 
-        while (incValue < to)
-        {
-            incValue += incRate;
-            textScore.text = incValue.ToString();
 
-            yield return new WaitForSeconds(0.02f);
+        if(to > from)
+        {
+            textGainScore.text = "+" + (to - from);
+
+            //Test petit delay avant que les scores inc
+            yield return new WaitForSecondsRealtime(1.5f);
+
+            while (incValue < to)
+            {
+                incValue += incRate;
+                textScore.text = incValue.ToString();
+
+                yield return new WaitForSeconds(delayInc);
+            }
+        }
+        else
+        {
+            textGainScore.text = "" + (to - from);
+
+            //Test petit delay avant que les scores inc
+            yield return new WaitForSecondsRealtime(1.5f);
+
+            while (incValue >= to)
+            {
+                incValue -= incRate;
+
+                textScore.text = incValue.ToString();
+
+                yield return new WaitForSeconds(delayInc);
+            }
         }
 
         textGainScore.GetComponent<ScoreAnim>().StopAnim();

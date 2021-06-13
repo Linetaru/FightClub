@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: b31e606a7d07016488cda3a3a08f290c, type: 3}
+    - {fileID: 8045468721652775528, guid: 40e774808bf4b444e9db037393558d30, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -28,10 +28,74 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 1|MissionInputParry, Assembly-CSharp
+      Data: 1|MissionInputParryRB, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|MissionInputAttackWhiff, Assembly-CSharp
+    - Name: attack
+      Entry: 10
+      Data: 0
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|MissionInputParry, Assembly-CSharp
+    - Name: isParry
+      Entry: 5
+      Data: true
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: nbOfParry
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: failConditions
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: 5|MissionInputRespawn, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MissionInputGauge, Assembly-CSharp
+    - Name: gaugeNeeded
+      Entry: 4
+      Data: 20
+    - Name: superior
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|MissionInputParry, Assembly-CSharp
     - Name: isParry
       Entry: 5
       Data: true
@@ -46,65 +110,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|MissionInputDodge, Assembly-CSharp
-    - Name: aerialDodge
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|MissionInputDodge, Assembly-CSharp
-    - Name: aerialDodge
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|MissionInputAttack, Assembly-CSharp
-    - Name: attack
-      Entry: 10
-      Data: 0
-    - Name: hitboxID
-      Entry: 7
-      Data: 5|System.Int32[], mscorlib
-    - Name: 
-      Entry: 14
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: playerReceiveAttack
+      Data: 8|MissionInputOutOfKnockback, Assembly-CSharp
+    - Name: isDummy
       Entry: 5
       Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: failConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
+      Data: 9|MissionInputParry, Assembly-CSharp
+    - Name: isParry
+      Entry: 5
+      Data: false
+    - Name: isDummy
+      Entry: 5
+      Data: false
+    - Name: nbOfParry
+      Entry: 3
       Data: 1
-    - Name: 
-      Entry: 7
-      Data: 7|MissionInputRespawn, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -115,30 +139,29 @@ MonoBehaviour:
       Entry: 8
       Data: 
   trialsName: 13 - Attack .EXE
-  trialsDescription: 
+  trialsDescription: You can use your power gauge to empower your attacks.
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 2
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnEnemy: 3
-  dummyBehavior: {fileID: 0}
+  dummyBehavior: {fileID: -6739672029780065382, guid: d186be8b6abf2a742b3bb2b56b4439c4, type: 3}
   osef: 
   textboxStart:
   - For a stack of your power gauge, you can power up your attacks.
   - Those powered up attacks are called Attacks .EXE.
+  - The startup of your attack puts you in a parry state, making attack with long
+    startup safe to throw around.
   - You can execute them by pressing the attack button and the parry at the same
     time.
   textboxEnd:
-  - The difference between .EXE attacks and regular ones, are the fact that the startup
-    of .EXE attacks put you in a parry state.
-  - So with .EXE attacks you can defend while attacking.
+  - With .EXE attacks you can defend while attacking.
   enemyPercentage: 0
   gaugeNumber: 7
-  numberToSuccess: 3
+  numberToSuccess: 1
   comboNotes:
-  - Parry - <sprite=4>
-  - Air Dash - <sprite=6>
-  - Air Dash - <sprite=6> + <sprite=5>
-  - Down Air - <sprite=8> + <sprite=0>
+  - Parry
+  - Tilt Forward
+  - Parry
   moneyReward: 200
   nextTrial: {fileID: 11400000, guid: 8bdc15f036da38d45aeaf747b5346ec5, type: 2}

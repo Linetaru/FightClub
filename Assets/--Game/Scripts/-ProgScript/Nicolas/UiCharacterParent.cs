@@ -28,8 +28,21 @@ public class UiCharacterParent : MonoBehaviour
 	public void CharacterInitUi(CharacterBase user)
 	{
 		CharacterHUD hud = Instantiate(characterHudPrefab, parent);
-		hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName);
+		if (Mathf.Sign(gameData.CharacterInfos[user.PlayerID].ControllerID) > -1)
+		{
+			if (gameData.CharacterInfos[user.PlayerID].InputMapping.profileName != "classic")
+			{
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].InputMapping.profileName + " J" + (user.PlayerID + 1));
+			}
+			else
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " J" + (user.PlayerID + 1));
+		}
+		else
+        {
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " Bot J" + (user.PlayerID + 1));
+		}
 		hud.DrawFace(gameData.CharacterInfos[user.PlayerID].CharacterData.characterFace);
+		hud.DrawLifeFace(gameData.CharacterInfos[user.PlayerID].CharacterData.characterLifeStocks);
 		hud.InitPlayerPanel(user);
 		hud.SetColor(teamColors[(int)user.TeamID]);
 
@@ -43,7 +56,7 @@ public class UiCharacterParent : MonoBehaviour
 	{
 		for (int i = 0; i < players.Count; i++)
 		{
-			if (cam.WorldToViewportPoint(players[i].position).y < 0.15f)
+			if (cam.WorldToViewportPoint(players[i].position).y < 0.05f)
 			{
 				if(fade == false)
 				{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using Menu;
 
 public class PauseGame : MonoBehaviour, IControllable
 {
@@ -10,7 +11,11 @@ public class PauseGame : MonoBehaviour, IControllable
 
     public GameObject parentPauseUi;
     public TextMeshProUGUI textReturn;
+    public TextMeshProUGUI textOptions;
     public TextMeshProUGUI textQuit;
+    public ButtonNavigationOptionsMenu optionsMenu;
+    public InputOptionsMenu inputMenu;
+    public GameObject canvasOptions;
 
     //public InputController inputController;
 
@@ -62,8 +67,22 @@ public class PauseGame : MonoBehaviour, IControllable
         {
             if (inputs.inputUiAction == InputConst.Interact)
             {
+                inputs.inputUiAction = null;
                 if (state == 0)
                     ResumeGame();
+                else if(state == 1)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        BattleManager.Instance.inputController.controllable[i] = optionsMenu;
+                    }
+                    parentPauseUi.SetActive(false);
+                    canvasOptions.SetActive(true);
+                    optionsMenu.inputController = BattleManager.Instance.inputController;
+                    inputMenu.inputController = BattleManager.Instance.inputController;
+                    optionsMenu.InitializeMenu();
+                    optionsMenu.OnEnd += OnEndOptionMenuInPauseCanvas;
+                }
                 else
                 {
                     Time.timeScale = 1;
@@ -76,30 +95,81 @@ public class PauseGame : MonoBehaviour, IControllable
         {
             if (inputs.vertical > 0.75 || inputs.horizontal < -0.75)
             {
-                GetPositionCursor(State.Down);
+                GetPositionCursor(State.Up);
             }
             else if (inputs.horizontal > 0.75 || inputs.vertical < -0.75)
             {
-                GetPositionCursor(State.Up);
+                GetPositionCursor(State.Down);
             }
         }
+    }
+
+    public void OnEndOptionMenuInPauseCanvas()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            BattleManager.Instance.inputController.controllable[i] = this;
+        }
+        for (int z = 0; z < BattleManager.Instance.gameData.CharacterInfos.Count; z++)
+        {
+            foreach (InputMappingDataClassic imDC in InputMappingDataStatic.inputMappingDataClassics)
+            {
+                if (BattleManager.Instance.gameData.CharacterInfos[z].InputMapping.profileName == imDC.profileName && BattleManager.Instance.gameData.CharacterInfos[z].InputMapping.isUsed)
+                {
+                    BattleManager.Instance.gameData.CharacterInfos[z].InputMapping = imDC;
+                    BattleManager.Instance.gameData.CharacterInfos[z].InputMapping.isUsed = true;
+                }
+            }
+        }
+        parentPauseUi.SetActive(true);
+        canvasOptions.SetActive(false);
     }
 
     private void GetPositionCursor(State e_state)
     {
         OnTransition = true;
 
-        if (state == 0)
+        if(e_state == State.Up)
         {
-            state = 1;
-            textQuit.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
-            textReturn.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            if (state == 0)
+            {
+                state = 2;
+                textQuit.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textReturn.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
+            else if(state == 1)
+            {
+                state = 0;
+                textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textOptions.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
+            else
+            {
+                state = 1;
+                textOptions.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
         }
         else
         {
-            state = 0;
-            textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
-            textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            if (state == 0)
+            {
+                state = 1;
+                textOptions.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textReturn.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
+            else if (state == 1)
+            {
+                state = 2;
+                textQuit.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textOptions.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
+            else
+            {
+                state = 0;
+                textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+                textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
+            }
         }
     }
 
@@ -110,6 +180,7 @@ public class PauseGame : MonoBehaviour, IControllable
 
         parentPauseUi.SetActive(isPause);
         textReturn.transform.DOScale(new Vector3(1.35f, 1.35f, 1.35f), 0.01f).SetUpdate(true);
+        textOptions.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
         textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
 
         if(isPause)
