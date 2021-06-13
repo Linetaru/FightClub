@@ -56,7 +56,7 @@ public class UiCharacterParent : MonoBehaviour
 	{
 		for (int i = 0; i < players.Count; i++)
 		{
-			if (cam.WorldToViewportPoint(players[i].position).y < 0.15f)
+			if (cam.WorldToViewportPoint(players[i].position).y < 0.05f)
 			{
 				if(fade == false)
 				{
