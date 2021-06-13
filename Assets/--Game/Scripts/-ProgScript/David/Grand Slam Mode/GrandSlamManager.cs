@@ -171,7 +171,7 @@ public class GrandSlamManager : MonoBehaviour
     private string GetRandomSceneFromList()
     {
         listToPickFrom = GetRandomModeList();
-        string sceneName = listToPickFrom[Random.Range(0, listToPickFrom.Count)];
+        string sceneName = listToPickFrom[UnityEngine.Random.Range(0, listToPickFrom.Count)];
         Debug.Log("Next scene to load = " + sceneName);
 
         return sceneName;
@@ -197,7 +197,7 @@ public class GrandSlamManager : MonoBehaviour
         if(currentMode != null)
             listGameModesValid.Remove(currentMode);
 
-        int randomKey = Random.Range(0, listGameModesValid.Count);
+        int randomKey = UnityEngine.Random.Range(0, listGameModesValid.Count);
         gameMode = listGameModesValid[randomKey].gameMode;
 
         gameData.NumberOfLifes = currentSpecialRound == SpecialRound.OneMoreLife ? listGameModesValid[randomKey].nbLife : listGameModesValid[randomKey].nbLife + 1;
