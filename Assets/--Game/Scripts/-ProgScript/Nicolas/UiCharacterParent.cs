@@ -32,14 +32,14 @@ public class UiCharacterParent : MonoBehaviour
 		{
 			if (gameData.CharacterInfos[user.PlayerID].InputMapping.profileName != "classic")
 			{
-				hud.DrawName(gameData.CharacterInfos[user.PlayerID].InputMapping.profileName + " J" + user.PlayerID + 1);
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].InputMapping.profileName + " J" + (user.PlayerID + 1));
 			}
 			else
-				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " J" + user.PlayerID + 1);
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " J" + (user.PlayerID + 1));
 		}
 		else
         {
-				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " Bot J" + user.PlayerID + 1);
+				hud.DrawName(gameData.CharacterInfos[user.PlayerID].CharacterData.characterName + " Bot J" + (user.PlayerID + 1));
 		}
 		hud.DrawFace(gameData.CharacterInfos[user.PlayerID].CharacterData.characterFace);
 		hud.DrawLifeFace(gameData.CharacterInfos[user.PlayerID].CharacterData.characterLifeStocks);
