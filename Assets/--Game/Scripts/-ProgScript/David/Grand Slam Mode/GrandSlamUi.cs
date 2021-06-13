@@ -37,6 +37,9 @@ public class GrandSlamUi : MonoBehaviour
     public List<Image> playerImage = new List<Image>();
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
     public List<TextMeshProUGUI> playerGainScoreTxt = new List<TextMeshProUGUI>();
+    [Space]
+    public List<Image> crownList = new List<Image>();
+    public List<Image> glowList = new List<Image>();
 
     [Title("Sprites")]
     [SerializeField]
@@ -48,9 +51,11 @@ public class GrandSlamUi : MonoBehaviour
     [SerializeField]
     private Sprite logoVolleyMode;
 
+    [Title("Bonus Round Ref")]
+    public Animator bonusRoundAnimator;
+    public TextMeshProUGUI bonusRoundText;
+    public TextMeshProUGUI bonusRoundSubtitleText;
 
-    public List<Image> crownList = new List<Image>();
-    public List<Image> glowList = new List<Image>();
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
@@ -76,6 +81,7 @@ public class GrandSlamUi : MonoBehaviour
 
     public void InitProperty(int playerScoreToBeat, GameData gameData)
     {
+        bonusRoundAnimator.SetTrigger("Disappear");
         scoreToBeat.text = playerScoreToBeat.ToString();
 
         for (int i = 0; i < gameData.CharacterInfos.Count; i++)
@@ -105,17 +111,25 @@ public class GrandSlamUi : MonoBehaviour
             playersScoreObj[i].SetActive(false);
         }
         scoreInfosPanel.SetActive(false);
+
+        bonusRoundAnimator.SetTrigger("Disappear");
     }
 
     public void DisplaySpecialRules(SpecialRound specialRound)
     {
-        if(specialRound == SpecialRound.DoublePoint)
+        bonusRoundAnimator.SetTrigger("Appear");
+
+        if (specialRound == SpecialRound.DoublePoint)
         {
             // DISPLAY DOUBLE POINTS RULES
+            bonusRoundText.text = "Double Point";
+            bonusRoundSubtitleText.text = "Win your point x2";
         }
         else if(specialRound == SpecialRound.StealPoint)
         {
             // DISPLAY STEAL POINTS RULES
+            bonusRoundText.text = "Steal Point";
+            bonusRoundSubtitleText.text = "Win first and steal other points";
         }
     }
 
@@ -287,7 +301,7 @@ public class GrandSlamUi : MonoBehaviour
         }
         else
         {
-            textGainScore.text = "" + (to - from);
+            textGainScore.text = "-" + (to - from);
 
             //Test petit delay avant que les scores inc
             yield return new WaitForSecondsRealtime(1.5f);
