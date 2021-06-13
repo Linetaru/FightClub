@@ -301,7 +301,7 @@ public class GrandSlamUi : MonoBehaviour
         }
         else
         {
-            textGainScore.text = "-" + (to - from);
+            textGainScore.text = "" + (to - from);
 
             //Test petit delay avant que les scores inc
             yield return new WaitForSecondsRealtime(1.5f);
