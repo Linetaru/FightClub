@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 public class CharacterPowerGauge : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class CharacterPowerGauge : MonoBehaviour
         set
         {
             currentPower = value;
+            if (gaugeOn == false)
+                currentPower = 0;
             if (gameEvent != null)
                 gameEvent.Raise(currentPower);
         }
@@ -59,10 +62,19 @@ public class CharacterPowerGauge : MonoBehaviour
     [ReadOnly]
     public PackageCreator.Event.GameEventUICharacter gameEvent;
 
-  /*public void Start()
+    private bool gaugeOn = true;
+    public bool GaugeOn
     {
-        CurrentPower = 0;
-    }*/
+        get { return gaugeOn; }
+        set { gaugeOn = value; OnGaugeOn?.Invoke(gaugeOn); }
+    }
+
+    public UnityAction<bool> OnGaugeOn;
+
+    /*public void Start()
+      {
+          CurrentPower = 0;
+      }*/
 
     public void UpdateTimer(CharacterBase user)
     {
@@ -154,6 +166,8 @@ public class CharacterPowerGauge : MonoBehaviour
         currentPower += i_value;
         currentPower = Mathf.Clamp(currentPower, 0, maxPower);
 
+        if (gaugeOn == false)
+            currentPower = 0;
         if (gameEvent != null)
             gameEvent.Raise(currentPower);
     }

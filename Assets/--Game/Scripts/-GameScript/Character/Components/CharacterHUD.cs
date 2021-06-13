@@ -119,6 +119,7 @@ public class CharacterHUD : MonoBehaviour
 		user.Knockback.Parry.OnParry += CallbackParry;
 		user.Knockback.OnKnockback += OnHitCallback;
 		character.OnStateChanged += OnStateChangedCallback;
+		user.PowerGauge.OnGaugeOn += ShowPowerGauge;
 		this.gameObject.SetActive(true);
 
 		//textName.text = user.Stats.data
@@ -132,6 +133,7 @@ public class CharacterHUD : MonoBehaviour
 		character.Knockback.Parry.OnParry -= CallbackParry;
 		character.Knockback.OnKnockback -= OnHitCallback;
 		character.OnStateChanged -= OnStateChangedCallback;
+		character.PowerGauge.OnGaugeOn -= ShowPowerGauge;
 	}
 
 	public void DrawName(string name)
@@ -321,5 +323,11 @@ public class CharacterHUD : MonoBehaviour
 		animatorCombo.SetTrigger("Feedback");
 	}
 
-
+	public void ShowPowerGauge(bool on)
+	{
+		for (int i = 0; i < powerGauge.Length; i++)
+		{
+			powerGauge[i].gameObject.SetActive(on);
+		}
+	}
 }
