@@ -16,11 +16,16 @@ public class GrandSlamUi : MonoBehaviour
 
     [Title("Components")]
     [SerializeField]
+    private Animator backgroundAnimator;
+
+    [Title("UI Components")]
+    [SerializeField]
     private TextMeshProUGUI scoreToBeat;
     [SerializeField]
     private TextMeshProUGUI currentModeText;
     [SerializeField]
     private Image currentModeImage;
+
 
     [Title("Scripts")]
     [SerializeField]
@@ -89,6 +94,7 @@ public class GrandSlamUi : MonoBehaviour
     public void ActivePanelScore()
     {
         scoreInfosPanel.SetActive(true);
+        backgroundAnimator.SetTrigger("FadeIn");
     }
 
     public void DeactivePanelScore()
@@ -99,6 +105,7 @@ public class GrandSlamUi : MonoBehaviour
         }
         scoreInfosPanel.SetActive(false);
     }
+
 
     public void SetCurrentModeInfo(GameModeStateEnum gameMode)
     {
