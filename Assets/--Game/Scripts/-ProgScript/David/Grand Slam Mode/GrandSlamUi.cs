@@ -55,6 +55,7 @@ public class GrandSlamUi : MonoBehaviour
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
     private int incRate = 4;
+    private float delayInc = 0.06f;
 
     List<int> bestScoreIDs = new List<int>();
     List<int> bestScoreIndexes = new List<int>();
@@ -106,6 +107,18 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
+    public void DisplaySpecialRules(SpecialRound specialRound)
+    {
+        if(specialRound == SpecialRound.DoublePoint)
+        {
+            // DISPLAY DOUBLE POINTS RULES
+        }
+        else if(specialRound == SpecialRound.StealPoint)
+        {
+            // DISPLAY STEAL POINTS RULES
+        }
+    }
+
 
     public void SetCurrentModeInfo(GameModeStateEnum gameMode)
     {
@@ -131,8 +144,20 @@ public class GrandSlamUi : MonoBehaviour
         }
     }
 
-    public void DrawScores(Dictionary<int, int> playersScore, GameData gameData)
+    public void DrawScores(Dictionary<int, int> playersScore, GameData gameData, SpecialRound specialRound)
     {
+        if(specialRound == SpecialRound.StealPoint)
+        {
+            incRate = 1;
+            delayInc = 0.05f;
+        }
+        else
+        {
+            incRate = 4;
+            delayInc = 0.06f;
+        }
+
+
         int i = 0;
         bestScoreIndexes.Clear();
         bestScoreIDs.Clear();
@@ -156,7 +181,7 @@ public class GrandSlamUi : MonoBehaviour
             playersScoreObj[i].SetActive(true);
 
 
-            if(score.Value > oldPlayersScore[i])
+            if(score.Value > oldPlayersScore[i] || score.Value < oldPlayersScore[i])
             {
                 if(sortedControllerID[0] == score.Key)
                 {
@@ -241,16 +266,40 @@ public class GrandSlamUi : MonoBehaviour
 
         textScore.color = color;
         textGainScore.gameObject.SetActive(true);
-        textGainScore.text = "+" + (to - from);
         textGainScore.GetComponent<ScoreAnim>().TriggerAnim();
         textGainScore.color = color;
 
-        while (incValue < to)
-        {
-            incValue += incRate;
-            textScore.text = incValue.ToString();
 
-            yield return new WaitForSeconds(0.02f);
+        if(to > from)
+        {
+            textGainScore.text = "+" + (to - from);
+
+            //Test petit delay avant que les scores inc
+            yield return new WaitForSecondsRealtime(1.5f);
+
+            while (incValue < to)
+            {
+                incValue += incRate;
+                textScore.text = incValue.ToString();
+
+                yield return new WaitForSeconds(delayInc);
+            }
+        }
+        else
+        {
+            textGainScore.text = "" + (to - from);
+
+            //Test petit delay avant que les scores inc
+            yield return new WaitForSecondsRealtime(1.5f);
+
+            while (incValue >= to)
+            {
+                incValue -= incRate;
+
+                textScore.text = incValue.ToString();
+
+                yield return new WaitForSeconds(delayInc);
+            }
         }
 
         textGainScore.GetComponent<ScoreAnim>().StopAnim();
