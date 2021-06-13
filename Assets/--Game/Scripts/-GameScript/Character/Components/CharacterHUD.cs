@@ -138,9 +138,17 @@ public class CharacterHUD : MonoBehaviour
 	{
 		textName.text = name;
 	}
+
 	public void DrawFace(Sprite face)
 	{
 		characterFace.sprite = face;
+	}
+	public void DrawLifeFace(Sprite face)
+	{
+		for (int i = 0; i < livesImage.Length; i++)
+		{
+			livesImage[i].sprite = face;
+		}
 	}
 
 	public void SetColor(Color c)
