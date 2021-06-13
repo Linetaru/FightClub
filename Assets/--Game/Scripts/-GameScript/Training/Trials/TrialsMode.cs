@@ -9,32 +9,36 @@ public class TrialsMode : GameMode
 	[Title("Data")]
 	[SerializeField]
 	[Expandable]
-	GameModeSettingsMission settingsMission;
+	GameModeSettingsMission settingsMission = null;
 	[SerializeField]
-	CurrencyData currency;
+	CurrencyData currency = null;
 
 
 	[Title("Logic")]
 	[SerializeField]
-	Textbox textbox;
+	Textbox textbox = null;
 	[SerializeField]
 	Transform[] spawnPoints;
 
 
 	[Title("UI")]
 	[SerializeField]
-	MissionModePanel missionModePanel;
+	MissionModePanel missionModePanel = null;
 	[SerializeField]
-	Transform parentMissionMode;
+	Transform parentMissionMode = null;
 
 	[SerializeField]
-	GameObject animatorSuccess;
+	GameObject animatorSuccess = null;
 	[SerializeField]
-	GameObject animatorFailed;
+	GameObject animatorFailed = null;
 	[SerializeField]
-	Animator animatorRespawn;
+	Animator animatorRespawn = null;
 	[SerializeField]
-	List<Animator> animatorTries;
+	List<Animator> animatorTries = null;
+
+	[SerializeField]
+	[Scene]
+	string sceneMenuTutorial;
 
 	int textIndex = -1;
 	int comboIndex = 0;
@@ -43,14 +47,14 @@ public class TrialsMode : GameMode
 	bool pauseFailed = false;
 	List<MissionModePanel> missionModePanels;
 
-	CharacterBase player;
-	CharacterBase dummy;
-	AIBehavior aiBehavior;
+	CharacterBase player = null;
+	CharacterBase dummy = null;
+	AIBehavior aiBehavior = null;
 
-	TrialsModeData trialsData;
+	TrialsModeData trialsData = null;
 
-	BattleManager battleManager;
-	InputController inputController;
+	BattleManager battleManager = null;
+	InputController inputController = null;
 
 	private void Awake()
 	{
@@ -439,6 +443,8 @@ public class TrialsMode : GameMode
 		else
 		{
 			// Back to menu
+			animatorRespawn.SetTrigger("Feedback");
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneMenuTutorial);
 		}
 
 	}

@@ -231,6 +231,9 @@ public class BattleManager : MonoBehaviour
 			characterAlive[i].ResetToIdle();
 			characterAlive[i].Movement.SpeedX = 0;
 			characterAlive[i].Movement.SpeedY = 0;
+
+			cameraController.RemoveTarget(characterAlive[i].transform);
+			cameraController.targets.Add(new TargetsCamera(characterAlive[i].transform, 0));
 		}
 		isGameStarted = true;
 	}

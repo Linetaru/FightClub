@@ -102,19 +102,21 @@ public class CharacterMoveset : MonoBehaviour
 	{
 		if (character.Rigidbody.IsGrounded == true) // Attaque au sol
 		{
-
-			/*if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= 99)
+			if (SignatureMoveManager.Instance != null)
 			{
-				if (signatureMove == null)
-					return false;
-				if (character.Action.Action(signatureMove) == true)
+				if (character.Input.CheckAction(0, InputConst.LeftTrigger) && character.PowerGauge.CurrentPower >= character.PowerGauge.maxPower)
 				{
-					character.PowerGauge.CurrentPower = 0;
-					character.SetState(stateAction);
-					character.Input.inputActions[0].timeValue = 0;
-					return true;
+					if (signatureMove == null)
+						return false;
+					if (character.Action.Action(signatureMove) == true)
+					{
+						character.PowerGauge.CurrentPower = 0;
+						character.SetState(stateAction);
+						character.Input.inputActions[0].timeValue = 0;
+						return true;
+					}
 				}
-			}*/
+			}
 
 			if (character.Input.CheckAction(0, InputConst.Attack) && character.Input.vertical < -verticalDeadZone)
 				return ActionAttack(character, downTilt);
