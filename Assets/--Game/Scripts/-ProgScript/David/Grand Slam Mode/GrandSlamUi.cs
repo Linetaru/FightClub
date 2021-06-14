@@ -16,6 +16,8 @@ public class GrandSlamUi : MonoBehaviour
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
+    [SerializeField]
+    private GameObject aToContinue;
 
     [Title("Components")]
     [SerializeField]
@@ -31,8 +33,7 @@ public class GrandSlamUi : MonoBehaviour
 
 
     [Title("Scripts")]
-    [SerializeField]
-    private LogoTransition logoTransition;
+    public LogoTransition logoTransition;
 
     [Title("List")]
     public List<GameObject> playersScoreObj = new List<GameObject>();
@@ -116,6 +117,15 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
+    public void DisplayContinue()
+    {
+        aToContinue.SetActive(true);
+    }
+    public void HideContinue()
+    {
+        aToContinue.SetActive(false);
+    }
+
     public void DisplaySpecialRules(SpecialRound specialRound)
     {
         if (specialRound != SpecialRound.NoCurrentSpecialRound)
@@ -126,19 +136,20 @@ public class GrandSlamUi : MonoBehaviour
             {
                 // DISPLAY DOUBLE POINTS RULES
                 bonusRoundText.text = "Double Point";
-                bonusRoundSubtitleText.text = "Win your point x2";
+                bonusRoundSubtitleText.text = "Win your point x2.";
             }
             else if (specialRound == SpecialRound.StealPoint)
             {
                 // DISPLAY STEAL POINTS RULES
                 bonusRoundText.text = "Steal Point";
-                bonusRoundSubtitleText.text = "Win first and steal other points";
+                bonusRoundSubtitleText.text = "Win first and steal other points.";
             }
             else if (specialRound == SpecialRound.OneMoreLife)
             {
                 // DISPLAY ONE MORE LIFE RULES
                 bonusRoundText.text = "One More Life";
-                bonusRoundSubtitleText.text = "All players gain 1 more life in the next round (1 more goal in Volley)";
+                bonusRoundSubtitleText.text = "Players gain 1 more life. (1 more goal in Volley).";
+                
             }
         }
 
