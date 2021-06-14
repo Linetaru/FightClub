@@ -8,7 +8,9 @@ public class IntroductionManager : MonoBehaviour, IControllable
 {
 	[Title("Raphael c'est ici !!!")]
 	[SerializeField]
-	AK.Wwise.Event skipEvent;
+	AK.Wwise.Event musicToStop;
+	[SerializeField]
+	StopMusic stopMusic;
 	[Title("Raphael c'est ici !!!")]
 
 
@@ -133,6 +135,7 @@ public class IntroductionManager : MonoBehaviour, IControllable
 
 	private IEnumerator SkipIntroductionCoroutine()
 	{
+		AkSoundEngine.PostEvent(musicToStop.Id, this.gameObject);
 		animatorTransitionToBattle.SetTrigger("Feedback");
 		yield return new WaitForSeconds(1f);
 		EndIntroduction();
@@ -141,9 +144,10 @@ public class IntroductionManager : MonoBehaviour, IControllable
 	public void SkipIntro()
 	{
 		active = false;
+		if(stopMusic != null)
+			stopMusic.Stop();
 		StopAllCoroutines();
 		StartCoroutine(SkipIntroductionCoroutine());
-		AkSoundEngine.PostEvent(skipEvent.Id, this.gameObject);
 	}
 
 

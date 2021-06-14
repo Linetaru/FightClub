@@ -217,6 +217,8 @@ public class TrialsMode : GameMode
 	// Update is called once per frame
 	void Update()
 	{
+		if (settingsMission.TrialsDatabase == null)
+			return;
 		if (success == true)
 			return;
 		if (pauseFailed == true)

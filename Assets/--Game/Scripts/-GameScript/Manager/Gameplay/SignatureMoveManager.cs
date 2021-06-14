@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Sirenix.OdinInspector;
+using TMPro;
 
 public class SignatureMoveManager : MonoBehaviour
 {
@@ -12,14 +14,25 @@ public class SignatureMoveManager : MonoBehaviour
 	[SerializeField]
 	Transform centerStage = null;
 
-
+	[Title("Data")]
 	[SerializeField]
-	ParticleSystem particleSystem = null;
-
+	GameData gameData = null;
 
 	[Title("UI")]
 	[SerializeField]
 	Animator feedback = null;
+	[SerializeField]
+	TextMeshProUGUI characterName = null;
+	[SerializeField]
+	Image characterFace = null;
+
+	[Title("Feedback")]
+	[SerializeField]
+	ParticleSystem particleSystem = null;
+
+	[Title("Sounds")]
+	[SerializeField]
+	AK.Wwise.Event announcerVoice = null;
 
 	TargetsCamera target = null;
 
@@ -43,13 +56,16 @@ public class SignatureMoveManager : MonoBehaviour
 
 	public void StartSignatureMove(CharacterBase user)
 	{
-		if(battleManager == null)
+		AkSoundEngine.PostEvent(announcerVoice.Id, this.gameObject);
+		if (battleManager == null)
 		{
 			battleManager = BattleManager.Instance;
 			cameraManager = BattleManager.Instance.cameraController;
 		}
 
 		feedback.gameObject.SetActive(true);
+		characterName.text = gameData.CharacterInfos[user.PlayerID].CharacterData.characterName;
+		characterFace.sprite = gameData.CharacterInfos[user.PlayerID].CharacterData.characterFace;
 
 		ParticleSystem particle = Instantiate(particleSystem, user.CenterPoint.position, Quaternion.identity);
 		Destroy(particle.gameObject, 1f);

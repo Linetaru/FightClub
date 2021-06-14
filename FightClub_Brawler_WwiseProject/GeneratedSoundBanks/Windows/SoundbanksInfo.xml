@@ -21,6 +21,10 @@
 			<ShortName>Music\Phonograph - BreakPunch_OST_level_02_V1.wav</ShortName>
 			<Path>SFX\Music\Phonograph - BreakPunch_OST_level_02_V1_7C641C39.wem</Path>
 		</File>
+		<File Id="216977147" Language="SFX">
+			<ShortName>Music\MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
+			<Path>SFX\Music\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
+		</File>
 		<File Id="426419138" Language="SFX">
 			<ShortName>Music\Phonograph_MUS_Volley_Ball_V1_LP.wav</ShortName>
 			<Path>SFX\Music\Phonograph_MUS_Volley_Ball_V1_LP_0762CC47.wem</Path>
@@ -37,13 +41,17 @@
 			<ShortName>MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
 			<Path>SFX\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
 		</File>
+		<File Id="674768002" Language="SFX">
+			<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+			<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+		</File>
 		<File Id="736026560" Language="SFX">
 			<ShortName>Music\Van De Graph_MUS_OST_Menu_Main_V1_LP.wav</ShortName>
 			<Path>SFX\Music\Van De Graph_MUS_OST_Menu_Main_V1_LP_0762CC47.wem</Path>
 		</File>
 		<File Id="926138639" Language="SFX">
 			<ShortName>Music\Phonograph_BreakPunch_OST_Ingame_V1.wav</ShortName>
-			<Path>SFX\Music\Phonograph_BreakPunch_OST_Ingame_V1_89CE4E29.wem</Path>
+			<Path>SFX\Music\Phonograph_BreakPunch_OST_Ingame_V1_3DF11A59.wem</Path>
 		</File>
 		<File Id="1034394430" Language="SFX">
 			<ShortName>Music\Van De Graph_MUS_Cinemtaic_Victory_V1.wav</ShortName>
@@ -56,7 +64,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="3202013945">
+		<SoundBank Id="152968626" Language="SFX" Hash="2163799538">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -146,14 +154,6 @@
 						<File Id="835626110" Language="SFX">
 							<ShortName>CINEMATIC\CINE_Pulse_Attack_Ultime\MONTÉ EN PUISSANCE AVANT KICK FINAL.wav</ShortName>
 							<Path>SFX\CINEMATIC\CINE_Pulse_Attack_Ultime\MONTÉ EN PUISSANCE AVANT KICK FINAL_D8C07C79.wem</Path>
-						</File>
-					</IncludedMemoryFiles>
-				</Event>
-				<Event Id="855871861" Name="MUS_Grand_Slam_Intro_Classic" ObjectPath="\Events\Default Work Unit\Music\MUS_Grand_Slam_Intro_Classic" DurationType="OneShot" DurationMin="483.384979" DurationMax="483.384979">
-					<IncludedMemoryFiles>
-						<File Id="674768002" Language="SFX">
-							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
-							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -1208,11 +1208,41 @@
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
+				<Event Id="197070716" Name="Play_MUS_Grand_Slam_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Drop" DurationType="OneShot" DurationMin="196.529709" DurationMax="196.529709">
+					<ReferencedStreamedFiles>
+						<File Id="216977147" Language="SFX">
+							<ShortName>Music\MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
+							<Path>SFX\Music\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+					<IncludedMemoryFiles>
+						<File Id="216977147" Language="SFX">
+							<ShortName>Music\MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
+							<Path>SFX\Music\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
+							<PrefetchSize>5365</PrefetchSize>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1539728339" Name="Play_MUS_Grand_Slam_Intro" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Intro" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+					<IncludedMemoryFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+							<PrefetchSize>8359</PrefetchSize>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="903965757" Name="Play_MUS_InGame_01" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_InGame_01" DurationType="Infinite">
 					<ReferencedStreamedFiles>
 						<File Id="926138639" Language="SFX">
 							<ShortName>Music\Phonograph_BreakPunch_OST_Ingame_V1.wav</ShortName>
-							<Path>SFX\Music\Phonograph_BreakPunch_OST_Ingame_V1_89CE4E29.wem</Path>
+							<Path>SFX\Music\Phonograph_BreakPunch_OST_Ingame_V1_3DF11A59.wem</Path>
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
@@ -1221,6 +1251,22 @@
 						<File Id="69964504" Language="SFX">
 							<ShortName>Music\Phonograph_MUS_OST_Break_Punch_Level_2.wav</ShortName>
 							<Path>SFX\Music\Phonograph_MUS_OST_Break_Punch_Level_2_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+				</Event>
+				<Event Id="1793036694" Name="Play_MUS_Level_01_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Level_01_Drop" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="926138639" Language="SFX">
+							<ShortName>Music\Phonograph_BreakPunch_OST_Ingame_V1.wav</ShortName>
+							<Path>SFX\Music\Phonograph_BreakPunch_OST_Ingame_V1_3DF11A59.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+				</Event>
+				<Event Id="2408894141" Name="Play_MUS_Level_01_Intro" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Level_01_Intro" DurationType="OneShot" DurationMin="8.914379" DurationMax="8.914379">
+					<ReferencedStreamedFiles>
+						<File Id="216977147" Language="SFX">
+							<ShortName>Music\MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
+							<Path>SFX\Music\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
@@ -2385,8 +2431,11 @@
 					<Path>SFX\Characters\Crow\CROW_Whoosh_Dash_Attack_D8C07C79.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
+			<Triggers>
+				<Trigger Id="4163741908" Name="New_Trigger" ObjectPath="\Triggers\Default Work Unit\New_Trigger"/>
+			</Triggers>
 		</SoundBank>
-		<SoundBank Id="289583631" Language="SFX" Hash="4001578683">
+		<SoundBank Id="289583631" Language="SFX" Hash="3342851397">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>
 			<ShortName>SB_UI</ShortName>
 			<Path>SB_UI.bnk</Path>
@@ -2508,11 +2557,11 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2918245066" Name="UI_Menu_Main_Nav_Out" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Main\UI_Menu_Main_Nav_Out" DurationType="OneShot" DurationMin="0.644063" DurationMax="0.644063">
+				<Event Id="2918245066" Name="UI_Menu_Main_Nav_Out" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_Main\UI_Menu_Main_Nav_Out" DurationType="OneShot" DurationMin="0.458573" DurationMax="0.458573">
 					<IncludedMemoryFiles>
 						<File Id="753803432" Language="SFX">
 							<ShortName>UI\UI_MENU_MAIN_NAV_OUT.wav</ShortName>
-							<Path>SFX\UI\UI_MENU_MAIN_NAV_OUT_D8C07C79.wem</Path>
+							<Path>SFX\UI\UI_MENU_MAIN_NAV_OUT_D43314A4.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -2682,7 +2731,7 @@
 				</Event>
 			</IncludedEvents>
 		</SoundBank>
-		<SoundBank Id="1355168291" Language="SFX" Hash="76723365">
+		<SoundBank Id="1355168291" Language="SFX" Hash="1778490026">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>

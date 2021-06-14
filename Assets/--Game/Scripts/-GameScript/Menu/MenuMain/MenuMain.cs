@@ -26,6 +26,8 @@ namespace Menu
 		[Title("Feedbacks")]
 		[SerializeField]
 		Animator animatorCamera = null;
+		[SerializeField]
+		GameObject fade = null;
 
 		[Title("Menu")]
 		[SerializeField]
@@ -110,6 +112,12 @@ namespace Menu
 
 		public void LoadScene(string sceneName)
 		{
+			fade.gameObject.SetActive(true);
+			StartCoroutine(LoadSceneCoroutine(sceneName));
+		}
+		private IEnumerator LoadSceneCoroutine(string sceneName)
+		{
+			yield return new WaitForSeconds(0.5f);
 			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 		}
 
