@@ -21,8 +21,8 @@ public class GrandSlamUi : MonoBehaviour
     [Title("UI Components")]
     [SerializeField]
     private TextMeshProUGUI scoreToBeat;
-    [SerializeField]
-    private TextMeshProUGUI currentModeText;
+    //[SerializeField]
+    //private TextMeshProUGUI currentModeText;
     [SerializeField]
     private Image currentModeImage;
 
@@ -37,6 +37,9 @@ public class GrandSlamUi : MonoBehaviour
     public List<Image> playerImage = new List<Image>();
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
     public List<TextMeshProUGUI> playerGainScoreTxt = new List<TextMeshProUGUI>();
+    [Space]
+    public List<Image> crownList = new List<Image>();
+    public List<Image> glowList = new List<Image>();
 
     [Title("Sprites")]
     [SerializeField]
@@ -48,9 +51,11 @@ public class GrandSlamUi : MonoBehaviour
     [SerializeField]
     private Sprite logoVolleyMode;
 
+    [Title("Bonus Round Ref")]
+    public Animator bonusRoundAnimator;
+    public TextMeshProUGUI bonusRoundText;
+    public TextMeshProUGUI bonusRoundSubtitleText;
 
-    public List<Image> crownList = new List<Image>();
-    public List<Image> glowList = new List<Image>();
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
@@ -76,6 +81,7 @@ public class GrandSlamUi : MonoBehaviour
 
     public void InitProperty(int playerScoreToBeat, GameData gameData)
     {
+        bonusRoundAnimator.SetTrigger("Disappear");
         scoreToBeat.text = playerScoreToBeat.ToString();
 
         for (int i = 0; i < gameData.CharacterInfos.Count; i++)
@@ -105,17 +111,34 @@ public class GrandSlamUi : MonoBehaviour
             playersScoreObj[i].SetActive(false);
         }
         scoreInfosPanel.SetActive(false);
+
+        bonusRoundAnimator.SetTrigger("Disappear");
     }
 
     public void DisplaySpecialRules(SpecialRound specialRound)
     {
-        if(specialRound == SpecialRound.DoublePoint)
+        if (specialRound != SpecialRound.NoCurrentSpecialRound)
         {
-            // DISPLAY DOUBLE POINTS RULES
-        }
-        else if(specialRound == SpecialRound.StealPoint)
-        {
-            // DISPLAY STEAL POINTS RULES
+            bonusRoundAnimator.SetTrigger("Appear");
+
+            if (specialRound == SpecialRound.DoublePoint)
+            {
+                // DISPLAY DOUBLE POINTS RULES
+                bonusRoundText.text = "Double Point";
+                bonusRoundSubtitleText.text = "Win your point x2";
+            }
+            else if (specialRound == SpecialRound.StealPoint)
+            {
+                // DISPLAY STEAL POINTS RULES
+                bonusRoundText.text = "Steal Point";
+                bonusRoundSubtitleText.text = "Win first and steal other points";
+            }
+            else if (specialRound == SpecialRound.OneMoreLife)
+            {
+                // DISPLAY ONE MORE LIFE RULES
+                bonusRoundText.text = "One More Life";
+                bonusRoundSubtitleText.text = "All players gain 1 more life in the next round (1 more goal in Volley)";
+            }
         }
     }
 
@@ -124,22 +147,22 @@ public class GrandSlamUi : MonoBehaviour
     {
         if(gameMode == GameModeStateEnum.Classic_Mode)
         {
-            currentModeText.text = "CLASSIC";
+            //currentModeText.text = "CLASSIC";
             currentModeImage.sprite = logoClassicMode;
         }
         else if(gameMode == GameModeStateEnum.Bomb_Mode)
         {
-            currentModeText.text = "BOMB";
+            //currentModeText.text = "BOMB";
             currentModeImage.sprite = logoBombMode;
         }
         else if (gameMode == GameModeStateEnum.Flappy_Mode)
         {
-            currentModeText.text = "WALL SPLASH";
+            //currentModeText.text = "WALL SPLASH";
             currentModeImage.sprite = logoWallSplashMode;
         }
         else if (gameMode == GameModeStateEnum.Volley_Mode)
         {
-            currentModeText.text = "VOLLEY";
+            //currentModeText.text = "VOLLEY";
             currentModeImage.sprite = logoVolleyMode;
         }
     }

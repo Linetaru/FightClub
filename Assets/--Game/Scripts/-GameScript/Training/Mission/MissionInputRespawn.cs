@@ -27,7 +27,7 @@ public class MissionInputRespawn : MissionInputCondition
 
 	public void StateChangedCallback(CharacterState oldState, CharacterState newState)
 	{
-		if (newState is CharacterStateRespawn)
+		if (newState is CharacterStateDeath)
 		{
 			condition = true;
 		}

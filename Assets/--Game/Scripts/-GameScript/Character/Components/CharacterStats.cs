@@ -142,6 +142,7 @@ public class CharacterStats : MonoBehaviour, IStats
         userBase = this.transform.parent.transform.parent.GetComponent<CharacterBase>();
         LifePercentage = 0;
         Death = false;
+        userBase.PowerGauge.GaugeOn = true;
 
         if (firstTime == false) // Quand on reset la map, si on reset les stats une deuxieme fois ça peut créer des embrouilles
         {

@@ -536,6 +536,18 @@ public class CameraZoomController : MonoBehaviour
         }
     }
 
+    public void RemoveTarget(Transform t)
+    {
+        for (int i = targets.Count-1; i >= 0; i--)
+        {
+            if (targets[i].transform == t)
+            {
+                targets.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
 
 #if UNITY_EDITOR
     public void OnDrawGizmos()

@@ -2974,7 +2974,6 @@ MonoBehaviour:
   logoTransitionPanel: {fileID: 1266384332}
   backgroundAnimator: {fileID: 2127424628}
   scoreToBeat: {fileID: 430479768}
-  currentModeText: {fileID: 4747384812311805267}
   currentModeImage: {fileID: 3543498411045386619}
   logoTransition: {fileID: 1266384334}
   playersScoreObj:
@@ -3002,10 +3001,6 @@ MonoBehaviour:
   - {fileID: 852407807}
   - {fileID: 2142177317}
   - {fileID: 1770355206}
-  logoClassicMode: {fileID: 21300000, guid: fa651a022af71f341bdcd161e8e751cd, type: 3}
-  logoBombMode: {fileID: 21300000, guid: 8527f77dcf93364489bc9b0745223118, type: 3}
-  logoWallSplashMode: {fileID: 21300000, guid: 9dab609d6b6625f4bb90881c33a2dde6, type: 3}
-  logoVolleyMode: {fileID: 21300000, guid: df5b21c263820304299eedcd049cc71e, type: 3}
   crownList:
   - {fileID: 1156062098}
   - {fileID: 4061209326127674149}
@@ -3016,6 +3011,13 @@ MonoBehaviour:
   - {fileID: 686553480198011133}
   - {fileID: 7894856230914814380}
   - {fileID: 6421033632703844752}
+  logoClassicMode: {fileID: 21300000, guid: fa651a022af71f341bdcd161e8e751cd, type: 3}
+  logoBombMode: {fileID: 21300000, guid: 8527f77dcf93364489bc9b0745223118, type: 3}
+  logoWallSplashMode: {fileID: 21300000, guid: 9dab609d6b6625f4bb90881c33a2dde6, type: 3}
+  logoVolleyMode: {fileID: 21300000, guid: df5b21c263820304299eedcd049cc71e, type: 3}
+  bonusRoundAnimator: {fileID: 0}
+  bonusRoundText: {fileID: 0}
+  bonusRoundSubtitleText: {fileID: 0}
 --- !u!1 &6338055633394438576
 GameObject:
   m_ObjectHideFlags: 0
@@ -3097,6 +3099,7 @@ MonoBehaviour:
   scoreGoal: 5
   scenes:
   - LD_Aymeric_Remastered
+  - Classic_Mode_Nico_Scene
   scoreArr: 640000003c0000001e00000005000000
 --- !u!1 &6338055633613584524
 GameObject:
@@ -3717,6 +3720,7 @@ MonoBehaviour:
   slamLogoMode: {fileID: 278571668}
   cameraResetSpeed: 5
   specialRoundsOcurrence: 4
+  currentSpecialRound: 0
 --- !u!1 &6338055634112027364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,7 +3769,7 @@ MonoBehaviour:
   nbLife: 1
   scoreGoal: 5
   scenes:
-  - BombMode_David1
+  - Stage_Bomb_1_Remastered
   - BombMode_Scene1
   - BombMode_Scene_Aymeric_1
   scoreArr: 640000003c0000001e00000005000000
@@ -5341,7 +5345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3958312560971992861
 RectTransform:
   m_ObjectHideFlags: 0
