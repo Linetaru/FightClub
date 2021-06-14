@@ -8,6 +8,9 @@ using System.Linq;
 
 public class GrandSlamUi : MonoBehaviour
 {
+    [SerializeField]
+    private float specialRoundPanelTime = 3f;
+
     [Title("Objects")]
     [SerializeField]
     private GameObject scoreInfosPanel;
@@ -111,8 +114,6 @@ public class GrandSlamUi : MonoBehaviour
             playersScoreObj[i].SetActive(false);
         }
         scoreInfosPanel.SetActive(false);
-
-        bonusRoundAnimator.SetTrigger("Disappear");
     }
 
     public void DisplaySpecialRules(SpecialRound specialRound)
@@ -140,6 +141,8 @@ public class GrandSlamUi : MonoBehaviour
                 bonusRoundSubtitleText.text = "All players gain 1 more life in the next round (1 more goal in Volley)";
             }
         }
+
+        StartCoroutine(HideSpecialRules());
     }
 
 
@@ -341,5 +344,10 @@ public class GrandSlamUi : MonoBehaviour
         logoTransition.PlayTransition(gameMode);
     }
 
+    private IEnumerator HideSpecialRules()
+    {
+        yield return new WaitForSeconds(specialRoundPanelTime);
 
+        bonusRoundAnimator.SetTrigger("Disappear");
+    }
 }

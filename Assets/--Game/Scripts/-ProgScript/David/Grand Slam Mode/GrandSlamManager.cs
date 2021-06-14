@@ -65,6 +65,8 @@ public class GrandSlamManager : MonoBehaviour
     private GrandSlamUi canvasScore;
     [SerializeField]
     private SlamLogoMode slamLogoMode;
+    [SerializeField]
+    private BonusRoundPanel bonusPanel;
 
     private Camera currentCam;
 
@@ -400,8 +402,6 @@ public class GrandSlamManager : MonoBehaviour
             //Bonus Round Checking
             currentSpecialRound = roundCount % specialRoundsOcurrence == 0 ? (SpecialRound)UnityEngine.Random.Range(1, Enum.GetNames(typeof(SpecialRound)).Length) : SpecialRound.NoCurrentSpecialRound;
 
-            Debug.LogError(currentSpecialRound.ToString());
-
             nextSceneName = GetRandomSceneFromList();
 
             BattleManager.Instance.ResetInstance();
@@ -444,11 +444,19 @@ public class GrandSlamManager : MonoBehaviour
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
             {
                 canvasScore.DisplaySpecialRules(currentSpecialRound);
+
+                bonusPanel.animationOver = false;
+
+                while(!bonusPanel.animationOver)
+                {
+                    yield return null;
+                }
             }
 
 
-
             // hold while special round's rules displaying
+
+
 
 
 
