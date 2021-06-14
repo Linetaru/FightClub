@@ -77,6 +77,21 @@ namespace Menu
 
 			CharacterBattleData characterBattleData = charactersPodium[0].GetComponentInChildren<CharacterBattleData>();
 			listResultDrawers[0].DrawParry(characterBattleData.NbOfParry);
+			string name = null;
+			if (Mathf.Sign(gameData.CharacterInfos[winnerID].ControllerID) > -1)
+			{
+				if (gameData.CharacterInfos[winnerID].InputMapping.profileName != "classic")
+				{
+					name = gameData.CharacterInfos[winnerID].InputMapping.profileName + " J" + (charactersPodium[0].PlayerID + 1);
+				}
+				else
+					name = gameData.CharacterInfos[winnerID].CharacterData.characterName + " J" + (charactersPodium[0].PlayerID + 1);
+			}
+			else
+			{
+				name = gameData.CharacterInfos[winnerID].CharacterData.characterName + " Bot J" + (charactersPodium[0].PlayerID + 1);
+			}
+			listResultDrawers[0].DrawCharacterName(name);
 			listResultDrawers[0].DrawResult(1, charactersPodium[0].PlayerID+1);
 			listResultDrawers[0].DrawKilled(characterBattleData.Killed);
 			listResultDrawers[0].DrawKiller(characterBattleData.Killer);
@@ -104,9 +119,23 @@ namespace Menu
 				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
 				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
 
+				if (Mathf.Sign(gameData.CharacterInfos[charactersPodium[i].PlayerID].ControllerID) > -1)
+				{
+					if (gameData.CharacterInfos[charactersPodium[i].PlayerID].InputMapping.profileName != "classic")
+					{
+						name = gameData.CharacterInfos[charactersPodium[i].PlayerID].InputMapping.profileName + " J" + (charactersPodium[i].PlayerID + 1);
+					}
+					else
+						name = gameData.CharacterInfos[charactersPodium[i].PlayerID].CharacterData.characterName + " J" + (charactersPodium[i].PlayerID + 1);
+				}
+				else
+				{
+					name = gameData.CharacterInfos[charactersPodium[i].PlayerID].CharacterData.characterName + " Bot J" + (charactersPodium[i].PlayerID + 1);
+				}
 
 				// Pardon
 				characterBattleData = charactersPodium[i].GetComponentInChildren<CharacterBattleData>();
+				listResultDrawers[i].DrawCharacterName(name);
 				listResultDrawers[i].DrawParry(characterBattleData.NbOfParry);
 				listResultDrawers[i].DrawResult(i+1, charactersPodium[i].PlayerID+1);
 				listResultDrawers[i].DrawKilled(characterBattleData.Killed);
