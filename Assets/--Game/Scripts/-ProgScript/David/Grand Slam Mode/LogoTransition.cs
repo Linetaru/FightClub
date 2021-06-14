@@ -33,6 +33,7 @@ public class LogoTransition : MonoBehaviour
     [SerializeField]
     private string volleyRules;
 
+    private int scoreGoal;
 
     public void PlayTransition(GameModeStateEnum gameMode)
     {
@@ -60,8 +61,13 @@ public class LogoTransition : MonoBehaviour
         else if (gameMode == GameModeStateEnum.Volley_Mode)
         {
             imageTransition.sprite = logoVolleyMode;
-            ruleText.text = volleyRules;
+            ruleText.text = "Score " + scoreGoal + " points";
         }
+    }
+
+    public void SetScoreGoal(int goal)
+    {
+        scoreGoal = goal;
     }
 
     public void EndTransition()
