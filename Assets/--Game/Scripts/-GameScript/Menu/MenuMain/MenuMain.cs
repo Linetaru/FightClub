@@ -47,6 +47,7 @@ namespace Menu
 		void Start()
 		{
 			CheckMenuStartup();
+			Cursor.visible = false;
 		}
 
 

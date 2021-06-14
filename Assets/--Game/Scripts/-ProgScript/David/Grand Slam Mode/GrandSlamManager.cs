@@ -394,6 +394,8 @@ public class GrandSlamManager : MonoBehaviour
     // Gère toute la transition de la fin du mode en cours au début du prochain mode
     private IEnumerator ManageEndMode()
     {
+        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        BattleManager.Instance.GamePaused = true;
         Time.timeScale = 0.2f;
         if(gameMode != GameModeStateEnum.Volley_Mode)
             yield return new WaitForSecondsRealtime(2f);
@@ -479,7 +481,7 @@ public class GrandSlamManager : MonoBehaviour
             }
 
             camSlam.RemoveBackgroundBlur();
-
+            BattleManager.Instance.GamePaused = true;
 
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
             {
@@ -519,7 +521,9 @@ public class GrandSlamManager : MonoBehaviour
                 yield return null;
             }
 
+            BattleManager.Instance.GamePaused = false;
             SetGame();
+
         }
         else
         {
@@ -549,7 +553,7 @@ public class GrandSlamManager : MonoBehaviour
     // Paramètre le gameData
     private void SetGame()
     {
-        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        //gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
 
         StartGame();
     }

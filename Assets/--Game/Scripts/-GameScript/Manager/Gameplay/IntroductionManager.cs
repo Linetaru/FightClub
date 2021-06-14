@@ -138,7 +138,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 
 	private IEnumerator SkipIntroductionCoroutine()
 	{
-		AkSoundEngine.PostEvent(musicToStop.Id, stopMusic.gameObject);
+		if(musicToStop != null && stopMusic != null)
+			AkSoundEngine.PostEvent(musicToStop.Id, stopMusic.gameObject);
 		animatorTransitionToBattle.SetTrigger("Feedback");
 		yield return new WaitForSeconds(1f);
 		EndIntroduction();

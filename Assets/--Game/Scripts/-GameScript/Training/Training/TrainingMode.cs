@@ -155,6 +155,7 @@ namespace Menu
 			else if (input.inputUiAction == InputConst.Interact && listEntry.IndexSelection == 8) // Quit
 			{
 				input.inputUiAction = null;
+				timeScale = 1f;
 				UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelection_Art");
 			}
 			else if (input.inputUiAction == InputConst.Pause || input.inputUiAction == InputConst.Back)
