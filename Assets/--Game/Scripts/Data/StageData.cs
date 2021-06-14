@@ -38,6 +38,7 @@ public class StageData : ScriptableObject
 
 
 	[SerializeField]
+	[Scene]
 	private string sceneName;
 	public string SceneName
 	{

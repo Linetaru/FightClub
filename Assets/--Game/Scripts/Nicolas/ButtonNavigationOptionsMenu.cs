@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 
 public class ButtonNavigationOptionsMenu : MenuList
 {
-    public Image selectionUIArrow;
+    public List<Image> selectionUIArrow = new List<Image>();
 
     [Title("MenuList")]
     public List<MenuList> inputOptionsMenu = new List<MenuList>();
@@ -18,8 +18,9 @@ public class ButtonNavigationOptionsMenu : MenuList
     public GameObject panelGraph;
 
     [Title("Object Reference")]
-    public MenuManagerUpdated menuPrincipal;
+    public MenuMainGameModes menuMainGameModes;
     public InputController inputController;
+    public Canvas canvasOption;
 
     private int characterID = 0;
 
@@ -58,9 +59,17 @@ public class ButtonNavigationOptionsMenu : MenuList
             inputOptionsMenu[i].OnEnd += OnEndMenuList;
         }
 
-        this.OnEnd += menuPrincipal.CloseOptions;
+        this.OnEnd += OnEndThisMenu;
 
         OnEndMenuList();
+    }
+
+    private void OnEndThisMenu()
+    {
+        for (int i = 0; i < 4; i++)
+            inputController.controllable[i] = menuMainGameModes;
+
+        canvasOption.gameObject.SetActive(false);
     }
 
     private void OnEndMenuList()
@@ -68,7 +77,7 @@ public class ButtonNavigationOptionsMenu : MenuList
         panelInput.SetActive(false);
         panelAudio.SetActive(false);
         panelGraph.SetActive(false);
-        selectionUIArrow.gameObject.SetActive(true);
+        selectionUIArrow[listEntry.IndexSelection].gameObject.SetActive(true);
         MovingArrow(listEntry.IndexSelection);
         for (int i = 0; i < 4; i++)
             inputController.controllable[i] = this;
@@ -76,8 +85,17 @@ public class ButtonNavigationOptionsMenu : MenuList
 
     private void MovingArrow(int index)
     {
-        selectionUIArrow.rectTransform.anchoredPosition = listEntry.ListItem[index].RectTransform.anchoredPosition;
-        selectionUIArrow.rectTransform.anchoredPosition += new Vector2(-6, 0);
+        //selectionUIArrow[listEntry.IndexSelection].rectTransform.anchoredPosition = listEntry.ListItem[index].RectTransform.anchoredPosition;
+        //selectionUIArrow[listEntry.IndexSelection].rectTransform.anchoredPosition += new Vector2(-6, 0);
+        foreach(Image im in selectionUIArrow)
+        {
+            if(selectionUIArrow[listEntry.IndexSelection].gameObject == im.gameObject)
+            {
+                im.gameObject.SetActive(true);
+            }
+            else
+                im.gameObject.SetActive(false);
+        }
     }
 
     protected override void ValidateEntry(int id)
@@ -101,7 +119,7 @@ public class ButtonNavigationOptionsMenu : MenuList
     public void DisplayPanel(GameObject panel, int index)
     {
         panel.SetActive(true);
-        selectionUIArrow.gameObject.SetActive(false);
+        selectionUIArrow[listEntry.IndexSelection].gameObject.SetActive(false);
         for (int i = 0; i < 4; i++)
             inputController.controllable[i] = inputOptionsMenu[index];
     }

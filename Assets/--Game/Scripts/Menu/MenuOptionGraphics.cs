@@ -13,7 +13,7 @@ namespace Menu
         [SerializeField]
         SaveGraphicsSettings graphicsSettings;
 
-        public Image selectionUIArrow;
+        public List<Image> selectionUIArrow = new List<Image>();
 
         int characterID = 0;
 
@@ -56,8 +56,17 @@ namespace Menu
 		{
 			base.SelectEntry(id);
 
-            selectionUIArrow.rectTransform.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
-            selectionUIArrow.rectTransform.anchoredPosition += new Vector2(-20, 0);
+            //selectionUIArrow.rectTransform.anchoredPosition = listEntry.ListItem[id].RectTransform.anchoredPosition;
+            //selectionUIArrow.rectTransform.anchoredPosition += new Vector2(-20, 0);
+            foreach (Image im in selectionUIArrow)
+            {
+                if (selectionUIArrow[listEntry.IndexSelection].gameObject == im.gameObject)
+                {
+                    im.gameObject.SetActive(true);
+                }
+                else
+                    im.gameObject.SetActive(false);
+            }
         }
 
 

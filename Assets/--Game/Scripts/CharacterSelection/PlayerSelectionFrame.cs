@@ -79,8 +79,8 @@ public class PlayerSelectionFrame : MonoBehaviour
         {3, "#7E8000"},
         {4, "#00801A"}
     };
-// Teams
-[SerializeField]
+    // Teams
+    [SerializeField]
     private TextMeshProUGUI teamText;
     [SerializeField]
     private Image teamBackground;
@@ -113,6 +113,14 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     [HideInInspector]
     public bool joystickPushed = false;
+    
+    [HideInInspector]
+    public bool isCPU = false;
+
+    [HideInInspector]
+    public int playerInControl;
+
+    
 
 
     private void Awake()
@@ -173,7 +181,7 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void Connected(CharacterData[] characterDatas)
+    public void Connected(List<CharacterData> characterDatas)
     {
         isPlayerConnected = true;
         spotLights.SetActive(true);
@@ -185,6 +193,7 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void Disconnected()
     {
+        isCPU = false;
         isPlayerConnected = false;
         isCharacterChoosed = false;
         isPlayerReady = false;
@@ -202,19 +211,20 @@ public class PlayerSelectionFrame : MonoBehaviour
             Destroy(charModel.gameObject);
     }
 
-    public void CreateCharacterModel(CharacterData[] characterDatas)
+    public void CreateCharacterModel(List<CharacterData> characterDatas)
     {
         //if (characterModel.GetComponentInChildren<GameObject>() != CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterSelectionModel)
         //{
-            if (charModel != null)
-                Destroy(charModel.gameObject);
+        if (charModel != null)
+            Destroy(charModel.gameObject);
 
-            if (characterDatas[currentCursorPosition] != null)
-            {
-                charModel = Instantiate(characterDatas[currentCursorPosition].looserModel, modelParent.transform);
-                //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
-                charModel.SetColor(0, hologramMaterial);
-            }
+        if (characterDatas[currentCursorPosition] != null)
+        {
+            //Debug.LogError(characterDatas[currentCursorPosition]);
+            charModel = Instantiate(characterDatas[currentCursorPosition].looserModel, modelParent.transform);
+            //UpdateCharacterColor(CharacterSelectManager._instance.characterDatas[currentCursorPosition].characterMaterials);
+            charModel.SetColor(0, hologramMaterial);
+        }
         //}
         //else
         //{
@@ -235,14 +245,18 @@ public class PlayerSelectionFrame : MonoBehaviour
         }
     }
 
-    public void ChangeCharacterModelColor(CharacterData[] characterDatas)
+    public void ChangeCharacterModelColor(List<CharacterData> characterDatas)
     {
+        //characterDatas[0].characterColors.GetUnlocked()
+        //characterDatas[0].characterColors.Database[0].characterFace
+        //characterDatas[0].characterColors.Database[0].material
         charModel.SetColor(0, characterDatas[currentCursorPosition].characterMaterials[currentColorSkin]);
     }
 
     public void ChangeCharacterModelColorRandom(CharacterData characterDatas)
     {
-        charModel.SetColor(0, characterDatas.characterMaterials[currentColorSkin]);
+        if (charModel != null)
+            charModel.SetColor(0, characterDatas.characterMaterials[currentColorSkin]);
     }
 
     //public void UpdateCharacterColor(List<Material> characterMaterials)
@@ -263,7 +277,7 @@ public class PlayerSelectionFrame : MonoBehaviour
     //    }
     //}
 
-    public void UpdateCursorPosition(bool goToRight, CharacterData[] characterDatas)
+    public void UpdateCursorPosition(bool goToRight, List<CharacterData> characterDatas)
     {
         if (goToRight)
         {
@@ -284,7 +298,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         CreateCharacterModel(characterDatas);
     }
 
-    public void ChooseCharacter(CharacterData[] characterDatas)
+    public void ChooseCharacter(List<CharacterData> characterDatas)
     {
         currentChoosedCharacter = characterDatas[currentCursorPosition];
         isPlayerConnected = true;
@@ -330,7 +344,7 @@ public class PlayerSelectionFrame : MonoBehaviour
         UpdateParamsDisplay();
     }
 
-    public void UpdateParam(bool goToRight, CharacterData[] characterDatas)
+    public void UpdateParam(bool goToRight, List<CharacterData> characterDatas)
     {
 
         //0 c'est les couleurs et 1 c'est les skills
@@ -431,25 +445,57 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(true);
     }
 
-    public void RandomReady(CharacterData[] characterDatas)
+    public void RandomReady(List<CharacterData> characterDatas)
     {
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
-        int random = Random.Range(0, 2);
-        CharacterData characterDatasRandom = new CharacterData();
-        switch (random)
+        //int random = Random.Range(0, characterDatas.Count);
+        CharacterData characterDatasRandom = null;
+
+        List<CharacterData> characterDatasForRandom = new List<CharacterData>();
+
+        foreach (CharacterData characterData in characterDatas)
         {
-            case 0:
-                characterDatasRandom = characterDatas[0];
-                CreateCharacterModelRandom(characterDatasRandom);
-                break;
-            case 1:
-                characterDatasRandom = characterDatas[1];
-                CreateCharacterModelRandom(characterDatasRandom);
-                break;
+            if (characterData == null || characterData.characterName == "Random")
+            {
+                //Debug.LogError(characterData + " is NOT in random list");
+            }
+            else
+            {
+                //Debug.LogError(characterData + " IS in random list");
+                characterDatasForRandom.Add(characterData);
+            }
         }
+        characterDatasRandom = characterDatasForRandom[Random.Range(0, characterDatasForRandom.Count)];
+        CreateCharacterModelRandom(characterDatasRandom);
+        //if (characterDatas[random] == null || random == 2)
+        //switch (random)
+        //{
+        //    case 0:
+        //        if (characterDatas[0] == null)
+        //        {
+        //            RandomReady(characterDatas);
+        //            return;
+        //        }
+        //        characterDatasRandom = characterDatas[0];
+        //        CreateCharacterModelRandom(characterDatasRandom);
+        //        break;
+        //    case 1:
+        //        if (characterDatas[1] == null)
+        //            return;
+        //        characterDatasRandom = characterDatas[1];
+        //        CreateCharacterModelRandom(characterDatasRandom);
+        //        break;
+        //    case 2:
+        //        if (characterDatas[3] == null)
+        //            return;
+        //        characterDatasRandom = characterDatas[3];
+        //        CreateCharacterModelRandom(characterDatasRandom);
+        //        break;
+        //}
         currentChoosedCharacter = characterDatasRandom;
-        
+        Debug.LogError(currentChoosedCharacter);
+
         currentColorSkin = Random.Range(0, characterDatasRandom.characterMaterials.Count);
         //currentChoosableSkill = Random.Range(0, choosableSkills.Length);
         currentConfigChoice = 0;
@@ -461,12 +507,61 @@ public class PlayerSelectionFrame : MonoBehaviour
         isPlayerReady = true;
     }
 
-    public void CycleTeam()
+    public void RandomReadyCPU(List<CharacterData> characterDatas)
     {
-        if ((int)currentTeam < teamEnumLength)
-            currentTeam++;
+        isCPU = true;
+        characterParams.SetActive(false);
+        playerCursor.SetActive(false);
+        //int random = Random.Range(0, characterDatas.Count);
+        CharacterData characterDatasRandom = null;
+
+        List<CharacterData> characterDatasForRandom = new List<CharacterData>();
+
+        foreach (CharacterData characterData in characterDatas)
+        {
+            if (characterData == null || characterData.characterName == "Random")
+            {
+
+            }
+            else
+            {
+                characterDatasForRandom.Add(characterData);
+            }
+        }
+        characterDatasRandom = characterDatasForRandom[Random.Range(0, characterDatasForRandom.Count)];
+        CreateCharacterModelRandom(characterDatasRandom);
+
+        currentChoosedCharacter = characterDatasRandom;
+        Debug.LogError(currentChoosedCharacter);
+
+        currentColorSkin = Random.Range(0, characterDatasRandom.characterMaterials.Count);
+
+        currentConfigChoice = 0;
+        ChangeCharacterModelColorRandom(characterDatasRandom);
+
+        isPlayerConnected = true;
+        isCharacterChoosed = true;
+        paramsChoosed = true;
+        isPlayerReady = true;
+    }
+
+    public void CycleTeam(bool isVolleyBallMode)
+    {
+        teamText.SetText(currentTeam.ToString());
+        if (isVolleyBallMode)
+        {
+            if ((int)currentTeam == 1)
+                currentTeam = TeamEnum.Second_Team;
+            else
+                currentTeam = TeamEnum.First_Team;
+        }
         else
-            currentTeam = 0;
+        {
+            if ((int)currentTeam < teamEnumLength)
+                currentTeam++;
+            else
+                currentTeam = 0;
+        }
 
         teamText.SetText(currentTeam.ToString());
 
@@ -483,35 +578,6 @@ public class PlayerSelectionFrame : MonoBehaviour
         teamBackground.color = new Color(color.r, color.g, color.b, 0.6f);
     }
 
-
-    //private void Awake()
-    //{
-    //    //rectTransform = GetComponent<RectTransform>();
-
-    //    switch (playerInput)
-    //    {
-    //        case PlayerInput.One:
-    //            iD = 0;
-    //            break;
-
-    //        case PlayerInput.Two:
-    //            iD = 1;
-    //            break;
-
-    //        case PlayerInput.Three:
-    //            iD = 2;
-    //            break;
-
-    //        case PlayerInput.Four:
-    //            iD = 3;
-    //            break;
-
-    //        default:
-    //            player = null;
-    //            break;
-    //    }
-    //}
-
     private void Start()
     {
         isPlayerReady = false;
@@ -523,211 +589,4 @@ public class PlayerSelectionFrame : MonoBehaviour
         characterParams.SetActive(false);
         //HideHolograms();
     }
-
-
-
-    //private void Update()
-    //{
-    //    if (player.GetButtonDown("LeftTaunt"))
-    //    {
-    //        if (characterSelectManager.playerStocks > 1)
-    //        {
-    //            --characterSelectManager.playerStocks;
-    //            characterSelectManager.UpdateStockText();
-    //        }
-    //    }
-    //    else if (player.GetButtonDown("RightTaunt"))
-    //    {
-    //        if (characterSelectManager.playerStocks < 999)
-    //        {
-    //            ++characterSelectManager.playerStocks;
-    //            characterSelectManager.UpdateStockText();
-    //        }
-    //    }
-
-    //    if (isPlayerConnected && player.GetButtonDown("RightShoulder"))
-    //    {
-    //        if (currentColorSkin < characterCells[currentCursorPosition].characterData.characterMaterials.Count - 1)
-    //        {
-    //            ++currentColorSkin;
-    //        }
-    //        else
-    //        {
-    //            currentColorSkin = 0;
-    //        }
-    //        colorChoiceText.text = "Color " + (currentColorSkin + 1);
-    //        DisplayHologram();
-    //    }
-    //    else if (isPlayerConnected && player.GetButtonDown("LeftShoulder"))
-    //    {
-    //        if (currentColorSkin > 0)
-    //        {
-    //            --currentColorSkin;
-    //        }
-    //        else
-    //        {
-    //            currentColorSkin = characterCells[currentCursorPosition].characterData.characterMaterials.Count - 1;
-    //        }
-    //        colorChoiceText.text = "Color " + (currentColorSkin + 1);
-    //        DisplayHologram();
-    //    }
-
-    //    if (!isPlayerReady)
-    //    {
-    //        if (!isPlayerConnected)
-    //        {
-    //            if (player.GetButtonDown("Interact"))
-    //            {
-    //                spotLights.SetActive(true);
-    //                playerCursor.gameObject.SetActive(true);
-
-    //                currentCursorPosition = 2;
-    //                DisplayHologram();
-
-    //                playerCursor.transform.position = characterCells[2].transform.position;
-    //                playerCursor.transform.rotation = characterCells[2].transform.rotation;
-
-    //                characterSelectManager.numberOfConnectedPlayers++;
-    //                isPlayerConnected = true;
-    //            }
-    //            else if (player.GetButtonDown("Return"))
-    //            {
-    //                //Return to previous menu
-    //                UnityEngine.SceneManagement.SceneManager.LoadScene(menuSceneName);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (player.GetButtonDown("Interact"))
-    //            {
-    //                playerCursor.gameObject.SetActive(false);
-    //                isPlayerReady = true;
-
-    //                characterSelectManager.numberOfReadyPlayers++;
-    //                characterSelectManager.DisplayReadyBands();
-
-    //                DisplayHologram();
-    //                if (hologramModels[currentCursorPosition].GetComponent<Animator>() != null)
-    //                {
-    //                    hologramModels[currentCursorPosition].GetComponent<Animator>().SetTrigger("SelectionReady");
-
-    //                }
-    //            }
-    //            else if (player.GetButtonDown("Return"))
-    //            {
-    //                spotLights.SetActive(false);
-    //                playerCursor.gameObject.SetActive(false);
-
-    //                HideHolograms();
-
-    //                characterSelectManager.numberOfConnectedPlayers--;
-    //                isPlayerConnected = false;
-    //            }
-    //            else if (player.GetAxis("Horizontal") > .5f && !joystickPushed)
-    //            {
-    //                joystickPushed = true;
-    //                if (currentCursorPosition < 4)
-    //                {
-    //                    ++currentCursorPosition;
-    //                    DisplayHologram();
-
-    //                    playerCursor.transform.DOMove(characterCells[currentCursorPosition].transform.position, .2f);
-    //                    playerCursor.transform.DORotateQuaternion(characterCells[currentCursorPosition].transform.rotation, .2f);
-    //                    //playerCursor.transform.position = characterCells[actualCursorPosition].transform.position;
-    //                    //playerCursor.transform.rotation = characterCells[actualCursorPosition].transform.rotation;
-    //                }
-    //            }
-    //            else if (player.GetAxis("Horizontal") < -.5f && !joystickPushed)
-    //            {
-    //                joystickPushed = true;
-    //                if (currentCursorPosition > 0)
-    //                {
-    //                    --currentCursorPosition;
-    //                    DisplayHologram();
-
-    //                    playerCursor.transform.DOMove(characterCells[currentCursorPosition].transform.position, .2f);
-    //                    playerCursor.transform.DORotateQuaternion(characterCells[currentCursorPosition].transform.rotation, .2f);
-    //                    //playerCursor.transform.position = characterCells[actualCursorPosition].transform.position;
-    //                    //playerCursor.transform.rotation = characterCells[actualCursorPosition].transform.rotation;
-    //                }
-    //            }
-    //            else if (Mathf.Abs(player.GetAxis("Horizontal")) < 0.5f && playerCursor.gameObject.activeSelf)
-    //            {
-    //                joystickPushed = false;
-    //            }
-
-    //        }
-    //    }
-    //    else
-    //    {
-    //        if (player.GetButtonDown("Return"))
-    //        {
-    //            playerCursor.gameObject.SetActive(true);
-    //            isPlayerReady = false;
-    //            DisplayHologram();
-    //            characterSelectManager.numberOfReadyPlayers--;
-    //            characterSelectManager.HideReadyBands();
-    //        }
-    //        else if (player.GetButtonDown("Pause"))
-    //        {
-    //            characterSelectManager.PlayReadySlashAnimation();
-    //        }
-    //    }
-    //}
-
-    //void HideHolograms()
-    //{
-    //    bernardModel.SetActive(false);
-    //    robotioModel.SetActive(false);
-    //    ninjaMuraiModel.SetActive(false);
-    //    katarinaModel.SetActive(false);
-    //    randomModel.SetActive(false);
-
-    //    colorChoiceObject.SetActive(false);
-    //}
-
-    //void DisplayHologram()
-    //{
-    //    if (!colorChoiceObject.activeSelf)
-    //        colorChoiceObject.SetActive(true);
-
-    //    foreach (GameObject hologramModel in hologramModels)
-    //    {
-    //        if (hologramModel.activeSelf)
-    //            hologramModel.SetActive(false);
-    //    }
-
-    //    if (!hologramModels[currentCursorPosition].activeSelf)
-    //        hologramModels[currentCursorPosition].SetActive(true);
-
-    //    switch (currentCursorPosition)
-    //    {
-    //        case 0:
-
-    //            if (!isPlayerReady)
-    //            {
-    //                bernardBody.material = hologramMaterial;
-    //                bernardHair.material = hologramMaterial;
-    //            }
-    //            else
-    //            {
-    //                bernardBody.material = characterCells[currentCursorPosition].characterData.characterMaterials[currentColorSkin];
-    //                bernardHair.material = characterCells[currentCursorPosition].characterData.characterMaterials[currentColorSkin];
-    //            }
-
-    //            break;
-
-    //        case 1:
-    //            break;
-
-    //        case 2:
-    //            break;
-
-    //        case 3:
-    //            break;
-
-    //        case 4:
-    //            break;
-    //    }
-    //}
 }
