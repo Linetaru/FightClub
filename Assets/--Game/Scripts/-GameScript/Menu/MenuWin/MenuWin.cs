@@ -248,7 +248,7 @@ namespace Menu
 		{
 			fadeInTransition.SetTrigger("Feedback");
 			yield return new WaitForSeconds(1.2f);
-			SceneManager.LoadScene("CharacterSelection");
+			SceneManager.LoadScene("CharacterSelection_Art");
 		}
 	}
 }
