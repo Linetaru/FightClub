@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.024442213, g: 0.014664094, b: 0.0228446, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -72431,7 +72431,19 @@ MonoBehaviour:
   animator: {fileID: 1709376329}
   unityEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1395480321}
+        m_TargetAssemblyTypeName: Menu.MenuMain, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1661214745
 GameObject:
   m_ObjectHideFlags: 0
@@ -74131,20 +74143,20 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1395480321}
         m_TargetAssemblyTypeName: Menu.MenuMain, Assembly-CSharp
-        m_MethodName: ReplaceByMenuMainAllControllable
-        m_Mode: 1
+        m_MethodName: SetCanvasStartAgain
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 414021917}
-        m_TargetAssemblyTypeName: SoundListPlayer, Assembly-CSharp
-        m_MethodName: PlaySound
-        m_Mode: 3
+      - m_Target: {fileID: 1395480321}
+        m_TargetAssemblyTypeName: Menu.MenuMain, Assembly-CSharp
+        m_MethodName: ReplaceByMenuMainAllControllable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

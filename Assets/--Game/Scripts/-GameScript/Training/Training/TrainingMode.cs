@@ -152,6 +152,11 @@ namespace Menu
 			{
 				inputDown = false;
 			}
+			else if (input.inputUiAction == InputConst.Interact && listEntry.IndexSelection == 8) // Quit
+			{
+				input.inputUiAction = null;
+				UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelection_Art");
+			}
 			else if (input.inputUiAction == InputConst.Pause || input.inputUiAction == InputConst.Back)
 			{
 				input.inputUiAction = null;

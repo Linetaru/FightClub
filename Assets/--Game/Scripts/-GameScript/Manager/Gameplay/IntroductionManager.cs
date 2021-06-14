@@ -82,6 +82,9 @@ public class IntroductionManager : MonoBehaviour, IControllable
 		if(battleManager == null)
 			battleManager = BattleManager.Instance;
 
+		if (battleManager.gameData.GameSetting.SkipIntro)
+			this.gameObject.SetActive(false);
+
 		characters.Add(character);
 		if(characters.Count == gameData.CharacterInfos.Count)
 		{

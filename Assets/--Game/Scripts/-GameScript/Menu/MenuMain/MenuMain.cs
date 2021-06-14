@@ -89,7 +89,13 @@ namespace Menu
 
 
 
-			// Utilisé par des Unity Event
+		// Utilisé par des Unity Event
+		public void QuitGame()
+		{
+			SaveManager.Instance.SaveFile();
+			Application.Quit();
+		}
+
 		public void LockInput(float time)
 		{
 
