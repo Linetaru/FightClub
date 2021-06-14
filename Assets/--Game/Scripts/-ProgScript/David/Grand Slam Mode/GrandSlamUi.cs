@@ -16,6 +16,8 @@ public class GrandSlamUi : MonoBehaviour
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
+    [SerializeField]
+    private GameObject logoDrawObject;
 
     [Title("Components")]
     [SerializeField]
@@ -91,14 +93,22 @@ public class GrandSlamUi : MonoBehaviour
 
         for (int i = 0; i < gameData.CharacterInfos.Count; i++)
         {
-            if (gameData.CharacterInfos[i].InputMapping.profileName == "classic")
+            if (Mathf.Sign(gameData.CharacterInfos[i].ControllerID) > -1)
             {
-                playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i + 1) + ")";
+                if (gameData.CharacterInfos[i].InputMapping.profileName == "classic")
+                {
+                    playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i + 1) + ")";
+                }
+                else
+                {
+                    playerNameTxt[i].text = gameData.CharacterInfos[i].InputMapping.profileName + " (J" + (i + 1) + ")";
+                }
             }
             else
             {
-                playerNameTxt[i].text = gameData.CharacterInfos[i].InputMapping.profileName + " (J" + (i + 1) + ")";
+                playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " Bot (J" + (i + 1) + ")";
             }
+
             playerImage[i].sprite = gameData.CharacterInfos[i].CharacterData.characterFace;
         }
     }
@@ -137,12 +147,18 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
+    public void HideLogoDraw()
+    {
+        logoDrawObject.SetActive(false);
+    }
+
     public void DisplayContinue()
     {
         aToContinueScript.animator.SetTrigger("Appear");
     }
     public void HideContinue()
     {
+        aToContinueScript.removeIsOver = false;
         aToContinueScript.animator.SetTrigger("Disappear");
     }
 
