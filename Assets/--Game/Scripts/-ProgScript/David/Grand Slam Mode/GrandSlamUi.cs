@@ -21,8 +21,8 @@ public class GrandSlamUi : MonoBehaviour
     [Title("UI Components")]
     [SerializeField]
     private TextMeshProUGUI scoreToBeat;
-    [SerializeField]
-    private TextMeshProUGUI currentModeText;
+    //[SerializeField]
+    //private TextMeshProUGUI currentModeText;
     [SerializeField]
     private Image currentModeImage;
 
@@ -147,22 +147,22 @@ public class GrandSlamUi : MonoBehaviour
     {
         if(gameMode == GameModeStateEnum.Classic_Mode)
         {
-            currentModeText.text = "CLASSIC";
+            //currentModeText.text = "CLASSIC";
             currentModeImage.sprite = logoClassicMode;
         }
         else if(gameMode == GameModeStateEnum.Bomb_Mode)
         {
-            currentModeText.text = "BOMB";
+            //currentModeText.text = "BOMB";
             currentModeImage.sprite = logoBombMode;
         }
         else if (gameMode == GameModeStateEnum.Flappy_Mode)
         {
-            currentModeText.text = "WALL SPLASH";
+            //currentModeText.text = "WALL SPLASH";
             currentModeImage.sprite = logoWallSplashMode;
         }
         else if (gameMode == GameModeStateEnum.Volley_Mode)
         {
-            currentModeText.text = "VOLLEY";
+            //currentModeText.text = "VOLLEY";
             currentModeImage.sprite = logoVolleyMode;
         }
     }
