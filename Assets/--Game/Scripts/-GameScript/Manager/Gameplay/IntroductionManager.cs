@@ -133,6 +133,7 @@ public class IntroductionManager : MonoBehaviour, IControllable
 
 	private IEnumerator SkipIntroductionCoroutine()
 	{
+		AkSoundEngine.PostEvent(skipEvent.Id, this.gameObject);
 		animatorTransitionToBattle.SetTrigger("Feedback");
 		yield return new WaitForSeconds(1f);
 		EndIntroduction();
@@ -143,7 +144,6 @@ public class IntroductionManager : MonoBehaviour, IControllable
 		active = false;
 		StopAllCoroutines();
 		StartCoroutine(SkipIntroductionCoroutine());
-		AkSoundEngine.PostEvent(skipEvent.Id, this.gameObject);
 	}
 
 
