@@ -600,6 +600,7 @@ public class GrandSlamManager : MonoBehaviour
             CharacterBase cb = BattleManager.Instance.characterFullDead[i];
             int index = sortedControllerID.IndexOf(cb.ControllerID);
             podiumArr[index] = cb;
+            gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
         }
 
         /*
