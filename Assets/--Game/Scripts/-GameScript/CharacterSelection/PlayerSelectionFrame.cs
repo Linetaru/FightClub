@@ -33,6 +33,29 @@ public class PlayerSelectionFrame : MonoBehaviour
     [SerializeField]
     Material hologramMaterial;
 
+    [Header("Display Decal")]
+
+    [SerializeField]
+    UnityEngine.Rendering.HighDefinition.DecalProjector playerDecal;
+
+    [SerializeField]
+    Material notConnectedDecalMaterial;
+
+    [SerializeField]
+    Material connectedDecalMaterial;
+
+    [SerializeField]
+    Material CPUDecalMaterial;
+
+    [Header("Team Colors")]
+    [SerializeField]
+    MeshRenderer playerPodium;
+
+    [SerializeField]
+    Material[] teamColorMaterials;
+
+
+
     [Space]
 
     public int iD = 0;
@@ -113,14 +136,14 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     [HideInInspector]
     public bool joystickPushed = false;
-    
+
     [HideInInspector]
     public bool isCPU = false;
 
     [HideInInspector]
     public int playerInControl;
 
-    
+
 
 
     private void Awake()
@@ -183,6 +206,11 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void Connected(List<CharacterData> characterDatas)
     {
+        if (isCPU)
+            playerDecal.material = CPUDecalMaterial;
+        else
+            playerDecal.material = connectedDecalMaterial;
+
         isPlayerConnected = true;
         spotLights.SetActive(true);
         playerCursor.SetActive(true);
@@ -193,6 +221,8 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void Disconnected()
     {
+        playerDecal.material = notConnectedDecalMaterial;
+
         isCPU = false;
         isPlayerConnected = false;
         isCharacterChoosed = false;
@@ -341,6 +371,8 @@ public class PlayerSelectionFrame : MonoBehaviour
             currentParam = 0;
 
         paramCursor.transform.DOMove(paramPositions[currentParam].transform.position, .2f);
+        paramCursor.transform.DORotate(paramPositions[currentParam].transform.rotation.eulerAngles, .2f);
+        //paramCursor.transform.DORotate(transform.rotation.eulerAngles, .2f);
         UpdateParamsDisplay();
     }
 
@@ -447,6 +479,11 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void RandomReady(List<CharacterData> characterDatas)
     {
+        if (isCPU)
+            playerDecal.material = CPUDecalMaterial;
+        else
+            playerDecal.material = connectedDecalMaterial;
+
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
         //int random = Random.Range(0, characterDatas.Count);
@@ -509,6 +546,12 @@ public class PlayerSelectionFrame : MonoBehaviour
 
     public void RandomReadyCPU(List<CharacterData> characterDatas)
     {
+
+        if (isCPU)
+            playerDecal.material = CPUDecalMaterial;
+        else
+            playerDecal.material = connectedDecalMaterial;
+
         isCPU = true;
         characterParams.SetActive(false);
         playerCursor.SetActive(false);
@@ -574,8 +617,10 @@ public class PlayerSelectionFrame : MonoBehaviour
         Color color = new Color();
         ColorUtility.TryParseHtmlString(teamColors[(int)currentTeam], out color);
 
-        teamBackground.color = color;
-        teamBackground.color = new Color(color.r, color.g, color.b, 0.6f);
+        //teamBackground.color = color;
+        //teamBackground.color = new Color(color.r, color.g, color.b, 0.6f);
+        //standPodiumMaterial.color = color;
+        playerPodium.material = teamColorMaterials[(int)currentTeam];
     }
 
     private void Start()
