@@ -16,8 +16,6 @@ public class GrandSlamUi : MonoBehaviour
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
-    [SerializeField]
-    private GameObject aToContinue;
 
     [Title("Components")]
     [SerializeField]
@@ -59,7 +57,10 @@ public class GrandSlamUi : MonoBehaviour
     public Animator bonusRoundAnimator;
     public TextMeshProUGUI bonusRoundText;
     public TextMeshProUGUI bonusRoundSubtitleText;
+    public TextMeshProUGUI bonusRoundCurrentBonusText;
 
+    [Title("A To Continue")]
+    public aToContinue aToContinueScript;
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
@@ -105,7 +106,26 @@ public class GrandSlamUi : MonoBehaviour
     public void ActivePanelScore()
     {
         scoreInfosPanel.SetActive(true);
-        backgroundAnimator.SetTrigger("FadeIn");
+        backgroundAnimator.SetTrigger("FadeIn"); 
+    }
+
+    public void GetBonusRound(SpecialRound specialRound)
+    {
+        switch (specialRound)
+        {
+            case SpecialRound.NoCurrentSpecialRound:
+                bonusRoundCurrentBonusText.text = "No Bonus";
+                break;
+            case SpecialRound.DoublePoint:
+                bonusRoundCurrentBonusText.text = "Double Point";
+                break;
+            case SpecialRound.StealPoint:
+                bonusRoundCurrentBonusText.text = "Steal Point";
+                break;
+            case SpecialRound.OneMoreLife:
+                bonusRoundCurrentBonusText.text = "One More Life";
+                break;
+        }
     }
 
     public void DeactivePanelScore()
@@ -119,11 +139,11 @@ public class GrandSlamUi : MonoBehaviour
 
     public void DisplayContinue()
     {
-        aToContinue.SetActive(true);
+        aToContinueScript.animator.SetTrigger("Appear");
     }
     public void HideContinue()
     {
-        aToContinue.SetActive(false);
+        aToContinueScript.animator.SetTrigger("Disappear");
     }
 
     public void DisplaySpecialRules(SpecialRound specialRound)
