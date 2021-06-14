@@ -34,7 +34,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="MUS_Ingame_LP" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" ShortID="678981528">
+								<Sound Name="MUS_Level_01_Drop" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" ShortID="678981528">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="IsStreamingEnabled" Type="bool">
@@ -215,6 +215,27 @@
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="Music_State" ID="{CB0A1015-08B3-4065-AA74-2F662B2CAA99}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
+										<CustomState Name="" ID="{3B09DA05-F1AA-4CE0-A996-F913C9A5BC0E}" ShortID="967378389">
+											<PropertyList>
+												<Property Name="Lowpass" Type="int16" Value="56"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
+										<CustomState Name="" ID="{A56A64CA-F4D4-45C2-8612-64C7C215C97F}" ShortID="332918757"/>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
 						</ActorMixer>
 						<ActorMixer Name="MUS_Menu" ID="{A9B1C862-F4C2-4891-9F81-C56A55A199D9}" ShortID="963496152">
 							<ReferenceList>
