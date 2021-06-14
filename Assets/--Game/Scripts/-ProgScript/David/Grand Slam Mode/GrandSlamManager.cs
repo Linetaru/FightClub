@@ -430,7 +430,7 @@ public class GrandSlamManager : MonoBehaviour
 
             slamLogoMode.DrawLogo(gameMode);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             // DISPLAY "A TO CONTINUE"
             canvasScore.DisplayContinue();
@@ -478,7 +478,6 @@ public class GrandSlamManager : MonoBehaviour
             }
 
             camSlam.RemoveBackgroundBlur();
-
 
 
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
