@@ -57,12 +57,17 @@ namespace Menu
 			listPlayerChoice = new List<int>(charactersPodium.Count);
 			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
+			int numberOfBot = 0;
+
 			// On instancie le winner
-			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult)); 
+			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 			if (Mathf.Sign(charactersPodium[0].ControllerID) != -1)
 				listPlayerChoice.Add(0);
 			else
+			{
 				listPlayerChoice.Add(2);
+				numberOfBot++;
+			}
 			listPlayerControllerID.Add(charactersPodium[0].ControllerID);
 
 			int winnerID = charactersPodium[0].PlayerID;
@@ -79,6 +84,7 @@ namespace Menu
 			if (Mathf.Sign(charactersPodium[0].ControllerID) == -1)
 				listResultDrawers[0].SetFeedback("Rematch");
 
+
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
 			{
@@ -87,7 +93,10 @@ namespace Menu
 				if (Mathf.Sign(charactersPodium[i].ControllerID) != -1)
 					listPlayerChoice.Add(0);
 				else
+				{
 					listPlayerChoice.Add(2);
+					numberOfBot++;
+				}
 
 				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
@@ -104,7 +113,17 @@ namespace Menu
 				listResultDrawers[i].DrawKiller(characterBattleData.Killer);
 				listResultDrawers[i].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 				if (Mathf.Sign(charactersPodium[i].ControllerID) == -1)
-					listResultDrawers[i].SetFeedback("Rematch");
+				{
+					if (i == charactersPodium.Count - 1 && numberOfBot++ == i + 1)
+					{
+
+						listPlayerChoice[i] = 1;
+						listResultDrawers[i].SetFeedback("Surrend");
+						CheckEndScreen();
+					}
+					else
+						listResultDrawers[i].SetFeedback("Rematch");
+				}
 			}
 		}
 
@@ -229,7 +248,7 @@ namespace Menu
 		{
 			fadeInTransition.SetTrigger("Feedback");
 			yield return new WaitForSeconds(1.2f);
-			SceneManager.LoadScene("CharacterSelection");
+			SceneManager.LoadScene("CharacterSelection_Art");
 		}
 	}
 }

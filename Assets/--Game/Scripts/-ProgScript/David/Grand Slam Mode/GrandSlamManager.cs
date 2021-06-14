@@ -410,6 +410,7 @@ public class GrandSlamManager : MonoBehaviour
             yield return null;
         }
 
+        canvasScore.GetBonusRound(currentSpecialRound);
         canvasScore.ActivePanelScore();
 
         CalculateScore();
@@ -420,6 +421,7 @@ public class GrandSlamManager : MonoBehaviour
 
             //Bonus Round Checking
             currentSpecialRound = roundCount % specialRoundsOcurrence == 0 ? (SpecialRound)UnityEngine.Random.Range(1, Enum.GetNames(typeof(SpecialRound)).Length) : SpecialRound.NoCurrentSpecialRound;
+
 
             nextSceneName = GetRandomSceneFromList();
             yield return new WaitForSeconds(timeOnScore);
@@ -440,7 +442,6 @@ public class GrandSlamManager : MonoBehaviour
                 }
                 yield return null;
             }
-            canvasScore.HideContinue();
             pressToContinue = false;
 
 
@@ -462,8 +463,9 @@ public class GrandSlamManager : MonoBehaviour
             }
             isLoaded = false;
 
+            canvasScore.HideContinue();
 
-            while(BattleManager.Instance == null)
+            while (BattleManager.Instance == null)
             {
                 yield return null;
             }
@@ -485,10 +487,12 @@ public class GrandSlamManager : MonoBehaviour
             }
 
 
+            yield return new WaitForSeconds(1f);
 
 
 
             canvasScore.DeactivePanelScore();
+
 
             currentCam = BattleManager.Instance.cameraController.Camera;
             moveCamera = true;
