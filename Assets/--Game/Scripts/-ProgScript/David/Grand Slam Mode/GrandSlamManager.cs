@@ -70,6 +70,8 @@ public class GrandSlamManager : MonoBehaviour
     private SlamLogoMode slamLogoMode;
     [SerializeField]
     private BonusRoundPanel bonusPanel;
+    [SerializeField]
+    private aToContinue aContinueButton;
 
     private Camera currentCam;
 
@@ -428,7 +430,7 @@ public class GrandSlamManager : MonoBehaviour
 
             slamLogoMode.DrawLogo(gameMode);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             // DISPLAY "A TO CONTINUE"
             canvasScore.DisplayContinue();
@@ -465,13 +467,17 @@ public class GrandSlamManager : MonoBehaviour
 
             canvasScore.HideContinue();
 
+            while(!aContinueButton.removeIsOver)
+            {
+                yield return null;
+            }
+
             while (BattleManager.Instance == null)
             {
                 yield return null;
             }
 
             camSlam.RemoveBackgroundBlur();
-
 
 
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
@@ -487,7 +493,7 @@ public class GrandSlamManager : MonoBehaviour
             }
 
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.4f);
 
 
 
@@ -516,6 +522,24 @@ public class GrandSlamManager : MonoBehaviour
         }
         else
         {
+            canvasScore.HideLogoDraw();
+
+            yield return new WaitForSeconds(timeOnScore);
+
+            // DISPLAY "A TO CONTINUE"
+            canvasScore.DisplayContinue();
+
+            while (!pressToContinue)
+            {
+                if (BattleManager.Instance.inputController.playerInputs[0].CheckActionAbsolute(0, InputConst.Attack))
+                {
+                    BattleManager.Instance.inputController.playerInputs[0].inputActions[0].timeValue = 0;
+                    pressToContinue = true;
+                }
+                yield return null;
+            }
+            pressToContinue = false;
+
             ManageEndSlam();
         }
     }
