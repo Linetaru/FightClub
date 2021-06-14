@@ -404,6 +404,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = false;
+        camSlam.camera.enabled = true;
 
         camSlam.RotToScore();
 
@@ -560,6 +561,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = true;
+        camSlam.camera.enabled = false;
 
         BattleManager.Instance.StartBattleManager();
 
