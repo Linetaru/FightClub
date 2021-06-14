@@ -209,12 +209,17 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             inputControlableHolograms[ID] = holograms[ID];
             //playersReadyStates[ID] = true;
             input_Info.inputUiAction = null;
+
+            HideReadyBands();
         }
 
         if (/*!holograms[ID].isPlayerConnected && */input_Info.inputUiAction == InputConst.RightShoulder)
         {
             //input_Info.inputActions[0].timeValue = 0;
             Debug.LogError("Pressed R1");
+
+            HideReadyBands();
+
             for (int i = 0; i < holograms.Length; i++)
             {
                 if (!holograms[i].isPlayerConnected)
@@ -225,8 +230,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                         inputControlableHolograms[ID] = holograms[i];
                         //holograms[ID] = null;
                     }
-                    inputControlableHolograms[ID].Connected(characterDatas);
                     inputControlableHolograms[ID].isCPU = true;
+                    inputControlableHolograms[ID].Connected(characterDatas);
                     //holograms[i].RandomReadyCPU(characterDatas);
                     break;
                 }

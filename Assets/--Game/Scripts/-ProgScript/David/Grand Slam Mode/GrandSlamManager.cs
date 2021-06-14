@@ -5,6 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using System;
+
+public enum SpecialRound
+{
+    NoCurrentSpecialRound = 0,
+    DoublePoint = 1,
+    StealPoint = 2,
+    OneMoreLife = 3,
+}
 
 public class GrandSlamManager : MonoBehaviour
 {
@@ -28,6 +37,9 @@ public class GrandSlamManager : MonoBehaviour
     [Title("Lists")]
     [SerializeField]
     List<SlamMode> listGameModesValid = new List<SlamMode>();
+
+    List<SlamMode> currentListGameModesValid;
+
     List<string> listToPickFrom = new List<string>();
 
     List<CharacterBase> podium = new List<CharacterBase>();
@@ -56,6 +68,8 @@ public class GrandSlamManager : MonoBehaviour
     private GrandSlamUi canvasScore;
     [SerializeField]
     private SlamLogoMode slamLogoMode;
+    [SerializeField]
+    private BonusRoundPanel bonusPanel;
 
     private Camera currentCam;
 
@@ -69,6 +83,8 @@ public class GrandSlamManager : MonoBehaviour
 
     bool almostOver = false;
 
+    bool pressToContinue = false;
+
     [Title("Values")]
     [SerializeField]
     private float cameraResetSpeed = 1.0f;
@@ -77,6 +93,14 @@ public class GrandSlamManager : MonoBehaviour
 
 
     private string nextSceneName;
+
+    // A PASSER EN ENUM PUBLIC A L'EXTERIEUR
+
+    [SerializeField]
+    int specialRoundsOcurrence = 2;
+    [SerializeField] [ReadOnly]
+    SpecialRound currentSpecialRound;
+    int roundCount = 0;
 
 
     private void Awake()
@@ -119,14 +143,15 @@ public class GrandSlamManager : MonoBehaviour
 
     private void InitFirstRound()
     {
+        roundCount++;
+
+        listToPickFrom = listGameModesValid[0].scenes;
+        nextSceneName = listToPickFrom[0];
+
         gameMode = listGameModesValid[0].gameMode;
         gameData.NumberOfLifes = listGameModesValid[0].nbLife;
         currentScoreArr = listGameModesValid[0].scoreArr;
         currentMode = listGameModesValid[0];
-
-        nextSceneName = listGameModesValid[0].scenes[0];
-
-
 
         StartCoroutine(LoadSceneAsync());
     }
@@ -153,7 +178,7 @@ public class GrandSlamManager : MonoBehaviour
     private string GetRandomSceneFromList()
     {
         listToPickFrom = GetRandomModeList();
-        string sceneName = listToPickFrom[Random.Range(0, listToPickFrom.Count)];
+        string sceneName = listToPickFrom[UnityEngine.Random.Range(0, listToPickFrom.Count)];
         Debug.Log("Next scene to load = " + sceneName);
 
         return sceneName;
@@ -164,7 +189,9 @@ public class GrandSlamManager : MonoBehaviour
     // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
-        if(!almostOver && PlayerAboutToWin())
+
+
+        if (!almostOver && PlayerAboutToWin())
         {
             SlamMode slamMode = RemoveMode(GameModeStateEnum.Volley_Mode);
 
@@ -179,39 +206,56 @@ public class GrandSlamManager : MonoBehaviour
         if(currentMode != null)
             listGameModesValid.Remove(currentMode);
 
-        int randomKey = Random.Range(0, listGameModesValid.Count);
+        if (listGameModesValid.Count == 0)
+        {
+            listGameModesValid = new List<SlamMode>(currentListGameModesValid);
+        }
+
+        int randomKey = UnityEngine.Random.Range(0, listGameModesValid.Count);
         gameMode = listGameModesValid[randomKey].gameMode;
-        gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
+        gameData.NumberOfLifes = currentSpecialRound == SpecialRound.OneMoreLife ? listGameModesValid[randomKey].nbLife + 1 : listGameModesValid[randomKey].nbLife;
+        //gameData.NumberOfLifes = listGameModesValid[randomKey].nbLife;
+
         currentScoreArr = listGameModesValid[randomKey].scoreArr;
 
-        //if(gameMode == GameModeStateEnum.Volley_Mode)
-        //{
-        //    for (int i = 0; i < gameData.CharacterInfos.Count; i++)
-        //    {
-        //        gameData.CharacterInfos[i].Team = TeamEnum.First_Team;
-        //    }
-        //}
-        //else
-        //{
-        //    for(int i=0; i < gameData.CharacterInfos.Count; i++)
-        //    {
-        //        gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
-        //    }
-        //}
-
-        if (currentMode != null)
-            listGameModesValid.Add(currentMode);
+        if (gameMode == GameModeStateEnum.Volley_Mode)
+        {
+            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+            {
+                gameData.CharacterInfos[i].Team = TeamEnum.First_Team;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+            {
+                gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
+            }
+        }
 
         currentMode = listGameModesValid[randomKey];
 
-        return listGameModesValid[randomKey].scenes;
+
+        //Si mode Volley au lieu de donner une vie ca rajouter 1 goal dans l'objectif.
+        if(gameMode == GameModeStateEnum.Volley_Mode)
+        {
+            if (currentSpecialRound == SpecialRound.OneMoreLife)
+                gameData.SetModeScoreGoal(currentMode.gameMode, currentMode.scoreGoal + 1);
+            else
+                gameData.SetModeScoreGoal(currentMode.gameMode, currentMode.scoreGoal);
+
+            canvasScore.logoTransition.SetScoreGoal(gameData.GetModeScoreGoal(GameModeStateEnum.Volley_Mode));
+        }
+
+        return currentMode.scenes;
     }
 
     private bool PlayerAboutToWin()
     {
         foreach(KeyValuePair<int, int> score in playersScore)
         {
-            if(scoreToWin - score.Value <= 300)
+            if (scoreToWin - score.Value <= currentMode.scoreArr[0]) // 300)
             {
                 return true;
             }
@@ -257,6 +301,8 @@ public class GrandSlamManager : MonoBehaviour
                 listGameModesValid.Remove(slam);
             }
         }
+
+        currentListGameModesValid = new List<SlamMode>(listGameModesValid);
     }
 
     private void InitScoreDictionary()
@@ -271,12 +317,37 @@ public class GrandSlamManager : MonoBehaviour
     // Calcule les scores et demande au canvas de les afficher
     private void CalculateScore()
     {
+        int[] scoreArr = (int[]) currentScoreArr.Clone();
+
+
+        if(currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
+        {
+            if (currentSpecialRound == SpecialRound.DoublePoint)
+            {
+                for (int i = 0; i < scoreArr.Length; i++)
+                {
+                    scoreArr[i] *= 2;
+                }
+            }
+            else if (currentSpecialRound == SpecialRound.StealPoint)
+            {
+                scoreArr[0] = 36;
+                
+                for(int i = 1; i < scoreArr.Length; i++)
+                {
+                    scoreArr[i] = -(36 / (gameData.CharacterInfos.Count - 1));
+                }
+            }
+        }
+
+
+        canvasScore.SetCurrentModeInfo(gameMode);
         if(gameMode == GameModeStateEnum.Volley_Mode)
         {
             // Condition points volley
             // Si bleus gagne - Joueur 1 et 3 gagnent les points de currentScoreArr[0] et Joueur 2 et 4 gagnent les points de currentScoreArr[1]
-            int winnerPoints = currentScoreArr[0];
-            int loserPoints = currentScoreArr[1];
+            int winnerPoints = scoreArr[0];
+            int loserPoints = scoreArr[1];
 
             int winnerTeam = BattleManager.Instance.currentWinningTeam;
 
@@ -296,6 +367,9 @@ public class GrandSlamManager : MonoBehaviour
                     else
                         playersScore[gameData.CharacterInfos[i].ControllerID] += loserPoints;
                 }
+
+                if (playersScore[gameData.CharacterInfos[i].ControllerID] < 0)
+                    playersScore[gameData.CharacterInfos[i].ControllerID] = 0;
             }
         }
         else
@@ -304,11 +378,14 @@ public class GrandSlamManager : MonoBehaviour
 
             for (int i = 0; i < gameData.CharacterInfos.Count; i++)
             {
-                playersScore[listCharacter[i].ControllerID] += currentScoreArr[i];
+                playersScore[listCharacter[i].ControllerID] += scoreArr[i];
+
+                if (playersScore[listCharacter[i].ControllerID] < 0)
+                    playersScore[listCharacter[i].ControllerID] = 0;
             }
         }
 
-        canvasScore.DrawScores(playersScore, gameData);
+        canvasScore.DrawScores(playersScore, gameData, currentSpecialRound);
         slamLogoMode.TriggerWheel();
     }
 
@@ -333,28 +410,50 @@ public class GrandSlamManager : MonoBehaviour
             yield return null;
         }
 
+        canvasScore.GetBonusRound(currentSpecialRound);
         canvasScore.ActivePanelScore();
 
         CalculateScore();
 
         if (!IsGameOver())
         {
-            nextSceneName = GetRandomSceneFromList();
+            roundCount++;
 
-            BattleManager.Instance.ResetInstance();
+            //Bonus Round Checking
+            currentSpecialRound = roundCount % specialRoundsOcurrence == 0 ? (SpecialRound)UnityEngine.Random.Range(1, Enum.GetNames(typeof(SpecialRound)).Length) : SpecialRound.NoCurrentSpecialRound;
+
+
+            nextSceneName = GetRandomSceneFromList();
             yield return new WaitForSeconds(timeOnScore);
 
             slamLogoMode.DrawLogo(gameMode);
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            // DISPLAY "A TO CONTINUE"
+            canvasScore.DisplayContinue();
+
+            while (!pressToContinue)
+            {
+                if (BattleManager.Instance.inputController.playerInputs[0].CheckActionAbsolute(0, InputConst.Attack))
+                {
+                    BattleManager.Instance.inputController.playerInputs[0].inputActions[0].timeValue = 0;
+                    pressToContinue = true;
+                }
+                yield return null;
+            }
+            pressToContinue = false;
+
+
+            BattleManager.Instance.ResetInstance();
 
             StartCoroutine(UnloadSceneAsync());
 
-            while(!isUnloaded)
+            while (!isUnloaded)
             {
                 yield return null;
             }
-            isUnloaded = false; 
+            isUnloaded = false;
 
             StartCoroutine(LoadSceneAsync());
 
@@ -364,14 +463,40 @@ public class GrandSlamManager : MonoBehaviour
             }
             isLoaded = false;
 
+            canvasScore.HideContinue();
+
+            while (BattleManager.Instance == null)
+            {
+                yield return null;
+            }
+
             camSlam.RemoveBackgroundBlur();
 
-            yield return new WaitForSeconds(2f);
+
+
+            if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
+            {
+                canvasScore.DisplaySpecialRules(currentSpecialRound);
+
+                bonusPanel.animationOver = false;
+
+                while(!bonusPanel.animationOver)
+                {
+                    yield return null;
+                }
+            }
+
+
+            yield return new WaitForSeconds(1f);
+
+
 
             canvasScore.DeactivePanelScore();
 
+
             currentCam = BattleManager.Instance.cameraController.Camera;
             moveCamera = true;
+
             /*
             cameraObj.transform.position = currentCam.transform.position;
             */
