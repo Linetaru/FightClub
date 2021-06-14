@@ -96,31 +96,4 @@ public class AttackC_Rigidbody : AttackComponent
 		//Destroy(attackSubManager.gameObject);
 	}
 
-	public override void OnParry(CharacterBase user, CharacterBase target)
-	{
-		/*Debug.Log(user.tag);
-		Debug.Log(target.tag);
-		attackSubManager.ReInitAttack(target, attackSubManager.gameObject.name);
-		direction *= -1;
-		speed *= speedMultiplier;
-		life = 0;
-		collider.enabled = true;*/
-
-	}
-	public override void OnGuard(CharacterBase user, CharacterBase target, bool guardRepel)
-	{
-		/*if(guardRepel == false)
-		{
-			speed = Random.Range(speedXDeviate.x, speedXDeviate.y);
-			speed *= -1;
-			speedY = Random.Range(speedYDeviate.x, speedYDeviate.y);
-			speedZ = Random.Range(speedZDeviate.x, speedZDeviate.y);
-			if (Random.Range(0, 2) == 0)
-				speedZ *= -1;
-		}*/
-	}
-	public override void OnClash(CharacterBase user, CharacterBase target)
-	{
-		//Destroy(attackSubManager.gameObject);
-	}
 }
