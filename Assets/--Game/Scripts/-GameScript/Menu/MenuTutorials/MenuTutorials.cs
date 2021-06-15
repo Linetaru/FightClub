@@ -67,6 +67,7 @@ namespace Menu
 
 		protected override void ValidateEntry(int id)
 		{
+			base.ValidateEntry(id);
 			inputController.controllable[0] = menu[id];
 			menu[id].InitializeMenu();
 			animatorBackground.SetBool("Transition", true);
@@ -75,6 +76,7 @@ namespace Menu
 
 		protected override void SelectEntry(int id)
 		{
+			base.SelectEntry(id);
 			textDescriptions[previousID].gameObject.SetActive(false);
 			textDescriptions[id].gameObject.SetActive(true);
 			previousID = listEntry.IndexSelection;

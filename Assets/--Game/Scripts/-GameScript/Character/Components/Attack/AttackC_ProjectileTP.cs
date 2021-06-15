@@ -55,20 +55,20 @@ public class AttackC_ProjectileTP : AttackComponent
 			user.Action.Action(followUpTP);
 			return;
 		}
-
 	}
 
 	public override void EndComponent(CharacterBase user)
 	{
-		if(projectile != null)
+		if (projectile != null)
 			projectile.CancelAction();
 	}
 
 	public override void OnHit(CharacterBase user, CharacterBase target)
 	{
+
 	}
 
-	public override void OnParry(CharacterBase user, CharacterBase target)
+	/*public override void OnParry(CharacterBase user, CharacterBase target)
 	{
 
 
@@ -80,5 +80,5 @@ public class AttackC_ProjectileTP : AttackComponent
 	public override void OnClash(CharacterBase user, CharacterBase target)
 	{
 		
-	}
+	}*/
 }

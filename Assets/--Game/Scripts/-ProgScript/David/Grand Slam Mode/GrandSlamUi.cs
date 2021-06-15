@@ -8,11 +8,16 @@ using System.Linq;
 
 public class GrandSlamUi : MonoBehaviour
 {
+    [SerializeField]
+    private float specialRoundPanelTime = 3f;
+
     [Title("Objects")]
     [SerializeField]
     private GameObject scoreInfosPanel;
     [SerializeField]
     private GameObject logoTransitionPanel;
+    [SerializeField]
+    private GameObject logoDrawObject;
 
     [Title("Components")]
     [SerializeField]
@@ -21,15 +26,14 @@ public class GrandSlamUi : MonoBehaviour
     [Title("UI Components")]
     [SerializeField]
     private TextMeshProUGUI scoreToBeat;
-    [SerializeField]
-    private TextMeshProUGUI currentModeText;
+    //[SerializeField]
+    //private TextMeshProUGUI currentModeText;
     [SerializeField]
     private Image currentModeImage;
 
 
     [Title("Scripts")]
-    [SerializeField]
-    private LogoTransition logoTransition;
+    public LogoTransition logoTransition;
 
     [Title("List")]
     public List<GameObject> playersScoreObj = new List<GameObject>();
@@ -37,6 +41,9 @@ public class GrandSlamUi : MonoBehaviour
     public List<Image> playerImage = new List<Image>();
     public List<TextMeshProUGUI> playerScoreTxt = new List<TextMeshProUGUI>();
     public List<TextMeshProUGUI> playerGainScoreTxt = new List<TextMeshProUGUI>();
+    [Space]
+    public List<Image> crownList = new List<Image>();
+    public List<Image> glowList = new List<Image>();
 
     [Title("Sprites")]
     [SerializeField]
@@ -48,9 +55,14 @@ public class GrandSlamUi : MonoBehaviour
     [SerializeField]
     private Sprite logoVolleyMode;
 
+    [Title("Bonus Round Ref")]
+    public Animator bonusRoundAnimator;
+    public TextMeshProUGUI bonusRoundText;
+    public TextMeshProUGUI bonusRoundSubtitleText;
+    public TextMeshProUGUI bonusRoundCurrentBonusText;
 
-    public List<Image> crownList = new List<Image>();
-    public List<Image> glowList = new List<Image>();
+    [Title("A To Continue")]
+    public aToContinue aToContinueScript;
 
     int[] oldPlayersScore = new int[4] { 0, 0, 0, 0 };
 
@@ -76,18 +88,27 @@ public class GrandSlamUi : MonoBehaviour
 
     public void InitProperty(int playerScoreToBeat, GameData gameData)
     {
+        bonusRoundAnimator.SetTrigger("Disappear");
         scoreToBeat.text = playerScoreToBeat.ToString();
 
         for (int i = 0; i < gameData.CharacterInfos.Count; i++)
         {
-            if (gameData.CharacterInfos[i].InputMapping.profileName == "classic")
+            if (Mathf.Sign(gameData.CharacterInfos[i].ControllerID) > -1)
             {
-                playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i + 1) + ")";
+                if (gameData.CharacterInfos[i].InputMapping.profileName == "classic")
+                {
+                    playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " (J" + (i + 1) + ")";
+                }
+                else
+                {
+                    playerNameTxt[i].text = gameData.CharacterInfos[i].InputMapping.profileName + " (J" + (i + 1) + ")";
+                }
             }
             else
             {
-                playerNameTxt[i].text = gameData.CharacterInfos[i].InputMapping.profileName + " (J" + (i + 1) + ")";
+                playerNameTxt[i].text = gameData.CharacterInfos[i].CharacterData.characterName + " Bot (J" + (i + 1) + ")";
             }
+
             playerImage[i].sprite = gameData.CharacterInfos[i].CharacterData.characterFace;
         }
     }
@@ -95,7 +116,26 @@ public class GrandSlamUi : MonoBehaviour
     public void ActivePanelScore()
     {
         scoreInfosPanel.SetActive(true);
-        backgroundAnimator.SetTrigger("FadeIn");
+        backgroundAnimator.SetTrigger("FadeIn"); 
+    }
+
+    public void GetBonusRound(SpecialRound specialRound)
+    {
+        switch (specialRound)
+        {
+            case SpecialRound.NoCurrentSpecialRound:
+                bonusRoundCurrentBonusText.text = "No Bonus";
+                break;
+            case SpecialRound.DoublePoint:
+                bonusRoundCurrentBonusText.text = "Double Point";
+                break;
+            case SpecialRound.StealPoint:
+                bonusRoundCurrentBonusText.text = "Steal Point";
+                break;
+            case SpecialRound.OneMoreLife:
+                bonusRoundCurrentBonusText.text = "One More Life";
+                break;
+        }
     }
 
     public void DeactivePanelScore()
@@ -107,16 +147,49 @@ public class GrandSlamUi : MonoBehaviour
         scoreInfosPanel.SetActive(false);
     }
 
+    public void HideLogoDraw()
+    {
+        logoDrawObject.SetActive(false);
+    }
+
+    public void DisplayContinue()
+    {
+        aToContinueScript.animator.SetTrigger("Appear");
+    }
+    public void HideContinue()
+    {
+        aToContinueScript.removeIsOver = false;
+        aToContinueScript.animator.SetTrigger("Disappear");
+    }
+
     public void DisplaySpecialRules(SpecialRound specialRound)
     {
-        if(specialRound == SpecialRound.DoublePoint)
+        if (specialRound != SpecialRound.NoCurrentSpecialRound)
         {
-            // DISPLAY DOUBLE POINTS RULES
+            bonusRoundAnimator.SetTrigger("Appear");
+
+            if (specialRound == SpecialRound.DoublePoint)
+            {
+                // DISPLAY DOUBLE POINTS RULES
+                bonusRoundText.text = "Double Point";
+                bonusRoundSubtitleText.text = "Win your point x2.";
+            }
+            else if (specialRound == SpecialRound.StealPoint)
+            {
+                // DISPLAY STEAL POINTS RULES
+                bonusRoundText.text = "Steal Point";
+                bonusRoundSubtitleText.text = "Win first and steal other points.";
+            }
+            else if (specialRound == SpecialRound.OneMoreLife)
+            {
+                // DISPLAY ONE MORE LIFE RULES
+                bonusRoundText.text = "One More Life";
+                bonusRoundSubtitleText.text = "Players gain 1 more life. (1 more goal in Volley).";
+                
+            }
         }
-        else if(specialRound == SpecialRound.StealPoint)
-        {
-            // DISPLAY STEAL POINTS RULES
-        }
+
+        StartCoroutine(HideSpecialRules());
     }
 
 
@@ -124,22 +197,22 @@ public class GrandSlamUi : MonoBehaviour
     {
         if(gameMode == GameModeStateEnum.Classic_Mode)
         {
-            currentModeText.text = "CLASSIC";
+            //currentModeText.text = "CLASSIC";
             currentModeImage.sprite = logoClassicMode;
         }
         else if(gameMode == GameModeStateEnum.Bomb_Mode)
         {
-            currentModeText.text = "BOMB";
+            //currentModeText.text = "BOMB";
             currentModeImage.sprite = logoBombMode;
         }
         else if (gameMode == GameModeStateEnum.Flappy_Mode)
         {
-            currentModeText.text = "WALL SPLASH";
+            //currentModeText.text = "WALL SPLASH";
             currentModeImage.sprite = logoWallSplashMode;
         }
         else if (gameMode == GameModeStateEnum.Volley_Mode)
         {
-            currentModeText.text = "VOLLEY";
+            //currentModeText.text = "VOLLEY";
             currentModeImage.sprite = logoVolleyMode;
         }
     }
@@ -318,5 +391,10 @@ public class GrandSlamUi : MonoBehaviour
         logoTransition.PlayTransition(gameMode);
     }
 
+    private IEnumerator HideSpecialRules()
+    {
+        yield return new WaitForSeconds(specialRoundPanelTime);
 
+        bonusRoundAnimator.SetTrigger("Disappear");
+    }
 }

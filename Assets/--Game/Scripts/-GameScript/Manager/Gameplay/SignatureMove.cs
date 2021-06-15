@@ -74,6 +74,8 @@ public class SignatureMove : MonoBehaviour
 	}
 	public void SetTargetHit(int id)
 	{
+		if(id >= modelEnemy.Count) { return; }
+
 		modelEnemy[id].GetComponent<Animator>().SetTrigger("Knockback");
 	}
 	public void SetAnimatorSpeed(int id)

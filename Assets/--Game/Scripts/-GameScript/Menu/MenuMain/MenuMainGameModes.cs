@@ -95,6 +95,7 @@ namespace Menu
 					// ==============================================
 
 					menuMainButtons[y].GetButton(x).Selected();
+					SelectEntry(y);
 				}
 				else if (listHorizontal.InputListHorizontal(input) == true)
 				{
@@ -111,6 +112,7 @@ namespace Menu
 							break;
 					}
 					menuMainButtons[y].GetButton(x).Selected();
+					SelectEntry(y);
 				}
 				else if (input.inputUiAction == InputConst.Interact)
 				{
@@ -140,7 +142,7 @@ namespace Menu
 
 		protected override void ValidateEntry(int id)
 		{
-			base.SelectEntry(id);
+			base.ValidateEntry(id);
 			menuMainButtons[y].GetButton(x).CallEvent();
 		}
 	}
