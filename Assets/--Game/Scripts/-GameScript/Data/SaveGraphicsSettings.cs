@@ -70,17 +70,17 @@ namespace Menu
             {
                 if (QualityLevelName.Equals(gameVariables[i].variableName))
                 {
-                    qualityLevel = gameVariables[i].variableValue;
+                    QualityLevel = gameVariables[i].variableValue;
                     continue;
                 }
                 else if (ResolutionName.Equals(gameVariables[i].variableName))
                 {
-                    resolution = gameVariables[i].variableValue;
+                    Resolution = gameVariables[i].variableValue;
                     continue;
                 }
                 else if (FullscreenName.Equals(gameVariables[i].variableName))
                 {
-                    fullscreen = gameVariables[i].variableValue;
+                    Fullscreen = gameVariables[i].variableValue;
                     continue;
                 }
             }

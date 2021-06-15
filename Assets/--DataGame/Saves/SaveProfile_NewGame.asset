@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c572a7ce1de8064468f435d405107ff0, type: 3}
   m_Name: SaveProfile_NewGame
   m_EditorClassIdentifier: 
+  saveVersion: 1
   dataToSave:
   - {fileID: 11400000, guid: 34f88b243db33f6428bf33cdcf5becf3, type: 2}
   - {fileID: 11400000, guid: 3d02106f976078b4c8e62a375a6bd8a0, type: 2}
@@ -35,6 +36,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4711007db764a404e981ea6d77b2b31b, type: 2}
   - {fileID: 11400000, guid: c4ac287be9f903b418660803b59e2f92, type: 2}
   - {fileID: 11400000, guid: e7e9ee2d631b59a45a9e0660357c694b, type: 2}
+  - {fileID: 11400000, guid: 539489132c4150349b25dd69bd9bfba1, type: 2}
   savesProfile:
   - categoryID: CurrencyData
     gameVariables:
@@ -52,12 +54,10 @@ MonoBehaviour:
       variableValue: 1
   - categoryID: Database_StagesClassic
     gameVariables:
-    - variableName: StageCity (StageData)
+    - variableName: Stage01_HeartCity (StageData)
       variableValue: 1
-    - variableName: StageDemo (StageData)
-      variableValue: 1
-    - variableName: StageSubway (StageData)
-      variableValue: 1
+    - variableName: Stage10_TrainingStage (StageData)
+      variableValue: 0
   - categoryID: Database_MissionMode
     gameVariables:
     - variableName: MissionData_01_PursuitParry (TrialsModeData)
@@ -302,7 +302,9 @@ MonoBehaviour:
       variableValue: 0
     - variableName: StageData_Bomb 2 (StageData)
       variableValue: 0
-    - variableName: StageData_Bomb 3 (StageData)
-      variableValue: 0
-    - variableName: StageData_Bomb 4 (StageData)
-      variableValue: 0
+  - categoryID: Database_StagesTraining
+    gameVariables:
+    - variableName: Stage01_TrainingStage (StageData)
+      variableValue: 1
+    - variableName: Stage02_HeartCity (StageData)
+      variableValue: 1
