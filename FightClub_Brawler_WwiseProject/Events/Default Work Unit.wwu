@@ -1407,71 +1407,12 @@
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 					<ChildrenList>
-						<Event Name="Play_MUS_Menu_Main" ID="{958E6611-037E-4DF3-9E4C-F809D07C9EB5}">
-							<ChildrenList>
-								<Action Name="" ID="{A3E34607-2562-4EA8-A299-94307253BE7B}" ShortID="454228906">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Stop_MUS_Menu_Main" ID="{6204E3C8-9565-49F1-A92A-86DFBEF70BF7}">
-							<ChildrenList>
-								<Action Name="" ID="{71FA7FB1-28B1-426D-A874-A023DDF39D68}" ShortID="833099540">
-									<PropertyList>
-										<Property Name="ActionType" Type="int16" Value="2"/>
-										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Play_MUS_InGame_01" ID="{116105D7-785E-4A24-818F-3135043D7C3C}">
-							<ChildrenList>
-								<Action Name="" ID="{25851898-B6E6-4719-A335-0DB933E85805}" ShortID="1018411855">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="MUS_Level_01_Drop" ID="{A171E314-89E9-4E10-BD0F-5E8D84AEB03F}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Play_MUS_Menu_Character_Select" ID="{5C0E855D-F6D4-4FC5-9EB3-F6BF2B172EFB}">
-							<ChildrenList>
-								<Action Name="" ID="{04172321-20E4-41A8-A68A-2D2A41181EAB}" ShortID="135949620">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="MUS_Chara_Select_LP" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
 						<Event Name="Play_MUS_Cinemtaic_Victory" ID="{4A7A67F1-0172-4E66-A744-AC78107F5927}">
 							<ChildrenList>
 								<Action Name="" ID="{EA87DACE-AF41-44AF-BD2B-24269D1AD69E}" ShortID="551314579">
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="MUS_Cinemtaic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
-										</Reference>
-									</ReferenceList>
-								</Action>
-							</ChildrenList>
-						</Event>
-						<Event Name="Play_MUS_InGame_02" ID="{7D9077F7-FB9E-4562-AF0D-FD6B592FFCAB}">
-							<ChildrenList>
-								<Action Name="" ID="{4E06C791-6336-4601-9423-36B212F3E29C}" ShortID="668794435">
-									<ReferenceList>
-										<Reference Name="Target">
-											<ObjectRef Name="MUS_Ingame_02_LP" ID="{9208B1AD-FA55-4EB3-8F8D-5C5A2408581D}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -1573,6 +1514,79 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Play_MUS_Bomb_Mode_Skip" ID="{777C344D-902A-431A-982F-8130A849DA8A}">
+							<ChildrenList>
+								<Action Name="" ID="{417177FB-3748-4506-B27A-97795B8004F9}" ShortID="231122712">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MUS_Bomb_Mode_Drop" ID="{E941F46B-DA59-42EF-87A7-FC0C13941FD1}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{7ECCEB01-1BBA-41A3-93F8-2E7B8619B277}" ShortID="144432970">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MUS_Bomb_Mode_Intro_Drop" ID="{F493264C-5818-451C-8C10-1509B2457C94}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_MUS_Bomb_Mode_Intro_Drop" ID="{AA5DBB9A-9BD8-4BB3-941B-9D8F07150806}">
+							<ChildrenList>
+								<Action Name="" ID="{7CD6D8D7-42DE-4B2F-A120-47166242A439}" ShortID="41036432">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MUS_Bomb_Mode_Intro_Drop" ID="{F493264C-5818-451C-8C10-1509B2457C94}" WorkUnitID="{E4D9DCA0-45D0-429F-9401-0AE74FAF3CE4}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Folder Name="Music_Menu" ID="{273C30D3-C306-45D0-8263-2570C1BE8298}" ShortID="20407913">
+							<ChildrenList>
+								<Event Name="Play_MUS_Menu_Main" ID="{958E6611-037E-4DF3-9E4C-F809D07C9EB5}">
+									<ChildrenList>
+										<Action Name="" ID="{A3E34607-2562-4EA8-A299-94307253BE7B}" ShortID="454228906">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Stop_MUS_Menu_Main" ID="{6204E3C8-9565-49F1-A92A-86DFBEF70BF7}">
+									<ChildrenList>
+										<Action Name="" ID="{71FA7FB1-28B1-426D-A874-A023DDF39D68}" ShortID="833099540">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+												<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="MUS_OST_Menu_Main_V1_LP" ID="{F1F74B84-3B82-4F67-9FFB-3BC44FF60F04}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="Play_MUS_Menu_Character_Select" ID="{5C0E855D-F6D4-4FC5-9EB3-F6BF2B172EFB}">
+									<ChildrenList>
+										<Action Name="" ID="{04172321-20E4-41A8-A68A-2D2A41181EAB}" ShortID="135949620">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="MUS_Chara_Select_LP" ID="{8B966C4C-50AC-43F4-A87E-C9303156563A}" WorkUnitID="{847584C5-33C5-43E8-92C1-CCFBBC45080E}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="UI" ID="{17A608E0-8E55-4CFF-8CFE-8EB17C796672}" ShortID="411795483">

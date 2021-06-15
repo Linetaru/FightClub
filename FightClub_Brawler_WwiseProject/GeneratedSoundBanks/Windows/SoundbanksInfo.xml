@@ -21,6 +21,10 @@
 			<ShortName>Music\MUS_Level_01_Intro_Fight_Lp.wav</ShortName>
 			<Path>SFX\Music\MUS_Level_01_Intro_Fight_Lp_0762CC47.wem</Path>
 		</File>
+		<File Id="336740663" Language="SFX">
+			<ShortName>Music\MUS_Bomb_Mode_Intro_Drop_Lp.wav</ShortName>
+			<Path>SFX\Music\MUS_Bomb_Mode_Intro_Drop_Lp_0762CC47.wem</Path>
+		</File>
 		<File Id="433535043" Language="SFX">
 			<ShortName>Ambiances\Amb_RoofTop_VolleyBall_Lp.wav</ShortName>
 			<Path>SFX\Ambiances\Amb_RoofTop_VolleyBall_Lp_0762CC47.wem</Path>
@@ -52,7 +56,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="2480543929">
+		<SoundBank Id="152968626" Language="SFX" Hash="1755395723">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -1187,6 +1191,22 @@
 							<Path>SFX\Characters\Crow\CROW_Whoosh_Tilt_Up_V3_D8C07C79.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1245051541" Name="Play_MUS_Bomb_Mode_Intro_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Bomb_Mode_Intro_Drop" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="336740663" Language="SFX">
+							<ShortName>Music\MUS_Bomb_Mode_Intro_Drop_Lp.wav</ShortName>
+							<Path>SFX\Music\MUS_Bomb_Mode_Intro_Drop_Lp_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+				</Event>
+				<Event Id="204093078" Name="Play_MUS_Bomb_Mode_Skip" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Bomb_Mode_Skip" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="336740663" Language="SFX">
+							<ShortName>Music\MUS_Bomb_Mode_Intro_Drop_Lp.wav</ShortName>
+							<Path>SFX\Music\MUS_Bomb_Mode_Intro_Drop_Lp_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
 				</Event>
 				<Event Id="4173490732" Name="Play_MUS_Cinemtaic_Victory" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Cinemtaic_Victory" DurationType="Infinite">
 					<ReferencedStreamedFiles>
@@ -2398,12 +2418,12 @@
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
-		<SoundBank Id="289583631" Language="SFX" Hash="3604595870">
+		<SoundBank Id="289583631" Language="SFX" Hash="3082118472">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>
 			<ShortName>SB_UI</ShortName>
 			<Path>SB_UI.bnk</Path>
 			<IncludedEvents>
-				<Event Id="786984018" Name="Play_MUS_Menu_Character_Select" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Character_Select" DurationType="Infinite">
+				<Event Id="786984018" Name="Play_MUS_Menu_Character_Select" ObjectPath="\Events\Default Work Unit\Music\Music_Menu\Play_MUS_Menu_Character_Select" DurationType="Infinite">
 					<ReferencedStreamedFiles>
 						<File Id="186133707" Language="SFX">
 							<ShortName>Music\Phonograph - BreakPunch_OST_level_02_V1.wav</ShortName>
@@ -2411,7 +2431,7 @@
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
-				<Event Id="3473751993" Name="Play_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Menu_Main" DurationType="Infinite">
+				<Event Id="3473751993" Name="Play_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Music_Menu\Play_MUS_Menu_Main" DurationType="Infinite">
 					<ReferencedStreamedFiles>
 						<File Id="736026560" Language="SFX">
 							<ShortName>Music\Van De Graph_MUS_OST_Menu_Main_V1_LP.wav</ShortName>
@@ -2419,7 +2439,7 @@
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
-				<Event Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Stop_MUS_Menu_Main" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="4044145823" Name="Stop_MUS_Menu_Main" ObjectPath="\Events\Default Work Unit\Music\Music_Menu\Stop_MUS_Menu_Main" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="630360165" Name="UI_Audio_Volume" ObjectPath="\Events\Default Work Unit\UI\UI_Menu_New\UI_Audio_Volume" DurationType="OneShot" DurationMin="0.125000" DurationMax="0.125000">
 					<IncludedMemoryFiles>
 						<File Id="70091160" Language="SFX">
@@ -2540,7 +2560,7 @@
 					<IncludedMemoryFiles>
 						<File Id="940726508" Language="SFX">
 							<ShortName>UI\UI_MENU_MAIN_WHOOSH.wav</ShortName>
-							<Path>SFX\UI\UI_MENU_MAIN_WHOOSH_05094D7F.wem</Path>
+							<Path>SFX\UI\UI_MENU_MAIN_WHOOSH_60E1E577.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -2616,7 +2636,7 @@
 					<IncludedMemoryFiles>
 						<File Id="570307708" Language="SFX">
 							<ShortName>UI\UI_Menu_Versus_Color_Select.wav</ShortName>
-							<Path>SFX\UI\UI_Menu_Versus_Color_Select_34F20EBB.wem</Path>
+							<Path>SFX\UI\UI_Menu_Versus_Color_Select_8BDA0EBD.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
