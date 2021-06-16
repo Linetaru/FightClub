@@ -7,86 +7,70 @@ public enum DummyBehavior
 {
 	Idle,
 	Jump,
-	Dodge
 }
 
-public class DebugDummyBehavior : MonoBehaviour
+public class DebugDummyBehavior : AIBehavior
 {
-	[SerializeField]
-	InputController inputController;
-	[SerializeField]
-	int characterID;
 
-	CharacterBase characterBase;
+	int idleBehavior = 0;
+	bool parryBehavior = false;
+	bool canTech = false;
 
-	Input_Info input;
 
-	//bool knockbackOn = false;
-	DummyBehavior behavior;
-
-	// Start is called before the first frame update
-	void Start()
+	public void SetBehavior(int behavior, bool parry, bool tech)
 	{
-		input = new Input_Info();
+		idleBehavior = behavior;
+		parryBehavior = parry;
+		canTech = tech;
 	}
 
-
-	public void SetBehaviorToCharacter(int id, DummyBehavior dummyBehavior)
-	{
-
-		/*behavior = dummyBehavior;
-		if (dummyBehavior == DummyBehavior.Idle && characterBase != null)
-		{
-			characterID = id;
-			inputController.controllable[id] = characterBase;
-			characterBase = null;
-			return;
-		}
-
-		if (inputController.controllable[id] != null)
-		{
-			characterID = id;
-			characterBase = (CharacterBase)inputController.controllable[id];
-			inputController.controllable[id] = null;
-		}*/
-	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (characterBase == null)
+		if (character == null)
+			return;
+		if (isActive == false)
 			return;
 
-		if (behavior == DummyBehavior.Jump)
-			BehaviorJump();
-		else if (behavior == DummyBehavior.Dodge)
-			BehaviorDodge();
+		BehaviorIdle();
+		BehaviorParry();
 
-		characterBase.UpdateControl(0, input);
+		if (inputs.inputActions.Count != 0)
+			inputController.UpdateTimeInBuffer(inputs.inputActions);
+		character.UpdateControl(0, inputs);
 	}
 
 
 
 
-	public void BehaviorJump()
+	private void BehaviorIdle()
 	{
-		if (characterBase.Knockback.KnockbackDuration > 0)
+		if (idleBehavior == 1) 
 		{
-			inputController.AddInput(InputConst.Jump.name, ref input);
+			if (character.Knockback.KnockbackDuration <= 0)
+			{
+				inputController.AddInput(InputConst.Jump.name, ref inputs);
+			}
 		}
-		else
+		else if (idleBehavior == 2)
 		{
-			if (input.inputActions.Count != 0)
-				inputController.UpdateTimeInBuffer(input.inputActions);
+			if (character.Knockback.KnockbackDuration <= 0)
+			{
+				inputController.AddInput(InputConst.RightShoulder.name, ref inputs);
+			}
 		}
 	}
 
-
-	public void BehaviorDodge()
+	private void BehaviorParry()
 	{
+		if (character.Knockback.KnockbackDuration > 0)
+		{
+			if (parryBehavior)
+				inputController.AddInput(InputConst.RightShoulder.name, ref inputs);
 
+			/*if(character.Rigidbody.CheckGroundNear(0.2f) && canTech)
+				inputController.AddInput(InputConst.RightTrigger.name, ref inputs);*/
+		}
 	}
-
-
-
 }

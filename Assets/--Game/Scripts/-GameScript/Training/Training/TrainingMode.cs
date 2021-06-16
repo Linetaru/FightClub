@@ -42,7 +42,9 @@ namespace Menu
 		int percentage = 0;
 		int powerGauge = 4;
 		bool guardBreakEnemy = false;
-		int behavior = 0;
+
+		int behaviorIdle = 0;
+		bool behaviorParry = false;
 		bool tech = false;
 
 		bool displayInfos = false;
@@ -60,7 +62,10 @@ namespace Menu
 		GameObject selection;
 
 
+		/*public void InitializeCharacter(CharacterBase character)
+		{
 
+		}*/
 
 		public override void InitializeMode(BattleManager battleManager)
 		{
@@ -72,6 +77,17 @@ namespace Menu
 			for (int i = 0; i < battleManager.characterAlive.Count; i++)
 			{
 				inputVisual[i].SetCharacter(battleManager.characterAlive[i]);
+
+				if (battleManager.characterAlive[i].PlayerID == 1)
+				{
+					this.battleManager = BattleManager.Instance;
+					inputController = battleManager.inputController;
+
+					battleManager.aIController.RemoveBehavior(battleManager.characterAlive[i]);
+					battleManager.aIController.AIBehaviors.Add(dummyBehavior);
+					dummyBehavior.SetCharacter(battleManager.characterAlive[i], inputController);
+					dummyBehavior.StartBehavior();
+				}
 			}
 		}
 
@@ -152,7 +168,7 @@ namespace Menu
 			{
 				inputDown = false;
 			}
-			else if (input.inputUiAction == InputConst.Interact && listEntry.IndexSelection == 8) // Quit
+			else if (input.inputUiAction == InputConst.Interact && listEntry.IndexSelection == 9) // Quit
 			{
 				input.inputUiAction = null;
 				timeScale = 1f;
@@ -199,18 +215,23 @@ namespace Menu
 				case 3: // Guard Break Enemy
 					guardBreakEnemy = !guardBreakEnemy;
 					break;
-				case 4: // Dummy Behavior
-					behavior += 1 * direction;
-					behavior = Mathf.Clamp(behavior, 0, System.Enum.GetValues(typeof(DummyBehavior)).Length-1);
+
+				case 4: // Idle Behavior
+					behaviorIdle += 1 * direction;
+					behaviorIdle = (int)Mathf.Clamp(behaviorIdle, 0, 2);
 					break;
-				case 5: // Tech
+				case 5: // Idle Behavior
+					behaviorParry = !behaviorParry;
+					break;
+
+				case 6: // Tech
 					tech = !tech;
 					break;
-				case 6: // Display Infos
+				case 7: // Display Infos
 					displayInfos = !displayInfos;
 					debugInfos.ShowHideInfos();
 					break;
-				case 7: // Display Inputs
+				case 8: // Display Inputs
 					displayInput = !displayInput;
 					parentInputVisual.gameObject.SetActive(!parentInputVisual.gameObject.activeInHierarchy);
 					break;
@@ -228,23 +249,36 @@ namespace Menu
 			{
 				battleManager.characterAlive[i].Stats.LifePercentage = percentage;
 				battleManager.characterAlive[i].PowerGauge.CurrentPower = powerGauge * 20;
+				if(guardBreakEnemy && battleManager.characterAlive[i].PlayerID == 1)
+				{
+					battleManager.characterAlive[i].PowerGauge.CurrentPower = 0;
+				}
 			}
 
 			// Dummy Behavior
-			dummyBehavior.SetBehaviorToCharacter(1, (DummyBehavior)behavior);
+			dummyBehavior.SetBehavior(behaviorIdle, behaviorParry, tech);
 		}
 
 
 		private void DrawOptions()
 		{
-			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
+			listEntry.ListItem[0].DrawSubText(timeScale.ToString("F1"));
 			listEntry.ListItem[1].DrawSubText(percentage.ToString());
 			listEntry.ListItem[2].DrawSubText(powerGauge.ToString());
 			listEntry.ListItem[3].DrawSubText(guardBreakEnemy ? "On" : "Off");
-			listEntry.ListItem[4].DrawSubText(((DummyBehavior)behavior).ToString());
-			listEntry.ListItem[5].DrawSubText(tech ? "On" : "Off");
-			listEntry.ListItem[6].DrawSubText(displayInfos ? "On" : "Off");
-			listEntry.ListItem[7].DrawSubText(displayInput ? "On" : "Off");
+
+			if(behaviorIdle == 0)
+				listEntry.ListItem[4].DrawSubText("Idle");
+			if (behaviorIdle == 1)
+				listEntry.ListItem[4].DrawSubText("Jump");
+			if (behaviorIdle == 2)
+				listEntry.ListItem[4].DrawSubText("Parry");
+
+			listEntry.ListItem[5].DrawSubText(behaviorParry ? "Parry" : "None");
+
+			listEntry.ListItem[6].DrawSubText(tech ? "On" : "Off");
+			listEntry.ListItem[7].DrawSubText(displayInfos ? "On" : "Off");
+			listEntry.ListItem[8].DrawSubText(displayInput ? "On" : "Off");
 		}
 
 

@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrialsData_BNBHorizontal
+  m_Name: TrialsDataPulse04
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: e67d282796e01a24b868b1c78e11429c, type: 3}
     - {fileID: 8045468721652775528, guid: 0d08b59e82c3d9c43abd7258a14d4bcb, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -29,7 +28,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 1|MissionInputAttack, Assembly-CSharp
@@ -59,19 +58,31 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|MissionInputJump, Assembly-CSharp
+      Data: 3|MissionInputLand, Assembly-CSharp
+    - Name: numberOfLand
+      Entry: 3
+      Data: 0
+    - Name: isDummy
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputAttack, Assembly-CSharp
+      Data: 4|MissionInputJump, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|MissionInputAttack, Assembly-CSharp
     - Name: attack
       Entry: 10
-      Data: 1
+      Data: 0
     - Name: hitboxID
       Entry: 7
-      Data: 5|System.Int32[], mscorlib
+      Data: 6|System.Int32[], mscorlib
     - Name: 
       Entry: 14
       Data: 1
@@ -98,17 +109,17 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 7|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 7|MissionInputOutOfKnockback, Assembly-CSharp
+      Data: 8|MissionInputOutOfKnockback, Assembly-CSharp
     - Name: isDummy
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -118,13 +129,13 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 
+  trialsName: 04 - Trials
   trialsDescription: 
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 0
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 0
+  spawnEnemy: 1
   dummyBehavior: {fileID: 0}
   osef: 
   textboxStart: []
@@ -133,8 +144,9 @@ MonoBehaviour:
   gaugeNumber: 4
   numberToSuccess: 1
   comboNotes:
-  - Dash Attack
-  - Jump Cancel
+  - Forward Air (First Hit)
+  - Landing
+  - 'Jump '
   - Forward Air
-  moneyReward: 0
-  nextTrial: {fileID: 11400000, guid: f49143cf7a766144aac662f3adc58ee6, type: 2}
+  moneyReward: 200
+  nextTrial: {fileID: 11400000, guid: 5d4bd27763ca9e24b819535a9dfce4eb, type: 2}

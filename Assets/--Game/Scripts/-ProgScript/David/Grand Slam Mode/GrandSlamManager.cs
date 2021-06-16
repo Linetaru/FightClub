@@ -73,6 +73,16 @@ public class GrandSlamManager : MonoBehaviour
     [SerializeField]
     private aToContinue aContinueButton;
 
+    [Title("Objects")]
+    [SerializeField]
+    private AK.Wwise.Event eventInGameToScore = null;
+    [SerializeField]
+    private AK.Wwise.Event eventEarnMoney = null;
+    [SerializeField]
+    private AK.Wwise.Event eventStopMoney = null;
+    [SerializeField]
+    private AK.Wwise.Event eventScoreToInGame = null;
+
     private Camera currentCam;
 
 
@@ -135,6 +145,18 @@ public class GrandSlamManager : MonoBehaviour
 
         gameData.slamMode = true;
 
+        for(int i = 0; i < listGameModesValid.Count; i++)
+        {
+            listGameModesValid[i].nbLife = gameData.ConfigMode.numberOfLife;
+            if(listGameModesValid[i].hasScoreGoal)
+                listGameModesValid[i].scoreGoal = gameData.ConfigMode.numberOfGoal;
+        }
+
+        if (gameData.ConfigMode.numberOfGrandSlamBonus != 0)
+            specialRoundsOcurrence = gameData.ConfigMode.numberOfGrandSlamBonus;
+        else
+            specialRoundsOcurrence = 10000;
+
         InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
@@ -160,18 +182,19 @@ public class GrandSlamManager : MonoBehaviour
 
     private void InitScoreGoal()
     {
-        if(gameData.CharacterInfos.Count == 2)
-        {
-            scoreToWin = scoreGoal2Players;
-        }
-        else if (gameData.CharacterInfos.Count == 3)
-        {
-            scoreToWin = scoreGoal3Players;
-        }
-        else
-        {
-            scoreToWin = scoreGoal4Players;
-        }
+        //if(gameData.CharacterInfos.Count == 2)
+        //{
+        //    scoreToWin = scoreGoal2Players;
+        //}
+        //else if (gameData.CharacterInfos.Count == 3)
+        //{
+        //    scoreToWin = scoreGoal3Players;
+        //}
+        //else
+        //{
+        //    scoreToWin = scoreGoal4Players;
+        //}
+        scoreToWin = gameData.ConfigMode.numberOfGrandSlamPoint;
 
         canvasScore.InitProperty(scoreToWin, gameData);
     }
@@ -191,8 +214,6 @@ public class GrandSlamManager : MonoBehaviour
     // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
-
-
         if (!almostOver && PlayerAboutToWin())
         {
             SlamMode slamMode = RemoveMode(GameModeStateEnum.Volley_Mode);
@@ -343,6 +364,7 @@ public class GrandSlamManager : MonoBehaviour
         }
 
 
+
         canvasScore.SetCurrentModeInfo(gameMode);
         if(gameMode == GameModeStateEnum.Volley_Mode)
         {
@@ -403,6 +425,8 @@ public class GrandSlamManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.8f);
         Time.timeScale = 1.0f;
 
+        AkSoundEngine.PostEvent(eventInGameToScore.Id, this.gameObject);
+
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = false;
@@ -429,8 +453,9 @@ public class GrandSlamManager : MonoBehaviour
 
 
             nextSceneName = GetRandomSceneFromList();
+            AkSoundEngine.PostEvent(eventEarnMoney.Id, this.gameObject);
             yield return new WaitForSeconds(timeOnScore);
-
+            AkSoundEngine.PostEvent(eventStopMoney.Id, this.gameObject);
             slamLogoMode.DrawLogo(gameMode);
 
             yield return new WaitForSeconds(0.5f);
@@ -448,7 +473,7 @@ public class GrandSlamManager : MonoBehaviour
                 yield return null;
             }
             pressToContinue = false;
-
+            AkSoundEngine.PostEvent(eventScoreToInGame.Id, this.gameObject);
 
             BattleManager.Instance.ResetInstance();
 
@@ -622,6 +647,8 @@ public class GrandSlamManager : MonoBehaviour
         camSlam.camera.enabled = false;
         BattleManager.Instance.cameraController.Camera.enabled = false;
         canvasScore.DeactivePanelScore();
+
+        gameData.GameMode = GameModeStateEnum.Special_Mode;
 
         //menuWin.InitializeWin(podium); 
         BattleManager.Instance.MenuWin.InitializeWin(podium);

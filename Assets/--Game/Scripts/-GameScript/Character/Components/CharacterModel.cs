@@ -24,8 +24,8 @@ public class CharacterModel : MonoBehaviour
 
 	public void SetColor(int characterID, Material color)
 	{
-		if (textPlayer != null)
-			textPlayer.text = (characterID + 1) + "P";
+		//if (textPlayer != null)
+		//	textPlayer.text = (characterID + 1) + "P";
 
 		Material[] materials;
 		if (flashMaterial != null)
@@ -48,6 +48,12 @@ public class CharacterModel : MonoBehaviour
 
 
 	}
+
+	public void SetText(string text)
+    {
+		if (textPlayer != null)
+			textPlayer.text = text;
+    }
 
 	public void SetTextColor(Color color)
 	{

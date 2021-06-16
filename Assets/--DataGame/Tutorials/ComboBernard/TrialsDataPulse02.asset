@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b08ff2178cf394381f4c0918e0db1d, type: 3}
-  m_Name: TrialsData_FAirFAir
+  m_Name: TrialsDataPulse02
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 8045468721652775528, guid: 0d08b59e82c3d9c43abd7258a14d4bcb, type: 3}
+    - {fileID: 8045468721652775528, guid: e67d282796e01a24b868b1c78e11429c, type: 3}
+    - {fileID: 8045468721652775528, guid: 2a39bd2f48eebf84493a03f7dd8871cf, type: 3}
+    - {fileID: 8045468721652775528, guid: 881629e699c8d6a4d9339f10e8ce63ba, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -50,16 +52,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|MissionInputLand, Assembly-CSharp
-    - Name: numberOfLand
-      Entry: 3
-      Data: 0
-    - Name: isDummy
+    - Name: playerReceiveAttack
       Entry: 5
       Data: false
     - Name: 
@@ -67,31 +60,61 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|MissionInputJump, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|MissionInputAttack, Assembly-CSharp
+      Data: 3|MissionInputAttack, Assembly-CSharp
     - Name: attack
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: hitboxID
       Entry: 7
-      Data: 6|System.Int32[], mscorlib
+      Data: 4|System.Int32[], mscorlib
     - Name: 
       Entry: 14
       Data: 1
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: playerReceiveAttack
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|MissionInputJump, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|MissionInputAttack, Assembly-CSharp
+    - Name: attack
+      Entry: 10
+      Data: 2
+    - Name: hitboxID
+      Entry: 7
+      Data: 7|System.Int32[], mscorlib
+    - Name: 
+      Entry: 14
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: playerReceiveAttack
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -103,17 +126,17 @@ MonoBehaviour:
       Data: 
     - Name: failConditions
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[MissionInputCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 8|MissionInputOutOfKnockback, Assembly-CSharp
+      Data: 9|MissionInputOutOfKnockback, Assembly-CSharp
     - Name: isDummy
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -123,25 +146,24 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  trialsName: 
+  trialsName: 02 - Trials
   trialsDescription: 
   scene: TutorialStage2
   player: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
   spawnPlayer: 0
   dummy: {fileID: 11400000, guid: eb2fa0c1d9cad924c81f593efb9c367c, type: 2}
-  spawnEnemy: 0
+  spawnEnemy: 1
   dummyBehavior: {fileID: 0}
   osef: 
-  textboxStart:
-  - "C'est le d\xE9but de ton entra\xEEnement Bernard !"
-  - Commence par ce combo.
-  textboxEnd:
-  - "Bien jou\xE9 !"
+  textboxStart: []
+  textboxEnd: []
   enemyPercentage: 0
+  gaugeNumber: 4
   numberToSuccess: 1
   comboNotes:
-  - Forward Air (First Hit)
-  - Landing
-  - 'Jump '
-  - Forward Air
-  nextTrial: {fileID: 0}
+  - Dash Attack
+  - Up Tilt
+  - Jump Cancel
+  - Up Air
+  moneyReward: 200
+  nextTrial: {fileID: 11400000, guid: b55d9ef5d4cfd254bbff676bef8f570b, type: 2}

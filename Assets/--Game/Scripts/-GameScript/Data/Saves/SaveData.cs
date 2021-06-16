@@ -42,6 +42,13 @@ public class SaveCategory
 [CreateAssetMenu(fileName = "SaveData_", menuName = "Data/SaveData", order = 1)]
 public class SaveData : ScriptableObject
 {
+	[SerializeField]
+	[ReadOnly]
+	private int saveVersion;
+	public int SaveVersion
+	{
+		get { return saveVersion; }
+	}
 
 	[SerializeField]
 	private List<SaveCategory> dataSaves = new List<SaveCategory>();
@@ -58,6 +65,7 @@ public class SaveData : ScriptableObject
 	// On copie save profile dans dataSaves
 	public void LoadProfile(SaveProfile saveProfile)
 	{
+		saveVersion = saveProfile.SaveVersion;
 		dataSaves.Clear();
 		for (int i = 0; i < saveProfile.SavesProfile.Count; i++)
 		{

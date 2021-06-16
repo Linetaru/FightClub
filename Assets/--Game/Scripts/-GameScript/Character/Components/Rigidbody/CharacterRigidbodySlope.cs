@@ -149,6 +149,26 @@ public class CharacterRigidbodySlope : CharacterRigidbody
         collisionGroundInfo = null;
     }
 
+    public override bool CheckGroundNear(float gravity)
+    {
+        RaycastHit raycastY;
+        Vector3 originRaycast = bottomLeft;
+        Vector3 originOffset = (upperRight - upperLeft) / (numberRaycastVertical - 1);
+
+        int layerMaskY = currentCheckGroundLayerMask;
+
+        for (int i = 0; i < numberRaycastVertical; i++)
+        {
+            Physics.Raycast(originRaycast, new Vector2(0, gravity), out raycastY, Mathf.Abs(gravity), layerMaskY);
+            if (raycastY.collider != null)
+            {
+                return true;
+            }
+            originRaycast += originOffset;
+        }
+        return false;
+    }
+
     public override void UpdateCollision(float speedX, float speedY)
     {
         //isGrounded = false;

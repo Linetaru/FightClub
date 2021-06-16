@@ -17,10 +17,13 @@ namespace Menu
 
         int characterID = 0;
 
-		public override void InitializeMenu()
+        [SerializeField]
+        AK.Wwise.Event eventVolume;
+
+        public override void InitializeMenu()
 		{
 			base.InitializeMenu();
-            graphicsSettings.Resolution = Screen.resolutions.Length - 1;
+            //graphicsSettings.Resolution = Screen.resolutions.Length - 1;
 
             listEntry.DrawItemList(0, QualitySettings.names[graphicsSettings.QualityLevel]);
             listEntry.DrawItemList(1, Screen.resolutions[graphicsSettings.Resolution].ToString());
@@ -38,6 +41,7 @@ namespace Menu
 
                 else if (listHorizontal.InputListHorizontal(input) == true) // On s'est déplacé dans la liste
                 {
+                    AkSoundEngine.PostEvent(eventVolume.Id, this.gameObject);
                     ChangeSettings(listEntry.IndexSelection, (int)Mathf.Sign(input.horizontal));
                 }
                 else if (input.inputUiAction == InputConst.Return)
