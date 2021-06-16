@@ -1515,6 +1515,34 @@
 														<ActiveSource Name="CROW_Whoosh_Tilt_Up_V4" ID="{BC47AC82-76FC-48F2-A00F-0A324FAD1C69}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
+												<Sound Name="CROW_Whoosh_Dodge_Air" ID="{999E0215-5635-4097-AB9B-E8A81AB26B01}" ShortID="370606403">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="CROW_Whoosh_Dodge_Air" ID="{FB0A2E69-23F9-430B-BC46-830000403A19}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0119038333333333"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.0443688333333334"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.383087"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>Characters\Crow\CROW_Whoosh_Dodge_Air.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="527364242"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="CROW_Whoosh_Dodge_Air" ID="{FB0A2E69-23F9-430B-BC46-830000403A19}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
 										</ActorMixer>
 										<ActorMixer Name="CROW_Hit" ID="{62452127-0CC0-4F2B-9581-5B515C78F83C}" ShortID="372207593">
@@ -3375,6 +3403,8 @@
 													<ChildrenList>
 														<AudioFileSource Name="BRND_Attack_Hit_UpTilt_v2" ID="{67D4F2F1-BF91-474A-880D-3661D5B43BD2}">
 															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.0270318333333333"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 																<Property Name="VolumeOffset" Type="Real64">
 																	<ValueList>
 																		<Value>2.3</Value>
@@ -11385,758 +11415,6 @@
 										</ActorMixer>
 									</ChildrenList>
 								</ActorMixer>
-								<ActorMixer Name="VO_Announcer" ID="{D3158BDF-E326-4CB4-9E19-B0B28465402E}" ShortID="3214846">
-									<PropertyList>
-										<Property Name="Color" Type="int16" Value="4"/>
-										<Property Name="OverrideColor" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-5</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="VO_Announcer_3_2_1_Break" ID="{0C68AD76-0337-4EDA-BE26-56CE6BEC4AD9}" ShortID="633560087">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_3_2_1_Break" ID="{F8A57474-8EEC-47A2-B641-C068E8576CC2}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_3_2_1_Break.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="47033146"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_3_2_1_Break" ID="{F8A57474-8EEC-47A2-B641-C068E8576CC2}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_3_2_1_Classic" ID="{3AD2F1CC-B606-49B7-9625-ADBF4CCF296D}" ShortID="993169326">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_3_2_1_Classic" ID="{D0D84442-CB38-4E3E-8175-4251FB500697}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_3_2_1_Classic.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="73992064"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_3_2_1_Classic" ID="{D0D84442-CB38-4E3E-8175-4251FB500697}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Adventure" ID="{4C7C8C5B-2386-4994-A66F-93CB3854EFA4}" ShortID="36358802">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Adventure" ID="{9E2EB129-23D4-4C14-9D0E-988D4B3A551D}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Adventure.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="967200585"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Adventure" ID="{9E2EB129-23D4-4C14-9D0E-988D4B3A551D}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Blocked_01" ID="{B6B59EDD-EBD8-485A-B7B6-5472785BBCCE}" ShortID="1009720649">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Blocked_01" ID="{96AE234B-0A53-4005-ABAA-0C30AB13A5F6}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Blocked_01.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="460650843"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Blocked_01" ID="{96AE234B-0A53-4005-ABAA-0C30AB13A5F6}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Blocked_02" ID="{9575A6FF-3281-47B7-A904-06A9B9BAA460}" ShortID="188018018">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Blocked_02" ID="{29E2145D-0339-4320-99A6-8A2AB01CBC14}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Blocked_02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="1068295679"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Blocked_02" ID="{29E2145D-0339-4320-99A6-8A2AB01CBC14}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Bomb" ID="{7939DEE9-267E-4620-85F5-6F1B04AEFCD6}" ShortID="876080389">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Bomb" ID="{E9D5CB6C-2BBE-41C1-BFD2-DC28E088858C}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Bomb.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="315678105"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Bomb" ID="{E9D5CB6C-2BBE-41C1-BFD2-DC28E088858C}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_BreakPunch" ID="{4D6087DA-5293-476C-B045-03537412D410}" ShortID="496605522">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_BreakPunch" ID="{B8FBCC53-42C6-4104-A4FA-4E752A3B215A}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_BreakPunch.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="506912881"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_BreakPunch" ID="{B8FBCC53-42C6-4104-A4FA-4E752A3B215A}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_BreakThrough" ID="{2BF90D56-BD05-4A34-916C-B0250D16D8CF}" ShortID="719977584">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_BreakThrough" ID="{6C7E243C-EC71-43CD-A83E-E53DB2DD69BF}">
-													<PropertyList>
-														<Property Name="FadeInDuration" Type="Real64" Value="0.082752"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimBegin" Type="Real64" Value="0.524095999999999"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_BreakThrough.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="873385785"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_BreakThrough" ID="{6C7E243C-EC71-43CD-A83E-E53DB2DD69BF}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Classic" ID="{50803F23-5AAE-4C10-BF1B-CACF443D8EE8}" ShortID="418907178">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Classic" ID="{89D32B09-847B-4BC8-8F41-8CF7EA400C70}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Classic.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="230157844"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Classic" ID="{89D32B09-847B-4BC8-8F41-8CF7EA400C70}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Classic_02" ID="{CD611060-B76C-4B1D-94EB-0A6CA51BF1D4}" ShortID="792761362">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Classic_02" ID="{048F1F93-5A3E-4C50-9C82-0F3A23EF1904}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Classic_02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="280884891"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Classic_02" ID="{048F1F93-5A3E-4C50-9C82-0F3A23EF1904}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Crow" ID="{CCA39F5D-EE4A-44C4-9F90-08A1E8B8A123}" ShortID="819493544">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Crow" ID="{C17DDC88-2B45-4BE2-84FA-BAFD32F7928B}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Crow.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="426261299"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Crow" ID="{C17DDC88-2B45-4BE2-84FA-BAFD32F7928B}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_CrowWins" ID="{F0D912CD-E368-4C54-9E5F-C9E5BA9EC53C}" ShortID="23976231">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_CrowWins" ID="{A40D24D2-8F8A-4F78-AFCC-E91152194839}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_CrowWins.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="965579505"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_CrowWins" ID="{A40D24D2-8F8A-4F78-AFCC-E91152194839}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_DoubleBomb" ID="{4B8C17BB-ED7C-4EA1-886E-230489CFF4A9}" ShortID="697411130">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_DoubleBomb" ID="{7CE47276-744E-4068-8458-5C0F3D8F1BC0}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_DoubleBomb.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="659512388"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_DoubleBomb" ID="{7CE47276-744E-4068-8458-5C0F3D8F1BC0}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Invisible" ID="{FD23E945-04A8-484B-ABED-03CB6199EC91}" ShortID="549839100">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Invisible" ID="{5CF92EA7-6000-46FC-8504-19F46026177F}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Invisible.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="350655646"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Invisible" ID="{5CF92EA7-6000-46FC-8504-19F46026177F}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Missions" ID="{D73227FE-4DCF-4325-A577-C1C294122E21}" ShortID="973699682">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Missions" ID="{1EFFA404-1719-49E3-AFF4-F1779EF3135B}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Missions.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="39848442"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Missions" ID="{1EFFA404-1719-49E3-AFF4-F1779EF3135B}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_NoTimer" ID="{6BEF5644-086A-416C-8ADE-E1A5B75475F5}" ShortID="564106468">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_NoTimer" ID="{532AF1EF-81AB-49B0-97FB-679AC23DD60C}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_NoTimer.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="460759213"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_NoTimer" ID="{532AF1EF-81AB-49B0-97FB-679AC23DD60C}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_NoTimer_02" ID="{5249D756-0891-4063-9CDB-960CC83A9921}" ShortID="752606205">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_NoTimer_02" ID="{8D6DB88E-9714-4B21-82AC-FF0D37128E97}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_NoTimer_02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="56376363"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_NoTimer_02" ID="{8D6DB88E-9714-4B21-82AC-FF0D37128E97}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Options" ID="{CFC7AE2A-D6DF-4156-850B-940CC1123DBB}" ShortID="935106043">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Options" ID="{3DF65D59-9EDE-4C70-873E-735D219F8E0E}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Options.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="575244369"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Options" ID="{3DF65D59-9EDE-4C70-873E-735D219F8E0E}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Pulse" ID="{24B8D5CC-72C3-4543-851F-2B527899E875}" ShortID="237816249">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Pulse" ID="{1C9A9059-BC1E-430D-BA7E-A4A340180A93}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Pulse.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="71092858"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Pulse" ID="{1C9A9059-BC1E-430D-BA7E-A4A340180A93}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_PulseWins" ID="{4F7CF5A6-AE4C-4927-BCB5-7AB82CC01D8B}" ShortID="842135617">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_PulseWins" ID="{6FE16936-F009-4E6B-87A6-EE1A75B0B87C}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_PulseWins.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="171578110"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_PulseWins" ID="{6FE16936-F009-4E6B-87A6-EE1A75B0B87C}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_ResetTimer" ID="{42CFBBD0-3F5D-4F8A-BBD8-A8BBB500E488}" ShortID="737353170">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_ResetTimer" ID="{4E60CFAE-92D0-4A42-B052-461DD98E947A}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_ResetTimer.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="830164428"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_ResetTimer" ID="{4E60CFAE-92D0-4A42-B052-461DD98E947A}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_SeeYouLater" ID="{4C44EED9-1B89-469C-A2A1-CAA9ABA68259}" ShortID="816760896">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_SeeYouLater" ID="{C911C09C-B75F-4778-ADB4-82E6C4D0A385}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_SeeYouLater.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="69289462"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_SeeYouLater" ID="{C911C09C-B75F-4778-ADB4-82E6C4D0A385}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_SelectFighter" ID="{9D2DAFD4-1E3A-43CE-933A-B2D72484AD21}" ShortID="299735118">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_SelectFighter" ID="{C5477BDE-CB14-4651-B34F-1E66C755F3F6}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_SelectFighter.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="504759442"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_SelectFighter" ID="{C5477BDE-CB14-4651-B34F-1E66C755F3F6}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_ThatsASignatureMove" ID="{488BA0EB-A775-4B08-A5D9-E9BEC39EA625}" ShortID="487179710">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_ThatsASignatureMove" ID="{7F42411E-F621-4B3F-9EEB-03BDCB52B002}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_ThatsASignatureMove.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="4842009"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_ThatsASignatureMove" ID="{7F42411E-F621-4B3F-9EEB-03BDCB52B002}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_ThatWasClose" ID="{EE3B289A-FE3F-45BC-8D66-65FADDC8D6E9}" ShortID="605217067">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_ThatWasClose" ID="{EA455D68-8173-4F5D-ADCA-CD1D6EE5A4B8}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_ThatWasClose.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="824057739"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_ThatWasClose" ID="{EA455D68-8173-4F5D-ADCA-CD1D6EE5A4B8}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_TheyScoredAPoint" ID="{EAE91DFE-212E-4600-A4D2-9AD5D3E81CC1}" ShortID="654218660">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_TheyScoredAPoint" ID="{1E2DB334-A3BC-4624-A451-34F5CFDD6AED}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_TheyScoredAPoint.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="896413657"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_TheyScoredAPoint" ID="{1E2DB334-A3BC-4624-A451-34F5CFDD6AED}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Training" ID="{023C1818-98F3-443E-8FE3-9916A0444156}" ShortID="936350364">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Training" ID="{5FD9B0FF-9D6C-4227-9FF5-2D1B9E802C6D}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Training.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="566681541"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Training" ID="{5FD9B0FF-9D6C-4227-9FF5-2D1B9E802C6D}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Trials" ID="{F65968ED-7EDF-4172-834C-6B1866E05B70}" ShortID="424598021">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Trials" ID="{47916F5B-38EF-45DD-8783-7F68F70E84CB}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Trials.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="358254789"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Trials" ID="{47916F5B-38EF-45DD-8783-7F68F70E84CB}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Tutorials" ID="{D4535874-A03B-4E69-AB3F-E4B226A89E2B}" ShortID="671873815">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Tutorials" ID="{F58E312D-6B02-4037-892D-117E7BF6C562}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Tutorials.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="327681310"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Tutorials" ID="{F58E312D-6B02-4037-892D-117E7BF6C562}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Volley" ID="{7A2F6515-50B4-4547-AE81-E4FDA48D80F9}" ShortID="572970125">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Volley" ID="{85862024-EE7F-40DA-AC03-1EB05C48DDFB}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Volley.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="123814693"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Volley" ID="{85862024-EE7F-40DA-AC03-1EB05C48DDFB}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_Volley_02" ID="{163D9B5D-1CA1-4340-ADB8-69532B5C841A}" ShortID="119897735">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_Volley_02" ID="{E2E851D2-EFCD-49AD-9EAE-C5CC30BE8DA2}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_Volley_02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="143743993"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_Volley_02" ID="{E2E851D2-EFCD-49AD-9EAE-C5CC30BE8DA2}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_WhatAParry" ID="{E6C6DF83-6A15-4846-A48B-3B09086D57B5}" ShortID="38385516">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_WhatAParry" ID="{F69D9B05-DCAC-40C8-A543-833321EF4FB0}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_WhatAParry.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="719664726"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_WhatAParry" ID="{F69D9B05-DCAC-40C8-A543-833321EF4FB0}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="VO_Announcer_WhatASave" ID="{D98F345A-F234-418D-B09F-26B1BAD3F557}" ShortID="818825093">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="VO_Announcer_WhatASave" ID="{16F71926-7A8A-4BA3-8C4F-41A7A63CFA76}">
-													<Language>SFX</Language>
-													<AudioFile>VO\VO_Announcer_WhatASave.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="564285773"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="VO_Announcer_WhatASave" ID="{16F71926-7A8A-4BA3-8C4F-41A7A63CFA76}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-								</ActorMixer>
 							</ChildrenList>
 						</ActorMixer>
 					</ChildrenList>
@@ -13145,8 +12423,10 @@
 									<ChildrenList>
 										<AudioFileSource Name="Phonograph - BreakPunch_OST_level_02_V1" ID="{E2F05D85-F982-4E93-A219-9A2791675D72}">
 											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0431975031124239"/>
 												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 												<Property Name="TrimBegin" Type="Real64" Value="15.3594325355027"/>
+												<Property Name="TrimEnd" Type="Real64" Value="153.314613353715"/>
 											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Music\Phonograph - BreakPunch_OST_level_02_V1.wav</AudioFile>
@@ -13183,6 +12463,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Van De Graph_MUS_OST_Menu_Main_V1_LP" ID="{539EA0E6-5FF5-4EDE-8A08-72E5A9A71D28}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0643266188894813"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="164.946039029058"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>Music\Van De Graph_MUS_OST_Menu_Main_V1_LP.wav</AudioFile>
 											<MediaIDList>
@@ -13318,6 +12603,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="UI_MENU_MAIN_PRESS_START" ID="{8C310D62-81EB-4ABC-AEDD-C93AAA1B1793}" ShortID="565156592">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -13372,7 +12664,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>8</Value>
+												<Value>11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -13436,9 +12728,6 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS" ID="{0763A669-852E-4A06-9A47-FFA73479FC63}" ShortID="1045773927">
-									<PropertyList>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -13449,6 +12738,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS" ID="{522FFD59-7DEB-4120-A535-A565F913A10D}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.0937066666666667"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.138685866666667"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>UI\UI_MENU_WHOOSH_TRANSITION_MAIN_TO_VERSUS.wav</AudioFile>
 											<MediaIDList>
@@ -13648,6 +12942,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="UI_MENU_VERSUS_PERSO_ADD" ID="{B1824655-9E39-4025-9548-5FB0992529E9}" ShortID="642286578">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -13761,7 +13062,14 @@
 										<ActiveSource Name="UI_Menu_Main_Navigue" ID="{27C7545F-48D9-4691-8E57-513E3ED09989}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="UI_Menu_Map_Confirm" ID="{90CC2A53-F0CD-44F7-9B1B-887E07498E9E}" ShortID="274390591">
+								<Sound Name="UI_Menu_Validate" ID="{90CC2A53-F0CD-44F7-9B1B-887E07498E9E}" ShortID="274390591">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -13784,6 +13092,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="UI_Menu_Map_Transition_To_Versus" ID="{A3BD1848-67AE-4C09-BA72-9AE60EED20B0}" ShortID="820670837">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>11</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -14198,6 +13513,780 @@
 								</RandomSequenceContainer>
 							</ChildrenList>
 						</Folder>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="VO_Announcer" ID="{D3158BDF-E326-4CB4-9E19-B0B28465402E}" ShortID="3214846">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="VO_Announcer_3_2_1_Break" ID="{0C68AD76-0337-4EDA-BE26-56CE6BEC4AD9}" ShortID="633560087">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_3_2_1_Break" ID="{F8A57474-8EEC-47A2-B641-C068E8576CC2}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_3_2_1_Break.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="47033146"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_3_2_1_Break" ID="{F8A57474-8EEC-47A2-B641-C068E8576CC2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_3_2_1_Classic" ID="{3AD2F1CC-B606-49B7-9625-ADBF4CCF296D}" ShortID="993169326">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_3_2_1_Classic" ID="{D0D84442-CB38-4E3E-8175-4251FB500697}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_3_2_1_Classic.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="73992064"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_3_2_1_Classic" ID="{D0D84442-CB38-4E3E-8175-4251FB500697}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Adventure" ID="{4C7C8C5B-2386-4994-A66F-93CB3854EFA4}" ShortID="36358802">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Adventure" ID="{9E2EB129-23D4-4C14-9D0E-988D4B3A551D}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Adventure.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="967200585"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Adventure" ID="{9E2EB129-23D4-4C14-9D0E-988D4B3A551D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Blocked_01" ID="{B6B59EDD-EBD8-485A-B7B6-5472785BBCCE}" ShortID="1009720649">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Blocked_01" ID="{96AE234B-0A53-4005-ABAA-0C30AB13A5F6}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Blocked_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="460650843"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Blocked_01" ID="{96AE234B-0A53-4005-ABAA-0C30AB13A5F6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Blocked_02" ID="{9575A6FF-3281-47B7-A904-06A9B9BAA460}" ShortID="188018018">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Blocked_02" ID="{29E2145D-0339-4320-99A6-8A2AB01CBC14}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Blocked_02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1068295679"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Blocked_02" ID="{29E2145D-0339-4320-99A6-8A2AB01CBC14}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Bomb" ID="{7939DEE9-267E-4620-85F5-6F1B04AEFCD6}" ShortID="876080389">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Bomb" ID="{E9D5CB6C-2BBE-41C1-BFD2-DC28E088858C}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Bomb.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="315678105"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Bomb" ID="{E9D5CB6C-2BBE-41C1-BFD2-DC28E088858C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_BreakPunch" ID="{4D6087DA-5293-476C-B045-03537412D410}" ShortID="496605522">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_BreakPunch" ID="{B8FBCC53-42C6-4104-A4FA-4E752A3B215A}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_BreakPunch.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="506912881"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_BreakPunch" ID="{B8FBCC53-42C6-4104-A4FA-4E752A3B215A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_BreakThrough" ID="{2BF90D56-BD05-4A34-916C-B0250D16D8CF}" ShortID="719977584">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_BreakThrough" ID="{6C7E243C-EC71-43CD-A83E-E53DB2DD69BF}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.082752"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.524095999999999"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_BreakThrough.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="873385785"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_BreakThrough" ID="{6C7E243C-EC71-43CD-A83E-E53DB2DD69BF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Classic" ID="{50803F23-5AAE-4C10-BF1B-CACF443D8EE8}" ShortID="418907178">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Classic" ID="{89D32B09-847B-4BC8-8F41-8CF7EA400C70}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Classic.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="230157844"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Classic" ID="{89D32B09-847B-4BC8-8F41-8CF7EA400C70}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Classic_02" ID="{CD611060-B76C-4B1D-94EB-0A6CA51BF1D4}" ShortID="792761362">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Classic_02" ID="{048F1F93-5A3E-4C50-9C82-0F3A23EF1904}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Classic_02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="280884891"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Classic_02" ID="{048F1F93-5A3E-4C50-9C82-0F3A23EF1904}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Crow" ID="{CCA39F5D-EE4A-44C4-9F90-08A1E8B8A123}" ShortID="819493544">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Crow" ID="{C17DDC88-2B45-4BE2-84FA-BAFD32F7928B}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Crow.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="426261299"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Crow" ID="{C17DDC88-2B45-4BE2-84FA-BAFD32F7928B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_CrowWins" ID="{F0D912CD-E368-4C54-9E5F-C9E5BA9EC53C}" ShortID="23976231">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_CrowWins" ID="{A40D24D2-8F8A-4F78-AFCC-E91152194839}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_CrowWins.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="965579505"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_CrowWins" ID="{A40D24D2-8F8A-4F78-AFCC-E91152194839}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_DoubleBomb" ID="{4B8C17BB-ED7C-4EA1-886E-230489CFF4A9}" ShortID="697411130">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_DoubleBomb" ID="{7CE47276-744E-4068-8458-5C0F3D8F1BC0}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_DoubleBomb.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="659512388"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_DoubleBomb" ID="{7CE47276-744E-4068-8458-5C0F3D8F1BC0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Invisible" ID="{FD23E945-04A8-484B-ABED-03CB6199EC91}" ShortID="549839100">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Invisible" ID="{5CF92EA7-6000-46FC-8504-19F46026177F}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Invisible.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="350655646"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Invisible" ID="{5CF92EA7-6000-46FC-8504-19F46026177F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Missions" ID="{D73227FE-4DCF-4325-A577-C1C294122E21}" ShortID="973699682">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Missions" ID="{1EFFA404-1719-49E3-AFF4-F1779EF3135B}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Missions.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="39848442"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Missions" ID="{1EFFA404-1719-49E3-AFF4-F1779EF3135B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_NoTimer" ID="{6BEF5644-086A-416C-8ADE-E1A5B75475F5}" ShortID="564106468">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_NoTimer" ID="{532AF1EF-81AB-49B0-97FB-679AC23DD60C}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_NoTimer.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="460759213"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_NoTimer" ID="{532AF1EF-81AB-49B0-97FB-679AC23DD60C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_NoTimer_02" ID="{5249D756-0891-4063-9CDB-960CC83A9921}" ShortID="752606205">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_NoTimer_02" ID="{8D6DB88E-9714-4B21-82AC-FF0D37128E97}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_NoTimer_02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="56376363"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_NoTimer_02" ID="{8D6DB88E-9714-4B21-82AC-FF0D37128E97}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Options" ID="{CFC7AE2A-D6DF-4156-850B-940CC1123DBB}" ShortID="935106043">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Options" ID="{3DF65D59-9EDE-4C70-873E-735D219F8E0E}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Options.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="575244369"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Options" ID="{3DF65D59-9EDE-4C70-873E-735D219F8E0E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Pulse" ID="{24B8D5CC-72C3-4543-851F-2B527899E875}" ShortID="237816249">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Pulse" ID="{1C9A9059-BC1E-430D-BA7E-A4A340180A93}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Pulse.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="71092858"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Pulse" ID="{1C9A9059-BC1E-430D-BA7E-A4A340180A93}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_PulseWins" ID="{4F7CF5A6-AE4C-4927-BCB5-7AB82CC01D8B}" ShortID="842135617">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_PulseWins" ID="{6FE16936-F009-4E6B-87A6-EE1A75B0B87C}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_PulseWins.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="171578110"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_PulseWins" ID="{6FE16936-F009-4E6B-87A6-EE1A75B0B87C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_ResetTimer" ID="{42CFBBD0-3F5D-4F8A-BBD8-A8BBB500E488}" ShortID="737353170">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_ResetTimer" ID="{4E60CFAE-92D0-4A42-B052-461DD98E947A}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_ResetTimer.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="830164428"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_ResetTimer" ID="{4E60CFAE-92D0-4A42-B052-461DD98E947A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_SeeYouLater" ID="{4C44EED9-1B89-469C-A2A1-CAA9ABA68259}" ShortID="816760896">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_SeeYouLater" ID="{C911C09C-B75F-4778-ADB4-82E6C4D0A385}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_SeeYouLater.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="69289462"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_SeeYouLater" ID="{C911C09C-B75F-4778-ADB4-82E6C4D0A385}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_SelectFighter" ID="{9D2DAFD4-1E3A-43CE-933A-B2D72484AD21}" ShortID="299735118">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_SelectFighter" ID="{C5477BDE-CB14-4651-B34F-1E66C755F3F6}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_SelectFighter.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="504759442"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_SelectFighter" ID="{C5477BDE-CB14-4651-B34F-1E66C755F3F6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_ThatsASignatureMove" ID="{488BA0EB-A775-4B08-A5D9-E9BEC39EA625}" ShortID="487179710">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_ThatsASignatureMove" ID="{7F42411E-F621-4B3F-9EEB-03BDCB52B002}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_ThatsASignatureMove.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="4842009"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_ThatsASignatureMove" ID="{7F42411E-F621-4B3F-9EEB-03BDCB52B002}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_ThatWasClose" ID="{EE3B289A-FE3F-45BC-8D66-65FADDC8D6E9}" ShortID="605217067">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_ThatWasClose" ID="{EA455D68-8173-4F5D-ADCA-CD1D6EE5A4B8}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_ThatWasClose.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="824057739"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_ThatWasClose" ID="{EA455D68-8173-4F5D-ADCA-CD1D6EE5A4B8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_TheyScoredAPoint" ID="{EAE91DFE-212E-4600-A4D2-9AD5D3E81CC1}" ShortID="654218660">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_TheyScoredAPoint" ID="{1E2DB334-A3BC-4624-A451-34F5CFDD6AED}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_TheyScoredAPoint.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="896413657"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_TheyScoredAPoint" ID="{1E2DB334-A3BC-4624-A451-34F5CFDD6AED}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Training" ID="{023C1818-98F3-443E-8FE3-9916A0444156}" ShortID="936350364">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Training" ID="{5FD9B0FF-9D6C-4227-9FF5-2D1B9E802C6D}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Training.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="566681541"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Training" ID="{5FD9B0FF-9D6C-4227-9FF5-2D1B9E802C6D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Trials" ID="{F65968ED-7EDF-4172-834C-6B1866E05B70}" ShortID="424598021">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Trials" ID="{47916F5B-38EF-45DD-8783-7F68F70E84CB}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Trials.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="358254789"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Trials" ID="{47916F5B-38EF-45DD-8783-7F68F70E84CB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Tutorials" ID="{D4535874-A03B-4E69-AB3F-E4B226A89E2B}" ShortID="671873815">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Tutorials" ID="{F58E312D-6B02-4037-892D-117E7BF6C562}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Tutorials.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="327681310"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Tutorials" ID="{F58E312D-6B02-4037-892D-117E7BF6C562}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Volley" ID="{7A2F6515-50B4-4547-AE81-E4FDA48D80F9}" ShortID="572970125">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Volley" ID="{85862024-EE7F-40DA-AC03-1EB05C48DDFB}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Volley.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="123814693"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Volley" ID="{85862024-EE7F-40DA-AC03-1EB05C48DDFB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_Volley_02" ID="{163D9B5D-1CA1-4340-ADB8-69532B5C841A}" ShortID="119897735">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_Volley_02" ID="{E2E851D2-EFCD-49AD-9EAE-C5CC30BE8DA2}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_Volley_02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="143743993"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_Volley_02" ID="{E2E851D2-EFCD-49AD-9EAE-C5CC30BE8DA2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_WhatAParry" ID="{E6C6DF83-6A15-4846-A48B-3B09086D57B5}" ShortID="38385516">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_WhatAParry" ID="{F69D9B05-DCAC-40C8-A543-833321EF4FB0}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_WhatAParry.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="719664726"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_WhatAParry" ID="{F69D9B05-DCAC-40C8-A543-833321EF4FB0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Announcer_WhatASave" ID="{D98F345A-F234-418D-B09F-26B1BAD3F557}" ShortID="818825093">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_WhatASave" ID="{16F71926-7A8A-4BA3-8C4F-41A7A63CFA76}">
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_WhatASave.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="564285773"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_WhatASave" ID="{16F71926-7A8A-4BA3-8C4F-41A7A63CFA76}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 			</ChildrenList>
