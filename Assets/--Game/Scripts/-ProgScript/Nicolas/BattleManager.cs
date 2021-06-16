@@ -31,6 +31,10 @@ public class BattleManager : MonoBehaviour
     public GameObject[] spawningPoint;
     public PackageCreator.Event.GameEventUICharacter[] gameEventUICharacter;
 
+    [Title("VolleyBall spawn points")]
+    public Transform[] spawningPointVolleyBallTeam1;
+    public Transform[] spawningPointVolleyBallTeam2;
+
     [Title("Players List")]
     public List<CharacterBase> characterAlive;
     public List<CharacterBase> characterFullDead;
@@ -165,6 +169,19 @@ public class BattleManager : MonoBehaviour
             go.name = gameData.CharacterInfos[i].CharacterData.playerPrefab.name;
             go.tag = "Player" + (i + 1);
             CharacterBase user = go.GetComponent<CharacterBase>();
+
+            if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
+            {
+                if (gameData.CharacterInfos[i].Team == TeamEnum.First_Team)
+                {
+                    user.transform.position = spawningPointVolleyBallTeam1[i].position;
+                }
+                else if (gameData.CharacterInfos[i].Team == TeamEnum.Second_Team)
+                {
+                    user.transform.position = spawningPointVolleyBallTeam2[i].position;
+                }
+            }
+
             user.Model.tag = "Player" + (i + 1);
 
             if (gameData.CharacterInfos[i].ControllerID >= 0)
@@ -220,7 +237,17 @@ public class BattleManager : MonoBehaviour
 
             }
             user.Model.SetTextColor(teamTextColors[(int)gameData.CharacterInfos[i].Team]);
-            user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
+            if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
+            {
+                if (user.TeamID == TeamEnum.First_Team)
+                    user.Movement.Direction = (int)spawningPointVolleyBallTeam1[i].transform.localScale.x;
+                else if (user.TeamID == TeamEnum.Second_Team)
+                    user.Movement.Direction = (int)spawningPointVolleyBallTeam2[i].transform.localScale.x;
+            }
+            else
+            {
+                user.Movement.Direction = (int)spawningPoint[i].transform.localScale.x;
+            }
 
             user.Stats.gameEvent = gameEventUICharacter[i];
             user.Stats.InitStats();
