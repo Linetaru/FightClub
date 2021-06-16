@@ -60,11 +60,19 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="1092727813">
+		<SoundBank Id="152968626" Language="SFX" Hash="1163624404">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
 			<IncludedEvents>
+				<Event Id="941442534" Name="Break" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Break" DurationType="OneShot" DurationMin="2.512640" DurationMax="2.512640">
+					<IncludedMemoryFiles>
+						<File Id="134957756" Language="SFX">
+							<ShortName>VO\VO_Announcer_3_2_1_Break.wav</ShortName>
+							<Path>SFX\VO\VO_Announcer_3_2_1_Break_F29E0D09.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="1481349063" Name="BREAK_THE_WORLD" ObjectPath="\Events\Default Work Unit\Cinematic\CINE_INTRO\BREAK_THE_WORLD" DurationType="OneShot" DurationMin="1.400000" DurationMax="1.400000">
 					<IncludedMemoryFiles>
 						<File Id="648194220" Language="SFX">
@@ -78,6 +86,14 @@
 						<File Id="555050539" Language="SFX">
 							<ShortName>BRND_Attack_Whoosh_ForwardAir_v2.wav</ShortName>
 							<Path>SFX\BRND_Attack_Whoosh_ForwardAir_v2_D8C07C79.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="269384475" Name="Classic" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Classic" DurationType="OneShot" DurationMin="2.915655" DurationMax="2.915655">
+					<IncludedMemoryFiles>
+						<File Id="801350364" Language="SFX">
+							<ShortName>VO\VO_Announcer_3_2_1_Classic.wav</ShortName>
+							<Path>SFX\VO\VO_Announcer_3_2_1_Classic_486ED33A.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -1152,8 +1168,36 @@
 						</File>
 					</ReferencedStreamedFiles>
 				</Event>
-				<Event Id="1024033517" Name="Play_MUS_Grand_Slam_Intro_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Intro_Drop" DurationType="Infinite"/>
-				<Event Id="2099809854" Name="Play_MUS_Grand_Slam_Skip" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Skip" DurationType="Infinite"/>
+				<Event Id="1024033517" Name="Play_MUS_Grand_Slam_Intro_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Intro_Drop" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+					<IncludedMemoryFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+							<PrefetchSize>8359</PrefetchSize>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2099809854" Name="Play_MUS_Grand_Slam_Skip" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Grand_Slam_Skip" DurationType="Infinite">
+					<ReferencedStreamedFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+						</File>
+					</ReferencedStreamedFiles>
+					<IncludedMemoryFiles>
+						<File Id="674768002" Language="SFX">
+							<ShortName>Music\MUS_Grand_Slam_Intro_Classic_Mp3.wav</ShortName>
+							<Path>SFX\Music\MUS_Grand_Slam_Intro_Classic_Mp3_0762CC47.wem</Path>
+							<PrefetchSize>8359</PrefetchSize>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="4147332135" Name="Play_MUS_Level_01_Intro_Drop" ObjectPath="\Events\Default Work Unit\Music\Play_MUS_Level_01_Intro_Drop" DurationType="Infinite">
 					<ReferencedStreamedFiles>
 						<File Id="216977147" Language="SFX">
@@ -1266,6 +1310,14 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="2279991474" Name="Play_VO_Announcer_3_2_1" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Play_VO_Announcer_3_2_1" DurationType="OneShot" DurationMin="2.605639" DurationMax="2.605639">
+					<IncludedMemoryFiles>
+						<File Id="73992064" Language="SFX">
+							<ShortName>VO\VO_Announcer_3_2_1_Classic.wav</ShortName>
+							<Path>SFX\VO\VO_Announcer_3_2_1_Classic_D34510FA.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="1139459242" Name="Play_VO_Announcer_3_2_1_Break" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Play_VO_Announcer_3_2_1_Break" DurationType="OneShot" DurationMin="5.234667" DurationMax="5.234667">
 					<IncludedMemoryFiles>
 						<File Id="47033146" Language="SFX">
@@ -1274,11 +1326,11 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="4138243519" Name="Play_VO_Announcer_3_2_1_Classic" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Play_VO_Announcer_3_2_1_Classic" DurationType="OneShot" DurationMin="5.536000" DurationMax="5.536000">
+				<Event Id="4138243519" Name="Play_VO_Announcer_3_2_1_Classic" ObjectPath="\Events\Default Work Unit\VO\VO_ANC\Play_VO_Announcer_3_2_1_Classic" DurationType="OneShot" DurationMin="2.605639" DurationMax="2.605639">
 					<IncludedMemoryFiles>
 						<File Id="73992064" Language="SFX">
 							<ShortName>VO\VO_Announcer_3_2_1_Classic.wav</ShortName>
-							<Path>SFX\VO\VO_Announcer_3_2_1_Classic_D8C07C79.wem</Path>
+							<Path>SFX\VO\VO_Announcer_3_2_1_Classic_D34510FA.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -2296,6 +2348,16 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="957805480" Name="Set_MUS_Pause" ObjectPath="\Events\Default Work Unit\Music\Set_MUS_Pause" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="3101201588" Name="HiCut" ObjectPath="\States\Default Work Unit\Music_State\HiCut"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="3146211024" Name="Set_MUS_Play" ObjectPath="\Events\Default Work Unit\Music\Set_MUS_Play" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full"/>
+					</ActionSetState>
+				</Event>
 				<Event Id="2439856242" Name="Stop_BRND_Attack_Slide_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\Stop_BRND_Attack_Slide_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="2429595649" Name="Stop_BRND_Attack_Whoosh_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Attack_Whoosh_DashAttack\Stop_BRND_Attack_Whoosh_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="3433362088" Name="Stop_BRND_WallSlide" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Foley\Stop_BRND_WallSlide" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -2367,6 +2429,14 @@
 					<PrefetchSize>8359</PrefetchSize>
 				</File>
 			</IncludedMemoryFiles>
+			<StateGroups>
+				<StateGroup Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full">
+					<States/>
+				</StateGroup>
+				<StateGroup Id="3101201588" Name="HiCut" ObjectPath="\States\Default Work Unit\Music_State\HiCut">
+					<States/>
+				</StateGroup>
+			</StateGroups>
 		</SoundBank>
 		<SoundBank Id="289583631" Language="SFX" Hash="651281669">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>

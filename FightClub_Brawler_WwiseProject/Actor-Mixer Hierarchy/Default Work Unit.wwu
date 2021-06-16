@@ -14244,7 +14244,7 @@
 								<ActiveSource Name="VO_Announcer_3_2_1_Break" ID="{F8A57474-8EEC-47A2-B641-C068E8576CC2}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="VO_Announcer_3_2_1_Classic" ID="{3AD2F1CC-B606-49B7-9625-ADBF4CCF296D}" ShortID="993169326">
+						<Sound Name="VO_Announcer_3_2_1" ID="{3AD2F1CC-B606-49B7-9625-ADBF4CCF296D}" ShortID="993169326">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -14255,6 +14255,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="VO_Announcer_3_2_1_Classic" ID="{D0D84442-CB38-4E3E-8175-4251FB500697}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.0604985998224165"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.0620032000000001"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0604985998224165"/>
+										<Property Name="TrimEnd" Type="Real64" Value="2.6661376"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>VO\VO_Announcer_3_2_1_Classic.wav</AudioFile>
 									<MediaIDList>
@@ -14972,6 +14979,67 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="VO_Announcer_WhatASave" ID="{16F71926-7A8A-4BA3-8C4F-41A7A63CFA76}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Classic" ID="{827590BB-3820-4762-9FF4-9ED8ADFE2F8B}" ShortID="987994304">
+							<PropertyList>
+								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_3_2_1_Classic" ID="{C7B286D7-BA08-4B97-B55F-B0CF466C221A}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.0604985998224165"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.0620032000000001"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="2.62034499982241"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_3_2_1_Classic.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="801350364"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_3_2_1_Classic" ID="{C7B286D7-BA08-4B97-B55F-B0CF466C221A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Break" ID="{A723F418-F437-41B1-B123-C6C2D2A9B858}" ShortID="179001778">
+							<PropertyList>
+								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Announcer_3_2_1_Break" ID="{4BDAC32A-4C89-4F45-A7FC-0161A8D3432B}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.125632"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="2.72202666666667"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>VO\VO_Announcer_3_2_1_Break.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="134957756"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Announcer_3_2_1_Break" ID="{4BDAC32A-4C89-4F45-A7FC-0161A8D3432B}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
