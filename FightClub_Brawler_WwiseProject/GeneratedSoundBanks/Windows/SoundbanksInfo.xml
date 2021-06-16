@@ -60,7 +60,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="1377889412">
+		<SoundBank Id="152968626" Language="SFX" Hash="1498943510">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -2320,6 +2320,16 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="957805480" Name="Set_MUS_Pause" ObjectPath="\Events\Default Work Unit\Music\Set_MUS_Pause" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="3101201588" Name="HiCut" ObjectPath="\States\Default Work Unit\Music_State\HiCut"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="3146211024" Name="Set_MUS_Play" ObjectPath="\Events\Default Work Unit\Music\Set_MUS_Play" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full"/>
+					</ActionSetState>
+				</Event>
 				<Event Id="2439856242" Name="Stop_BRND_Attack_Slide_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\Stop_BRND_Attack_Slide_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="2429595649" Name="Stop_BRND_Attack_Whoosh_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Attack_Whoosh_DashAttack\Stop_BRND_Attack_Whoosh_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="3433362088" Name="Stop_BRND_WallSlide" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Foley\Stop_BRND_WallSlide" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -2391,6 +2401,14 @@
 					<PrefetchSize>8359</PrefetchSize>
 				</File>
 			</IncludedMemoryFiles>
+			<StateGroups>
+				<StateGroup Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full">
+					<States/>
+				</StateGroup>
+				<StateGroup Id="3101201588" Name="HiCut" ObjectPath="\States\Default Work Unit\Music_State\HiCut">
+					<States/>
+				</StateGroup>
+			</StateGroups>
 		</SoundBank>
 		<SoundBank Id="289583631" Language="SFX" Hash="651281669">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_UI</ObjectPath>
