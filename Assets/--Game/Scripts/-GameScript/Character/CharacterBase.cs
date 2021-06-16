@@ -178,7 +178,7 @@ public class CharacterBase : MonoBehaviour, IControllable
 
 	public void SetState(CharacterState characterState)
 	{
-		Debug.Log(characterState.gameObject.name);
+		//Debug.Log(characterState.gameObject.name);
 		if(currentState != null)
 			currentState.EndState(this, characterState);
 

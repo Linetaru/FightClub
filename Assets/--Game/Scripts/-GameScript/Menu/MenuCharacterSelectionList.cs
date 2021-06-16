@@ -47,8 +47,10 @@ namespace Menu
 			animatorMenu.gameObject.SetActive(true);
 			animatorMenu.SetBool("Appear", true);
 
-			for (int i = 0; i < databaseCharacter.Database.Count; i++)
+			for (int i = 0; i < 2; i++)//databaseCharacter.Database.Count; i++)
 			{
+				/*if (databaseCharacter.Database[i].characterName == "Random")
+					continue;*/
 				if (databaseCharacter.GetUnlocked(i) == true)
 				{
 					listEntry.DrawItemList(i, null, databaseCharacter.Database[i].characterName);

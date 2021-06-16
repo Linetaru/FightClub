@@ -29,7 +29,6 @@ public class AttackC_JumpCancel : AttackComponent
 		{
 			if (user.Input.CheckAction(0, InputConst.Jump) || user.Input.CheckAction(0, InputConst.Smash))
 			{
-				Debug.Log("Jump Cancel");
 				user.Action.FinishAction();
 				if (instantMomentum == true)
 					user.Movement.SpeedX = (user.Movement.MaxAerialSpeed * user.Input.horizontal) * multiplier;
