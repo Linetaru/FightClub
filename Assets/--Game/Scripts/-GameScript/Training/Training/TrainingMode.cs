@@ -237,7 +237,7 @@ namespace Menu
 
 		private void DrawOptions()
 		{
-			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
+			listEntry.ListItem[0].DrawSubText(timeScale.ToString("F1"));
 			listEntry.ListItem[1].DrawSubText(percentage.ToString());
 			listEntry.ListItem[2].DrawSubText(powerGauge.ToString());
 			listEntry.ListItem[3].DrawSubText(guardBreakEnemy ? "On" : "Off");

@@ -135,6 +135,18 @@ public class GrandSlamManager : MonoBehaviour
 
         gameData.slamMode = true;
 
+        for(int i = 0; i < listGameModesValid.Count; i++)
+        {
+            listGameModesValid[i].nbLife = gameData.ConfigMode.numberOfLife;
+            if(listGameModesValid[i].hasScoreGoal)
+                listGameModesValid[i].scoreGoal = gameData.ConfigMode.numberOfGoal;
+        }
+
+        if (gameData.ConfigMode.numberOfGrandSlamBonus != 0)
+            specialRoundsOcurrence = gameData.ConfigMode.numberOfGrandSlamBonus;
+        else
+            specialRoundsOcurrence = 10000;
+
         InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
@@ -160,18 +172,19 @@ public class GrandSlamManager : MonoBehaviour
 
     private void InitScoreGoal()
     {
-        if(gameData.CharacterInfos.Count == 2)
-        {
-            scoreToWin = scoreGoal2Players;
-        }
-        else if (gameData.CharacterInfos.Count == 3)
-        {
-            scoreToWin = scoreGoal3Players;
-        }
-        else
-        {
-            scoreToWin = scoreGoal4Players;
-        }
+        //if(gameData.CharacterInfos.Count == 2)
+        //{
+        //    scoreToWin = scoreGoal2Players;
+        //}
+        //else if (gameData.CharacterInfos.Count == 3)
+        //{
+        //    scoreToWin = scoreGoal3Players;
+        //}
+        //else
+        //{
+        //    scoreToWin = scoreGoal4Players;
+        //}
+        scoreToWin = gameData.ConfigMode.numberOfGrandSlamPoint;
 
         canvasScore.InitProperty(scoreToWin, gameData);
     }
@@ -191,8 +204,6 @@ public class GrandSlamManager : MonoBehaviour
     // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
-
-
         if (!almostOver && PlayerAboutToWin())
         {
             SlamMode slamMode = RemoveMode(GameModeStateEnum.Volley_Mode);
