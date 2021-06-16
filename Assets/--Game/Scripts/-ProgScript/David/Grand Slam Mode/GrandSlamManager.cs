@@ -73,6 +73,16 @@ public class GrandSlamManager : MonoBehaviour
     [SerializeField]
     private aToContinue aContinueButton;
 
+    [Title("Objects")]
+    [SerializeField]
+    private AK.Wwise.Event eventInGameToScore = null;
+    [SerializeField]
+    private AK.Wwise.Event eventEarnMoney = null;
+    [SerializeField]
+    private AK.Wwise.Event eventStopMoney = null;
+    [SerializeField]
+    private AK.Wwise.Event eventScoreToInGame = null;
+
     private Camera currentCam;
 
 
@@ -354,6 +364,7 @@ public class GrandSlamManager : MonoBehaviour
         }
 
 
+
         canvasScore.SetCurrentModeInfo(gameMode);
         if(gameMode == GameModeStateEnum.Volley_Mode)
         {
@@ -414,6 +425,8 @@ public class GrandSlamManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.8f);
         Time.timeScale = 1.0f;
 
+        AkSoundEngine.PostEvent(eventInGameToScore.Id, this.gameObject);
+
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = false;
@@ -440,8 +453,9 @@ public class GrandSlamManager : MonoBehaviour
 
 
             nextSceneName = GetRandomSceneFromList();
+            AkSoundEngine.PostEvent(eventEarnMoney.Id, this.gameObject);
             yield return new WaitForSeconds(timeOnScore);
-
+            AkSoundEngine.PostEvent(eventStopMoney.Id, this.gameObject);
             slamLogoMode.DrawLogo(gameMode);
 
             yield return new WaitForSeconds(0.5f);
@@ -459,7 +473,7 @@ public class GrandSlamManager : MonoBehaviour
                 yield return null;
             }
             pressToContinue = false;
-
+            AkSoundEngine.PostEvent(eventScoreToInGame.Id, this.gameObject);
 
             BattleManager.Instance.ResetInstance();
 
