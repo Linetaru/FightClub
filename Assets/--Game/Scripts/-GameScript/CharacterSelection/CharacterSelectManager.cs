@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
 public class CharacterSelectManager : MonoBehaviour, IControllable
 {
@@ -27,8 +28,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     [HideInInspector]
     public int playerStocks = 3;
 
-    [SerializeField]
-    TextMeshProUGUI numberOfStocksText;
 
     [SerializeField]
     Animator cameraTransition;
@@ -50,19 +49,34 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     public bool isVolleyBallMode = false;
 
+    [Title("Scenes")]
     [Scene]
     public string beforeMenuSceneName;
     [Scene]
-    public string afterMenuSceneNameClassicMode;
-    [Scene]
-    public string afterMenuSceneNameBombMode;
-    [Scene]
-    public string afterMenuSceneNameVolleyMode;
-    [Scene]
-    public string afterMenuSceneNameFlappyMode;
+    public string afterMenuSceneSelectionStage;
+    //[Scene]
+    //public string afterMenuSceneNameBombMode;
+    //[Scene]
+    //public string afterMenuSceneNameVolleyMode;
+    //[Scene]
+    //public string afterMenuSceneNameFlappyMode;
+
+
+    [Title("Canvas UI ")]
+    public TextMeshProUGUI gameModeTextUi;
+    [SerializeField]
+    TextMeshProUGUI numberOfStocksText;
+    public TextMeshProUGUI grandSlamSelectionPointText;
+    public TextMeshProUGUI grandSlamSelectionBonusText;
+    public TextMeshProUGUI volleyGoalText;
+    public TextMeshProUGUI selectedObjectText;
+    private int currentChoosenParameter = 0;
+    public GameObject canvasParameter;
 
     private void Start()
     {
+        Debug.Log("test");
+
         inputControlableHolograms = new PlayerSelectionFrame[4];
         inputControlableHolograms[0] = holograms[0];
         inputControlableHolograms[1] = holograms[1];
@@ -104,6 +118,55 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         //    }
         //}
 
+        if (gameData.GameMode == GameModeStateEnum.Special_Mode)
+        {
+            grandSlamSelectionPointText.transform.parent.gameObject.SetActive(true);
+            grandSlamSelectionBonusText.transform.parent.gameObject.SetActive(true);
+            volleyGoalText.transform.parent.gameObject.SetActive(false);
+            numberOfStocksText.transform.parent.gameObject.SetActive(true);
+            selectedObjectText.text = "Number of life";
+        }
+        else
+        {
+            grandSlamSelectionPointText.transform.parent.gameObject.SetActive(false);
+            grandSlamSelectionBonusText.transform.parent.gameObject.SetActive(false);
+            if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
+            {
+                volleyGoalText.transform.parent.gameObject.SetActive(true);
+                numberOfStocksText.transform.parent.gameObject.SetActive(false);
+                selectedObjectText.text = "Number of goal";
+            }
+            else
+            {
+                volleyGoalText.transform.parent.gameObject.SetActive(false);
+                numberOfStocksText.transform.parent.gameObject.SetActive(true);
+                selectedObjectText.text = "Number of life";
+            }
+        }
+
+        playerStocks = gameData.ConfigMode.numberOfLife;
+
+        UpdateParameterText();
+
+        switch (gameData.GameMode)
+        {
+            case GameModeStateEnum.Classic_Mode:
+                gameModeTextUi.text = "Classic";
+                break;
+            case GameModeStateEnum.Special_Mode:
+                gameModeTextUi.text = "Grand Slam";
+                break;
+            case GameModeStateEnum.Bomb_Mode:
+                gameModeTextUi.text = "Bomb";
+                break;
+            case GameModeStateEnum.Volley_Mode:
+                gameModeTextUi.text = "Volley";
+                break;
+            case GameModeStateEnum.Flappy_Mode:
+                gameModeTextUi.text = "Wall Splash";
+                break;
+        }
+
         for (int i = 0; i < characterDatas.Count; i++)
         {
             if (characterDatas[i] == null || characterDatas[i].characterName == "Random")
@@ -111,8 +174,9 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
             characterDatas[i].characterMaterials.Clear();
             UpdateCharacterDataMaterialList(characterDatas[i]);
-
         }
+
+        
     }
 
     private void UpdateCharacterDataMaterialList(CharacterData characterData)
@@ -133,6 +197,75 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         //}
     }
 
+    public void UpdateParameterText()
+    {
+        grandSlamSelectionPointText.text = gameData.ConfigMode.numberOfGrandSlamPoint.ToString();
+        grandSlamSelectionBonusText.text = gameData.ConfigMode.numberOfGrandSlamBonus.ToString();
+        volleyGoalText.text = gameData.ConfigMode.numberOfGoal.ToString();
+        numberOfStocksText.text = playerStocks.ToString();
+    }
+    public void UpdateParameterSelectedText()
+    {
+
+        switch (currentChoosenParameter)
+        {
+            case 0:
+                    selectedObjectText.text = "Number of life";
+                break;
+            case 1:
+                    selectedObjectText.text = "Victory Point";
+                break;
+            case 2:
+                    selectedObjectText.text = "Bonus Round";
+                break;
+        }
+    }
+
+    public void UpdateParameter(bool isDown)
+    {
+        switch (currentChoosenParameter)
+        {
+            case 0:
+                if (gameData.GameMode == GameModeStateEnum.Volley_Mode)
+                {
+                    gameData.ConfigMode.numberOfGoal = isDown ? gameData.ConfigMode.numberOfGoal - 1 : gameData.ConfigMode.numberOfGoal + 1;
+                    if (gameData.ConfigMode.numberOfGoal < 1)
+                        gameData.ConfigMode.numberOfGoal = 99;
+                    else if(gameData.ConfigMode.numberOfGoal > 99)
+                        gameData.ConfigMode.numberOfGoal = 1;
+                }
+                else
+                {
+                    playerStocks = isDown ? playerStocks - 1 : playerStocks + 1;
+                    if (playerStocks < 1)
+                        playerStocks = 99;
+                    else if (playerStocks > 99)
+                        playerStocks = 1;
+                    gameData.ConfigMode.numberOfLife = playerStocks;
+                    if(gameData.GameMode == GameModeStateEnum.Special_Mode)
+                        gameData.ConfigMode.numberOfGoal = playerStocks + 1;
+                }
+                break;
+
+            case 1:
+                gameData.ConfigMode.numberOfGrandSlamPoint = isDown ? gameData.ConfigMode.numberOfGrandSlamPoint - 100 : gameData.ConfigMode.numberOfGrandSlamPoint + 100;
+                if (gameData.ConfigMode.numberOfGrandSlamPoint < 100)
+                    gameData.ConfigMode.numberOfGrandSlamPoint = 10000;
+                else if (gameData.ConfigMode.numberOfGrandSlamPoint > 10000)
+                    gameData.ConfigMode.numberOfGrandSlamPoint = 100;
+                break;
+
+            case 2:
+                gameData.ConfigMode.numberOfGrandSlamBonus = isDown ? gameData.ConfigMode.numberOfGrandSlamBonus - 1 : gameData.ConfigMode.numberOfGrandSlamBonus + 1;
+                if (gameData.ConfigMode.numberOfGrandSlamBonus < 0)
+                    gameData.ConfigMode.numberOfGrandSlamBonus = 10;
+                else if (gameData.ConfigMode.numberOfGrandSlamBonus > 10)
+                    gameData.ConfigMode.numberOfGrandSlamBonus = 0;
+                break;
+        }
+
+        UpdateParameterText();
+    }
 
     public void UpdateControl(int ID, Input_Info input_Info)
     {
@@ -142,24 +275,38 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         if (input_Info.inputUiAction == InputConst.LeftTaunt)
         {
-            if (playerStocks > 1)
+            //input_Info.inputActions[0].timeValue = 0;
+            input_Info.inputUiAction = null;
+            if (gameData.GameMode == GameModeStateEnum.Special_Mode)
             {
-                //input_Info.inputActions[0].timeValue = 0;
-                input_Info.inputUiAction = null;
-                playerStocks--;
-                UpdateStockText();
+                currentChoosenParameter--;
+                if (currentChoosenParameter < 0)
+                    currentChoosenParameter = 2;
+                UpdateParameterSelectedText();
             }
         }
         else if (input_Info.inputUiAction == InputConst.RightTaunt)
         {
-            if (playerStocks < 99)
+            //input_Info.inputActions[0].timeValue = 0;
+            input_Info.inputUiAction = null;
+            if (gameData.GameMode == GameModeStateEnum.Special_Mode)
             {
-                //input_Info.inputActions[0].timeValue = 0;
-                input_Info.inputUiAction = null;
-                playerStocks++;
-                UpdateStockText();
+                currentChoosenParameter++;
+                if (currentChoosenParameter > 2)
+                    currentChoosenParameter = 0;
+                UpdateParameterSelectedText();
             }
         }
+
+        if (input_Info.inputUiAction == InputConst.DownTaunt)
+        {
+            UpdateParameter(true);
+        }
+        else if (input_Info.inputUiAction == InputConst.UpTaunt)
+        {
+            UpdateParameter(false);
+        }
+
         else if (input_Info.inputUiAction == InputConst.LeftTrigger)
         {
             //input_Info.inputActions[0].timeValue = 0;
@@ -421,6 +568,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             isStarted = true;
             gameLaunched = true;
             gameData.NumberOfLifes = playerStocks;
+            canvasParameter.SetActive(false);
 
             int characterInfoNumber = 0;
 
@@ -510,7 +658,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if(gameData.GameSetting.StagesAvailable.GetUnlocked(i) && currentStage != null)
             {
-                SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+                SceneManager.LoadScene(afterMenuSceneSelectionStage);
                 yield break;
             }
 
@@ -522,7 +670,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         }
 
         if(currentStage == null)
-            SceneManager.LoadScene(afterMenuSceneNameClassicMode);
+            SceneManager.LoadScene(afterMenuSceneSelectionStage);
         else
             SceneManager.LoadScene(currentStage.SceneName);
 
