@@ -82,6 +82,9 @@ public class IntroductionManager : MonoBehaviour, IControllable
 		if(battleManager == null)
 			battleManager = BattleManager.Instance;
 
+		if (battleManager.gameData.GameSetting.SkipIntro)
+			this.gameObject.SetActive(false);
+
 		characters.Add(character);
 		if(characters.Count == gameData.CharacterInfos.Count)
 		{
@@ -135,7 +138,8 @@ public class IntroductionManager : MonoBehaviour, IControllable
 
 	private IEnumerator SkipIntroductionCoroutine()
 	{
-		AkSoundEngine.PostEvent(musicToStop.Id, this.gameObject);
+		if(musicToStop != null && stopMusic != null)
+			AkSoundEngine.PostEvent(musicToStop.Id, stopMusic.gameObject);
 		animatorTransitionToBattle.SetTrigger("Feedback");
 		yield return new WaitForSeconds(1f);
 		EndIntroduction();

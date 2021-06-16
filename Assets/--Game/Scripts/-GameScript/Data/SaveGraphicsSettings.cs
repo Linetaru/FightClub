@@ -70,17 +70,17 @@ namespace Menu
             {
                 if (QualityLevelName.Equals(gameVariables[i].variableName))
                 {
-                    qualityLevel = gameVariables[i].variableValue;
+                    QualityLevel = gameVariables[i].variableValue;
                     continue;
                 }
                 else if (ResolutionName.Equals(gameVariables[i].variableName))
                 {
-                    resolution = gameVariables[i].variableValue;
+                    Resolution = gameVariables[i].variableValue;
                     continue;
                 }
                 else if (FullscreenName.Equals(gameVariables[i].variableName))
                 {
-                    fullscreen = gameVariables[i].variableValue;
+                    Fullscreen = gameVariables[i].variableValue;
                     continue;
                 }
             }
@@ -94,6 +94,7 @@ namespace Menu
             QualitySettings.SetQualityLevel(qualityLevel);
             Screen.fullScreen = (fullscreen == 0) ? true : false;
             Screen.SetResolution(Screen.resolutions[resolution].width, Screen.resolutions[resolution].height, Screen.fullScreen);
+            Application.targetFrameRate = 60;
         }
     }
 

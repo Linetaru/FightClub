@@ -76,6 +76,13 @@ public class GameData : ScriptableObject
 		set { gameSetting = value; }
 	}
 
+	[SerializeField] [Expandable]
+	private ConfigModeScriptable configMode;
+	public ConfigModeScriptable ConfigMode
+	{
+		get { return configMode; }
+		set { configMode = value; }
+	}
 
 	[HideInInspector]
 	public bool slamMode = false;
