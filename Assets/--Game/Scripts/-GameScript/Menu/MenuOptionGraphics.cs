@@ -20,7 +20,7 @@ namespace Menu
 		public override void InitializeMenu()
 		{
 			base.InitializeMenu();
-            graphicsSettings.Resolution = Screen.resolutions.Length - 1;
+            //graphicsSettings.Resolution = Screen.resolutions.Length - 1;
 
             listEntry.DrawItemList(0, QualitySettings.names[graphicsSettings.QualityLevel]);
             listEntry.DrawItemList(1, Screen.resolutions[graphicsSettings.Resolution].ToString());

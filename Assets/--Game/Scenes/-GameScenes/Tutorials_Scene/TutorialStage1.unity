@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0.23690383, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8073,6 +8073,7 @@ MonoBehaviour:
   settingsMission: {fileID: 11400000, guid: 01a4641907db8834c88115843eb1cf27, type: 2}
   inputController: {fileID: 209619432}
   inputControllerEmpty: {fileID: 1265871507}
+  buttonDrawer: {fileID: 759793744}
   textbox: {fileID: 859803244}
   missionModePanel: {fileID: 2145381508}
   parentMissionMode: {fileID: 1009670006}
@@ -8091,6 +8092,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1265871508}
+  - {fileID: 759793745}
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25104,6 +25106,61 @@ Transform:
   - {fileID: 1183747243}
   m_Father: {fileID: 1150739688}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &759793743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 759793745}
+  - component: {fileID: 759793744}
+  m_Layer: 0
+  m_Name: ButtonDrawer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &759793744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759793743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51070fd7c38741c428bf2aab2f50a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: 0
+  joystickButton:
+  - <sprite=10>
+  - <sprite=7>
+  - <sprite=8>
+  buttons:
+  - <sprite=0>
+  - <sprite=1>
+  - <sprite=3>
+  - <sprite=2>
+  - <sprite=4>
+  - <sprite=5>
+--- !u!4 &759793745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759793743}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 227969370}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &761178133
 PrefabInstance:
@@ -45940,7 +45997,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 83f4b111b8cec384a8aeef57b256c23c, type: 2}
+    WwiseObjectReference: {fileID: 0}
   useCallbacks: 0
   Callbacks: []
   playingId: 0
