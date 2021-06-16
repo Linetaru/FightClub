@@ -27655,6 +27655,7 @@ GameObject:
   - component: {fileID: 675621866}
   - component: {fileID: 675621868}
   - component: {fileID: 675621867}
+  - component: {fileID: 675621869}
   m_Layer: 0
   m_Name: Ambiances
   m_TagString: Untagged
@@ -27731,6 +27732,24 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &675621869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675621865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2944f2c4f84edfc4aa3892574009c7b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stopEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d425c2f9e64b1024fbe9aefcb3286728, type: 2}
+  msTransition: 0.5
+  curveFade: 4
 --- !u!1 &677594969
 GameObject:
   m_ObjectHideFlags: 0
@@ -37576,6 +37595,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventScorePoint: {fileID: 11400000, guid: a06f7a5df097e0d4f8c7e434e8261bed, type: 2}
   isRedTeam: 1
+  eventGoal:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ac0db3db3955ece43a7937437aa25ae9, type: 2}
 --- !u!65 &951959394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -45438,6 +45461,7 @@ GameObject:
   - component: {fileID: 1135525887}
   - component: {fileID: 1135525889}
   - component: {fileID: 1135525888}
+  - component: {fileID: 1135525890}
   m_Layer: 25
   m_Name: IntroStage
   m_TagString: Untagged
@@ -45537,8 +45561,32 @@ PlayableDirector:
     value: {fileID: 1652957217}
   - key: {fileID: 4594781032531882864, guid: 1f6f9429c6fe7e14abb3a65925943192, type: 2}
     value: {fileID: 1652957219}
+  - key: {fileID: 5179735351628008483, guid: 1f6f9429c6fe7e14abb3a65925943192, type: 2}
+    value: {fileID: 1135525886}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &1135525890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135525886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0241f6d33764c564993f1f119e6f2687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1138106855
 GameObject:
   m_ObjectHideFlags: 0
@@ -61216,6 +61264,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventScorePoint: {fileID: 11400000, guid: 855f3ef7707a9a14ebd613b0d43fd6d5, type: 2}
   isRedTeam: 0
+  eventGoal:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ac0db3db3955ece43a7937437aa25ae9, type: 2}
 --- !u!65 &1538438924
 BoxCollider:
   m_ObjectHideFlags: 0
