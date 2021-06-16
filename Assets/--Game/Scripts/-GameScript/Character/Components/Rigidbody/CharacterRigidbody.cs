@@ -57,6 +57,11 @@ public class CharacterRigidbody : MonoBehaviour
 
     }
 
+    public virtual bool CheckGroundNear(float gravity)
+    {
+        return false;
+    }
+
 
     protected bool preventFall = true;
 
