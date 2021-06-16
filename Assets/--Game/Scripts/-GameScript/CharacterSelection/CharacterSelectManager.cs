@@ -73,10 +73,15 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     private int currentChoosenParameter = 0;
     public GameObject canvasParameter;
 
+    [Title("Sound")]
+    public AK.Wwise.Event eventPulse = null;
+    public AK.Wwise.Event eventCrow = null;
+    public AK.Wwise.Event eventCharacterAdded = null;
+    public AK.Wwise.Event eventColorSelect = null;
+    public AK.Wwise.Event eventCharacterSelected = null;
+
     private void Start()
     {
-        Debug.Log("test");
-
         inputControlableHolograms = new PlayerSelectionFrame[4];
         inputControlableHolograms[0] = holograms[0];
         inputControlableHolograms[1] = holograms[1];
@@ -87,7 +92,6 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (databaseCharacter.GetUnlocked(i))
             {
-                //Debug.LogError(databaseCharacter.Database[i]);
                 characterDatas.Add(databaseCharacter.Database[i]);
             }
             else
@@ -349,6 +353,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         if (!holograms[ID].isPlayerConnected && input_Info.inputUiAction == InputConst.Interact)
         {
+            AkSoundEngine.PostEvent(eventCharacterAdded.Id, this.gameObject);
             //input_Info.inputActions[0].timeValue = 0;
             holograms[ID].isPlayerConnected = true;
             numberOfConnectedPlayers++;
@@ -362,6 +367,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         if (/*!holograms[ID].isPlayerConnected && */input_Info.inputUiAction == InputConst.RightShoulder)
         {
+            AkSoundEngine.PostEvent(eventCharacterAdded.Id, this.gameObject);
             //input_Info.inputActions[0].timeValue = 0;
             Debug.LogError("Pressed R1");
 
@@ -408,11 +414,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (input_Info.horizontal > .5f && !inputControlableHolograms[ID].joystickPushed)
             {
+                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateCursorPosition(true, characterDatas);
             }
             else if (input_Info.horizontal < -.5f && !inputControlableHolograms[ID].joystickPushed)
             {
+                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateCursorPosition(false, characterDatas);
             }
@@ -423,6 +431,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
             if (input_Info.inputUiAction == InputConst.Interact)
             {
+                AkSoundEngine.PostEvent(eventCharacterSelected.Id, this.gameObject);
                 if (inputControlableHolograms[ID].currentCursorPosition == 2)
                 {
                     inputControlableHolograms[ID].RandomReady(characterDatas);
@@ -437,9 +446,15 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 }
                 input_Info.inputUiAction = null;
                 inputControlableHolograms[ID].iD = ID;
+
+                // c'est pourrav ne jamais refaire ça, à changer un jour
+                if(inputControlableHolograms[ID].currentChoosedCharacter.characterName == "Pulse")
+                    AkSoundEngine.PostEvent(eventPulse.Id, this.gameObject);
+                else if (inputControlableHolograms[ID].currentChoosedCharacter.characterName == "Crow")
+                    AkSoundEngine.PostEvent(eventCrow.Id, this.gameObject);
             }
             // ================================================================== Pour l'IA
-            else if (input_Info.inputUiAction == InputConst.Jump)
+            /*else if (input_Info.inputUiAction == InputConst.Jump)
             {
                 if (inputControlableHolograms[ID].currentCursorPosition == 2)
                 {
@@ -455,7 +470,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 }
                 input_Info.inputUiAction = null;
                 inputControlableHolograms[ID].iD = -1;
-            }
+            }*/
             // ==================================================================
             if (input_Info.inputUiAction == InputConst.Return)
             {
@@ -482,11 +497,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (Mathf.Abs(input_Info.vertical) > .5f && !inputControlableHolograms[ID].joystickPushed)
             {
+                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].ChangeParam();
             }
             else if (input_Info.horizontal > .5f && !inputControlableHolograms[ID].joystickPushed)
             {
+                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateParam(true, characterDatas);
             }
@@ -514,6 +531,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
             if (input_Info.inputUiAction == InputConst.Interact)
             {
+                AkSoundEngine.PostEvent(eventCharacterSelected.Id, this.gameObject);
                 inputControlableHolograms[ID].Ready();
                 numberOfReadyPlayers++;
                 input_Info.inputUiAction = null;
