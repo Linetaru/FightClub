@@ -15,7 +15,7 @@ public class StopMusic : MonoBehaviour
 	AkCurveInterpolation curveFade = AkCurveInterpolation.AkCurveInterpolation_Linear;
 
 	[Button]
-	private void Stop()
+	public void Stop()
 	{
 		stopEvent.ExecuteAction(this.gameObject, AkActionOnEventType.AkActionOnEventType_Stop, (int) (msTransition * 1000), curveFade);
 	}

@@ -13,6 +13,8 @@ public class OutsideScreenCursor : MonoBehaviour
 	RectTransform pivotArrow;
 	[SerializeField]
 	RectTransform blastZoneFill;
+	[SerializeField]
+	Image characterFace;
 
 	CameraZoomController cam;
 	Transform focus;
@@ -25,13 +27,13 @@ public class OutsideScreenCursor : MonoBehaviour
 
 
 
-	public void Initialize(CharacterBase character, Bounds blastZoneBounds, CameraZoomController camera)
+	public void Initialize(CharacterBase character, Bounds blastZoneBounds, CameraZoomController camera, Sprite spriteFace)
 	{
 		c = character;
 		focus = character.CenterPoint;
 		blastZones = blastZoneBounds;
 		cam = camera;
-
+		characterFace.sprite = spriteFace;
 		//center = Vector2.one * 0.5f;
 	}
 

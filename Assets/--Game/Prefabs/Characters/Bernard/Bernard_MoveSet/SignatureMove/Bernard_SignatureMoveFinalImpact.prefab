@@ -71,8 +71,15 @@ MonoBehaviour:
   - {fileID: 9148084274938369658}
   - {fileID: 691058427735319177}
   - {fileID: 8966345666950095123}
+  playerHitEvent: {fileID: 0}
   clashLevel: 1
-  clashCancel: 1
+  noClash: 0
+  noParryCancel: 0
+  disjoint: 0
+  guardOnDash: 0
+  guardWin: 0
+  parryBreak: 0
+  guardBreak: 0
   onHitColliderEvents:
     m_PersistentCalls:
       m_Calls: []
@@ -291,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultForce: 0.02
   defaultTime: 0.2
+  shakeTarget: {fileID: 0}
 --- !u!114 &8356642236284166115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 5954542618089656598}
   particle: {fileID: 6768458222377338947}
+  a: {fileID: 0}
 --- !u!1 &5198975466891244685
 GameObject:
   m_ObjectHideFlags: 0
@@ -5386,7 +5395,7 @@ MonoBehaviour:
   hitSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 31ca7649d213a03499daf1a5662699d5, type: 2}
+    WwiseObjectReference: {fileID: 11400000, guid: 6ae380d5b4e66184faa1e4f449894d36, type: 2}
 --- !u!1 &6044632909185049864
 GameObject:
   m_ObjectHideFlags: 0
@@ -5471,6 +5480,8 @@ MonoBehaviour:
   keepMomentumY: 0
   applyGravity: 0
   gravityMultiplier: 1
+  applyGravityDescend: 0
+  gravityMultiplierDescend: 1
   canAirControl: 0
   groundCancel: 0
   groundEndLag: {fileID: 0}
@@ -5532,6 +5543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentDamage: 30
+  percentDamageOnGuard: 0
 --- !u!1 &6949625896290967187
 GameObject:
   m_ObjectHideFlags: 0
@@ -5701,8 +5713,10 @@ MonoBehaviour:
   linkToCharacter: 1
   atkCombo: {fileID: 0}
   attackCondition: {fileID: 0}
+  playerHitEvent: {fileID: 0}
   atkSubs:
   - {fileID: 556300893683851836}
+  subAnimators: []
 --- !u!1 &8402041882964761022
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,6 +70,8 @@ public class GrandSlamManager : MonoBehaviour
     private SlamLogoMode slamLogoMode;
     [SerializeField]
     private BonusRoundPanel bonusPanel;
+    [SerializeField]
+    private aToContinue aContinueButton;
 
     private Camera currentCam;
 
@@ -392,6 +394,8 @@ public class GrandSlamManager : MonoBehaviour
     // Gère toute la transition de la fin du mode en cours au début du prochain mode
     private IEnumerator ManageEndMode()
     {
+        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        BattleManager.Instance.GamePaused = true;
         Time.timeScale = 0.2f;
         if(gameMode != GameModeStateEnum.Volley_Mode)
             yield return new WaitForSecondsRealtime(2f);
@@ -402,6 +406,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = false;
+        camSlam.camera.enabled = true;
 
         camSlam.RotToScore();
 
@@ -428,7 +433,7 @@ public class GrandSlamManager : MonoBehaviour
 
             slamLogoMode.DrawLogo(gameMode);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             // DISPLAY "A TO CONTINUE"
             canvasScore.DisplayContinue();
@@ -465,14 +470,18 @@ public class GrandSlamManager : MonoBehaviour
 
             canvasScore.HideContinue();
 
+            while(!aContinueButton.removeIsOver)
+            {
+                yield return null;
+            }
+
             while (BattleManager.Instance == null)
             {
                 yield return null;
             }
 
             camSlam.RemoveBackgroundBlur();
-
-
+            BattleManager.Instance.GamePaused = true;
 
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
             {
@@ -487,7 +496,7 @@ public class GrandSlamManager : MonoBehaviour
             }
 
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.4f);
 
 
 
@@ -512,10 +521,30 @@ public class GrandSlamManager : MonoBehaviour
                 yield return null;
             }
 
+            BattleManager.Instance.GamePaused = false;
             SetGame();
+
         }
         else
         {
+            canvasScore.HideLogoDraw();
+
+            yield return new WaitForSeconds(timeOnScore);
+
+            // DISPLAY "A TO CONTINUE"
+            canvasScore.DisplayContinue();
+
+            while (!pressToContinue)
+            {
+                if (BattleManager.Instance.inputController.playerInputs[0].CheckActionAbsolute(0, InputConst.Attack))
+                {
+                    BattleManager.Instance.inputController.playerInputs[0].inputActions[0].timeValue = 0;
+                    pressToContinue = true;
+                }
+                yield return null;
+            }
+            pressToContinue = false;
+
             ManageEndSlam();
         }
     }
@@ -524,7 +553,7 @@ public class GrandSlamManager : MonoBehaviour
     // Paramètre le gameData
     private void SetGame()
     {
-        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        //gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
 
         StartGame();
     }
@@ -536,6 +565,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = true;
+        camSlam.camera.enabled = false;
 
         BattleManager.Instance.StartBattleManager();
 
@@ -574,6 +604,7 @@ public class GrandSlamManager : MonoBehaviour
             CharacterBase cb = BattleManager.Instance.characterFullDead[i];
             int index = sortedControllerID.IndexOf(cb.ControllerID);
             podiumArr[index] = cb;
+            gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
         }
 
         /*
@@ -591,6 +622,8 @@ public class GrandSlamManager : MonoBehaviour
         camSlam.camera.enabled = false;
         BattleManager.Instance.cameraController.Camera.enabled = false;
         canvasScore.DeactivePanelScore();
+
+        gameData.GameMode = GameModeStateEnum.Special_Mode;
 
         //menuWin.InitializeWin(podium); 
         BattleManager.Instance.MenuWin.InitializeWin(podium);

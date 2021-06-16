@@ -26,6 +26,8 @@ namespace Menu
 		[Title("Feedbacks")]
 		[SerializeField]
 		Animator animatorCamera = null;
+		[SerializeField]
+		GameObject fade = null;
 
 		[Title("Menu")]
 		[SerializeField]
@@ -45,6 +47,7 @@ namespace Menu
 		void Start()
 		{
 			CheckMenuStartup();
+			Cursor.visible = false;
 		}
 
 
@@ -87,7 +90,13 @@ namespace Menu
 
 
 
-			// Utilisé par des Unity Event
+		// Utilisé par des Unity Event
+		public void QuitGame()
+		{
+			SaveManager.Instance.SaveFile();
+			Application.Quit();
+		}
+
 		public void LockInput(float time)
 		{
 
@@ -110,6 +119,12 @@ namespace Menu
 
 		public void LoadScene(string sceneName)
 		{
+			fade.gameObject.SetActive(true);
+			StartCoroutine(LoadSceneCoroutine(sceneName));
+		}
+		private IEnumerator LoadSceneCoroutine(string sceneName)
+		{
+			yield return new WaitForSeconds(0.5f);
 			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 		}
 

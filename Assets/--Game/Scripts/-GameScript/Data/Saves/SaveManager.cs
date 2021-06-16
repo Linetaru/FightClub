@@ -36,6 +36,16 @@ public class SaveManager : MonoBehaviour
             else // Sinon le load c'est bien passé
             {
                 Debug.Log("Load Successful");
+                if(saveData.SaveVersion != saveNewGameProfile.SaveVersion)
+                {
+                    // On fait un hard reset, essayez de ne pas faire ça pour plus tard
+                    Debug.Log("Different version detected, reset save to new game");
+                    saveData.LoadProfile(saveNewGameProfile);
+                    LoadData();
+
+                    // On sauvegarde la version pour pas avoir de soucis
+                    SaveFile();
+                }
             }
 
         }

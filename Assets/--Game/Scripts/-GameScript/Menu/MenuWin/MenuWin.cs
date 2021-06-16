@@ -57,12 +57,17 @@ namespace Menu
 			listPlayerChoice = new List<int>(charactersPodium.Count);
 			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
+			int numberOfBot = 0;
+
 			// On instancie le winner
-			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult)); 
+			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
 			if (Mathf.Sign(charactersPodium[0].ControllerID) != -1)
 				listPlayerChoice.Add(0);
 			else
+			{
 				listPlayerChoice.Add(2);
+				numberOfBot++;
+			}
 			listPlayerControllerID.Add(charactersPodium[0].ControllerID);
 
 			int winnerID = charactersPodium[0].PlayerID;
@@ -72,12 +77,28 @@ namespace Menu
 
 			CharacterBattleData characterBattleData = charactersPodium[0].GetComponentInChildren<CharacterBattleData>();
 			listResultDrawers[0].DrawParry(characterBattleData.NbOfParry);
+			string name = null;
+			if (Mathf.Sign(gameData.CharacterInfos[winnerID].ControllerID) > -1)
+			{
+				if (gameData.CharacterInfos[winnerID].InputMapping.profileName != "classic")
+				{
+					name = gameData.CharacterInfos[winnerID].InputMapping.profileName + " J" + (charactersPodium[0].PlayerID + 1);
+				}
+				else
+					name = gameData.CharacterInfos[winnerID].CharacterData.characterName + " J" + (charactersPodium[0].PlayerID + 1);
+			}
+			else
+			{
+				name = gameData.CharacterInfos[winnerID].CharacterData.characterName + " Bot J" + (charactersPodium[0].PlayerID + 1);
+			}
+			listResultDrawers[0].DrawCharacterName(name);
 			listResultDrawers[0].DrawResult(1, charactersPodium[0].PlayerID+1);
 			listResultDrawers[0].DrawKilled(characterBattleData.Killed);
 			listResultDrawers[0].DrawKiller(characterBattleData.Killer);
 			listResultDrawers[0].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 			if (Mathf.Sign(charactersPodium[0].ControllerID) == -1)
 				listResultDrawers[0].SetFeedback("Rematch");
+
 
 			// On instancie les loosers
 			for (int i = 1; i < charactersPodium.Count; i++)
@@ -87,7 +108,10 @@ namespace Menu
 				if (Mathf.Sign(charactersPodium[i].ControllerID) != -1)
 					listPlayerChoice.Add(0);
 				else
+				{
 					listPlayerChoice.Add(2);
+					numberOfBot++;
+				}
 
 				listPlayerControllerID.Add(charactersPodium[i].ControllerID);
 
@@ -95,16 +119,40 @@ namespace Menu
 				CharacterModel looser = Instantiate(characterInfo.CharacterData.looserModel, loosersPosition[i - 1]);
 				looser.SetColor(charactersPodium[i].PlayerID, characterInfo.CharacterData.characterMaterials[characterInfo.CharacterColorID]);
 
+				if (Mathf.Sign(gameData.CharacterInfos[charactersPodium[i].PlayerID].ControllerID) > -1)
+				{
+					if (gameData.CharacterInfos[charactersPodium[i].PlayerID].InputMapping.profileName != "classic")
+					{
+						name = gameData.CharacterInfos[charactersPodium[i].PlayerID].InputMapping.profileName + " J" + (charactersPodium[i].PlayerID + 1);
+					}
+					else
+						name = gameData.CharacterInfos[charactersPodium[i].PlayerID].CharacterData.characterName + " J" + (charactersPodium[i].PlayerID + 1);
+				}
+				else
+				{
+					name = gameData.CharacterInfos[charactersPodium[i].PlayerID].CharacterData.characterName + " Bot J" + (charactersPodium[i].PlayerID + 1);
+				}
 
 				// Pardon
 				characterBattleData = charactersPodium[i].GetComponentInChildren<CharacterBattleData>();
+				listResultDrawers[i].DrawCharacterName(name);
 				listResultDrawers[i].DrawParry(characterBattleData.NbOfParry);
 				listResultDrawers[i].DrawResult(i+1, charactersPodium[i].PlayerID+1);
 				listResultDrawers[i].DrawKilled(characterBattleData.Killed);
 				listResultDrawers[i].DrawKiller(characterBattleData.Killer);
 				listResultDrawers[i].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 				if (Mathf.Sign(charactersPodium[i].ControllerID) == -1)
-					listResultDrawers[i].SetFeedback("Rematch");
+				{
+					if (i == charactersPodium.Count - 1 && numberOfBot++ == i + 1)
+					{
+
+						listPlayerChoice[i] = 1;
+						listResultDrawers[i].SetFeedback("Surrend");
+						CheckEndScreen();
+					}
+					else
+						listResultDrawers[i].SetFeedback("Rematch");
+				}
 			}
 		}
 
@@ -229,7 +277,7 @@ namespace Menu
 		{
 			fadeInTransition.SetTrigger("Feedback");
 			yield return new WaitForSeconds(1.2f);
-			SceneManager.LoadScene("CharacterSelection");
+			SceneManager.LoadScene("CharacterSelection_Art");
 		}
 	}
 }
