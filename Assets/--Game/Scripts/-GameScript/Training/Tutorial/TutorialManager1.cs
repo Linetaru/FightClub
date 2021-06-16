@@ -8,35 +8,37 @@ public class TutorialManager1 : MonoBehaviour
 
 	[Title("Data")]
 	[SerializeField]
-	TrialsModeData trialsData;
+	TrialsModeData trialsData = null;
 	[SerializeField]
-	GameModeSettingsMission settingsMission;
+	GameModeSettingsMission settingsMission = null;
 
 	[Title("Logic")]
 	[SerializeField]
-	InputController inputController;
+	InputController inputController = null;
 	[SerializeField]
-	InputControllerEmpty inputControllerEmpty;
+	InputControllerEmpty inputControllerEmpty = null;
 
 	[SerializeField]
-	Textbox textbox;
+	TrialsButtonDrawer buttonDrawer = null;
+	[SerializeField]
+	Textbox textbox = null;
 
 
 
 	[Title("UI")]
 	[SerializeField]
-	MissionModePanel missionModePanel;
+	MissionModePanel missionModePanel = null;
 	[SerializeField]
-	Transform parentMissionMode;
+	Transform parentMissionMode = null;
 
 	[SerializeField]
-	GameObject animatorSuccess;
+	GameObject animatorSuccess = null;
 
 	[Title("Debug Transition Scene")]
 	[SerializeField]
-	GameData gameData;
+	GameData gameData = null;
 	[SerializeField]
-	CharacterData bernard;
+	CharacterData bernard = null;
 
 	int textIndex = 0;
 	int comboIndex = 0;
@@ -86,11 +88,15 @@ public class TutorialManager1 : MonoBehaviour
 		}
 		missionModePanels.Clear();
 		missionModePanels = new List<MissionModePanel>(trialsData.Missions.Count);
+		string textUI;
 		for (int i = 0; i < trialsData.Missions.Count; i++)
 		{
+			textUI = trialsData.ComboNotes[i];
 			missionModePanels.Add(Instantiate(missionModePanel, parentMissionMode));
 			missionModePanels[i].gameObject.SetActive(true);
-			missionModePanels[i].DrawItem(trialsData.ComboNotes[i]);
+			if (trialsData.TrialsButtonsNote.Count > i)
+				textUI = buttonDrawer.AddButtonToText(trialsData.TrialsButtonsNote[i], inputController.playerInputs[player.ControllerID], trialsData.ComboNotes[i]);
+			missionModePanels[i].DrawItem(textUI);
 		}
 	}
 

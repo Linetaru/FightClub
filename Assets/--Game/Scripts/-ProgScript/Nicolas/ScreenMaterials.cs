@@ -19,32 +19,38 @@ public class ScreenMaterials : MonoBehaviour
         Material[] mats = this.GetComponent<MeshRenderer>().materials;
         mats[1] = materialScreen[random];
         this.GetComponent<MeshRenderer>().materials = mats;
+        if (random == 1)
+        {
+            mats = this.GetComponent<MeshRenderer>().materials;
+            mats[1] = materialScreen[0];
+            this.GetComponent<MeshRenderer>().materials = mats;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (random == 1)
-        {
-            if (timerMax <= 0)
-            {
-                if (index >= textures.Count - 1)
-                {
-                    index = 0;
-                }
-                else
-                {
-                    index++;
-                }
-                Material[] mats = this.GetComponent<MeshRenderer>().materials;
-                mats[1] = textures[index];
-                this.GetComponent<MeshRenderer>().materials = mats;
-                timerMax = 0.1f;
-            }
-            else
-            {
-                timerMax -= Time.deltaTime;
-            }
-        }
+        //if (random == 1)
+        //{
+        //    if (timerMax <= 0)
+        //    {
+        //        if (index >= textures.Count - 1)
+        //        {
+        //            index = 0;
+        //        }
+        //        else
+        //        {
+        //            index++;
+        //        }
+        //        Material[] mats = this.GetComponent<MeshRenderer>().materials;
+        //        mats[1] = textures[index];
+        //        this.GetComponent<MeshRenderer>().materials = mats;
+        //        timerMax = 0.1f;
+        //    }
+        //    else
+        //    {
+        //        timerMax -= Time.deltaTime;
+        //    }
+        //}
     }
 }

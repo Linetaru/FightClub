@@ -30,10 +30,13 @@ public class VolleyMode : GameMode
 
         
         // A changer si on veut set l'objectif de points via le menu (on garde juste la première condition)
-        if (battleManager.gameData.slamMode)
-            scoreLimit = battleManager.gameData.GetModeScoreGoal(GameModeStateEnum.Volley_Mode);
-        else
-            battleManager.gameData.SetModeScoreGoal(GameModeStateEnum.Volley_Mode, scoreLimit);
+        //if (battleManager.gameData.slamMode)
+        //    scoreLimit = battleManager.gameData.GetModeScoreGoal(GameModeStateEnum.Volley_Mode);
+        //else
+        //    battleManager.gameData.SetModeScoreGoal(GameModeStateEnum.Volley_Mode, scoreLimit);
+
+        scoreLimit = battleManager.gameData.ConfigMode.numberOfGoal;
+        battleManager.gameData.SetModeScoreGoal(GameModeStateEnum.Volley_Mode, battleManager.gameData.ConfigMode.numberOfGoal);
     }
 
     public void UpdateRedScore()
