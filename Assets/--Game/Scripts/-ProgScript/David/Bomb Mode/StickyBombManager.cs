@@ -128,6 +128,20 @@ public class StickyBombManager : GameMode
     private StatusData status;
 
 
+    [Title("Sounds")]
+    [SerializeField]
+    private AK.Wwise.Event eventCountdown = null;
+    [SerializeField]
+    private AK.Wwise.Event eventClassic = null;
+    [SerializeField]
+    private AK.Wwise.Event eventFakeBomb = null;
+    [SerializeField]
+    private AK.Wwise.Event eventInvisible = null;
+    [SerializeField]
+    private AK.Wwise.Event eventNoCountdown = null;
+    [SerializeField]
+    private AK.Wwise.Event eventBombReset = null;
+
     private void Awake()
     {
         //if(_instance != null && _instance != this)
@@ -253,7 +267,7 @@ public class StickyBombManager : GameMode
     {
         timeOut = false;
 
-        for(int i = 0; i < battleManager.characterAlive.Count; i++)
+        for (int i = 0; i < battleManager.characterAlive.Count; i++)
         {
             battleManager.characterAlive[i].CharacterIcon.CreateIcon(bombIcon);
         }
@@ -261,7 +275,26 @@ public class StickyBombManager : GameMode
         int firstPlayerBomb = Random.Range(0, battleManager.characterAlive.Count);
         currentBombedPlayer = battleManager.characterAlive[firstPlayerBomb];
 
-        if(currentRoundMode != RoundMode.Invisible)
+        switch (currentRoundMode) 
+        {
+            case RoundMode.Normal:
+                AkSoundEngine.PostEvent(eventClassic.Id, this.gameObject);
+                break;
+            case RoundMode.Inv_Countdown:
+                AkSoundEngine.PostEvent(eventNoCountdown.Id, this.gameObject);
+                break;
+            case RoundMode.Invisible:
+                AkSoundEngine.PostEvent(eventInvisible.Id, this.gameObject);
+                break;
+            case RoundMode.FakeBomb:
+                AkSoundEngine.PostEvent(eventFakeBomb.Id, this.gameObject);
+                break;
+            case RoundMode.BombReset:
+                AkSoundEngine.PostEvent(eventBombReset.Id, this.gameObject);
+                break;
+        }
+
+        if (currentRoundMode != RoundMode.Invisible)
         {
             playerOriginalScale = currentBombedPlayer.transform.localScale;
             currentBombedPlayer.Status.AddStatus(new Status("osef", status));
@@ -492,6 +525,7 @@ public class StickyBombManager : GameMode
         uiManager.RoundIsOver();
         UpdateRoundMode();
         yield return new WaitForSecondsRealtime(bombModeData.timeBetweenRounds);
+        AkSoundEngine.PostEvent(eventCountdown.Id, this.gameObject);
         uiManager.LaunchCountDownAnim();
         startRound = true;
         //InitStickyBomb();

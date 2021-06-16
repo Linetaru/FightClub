@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using Menu;
+using Sirenix.OdinInspector;
 
 public class PauseGame : MonoBehaviour, IControllable
 {
@@ -28,6 +29,21 @@ public class PauseGame : MonoBehaviour, IControllable
     private bool OnTransition;
     private float timeTransit;
     float tempScale;
+
+
+    [Title("Sounds")]
+    [SerializeField]
+    AK.Wwise.Event eventPauseOn;
+    [SerializeField]
+    AK.Wwise.Event eventPauseOff;
+    [SerializeField]
+    AK.Wwise.Event eventPauseStart;
+    [SerializeField]
+    AK.Wwise.Event eventPauseSelect;
+    [SerializeField]
+    AK.Wwise.Event eventPauseReturn;
+    [SerializeField]
+    AK.Wwise.Event eventPauseQuit;
 
     private enum State 
     {
@@ -86,6 +102,8 @@ public class PauseGame : MonoBehaviour, IControllable
                 else
                 {
                     Time.timeScale = 1;
+                    AkSoundEngine.PostEvent(eventPauseQuit.Id, this.gameObject);
+                    AkSoundEngine.PostEvent(eventPauseOff.Id, this.gameObject);
                     UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
                 }
             }
@@ -95,10 +113,12 @@ public class PauseGame : MonoBehaviour, IControllable
         {
             if (inputs.vertical > 0.75 || inputs.horizontal < -0.75)
             {
+                AkSoundEngine.PostEvent(eventPauseSelect.Id, this.gameObject);
                 GetPositionCursor(State.Up);
             }
             else if (inputs.horizontal > 0.75 || inputs.vertical < -0.75)
             {
+                AkSoundEngine.PostEvent(eventPauseSelect.Id, this.gameObject);
                 GetPositionCursor(State.Down);
             }
         }
@@ -184,14 +204,23 @@ public class PauseGame : MonoBehaviour, IControllable
         textQuit.transform.DOScale(new Vector3(1, 1, 1), 0.01f).SetUpdate(true);
 
         if(isPause)
+        {
+            AkSoundEngine.PostEvent(eventPauseStart.Id, this.gameObject);
+            AkSoundEngine.PostEvent(eventPauseOn.Id, this.gameObject);
             Time.timeScale = 0;
+        }
         else
+        {
+            AkSoundEngine.PostEvent(eventPauseOff.Id, this.gameObject);
             Time.timeScale = tempScale;
+        }
+
     }
 
 
     private void ResumeGame()
     {
+        AkSoundEngine.PostEvent(eventPauseReturn.Id, this.gameObject);
         isPause = false;
         BattleManager.Instance.SetBattleControllable();
         PauseGameUI();

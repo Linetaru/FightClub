@@ -17,6 +17,9 @@ namespace Menu
         [SerializeField]
         Slider[] sliders;
 
+        [SerializeField]
+        AK.Wwise.Event eventVolume;
+
         int characterID = 0;
 
 
@@ -65,6 +68,7 @@ namespace Menu
                 }
                 else if (listHorizontal.InputListHorizontal(input) == true) // On s'est déplacé dans la liste
                 {
+                    AkSoundEngine.PostEvent(eventVolume.Id, this.gameObject);
                     ChangeVolume(listEntry.IndexSelection, (int)Mathf.Sign(input.horizontal));
                 }
                 else if (input.inputUiAction == InputConst.Return)
