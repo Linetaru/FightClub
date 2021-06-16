@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 namespace Menu
@@ -27,6 +28,8 @@ namespace Menu
 		MenuWinResultDrawer prefabResultDrawer;
 		[SerializeField]
 		Transform parentResult;
+		[SerializeField]
+		TextMeshProUGUI winnerNameText;
 
 		[Title("Feedback")]
 		[SerializeField]
@@ -58,6 +61,8 @@ namespace Menu
 			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
 			int numberOfBot = 0;
+
+			winnerNameText.text = gameData.CharacterInfos[charactersPodium[0].PlayerID].CharacterData.characterName;
 
 			// On instancie le winner
 			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
