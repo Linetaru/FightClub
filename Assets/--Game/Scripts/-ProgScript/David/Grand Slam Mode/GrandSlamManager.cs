@@ -135,6 +135,18 @@ public class GrandSlamManager : MonoBehaviour
 
         gameData.slamMode = true;
 
+        for(int i = 0; i < listGameModesValid.Count; i++)
+        {
+            listGameModesValid[i].nbLife = gameData.ConfigMode.numberOfLife;
+            if(listGameModesValid[i].hasScoreGoal)
+                listGameModesValid[i].scoreGoal = gameData.ConfigMode.numberOfGoal;
+        }
+
+        if (gameData.ConfigMode.numberOfGrandSlamBonus != 0)
+            specialRoundsOcurrence = gameData.ConfigMode.numberOfGrandSlamBonus;
+        else
+            specialRoundsOcurrence = 10000;
+
         InitScoreGoal();
         InitScoreDictionary();
         AdjustModeList();
@@ -160,18 +172,19 @@ public class GrandSlamManager : MonoBehaviour
 
     private void InitScoreGoal()
     {
-        if(gameData.CharacterInfos.Count == 2)
-        {
-            scoreToWin = scoreGoal2Players;
-        }
-        else if (gameData.CharacterInfos.Count == 3)
-        {
-            scoreToWin = scoreGoal3Players;
-        }
-        else
-        {
-            scoreToWin = scoreGoal4Players;
-        }
+        //if(gameData.CharacterInfos.Count == 2)
+        //{
+        //    scoreToWin = scoreGoal2Players;
+        //}
+        //else if (gameData.CharacterInfos.Count == 3)
+        //{
+        //    scoreToWin = scoreGoal3Players;
+        //}
+        //else
+        //{
+        //    scoreToWin = scoreGoal4Players;
+        //}
+        scoreToWin = gameData.ConfigMode.numberOfGrandSlamPoint;
 
         canvasScore.InitProperty(scoreToWin, gameData);
     }
@@ -191,8 +204,6 @@ public class GrandSlamManager : MonoBehaviour
     // Retire le mode en cours de la liste pour le tirage
     private List<string> GetRandomModeList()
     {
-
-
         if (!almostOver && PlayerAboutToWin())
         {
             SlamMode slamMode = RemoveMode(GameModeStateEnum.Volley_Mode);
@@ -394,6 +405,8 @@ public class GrandSlamManager : MonoBehaviour
     // Gère toute la transition de la fin du mode en cours au début du prochain mode
     private IEnumerator ManageEndMode()
     {
+        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        BattleManager.Instance.GamePaused = true;
         Time.timeScale = 0.2f;
         if(gameMode != GameModeStateEnum.Volley_Mode)
             yield return new WaitForSecondsRealtime(2f);
@@ -404,6 +417,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = false;
+        camSlam.camera.enabled = true;
 
         camSlam.RotToScore();
 
@@ -478,7 +492,7 @@ public class GrandSlamManager : MonoBehaviour
             }
 
             camSlam.RemoveBackgroundBlur();
-
+            BattleManager.Instance.GamePaused = true;
 
             if (currentSpecialRound != SpecialRound.NoCurrentSpecialRound)
             {
@@ -518,7 +532,9 @@ public class GrandSlamManager : MonoBehaviour
                 yield return null;
             }
 
+            BattleManager.Instance.GamePaused = false;
             SetGame();
+
         }
         else
         {
@@ -548,7 +564,7 @@ public class GrandSlamManager : MonoBehaviour
     // Paramètre le gameData
     private void SetGame()
     {
-        gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
+        //gameData.SetSkipIntro(GameModeStateEnum.Special_Mode, true);
 
         StartGame();
     }
@@ -560,6 +576,7 @@ public class GrandSlamManager : MonoBehaviour
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
         currentCam.enabled = true;
+        camSlam.camera.enabled = false;
 
         BattleManager.Instance.StartBattleManager();
 
@@ -598,6 +615,7 @@ public class GrandSlamManager : MonoBehaviour
             CharacterBase cb = BattleManager.Instance.characterFullDead[i];
             int index = sortedControllerID.IndexOf(cb.ControllerID);
             podiumArr[index] = cb;
+            gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
         }
 
         /*
@@ -615,6 +633,8 @@ public class GrandSlamManager : MonoBehaviour
         camSlam.camera.enabled = false;
         BattleManager.Instance.cameraController.Camera.enabled = false;
         canvasScore.DeactivePanelScore();
+
+        gameData.GameMode = GameModeStateEnum.Special_Mode;
 
         //menuWin.InitializeWin(podium); 
         BattleManager.Instance.MenuWin.InitializeWin(podium);

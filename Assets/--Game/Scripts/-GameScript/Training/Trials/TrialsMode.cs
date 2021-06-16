@@ -16,6 +16,8 @@ public class TrialsMode : GameMode
 
 	[Title("Logic")]
 	[SerializeField]
+	TrialsButtonDrawer buttonDrawer = null;
+	[SerializeField]
 	Textbox textbox = null;
 	[SerializeField]
 	Transform[] spawnPoints;
@@ -147,11 +149,15 @@ public class TrialsMode : GameMode
 
 		// UI
 		missionModePanels = new List<MissionModePanel>(trialsData.Missions.Count);
+		string textUI;
 		for (int i = 0; i < trialsData.Missions.Count; i++)
 		{
+			textUI = trialsData.ComboNotes[i];
 			missionModePanels.Add(Instantiate(missionModePanel, parentMissionMode));
 			missionModePanels[i].gameObject.SetActive(true);
-			missionModePanels[i].DrawItem(trialsData.ComboNotes[i]);
+			if(trialsData.TrialsButtonsNote.Count > i)
+				textUI = buttonDrawer.AddButtonToText(trialsData.TrialsButtonsNote[i], inputController.playerInputs[player.ControllerID], trialsData.ComboNotes[i]);
+			missionModePanels[i].DrawItem(textUI);
 		}
 		for (int i = 0; i < trialsData.NumberToSuccess; i++)
 		{
@@ -217,6 +223,8 @@ public class TrialsMode : GameMode
 	// Update is called once per frame
 	void Update()
 	{
+		if (settingsMission.TrialsDatabase == null)
+			return;
 		if (success == true)
 			return;
 		if (pauseFailed == true)

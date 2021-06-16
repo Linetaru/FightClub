@@ -149,7 +149,26 @@ public class Input_Info
 		return inputAction;
 	}
 
+	public EnumInput CheckMapping(EnumInput inputAction)
+	{
+		if (inputMapping == null || !inputMapping.isUsed)
+			return inputAction;
 
+		if (inputAction == EnumInput.A)
+			return inputMapping.inputAttack;
+		else if (inputAction == EnumInput.Y)
+			return inputMapping.inputJump;
+		else if (inputAction == EnumInput.B)
+			return inputMapping.inputShortHop;
+		else if (inputAction == EnumInput.X)
+			return inputMapping.inputSpecial;
+		else if (inputAction == EnumInput.R1)
+			return inputMapping.inputParry;
+		else if (inputAction == EnumInput.R2)
+			return inputMapping.inputDash;
+
+		return inputAction;
+	}
 }
 
 //Main class for Input Management, Send input to all player attached to this controller And manage input buffer for each player.

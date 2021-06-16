@@ -55,6 +55,10 @@ namespace Menu
 			this.gameObject.SetActive(true);
 		}
 
+		public void DrawCharacterName(string playerName)
+        {
+			textCharacterName.text = playerName;
+		}
 
 		public void DrawParry(int nbParry)
 		{

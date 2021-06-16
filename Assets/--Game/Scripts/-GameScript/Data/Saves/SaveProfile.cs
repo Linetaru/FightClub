@@ -8,6 +8,13 @@ using UnityEngine.SceneManagement;
 [CreateAssetMenu(fileName = "SaveProfile_", menuName = "Data/SaveProfile", order = 1)]
 public class SaveProfile : ScriptableObject
 {
+	[SerializeField]
+	[ReadOnly]
+	private int saveVersion;
+	public int SaveVersion
+	{
+		get { return saveVersion; }
+	}
 
 	[SerializeField]
 	[AssetList(AutoPopulate = true, CustomFilterMethod = "isSavable")]
@@ -56,6 +63,7 @@ public class SaveProfile : ScriptableObject
 				savesProfile.Insert(i, new SaveCategory(save.GetSaveID(), GenerateCategory(save.GetAllSavesID())));
 			}
 		}
+		saveVersion++;
 		UnityEditor.EditorUtility.SetDirty(this);
 	}
 

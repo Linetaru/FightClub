@@ -1,5 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &504685480601959381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4207444008702988784}
+  - component: {fileID: 546775567588677710}
+  m_Layer: 0
+  m_Name: ButtonDrawer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4207444008702988784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504685480601959381}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 612487957831774915}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546775567588677710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504685480601959381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51070fd7c38741c428bf2aab2f50a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: 0
+  joystickButton:
+  - <sprite=10>
+  - <sprite=7>
+  - <sprite=8>
+  buttons:
+  - <sprite=0>
+  - <sprite=1>
+  - <sprite=3>
+  - <sprite=2>
+  - <sprite=4>
+  - <sprite=5>
 --- !u!1 &612487955915544551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,6 +1845,7 @@ Transform:
   - {fileID: 612487956221710384}
   - {fileID: 612487956780896525}
   - {fileID: 612487955960906168}
+  - {fileID: 4207444008702988784}
   - {fileID: 4201882174053550551}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1808,6 +1864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsMission: {fileID: 11400000, guid: 01a4641907db8834c88115843eb1cf27, type: 2}
   currency: {fileID: 11400000, guid: 142d230f37b8b944d9e6773c4db700be, type: 2}
+  buttonDrawer: {fileID: 546775567588677710}
   textbox: {fileID: 4201882174053550550}
   spawnPoints:
   - {fileID: 612487957133783061}
@@ -2423,6 +2480,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 612487957831774915}
     m_Modifications:
+    - target: {fileID: 3616367540729106854, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: dcc27ff4225a9a64b8b4a59a1d75c395, type: 2}
+    - target: {fileID: 3616367540729106854, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
+      propertyPath: m_text
+      value: "Commencons par la m\xE9canique du Dash, <sprite=0><sprite=2>"
+      objectReference: {fileID: 0}
     - target: {fileID: 3616367540965524435, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2453,7 +2518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3616367540965524435, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3616367540965524435, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2470,6 +2535,10 @@ PrefabInstance:
     - target: {fileID: 3616367540965524437, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
       propertyPath: m_Name
       value: TextboxManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3616367541004480915, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79d04ba6cf0e5fb4b8cda6c482fde068, type: 3}

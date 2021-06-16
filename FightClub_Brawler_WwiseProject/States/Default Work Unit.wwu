@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{EED15773-94FB-4CCE-BBE8-C7B4BB455E85}" SchemaVersion="97">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{EED15773-94FB-4CCE-BBE8-C7B4BB455E85}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{EED15773-94FB-4CCE-BBE8-C7B4BB455E85}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Music_State" ID="{CB0A1015-08B3-4065-AA74-2F662B2CAA99}">
+					<ChildrenList>
+						<State Name="None" ID="{904FFD68-B991-4531-A904-3915484EF76E}"/>
+						<State Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
+						<State Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
+					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
+							<EndState Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
+							<Time>1</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
+							<EndState Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
+							<Time>1</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+					</TransitionList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

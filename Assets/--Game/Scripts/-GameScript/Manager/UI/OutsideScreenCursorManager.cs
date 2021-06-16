@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 public class OutsideScreenCursorManager : MonoBehaviour
 {
 	[SerializeField]
+	GameData gameData;
+	[SerializeField]
 	BoxCollider blastZone;
 
 
@@ -27,7 +29,7 @@ public class OutsideScreenCursorManager : MonoBehaviour
 		if (cam == null)
 			cam = BattleManager.Instance.cameraController;
 		OutsideScreenCursor cursor = Instantiate(prefab, parent);
-		cursor.Initialize(c, blastZone.bounds, cam);
+		cursor.Initialize(c, blastZone.bounds, cam, gameData.CharacterInfos[c.PlayerID].CharacterData.characterFace);
 
 		outsideScreenCursors.Add(cursor); 
 		cursor.gameObject.SetActive(true);

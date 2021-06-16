@@ -152,6 +152,12 @@ namespace Menu
 			{
 				inputDown = false;
 			}
+			else if (input.inputUiAction == InputConst.Interact && listEntry.IndexSelection == 8) // Quit
+			{
+				input.inputUiAction = null;
+				timeScale = 1f;
+				UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelection_Art");
+			}
 			else if (input.inputUiAction == InputConst.Pause || input.inputUiAction == InputConst.Back)
 			{
 				input.inputUiAction = null;
@@ -231,7 +237,7 @@ namespace Menu
 
 		private void DrawOptions()
 		{
-			listEntry.ListItem[0].DrawSubText(timeScale.ToString());
+			listEntry.ListItem[0].DrawSubText(timeScale.ToString("F1"));
 			listEntry.ListItem[1].DrawSubText(percentage.ToString());
 			listEntry.ListItem[2].DrawSubText(powerGauge.ToString());
 			listEntry.ListItem[3].DrawSubText(guardBreakEnemy ? "On" : "Off");
