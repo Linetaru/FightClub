@@ -142,12 +142,20 @@ public class TrialsModeData : SerializedScriptableObject
 		get { return missions; }
 	}
 
-
+	[HorizontalGroup("Notes")]
 	[SerializeField]
 	List<string> comboNotes = new List<string>();
 	public List<string> ComboNotes
 	{
 		get { return comboNotes; }
+	}
+
+	[HorizontalGroup("Notes")]
+	[SerializeField]
+	List<TrialsButton> trialsButtonsNote = new List<TrialsButton>();
+	public List<TrialsButton> TrialsButtonsNote
+	{
+		get { return trialsButtonsNote; }
 	}
 
 	[Space]

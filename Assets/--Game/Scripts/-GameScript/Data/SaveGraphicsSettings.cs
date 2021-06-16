@@ -94,6 +94,7 @@ namespace Menu
             QualitySettings.SetQualityLevel(qualityLevel);
             Screen.fullScreen = (fullscreen == 0) ? true : false;
             Screen.SetResolution(Screen.resolutions[resolution].width, Screen.resolutions[resolution].height, Screen.fullScreen);
+            Application.targetFrameRate = 60;
         }
     }
 
