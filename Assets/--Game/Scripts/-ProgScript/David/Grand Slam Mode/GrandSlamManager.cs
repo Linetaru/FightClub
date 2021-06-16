@@ -623,6 +623,8 @@ public class GrandSlamManager : MonoBehaviour
         BattleManager.Instance.cameraController.Camera.enabled = false;
         canvasScore.DeactivePanelScore();
 
+        gameData.GameMode = GameModeStateEnum.Special_Mode;
+
         //menuWin.InitializeWin(podium); 
         BattleManager.Instance.MenuWin.InitializeWin(podium);
     }
