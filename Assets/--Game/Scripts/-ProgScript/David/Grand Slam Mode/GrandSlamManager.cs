@@ -257,6 +257,22 @@ public class GrandSlamManager : MonoBehaviour
         //    }
         //}
 
+        if (gameMode == GameModeStateEnum.Volley_Mode)
+        {
+            if(gameData.CharacterInfos.Count == 2)
+            {
+                gameData.CharacterInfos[0].Team = TeamEnum.First_Team;
+                gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
+            }
+            else if(gameData.CharacterInfos.Count == 4)
+            {
+                gameData.CharacterInfos[0].Team = TeamEnum.First_Team;
+                gameData.CharacterInfos[1].Team = TeamEnum.Second_Team;
+                gameData.CharacterInfos[2].Team = TeamEnum.First_Team;
+                gameData.CharacterInfos[3].Team = TeamEnum.Second_Team;
+            }
+        }
+
         currentMode = listGameModesValid[randomKey];
 
 
