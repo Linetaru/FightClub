@@ -104,6 +104,10 @@ public class PauseGame : MonoBehaviour, IControllable
                     Time.timeScale = 1;
                     AkSoundEngine.PostEvent(eventPauseQuit.Id, this.gameObject);
                     AkSoundEngine.PostEvent(eventPauseOff.Id, this.gameObject);
+                    if(BattleManager.Instance.gameData.slamMode)
+                    {
+                        BattleManager.Instance.gameData.GameMode = GameModeStateEnum.Special_Mode;
+                    }
                     UnityEngine.SceneManagement.SceneManager.LoadScene(quit_button_scene);
                 }
             }
