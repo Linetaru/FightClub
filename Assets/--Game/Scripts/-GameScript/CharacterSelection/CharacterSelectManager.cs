@@ -78,8 +78,11 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     public AK.Wwise.Event eventPulse = null;
     public AK.Wwise.Event eventCrow = null;
     public AK.Wwise.Event eventCharacterAdded = null;
+    public AK.Wwise.Event eventCharacterSelect = null;
     public AK.Wwise.Event eventColorSelect = null;
+    public AK.Wwise.Event eventColorToInput = null;
     public AK.Wwise.Event eventCharacterSelected = null;
+    public AK.Wwise.Event eventWhooshEnd = null;
 
     private void Start()
     {
@@ -415,13 +418,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (input_Info.horizontal > .5f && !inputControlableHolograms[ID].joystickPushed)
             {
-                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
+                AkSoundEngine.PostEvent(eventCharacterSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateCursorPosition(true, characterDatas);
             }
             else if (input_Info.horizontal < -.5f && !inputControlableHolograms[ID].joystickPushed)
             {
-                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
+                AkSoundEngine.PostEvent(eventCharacterSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateCursorPosition(false, characterDatas);
             }
@@ -498,7 +501,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         {
             if (Mathf.Abs(input_Info.vertical) > .5f && !inputControlableHolograms[ID].joystickPushed)
             {
-                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
+                AkSoundEngine.PostEvent(eventColorToInput.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].ChangeParam();
             }
@@ -510,6 +513,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             }
             else if (input_Info.horizontal < -.5f && !inputControlableHolograms[ID].joystickPushed)
             {
+                AkSoundEngine.PostEvent(eventColorSelect.Id, this.gameObject);
                 inputControlableHolograms[ID].joystickPushed = true;
                 inputControlableHolograms[ID].UpdateParam(false, characterDatas);
             }
@@ -671,6 +675,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
     private IEnumerator GoToStageMenu()
     {
+        AkSoundEngine.PostEvent(eventWhooshEnd.Id, this.gameObject);
         yield return new WaitForSeconds(1.2f);
 
         StageData currentStage = null;
