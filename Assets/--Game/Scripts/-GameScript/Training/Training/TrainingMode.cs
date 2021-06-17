@@ -33,6 +33,15 @@ namespace Menu
 		[SerializeField]
 		Vector2 powerGaugeInterval;
 
+		[Title("Parameter")]
+		[SerializeField]
+		AK.Wwise.Event eventOpen;
+		[SerializeField]
+		AK.Wwise.Event eventClose;
+		[SerializeField]
+		AK.Wwise.Event eventSelected;
+		[SerializeField]
+		AK.Wwise.Event eventSlider;
 
 		BattleManager battleManager = null;
 		InputController inputController = null;
@@ -142,6 +151,7 @@ namespace Menu
 				battleManager.inputController.playerInputs[i].inputUiAction = null;
 			}
 			ShowMenu();
+			AkSoundEngine.PostEvent(eventOpen.Id, this.gameObject);
 		}
 
 
@@ -157,10 +167,12 @@ namespace Menu
 				return;
 			if (listEntry.InputList(input) == true) // On s'est déplacé dans la liste
 			{
+				AkSoundEngine.PostEvent(eventSelected.Id, this.gameObject);
 				SelectTrainingOption(listEntry.IndexSelection);
 			}
 			else if (Mathf.Abs(input.horizontal) > 0.5f && inputDown == false)
 			{
+				AkSoundEngine.PostEvent(eventSlider.Id, this.gameObject);
 				ModifyOptions(listEntry.IndexSelection, (int)Mathf.Sign(input.horizontal));
 				inputDown = true;
 			}
@@ -191,6 +203,7 @@ namespace Menu
 		{
 			battleManager.SetBattleControllable();
 			HideMenu();
+			AkSoundEngine.PostEvent(eventClose.Id, this.gameObject);
 		}
 
 
