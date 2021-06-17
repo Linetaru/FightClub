@@ -599,6 +599,7 @@ public class GrandSlamManager : MonoBehaviour
             }
             pressToContinue = false;
 
+            AkSoundEngine.PostEvent(eventMixOff.Id, this.gameObject);
             ManageEndSlam();
         }
     }
