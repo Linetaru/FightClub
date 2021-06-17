@@ -182,6 +182,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             case GameModeStateEnum.Flappy_Mode:
                 gameModeTextUi.text = "Wall Splash";
                 break;
+            case GameModeStateEnum.Training:
+                gameModeTextUi.text = "Training";
+                break;
+            case GameModeStateEnum.Tutorial:
+                gameModeTextUi.text = "Tutorial";
+                break;
         }
 
         for (int i = 0; i < characterDatas.Count; i++)
