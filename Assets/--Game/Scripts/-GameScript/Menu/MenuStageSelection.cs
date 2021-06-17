@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Menu
 {
-	public class MenuStageSelection : MonoBehaviour, IControllable
+	public class MenuStageSelection : MenuList, IControllable
 	{
 		[SerializeField]
 		MenuButtonListController listStage = null;
@@ -93,7 +93,7 @@ namespace Menu
 			listStage.SelectIndex(0);
 		}
 
-		public void UpdateControl(int id, Input_Info input)
+		public override void UpdateControl(int id, Input_Info input)
 		{	
 			if (!canControl)
 				return;
@@ -105,7 +105,7 @@ namespace Menu
 				else if (input.inputUiAction == InputConst.Interact)
 					ValidateStage(listStage.IndexSelection);
 				else if (input.inputUiAction == InputConst.Return)
-					QuitMenu();
+					LoadScene();
 			}
 			else if (Mathf.Abs(input.vertical) > 0.2f)
 				characterID = id;
@@ -119,6 +119,7 @@ namespace Menu
 
 		public void SelectStage(int id)
 		{
+			base.SelectEntry(id);
 			if (stageCoroutine != null)
 				StopCoroutine(stageCoroutine);
 			stageCoroutine = CameraCoroutine(id);
@@ -139,11 +140,12 @@ namespace Menu
 
 		public void ValidateStage(int id)
 		{
+			base.ValidateEntry(id);
 			canControl = false;
 			StartCoroutine(StageSelectedCoroutine(id));
 		}
 
-		public void QuitMenu()
+		public void LoadScene()
 		{
 			UnityEngine.SceneManagement.SceneManager.LoadScene(menuSelectionPersoScene);
 		}
