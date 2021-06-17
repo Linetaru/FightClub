@@ -395,28 +395,30 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
 
         if (/*!holograms[ID].isPlayerConnected && */input_Info.inputUiAction == InputConst.RightShoulder)
         {
-            AkSoundEngine.PostEvent(eventCharacterAdded.Id, this.gameObject);
-            //input_Info.inputActions[0].timeValue = 0;
-            Debug.LogError("Pressed R1");
-
-            HideReadyBands();
-
-            for (int i = 0; i < holograms.Length; i++)
+            if(!holograms[ID].isPlayerConnected || holograms[ID].isPlayerReady)
             {
-                if (!holograms[i].isPlayerConnected)
+                AkSoundEngine.PostEvent(eventCharacterAdded.Id, this.gameObject);
+
+                HideReadyBands();
+
+                for (int i = 0; i < holograms.Length; i++)
                 {
-                    numberOfConnectedPlayers++;
-                    if (holograms[i] != inputControlableHolograms[ID])
+                    if (!holograms[i].isPlayerConnected)
                     {
-                        inputControlableHolograms[ID] = holograms[i];
-                        //holograms[ID] = null;
+                        numberOfConnectedPlayers++;
+                        if (holograms[i] != inputControlableHolograms[ID])
+                        {
+                            inputControlableHolograms[ID] = holograms[i];
+                            //holograms[ID] = null;
+                        }
+                        inputControlableHolograms[ID].isCPU = true;
+                        inputControlableHolograms[ID].Connected(characterDatas);
+                        //holograms[i].RandomReadyCPU(characterDatas);
+                        break;
                     }
-                    inputControlableHolograms[ID].isCPU = true;
-                    inputControlableHolograms[ID].Connected(characterDatas);
-                    //holograms[i].RandomReadyCPU(characterDatas);
-                    break;
                 }
             }
+
             input_Info.inputUiAction = null;
         }
 
