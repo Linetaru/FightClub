@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 namespace Menu
@@ -11,6 +12,8 @@ namespace Menu
 		// Database de victory
 		[SerializeField]
 		GameData gameData;
+		[SerializeField]
+		CurrencyData currency;
 		[SerializeField]
 		VictoryScreen debugVictory;
 
@@ -27,10 +30,20 @@ namespace Menu
 		MenuWinResultDrawer prefabResultDrawer;
 		[SerializeField]
 		Transform parentResult;
+		[SerializeField]
+		TextMeshProUGUI winnerNameText;
 
 		[Title("Feedback")]
 		[SerializeField]
 		Animator fadeInTransition;
+
+		[Title("Sounds")] // C'est pas ouf de faire ça comme ça
+		[SerializeField]
+		AK.Wwise.Event eventPulseWin;
+		[SerializeField]
+		AK.Wwise.Event eventCrowWin;
+		[SerializeField]
+		AK.Wwise.Event eventRematch;
 
 		public enum StateResult{
 			Skip = 0,
@@ -51,6 +64,8 @@ namespace Menu
 
 		public void InitializeWin(List<CharacterBase> charactersPodium)
 		{
+			currency.AddMoney(50);
+			AkSoundEngine.StopAll();
 			this.gameObject.SetActive(true);
 
 			listResultDrawers = new List<MenuWinResultDrawer>(charactersPodium.Count);
@@ -58,6 +73,8 @@ namespace Menu
 			listPlayerControllerID = new List<int>(charactersPodium.Count);
 
 			int numberOfBot = 0;
+
+			winnerNameText.text = gameData.CharacterInfos[charactersPodium[0].PlayerID].CharacterData.characterName;
 
 			// On instancie le winner
 			listResultDrawers.Add(Instantiate(prefabResultDrawer, parentResult));
@@ -98,6 +115,12 @@ namespace Menu
 			listResultDrawers[0].DrawPreferedMove(characterBattleData.attackUsed, characterBattleData.attackNbUsed);
 			if (Mathf.Sign(charactersPodium[0].ControllerID) == -1)
 				listResultDrawers[0].SetFeedback("Rematch");
+
+			// c'est pourrav faut jamais faire ça
+			if(gameData.CharacterInfos[winnerID].CharacterData.characterName == "Pulse")
+				AkSoundEngine.PostEvent(eventPulseWin.Id, this.gameObject);
+			else if (gameData.CharacterInfos[winnerID].CharacterData.characterName == "Crow")
+				AkSoundEngine.PostEvent(eventCrowWin.Id, this.gameObject);
 
 
 			// On instancie les loosers
@@ -161,10 +184,10 @@ namespace Menu
 		public void SetStateResult()
 		{
 			stateResult = StateResult.Result;
-			/*for (int i = 0; i < listResultDrawers.Count; i++)
+			for (int i = 0; i < listResultDrawers.Count; i++)
 			{
-				listResultDrawers[i].DrawResult(i+1, i+1);
-			}*/
+				listResultDrawers[i].gameObject.SetActive(true);
+			}
 		}
 
 		// Update
@@ -208,14 +231,16 @@ namespace Menu
 			{
 				if (input.inputUiAction == InputConst.Return)
 				{
+					AkSoundEngine.PostEvent(eventRematch.Id, this.gameObject);
 					listPlayerChoice[id] = 1;
-					listResultDrawers[id].SetFeedback("Surrend"); // le surrend a virer et ne pas hardcodé
+					listResultDrawers[id].SetFeedback("Surrend");
 					CheckEndScreen();
 				}
 				else if(input.inputUiAction == InputConst.Interact)
                 {
+					AkSoundEngine.PostEvent(eventRematch.Id, this.gameObject);
 					listPlayerChoice[id] = 2;
-					listResultDrawers[id].SetFeedback("Rematch"); // le rematch a virer et ne pas hardcodé
+					listResultDrawers[id].SetFeedback("Rematch");
 					if (input.CheckAction(0, InputConst.Jump))
 						input.inputActions[0].timeValue = 0;
 					CheckEndScreen();

@@ -213,6 +213,9 @@ public class AttackSubManager : MonoBehaviour
 
     public void Hit(CharacterBase target)
     {
+        if (BattleManager.Instance.gameData.GameMode == GameModeStateEnum.Volley_Mode && target.gameObject.tag != "Ball")
+            return;
+
         if(target.TeamID == TeamEnum.No_Team || target.TeamID != user.TeamID)
         {
             string targetTag = target.transform.root.tag;

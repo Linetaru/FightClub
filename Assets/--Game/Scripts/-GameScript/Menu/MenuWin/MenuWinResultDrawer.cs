@@ -52,7 +52,7 @@ namespace Menu
 					break;
 			}
 			textControllerID.text = controllerID + "P";
-			this.gameObject.SetActive(true);
+			//this.gameObject.SetActive(true);
 		}
 
 		public void DrawCharacterName(string playerName)

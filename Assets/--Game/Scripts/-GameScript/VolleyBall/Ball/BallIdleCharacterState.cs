@@ -42,6 +42,9 @@ public class BallIdleCharacterState : CharacterState
     [SerializeField]
     SpriteRenderer ballShadowSprite;
 
+    [SerializeField]
+    AK.Wwise.Event eventBallRebound = null;
+
     RaycastHit hit;
 
     float maxShadowDistance = 8.0f;
@@ -155,11 +158,14 @@ public class BallIdleCharacterState : CharacterState
     {
         if ((character.Rigidbody.CollisionGroundInfo != null || character.Rigidbody.CollisionRoofInfo != null))
         {
+            if(Mathf.Abs(character.Movement.SpeedY) > 1f)
+                AkSoundEngine.PostEvent(eventBallRebound.Id, this.gameObject);
             character.Movement.SpeedY = -character.Movement.SpeedY * reboundReduction;
         }
 
         if (character.Rigidbody.CollisionWallInfo.Collision != null)
         {
+            AkSoundEngine.PostEvent(eventBallRebound.Id, this.gameObject);
             character.Movement.SpeedX = -character.Movement.SpeedX * reboundReduction;
         }
     }

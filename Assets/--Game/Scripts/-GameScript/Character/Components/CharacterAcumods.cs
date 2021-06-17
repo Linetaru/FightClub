@@ -81,7 +81,7 @@ public class CharacterAcumods : MonoBehaviour
 
     public bool Acumod(CharacterBase character)
     {
-        if (character.Input.CheckAction(0, InputConst.LeftShoulder))
+        /*if (character.Input.CheckAction(0, InputConst.LeftShoulder))
         {
             character.Input.inputActions[0].timeValue = 0;
             switch(acumodSelected)
@@ -97,6 +97,7 @@ public class CharacterAcumods : MonoBehaviour
             }
 
         }
+        return false;*/
         return false;
     }
 

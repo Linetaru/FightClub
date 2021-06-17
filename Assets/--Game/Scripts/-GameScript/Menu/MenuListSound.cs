@@ -27,18 +27,18 @@ namespace Menu
 
 		private void PlaySoundSelected(int i)
 		{
-			if (selectedSound != null)
+			if (selectedSound.IsValid())
 				AkSoundEngine.PostEvent(selectedSound.Id, this.gameObject);
 		}
 
 		private void PlaySoundValidate(int i)
 		{
-			if (validateSound != null)
+			if (validateSound.IsValid())
 				AkSoundEngine.PostEvent(validateSound.Id, this.gameObject);
 		}
 		private void PlaySoundQuit()
 		{
-			if(backSound != null)
+			if(backSound.IsValid())
 				AkSoundEngine.PostEvent(backSound.Id, this.gameObject);
 		}
 

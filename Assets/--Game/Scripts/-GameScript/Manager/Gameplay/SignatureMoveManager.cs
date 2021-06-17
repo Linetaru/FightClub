@@ -33,6 +33,10 @@ public class SignatureMoveManager : MonoBehaviour
 	[Title("Sounds")]
 	[SerializeField]
 	AK.Wwise.Event announcerVoice = null;
+	[SerializeField]
+	AK.Wwise.Event eventMixOn = null;
+	[SerializeField]
+	AK.Wwise.Event eventMixOff = null;
 
 	TargetsCamera target = null;
 
@@ -98,6 +102,7 @@ public class SignatureMoveManager : MonoBehaviour
 		}
 		SignatureMove move = Instantiate(signatureMove, centerStage.transform);
 		move.transform.localScale = new Vector3(user.Movement.Direction, 1, 1);
+		AkSoundEngine.PostEvent(eventMixOn.Id, this.gameObject);
 		move.StartSignatureMove(user, target);
 		move.OnEnd += EndSignatureMove;
 
@@ -110,6 +115,7 @@ public class SignatureMoveManager : MonoBehaviour
 		{
 			battleManager.characterAlive[i].SetMotionSpeed(0, 0.1f);
 		}
+		AkSoundEngine.PostEvent(eventMixOff.Id, this.gameObject);
 		//Destroy(currentMove);
 	}
 }
