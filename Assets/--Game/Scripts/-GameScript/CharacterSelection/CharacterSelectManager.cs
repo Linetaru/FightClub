@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class CharacterSelectManager : MonoBehaviour, IControllable
 {
@@ -73,6 +74,9 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     public TextMeshProUGUI selectedObjectText;
     private int currentChoosenParameter = 0;
     public GameObject canvasParameter;
+    private RectTransform selectedTransform;
+    private Tweener tween;
+    private Vector2 tweenVar = new Vector2(1.2f, 1.2f);
 
     [Title("Sound")]
     public AK.Wwise.Event eventPulse = null;
@@ -133,6 +137,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             volleyGoalText.transform.parent.gameObject.SetActive(false);
             numberOfStocksText.transform.parent.gameObject.SetActive(true);
             selectedObjectText.text = "Number of life";
+            selectedTransform = numberOfStocksText.transform.parent.GetComponent<RectTransform>();
         }
         else
         {
@@ -143,14 +148,18 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                 volleyGoalText.transform.parent.gameObject.SetActive(true);
                 numberOfStocksText.transform.parent.gameObject.SetActive(false);
                 selectedObjectText.text = "Number of goal";
+                selectedTransform = volleyGoalText.transform.parent.GetComponent<RectTransform>();
             }
             else
             {
                 volleyGoalText.transform.parent.gameObject.SetActive(false);
                 numberOfStocksText.transform.parent.gameObject.SetActive(true);
                 selectedObjectText.text = "Number of life";
+                selectedTransform = numberOfStocksText.transform.parent.GetComponent<RectTransform>();
             }
         }
+
+        tween = selectedTransform.DOScale(tweenVar, 0.5f).SetLoops(-1, LoopType.Yoyo).OnKill(() => selectedTransform.DOScale(new Vector2(1, 1), 0.01f));
 
         playerStocks = gameData.ConfigMode.numberOfLife;
 
@@ -187,6 +196,12 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
         
     }
 
+    public void SetTween()
+    {
+        tween.Kill(selectedTransform);
+        tween = selectedTransform.DOScale(tweenVar, 0.5f).SetLoops(-1, LoopType.Yoyo).OnKill(() => selectedTransform.DOScale(new Vector2(1, 1), 0.01f));
+    }
+
     private void UpdateCharacterDataMaterialList(CharacterData characterData)
     {
         if (characterData.characterName == "Random" || characterData == null)
@@ -214,19 +229,22 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     }
     public void UpdateParameterSelectedText()
     {
-
         switch (currentChoosenParameter)
         {
             case 0:
-                    selectedObjectText.text = "Number of life";
+                selectedTransform = numberOfStocksText.transform.parent.GetComponent<RectTransform>();
+                selectedObjectText.text = "Number of life";
                 break;
             case 1:
-                    selectedObjectText.text = "Victory Point";
+                selectedTransform = grandSlamSelectionPointText.transform.parent.GetComponent<RectTransform>();
+                selectedObjectText.text = "Victory Point";
                 break;
             case 2:
-                    selectedObjectText.text = "Bonus Round";
+                selectedTransform = grandSlamSelectionBonusText.transform.parent.GetComponent<RectTransform>();
+                selectedObjectText.text = "Bonus Round";
                 break;
         }
+        SetTween();
     }
 
     public void UpdateParameter(bool isDown)
@@ -258,8 +276,8 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
             case 1:
                 gameData.ConfigMode.numberOfGrandSlamPoint = isDown ? gameData.ConfigMode.numberOfGrandSlamPoint - 100 : gameData.ConfigMode.numberOfGrandSlamPoint + 100;
                 if (gameData.ConfigMode.numberOfGrandSlamPoint < 100)
-                    gameData.ConfigMode.numberOfGrandSlamPoint = 10000;
-                else if (gameData.ConfigMode.numberOfGrandSlamPoint > 10000)
+                    gameData.ConfigMode.numberOfGrandSlamPoint = 9900;
+                else if (gameData.ConfigMode.numberOfGrandSlamPoint > 9900)
                     gameData.ConfigMode.numberOfGrandSlamPoint = 100;
                 break;
 
