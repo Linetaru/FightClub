@@ -44,6 +44,7 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
     [SerializeField]
     PlayerSelectionFrame[] inputControlableHolograms;
 
+    private int numberCPU;
 
     private bool isStarted = false;
 
@@ -634,11 +635,13 @@ public class CharacterSelectManager : MonoBehaviour, IControllable
                     //Assign Team
                     gameData.CharacterInfos[characterInfoNumber].Team = holograms[i].currentTeam;
                     if (holograms[i].isCPU)
-                        gameData.CharacterInfos[characterInfoNumber].ControllerID = -1;
+                        gameData.CharacterInfos[characterInfoNumber].ControllerID = -1 - numberCPU;
                     else
                         gameData.CharacterInfos[characterInfoNumber].ControllerID = holograms[i].iD;
                     characterInfoNumber++;
                     //}
+                    if (holograms[i].isCPU)
+                        numberCPU++;
                 }
             }
             readySlash.SetActive(true);

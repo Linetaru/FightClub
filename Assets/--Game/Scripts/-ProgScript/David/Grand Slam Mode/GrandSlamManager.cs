@@ -242,20 +242,20 @@ public class GrandSlamManager : MonoBehaviour
 
         currentScoreArr = listGameModesValid[randomKey].scoreArr;
 
-        if (gameMode == GameModeStateEnum.Volley_Mode)
-        {
-            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
-            {
-                gameData.CharacterInfos[i].Team = TeamEnum.First_Team;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
-            {
-                gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
-            }
-        }
+        //if (gameMode == GameModeStateEnum.Volley_Mode)
+        //{
+        //    for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+        //    {
+        //        gameData.CharacterInfos[i].Team = TeamEnum.First_Team;
+        //    }
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+        //    {
+        //        gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
+        //    }
+        //}
 
         currentMode = listGameModesValid[randomKey];
 
