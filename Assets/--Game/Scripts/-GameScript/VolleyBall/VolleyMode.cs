@@ -45,7 +45,7 @@ public class VolleyMode : GameMode
         scoreUI.UpdateRedScoreText(redTeamScore);
         if(redTeamScore >= scoreLimit)
         {
-            battleManager.currentWinningTeam = 1;
+            battleManager.currentWinningTeam = 0;
             battleManager.SlowMotionEnd();
         }
     }
@@ -56,7 +56,7 @@ public class VolleyMode : GameMode
         scoreUI.UpdateBlueScoreText(blueTeamScore);
         if(blueTeamScore >= scoreLimit)
         {
-            battleManager.currentWinningTeam = 0;
+            battleManager.currentWinningTeam = 1;
             battleManager.SlowMotionEnd();
         }
     }
