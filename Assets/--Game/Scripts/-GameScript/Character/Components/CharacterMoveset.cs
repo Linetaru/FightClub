@@ -110,7 +110,7 @@ public class CharacterMoveset : MonoBehaviour
 						return false;
 					if (character.Action.Action(signatureMove) == true)
 					{
-						character.PowerGauge.GaugeOn = false;
+						//character.PowerGauge.GaugeOn = false;
 						character.PowerGauge.CurrentPower = 0;
 						character.SetState(stateAction);
 						character.Input.inputActions[0].timeValue = 0;
