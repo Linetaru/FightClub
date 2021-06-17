@@ -184,6 +184,7 @@ namespace Menu
 			{
 				input.inputUiAction = null;
 				timeScale = 1f;
+				Time.timeScale = timeScale;
 				UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelection_Art");
 			}
 			else if (input.inputUiAction == InputConst.Pause || input.inputUiAction == InputConst.Back)
