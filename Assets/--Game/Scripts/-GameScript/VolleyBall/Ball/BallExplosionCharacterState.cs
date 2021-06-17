@@ -38,6 +38,11 @@ public class BallExplosionCharacterState : CharacterState
     GameObject ballShadowSprite;
     //bool explosionUnactive = false;
 
+    [SerializeField]
+    AK.Wwise.Event eventBallExplosion = null;
+    [SerializeField]
+    AK.Wwise.Event eventBallCrowd = null;
+
     private void Start()
     {
         limitTimescale = Time.timeScale;
@@ -47,6 +52,8 @@ public class BallExplosionCharacterState : CharacterState
     {
         ballShadowSprite.SetActive(false);
         BattleManager.Instance.cameraController.Camera.GetComponentInParent<ScreenShake>().StartScreenShake(0.5f, .5f);
+        AkSoundEngine.PostEvent(eventBallExplosion.Id, this.gameObject);
+        AkSoundEngine.PostEvent(eventBallCrowd.Id, this.gameObject);
 
         timer = respawnDuration;
         explosionParticle = Instantiate(explosionParticlePrefab, transform.position, Quaternion.identity);
