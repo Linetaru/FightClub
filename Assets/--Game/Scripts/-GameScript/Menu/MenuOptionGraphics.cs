@@ -91,7 +91,7 @@ namespace Menu
                 graphicsSettings.Fullscreen += 1 * direction;
                 if (graphicsSettings.Fullscreen == 0)
                 {
-                    Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                    Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
                 }
                 else
                 {
