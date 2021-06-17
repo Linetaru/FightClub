@@ -64,7 +64,7 @@
 	</StreamedFiles>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="152968626" Language="SFX" Hash="2602352742">
+		<SoundBank Id="152968626" Language="SFX" Hash="2667799693">
 			<ObjectPath>\SoundBanks\Default Work Unit\SB_Main</ObjectPath>
 			<ShortName>SB_Main</ShortName>
 			<Path>SB_Main.bnk</Path>
@@ -2410,6 +2410,16 @@
 						<ActionSetStateEntry Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full"/>
 					</ActionSetState>
 				</Event>
+				<Event Id="1383830699" Name="Set_Music_Ultimate_IN" ObjectPath="\Events\Default Work Unit\Cinematic\Set_Music_Ultimate_IN" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="2941676941" Name="State_Attck_Ultime_In" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_In"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2356939942" Name="Set_Music_Ultimate_Out" ObjectPath="\Events\Default Work Unit\Cinematic\Set_Music_Ultimate_Out" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
+					<ActionSetState>
+						<ActionSetStateEntry Id="2535294740" Name="State_Attck_Ultime_Out" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_Out"/>
+					</ActionSetState>
+				</Event>
 				<Event Id="2439856242" Name="Stop_BRND_Attack_Slide_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\Stop_BRND_Attack_Slide_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="2429595649" Name="Stop_BRND_Attack_Whoosh_DashAttack" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Attack\BRND_Attack_Whoosh\BRND_Attack_Whoosh_DashAttack\Stop_BRND_Attack_Whoosh_DashAttack" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="3433362088" Name="Stop_BRND_WallSlide" ObjectPath="\Events\Default Work Unit\Characters\Bernard\BRND_Foley\Stop_BRND_WallSlide" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -2495,6 +2505,12 @@
 			</IncludedMemoryFiles>
 			<StateGroups>
 				<StateGroup Id="2510516222" Name="Full" ObjectPath="\States\Default Work Unit\Music_State\Full">
+					<States/>
+				</StateGroup>
+				<StateGroup Id="2535294740" Name="State_Attck_Ultime_Out" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_Out">
+					<States/>
+				</StateGroup>
+				<StateGroup Id="2941676941" Name="State_Attck_Ultime_In" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_In">
 					<States/>
 				</StateGroup>
 				<StateGroup Id="3101201588" Name="HiCut" ObjectPath="\States\Default Work Unit\Music_State\HiCut">
@@ -2959,7 +2975,7 @@
 				</Event>
 			</IncludedEvents>
 		</SoundBank>
-		<SoundBank Id="1355168291" Language="SFX" Hash="2267387162">
+		<SoundBank Id="1355168291" Language="SFX" Hash="3894523217">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -2973,6 +2989,13 @@
 				<GameParameter Id="3632621218" Name="Volume_Master_RTPC" ObjectPath="\Game Parameters\Default Work Unit\Volume_Master_RTPC"/>
 			</GameParameters>
 			<StateGroups>
+				<StateGroup Id="515245191" Name="Music_State_Ultime" ObjectPath="\States\Default Work Unit\Music_State_Ultime">
+					<States>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\Music_State_Ultime\None"/>
+						<State Id="2941676941" Name="State_Attck_Ultime_In" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_In"/>
+						<State Id="2535294740" Name="State_Attck_Ultime_Out" ObjectPath="\States\Default Work Unit\Music_State_Ultime\State_Attck_Ultime_Out"/>
+					</States>
+				</StateGroup>
 				<StateGroup Id="3826569560" Name="Music_State" ObjectPath="\States\Default Work Unit\Music_State">
 					<States>
 						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\Music_State\None"/>
