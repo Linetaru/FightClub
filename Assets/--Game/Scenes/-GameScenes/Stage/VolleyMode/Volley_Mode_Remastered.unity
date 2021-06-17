@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.09302909, g: 0.30561373, b: 0.6160473, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -37714,6 +37714,7 @@ GameObject:
   - component: {fileID: 954543987}
   - component: {fileID: 954543990}
   - component: {fileID: 954543989}
+  - component: {fileID: 954543991}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -37821,6 +37822,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 397cb5bdce9b9ee42bace389da451779, type: 2}
+--- !u!114 &954543991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954543985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2944f2c4f84edfc4aa3892574009c7b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stopEvent:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e6b28b78a3380524480b7d7b7e8b56f7, type: 2}
+  msTransition: 1
+  curveFade: 4
 --- !u!1 &960672564
 GameObject:
   m_ObjectHideFlags: 0
@@ -69281,7 +69300,7 @@ MonoBehaviour:
   stopEvent:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 0dd4b8d2272f2d7479c7a2a1027516fb, type: 2}
   msTransition: 0.5
   curveFade: 4
 --- !u!114 &1754030933
@@ -71287,6 +71306,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 751158450}
     m_Modifications:
+    - target: {fileID: 2898094507462010392, guid: 262028fe48323c246a6e978de0f9707c, type: 3}
+      propertyPath: musicToStop.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: e6b28b78a3380524480b7d7b7e8b56f7, type: 2}
+    - target: {fileID: 2898094507462010392, guid: 262028fe48323c246a6e978de0f9707c, type: 3}
+      propertyPath: stopMusic
+      value: 
+      objectReference: {fileID: 1754030932}
     - target: {fileID: 2898094507462010393, guid: 262028fe48323c246a6e978de0f9707c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
