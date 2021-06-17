@@ -212,7 +212,7 @@ public class BattleManager : MonoBehaviour
             user.PlayerID = i;
             user.ControllerID = gameData.CharacterInfos[i].ControllerID;
             user.Model.SetColor(i, gameData.CharacterInfos[i].CharacterData.characterMaterials[gameData.CharacterInfos[i].CharacterColorID]);
-            if (gameData.CharacterInfos[i].ControllerID == -1)
+            if (Mathf.Sign(gameData.CharacterInfos[i].ControllerID) == -1)
             {
                 user.Model.SetText("CPU");
             }

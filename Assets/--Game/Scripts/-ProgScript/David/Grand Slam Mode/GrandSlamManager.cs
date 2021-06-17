@@ -276,6 +276,13 @@ public class GrandSlamManager : MonoBehaviour
                 gameData.CharacterInfos[3].Team = TeamEnum.Second_Team;
             }
         }
+        else
+        {
+            for (int i = 0; i < gameData.CharacterInfos.Count; i++)
+            {
+                gameData.CharacterInfos[i].Team = TeamEnum.No_Team;
+            }
+        }
 
         currentMode = listGameModesValid[randomKey];
 
@@ -374,11 +381,11 @@ public class GrandSlamManager : MonoBehaviour
             }
             else if (currentSpecialRound == SpecialRound.StealPoint)
             {
-                scoreArr[0] = 36;
+                scoreArr[0] = 30;
                 
                 for(int i = 1; i < scoreArr.Length; i++)
                 {
-                    scoreArr[i] = -(36 / (gameData.CharacterInfos.Count - 1));
+                    scoreArr[i] = -(30 / (gameData.CharacterInfos.Count - 1));
                 }
             }
         }
@@ -592,6 +599,7 @@ public class GrandSlamManager : MonoBehaviour
             }
             pressToContinue = false;
 
+            AkSoundEngine.PostEvent(eventMixOff.Id, this.gameObject);
             ManageEndSlam();
         }
     }

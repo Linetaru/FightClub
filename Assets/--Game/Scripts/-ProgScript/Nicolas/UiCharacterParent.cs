@@ -12,7 +12,7 @@ public class UiCharacterParent : MonoBehaviour
 	public Color[] teamColors;
 
 	List<CharacterHUD> huds = new List<CharacterHUD>();
-	List<Transform> players = new List<Transform>();
+	List<CharacterBase> players = new List<CharacterBase>();
 	Camera cam;
 	bool fade = false;
 
@@ -46,7 +46,7 @@ public class UiCharacterParent : MonoBehaviour
 		hud.InitPlayerPanel(user);
 		hud.SetColor(teamColors[(int)user.TeamID]);
 
-		players.Add(user.transform);
+		players.Add(user);
 		huds.Add(hud);
 	}
 
@@ -56,7 +56,7 @@ public class UiCharacterParent : MonoBehaviour
 	{
 		for (int i = 0; i < players.Count; i++)
 		{
-			if (cam.WorldToViewportPoint(players[i].position).y < 0.05f)
+			if (cam.WorldToViewportPoint(players[i].transform.position).y < 0.04f && players[i].Stats.Death == false)
 			{
 				if(fade == false)
 				{

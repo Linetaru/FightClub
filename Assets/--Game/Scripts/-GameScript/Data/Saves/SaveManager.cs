@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Sirenix.OdinInspector;
+using System.Linq;
+using Menu;
 
 public class SaveManager : MonoBehaviour
 {
@@ -31,7 +33,9 @@ public class SaveManager : MonoBehaviour
                 // Il n'y a pas de save donc on doit load une save par défaut
                 Debug.Log("Load failed but first time so loading default save");
                 saveData.LoadProfile(saveNewGameProfile);
-                LoadData();
+                LoadData(); 
+                Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length -1].width, Screen.resolutions[Screen.resolutions.Length - 1].height, Screen.fullScreen);
+                graphicsSettings.Resolution = Screen.resolutions.Length - 1;
             }
             else // Sinon le load c'est bien passé
             {
@@ -55,7 +59,8 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-
+    [SerializeField]
+    SaveGraphicsSettings graphicsSettings;
 
     [SerializeField]
     bool forceLoadDefault = false;

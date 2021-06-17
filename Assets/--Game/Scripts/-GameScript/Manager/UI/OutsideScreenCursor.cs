@@ -44,6 +44,12 @@ public class OutsideScreenCursor : MonoBehaviour
 		if (focus == null)
 			return;
 
+		if(c.transform.localScale.y < 0.01f)
+		{
+			cursorTransform.localScale = Vector3.zero;
+			return;
+		}
+
 		if (c.Stats.Death == false)
 		{
 			cursorTransform.localScale = Vector3.one;
