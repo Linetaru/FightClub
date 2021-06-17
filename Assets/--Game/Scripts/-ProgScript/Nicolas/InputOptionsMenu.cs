@@ -34,6 +34,7 @@ public class InputOptionsMenu : MenuList
     private int characterID = 0;
     private List<InputMappingDataClassic> inputConfig = new List<InputMappingDataClassic>();
     EnumInput[] inputVar = new EnumInput[6];
+    public GameObject canvasButton;
 
     enum SelectionState{
         OnButton,
@@ -148,6 +149,8 @@ public class InputOptionsMenu : MenuList
                         selectionUI_Input_Arrow[0].gameObject.SetActive(true);
                         state = SelectionState.OnSelectionInput;
                         Init();
+                        if(canvasButton != null)
+                            canvasButton.SetActive(false);
                     }
                     else if (id == 0)
                     {
@@ -157,6 +160,8 @@ public class InputOptionsMenu : MenuList
                         }
                         inputController.controllable[characterID] = menuNameInput;
                         menuNameInput.gameObject.SetActive(true);
+                        if (canvasButton != null)
+                            canvasButton.SetActive(false);
                     }
                 }
                 else
@@ -195,6 +200,8 @@ public class InputOptionsMenu : MenuList
 
 
                     profileSelected.inputMappingData = InputMappingDataStatic.inputMappingDataClassics[listEntryProfile.IndexSelection - 1];
+                    if (canvasButton != null)
+                        canvasButton.SetActive(true);
                 }
                 else if (id == 7)
                 {
@@ -210,6 +217,8 @@ public class InputOptionsMenu : MenuList
                         Init();
                         listEntry.SelectIndexForIndexOnly(0);
                         SelectEntry(0);
+                        if (canvasButton != null)
+                            canvasButton.SetActive(true);
 
                         //selectionUI_Profile_Arrow[0].gameObject.SetActive(true);
                     }
