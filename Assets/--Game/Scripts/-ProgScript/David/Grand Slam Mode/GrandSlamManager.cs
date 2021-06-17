@@ -75,6 +75,10 @@ public class GrandSlamManager : MonoBehaviour
 
     [Title("Objects")]
     [SerializeField]
+    private AK.Wwise.Event eventMixOn = null;
+    [SerializeField]
+    private AK.Wwise.Event eventMixOff = null;
+    [SerializeField]
     private AK.Wwise.Event eventInGameToScore = null;
     [SerializeField]
     private AK.Wwise.Event eventEarnMoney = null;
@@ -442,6 +446,7 @@ public class GrandSlamManager : MonoBehaviour
         Time.timeScale = 1.0f;
 
         AkSoundEngine.PostEvent(eventInGameToScore.Id, this.gameObject);
+        AkSoundEngine.PostEvent(eventMixOn.Id, this.gameObject);
 
         currentCam = BattleManager.Instance.cameraController.Camera;
         cameraObj.transform.position = currentCam.transform.position;
@@ -563,6 +568,7 @@ public class GrandSlamManager : MonoBehaviour
             }
 
             BattleManager.Instance.GamePaused = false;
+            AkSoundEngine.PostEvent(eventMixOff.Id, this.gameObject);
             SetGame();
 
         }
