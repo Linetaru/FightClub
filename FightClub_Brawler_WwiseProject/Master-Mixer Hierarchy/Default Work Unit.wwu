@@ -126,6 +126,50 @@
 									</RTPCList>
 								</Property>
 							</PropertyList>
+							<ChildrenList>
+								<Bus Name="Music_Menu" ID="{E793CF09-E438-449D-B046-F8AE5A6A20A7}"/>
+								<Bus Name="Music_InGame" ID="{8BD18ED3-24D1-4FCA-8528-B355FBEC1929}">
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise_Parametric_EQ_(Custom)" ID="{D07C1A55-C8DF-42D2-9356-911BD4AE02E5}" ShortID="411353980" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+													<PropertyList>
+														<Property Name="FrequencyBand1" Type="Real32" Value="72"/>
+														<Property Name="GainBand1" Type="Real32">
+															<RTPCList>
+																<RTPC Name="" ID="{CDF3803D-7A28-49F5-9C30-7E48E085B8DC}" ShortID="31154310">
+																	<ReferenceList>
+																		<Reference Name="ControlInput">
+																			<ObjectRef Name="RTPC_Sidechain" ID="{AB7C0259-95E3-4F56-97C2-42BAC6CB320F}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<Curve Name="" ID="{3DDF09CA-EC97-49B4-BA43-D7E00781B2E3}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>-48</XPos>
+																				<YPos>-0</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-48</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</RTPC>
+															</RTPCList>
+														</Property>
+													</PropertyList>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+								</Bus>
+							</ChildrenList>
 							<StateInfo>
 								<StateGroupList>
 									<StateGroupInfo>
@@ -196,6 +240,26 @@
 									</RTPCList>
 								</Property>
 							</PropertyList>
+							<ChildrenList>
+								<Bus Name="SFX_Hit" ID="{A222F8D2-FDB5-4503-8B2C-6E0143C5D95A}">
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise_Meter_(Custom)" ID="{24BA9AB5-5749-4565-977F-025FF35E0B32}" ShortID="436939240" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+													<PropertyList>
+														<Property Name="MeterMode" Type="int32" Value="1"/>
+														<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+													</PropertyList>
+													<PluginData>
+	<GameParameter Name="RTPC_Sidechain" ID="{AB7C0259-95E3-4F56-97C2-42BAC6CB320F}"/>
+</PluginData>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+								</Bus>
+								<Bus Name="SFX_Whoosh" ID="{2BADB60F-EC8A-4520-81C0-583BA6A9782F}"/>
+							</ChildrenList>
 						</Bus>
 					</ChildrenList>
 				</Bus>

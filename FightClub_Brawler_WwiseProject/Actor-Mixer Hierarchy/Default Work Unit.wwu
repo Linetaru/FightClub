@@ -1003,38 +1003,7 @@
 												</Sound>
 											</ChildrenList>
 											<PositioningInfo>
-												<Panner Name="" ID="{100BBC47-4768-46F1-A80E-D00C45262DD2}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64">
-															<RTPCList>
-																<RTPC Name="" ID="{78C22A72-54F5-4B91-8FCE-04ECE54DB1EE}" ShortID="870018332">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{E8914F61-6891-4E1F-962E-8AB276485667}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="1"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>-180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
-														</Property>
-													</PropertyList>
-												</Panner>
+												<Panner Name="" ID="{100BBC47-4768-46F1-A80E-D00C45262DD2}"/>
 											</PositioningInfo>
 										</RandomSequenceContainer>
 									</ChildrenList>
@@ -1055,12 +1024,15 @@
 									</ReferenceList>
 									<ChildrenList>
 										<ActorMixer Name="CROW_Whoosh" ID="{B8A0B777-36C0-4897-BD48-25EB76044756}" ShortID="560203255">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+													<ObjectRef Name="SFX_Whoosh" ID="{2BADB60F-EC8A-4520-81C0-583BA6A9782F}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -1695,12 +1667,15 @@
 											</ChildrenList>
 										</ActorMixer>
 										<ActorMixer Name="CROW_Hit" ID="{62452127-0CC0-4F2B-9581-5B515C78F83C}" ShortID="372207593">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+													<ObjectRef Name="SFX_Hit" ID="{A222F8D2-FDB5-4503-8B2C-6E0143C5D95A}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -2421,6 +2396,7 @@
 										<ActorMixer Name="Pulse_Attack_Hit_Mixer" ID="{75C2AE14-3CF7-433E-A5DD-02C2D02A5B05}" ShortID="1012983660">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2428,7 +2404,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+													<ObjectRef Name="SFX_Hit" ID="{A222F8D2-FDB5-4503-8B2C-6E0143C5D95A}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -2638,38 +2614,7 @@
 														</Sound>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{78737332-6165-43B7-97AA-254A28099373}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{145DEB34-10A2-4475-8E68-DEF70163CB33}" ShortID="117914447">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{56DF6EC9-B07C-4AE0-9BF1-55D8BB93AF47}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{78737332-6165-43B7-97AA-254A28099373}"/>
 													</PositioningInfo>
 												</BlendContainer>
 												<Folder Name="BRND_Attack_Hit_RecoverHit&amp;EL" ID="{4845B278-2A34-401E-8EB2-025162CA9F8C}" ShortID="829881350">
@@ -3012,38 +2957,7 @@
 																</AudioFileSource>
 															</ChildrenList>
 															<PositioningInfo>
-																<Panner Name="" ID="{F94DBC44-6C34-42BB-8370-3E2F419333DB}">
-																	<PropertyList>
-																		<Property Name="PanX" Type="Real64">
-																			<RTPCList>
-																				<RTPC Name="" ID="{56BD47E5-280C-4CD2-8247-AFCC45879B99}" ShortID="494260991">
-																					<ReferenceList>
-																						<Reference Name="ControlInput">
-																							<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																						</Reference>
-																					</ReferenceList>
-																					<Curve Name="" ID="{086392DE-CF76-409C-85B6-D082504121CA}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="1"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>-180</XPos>
-																								<YPos>0</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>180</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</RTPC>
-																			</RTPCList>
-																		</Property>
-																	</PropertyList>
-																</Panner>
+																<Panner Name="" ID="{F94DBC44-6C34-42BB-8370-3E2F419333DB}"/>
 															</PositioningInfo>
 															<ActiveSourceList>
 																<ActiveSource Name="BRND_Attack_Hit_Dash_Attack_V2" ID="{230952C0-9849-449E-A0CB-6189DAEB3B38}" Platform="Linked"/>
@@ -3079,38 +2993,7 @@
 																</AudioFileSource>
 															</ChildrenList>
 															<PositioningInfo>
-																<Panner Name="" ID="{BBD8D05E-2212-4C33-9766-80DA46D64468}">
-																	<PropertyList>
-																		<Property Name="PanX" Type="Real64">
-																			<RTPCList>
-																				<RTPC Name="" ID="{083DD2ED-A799-4927-9101-A21D1EF586EF}" ShortID="394144941">
-																					<ReferenceList>
-																						<Reference Name="ControlInput">
-																							<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																						</Reference>
-																					</ReferenceList>
-																					<Curve Name="" ID="{8FC5E2D2-FC57-4A8E-8B5D-E09730B05A1C}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="1"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>-180</XPos>
-																								<YPos>0</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>180</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</RTPC>
-																			</RTPCList>
-																		</Property>
-																	</PropertyList>
-																</Panner>
+																<Panner Name="" ID="{BBD8D05E-2212-4C33-9766-80DA46D64468}"/>
 															</PositioningInfo>
 															<ActiveSourceList>
 																<ActiveSource Name="SFX_BRND_Attack_Hit_DashAttack_03" ID="{77F56A7F-6D7E-4640-B5EE-8902A5C6DB9C}" Platform="Linked"/>
@@ -3151,38 +3034,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{A02604EE-6A0B-4418-A8C9-DA74D232F062}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{552CA3E1-9A95-48C3-84CA-AFCA11CE6E02}" ShortID="619365387">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{BFC393B1-8A22-49E5-9048-C763DD1B72AC}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{A02604EE-6A0B-4418-A8C9-DA74D232F062}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_Neutral_Air" ID="{37A8095F-9D06-427C-8935-7DA7EFB41E79}" Platform="Linked"/>
@@ -3231,38 +3083,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{7CC11B2B-0FA2-4A82-9842-EB128A17D426}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{4924D1A8-19E2-41B3-BEB2-102FFB527570}" ShortID="932167064">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{35692259-6180-4106-B686-D413FCEBF436}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{7CC11B2B-0FA2-4A82-9842-EB128A17D426}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_AerialDown_01" ID="{D4E59A47-9FC3-4365-942A-8E29409961C7}" Platform="Linked"/>
@@ -3313,38 +3134,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{93A872FF-41A9-4291-83B9-C6756027F890}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{9B09EDC8-741E-4998-AE9C-806C4436E875}" ShortID="922821774">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{0304D987-1221-449F-8001-3B2951497924}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{93A872FF-41A9-4291-83B9-C6756027F890}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_Hurricane" ID="{06FF0ABD-1259-4FBB-9D9E-FD61697FAD68}" Platform="Linked"/>
@@ -3395,38 +3185,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{8AA436D8-82C7-49DA-8511-CC1E4952276E}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{38FB3F99-4913-43F3-9A16-009D1E7E8A96}" ShortID="199352053">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{36FE3D19-7D1D-4450-8F6E-C6C1B318CB74}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{8AA436D8-82C7-49DA-8511-CC1E4952276E}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Hit_Up" ID="{AD39C4C6-C78B-4F1C-A9CD-28B2DC25F9A5}" Platform="Linked"/>
@@ -3482,38 +3241,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{7BF5B4DD-B5C0-4D55-89EB-17764F3F52E0}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{23F0CDCE-D896-417B-919A-354919D5A99D}" ShortID="566841">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{0281E85A-07DA-46A0-A2B2-88406694D0D5}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{7BF5B4DD-B5C0-4D55-89EB-17764F3F52E0}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Hit_DownTilt_Impact_1&amp;2" ID="{08F9F972-0BA8-4D88-9187-906033D18BCE}" Platform="Linked"/>
@@ -3563,38 +3291,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{45F1B665-F531-431A-A372-A8A7C2EE3805}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{E63EB25D-9F4E-446D-A5BB-697C2819A0B2}" ShortID="234739914">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{9B960D0D-1B38-42E3-8105-ED13C7642EA8}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{45F1B665-F531-431A-A372-A8A7C2EE3805}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Hit_UpTilt_v2" ID="{67D4F2F1-BF91-474A-880D-3661D5B43BD2}" Platform="Linked"/>
@@ -3619,7 +3316,7 @@
 														<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-7</Value>
+																<Value>-5</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -3648,38 +3345,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{4B54C99E-74C8-46A0-BE45-C1DC65314E8A}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{4D5E3219-BAC6-4895-90F6-C39B868D6EAA}" ShortID="246581124">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{90897963-EBA1-4E83-B64D-5B097F063CDF}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{4B54C99E-74C8-46A0-BE45-C1DC65314E8A}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Hit_ForwardTilt_v2" ID="{65E05A58-4EBB-43AD-AC54-01AF262551E8}" Platform="Linked"/>
@@ -3735,38 +3401,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{F84233B0-A197-439D-9A86-AC19B3ECBCFD}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{34940968-1DBA-4FA1-AC17-E69BF88282F6}" ShortID="51604188">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{732F75E6-EDDD-401E-92B0-375F4AEC8370}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{F84233B0-A197-439D-9A86-AC19B3ECBCFD}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Hit_UpAir" ID="{3C024DF4-ECE9-490C-AF9A-CE9F5A680047}" Platform="Linked"/>
@@ -3802,38 +3437,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{54AE8C87-A777-4EC6-8BD9-4B6BFD4FA837}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{FE2609A6-4A0A-45B9-A512-0E499D2F0D93}" ShortID="220101284">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{89C2D161-AFC3-4505-B1BE-6D6E41221FEB}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{54AE8C87-A777-4EC6-8BD9-4B6BFD4FA837}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Kick_DownTilt_Stage_4" ID="{2D4FC6D7-CF17-4015-BAD2-AE26EBD42F74}" Platform="Linked"/>
@@ -3876,38 +3480,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{EA8A4698-C190-48C2-8106-11682E44AEEA}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{DA4810BC-AE57-4A8E-9146-204FE030783F}" ShortID="686762075">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{E18D30B1-F8E6-4568-9321-485013B2B70A}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{EA8A4698-C190-48C2-8106-11682E44AEEA}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_AerialDown_02" ID="{9DA516EB-9E9B-459A-91FD-7DCB8EFC8F33}" Platform="Linked"/>
@@ -3955,38 +3528,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{CFD03C03-72AE-485F-9965-AB30D5FB05C3}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{D1544276-89D7-4D62-BEF6-66DD5221C9CE}" ShortID="1044997200">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{6F05EADB-DD4E-47BB-9D3A-EB1524EA1B79}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{CFD03C03-72AE-485F-9965-AB30D5FB05C3}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_DownSpecial_02" ID="{C606158A-77AD-446B-A44C-E6569D842B48}" Platform="Linked"/>
@@ -4025,38 +3567,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{A806EA99-2432-4F34-90F4-845A9DDA5EE1}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{BD75CF71-A9EF-41D8-A48F-82E29A8E63D5}" ShortID="84209955">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{8C6E1ABE-F46E-4D28-8BE3-4B2D6F735276}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{A806EA99-2432-4F34-90F4-845A9DDA5EE1}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Hit_UpTilt_v3" ID="{9BFB0513-91E7-403E-976A-742881788E41}" Platform="Linked"/>
@@ -4105,38 +3616,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{F31DD272-2430-44F6-9BBA-6A0BD63C4C12}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{99E7BE16-951C-4C3F-964E-91A0AB52626F}" ShortID="941781006">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{D441D65B-70F3-4190-A2FA-BFD7AE11E7A9}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{F31DD272-2430-44F6-9BBA-6A0BD63C4C12}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_DownSpecial_01" ID="{036BE0E3-4B5E-4946-86B8-68641DFF6DBC}" Platform="Linked"/>
@@ -4165,38 +3645,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{E534309D-E26B-4996-BA8E-847E241297F9}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{15F5DFC7-1682-4416-A0B4-436C1EC31A21}" ShortID="459840935">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{6E19C65E-9D28-445C-8A18-6A2742FEC10F}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{E534309D-E26B-4996-BA8E-847E241297F9}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Hit_SpecialForward" ID="{12716FFE-0DBD-4F89-8428-F838244FF139}" Platform="Linked"/>
@@ -4208,7 +3657,7 @@
 															<PropertyList>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-4</Value>
+																		<Value>-2</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -4254,38 +3703,7 @@
 																		</AudioFileSource>
 																	</ChildrenList>
 																	<PositioningInfo>
-																		<Panner Name="" ID="{4581C80B-E48E-445B-AEE6-4E33002E8292}">
-																			<PropertyList>
-																				<Property Name="PanX" Type="Real64">
-																					<RTPCList>
-																						<RTPC Name="" ID="{C48FE133-13EB-4507-A217-21B53BB1BBEC}" ShortID="590638914">
-																							<ReferenceList>
-																								<Reference Name="ControlInput">
-																									<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																								</Reference>
-																							</ReferenceList>
-																							<Curve Name="" ID="{8CC8FB98-4D0C-4981-8DA0-70284C8D4D6E}">
-																								<PropertyList>
-																									<Property Name="Flags" Type="int32" Value="1"/>
-																								</PropertyList>
-																								<PointList>
-																									<Point>
-																										<XPos>-180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>5</Flags>
-																									</Point>
-																									<Point>
-																										<XPos>180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>37</Flags>
-																									</Point>
-																								</PointList>
-																							</Curve>
-																						</RTPC>
-																					</RTPCList>
-																				</Property>
-																			</PropertyList>
-																		</Panner>
+																		<Panner Name="" ID="{4581C80B-E48E-445B-AEE6-4E33002E8292}"/>
 																	</PositioningInfo>
 																	<ActiveSourceList>
 																		<ActiveSource Name="SFX_Parry_Success" ID="{38E96D84-0ED0-4B7A-A5AE-72A1E6D1B0E1}" Platform="Linked"/>
@@ -4319,38 +3737,7 @@
 																		</AudioFileSource>
 																	</ChildrenList>
 																	<PositioningInfo>
-																		<Panner Name="" ID="{123F23B7-B23F-4894-892D-B6364D510B0B}">
-																			<PropertyList>
-																				<Property Name="PanX" Type="Real64">
-																					<RTPCList>
-																						<RTPC Name="" ID="{FFFF5232-4311-4770-B5C2-D7C683E39628}" ShortID="669150480">
-																							<ReferenceList>
-																								<Reference Name="ControlInput">
-																									<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																								</Reference>
-																							</ReferenceList>
-																							<Curve Name="" ID="{E4A2853E-AD9F-41D4-A9F6-7597042026C4}">
-																								<PropertyList>
-																									<Property Name="Flags" Type="int32" Value="1"/>
-																								</PropertyList>
-																								<PointList>
-																									<Point>
-																										<XPos>-180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>5</Flags>
-																									</Point>
-																									<Point>
-																										<XPos>180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>37</Flags>
-																									</Point>
-																								</PointList>
-																							</Curve>
-																						</RTPC>
-																					</RTPCList>
-																				</Property>
-																			</PropertyList>
-																		</Panner>
+																		<Panner Name="" ID="{123F23B7-B23F-4894-892D-B6364D510B0B}"/>
 																	</PositioningInfo>
 																	<ActiveSourceList>
 																		<ActiveSource Name="SFX_Parry_Failed" ID="{DFA31CAA-0FDC-4BF1-A934-B84F7C5B55CA}" Platform="Linked"/>
@@ -4379,38 +3766,7 @@
 																		</AudioFileSource>
 																	</ChildrenList>
 																	<PositioningInfo>
-																		<Panner Name="" ID="{9B5E88EB-2BEC-443C-880C-EB06B85FD67C}">
-																			<PropertyList>
-																				<Property Name="PanX" Type="Real64">
-																					<RTPCList>
-																						<RTPC Name="" ID="{9EB8B613-0F62-4252-8871-EC3F3D654C32}" ShortID="235884618">
-																							<ReferenceList>
-																								<Reference Name="ControlInput">
-																									<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																								</Reference>
-																							</ReferenceList>
-																							<Curve Name="" ID="{DD0E8293-B2D2-44AC-A42D-15C1200581DC}">
-																								<PropertyList>
-																									<Property Name="Flags" Type="int32" Value="1"/>
-																								</PropertyList>
-																								<PointList>
-																									<Point>
-																										<XPos>-180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>5</Flags>
-																									</Point>
-																									<Point>
-																										<XPos>180</XPos>
-																										<YPos>0</YPos>
-																										<Flags>37</Flags>
-																									</Point>
-																								</PointList>
-																							</Curve>
-																						</RTPC>
-																					</RTPCList>
-																				</Property>
-																			</PropertyList>
-																		</Panner>
+																		<Panner Name="" ID="{9B5E88EB-2BEC-443C-880C-EB06B85FD67C}"/>
 																	</PositioningInfo>
 																	<ActiveSourceList>
 																		<ActiveSource Name="SFX_Parry_Missed_V2" ID="{7E0A3FE9-B710-4796-ADFC-7577D566FF8D}" Platform="Linked"/>
@@ -4482,7 +3838,7 @@
 													<PropertyList>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>3</Value>
+																<Value>1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -4608,43 +3964,13 @@
 												</BlendContainer>
 											</ChildrenList>
 											<PositioningInfo>
-												<Panner Name="" ID="{F862FDA2-7530-4B02-8AA2-AE1AAA1706AB}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64">
-															<RTPCList>
-																<RTPC Name="" ID="{DF05321D-60C2-4752-86D8-CAC5829B53A0}" ShortID="698808057">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{EBF29CB2-03F7-443B-860B-E7A5350D1E21}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="1"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>-180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
-														</Property>
-													</PropertyList>
-												</Panner>
+												<Panner Name="" ID="{F862FDA2-7530-4B02-8AA2-AE1AAA1706AB}"/>
 											</PositioningInfo>
 										</ActorMixer>
 										<ActorMixer Name="Pulse_Attack_Whoosh_Mixer" ID="{A81E13C9-3453-4D1E-A3C0-E771AF26E4D4}" ShortID="133799836">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="50"/>
 											</PropertyList>
 											<ReferenceList>
@@ -4652,7 +3978,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+													<ObjectRef Name="SFX_Whoosh" ID="{2BADB60F-EC8A-4520-81C0-583BA6A9782F}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -4686,38 +4012,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{020953A9-F457-4BEF-8072-832213F5EFB2}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{78402B15-66EE-4B80-9C73-114DD4FCA86A}" ShortID="504981633">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{1E64AAC0-AAFA-4500-BCF8-00CE7C5B8AB6}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{020953A9-F457-4BEF-8072-832213F5EFB2}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_Up_01" ID="{AF4811CA-D002-49DE-BB95-DBB43BE2CB23}" Platform="Linked"/>
@@ -4756,38 +4051,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{8B0B159B-5037-4C3C-9FB1-31EC0F10A63D}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{F6E44524-80DB-4167-8247-30A66955BC44}" ShortID="138398029">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{BA23EAC5-29F2-4AF0-B7B1-FBF9EBA40464}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{8B0B159B-5037-4C3C-9FB1-31EC0F10A63D}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_Hurricane" ID="{EAFE0B80-324E-4BE0-96E5-CCE8525C17BD}" Platform="Linked"/>
@@ -5343,38 +4607,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{7350FC84-BB62-4BF6-9684-DD0AAFC91DD9}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{38D92D33-830B-4434-8CA3-398B76EDAEB6}" ShortID="631741571">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{948AE0D5-3E4F-48B5-88BF-8BFF19859855}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{7350FC84-BB62-4BF6-9684-DD0AAFC91DD9}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_Neutral_Air" ID="{661E4888-5E2A-43DB-B60B-B5FCADBA7D4A}" Platform="Linked"/>
@@ -5410,38 +4643,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{A362E58D-A217-47A9-BCCD-C29FE11846CA}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{BBF7952A-7E4B-456E-B65D-3C93F5DDB1D1}" ShortID="136611496">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{D278B17A-2C4B-4315-BC44-3BF4381DC352}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{A362E58D-A217-47A9-BCCD-C29FE11846CA}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Whoosh_UpAir" ID="{97F8A417-A399-49F0-8989-749A5504B271}" Platform="Linked"/>
@@ -5480,38 +4682,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{69BE332C-C01D-4C7F-AE94-3184B98B6DE3}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{EBC9A9A9-CC38-41C4-B524-59ACB0BE4C81}" ShortID="1010194390">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{69E8A2E6-BF09-4BF4-9C5F-520F6CD1C7D9}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{69BE332C-C01D-4C7F-AE94-3184B98B6DE3}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Whoosh_DashAttack" ID="{9814E243-7B15-4DD9-B548-DA3D146A4937}" Platform="Linked"/>
@@ -5565,38 +4736,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{5579DCE5-0A6F-4A5D-960B-9D932FFB7086}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{7A0EBA3C-E1C6-4303-873A-5CC424A01D8B}" ShortID="988815238">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{15F0C3FA-6CB0-4064-8CB9-8CE2E1BF9099}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{5579DCE5-0A6F-4A5D-960B-9D932FFB7086}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_AerialDown_01" ID="{A5DE4F08-B86C-4BF0-85EC-86D51A0D33A5}" Platform="Linked"/>
@@ -5632,38 +4772,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{D5C709B1-5EA0-4AF2-9E58-1891851EFBDF}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{75D1B0B6-B7F7-4546-A07C-FB47C7B7DF17}" ShortID="346324376">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{6146887F-653A-4D38-AC75-F297311C60EA}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{D5C709B1-5EA0-4AF2-9E58-1891851EFBDF}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Whoosh_Down" ID="{64A494FA-AEDC-4989-8425-707EFC55306C}" Platform="Linked"/>
@@ -5697,38 +4806,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{0B7A2EAD-E403-4E09-8D21-AD119C78AD29}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{3C5101D1-9351-4507-8B7C-78DE608F83A7}" ShortID="34722775">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{2FB9419E-33C9-4564-8682-EEF62374A994}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{0B7A2EAD-E403-4E09-8D21-AD119C78AD29}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Slide_DashAttack" ID="{8C82F59C-70F2-4921-ADB7-DCECFF3BFC61}" Platform="Linked"/>
@@ -5764,38 +4842,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{D223CAC4-DAD2-4D0B-9E2C-8205748F46B5}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{DDA61541-19DE-4773-A034-A11F87117114}" ShortID="662871572">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{42B466A3-81F4-4236-B535-B1E949327674}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{D223CAC4-DAD2-4D0B-9E2C-8205748F46B5}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Whoosh_DodgeAerial" ID="{7B429BC0-253C-4822-B392-905B5C40DB8A}" Platform="Linked"/>
@@ -5831,38 +4878,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{E7F8A906-046A-4D6E-893B-C7122320BEB7}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{9A0A1F6D-EC99-401C-BA72-1B7AADADA183}" ShortID="384116147">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{895BB19E-75B9-4AC9-861B-61DEF0EA8BBD}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{E7F8A906-046A-4D6E-893B-C7122320BEB7}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Whoosh_Forward" ID="{F056243A-DD6E-424B-A105-BB33C0213810}" Platform="Linked"/>
@@ -5903,38 +4919,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{F1AA87AD-575D-4ACC-8CF0-3B902E41E186}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{5580288D-8298-4EE8-A365-F58B2FA04F42}" ShortID="458715088">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{15F415B3-EDF2-4E06-A777-7731170C68F6}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{F1AA87AD-575D-4ACC-8CF0-3B902E41E186}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="BRND_Attack_Whoosh_ForwardAir_v2" ID="{137AE650-4959-4B35-B22D-70F4CF545A57}" Platform="Linked"/>
@@ -5970,38 +4955,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{1ACB1F31-4487-41C0-BDCB-EF487EE95409}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{989E47A7-2C83-4E39-8464-97F64725E0A5}" ShortID="1028072353">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{72E36D2A-7753-44DD-B0FD-CDDDC0DD29CA}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{1ACB1F31-4487-41C0-BDCB-EF487EE95409}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_DownAir_02" ID="{E588DDEE-0632-49F0-B072-870E63937349}" Platform="Linked"/>
@@ -6040,38 +4994,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{723BAE7E-B4AF-428D-AAAF-40FB27024159}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{D2C8D3B9-5099-44C5-8881-D809304B0B92}" ShortID="1066327930">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{D450C471-775B-429A-8747-2338E0914201}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{723BAE7E-B4AF-428D-AAAF-40FB27024159}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_SpecialForward_01" ID="{3D9A807E-9787-4C55-9F35-C0608AD845C8}" Platform="Linked"/>
@@ -6107,38 +5030,7 @@
 														</AudioFileSource>
 													</ChildrenList>
 													<PositioningInfo>
-														<Panner Name="" ID="{BDF34F10-90A3-4BEF-8E6C-B7B211221FC2}">
-															<PropertyList>
-																<Property Name="PanX" Type="Real64">
-																	<RTPCList>
-																		<RTPC Name="" ID="{8D26F5FC-0DEF-4588-9B1B-AC0F14A4E65A}" ShortID="119077696">
-																			<ReferenceList>
-																				<Reference Name="ControlInput">
-																					<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																				</Reference>
-																			</ReferenceList>
-																			<Curve Name="" ID="{4C5803E9-9639-4497-9A26-604E6B2FC141}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>-180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>180</XPos>
-																						<YPos>0</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</RTPC>
-																	</RTPCList>
-																</Property>
-															</PropertyList>
-														</Panner>
+														<Panner Name="" ID="{BDF34F10-90A3-4BEF-8E6C-B7B211221FC2}"/>
 													</PositioningInfo>
 													<ActiveSourceList>
 														<ActiveSource Name="SFX_BRND_Attack_Whoosh_SpecialForward_02" ID="{4A59E43E-86C9-4B93-84BD-8798D40F32C9}" Platform="Linked"/>
@@ -6197,38 +5089,7 @@
 												</Sound>
 											</ChildrenList>
 											<PositioningInfo>
-												<Panner Name="" ID="{D8056743-D78D-4067-AFDD-FEC5AD30CFD0}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64">
-															<RTPCList>
-																<RTPC Name="" ID="{8406AE91-F8EB-45BA-8297-C3C54D09FA05}" ShortID="250170762">
-																	<ReferenceList>
-																		<Reference Name="ControlInput">
-																			<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-																		</Reference>
-																	</ReferenceList>
-																	<Curve Name="" ID="{DF3C0F7F-6C41-4655-B7C0-27C7852FD980}">
-																		<PropertyList>
-																			<Property Name="Flags" Type="int32" Value="1"/>
-																		</PropertyList>
-																		<PointList>
-																			<Point>
-																				<XPos>-180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>5</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>180</XPos>
-																				<YPos>0</YPos>
-																				<Flags>37</Flags>
-																			</Point>
-																		</PointList>
-																	</Curve>
-																</RTPC>
-															</RTPCList>
-														</Property>
-													</PropertyList>
-												</Panner>
+												<Panner Name="" ID="{D8056743-D78D-4067-AFDD-FEC5AD30CFD0}"/>
 											</PositioningInfo>
 										</ActorMixer>
 									</ChildrenList>
@@ -7541,38 +6402,7 @@
 								</ActorMixer>
 							</ChildrenList>
 							<PositioningInfo>
-								<Panner Name="" ID="{786DA04E-60E5-444E-8DB5-82BCD3050C34}">
-									<PropertyList>
-										<Property Name="PanX" Type="Real64">
-											<RTPCList>
-												<RTPC Name="" ID="{56956115-29F9-468A-9A5E-B3203FEBD9B1}" ShortID="364733052">
-													<ReferenceList>
-														<Reference Name="ControlInput">
-															<ObjectRef Name="rtpc" ID="{1A1512FC-D091-450F-9807-6478B0F57FC4}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
-														</Reference>
-													</ReferenceList>
-													<Curve Name="" ID="{71645BF6-03B0-4747-A930-4D8D8E70704E}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="1"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>-180</XPos>
-																<YPos>0</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>180</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</RTPC>
-											</RTPCList>
-										</Property>
-									</PropertyList>
-								</Panner>
+								<Panner Name="" ID="{786DA04E-60E5-444E-8DB5-82BCD3050C34}"/>
 							</PositioningInfo>
 						</ActorMixer>
 						<ActorMixer Name="VO_Mixer" ID="{2D274325-A577-430A-8C77-2A3B10E275C6}" ShortID="935512503">
@@ -12301,33 +11131,6 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="SFX_Ball_Explosion_v2" ID="{615A49A6-62ED-4869-940A-7B7E1BA21BB1}" ShortID="375060202">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-								<Property Name="OverridePositioning" Type="bool" Value="True"/>
-								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SFX_Ball_Explosion_v2" ID="{D6538D47-7133-4D0C-8128-6F2D92AC3410}">
-									<Language>SFX</Language>
-									<AudioFile>fEEDBACK\SFX_Ball_Explosion_v2.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="335682939"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SFX_Ball_Explosion_v2" ID="{D6538D47-7133-4D0C-8128-6F2D92AC3410}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="SFX_Ball_WallBound" ID="{2368422B-BCC6-4022-B209-537FC325A909}" ShortID="739283770">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -12473,107 +11276,6 @@
 								<ActiveSource Name="SFX_Player_Ejected_React" ID="{8B275C89-6E4E-48A0-B4E7-6068C7332EF1}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<BlendContainer Name="SFX_Player_Fall_Explosion" ID="{D6533189-DA55-48E1-B26F-2D210593F3BF}" ShortID="381885603">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-								<Property Name="OverridePositioning" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<ModifierList>
-										<ModifierInfo>
-											<Modifier Name="" ID="{F462F735-A567-46BF-9938-34CFD67C1EB3}">
-												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
-													<Property Name="Max" Type="Real64" Value="202"/>
-													<Property Name="Min" Type="Real64" Value="-227"/>
-												</PropertyList>
-											</Modifier>
-										</ModifierInfo>
-									</ModifierList>
-								</Property>
-								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<Sound Name="SFX_Player_Fall_Explosion" ID="{35E8D0E2-F8F2-4605-9BB6-9149C6FE2950}" ShortID="832051696">
-									<PropertyList>
-										<Property Name="OverridePositioning" Type="bool" Value="True"/>
-										<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="SFX_Player_Fall_Explosion" ID="{E10E115B-209F-44F0-B007-3F97D467DBC7}">
-											<PropertyList>
-												<Property Name="FadeInDuration" Type="Real64" Value="0.00878885674897113"/>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-												<Property Name="TrimBegin" Type="Real64" Value="0.0283947679582144"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>fEEDBACK\SFX_Player_Fall_Explosion.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="338900277"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="SFX_Player_Fall_Explosion" ID="{E10E115B-209F-44F0-B007-3F97D467DBC7}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="SFX_Ball_Explosion_v2" ID="{ADC8F2FB-4E97-45A5-803E-ADBA8719ACAB}" ShortID="41861653">
-									<PropertyList>
-										<Property Name="OverridePositioning" Type="bool" Value="True"/>
-										<Property Name="Pitch" Type="int32">
-											<ValueList>
-												<Value>-330</Value>
-											</ValueList>
-											<ModifierList>
-												<ModifierInfo>
-													<Modifier Name="" ID="{9E090209-7E45-4A49-9886-7A24905AC8B8}"/>
-												</ModifierInfo>
-											</ModifierList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="SFX_Ball_Explosion_v2" ID="{C1B21BF9-EF89-4680-83FC-DDF175195178}">
-											<Language>SFX</Language>
-											<AudioFile>fEEDBACK\SFX_Ball_Explosion_v2.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="335682939"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="SFX_Ball_Explosion_v2" ID="{C1B21BF9-EF89-4680-83FC-DDF175195178}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-							</ChildrenList>
-						</BlendContainer>
 						<ActorMixer Name="FBD_GS" ID="{1D7EAB77-6B0D-4DA7-8BF5-FA6B4F65E8C8}" ShortID="484570583">
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -12642,7 +11344,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="MUS_Cinemtaic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" ShortID="413723630">
+								<Sound Name="MUS_Cinemtatic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" ShortID="413723630">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="IsStreamingEnabled" Type="bool">
@@ -12701,12 +11403,15 @@
 							</StateInfo>
 						</ActorMixer>
 						<ActorMixer Name="MUS_Menu" ID="{A9B1C862-F4C2-4891-9F81-C56A55A199D9}" ShortID="963496152">
+							<PropertyList>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+									<ObjectRef Name="Music_Menu" ID="{E793CF09-E438-449D-B046-F8AE5A6A20A7}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -15183,6 +13888,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="VO_Announcer_TheyScoredAPoint" ID="{EAE91DFE-212E-4600-A4D2-9AD5D3E81CC1}" ShortID="654218660">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
@@ -15417,6 +14129,153 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="VO_Announcer_3_2_1_Break" ID="{4BDAC32A-4C89-4F45-A7FC-0161A8D3432B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Feedback_Explosion" ID="{C390153B-B96E-4D32-B4D9-C2B44FFA3F10}" ShortID="574745075">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-11</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="SFX_Hit" ID="{A222F8D2-FDB5-4503-8B2C-6E0143C5D95A}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<BlendContainer Name="SFX_Player_Fall_Explosion" ID="{D6533189-DA55-48E1-B26F-2D210593F3BF}" ShortID="381885603">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{F462F735-A567-46BF-9938-34CFD67C1EB3}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+													<Property Name="Min" Type="Real64" Value="-227"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="SFX_Player_Fall_Explosion" ID="{35E8D0E2-F8F2-4605-9BB6-9149C6FE2950}" ShortID="832051696">
+									<PropertyList>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Player_Fall_Explosion" ID="{E10E115B-209F-44F0-B007-3F97D467DBC7}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.00878885674897113"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0283947679582144"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>fEEDBACK\SFX_Player_Fall_Explosion.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="338900277"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Player_Fall_Explosion" ID="{E10E115B-209F-44F0-B007-3F97D467DBC7}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SFX_Ball_Explosion_v2" ID="{ADC8F2FB-4E97-45A5-803E-ADBA8719ACAB}" ShortID="41861653">
+									<PropertyList>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-330</Value>
+											</ValueList>
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{9E090209-7E45-4A49-9886-7A24905AC8B8}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SFX_Ball_Explosion_v2" ID="{C1B21BF9-EF89-4680-83FC-DDF175195178}">
+											<Language>SFX</Language>
+											<AudioFile>fEEDBACK\SFX_Ball_Explosion_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="335682939"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SFX_Ball_Explosion_v2" ID="{C1B21BF9-EF89-4680-83FC-DDF175195178}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</BlendContainer>
+						<Sound Name="SFX_Ball_Explosion" ID="{615A49A6-62ED-4869-940A-7B7E1BA21BB1}" ShortID="375060202">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Ball_Explosion_v2" ID="{D6538D47-7133-4D0C-8128-6F2D92AC3410}">
+									<Language>SFX</Language>
+									<AudioFile>fEEDBACK\SFX_Ball_Explosion_v2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="335682939"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Ball_Explosion_v2" ID="{D6538D47-7133-4D0C-8128-6F2D92AC3410}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
