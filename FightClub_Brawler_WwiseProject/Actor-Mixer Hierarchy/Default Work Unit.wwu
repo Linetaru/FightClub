@@ -11341,74 +11341,6 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<ActorMixer Name="MUS_InGame" ID="{59A4883D-D64C-4A5A-A551-8783E93C41A5}" ShortID="268554208">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<Sound Name="MUS_Cinemtatic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" ShortID="413723630">
-									<PropertyList>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}">
-											<Language>SFX</Language>
-											<AudioFile>Music\Van De Graph_MUS_Cinemtaic_Victory_V1.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="1034394430"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-							</ChildrenList>
-							<StateInfo>
-								<StateGroupList>
-									<StateGroupInfo>
-										<StateGroupRef Name="Music_State" ID="{CB0A1015-08B3-4065-AA74-2F662B2CAA99}"/>
-									</StateGroupInfo>
-								</StateGroupList>
-								<CustomStateList>
-									<CustomState>
-										<StateRef Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
-										<CustomState Name="" ID="{3B09DA05-F1AA-4CE0-A996-F913C9A5BC0E}" ShortID="967378389">
-											<PropertyList>
-												<Property Name="Lowpass" Type="int16" Value="56"/>
-											</PropertyList>
-										</CustomState>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
-										<CustomState Name="" ID="{A56A64CA-F4D4-45C2-8612-64C7C215C97F}" ShortID="332918757"/>
-									</CustomState>
-								</CustomStateList>
-							</StateInfo>
-						</ActorMixer>
 						<ActorMixer Name="MUS_Menu" ID="{A9B1C862-F4C2-4891-9F81-C56A55A199D9}" ShortID="963496152">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -11505,44 +11437,35 @@
 								</Sound>
 							</ChildrenList>
 						</ActorMixer>
-						<Sound Name="MUS_Level_01_Intro_Fight_Lp" ID="{9751EEA4-F0D7-47D9-8CDF-9DC151853D0E}" ShortID="662603817">
+						<Sound Name="MUS_Cinemtatic_Victory" ID="{8202617E-DCAE-4D0C-BDAE-DC6CE32B7D01}" ShortID="413723630">
 							<PropertyList>
-								<Property Name="InitialDelay" Type="Real64">
-									<ValueList>
-										<Value>0.5</Value>
-									</ValueList>
-								</Property>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
 									</ValueList>
 								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-14</Value>
-									</ValueList>
-								</Property>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+									<ObjectRef Name="Music_Victory" ID="{DDD248B3-871E-4924-A34C-15F84AF64EB7}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="MUS_Level_01_Intro_Fight_Lp" ID="{6D5711F3-2BCC-410A-88D5-66F81BCEA9E2}">
+								<AudioFileSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}">
 									<Language>SFX</Language>
-									<AudioFile>MUS_Level_01_Intro_Fight_Lp.wav</AudioFile>
+									<AudioFile>Music\Van De Graph_MUS_Cinemtaic_Victory_V1.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="635827582"/>
+										<MediaID ID="1034394430"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="MUS_Level_01_Intro_Fight_Lp" ID="{6D5711F3-2BCC-410A-88D5-66F81BCEA9E2}" Platform="Linked"/>
+								<ActiveSource Name="Van De Graph_MUS_Cinemtaic_Victory_V1" ID="{E2B65D53-5EA0-4539-A708-CEA71D8E869F}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
