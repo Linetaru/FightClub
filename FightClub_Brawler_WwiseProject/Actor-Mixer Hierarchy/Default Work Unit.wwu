@@ -6541,35 +6541,6 @@
 														<ActiveSource Name="VO_Pulse_WasntEvenAChallenge_03" ID="{5C2ECF2A-8860-44A4-AA1C-7DA9A51D54BC}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="VO_Pulse_No_One_Messes" ID="{E3C532B4-01B1-4D99-8C61-572A39F67454}" ShortID="710001648">
-													<PropertyList>
-														<Property Name="3DSpatialization" Type="int16" Value="1"/>
-														<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-														</Reference>
-														<Reference Name="UserAuxSend0">
-															<ObjectRef Name="VO_Rev" ID="{5A2FC465-E69D-48F9-AD2F-D53677FB3DA6}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="VO_Pulse_No_One_Messes" ID="{55BC63C4-1D75-4D95-9239-8E40F54DD875}">
-															<Language>SFX</Language>
-															<AudioFile>VO\VO_Pulse_No_One_Messes.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="860072518"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="VO_Pulse_No_One_Messes" ID="{55BC63C4-1D75-4D95-9239-8E40F54DD875}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 												<Sound Name="VO_PULSE_IsThatAllYouGot_02" ID="{299CCF14-C74F-4544-8025-0A5E7A16F695}" ShortID="406845961">
 													<PropertyList>
 														<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -10927,6 +10898,48 @@
 										<ActiveSource Name="Last_10_Seconds" ID="{9988A882-D6B5-423B-AB5A-9EB8E684AA5E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<Sound Name="VO_Pulse_No_One_Messes" ID="{E3C532B4-01B1-4D99-8C61-572A39F67454}" ShortID="710001648">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+										</Reference>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise_Meter_(Custom)" ID="{0FB6843E-C307-4EC2-89B8-D1700922CA1A}" ShortID="529105340" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+													<PropertyList>
+														<Property Name="MeterMode" Type="int32" Value="1"/>
+														<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+													</PropertyList>
+													<PluginData>
+	<GameParameter Name="RTPC_Sidechain" ID="{AB7C0259-95E3-4F56-97C2-42BAC6CB320F}"/>
+</PluginData>
+												</Effect>
+											</Custom>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="VO_Rev" ID="{5A2FC465-E69D-48F9-AD2F-D53677FB3DA6}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="VO_Pulse_No_One_Messes" ID="{55BC63C4-1D75-4D95-9239-8E40F54DD875}">
+											<Language>SFX</Language>
+											<AudioFile>VO\VO_Pulse_No_One_Messes.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="860072518"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="VO_Pulse_No_One_Messes" ID="{55BC63C4-1D75-4D95-9239-8E40F54DD875}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="Crow_Attack_Ultime" ID="{C8AD824E-FD7A-4364-82EB-B2029119DDDF}" ShortID="942141655">
@@ -11117,6 +11130,28 @@
 								</Sound>
 							</ChildrenList>
 						</ActorMixer>
+						<Sound Name="SFX_SignatureMove_Start" ID="{AE690166-A8EE-46C6-839A-52F34CF21C23}" ShortID="889264385">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_SignatureMove_Start" ID="{69BE6DAA-68F6-4468-9625-70CCCD505672}">
+									<Language>SFX</Language>
+									<AudioFile>CINEMATIC\SFX_SignatureMove_Start.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="355583981"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_SignatureMove_Start" ID="{69BE6DAA-68F6-4468-9625-70CCCD505672}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Feedback_AM" ID="{4A08F7D8-5DFE-457A-911D-3E174A5C8894}" ShortID="343137665">
@@ -11320,6 +11355,28 @@
 								</Sound>
 							</ChildrenList>
 						</ActorMixer>
+						<Sound Name="SFX_Break_Hit_Big" ID="{B1A7C1A3-64CC-47B7-86D7-F48073019A71}" ShortID="313887335">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B16D198E-E90D-44E7-BD8B-19631EC50DB5}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B99CEABA-ADFE-4BF9-BA9C-7020D59E31C0}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Break_Hit_Big" ID="{311EA543-6B58-46D0-A585-F7664E485088}">
+									<Language>SFX</Language>
+									<AudioFile>fEEDBACK\SFX_Break_Hit_Big.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="742869499"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Break_Hit_Big" ID="{311EA543-6B58-46D0-A585-F7664E485088}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="MUS_mixer" ID="{D22344C5-621B-4FD5-A439-79464B13D866}" ShortID="350631075">
