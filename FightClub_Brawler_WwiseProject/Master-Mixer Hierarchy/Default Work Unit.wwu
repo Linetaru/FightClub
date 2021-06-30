@@ -126,44 +126,89 @@
 									</RTPCList>
 								</Property>
 							</PropertyList>
-							<StateInfo>
-								<StateGroupList>
-									<StateGroupInfo>
-										<StateGroupRef Name="Music_State" ID="{CB0A1015-08B3-4065-AA74-2F662B2CAA99}"/>
-									</StateGroupInfo>
-									<StateGroupInfo>
-										<StateGroupRef Name="Music_State_Ultime" ID="{79703C48-59B3-41DB-A7E7-28D5A88BF9EB}"/>
-									</StateGroupInfo>
-								</StateGroupList>
-								<CustomStateList>
-									<CustomState>
-										<StateRef Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
-										<CustomState Name="" ID="{92FB683E-B05C-4EF0-815A-DA9DF7A352EC}" ShortID="623718320"/>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="State_Attck_Ultime_In" ID="{5B2794C0-D9BB-48EC-892D-7E210FA61B7F}"/>
-										<CustomState Name="" ID="{9BED310A-B32E-4C68-8685-A21308141AA5}" ShortID="971969047">
-											<PropertyList>
-												<Property Name="Highpass" Type="int16" Value="46"/>
-												<Property Name="Lowpass" Type="int16" Value="47"/>
-											</PropertyList>
-										</CustomState>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
-										<CustomState Name="" ID="{B5F34257-E98C-4FB1-9B7B-53ADEC3197B3}" ShortID="421727240">
-											<PropertyList>
-												<Property Name="Highpass" Type="int16" Value="11"/>
-												<Property Name="Lowpass" Type="int16" Value="58"/>
-											</PropertyList>
-										</CustomState>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="State_Attck_Ultime_Out" ID="{6C15CF1E-D229-4AAE-B32C-21205F32E726}"/>
-										<CustomState Name="" ID="{806AC025-C6C5-4BAC-A768-F53F6BD8DF77}" ShortID="512601566"/>
-									</CustomState>
-								</CustomStateList>
-							</StateInfo>
+							<ChildrenList>
+								<Bus Name="Music_Menu" ID="{E793CF09-E438-449D-B046-F8AE5A6A20A7}"/>
+								<Bus Name="Music_InGame" ID="{8BD18ED3-24D1-4FCA-8528-B355FBEC1929}">
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise_Parametric_EQ_(Custom)" ID="{D07C1A55-C8DF-42D2-9356-911BD4AE02E5}" ShortID="411353980" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+													<PropertyList>
+														<Property Name="FrequencyBand1" Type="Real32" Value="72"/>
+														<Property Name="GainBand1" Type="Real32">
+															<RTPCList>
+																<RTPC Name="" ID="{CDF3803D-7A28-49F5-9C30-7E48E085B8DC}" ShortID="31154310">
+																	<ReferenceList>
+																		<Reference Name="ControlInput">
+																			<ObjectRef Name="RTPC_Sidechain" ID="{AB7C0259-95E3-4F56-97C2-42BAC6CB320F}" WorkUnitID="{68D5E9BB-ECD5-43DA-BC1E-013FE91C2333}"/>
+																		</Reference>
+																	</ReferenceList>
+																	<Curve Name="" ID="{3DDF09CA-EC97-49B4-BA43-D7E00781B2E3}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>-48</XPos>
+																				<YPos>0</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-48</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</RTPC>
+															</RTPCList>
+														</Property>
+													</PropertyList>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="Music_State" ID="{CB0A1015-08B3-4065-AA74-2F662B2CAA99}"/>
+											</StateGroupInfo>
+											<StateGroupInfo>
+												<StateGroupRef Name="Music_State_Ultime" ID="{79703C48-59B3-41DB-A7E7-28D5A88BF9EB}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="Full" ID="{5739D34D-17F9-447C-B5DF-11FCABBFE6B1}"/>
+												<CustomState Name="" ID="{CAD07210-685E-4912-8A82-97405F20E4C8}" ShortID="586579424"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="State_Attck_Ultime_In" ID="{5B2794C0-D9BB-48EC-892D-7E210FA61B7F}"/>
+												<CustomState Name="" ID="{EB3EE848-7C98-47BB-BE5A-6D7B4532DFA0}" ShortID="514596035">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16" Value="26"/>
+														<Property Name="Lowpass" Type="int16" Value="61"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="HiCut" ID="{C1C65F77-0E9B-4A78-8548-848285E283E5}"/>
+												<CustomState Name="" ID="{144E0BE1-5087-4A5A-8148-51CC226F308D}" ShortID="575963374">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16" Value="11"/>
+														<Property Name="Lowpass" Type="int16" Value="58"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="State_Attck_Ultime_Out" ID="{6C15CF1E-D229-4AAE-B32C-21205F32E726}"/>
+												<CustomState Name="" ID="{4FB3D99B-5F12-411C-89E3-0D5FA41AC90B}" ShortID="40509129"/>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
+								</Bus>
+								<Bus Name="Music_Victory" ID="{DDD248B3-871E-4924-A34C-15F84AF64EB7}"/>
+							</ChildrenList>
 						</Bus>
 						<Bus Name="SFX" ID="{74124D24-EB63-4C55-99D6-2B8FB10C9CC8}">
 							<PropertyList>
@@ -196,6 +241,26 @@
 									</RTPCList>
 								</Property>
 							</PropertyList>
+							<ChildrenList>
+								<Bus Name="SFX_Hit" ID="{A222F8D2-FDB5-4503-8B2C-6E0143C5D95A}">
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise_Meter_(Custom)" ID="{24BA9AB5-5749-4565-977F-025FF35E0B32}" ShortID="436939240" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+													<PropertyList>
+														<Property Name="MeterMode" Type="int32" Value="1"/>
+														<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+													</PropertyList>
+													<PluginData>
+	<GameParameter Name="RTPC_Sidechain" ID="{AB7C0259-95E3-4F56-97C2-42BAC6CB320F}"/>
+</PluginData>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+								</Bus>
+								<Bus Name="SFX_Whoosh" ID="{2BADB60F-EC8A-4520-81C0-583BA6A9782F}"/>
+							</ChildrenList>
 						</Bus>
 					</ChildrenList>
 				</Bus>
